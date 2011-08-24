@@ -3958,6 +3958,13 @@ Delay:SetScript("OnEvent", function()
 
 		R.CreateBD(FriendsTooltip)
 	end
+	
+	local sb = _G["GameTooltipStatusBar"]
+	sb:SetHeight(3)
+	sb:ClearAllPoints()
+	sb:SetPoint("BOTTOMLEFT", GameTooltip, "BOTTOMLEFT", 1, 1)
+	sb:SetPoint("BOTTOMRIGHT", GameTooltip, "BOTTOMRIGHT", -1, 1)
+	sb:SetStatusBarTexture(C.media.normal)
 
 	if not(IsAddOnLoaded("MetaMap") or IsAddOnLoaded("m_Map") or IsAddOnLoaded("Mapster")) then
 		WorldMapFrameMiniBorderLeft:SetAlpha(0)
