@@ -1,0 +1,10 @@
+## Interface: 40100
+## Author: nightcracker
+## Version: 1.0
+## Title: ncCooldownFlash
+## Notes: Flashes an icon in the middle of your screen when a cooldown ends.
+## RequiredDeps: !RayUI
+
+libs\LibStub.lua
+libs\LibCooldown.lua
+ncCooldownFlash.lua

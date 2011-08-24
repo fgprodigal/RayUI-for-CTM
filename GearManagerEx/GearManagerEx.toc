@@ -1,0 +1,11 @@
+﻿## Interface: 40100
+## Title: GearManagerEx
+## Title-zhTW: GearManagerEx
+## Notes: 
+## Notes-zhTW: 
+## Version: 1.4
+## Author: Abin
+## SavedVariablesPerCharacter: GearManagerExDB
+
+Localization.lua
+GearManagerEx.lua

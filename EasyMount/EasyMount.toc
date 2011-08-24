@@ -1,0 +1,14 @@
+## Interface: 40100
+## Title: EasyMount
+## Version: 1.0
+## Author: Abin
+## SavedVariablesPerCharacter: EasyMountDB
+
+Includes\InterfaceOptionPage-1.0.lua
+Includes\TabFrame-1.0.lua
+Includes\VirtualScrollList-1.0.lua
+
+Localization.lua
+Data.lua
+Core.lua
+OptionFrame.lua

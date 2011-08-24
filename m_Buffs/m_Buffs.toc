@@ -1,0 +1,9 @@
+﻿## Interface: 40100
+## Title: mono|cffffffffBuffs|r
+## Notes: Buffs styling
+## Author: Monolit
+
+## Version:  1.2.2
+## Credits: inspired by zork's rBuff
+cfg.lua
+m_Buffs.lua

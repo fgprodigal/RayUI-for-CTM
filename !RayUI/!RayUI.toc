@@ -1,0 +1,47 @@
+﻿## Interface: 40100
+## Title: |cff7aa6d6Ray|r|cffff0000U|r|cff7aa6d6I|r
+## Version: 0.2
+## Author: Tukz, Elv, Ray
+## OptionalDeps: Skada, ACP
+## RequiredDeps: !RayUI_Config
+## X-oUF: oUF_Freeb
+
+functions\init.lua
+libs\libs.xml
+config.lua
+functions\configui.lua
+media\sharedmedia.lua
+functions\api.lua
+functions\movers.lua
+
+Aurora\aurora.lua
+Aurora\ACP.lua
+Aurora\ace3.lua
+
+functions\layout.lua
+functions\nameplates.lua
+functions\bubbles.lua
+
+datatexts\specswitch.lua
+datatexts\stat1.lua
+datatexts\stat2.lua
+datatexts\friend.lua
+datatexts\guild.lua
+datatexts\gold.lua
+
+misc\announce.lua
+misc\autodez.lua
+misc\autorelease.lua
+misc\merchant.lua
+misc\quests.lua
+misc\reminder.lua
+misc\loot_roll.lua
+
+addonskin\skada.lua
+
+actionbar\actionbar.xml
+oUF_Freeb\oUF_Freeb.xml
+oUF_Freebgrid\oUF_Freebgrid.xml
+oUF_Freeb\plugins\Movable.lua
+
+mini\mini.xml

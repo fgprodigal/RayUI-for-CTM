@@ -1,0 +1,13 @@
+## Interface: 40100
+## Title: mono|cffffffffBags|r
+## Author: Monolit, Cargor
+## Version: 2.2
+## Notes: Simple all-in-one inventory.
+## OptionalDeps: cargBags
+## SavedVariables: JPackDB
+
+cargBags\embed.xml
+m_Bags.lua
+
+localization\locales.xml
+JPack.lua

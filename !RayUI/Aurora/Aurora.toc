@@ -1,0 +1,11 @@
+## Interface: 40100
+## Title: Aurora
+## Notes: Minimalistic window themes.
+## Author: Haleth/Freethinker
+## Version: 3.2
+## RequiredDeps: !RayUI
+## OptionalDeps: ACP
+
+aurora.lua
+ace3.lua
+ACP.lua

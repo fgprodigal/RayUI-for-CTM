@@ -1,0 +1,21 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="hideblizz.lua"/>
+	<Script file="bar1.lua"/>
+	<Script file="bar2.lua"/>
+	<Script file="bar3.lua"/>
+	<Script file="bar4.lua"/>
+	<Script file="bar5.lua"/>
+	
+	<Script file="stancebar.lua"/>
+	<Script file="petbar.lua"/>
+	<Script file="totembar.lua"/>
+	<Script file="vehicleexit.lua"/>
+	<!--<Script file="bags.lua"/>
+	<Script file="micromenu.lua"/>-->
+	
+	<Script file="styler.lua"/>
+	<Script file="cooldown.lua"/>
+	<Script file="range.lua"/>
+	<Script file="bind.lua"/>
+	<Script file="autohide.lua"/>
+</Ui>
