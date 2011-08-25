@@ -224,7 +224,7 @@ local postCreateIcon = function(element, button)
 end
 
 local postUpdateIcon = function(element, unit, button, index)
-	local name, _, _, _, dtype, duration, expirationTime, unitCaster, _ = UnitAura(unit, index, button.filter)
+	local name, _, _, _, dtype, duration, expirationTime, unitCaster, isStealable = UnitAura(unit, index, button.filter)
 	
 	if duration and duration > 0 then
 		button.time:Show()
@@ -248,7 +248,7 @@ local postUpdateIcon = function(element, unit, button, index)
 		end
 		button.bg:SetBackdropBorderColor(0, 0, 0)
 	else
-		if (button.isStealable or ((R.myclass == "PRIEST" or R.myclass == "SHAMAN" or R.myclass == "MAGE") and dtype == "Magic")) and not UnitIsFriend("player", unit) then
+		if (isStealable or ((R.myclass == "PRIEST" or R.myclass == "SHAMAN" or R.myclass == "MAGE") and dtype == "Magic")) and not UnitIsFriend("player", unit) then
 			button.bg:SetBackdropBorderColor(78/255, 150/255, 222/255)
 		else
 			button.bg:SetBackdropBorderColor(0, 0, 0)
@@ -261,29 +261,24 @@ local postUpdateIcon = function(element, unit, button, index)
 	button.first = true
 end
 
-local CustomFilter = function(icons, ...)
-    local unit, icon, name, _, _, _, _, _, _, caster = ...
-	-- local buffexist, _, _, _, _, _, _, _, isStealable = UnitBuff(unit, name)
-	local auraname, _, _, _, dtype, duration, expirationTime, unitCaster, _, _, spellID = UnitAura(unit, name)
-	
-	if(icon.debuff) then
-		if R.DebuffBlackList[name] then
-			return false
-		end	
-		
+local CustomFilter = function(icons, unit, icon, name, _, _, _, _, _, _, caster)
+	local auraname, _, _, _, dtype, duration, expirationTime, unitCaster, isStealable, _, spellID = UnitAura(unit, name)
+	if(not UnitBuff(unit, name)) then
 		local isPlayer
 
 		if multicheck(caster, 'player', 'vechicle', 'pet') then
 			isPlayer = true
 		end
 
-		if((icons.onlyShowPlayer and isPlayer) or (not icons.onlyShowPlayer and name)) then
+		if((icons.onlyShowPlayer and isPlayer and (not R.DebuffBlackList[name])) or (not icons.onlyShowPlayer and name and (not R.DebuffBlackList[name]))) then
 			icon.isPlayer = isPlayer
 			icon.owner = caster
 			return true
+		else
+			return false
 		end
 	else
-		if (icon.isStealable or ((R.myclass == "PRIEST" or R.myclass == "SHAMAN" or R.myclass == "MAGE") and dtype == "Magic")) and not UnitIsFriend("player", unit) then
+		if (isStealable or ((R.myclass == "PRIEST" or R.myclass == "SHAMAN" or R.myclass == "MAGE") and dtype == "Magic")) and not UnitIsFriend("player", unit) then
 			return true
 		elseif UnitIsFriend("player", unit) then
 			return true
