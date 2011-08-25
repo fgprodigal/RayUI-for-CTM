@@ -233,7 +233,7 @@ local function CreateAuraIcon(parent)
 	button.cd:SetAllPoints(button)
 	button.cd:SetReverse(true)
 	button.count = button:CreateFontString(nil,"OVERLAY")
-	button.count:SetFont(C["media"].font,7,C["media"].fontflag)
+	button.count:SetFont(C["media"].font,9,C["media"].fontflag)
 	button.count:SetShadowColor(0, 0, 0, 0.4)
 	button.count:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", 0, 2)
 	return button
@@ -258,7 +258,7 @@ local function UpdateAuraIcon(button, unit, index, filter)
 	else
 		button.count:SetText("")
 	end
-	button.cd:SetScript("OnUpdate", function(self) if not button.cd.timer then self:SetScript("OnUpdate", nil) return end button.cd.timer.text:SetFont(C["media"].font,8,C["media"].fontflag) button.cd.timer.text:SetShadowColor(0, 0, 0, 0.4) end)
+	button.cd:SetScript("OnUpdate", function(self) if not button.cd.timer then self:SetScript("OnUpdate", nil) return end button.cd.timer.text:SetFont(C["media"].font,11,C["media"].fontflag) button.cd.timer.text:SetShadowColor(0, 0, 0, 0.4) end)
 	button:Show()
 end
 

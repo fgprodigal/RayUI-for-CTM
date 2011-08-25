@@ -206,7 +206,7 @@ GameTooltipStatusBar:SetScript("OnValueChanged", function(self, value)
             self.text = self:CreateFontString(nil, "OVERLAY")
             self.text:SetPoint("CENTER", GameTooltipStatusBar)
             self.text:SetFont(cfg.font, 12, cfg.outline)
-			if not cfg.outline then self.text:SetShadowOffset(1, -1) end
+			if cfg.outline=="NONE" then self.text:SetShadowOffset(1, -1) end
         end
         self.text:Show()
         local hp = numberize(min).." / "..numberize(max)
@@ -269,13 +269,13 @@ local function style(frame)
         for index=1, frame:NumLines() do
             if index == 1 then
                 _G[frame:GetName()..'TextLeft'..index]:SetFont(cfg.font, cfg.fontsize+2, cfg.outline)
-				if not cfg.outline then _G[frame:GetName()..'TextLeft'..index]:SetShadowOffset(1, -1) end
+				if cfg.outline=="NONE" then _G[frame:GetName()..'TextLeft'..index]:SetShadowOffset(1, -1) end
             else
                 _G[frame:GetName()..'TextLeft'..index]:SetFont(cfg.font, cfg.fontsize, cfg.outline)
-				if not cfg.outline then _G[frame:GetName()..'TextLeft'..index]:SetShadowOffset(1, -1) end
+				if cfg.outline=="NONE" then _G[frame:GetName()..'TextLeft'..index]:SetShadowOffset(1, -1) end
             end
             _G[frame:GetName()..'TextRight'..index]:SetFont(cfg.font, cfg.fontsize, cfg.outline)
-			if not cfg.outline then _G[frame:GetName()..'TextLeft'..index]:SetShadowOffset(1, -1) end
+			if cfg.outline=="NONE" then _G[frame:GetName()..'TextLeft'..index]:SetShadowOffset(1, -1) end
         end
     end
 end

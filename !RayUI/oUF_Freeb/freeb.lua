@@ -224,7 +224,7 @@ local postCreateIcon = function(element, button)
 end
 
 local postUpdateIcon = function(element, unit, button, index)
-	local _, _, _, _, _, duration, expirationTime, unitCaster, _ = UnitAura(unit, index, button.filter)
+	local name, _, _, _, dtype, duration, expirationTime, unitCaster, _ = UnitAura(unit, index, button.filter)
 	
 	if duration and duration > 0 then
 		button.time:Show()
@@ -246,6 +246,13 @@ local postUpdateIcon = function(element, unit, button, index)
 				button.icon:SetDesaturated(true)  
 			end
 		end
+		button.bg:SetBackdropBorderColor(0, 0, 0)
+	else
+		if (button.isStealable or ((R.myclass == "PRIEST" or R.myclass == "SHAMAN" or R.myclass == "MAGE") and dtype == "Magic")) and not UnitIsFriend("player", unit) then
+			button.bg:SetBackdropBorderColor(78/255, 150/255, 222/255)
+		else
+			button.bg:SetBackdropBorderColor(0, 0, 0)
+		end
 	end
 	button:SetScript('OnMouseUp', function(self, mouseButton)
 		if mouseButton == 'RightButton' then
@@ -256,32 +263,43 @@ end
 
 local CustomFilter = function(icons, ...)
     local unit, icon, name, _, _, _, _, _, _, caster = ...
-	local buffexist, _, _, _, _, _, _, _, isStealable = UnitBuff(unit, name)
+	-- local buffexist, _, _, _, _, _, _, _, isStealable = UnitBuff(unit, name)
+	local auraname, _, _, _, dtype, duration, expirationTime, unitCaster, _, _, spellID = UnitAura(unit, name)
 	
-	if buffexist and not UnitCanAttack("player",unit) then
-		return true
+	if(icon.debuff) then
+		if R.DebuffBlackList[name] then
+			return false
+		end	
+		
+		local isPlayer
+
+		if multicheck(caster, 'player', 'vechicle', 'pet') then
+			isPlayer = true
+		end
+
+		if((icons.onlyShowPlayer and isPlayer) or (not icons.onlyShowPlayer and name)) then
+			icon.isPlayer = isPlayer
+			icon.owner = caster
+			return true
+		end
+	else
+		if (icon.isStealable or ((R.myclass == "PRIEST" or R.myclass == "SHAMAN" or R.myclass == "MAGE") and dtype == "Magic")) and not UnitIsFriend("player", unit) then
+			return true
+		elseif UnitIsFriend("player", unit) then
+			return true
+		else
+			return false
+		end
 	end
 	
+	-- if buffexist and not UnitCanAttack("player",unit) then
+		-- return true
+	-- end
+		
 	--Only Show Stealable
-	if buffexist and UnitCanAttack("player",unit) and isStealable then
-		return true
-	end
-	
-    if R.DebuffBlackList[name] then
-        return false
-    end	
-	
-    local isPlayer
-
-    if multicheck(caster, 'player', 'vechicle', 'pet') then
-        isPlayer = true
-    end
-
-    if((icons.onlyShowPlayer and isPlayer) or (not icons.onlyShowPlayer and name)) then
-        icon.isPlayer = isPlayer
-        icon.owner = caster
-        return true
-    end
+	-- if buffexist and UnitCanAttack("player",unit) and isStealable then
+		-- return true
+	-- end
 	
 end
 
