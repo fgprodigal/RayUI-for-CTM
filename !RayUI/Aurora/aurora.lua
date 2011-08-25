@@ -409,7 +409,7 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 
 		-- [[ Simple backdrops ]]
 
-		local bds = {"AutoCompleteBox", "BNToastFrame", "TicketStatusFrameButton", "DropDownList1Backdrop", "DropDownList2Backdrop", "LFDSearchStatus", "DropDownList1MenuBackdrop", "DropDownList2MenuBackdrop", "DropDownList1Backdrop", "DropDownList2Backdrop", "GearManagerDialogPopup", "TokenFramePopup", "ReputationDetailFrame", "RaidInfoFrame"}
+		local bds = {"AutoCompleteBox", "BNToastFrame", "TicketStatusFrameButton", "DropDownList1Backdrop", "DropDownList2Backdrop", "LFDSearchStatus", "DropDownList1MenuBackdrop", "DropDownList2MenuBackdrop", "GearManagerDialogPopup", "TokenFramePopup", "ReputationDetailFrame", "RaidInfoFrame"}
 
 		for i = 1, #bds do
 			R.CreateBD(_G[bds[i]])

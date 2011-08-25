@@ -341,46 +341,6 @@ local function StopGlow(f)
 	f.glow:SetAlpha(0)
 end
 
-local function ReskinButton(f, strip)
-	f:SetNormalTexture("")
-	f:SetHighlightTexture("")
-	f:SetPushedTexture("")
-	f:SetDisabledTexture("")
-
-	if f:GetName() then
-		local left = _G[f:GetName().."Left"]
-		local middle = _G[f:GetName().."Middle"]
-		local right = _G[f:GetName().."Right"]
-
-		if left then left:SetAlpha(0) end
-		if middle then middle:SetAlpha(0) end
-		if right then right:SetAlpha(0) end
-	end
-	
-	if strip then f:StripTextures() end
-	-- Aurora.CreateBD(f, .0)
-	f:CreateBorder()
-	
-	local tex = f:CreateTexture(nil, "BACKGROUND")
-	tex:SetPoint("TOPLEFT")
-	tex:SetPoint("BOTTOMRIGHT")
-	tex:SetTexture(C["media"].blank)
-	tex:SetGradientAlpha("VERTICAL", 0, 0, 0, .3, .35, .35, .35, .35)
-
-	f.glow = CreateFrame("Frame", nil, f)
-	f.glow:SetBackdrop({
-		edgeFile = C["media"].glow,
-		edgeSize = 5,
-	})
-	f.glow:SetPoint("TOPLEFT", -6, 6)
-	f.glow:SetPoint("BOTTOMRIGHT", 6, -6)
-	f.glow:SetBackdropBorderColor(r, g, b)
-	f.glow:SetAlpha(0)
-
-	f:HookScript("OnEnter", StartGlow)
- 	f:HookScript("OnLeave", StopGlow)
-end
-
 local function CreateButton(f, bg, w, h, a1, p, a2, x, y)
 	f:SetHeight(h)
 	f:SetWidth(w)
@@ -392,7 +352,7 @@ local function CreateButton(f, bg, w, h, a1, p, a2, x, y)
 		f.bg:SetFrameLevel(0)
 	end
 	f:SetPoint(a1, p, a2, scale(x), scale(y))
-	f:ReskinButton()
+	R.Reskin(f)
 end
 
 local function addapi(object)
@@ -410,7 +370,6 @@ local function addapi(object)
 	if not object.FadeOut then mt.FadeOut = FadeOut end
 	if not object.CreateBorder then mt.CreateBorder = CreateBorder end
 	if not object.StripTextures then mt.StripTextures = StripTextures end
-	if not object.ReskinButton then mt.ReskinButton = ReskinButton end
 	if not object.CreateButton then mt.CreateButton = CreateButton end
 	if not object.StartGlow then mt.StartGlow = StartGlow end
 	if not object.StopGlow then mt.StopGlow = StopGlow end

@@ -11,10 +11,12 @@ libs\libs.xml
 config.lua
 functions\configui.lua
 media\sharedmedia.lua
+
+Aurora\aurora.lua
+
 functions\api.lua
 functions\movers.lua
 
-Aurora\aurora.lua
 Aurora\ACP.lua
 Aurora\ace3.lua
 

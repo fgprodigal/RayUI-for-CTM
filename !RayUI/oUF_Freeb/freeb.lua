@@ -866,6 +866,9 @@ local function Portrait(self)
 	local portrait = CreateFrame("PlayerModel", nil, self)
 	portrait.PostUpdate = function(self) 
 											portrait:SetAlpha(0.15) 
+											if self:GetModel() and self:GetModel().find and self:GetModel():find("worgenmale") then
+												self:SetCamera(1)
+											end	
 										end
 	portrait:SetAllPoints(self.Health)
 	table.insert(self.__elements, HidePortrait)
