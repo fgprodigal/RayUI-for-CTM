@@ -1,10 +1,11 @@
-﻿local _, ns = ...
+﻿local R,C = unpack(RayUI)
+local _, ns = ...
 
 local mediapath = "Interface\\AddOns\\FreebTip\\media\\"
 local cfg = {
     font = "fonts\\ZYKai_T.TTF",
-    fontsize = 13,
-    outline = "OUTLINE",
+    fontsize = 14,
+    outline = "NONE",
     -- tex = mediapath.."texture",
 
     scale = 1,
@@ -205,6 +206,7 @@ GameTooltipStatusBar:SetScript("OnValueChanged", function(self, value)
             self.text = self:CreateFontString(nil, "OVERLAY")
             self.text:SetPoint("CENTER", GameTooltipStatusBar)
             self.text:SetFont(cfg.font, 12, cfg.outline)
+			if not cfg.outline then self.text:SetShadowOffset(1, -1) end
         end
         self.text:Show()
         local hp = numberize(min).." / "..numberize(max)
@@ -224,11 +226,13 @@ hooksecurefunc("GameTooltip_SetDefaultAnchor", function(tooltip, parent)
 end)
 
 local function setBakdrop(frame)
-    frame.bg = CreateFrame("Frame", nil, frame)
-	frame.bg:Point("TOPLEFT", -1, 1)
-	frame.bg:Point("BOTTOMRIGHT", 1, -1)
-	frame.bg:CreateShadow("Background")
-    frame:SetScale(cfg.scale)
+	frame:SetBackdrop({
+	bgFile = C["media"].blank, 
+	edgeFile = C["media"].blank, 
+	edgeSize = R.mult,
+	insets = { left = -R.mult, right = -R.mult, top = -R.mult, bottom = -R.mult }
+	})
+	frame:SetScale(cfg.scale)
 
     frame.freebBak = true
 end
@@ -265,10 +269,13 @@ local function style(frame)
         for index=1, frame:NumLines() do
             if index == 1 then
                 _G[frame:GetName()..'TextLeft'..index]:SetFont(cfg.font, cfg.fontsize+2, cfg.outline)
+				if not cfg.outline then _G[frame:GetName()..'TextLeft'..index]:SetShadowOffset(1, -1) end
             else
                 _G[frame:GetName()..'TextLeft'..index]:SetFont(cfg.font, cfg.fontsize, cfg.outline)
+				if not cfg.outline then _G[frame:GetName()..'TextLeft'..index]:SetShadowOffset(1, -1) end
             end
             _G[frame:GetName()..'TextRight'..index]:SetFont(cfg.font, cfg.fontsize, cfg.outline)
+			if not cfg.outline then _G[frame:GetName()..'TextLeft'..index]:SetShadowOffset(1, -1) end
         end
     end
 end
@@ -280,8 +287,8 @@ local tooltips = {
     ShoppingTooltip2, 
     ShoppingTooltip3,
     WorldMapTooltip,
-    DropDownList1MenuBackdrop, 
-    DropDownList2MenuBackdrop,
+    -- DropDownList1MenuBackdrop, 
+    -- DropDownList2MenuBackdrop,
 }
 
 for i, frame in ipairs(tooltips) do

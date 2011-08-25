@@ -5,7 +5,8 @@ if LSM == nil then return end
 
 LSM:Register("statusbar","RayUI Normal", [[Interface\AddOns\!RayUI\media\statusbar.tga]])
 LSM:Register("border", "RayUI GlowBorder", [[Interface\AddOns\!RayUI\media\glowTex.tga]])
-LSM:Register("background","RayUI Blank", [[Interface\AddOns\!RayUI\media\blank.tga]])
+-- LSM:Register("background","RayUI Blank", [[Interface\AddOns\!RayUI\media\blank.tga]])
+LSM:Register("background","RayUI Blank", [[Interface\ChatFrame\ChatFrameBackground.blp]])
 LSM:Register("sound","RayUI Warning", [[Interface\AddOns\!RayUI\media\warning.mp3]])
 
 -------------------------------
