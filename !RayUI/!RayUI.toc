@@ -31,13 +31,7 @@ datatexts\friend.lua
 datatexts\guild.lua
 datatexts\gold.lua
 
-misc\announce.lua
-misc\autodez.lua
-misc\autorelease.lua
-misc\merchant.lua
-misc\quests.lua
-misc\reminder.lua
-misc\loot_roll.lua
+misc\misc.xml
 
 addonskin\skada.lua
 

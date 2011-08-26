@@ -1128,6 +1128,32 @@ local UnitSpecific = {
 			self.Buffs = b
 		end
 		
+		--======================--
+		--     MirrorBar
+		--======================--
+		-- for _, bar in pairs({'MirrorTimer1','MirrorTimer2','MirrorTimer3',}) do   
+			-- for i, region in pairs({_G[bar]:GetRegions()}) do
+				-- if (region.GetTexture and region:GetTexture() == C["media"].normal) then
+				-- region:Hide()
+				-- end
+			-- end
+			-- _G[bar]:StripTextures()
+			-- _G[bar]:SetParent(UIParent)
+			-- _G[bar]:SetScale(1)
+			-- _G[bar]:SetHeight(13)
+			-- _G[bar]:SetWidth(250)
+			-- _G[bar]:SetBackdropColor(.1,.1,.1)
+			-- _G[bar..'Background'] = _G[bar]:CreateTexture(bar..'Background', 'BACKGROUND', _G[bar])
+			-- _G[bar..'Background']:SetTexture(C["media"].normal)
+			-- _G[bar..'Background']:SetAllPoints(bar)
+			-- _G[bar..'Background']:SetVertexColor(.15,.15,.15,.75)
+			-- _G[bar..'Text']:SetFont(C["media"].font, 13)
+			-- _G[bar..'Text']:ClearAllPoints()
+			-- _G[bar..'Text']:SetPoint('CENTER', MirrorTimer1StatusBar, 0, 1)
+			-- _G[bar..'StatusBar']:SetAllPoints(_G[bar])
+			-- _G[bar].bg = createBackdrop(_G[bar], _G[bar])
+		-- end
+	  
 		tinsert(self.mouseovers, self.Health)
 		self.Health.PostUpdate = PostUpdateHealth
 		

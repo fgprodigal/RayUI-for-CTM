@@ -1,0 +1,11 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="announce.lua"/>
+	<Script file="autodez.lua"/>
+	<Script file="autorelease.lua"/>
+	<Script file="loot_roll.lua"/>
+	<Script file="merchant.lua"/>
+	<Script file="mirror.lua"/>
+	<Script file="quests.lua"/>
+	<Script file="reminder.lua"/>
+	<Script file="timerTracker.lua"/>
+</Ui>
