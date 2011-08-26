@@ -279,7 +279,7 @@ R.ReskinClose = function(f, a1, p, a2, x, y)
 	tex:SetGradientAlpha("VERTICAL", 0, 0, 0, .3, .35, .35, .35, .35)
 
 	local text = f:CreateFontString(nil, "OVERLAY")
-	text:SetFont("Fonts\\ZYKai_T.TTF", 14, "THINOUTLINE")
+	text:SetFont(C["media"].font, 14, "THINOUTLINE")
 	text:Point("CENTER", 1, 1)
 	text:SetText("x")
 
@@ -3688,7 +3688,8 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 		TradeSkillRankFrame:SetStatusBarTexture(C.Aurora.backdrop)
 		TradeSkillRankFrame.SetStatusBarColor = R.dummy
 		TradeSkillRankFrame:GetStatusBarTexture():SetGradient("VERTICAL", .1, .3, .9, .2, .4, 1)
-
+		TradeSkillRankFrameSkillRank:SetFont(C["media"].pxfont, 12, "OUTLINE,MONOCHROME")
+		
 		local bg = CreateFrame("Frame", nil, TradeSkillRankFrame)
 		bg:SetPoint("TOPLEFT", -1, 1)
 		bg:SetPoint("BOTTOMRIGHT", 1, -1)

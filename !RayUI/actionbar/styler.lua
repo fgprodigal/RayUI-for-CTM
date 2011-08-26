@@ -64,7 +64,7 @@
 	  if self.rABS_Styled then return end	
 	  
       if C["actionbar"].hotkeys then
-        ho:SetFont(C["media"].font, 12, "OUTLINE")
+        ho:SetFont(C["media"].pxfont, 12, "OUTLINE,MONOCHROME")
         ho:ClearAllPoints()
         ho:SetPoint("TOPRIGHT", 0, 0)
         ho:SetPoint("TOPLEFT", 0, 0)
@@ -83,7 +83,7 @@
       end
 
       if C["actionbar"].itemcount then
-        co:SetFont(C["media"].font, 12, "OUTLINE")
+        co:SetFont(C["media"].pxfont, 12, "OUTLINE,MONOCHROME")
         co:ClearAllPoints()
         co:SetPoint("BOTTOMRIGHT", bu, 0, 0)        
       else
