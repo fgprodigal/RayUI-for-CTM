@@ -8,4 +8,5 @@
 	<Script file="quests.lua"/>
 	<Script file="reminder.lua"/>
 	<Script file="timerTracker.lua"/>
+	<Script file="chathide.lua"/>
 </Ui>

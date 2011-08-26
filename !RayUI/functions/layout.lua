@@ -31,20 +31,7 @@ for i = 1,8 do
 		topinfo[i].Text:SetShadowColor(0, 0, 0, 0.4)
 		topinfo[i].Text:SetShadowOffset(1.25, -1.25)
 	end
-	
-	topinfo[i].showed = false
-	topinfo[i].timer = 0
-	topinfo[i]:SetScript("OnShow", function(self)
-		self.timer = 0
-		self.showed = false
-		self:SetAlpha(0)
-		self:SetScript("OnUpdate", function(self, elasped)
-			self.timer = self.timer + elasped
-			self:SetAlpha(self.timer)
-			if self.timer>0.5 then self.showed = true end
-		end)
-	end)
-	topinfo[i]:Hide()
+	topinfo[i]:SetAlpha(0)
 end
 
 -- for i = 1,3 do
@@ -306,20 +293,13 @@ local infoshow = CreateFrame("Frame")
 infoshow:RegisterEvent("PLAYER_ENTERING_WORLD")
 infoshow:SetScript("OnEvent", function(self)
 		self:UnregisterEvent("PLAYER_ENTERING_WORLD")
-		local timer = 0
-		self:SetScript("OnUpdate", function(self, elasped)
-			timer = timer + elasped
-			if timer > 2 then 
-				topinfo[1]:Show() 
-				-- botinfo[1]:Show() 
-			end
-			for i=1,7 do
-				if topinfo[i].showed then topinfo[i+1]:Show() end
-			end
-			-- for i=1,2 do
-				-- if botinfo[i].showed then botinfo[i+1]:Show() end
-			-- end
-		end)
+		for i=1,#topinfo do
+			R.Delay((2+i*0.6),function()
+				UIFrameFadeIn(topinfo[i], 1, 0, 1)
+			end)
+		end
+		UIParent:SetAlpha(0)
+		R.Delay(4, function() UIFrameFadeIn(UIParent,2,0,1) end)
 end)
 
 -- CURRENCY DATA BARS
@@ -441,6 +421,13 @@ UIParent:SetScript("OnShow", function(self)
 -- ChatBackground
 -----------------------------------------------------
 SetCVar("chatStyle", "classic")
+
+local chatpr = CreateFrame("Frame", "ChatBG", UIParent)
+chatpr:SetSize(1,1)
+chatpr:SetFrameStrata("BACKGROUND")
+chatpr:SetFrameLevel(0)
+GeneralDockManager:SetParent(chatpr)
+
 for i=1,NUM_CHAT_WINDOWS do
 	local chatbg = CreateFrame("Frame",nil , _G["ChatFrame"..i])
 	chatbg:SetPoint("TOPLEFT", -2, 2)
