@@ -101,14 +101,14 @@ topinfo[3].Status:SetScript("OnUpdate", function(self, elapsed)
 	LastUpdate = LastUpdate - elapsed
 	
 	if LastUpdate < 0 then
-		self:SetMinMaxValues(0, 200)
+		self:SetMinMaxValues(0, 1000)
 		local value = (select(3, GetNetStats()))
-		local max = 200
+		local max = 1000
 		self:SetValue(value)
 		topinfo[3].Text:SetText("MS: "..value)			
-		if value>299 then
+		if value>799 then
 			self:SetStatusBarColor(1, 0, 0, 0.6)
-		elseif value>149 then
+		elseif value>299 then
 			self:SetStatusBarColor(1, 1, 0, 0.6)
 		else
 			self:SetStatusBarColor(0, 0.4, 1, 0.6)
@@ -294,12 +294,12 @@ infoshow:RegisterEvent("PLAYER_ENTERING_WORLD")
 infoshow:SetScript("OnEvent", function(self)
 		self:UnregisterEvent("PLAYER_ENTERING_WORLD")
 		for i=1,#topinfo do
-			R.Delay((2+i*0.6),function()
+			R.Delay((3+i*0.6),function()
 				UIFrameFadeIn(topinfo[i], 1, 0, 1)
 			end)
 		end
 		UIParent:SetAlpha(0)
-		R.Delay(4, function() UIFrameFadeIn(UIParent,2,0,1) end)
+		R.Delay(3, function() UIFrameFadeIn(UIParent,2,0,1) end)
 end)
 
 -- CURRENCY DATA BARS

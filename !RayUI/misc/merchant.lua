@@ -25,13 +25,19 @@ f:SetScript("OnEvent", function()
 			local cost, possible = GetRepairAllCost()
 			if cost>0 then
 				if possible then
-					RepairAllItems()
-					local c = cost%100
-					local s = math.floor((cost%10000)/100)
-					local g = math.floor(cost/10000)
-					DEFAULT_CHAT_FRAME:AddMessage("您的装备已修理, 花费了".." |cffffffff"..g.."|cffffd700g|r".." |cffffffff"..s.."|cffc7c7cfs|r".." |cffffffff"..c.."|cffeda55fc|r"..".",255,255,0)
-				else
-					DEFAULT_CHAT_FRAME:AddMessage("您没有足够的金钱来修理!",255,0,0)
+					if IsInGuild() and CanGuildBankRepair() and ((GetGuildBankWithdrawMoney() >= cost) or (GetGuildBankWithdrawMoney() == -1)) and (GetGuildBankMoney() >= cost) then
+						RepairAllItems(1)
+						local c = cost%100
+						local s = math.floor((cost%10000)/100)
+						local g = math.floor(cost/10000)
+						DEFAULT_CHAT_FRAME:AddMessage("您的装备已使用工会修理, 花费了".." |cffffffff"..g.."|cffffd700g|r".." |cffffffff"..s.."|cffc7c7cfs|r".." |cffffffff"..c.."|cffc7c7cfs|r.",255,255,0)
+					elseif GetMoney() >= cost then
+						RepairAllItems()
+						DEFAULT_CHAT_FRAME:AddMessage("您的装备已修理, 花费了".." |cffffffff"..g.."|cffffd700g|r".." |cffffffff"..s.."|cffc7c7cfs|r".." |cffffffff"..c.."|cffc7c7cfs|r.",255,255,0)
+					else
+						DEFAULT_CHAT_FRAME:AddMessage("您没有足够的金钱来修理!",255,0,0)
+						return
+					end
 				end
 			end
 		end

@@ -41,7 +41,7 @@ local function CheckWhisperWindows(self, event)
 		end
 		BottomInfoBar:SetScript("OnUpdate", function(self)
 			if not R.ChatIn then
-				R.Flash(self.shadow, 0.5)
+				R.Flash(self.shadow, 1)
 			else
 				R.StopFlash(self.shadow)
 				self:SetScript('OnUpdate', nil)				

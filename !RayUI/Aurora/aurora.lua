@@ -3688,7 +3688,7 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 		TradeSkillRankFrame:SetStatusBarTexture(C.Aurora.backdrop)
 		TradeSkillRankFrame.SetStatusBarColor = R.dummy
 		TradeSkillRankFrame:GetStatusBarTexture():SetGradient("VERTICAL", .1, .3, .9, .2, .4, 1)
-		TradeSkillRankFrameSkillRank:SetFont(C["media"].pxfont, 12, "OUTLINE,MONOCHROME")
+		TradeSkillRankFrameSkillRank:SetFont(C["media"].pxfont, 11, "OUTLINE,MONOCHROME")
 		
 		local bg = CreateFrame("Frame", nil, TradeSkillRankFrame)
 		bg:SetPoint("TOPLEFT", -1, 1)
