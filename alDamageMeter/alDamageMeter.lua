@@ -216,10 +216,10 @@ local CreateFS = CreateFS or function(frame)
 	return fstring
 end
 
-local CreateBG = CreateBG or function(parent)
+local CreateBG = function(parent)
 	local bg = CreateFrame("Frame", nil, parent)
-	bg:Point("TOPLEFT", -2, 2)
-	bg:Point("BOTTOMRIGHT", 2, -2)
+	bg:Point("TOPLEFT", -3, 2)
+	bg:Point("BOTTOMRIGHT", 3, -2)
 	bg:SetFrameLevel(parent:GetFrameLevel() - 1)
 	-- bg:SetBackdrop(backdrop)
 	-- bg:SetBackdropColor(unpack(backdrop_color))
@@ -693,8 +693,8 @@ local OnEvent = function(self, event, ...)
 		end
 		if band(sourceFlags, raidFlags) == 0 and band(destFlags, raidFlags) == 0 and band(sourceFlags, petFlags) == 0 and band(destFlags, petFlags) == 0 then return end
 		if eventType=="SWING_DAMAGE" or eventType=="RANGE_DAMAGE" or eventType=="SPELL_DAMAGE" or eventType=="SPELL_PERIODIC_DAMAGE" or eventType=="DAMAGE_SHIELD" then
-			local amount, _, _, _, _, absorbed = select(eventType=="SWING_DAMAGE" and 12 or 15, ...)
-			local spellName = eventType=="SWING_DAMAGE" and MELEE_ATTACK or select(13, ...)
+			local amount, _, _, _, _, absorbed = select(eventType=="SWING_DAMAGE" and 10 or 13, ...)
+			local spellName = eventType=="SWING_DAMAGE" and MELEE_ATTACK or select(11, ...)
 			if IsFriendlyUnit(sourceGUID) and not IsFriendlyUnit(destGUID) and combatstarted then
 				if amount and amount > 0 then
 					if owners[sourceGUID] then
@@ -716,7 +716,7 @@ local OnEvent = function(self, event, ...)
 				end
 			end
 		elseif eventType=="SWING_MISSED" or eventType=="RANGE_MISSED" or eventType=="SPELL_MISSED" or eventType=="SPELL_PERIODIC_MISSED" then
-			local misstype, amount = select(eventType=="SWING_MISSED" and 12 or 15, ...)
+			local misstype, amount = select(eventType=="SWING_MISSED" and 10 or 13, ...)
 			if misstype == "ABSORB" and IsFriendlyUnit(destGUID) then
 				local shielder, shield = FindShielder(destGUID, timestamp)
 				if shielder and amount and amount > 0 then
@@ -724,7 +724,7 @@ local OnEvent = function(self, event, ...)
 				end
 			end
 		elseif eventType=="SPELL_HEAL" or eventType=="SPELL_PERIODIC_HEAL" then
-			spellId, spellName, spellSchool, amount, over, school, resist = select(12, ...)
+			spellId, spellName, spellSchool, amount, over, school, resist = select(10, ...)
 			if IsFriendlyUnit(sourceGUID) and IsFriendlyUnit(destGUID) and combatstarted then
 				over = over or 0
 				if amount and amount > 0 then
@@ -743,7 +743,7 @@ local OnEvent = function(self, event, ...)
 				Add(sourceGUID, 1, INTERRUPTS, "Interrupt", destName)
 			end
 		elseif eventType=="SPELL_AURA_APPLIED" or eventType=="SPELL_AURA_REFRESH" then
-			local spellId, spellName = select(12, ...)
+			local spellId, spellName = select(10, ...)
 			sourceGUID = owners[sourceGUID] or sourceGUID
 			if AbsorbSpellDuration[spellId] and IsFriendlyUnit(sourceGUID) and IsFriendlyUnit(destGUID) then
 				shields[destGUID] = shields[destGUID] or {}
@@ -751,7 +751,7 @@ local OnEvent = function(self, event, ...)
 				shields[destGUID][spellName][sourceGUID] = timestamp + AbsorbSpellDuration[spellId]
 			end
 		elseif eventType=="SPELL_AURA_REMOVED" then
-			local spellId, spellName = select(12, ...)
+			local spellId, spellName = select(10, ...)
 			sourceGUID = owners[sourceGUID] or sourceGUID
 			if AbsorbSpellDuration[spellId] and IsFriendlyUnit(destGUID) then
 				if shields[destGUID] and shields[destGUID][spellName] and shields[destGUID][spellName][destGUID] then

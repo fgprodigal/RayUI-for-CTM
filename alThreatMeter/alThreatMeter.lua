@@ -73,8 +73,8 @@ anchorframe:SetPoint(unpack(anchor))
 if UIMovableFrames then tinsert(UIMovableFrames, anchorframe) end
 
 anchorframe.bg = CreateFrame("Frame", nil, anchorframe)
-anchorframe.bg:Point("TOPLEFT", -2, 2)
-anchorframe.bg:Point("TOPRIGHT", 2, 2)
+anchorframe.bg:Point("TOPLEFT", -3, 2)
+anchorframe.bg:Point("TOPRIGHT", 3, 2)
 anchorframe.bg:Height(visible * (height + spacing)+ 4)
 anchorframe.bg:SetFrameLevel(anchorframe:GetFrameLevel() - 1)
 anchorframe.bg:CreateShadow("Background")
@@ -182,8 +182,8 @@ local UpdateBars = function()
 		bar[i].left:SetText(cur.name)
 		bar[i].right:SetText(string.format("%s (%d%%)", truncate(cur.val/100), cur.pct))
 		bar[i]:Show()
-	end
-	if bar[i].IsShown then anchorframe.bg:Show() end
+		anchorframe.bg:Show()
+	end	
 end
 
 local UpdateThreat = function()
