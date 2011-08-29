@@ -21,6 +21,43 @@ autohide:RegisterEvent("PLAYER_ENTERING_WORLD")
 autohide:RegisterEvent("UNIT_ENTERED_VEHICLE")
 autohide:RegisterEvent("UNIT_EXITED_VEHICLE")
 
+local buttons = 0
+local function UpdateButtonNumber()
+	for i=1, GetNumFlyouts() do
+		local x = GetFlyoutID(i)
+		local _, _, numSlots, isKnown = GetFlyoutInfo(x)
+		if isKnown then
+			buttons = numSlots
+			break
+		end
+	end
+end
+hooksecurefunc("ActionButton_UpdateFlyout", UpdateButtonNumber)
+local function SetUpFlyout()
+	for i=1, buttons do
+		local button = _G["SpellFlyoutButton"..i]
+		if button then
+			if button:GetParent():GetParent():GetParent() == MultiBarLeft and C["actionbar"].bar5mouseover then
+				button:SetScript("OnEnter", function(self) UIFrameFadeIn(rABS_MultiBarLeft,0.5,rABS_MultiBarLeft:GetAlpha(),1) end)
+				button:SetScript("OnLeave", function(self) UIFrameFadeOut(rABS_MultiBarLeft,0.5,rABS_MultiBarLeft:GetAlpha(),0) end)
+			end
+			if button:GetParent():GetParent():GetParent() == MultiBarRight and C["actionbar"].bar4mouseover then
+				button:SetScript("OnEnter", function(self) UIFrameFadeIn(rABS_MultiBarRight,0.5,rABS_MultiBarRight:GetAlpha(),1) end)
+				button:SetScript("OnLeave", function(self) UIFrameFadeOut(rABS_MultiBarRight,0.5,rABS_MultiBarRight:GetAlpha(),0) end)
+			end
+			if button:GetParent():GetParent():GetParent() == MultiBarBottomRight and C["actionbar"].bar3mouseover then
+				button:SetScript("OnEnter", function(self) UIFrameFadeIn(rABS_MultiBarBottomRight,0.5,rABS_MultiBarBottomRight:GetAlpha(),1) end)
+				button:SetScript("OnLeave", function(self) UIFrameFadeOut(rABS_MultiBarBottomRight,0.5,rABS_MultiBarBottomRight:GetAlpha(),0) end)
+			end
+			if button:GetParent():GetParent():GetParent() == MultiBarBottomLeft and C["actionbar"].bar3mouseover then
+				button:SetScript("OnEnter", function(self) UIFrameFadeIn(rABS_MultiBarBottomLeft,0.5,rABS_MultiBarBottomLeft:GetAlpha(),1) end)
+				button:SetScript("OnLeave", function(self) UIFrameFadeOut(rABS_MultiBarBottomLeft,0.5,rABS_MultiBarBottomLeft:GetAlpha(),0) end)
+			end
+		end
+	end
+end
+SpellFlyout:HookScript("OnShow", SetUpFlyout)
+	
 autohide:SetScript("OnEvent", function(self, event, ...)
 	if event == "PLAYER_ENTERING_WORLD" and not UnitInVehicle("player") and not InCombatLockdown() then
 		self:UnregisterEvent("PLAYER_ENTERING_WORLD")

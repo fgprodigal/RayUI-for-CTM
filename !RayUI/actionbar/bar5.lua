@@ -25,7 +25,7 @@ MultiBarLeft:SetParent(bar)
     end
   end
   
-  if C["actionbar"].bar5mouseover then    
+  if C["actionbar"].bar5mouseover then
 	C["actionbar"].bar5fade = false
     -- local function lighton(alpha)
       -- if MultiBarLeft:IsShown() then
