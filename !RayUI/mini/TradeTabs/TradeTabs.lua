@@ -1,3 +1,4 @@
+local R, C, DB = unpack(select(2, ...))
 local TradeTabs = CreateFrame("Frame","TradeTabs")
 
 local tradeSpells = { -- Spell order in this table determines the tab order
