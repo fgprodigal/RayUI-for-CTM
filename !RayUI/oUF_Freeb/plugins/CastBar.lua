@@ -227,7 +227,7 @@ end
 --> Create CastBar
 --- ----------------------------------
 function CreateCastBar(f, unit)
-	s = CreateFrame("StatusBar", "oUF_Castbar"..f.unit, f)--"oUF_Castbar"..f.mystyle
+	local s = CreateFrame("StatusBar", "oUF_Castbar"..f.unit, f)--"oUF_Castbar"..f.mystyle
 	s:SetHeight(5) -- ¸ß¶È
 	s:SetWidth(rABS_MainMenuBar:GetWidth()) -- Œ’¶È
 

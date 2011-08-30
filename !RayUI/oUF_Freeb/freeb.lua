@@ -1179,7 +1179,7 @@ oUF:Factory(function(self)
 
     if bossframes then
         for i = 1, MAX_BOSS_FRAMES do
-            spawnHelper(self,'boss' .. i, "RIGHT", -5, 200 - (70 * i))
+            spawnHelper(self,'boss' .. i, "RIGHT", -80, 200 - (70 * i))
         end
     end
 	

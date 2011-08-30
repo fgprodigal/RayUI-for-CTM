@@ -174,6 +174,14 @@ function R.ShortValue(v)
 	end
 end
 
+function R.TableIsEmpty(t)
+	if type(t) ~= "table" then 
+		return true
+	else
+		return _G.next(t) == nil
+	end
+end
+
 local function Size(frame, width, height)
 	frame:SetSize(scale(width), scale(height or width))
 end

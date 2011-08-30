@@ -569,12 +569,14 @@ function R.Update_Target(frame)
 		frame.Auras = Auras
 		frame:EnableElement('Aura')
 	end
-	if C["ouf"].HealFrames and R.isHealer then
-		frame:ClearAllPoints()
-		frame:Point("BOTTOM", 300, 450)
-	else
-		frame:ClearAllPoints()
-		frame:Point("BOTTOM", 0, 340)
+	if R.TableIsEmpty(R.SavePath["UFPos"]["Freeb - Target"]) then
+		if C["ouf"].HealFrames and R.isHealer then
+			frame:ClearAllPoints()
+			frame:Point("BOTTOM", 300, 450)
+		else
+			frame:ClearAllPoints()
+			frame:Point("BOTTOM", 0, 340)
+		end
 	end
 	R.Update_Common(frame)
 	frame:UpdateAllElements()
@@ -582,24 +584,28 @@ end
 
 function R.Update_ToT(frame)
 	R.Update_Common(frame)
-	if C["ouf"].HealFrames and R.isHealer then
-		frame:ClearAllPoints()
-		frame:Point("TOPLEFT", oUF_FreebTarget, "BOTTOMLEFT", 0, -20)
-	else
-		frame:ClearAllPoints()
-		frame:Point("BOTTOMLEFT", oUF_FreebTarget, "BOTTOMRIGHT", 10, 1)
+	if R.TableIsEmpty(R.SavePath["UFPos"]["Freeb - Targettarget"]) then
+		if C["ouf"].HealFrames and R.isHealer then
+			frame:ClearAllPoints()
+			frame:Point("TOPLEFT", oUF_FreebTarget, "BOTTOMLEFT", 0, -20)
+		else
+			frame:ClearAllPoints()
+			frame:Point("BOTTOMLEFT", oUF_FreebTarget, "BOTTOMRIGHT", 10, 1)
+		end
 	end
 	frame:UpdateAllElements()
 end
 
 function R.Update_Pet(frame)
 	R.Update_Common(frame)
-	if C["ouf"].HealFrames and R.isHealer then
-		frame:ClearAllPoints()
-		frame:Point("BOTTOM", 0, 170)
-	else
-		frame:ClearAllPoints()
-		frame:Point("BOTTOM", 0, 220)
+	if R.TableIsEmpty(R.SavePath["UFPos"]["Freeb - Pet"]) then
+		if C["ouf"].HealFrames and R.isHealer then
+			frame:ClearAllPoints()
+			frame:Point("BOTTOM", 0, 170)
+		else
+			frame:ClearAllPoints()
+			frame:Point("BOTTOM", 0, 220)
+		end
 	end
 	frame:UpdateAllElements()
 end
@@ -665,12 +671,14 @@ function R.Update_Raid()
 		end	
 	end
 	local frame = _G["Raid_Freebgrid1"]
-	if C["ouf"].HealFrames and R.isHealer then
-		frame:ClearAllPoints()
-		frame:Point("TOPLEFT", oUF_FreebTarget, "BOTTOMLEFT", 0, -50)
-	else
-		frame:ClearAllPoints()
-		frame:Point("TOPLEFT", UIParent, "BOTTOM", - frame:GetChildren():GetWidth()*2.5 -  frame:GetAttribute("columnSpacing")*2, frame:GetChildren():GetHeight()*5 +  frame:GetAttribute("columnSpacing")*4 + 40)
+	if R.TableIsEmpty(R.SavePath["UFPos"]["Freebgrid"]) then
+		if C["ouf"].HealFrames and R.isHealer then
+			frame:ClearAllPoints()
+			frame:Point("TOPLEFT", oUF_FreebTarget, "BOTTOMLEFT", 0, -50)
+		else
+			frame:ClearAllPoints()
+			frame:Point("TOPLEFT", UIParent, "BOTTOM", - frame:GetChildren():GetWidth()*2.5 -  frame:GetAttribute("columnSpacing")*2, frame:GetChildren():GetHeight()*5 +  frame:GetAttribute("columnSpacing")*4 + 40)
+		end
 	end
 end
 
