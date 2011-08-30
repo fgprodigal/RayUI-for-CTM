@@ -570,7 +570,3 @@ achieveframe:SetScript("OnEvent", function(self, event, ...) AchievementMove(sel
 
 -- local test = CreateFrame("Button",nil,UIParent)
 -- test:CreateButton("Shadow", 200, 10, "CENTER", UIParent, "CENTER", 0, 0)
-
---隐藏自带团队
-CompactRaidFrameManager:Kill()
-CompactRaidFrameContainer:Kill()
