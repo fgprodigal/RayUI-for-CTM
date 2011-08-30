@@ -83,6 +83,15 @@ local function CheckRole(self, event, unit)
 	else
 		resilience = false
 	end
+	if ((R.myclass == "PALADIN" and tree == 1) or 
+	(R.myclass == "SHAMAN" and tree == 3) or 
+	(R.myclass == "PRIEST" and (tree == 1 or tree == 2))) and
+	resilience == false or
+	(R.myclass == "DRUID" and tree == 3) then
+		R.isHealer = true
+	else
+		R.isHealer = false
+	end
 	if ((R.myclass == "PALADIN" and tree == 2) or 
 	(R.myclass == "WARRIOR" and tree == 3) or 
 	(R.myclass == "DEATHKNIGHT" and tree == 1)) and

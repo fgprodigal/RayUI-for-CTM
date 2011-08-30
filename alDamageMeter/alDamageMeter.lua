@@ -19,7 +19,7 @@ local hidetitle = true
 local classcolorbar = true
 local onlyboss = false
 local classcolorname = false
-local mergeHealAbsorbs = false
+local mergeHealAbsorbs = true
 -- Config end
 
 if IsAddOnLoaded("alInterface") then

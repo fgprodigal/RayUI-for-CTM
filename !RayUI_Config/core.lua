@@ -1,6 +1,7 @@
 local RayUIConfig = LibStub("AceAddon-3.0"):NewAddon("RayUIConfig", "AceConsole-3.0", "AceEvent-3.0")
+local R, C, DB
 local LSM = LibStub("LibSharedMedia-3.0")
-db = {}
+local db = {}
 local defaults
 local DEFAULT_WIDTH = 700
 local DEFAULT_HEIGHT = 500
@@ -9,7 +10,7 @@ local ACD = LibStub("AceConfigDialog-3.0")
 local ACR = LibStub("AceConfigRegistry-3.0")
 
 function RayUIConfig:LoadDefaults()
-	local R, C, DB = unpack(RayUI)
+	R, C, DB = unpack(RayUI)
 	--Defaults
 	defaults = {
 		profile = {
@@ -121,7 +122,7 @@ function RayUIConfig.GenerateOptionsInternal()
 				type = "group",
 				name = "头像",
 				get = function(info) return db.ouf[ info[#info] ] end,
-				set = function(info, value) db.ouf[ info[#info] ] = value; StaticPopup_Show("CFG_RELOAD") end,
+				set = function(info, value) db.ouf[ info[#info] ] = value; C.ouf[ info[#info] ] = value; R.Update_All(); end,
 				args = {
 					scale = {
 						order = 1,

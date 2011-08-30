@@ -3,5 +3,6 @@
 	<Include file="plugins\plugins.xml"/>
 	<Script file="filter.lua"/>
 	<Script file="ftags.lua"/>
+	<Script file="functions.lua"/>
 	<Script file="freeb.lua"/>
 </Ui>

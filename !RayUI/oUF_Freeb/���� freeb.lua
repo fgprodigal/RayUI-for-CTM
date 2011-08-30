@@ -12,6 +12,9 @@ local height, width = 22, 240
 local scale = 1.0
 local hpheight = .85 -- .70 - .90 
 
+local PlayerBuffFilter = true
+local DebuffOnyshowPlayer = true
+
 local overrideBlizzbuffs = false
 local auras = true               -- disable all auras
 local bossframes = true
@@ -617,6 +620,15 @@ local UnitSpecific = {
 		CreateCastBar(self)
 		-- BarFader(self)
 
+        if C["ouf"].showPortrait then
+            Portrait(self)
+        end
+				
+		-- local ppp = createFont(self.Health, "OVERLAY", font, fontsize, fontflag, 1, 1, 1)
+        -- ppp:Point("RIGHT", -2, 0)
+        -- ppp.frequentUpdates = true
+        -- self:Tag(ppp, '[freeb:pp]')
+
         local _, class = UnitClass("player")
         -- Runes, Shards, HolyPower
         if R.multicheck(class, "DEATHKNIGHT", "WARLOCK", "PALADIN") then
@@ -781,8 +793,8 @@ local UnitSpecific = {
             buffs:Point("TOPRIGHT", UIParent, "TOPRIGHT", -10, -20)
             buffs.size = 36
 
-            buffs.PostCreateIcon = R.postCreateIconSmall
-            buffs.PostUpdateIcon = R.postUpdateIconSmall
+            buffs.PostCreateIcon = auraIcon
+            buffs.PostUpdateIcon = PostUpdateIcon
 
             self.Buffs = buffs
 
@@ -795,7 +807,7 @@ local UnitSpecific = {
                 self.Enchant["growth-y"] = "DOWN"
                 self.Enchant["growth-x"] = "LEFT"
                 self.Enchant.spacing = 5
-                self.PostCreateEnchantIcon = R.postCreateIconSmall
+                self.PostCreateEnchantIcon = auraIcon
             end
         end
 --[[
@@ -808,8 +820,8 @@ local UnitSpecific = {
             debuffs.size = height+3.5
             debuffs.initialAnchor = "BOTTOMLEFT"
 
-            debuffs.PostCreateIcon = R.postCreateIconSmall
-            debuffs.PostUpdateIcon = R.postUpdateIconSmall
+            debuffs.PostCreateIcon = auraIcon
+            debuffs.PostUpdateIcon = PostUpdateIcon
             debuffs.CustomFilter = CustomFilter
 
             self.Debuffs = debuffs
@@ -817,7 +829,7 @@ local UnitSpecific = {
         end
 		]]
 		if C["ouf"].PlayerBuffFilter then
-			local b = CreateFrame("Frame", nil, self)
+			b = CreateFrame("Frame", nil, self)
 			b.size = 30
 			b.num = 14
 			b.spacing = 4.8
@@ -882,11 +894,90 @@ local UnitSpecific = {
 		SpellRange(self)
 		R.FocusText(self)
 		
+        if C["ouf"].showPortrait then
+            Portrait(self)
+        end
+		
 		-- local tpp = createFont(self.Health, "OVERLAY", font, fontsize, fontflag, 1, 1, 1)
         -- tpp:Point("LEFT", 2, 0)
         -- tpp.frequentUpdates = true
         -- self:Tag(tpp, '[freeb:pp]')
 
+        if auras and not C["ouf"].DebuffOnyshowPlayer then
+            local buffs = CreateFrame("Frame", nil, self)
+            buffs:SetHeight(height)
+            buffs:SetWidth(245)
+            buffs.initialAnchor = "BOTTOMLEFT"
+            buffs.spacing = 5
+            buffs.num = 9
+            buffs["growth-x"] = "RIGHT"
+            buffs["growth-y"] = "DOWN"
+            buffs:Point("TOPLEFT", self, "BOTTOMLEFT", 0, 50)
+            buffs.size = height
+
+            buffs.PostCreateIcon = auraIcon
+            buffs.PostUpdateIcon = PostUpdateIcon
+
+            self.Buffs = buffs
+
+            local debuffs = CreateFrame("Frame", nil, self)
+            debuffs:SetHeight(height+1)
+            debuffs:SetWidth(140)
+            debuffs:Point("LEFT", self, "RIGHT", 5, 0)
+            debuffs.spacing = 4
+			debuffs["growth-x"] = "RIGHT"
+            debuffs["growth-y"] = "DOWN"
+            debuffs.size = height
+            debuffs.initialAnchor = "TOPLEFT"
+            debuffs.onlyShowPlayer = onlyShowPlayer
+
+            debuffs.PostCreateIcon = auraIcon
+            debuffs.PostUpdateIcon = PostUpdateIcon
+            debuffs.CustomFilter = R.CustomFilter
+
+            self.Debuffs = debuffs
+            self.Debuffs.num = 18
+
+            local Auras = CreateFrame("Frame", nil, self)
+            Auras:SetHeight(height+2)
+            Auras:SetWidth(width)
+            Auras:Point("BOTTOMLEFT", self, "TOPLEFT", 0, 4)
+            Auras.spacing = 4
+            Auras.gap = true
+            Auras.size = height+2
+            Auras.initialAnchor = "BOTTOMLEFT"
+
+            Auras.PostCreateIcon = auraIcon
+            Auras.PostUpdateIcon = PostUpdateIcon
+            Auras.CustomFilter = R.CustomFilter
+
+            --self.Auras = Auras
+            --self.Auras.numDebuffs = 14
+            --self.Auras.numBuffs = 14
+        end
+		
+		if C["ouf"].DebuffOnyshowPlayer then 
+			Auras = CreateFrame("Frame", nil, self)
+			Auras:SetHeight(42)
+			Auras:SetWidth(self:GetWidth())
+			Auras.initialAnchor = "BOTTOMLEFT"
+			Auras["growth-x"] = "RIGHT"		
+			Auras["growth-y"] = "DOWN"
+			Auras.numBuffs = 24
+			Auras.numDebuffs = 10
+			Auras.size = 18
+			Auras.spacing = 4.8
+			Auras["growth-y"] = "UP"
+			Auras.size = 30
+			Auras.onlyShowPlayer = true
+			Auras.CustomFilter = R.CustomFilter			
+			Auras:Point("BOTTOMLEFT", self, "TOPLEFT", 0, 5)
+			Auras.gap = true
+			Auras.PostCreateIcon = R.postCreateIcon
+			Auras.PostUpdateIcon = R.postUpdateIcon
+			self.Auras = Auras
+		end
+	
         local cpoints = createFont(self, "OVERLAY", C["media"].font, 24, "THINOUTLINE", 1, 0, 0)
         cpoints:Point('RIGHT', self, 'LEFT', -4, 0)
         self:Tag(cpoints, '[cpoints]')
@@ -915,8 +1006,8 @@ local UnitSpecific = {
             debuffs.size = height+3.5
             debuffs.initialAnchor = "BOTTOMLEFT"
 
-            debuffs.PostCreateIcon = R.postCreateIconSmall
-            debuffs.PostUpdateIcon = R.postUpdateIconSmall
+            debuffs.PostCreateIcon = auraIcon
+            debuffs.PostUpdateIcon = PostUpdateIcon
 
             self.Debuffs = debuffs
             self.Debuffs.num = 7
@@ -944,8 +1035,8 @@ local UnitSpecific = {
             debuffs.size = height+3.5
             debuffs.initialAnchor = "BOTTOMLEFT"
 
-            debuffs.PostCreateIcon = R.postCreateIconSmall
-            debuffs.PostUpdateIcon = R.postUpdateIconSmall
+            debuffs.PostCreateIcon = auraIcon
+            debuffs.PostUpdateIcon = PostUpdateIcon
 
             self.Debuffs = debuffs
             self.Debuffs.num = 7
@@ -983,8 +1074,8 @@ local UnitSpecific = {
             -- buffs:Point("LEFT", self, "LEFT", -30, 0)
             -- buffs.size = height
 			
-            -- buffs.PostCreateIcon = R.postCreateIconSmall
-            -- buffs.PostUpdateIcon = R.postUpdateIconSmall
+            -- buffs.PostCreateIcon = auraIcon
+            -- buffs.PostUpdateIcon = PostUpdateIcon
 			-- buffs.onlyShowPlayer = true
 
             -- self.Buffs = buffs
@@ -999,8 +1090,8 @@ local UnitSpecific = {
             debuffs["growth-y"] = "UP"
             debuffs.initialAnchor = "BOTTOMLEFT"
 			debuffs.onlyShowPlayer = true
-            -- debuffs.PostCreateIcon = R.postCreateIconSmall
-            -- debuffs.PostUpdateIcon = R.postUpdateIconSmall
+            -- debuffs.PostCreateIcon = auraIcon
+            -- debuffs.PostUpdateIcon = PostUpdateIcon
 			debuffs.PostCreateIcon = R.postCreateIcon
 			debuffs.PostUpdateIcon = R.postUpdateIcon
 
@@ -1033,8 +1124,8 @@ local UnitSpecific = {
             debuffs.size = 21.5
             debuffs.initialAnchor = "BOTTOMLEFT"
 
-            debuffs.PostCreateIcon = R.postCreateIconSmall
-            debuffs.PostUpdateIcon = R.postUpdateIconSmall
+            debuffs.PostCreateIcon = auraIcon
+            debuffs.PostUpdateIcon = PostUpdateIcon
             debuffs.CustomFilter = R.CustomFilter
 
             self.Debuffs = debuffs
@@ -1061,8 +1152,8 @@ local UnitSpecific = {
             debuffs.size = 21.5
             debuffs.initialAnchor = "BOTTOMLEFT"
 
-            debuffs.PostCreateIcon = R.postCreateIconSmall
-            debuffs.PostUpdateIcon = R.postUpdateIconSmall
+            debuffs.PostCreateIcon = auraIcon
+            debuffs.PostUpdateIcon = PostUpdateIcon
             debuffs.CustomFilter = R.CustomFilter
 
             self.Debuffs = debuffs
@@ -1095,8 +1186,8 @@ local UnitSpecific = {
             -- buffs:Point("RIGHT", self, "RIGHT", 30, 0)
             -- buffs.size = height
 
-            -- buffs.PostCreateIcon = R.postCreateIconSmall
-            -- buffs.PostUpdateIcon = R.postUpdateIconSmall
+            -- buffs.PostCreateIcon = auraIcon
+            -- buffs.PostUpdateIcon = PostUpdateIcon
 
             -- self.Buffs = buffs
 
@@ -1110,8 +1201,8 @@ local UnitSpecific = {
 			debuffs.initialAnchor = "BOTTOMLEFT"
             debuffs:Point("TOPLEFT", self, "BOTTOMLEFT", 0, -5)
             debuffs.onlyShowPlayer = true
-            debuffs.PostCreateIcon = R.postCreateIconSmall
-            debuffs.PostUpdateIcon = R.postUpdateIconSmall
+            debuffs.PostCreateIcon = auraIcon
+            debuffs.PostUpdateIcon = PostUpdateIcon
             debuffs.CustomFilter = R.CustomFilter
 
             self.Debuffs = debuffs
@@ -1206,8 +1297,8 @@ local TestUI = function(msg)
 		oUF_FreebBoss2:Show(); oUF_FreebBoss2.Hide = function() end; oUF_FreebBoss2.unit = "target"
 		oUF_FreebBoss3:Show(); oUF_FreebBoss3.Hide = function() end; oUF_FreebBoss3.unit = "player"
 	elseif msg == "buffs" then -- better dont test it ^^
-		if oUF_FreebPlayer.Buffs then oUF_FreebPlayer.Buffs.CustomFilter = nil end
-		if oUF_FreebTarget.Auras then oUF_FreebTarget.Auras.CustomFilter = nil end
+		if C["ouf"].PlayerBuffFilter then oUF_FreebPlayer.Buffs.CustomFilter = nil end
+		if C["ouf"].DebuffOnyshowPlayer then oUF_FreebTarget.Auras.CustomFilter = nil end
 		testui()
 		UnitAura = function()
 			-- name, rank, texture, count, dtype, duration, timeLeft, caster
