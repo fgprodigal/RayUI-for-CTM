@@ -20,3 +20,5 @@ L["Show the repair cost minus the 10% faction discount."] = true
 -- Inspect.lua
 L["Inspect"] = true
 L["Show item quality when inspecting people."] = true
+L["Inspect iLevels"] = true
+L["Show the iLevel on an inspected characters items."] = true

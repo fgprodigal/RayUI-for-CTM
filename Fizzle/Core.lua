@@ -118,8 +118,8 @@ local function getOptions()
 				end,
 			},
 			inspectilevel = {
-				name = "Inspect iLevels",
-				desc = "Show the iLevel on an inspected characters items.",
+				name = L["Inspect iLevels"],
+				desc = L["Show the iLevel on an inspected characters items."],
 				type = "toggle",
 				disabled = function() return not db.modules["Inspect"] end,
 				order = 610,
