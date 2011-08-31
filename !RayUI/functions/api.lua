@@ -436,9 +436,9 @@ while object do
 	object = EnumerateFrames(object)
 end
 
-local RayUIOnLogon = CreateFrame("Frame")
-RayUIOnLogon:RegisterEvent("PLAYER_ENTERING_WORLD")
-RayUIOnLogon:SetScript("OnEvent", function(self, event)
+local SetUIScale = CreateFrame("Frame")
+SetUIScale:RegisterEvent("PLAYER_ENTERING_WORLD")
+SetUIScale:SetScript("OnEvent", function(self, event)
 	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
 	Advanced_UIScaleSlider:Kill()
 	Advanced_UseUIScale:Kill()
