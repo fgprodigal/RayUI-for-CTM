@@ -38,7 +38,7 @@ addonskin\skada.lua
 actionbar\actionbar.xml
 oUF_Freeb\oUF_Freeb.xml
 oUF_Freebgrid\oUF_Freebgrid.xml
-oUF_Freeb\test.lua
+oUF_Freeb\swicthlayout.lua
 oUF_Freeb\plugins\Movable.lua
 
 mini\mini.xml

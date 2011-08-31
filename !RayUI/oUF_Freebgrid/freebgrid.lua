@@ -654,8 +654,12 @@ oUF:Factory(function(self)
     -- ns:Anchors()
     ns:Colors()
 	--隐藏自带团队
-	CompactRaidFrameManager:Kill()
-	CompactRaidFrameContainer:Kill()
+	CompactRaidFrameContainer:UnregisterAllEvents()
+	CompactRaidFrameContainer:Hide() 
+	CompactRaidFrameContainer.Show = function() end
+	CompactRaidFrameManager:UnregisterAllEvents()
+	CompactRaidFrameManager:Hide()
+	CompactRaidFrameManager.Show = function() end
 	
     self:SetActiveStyle"Freebgrid"
     if ns.db.multi then

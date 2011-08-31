@@ -477,6 +477,23 @@ function R.Update_Player(frame)
 		frame.Buffs = b
 		frame:EnableElement('Aura')
 	end
+	if R.TableIsEmpty(R.SavePath["UFPos"]["Freeb - Player"]) then
+		if C["ouf"].HealFrames and R.isHealer then
+			frame:ClearAllPoints()
+			frame:Point("BOTTOM", -350, 350)
+			frame.Castbar:ClearAllPoints()
+			frame.Castbar:Point("TOP", frame, "BOTTOM", 0, -35)
+			frame.Castbar:Width(frame:GetWidth())
+			frame.Castbar:Height(10)
+		else
+			frame:ClearAllPoints()
+			frame:Point("BOTTOM", -300, 450)
+			frame.Castbar:ClearAllPoints()
+			frame.Castbar:Point("BOTTOM", UIParent, "BOTTOM", 0, 305)
+			frame.Castbar:Width(rABS_MainMenuBar:GetWidth())
+			frame.Castbar:Height(5)
+		end
+	end
 	R.Update_Common(frame)
 	frame:UpdateAllElements()
 end
@@ -513,40 +530,44 @@ function R.Update_Target(frame)
 		frame:DisableElement('Aura')
 	end		
 	if (C["ouf"].HealFrames and R.isHealer) or not C["ouf"].DebuffOnyshowPlayer then
+		local debuffs = CreateFrame("Frame", nil, frame)
+		debuffs:SetHeight(height)
+		debuffs:SetWidth(245)
+		debuffs.initialAnchor = "BOTTOMLEFT"
+		debuffs.spacing = 5
+		debuffs.num = 9
+		debuffs["growth-x"] = "RIGHT"
+		debuffs["growth-y"] = "DOWN"
+		debuffs:Point("TOPLEFT", frame, "BOTTOMLEFT", 0, 50)
+		debuffs.size = height
+
+		debuffs.PostCreateIcon = R.postCreateIconSmall
+		debuffs.PostUpdateIcon = R.postUpdateIconSmall
+
+		frame.Debuffs = debuffs
+
 		local buffs = CreateFrame("Frame", nil, frame)
-		buffs:SetHeight(height)
-		buffs:SetWidth(245)
-		buffs.initialAnchor = "BOTTOMLEFT"
-		buffs.spacing = 5
-		buffs.num = 9
+		buffs:SetHeight(height+1)
+		buffs:SetWidth(190)
+		buffs:Point("LEFT", frame, "RIGHT", 5, 0)
+		buffs.spacing = 4
 		buffs["growth-x"] = "RIGHT"
 		buffs["growth-y"] = "DOWN"
-		buffs:Point("TOPLEFT", frame, "BOTTOMLEFT", 0, 50)
 		buffs.size = height
+		buffs.initialAnchor = "TOPLEFT"
+		buffs.onlyShowPlayer = onlyShowPlayer
 
 		buffs.PostCreateIcon = R.postCreateIconSmall
 		buffs.PostUpdateIcon = R.postUpdateIconSmall
 
 		frame.Buffs = buffs
-
-		local debuffs = CreateFrame("Frame", nil, frame)
-		debuffs:SetHeight(height+1)
-		debuffs:SetWidth(190)
-		debuffs:Point("LEFT", frame, "RIGHT", 5, 0)
-		debuffs.spacing = 4
-		debuffs["growth-x"] = "RIGHT"
-		debuffs["growth-y"] = "DOWN"
-		debuffs.size = height
-		debuffs.initialAnchor = "TOPLEFT"
-		debuffs.onlyShowPlayer = onlyShowPlayer
-
-		debuffs.PostCreateIcon = R.postCreateIconSmall
-		debuffs.PostUpdateIcon = R.postUpdateIconSmall
-		debuffs.CustomFilter = R.CustomFilter
-
-		frame.Debuffs = debuffs
-		frame.Debuffs.num = 18
+		frame.Buffs.num = 32
 		frame:EnableElement('Aura')
+		
+		frame.Castbar:ClearAllPoints()
+		frame.Castbar:Point("TOP", frame, "BOTTOM", 0, -35)
+		frame.Castbar:Width(frame:GetWidth())
+		frame.Castbar:Height(10)
 	else
 		Auras = CreateFrame("Frame", nil, frame)
 		Auras:SetHeight(42)
@@ -568,11 +589,17 @@ function R.Update_Target(frame)
 		Auras.PostUpdateIcon = R.postUpdateIcon
 		frame.Auras = Auras
 		frame:EnableElement('Aura')
+		
+		frame:Point("BOTTOM", -300, 450)
+		frame.Castbar:ClearAllPoints()
+		frame.Castbar:Point("CENTER", UIParent, "CENTER", 0, 50)
+		frame.Castbar:Width(240)
+		frame.Castbar:Height(5)
 	end
 	if R.TableIsEmpty(R.SavePath["UFPos"]["Freeb - Target"]) then
 		if C["ouf"].HealFrames and R.isHealer then
 			frame:ClearAllPoints()
-			frame:Point("BOTTOM", 300, 450)
+			frame:Point("BOTTOM", 350, 350)
 		else
 			frame:ClearAllPoints()
 			frame:Point("BOTTOM", 0, 340)
@@ -587,7 +614,7 @@ function R.Update_ToT(frame)
 	if R.TableIsEmpty(R.SavePath["UFPos"]["Freeb - Targettarget"]) then
 		if C["ouf"].HealFrames and R.isHealer then
 			frame:ClearAllPoints()
-			frame:Point("TOPLEFT", oUF_FreebTarget, "BOTTOMLEFT", 0, -20)
+			frame:Point("TOPLEFT", oUF_FreebTarget, "BOTTOMLEFT", 0, -15)
 		else
 			frame:ClearAllPoints()
 			frame:Point("BOTTOMLEFT", oUF_FreebTarget, "BOTTOMRIGHT", 10, 1)
@@ -601,7 +628,7 @@ function R.Update_Pet(frame)
 	if R.TableIsEmpty(R.SavePath["UFPos"]["Freeb - Pet"]) then
 		if C["ouf"].HealFrames and R.isHealer then
 			frame:ClearAllPoints()
-			frame:Point("BOTTOM", 0, 170)
+			frame:Point("BOTTOM", 0, 160)
 		else
 			frame:ClearAllPoints()
 			frame:Point("BOTTOM", 0, 220)
@@ -663,18 +690,23 @@ function R.Update_Raid()
 	for i = 1, 5 do
 		local frame = _G["Raid_Freebgrid"..i]
 		for j=1, frame:GetNumChildren() do
+			if C["ouf"].HealFrames and R.isHealer then
+				frame:SetScale(1.25)
+			else
+				frame:SetScale(1)
+			end
 			local child = select(j, frame:GetChildren())
 			if child then
 				R.Update_Common(child)
 				child:UpdateAllElements()
-			end		
+			end
 		end	
 	end
 	local frame = _G["Raid_Freebgrid1"]
 	if R.TableIsEmpty(R.SavePath["UFPos"]["Freebgrid"]) then
 		if C["ouf"].HealFrames and R.isHealer then
 			frame:ClearAllPoints()
-			frame:Point("TOPLEFT", oUF_FreebTarget, "BOTTOMLEFT", 0, -50)
+			frame:Point("TOPLEFT", UIParent, "BOTTOM", - frame:GetChildren():GetWidth()*2.5 -  frame:GetAttribute("columnSpacing")*2, frame:GetChildren():GetHeight()*5 +  frame:GetAttribute("columnSpacing")*4 + 150)
 		else
 			frame:ClearAllPoints()
 			frame:Point("TOPLEFT", UIParent, "BOTTOM", - frame:GetChildren():GetWidth()*2.5 -  frame:GetAttribute("columnSpacing")*2, frame:GetChildren():GetHeight()*5 +  frame:GetAttribute("columnSpacing")*4 + 40)

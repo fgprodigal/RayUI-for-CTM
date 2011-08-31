@@ -2,6 +2,8 @@ local R, C, DB = unpack(select(2, ...))
 
 local TEST = function(msg)
 	R.isHealer = not R.isHealer
+	-- RegisterAttributeDriver(Raid_Freebgrid1, 'state-visibility', "solo")
+	-- Raid_Freebgrid1:SetAttribute("showSolo", true)
 	R.Update_All()
 	R.Update_ActionBar()
 	UIParent:SetAlpha(0)
