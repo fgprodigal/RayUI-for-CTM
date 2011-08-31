@@ -29,7 +29,7 @@ for i = 1,8 do
 		topinfo[i].Text:SetFont(C["media"].font, C["media"].fontsize, C["media"].fontflag)
 		topinfo[i].Text:Point("CENTER", topinfo[i], "CENTER", 0, -4)
 		topinfo[i].Text:SetShadowColor(0, 0, 0, 0.4)
-		topinfo[i].Text:SetShadowOffset(1.25, -1.25)
+		topinfo[i].Text:SetShadowOffset(R.mult, -R.mult)
 	end
 	topinfo[i]:SetAlpha(0)
 end

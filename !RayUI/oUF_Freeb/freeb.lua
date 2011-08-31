@@ -96,7 +96,7 @@ end
 local createFont = function(parent, layer, font, fontsiz, thinoutline, r, g, b, justify)
     local string = parent:CreateFontString(nil, layer)
     string:SetFont(font, fontsiz, thinoutline)
-    string:SetShadowOffset(0.625, -0.625)
+    string:SetShadowOffset(R.mult, -R.mult)
     string:SetTextColor(r, g, b)
     if justify then
         string:SetJustifyH(justify)
