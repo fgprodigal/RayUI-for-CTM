@@ -26,7 +26,7 @@ oUF.TagEvents['freebgrid:altpower'] = "UNIT_POWER UNIT_MAXPOWER"
 
 oUF.Tags['freebgrid:def'] = function(u)
     if UnitIsAFK(u) then
-        return CHAT_FLAG_AFK
+        return "|cffCFCFCFAFK|r"
     elseif UnitIsDead(u) then
         return "|cffCFCFCFDead|r"
     elseif UnitIsGhost(u) then

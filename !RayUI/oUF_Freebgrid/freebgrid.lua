@@ -166,7 +166,13 @@ function ns:UpdateName(name, unit)
             name:SetText(substring)
             if name:GetStringWidth() <= ns.db.width - 8 then name:SetText(nil); break end
         end
-
+		
+		if not UnitIsConnected(unit) then
+			name:Hide()
+		elseif not name:IsShown() then
+			name:Show()
+		end
+		
         local str = ns.colorCache[class]..substring
         ns.nameCache[_NAME] = str
         name:UpdateTag()
@@ -262,8 +268,8 @@ local function PostPower(power, unit)
     local _, ptype = UnitPowerType(unit)
     local _, class = UnitClass(unit)
 
-    if ptype == 'MANA' then
-        power:Show()
+    -- if ptype == 'MANA' then
+        -- power:Show()
         if(ns.db.porientation == "VERTICAL")then
             power:SetWidth(ns.db.width*ns.db.powerbarsize)
             self.Health:SetWidth((0.98 - ns.db.powerbarsize)*ns.db.width - 1)
@@ -271,14 +277,14 @@ local function PostPower(power, unit)
             power:SetHeight(ns.db.height*ns.db.powerbarsize)
             self.Health:SetHeight((0.98 - ns.db.powerbarsize)*ns.db.height - 1)
         end
-    else
-        power:Hide()
-        if(ns.db.porientation == "VERTICAL")then
-            self.Health:SetWidth(ns.db.width)
-        else
-            self.Health:SetHeight(ns.db.height)
-        end
-    end
+    -- else
+        -- power:Hide()
+        -- if(ns.db.porientation == "VERTICAL")then
+            -- self.Health:SetWidth(ns.db.width)
+        -- else
+            -- self.Health:SetHeight(ns.db.height)
+        -- end
+    -- end
 
     local perc = oUF.Tags['perpp'](unit)
     -- This kinda conflicts with the threat module, but I don't really care

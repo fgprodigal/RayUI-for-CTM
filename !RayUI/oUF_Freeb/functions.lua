@@ -689,12 +689,14 @@ end
 function R.Update_Raid()
 	for i = 1, 5 do
 		local frame = _G["Raid_Freebgrid"..i]
+		if C["ouf"].HealFrames and R.isHealer then
+			frame:SetScale(1.25)
+			frame:SetAttribute("showParty", true)
+		else
+			frame:SetScale(1)
+			frame:SetAttribute("showParty", false)
+		end
 		for j=1, frame:GetNumChildren() do
-			if C["ouf"].HealFrames and R.isHealer then
-				frame:SetScale(1.25)
-			else
-				frame:SetScale(1)
-			end
 			local child = select(j, frame:GetChildren())
 			if child then
 				R.Update_Common(child)

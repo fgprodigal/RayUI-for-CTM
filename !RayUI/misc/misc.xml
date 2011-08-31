@@ -9,4 +9,5 @@
 	<Script file="reminder.lua"/>
 	<Script file="timerTracker.lua"/>
 	<Script file="chathide.lua"/>
+	<Script file="vehicle.lua"/>
 </Ui>
