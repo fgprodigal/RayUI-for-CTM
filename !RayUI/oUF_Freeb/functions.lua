@@ -2,6 +2,7 @@ local R, C, DB = unpack(select(2, ...))
 
 local ADDON_NAME, ns = ...
 local oUF = oUF_Freeb or ns.oUF or oUF
+local Private = oUF.Private
 
 local buttonTex = "Interface\\AddOns\\!RayUI\\media\\buttontex"
 local height, width = 22, 240
@@ -393,7 +394,7 @@ function R.Portrait(frame)
 	frame.Portrait = portrait
 end
 
-function R.Update_Common(frame)
+local function Update_Common(frame)
 	frame.Health.colorClass = nil
 	frame.Health.colorReaction = nil
 	frame.Health.colorTapping = nil
@@ -423,273 +424,268 @@ function R.Update_Common(frame)
 	frame:UpdateAllElements()
 end
 
-function R.Update_Player(frame)
-	if C["ouf"].showPortrait then
-		if not frame:IsElementEnabled('Portrait') then
-			R.Portrait(frame)
-			frame:EnableElement('Portrait')
-			frame.Portrait:Show()
-		end
-	else
-		if frame:IsElementEnabled('Portrait') then
-			frame:DisableElement('Portrait')
-			frame.Portrait:Hide()
-		end		
-	end
-	if frame.Buffs then 
-		frame.Buffs:ClearAllPoints() 
-		frame.Buffs:Hide()
-		frame.Buffs = nil
-	end
-	if frame.Debuffs then 
-		frame.Debuffs:ClearAllPoints()
-		frame.Debuffs:Hide()
-		frame.Debuffs = nil
-	end
-	if frame.Auras then 
-		frame.Auras:ClearAllPoints()
-		frame.Auras:Hide()
-		frame.Auras = nil
-	end
-	if frame:IsElementEnabled('Aura') then
-		frame:DisableElement('Aura')
-	end		
-	if C["ouf"].PlayerBuffFilter then
-		local _, class = UnitClass("player")
-		local b = CreateFrame("Frame", nil, frame)
-		b.size = 30
-		b.num = 14
-		b.spacing = 4.8
-		if R.multicheck(class, "DEATHKNIGHT", "WARLOCK", "PALADIN", "SHAMAN") then
-			b:Point("BOTTOMRIGHT", frame,  "TOPRIGHT", 0, 10)
+function R.UpdateSingle(frame, healer)
+	frame.Health.colorClass = nil
+	frame.Health.colorReaction = nil
+	frame.Health.colorTapping = nil
+	frame.Health.colorDisconnected = nil
+	if C["ouf"].HealthcolorClass then
+        frame.Health.colorClass = true
+        frame.Health.colorReaction = true
+		frame.Health.colorTapping = true
+		frame.Health.colorDisconnected = true
+        frame.Health.bg.multiplier = .2
+    else
+		frame.Health:SetStatusBarColor(.1, .1, .1, 1)
+        frame.Health.bg:SetVertexColor(1,1,1,.6)
+    end
+	if frame.Power then
+		frame.Power.colorClass = nil
+		frame.Power.colorPower = nil
+		if C["ouf"].Powercolor then
+			frame.Power.colorClass = true
+			frame.Power.bg.multiplier = .2
 		else
-			b:Point("BOTTOMRIGHT", frame,  "TOPRIGHT", 0, 5)
+			frame.Power.colorPower = true
+			frame.Power.bg.multiplier = .2
 		end
-		b.initialAnchor = "BOTTOMRIGHT"
-		b["growth-x"] = "LEFT"
-		b["growth-y"] = "UP"
-		b:SetHeight((b.size+b.spacing)*4)
-		b:SetWidth(frame:GetWidth())
-		b.CustomFilter = R.CustomBuffFilter
-		b.PostCreateIcon = R.postCreateIcon
-		b.PostUpdateIcon = R.postUpdateIcon
-
-		frame.Buffs = b
-		frame:EnableElement('Aura')
 	end
-	if R.TableIsEmpty(R.SavePath["UFPos"]["Freeb - Player"]) then
-		if C["ouf"].HealFrames and R.isHealer then
-			frame:ClearAllPoints()
-			frame:Point("BOTTOM", -350, 350)
+	frame:SetScale(C["ouf"].scale)
+	if frame.unit == "player" then
+		if C["ouf"].showPortrait then
+			if not frame:IsElementEnabled('Portrait') then
+				R.Portrait(frame)
+				frame:EnableElement('Portrait')
+				frame.Portrait:Show()
+			end
+		else
+			if frame:IsElementEnabled('Portrait') then
+				frame:DisableElement('Portrait')
+				frame.Portrait:Hide()
+			end		
+		end
+		if frame.Buffs then 
+			frame.Buffs:ClearAllPoints() 
+			frame.Buffs:Hide()
+			frame.Buffs = nil
+		end
+		if frame.Debuffs then 
+			frame.Debuffs:ClearAllPoints()
+			frame.Debuffs:Hide()
+			frame.Debuffs = nil
+		end
+		if frame.Auras then 
+			frame.Auras:ClearAllPoints()
+			frame.Auras:Hide()
+			frame.Auras = nil
+		end
+		if frame:IsElementEnabled('Aura') then
+			frame:DisableElement('Aura')
+		end		
+		if C["ouf"].PlayerBuffFilter then
+			local _, class = UnitClass("player")
+			local b = CreateFrame("Frame", nil, frame)
+			b.size = 30
+			b.num = 14
+			b.spacing = 4.8
+			if R.multicheck(class, "DEATHKNIGHT", "WARLOCK", "PALADIN", "SHAMAN") then
+				b:Point("BOTTOMRIGHT", frame,  "TOPRIGHT", 0, 10)
+			else
+				b:Point("BOTTOMRIGHT", frame,  "TOPRIGHT", 0, 5)
+			end
+			b.initialAnchor = "BOTTOMRIGHT"
+			b["growth-x"] = "LEFT"
+			b["growth-y"] = "UP"
+			b:SetHeight((b.size+b.spacing)*4)
+			b:SetWidth(frame:GetWidth())
+			b.CustomFilter = R.CustomBuffFilter
+			b.PostCreateIcon = R.postCreateIcon
+			b.PostUpdateIcon = R.postUpdateIcon
+
+			frame.Buffs = b
+			frame:EnableElement('Aura')
+		end
+		if R.TableIsEmpty(R.SavePath["UFPos"]["Freeb - Player"]) then
+			if C["ouf"].HealFrames and healer then
+				frame:ClearAllPoints()
+				frame:Point("BOTTOM", -350, 350)
+				frame.Castbar:ClearAllPoints()
+				frame.Castbar:Point("TOP", frame, "BOTTOM", 0, -35)
+				frame.Castbar:Width(frame:GetWidth())
+				frame.Castbar:Height(10)
+			else
+				frame:ClearAllPoints()
+				frame:Point("BOTTOM", -300, 450)
+				frame.Castbar:ClearAllPoints()
+				frame.Castbar:Point("BOTTOM", UIParent, "BOTTOM", 0, 305)
+				frame.Castbar:Width(rABS_MainMenuBar:GetWidth())
+				frame.Castbar:Height(5)
+			end
+		end
+	elseif frame.unit == "target" then
+		if C["ouf"].showPortrait then
+			if not frame:IsElementEnabled('Portrait') then
+				R.Portrait(frame)
+				frame:EnableElement('Portrait')
+				frame.Portrait:Show()
+			end
+		else
+			if frame:IsElementEnabled('Portrait') then
+				frame:DisableElement('Portrait')
+				frame.Portrait:Hide()
+			end		
+		end
+		if frame.Buffs then 
+			frame.Buffs:ClearAllPoints() 
+			frame.Buffs:Hide()
+			frame.Buffs = nil
+		end
+		if frame.Debuffs then 
+			frame.Debuffs:ClearAllPoints()
+			frame.Debuffs:Hide()
+			frame.Debuffs = nil
+		end
+		if frame.Auras then 
+			frame.Auras:ClearAllPoints()
+			frame.Auras:Hide()
+			frame.Auras = nil
+		end
+		if frame:IsElementEnabled('Aura') then
+			frame:DisableElement('Aura')
+		end		
+		if (C["ouf"].HealFrames and healer) or not C["ouf"].DebuffOnyshowPlayer then
+			local debuffs = CreateFrame("Frame", nil, frame)
+			debuffs:SetHeight(height)
+			debuffs:SetWidth(245)
+			debuffs.initialAnchor = "BOTTOMLEFT"
+			debuffs.spacing = 5
+			debuffs.num = 9
+			debuffs["growth-x"] = "RIGHT"
+			debuffs["growth-y"] = "DOWN"
+			debuffs:Point("TOPLEFT", frame, "BOTTOMLEFT", 0, 50)
+			debuffs.size = height
+
+			debuffs.PostCreateIcon = R.postCreateIconSmall
+			debuffs.PostUpdateIcon = R.postUpdateIconSmall
+
+			frame.Debuffs = debuffs
+
+			local buffs = CreateFrame("Frame", nil, frame)
+			buffs:SetHeight(height+1)
+			buffs:SetWidth(190)
+			buffs:Point("LEFT", frame, "RIGHT", 5, 0)
+			buffs.spacing = 4
+			buffs["growth-x"] = "RIGHT"
+			buffs["growth-y"] = "DOWN"
+			buffs.size = height
+			buffs.initialAnchor = "TOPLEFT"
+			buffs.onlyShowPlayer = onlyShowPlayer
+
+			buffs.PostCreateIcon = R.postCreateIconSmall
+			buffs.PostUpdateIcon = R.postUpdateIconSmall
+
+			frame.Buffs = buffs
+			frame.Buffs.num = 32
+			frame:EnableElement('Aura')
+			
 			frame.Castbar:ClearAllPoints()
 			frame.Castbar:Point("TOP", frame, "BOTTOM", 0, -35)
 			frame.Castbar:Width(frame:GetWidth())
 			frame.Castbar:Height(10)
 		else
-			frame:ClearAllPoints()
+			Auras = CreateFrame("Frame", nil, frame)
+			Auras:SetHeight(42)
+			Auras:SetWidth(frame:GetWidth())
+			Auras.initialAnchor = "BOTTOMLEFT"
+			Auras["growth-x"] = "RIGHT"		
+			Auras["growth-y"] = "DOWN"
+			Auras.numBuffs = 24
+			Auras.numDebuffs = 10
+			Auras.size = 18
+			Auras.spacing = 4.8
+			Auras["growth-y"] = "UP"
+			Auras.size = 30
+			Auras.onlyShowPlayer = true
+			Auras.CustomFilter = R.CustomFilter			
+			Auras:Point("BOTTOMLEFT", frame, "TOPLEFT", 0, 5)
+			Auras.gap = true
+			Auras.PostCreateIcon = R.postCreateIcon
+			Auras.PostUpdateIcon = R.postUpdateIcon
+			frame.Auras = Auras
+			frame:EnableElement('Aura')
+			
 			frame:Point("BOTTOM", -300, 450)
 			frame.Castbar:ClearAllPoints()
-			frame.Castbar:Point("BOTTOM", UIParent, "BOTTOM", 0, 305)
-			frame.Castbar:Width(rABS_MainMenuBar:GetWidth())
+			frame.Castbar:Point("CENTER", UIParent, "CENTER", 0, 50)
+			frame.Castbar:Width(240)
 			frame.Castbar:Height(5)
 		end
-	end
-	R.Update_Common(frame)
-	frame:UpdateAllElements()
-end
-
-function R.Update_Target(frame)
-	if C["ouf"].showPortrait then
-		if not frame:IsElementEnabled('Portrait') then
-			R.Portrait(frame)
-			frame:EnableElement('Portrait')
-			frame.Portrait:Show()
-		end
-	else
-		if frame:IsElementEnabled('Portrait') then
-			frame:DisableElement('Portrait')
-			frame.Portrait:Hide()
-		end		
-	end
-	if frame.Buffs then 
-		frame.Buffs:ClearAllPoints() 
-		frame.Buffs:Hide()
-		frame.Buffs = nil
-	end
-	if frame.Debuffs then 
-		frame.Debuffs:ClearAllPoints()
-		frame.Debuffs:Hide()
-		frame.Debuffs = nil
-	end
-	if frame.Auras then 
-		frame.Auras:ClearAllPoints()
-		frame.Auras:Hide()
-		frame.Auras = nil
-	end
-	if frame:IsElementEnabled('Aura') then
-		frame:DisableElement('Aura')
-	end		
-	if (C["ouf"].HealFrames and R.isHealer) or not C["ouf"].DebuffOnyshowPlayer then
-		local debuffs = CreateFrame("Frame", nil, frame)
-		debuffs:SetHeight(height)
-		debuffs:SetWidth(245)
-		debuffs.initialAnchor = "BOTTOMLEFT"
-		debuffs.spacing = 5
-		debuffs.num = 9
-		debuffs["growth-x"] = "RIGHT"
-		debuffs["growth-y"] = "DOWN"
-		debuffs:Point("TOPLEFT", frame, "BOTTOMLEFT", 0, 50)
-		debuffs.size = height
-
-		debuffs.PostCreateIcon = R.postCreateIconSmall
-		debuffs.PostUpdateIcon = R.postUpdateIconSmall
-
-		frame.Debuffs = debuffs
-
-		local buffs = CreateFrame("Frame", nil, frame)
-		buffs:SetHeight(height+1)
-		buffs:SetWidth(190)
-		buffs:Point("LEFT", frame, "RIGHT", 5, 0)
-		buffs.spacing = 4
-		buffs["growth-x"] = "RIGHT"
-		buffs["growth-y"] = "DOWN"
-		buffs.size = height
-		buffs.initialAnchor = "TOPLEFT"
-		buffs.onlyShowPlayer = onlyShowPlayer
-
-		buffs.PostCreateIcon = R.postCreateIconSmall
-		buffs.PostUpdateIcon = R.postUpdateIconSmall
-
-		frame.Buffs = buffs
-		frame.Buffs.num = 32
-		frame:EnableElement('Aura')
-		
-		frame.Castbar:ClearAllPoints()
-		frame.Castbar:Point("TOP", frame, "BOTTOM", 0, -35)
-		frame.Castbar:Width(frame:GetWidth())
-		frame.Castbar:Height(10)
-	else
-		Auras = CreateFrame("Frame", nil, frame)
-		Auras:SetHeight(42)
-		Auras:SetWidth(frame:GetWidth())
-		Auras.initialAnchor = "BOTTOMLEFT"
-		Auras["growth-x"] = "RIGHT"		
-		Auras["growth-y"] = "DOWN"
-		Auras.numBuffs = 24
-		Auras.numDebuffs = 10
-		Auras.size = 18
-		Auras.spacing = 4.8
-		Auras["growth-y"] = "UP"
-		Auras.size = 30
-		Auras.onlyShowPlayer = true
-		Auras.CustomFilter = R.CustomFilter			
-		Auras:Point("BOTTOMLEFT", frame, "TOPLEFT", 0, 5)
-		Auras.gap = true
-		Auras.PostCreateIcon = R.postCreateIcon
-		Auras.PostUpdateIcon = R.postUpdateIcon
-		frame.Auras = Auras
-		frame:EnableElement('Aura')
-		
-		frame:Point("BOTTOM", -300, 450)
-		frame.Castbar:ClearAllPoints()
-		frame.Castbar:Point("CENTER", UIParent, "CENTER", 0, 50)
-		frame.Castbar:Width(240)
-		frame.Castbar:Height(5)
-	end
-	if R.TableIsEmpty(R.SavePath["UFPos"]["Freeb - Target"]) then
-		if C["ouf"].HealFrames and R.isHealer then
-			frame:ClearAllPoints()
-			frame:Point("BOTTOM", 350, 350)
-		else
-			frame:ClearAllPoints()
-			frame:Point("BOTTOM", 0, 340)
-		end
-	end
-	R.Update_Common(frame)
-	frame:UpdateAllElements()
-end
-
-function R.Update_ToT(frame)
-	R.Update_Common(frame)
-	if R.TableIsEmpty(R.SavePath["UFPos"]["Freeb - Targettarget"]) then
-		if C["ouf"].HealFrames and R.isHealer then
-			frame:ClearAllPoints()
-			frame:Point("TOPLEFT", oUF_FreebTarget, "BOTTOMLEFT", 0, -15)
-		else
-			frame:ClearAllPoints()
-			frame:Point("BOTTOMLEFT", oUF_FreebTarget, "BOTTOMRIGHT", 10, 1)
-		end
-	end
-	frame:UpdateAllElements()
-end
-
-function R.Update_Pet(frame)
-	R.Update_Common(frame)
-	if R.TableIsEmpty(R.SavePath["UFPos"]["Freeb - Pet"]) then
-		if C["ouf"].HealFrames and R.isHealer then
-			frame:ClearAllPoints()
-			frame:Point("BOTTOM", 0, 160)
-		else
-			frame:ClearAllPoints()
-			frame:Point("BOTTOM", 0, 220)
-		end
-	end
-	frame:UpdateAllElements()
-end
-
-function R.Update_Focus(frame)
-	R.Update_Common(frame)
-	frame:UpdateAllElements()
-end
-
-function R.Update_FocusTarget(frame)
-	R.Update_Common(frame)
-	frame:UpdateAllElements()
-end
-
-function R.Update_Party(frame)
-	for i=1, frame:GetNumChildren() do
-		local child = select(i, frame:GetChildren())
-		if child then
-			if C["ouf"].showPortrait then
-				if not child:IsElementEnabled('Portrait') then
-					R.Portrait(child)
-					child:EnableElement('Portrait')
-					child.Portrait:Show()
-				end
+		if R.TableIsEmpty(R.SavePath["UFPos"]["Freeb - Target"]) then
+			if C["ouf"].HealFrames and healer then
+				frame:ClearAllPoints()
+				frame:Point("BOTTOM", 350, 350)
 			else
-				if child:IsElementEnabled('Portrait') then
-					child:DisableElement('Portrait')
-					child.Portrait:Hide()
-				end	
+				frame:ClearAllPoints()
+				frame:Point("BOTTOM", 0, 340)
 			end
-			R.Update_Common(child)
-			child:UpdateAllElements()
-		end		
+		end
+	elseif frame.unit == "targettarget" then
+		if R.TableIsEmpty(R.SavePath["UFPos"]["Freeb - Targettarget"]) then
+			if C["ouf"].HealFrames and healer then
+				frame:ClearAllPoints()
+				frame:Point("TOPLEFT", oUF_FreebTarget, "BOTTOMLEFT", 0, -15)
+			else
+				frame:ClearAllPoints()
+				frame:Point("BOTTOMLEFT", oUF_FreebTarget, "BOTTOMRIGHT", 10, 1)
+			end
+		end
+	elseif frame.unit == "focus" then
+	elseif frame.unit == "focustarget" then
+	elseif frame.unit == "pet" then
+		if R.TableIsEmpty(R.SavePath["UFPos"]["Freeb - Pet"]) then
+			if C["ouf"].HealFrames and healer then
+				frame:ClearAllPoints()
+				frame:Point("BOTTOM", 0, 160)
+			else
+				frame:ClearAllPoints()
+				frame:Point("BOTTOM", 0, 220)
+			end
+		end
+	elseif frame.unit:match('[^%d]+') == "boss" then
 	end
-	if C["ouf"].HealFrames and R.isHealer then
-		frame:SetAttribute("showParty", false)
-		RegisterAttributeDriver(frame, 'state-visibility', "hide")
-	else
-		frame:SetAttribute("showParty", true)
-		RegisterAttributeDriver(frame, 'state-visibility', "[@raid6,exists] hide;show")
-	end
+	frame:UpdateAllElements()
 end
 
-function R.Update_Boss(frame)
-	for i = 1, MAX_BOSS_FRAMES do
-		local child = _G[frame..i]
-		if child then
-			R.Update_Common(child)
-			child:UpdateAllElements()
-		end		
-	end	
-end
-
-function R.Update_Raid()
-	for i = 1, 5 do
-		local frame = _G["Raid_Freebgrid"..i]
-		if C["ouf"].HealFrames and R.isHealer then
+function R.UpdateHeader(frame, healer)
+	if frame.style:lower():find("party") then
+		for i=1, frame:GetNumChildren() do
+			local child = select(i, frame:GetChildren())
+			if child then
+				if C["ouf"].showPortrait then
+					if not child:IsElementEnabled('Portrait') then
+						R.Portrait(child)
+						child:EnableElement('Portrait')
+						child.Portrait:Show()
+					end
+				else
+					if child:IsElementEnabled('Portrait') then
+						child:DisableElement('Portrait')
+						child.Portrait:Hide()
+					end	
+				end
+				Update_Common(child)
+				child:UpdateAllElements()
+			end		
+		end
+		if C["ouf"].HealFrames and healer then
+			frame:SetAttribute("showParty", false)
+			RegisterAttributeDriver(frame, 'state-visibility', "hide")
+		else
+			frame:SetAttribute("showParty", true)
+			RegisterAttributeDriver(frame, 'state-visibility', "[@raid6,exists] hide;show")
+		end
+	elseif frame.style == "Freebgrid" then
+		if C["ouf"].HealFrames and healer then
 			frame:SetScale(1.25)
 			frame:SetAttribute("showParty", true)
 		else
@@ -699,31 +695,34 @@ function R.Update_Raid()
 		for j=1, frame:GetNumChildren() do
 			local child = select(j, frame:GetChildren())
 			if child then
-				R.Update_Common(child)
+				Update_Common(child)
 				child:UpdateAllElements()
 			end
-		end	
-	end
-	local frame = _G["Raid_Freebgrid1"]
-	if R.TableIsEmpty(R.SavePath["UFPos"]["Freebgrid"]) then
-		if C["ouf"].HealFrames and R.isHealer then
-			frame:ClearAllPoints()
-			frame:Point("TOPLEFT", UIParent, "BOTTOM", - frame:GetChildren():GetWidth()*2.5 -  frame:GetAttribute("columnSpacing")*2, frame:GetChildren():GetHeight()*5 +  frame:GetAttribute("columnSpacing")*4 + 150)
-		else
-			frame:ClearAllPoints()
-			frame:Point("TOPLEFT", UIParent, "BOTTOM", - frame:GetChildren():GetWidth()*2.5 -  frame:GetAttribute("columnSpacing")*2, frame:GetChildren():GetHeight()*5 +  frame:GetAttribute("columnSpacing")*4 + 40)
+		end
+		if R.TableIsEmpty(R.SavePath["UFPos"]["Freebgrid"]) and frame==Raid_Freebgrid1 then
+			if C["ouf"].HealFrames and healer then
+				frame:ClearAllPoints()
+				frame:Point("TOPLEFT", UIParent, "BOTTOM", - frame:GetChildren():GetWidth()*2.5 -  frame:GetAttribute("columnSpacing")*2, frame:GetChildren():GetHeight()*5 +  frame:GetAttribute("columnSpacing")*4 + 150)
+			else
+				frame:ClearAllPoints()
+				frame:Point("TOPLEFT", UIParent, "BOTTOM", - frame:GetChildren():GetWidth()*2.5 -  frame:GetAttribute("columnSpacing")*2, frame:GetChildren():GetHeight()*5 +  frame:GetAttribute("columnSpacing")*4 + 40)
+			end
 		end
 	end
 end
 
 function R.Update_All()
-	R.Update_Player(oUF_FreebPlayer)
-	R.Update_Target(oUF_FreebTarget)
-	R.Update_ToT(oUF_FreebTargettarget)
-	R.Update_Focus(oUF_FreebFocus)
-	R.Update_Pet(oUF_FreebPet)	
-	R.Update_FocusTarget(oUF_FreebFocustarget)
-	R.Update_Boss("oUF_FreebBoss")
-	R.Update_Party(oUF_Party)
-	R.Update_Raid()
+	oUF_FreebPlayer:UpdateLayout(R.isHealer)
+	oUF_FreebTarget:UpdateLayout(R.isHealer)
+	oUF_FreebTargettarget:UpdateLayout(R.isHealer)
+	oUF_FreebFocus:UpdateLayout(R.isHealer)
+	oUF_FreebPet:UpdateLayout(R.isHealer)
+	oUF_FreebFocustarget:UpdateLayout(R.isHealer)
+	for i=1, MAX_BOSS_FRAMES do
+		_G["oUF_FreebBoss"..i]:UpdateLayout(R.isHealer)
+	end
+	oUF_Party:UpdateLayout(R.isHealer)
+	for i=1, 5 do
+		_G["Raid_Freebgrid"..i]:UpdateLayout(R.isHealer)
+	end
 end

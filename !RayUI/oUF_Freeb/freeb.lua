@@ -1140,12 +1140,14 @@ local spawnHelper = function(self, unit, ...)
 end
 
 oUF:Factory(function(self)
-    spawnHelper(self, "player", "BOTTOM", -300, 450)
-    spawnHelper(self, "target", "BOTTOM", 0, 340)
-    spawnHelper(self, "targettarget", "BOTTOMLEFT", self.units.target, "BOTTOMRIGHT", 10, 1)
-    spawnHelper(self, "focus", "BOTTOMRIGHT", self.units.player, "TOPLEFT", -20, 36.5)
-    spawnHelper(self, "focustarget", "BOTTOMRIGHT", self.units.focus, "BOTTOMLEFT", -10, 1)
-    spawnHelper(self, "pet", "BOTTOM", 0, 220)
+    local player = spawnHelper(self, "player", "BOTTOM", -300, 450)	
+    local target = spawnHelper(self, "target", "BOTTOM", 0, 340)	
+    local targettarget = spawnHelper(self, "targettarget", "BOTTOMLEFT", self.units.target, "BOTTOMRIGHT", 10, 1)	
+    local focus = spawnHelper(self, "focus", "BOTTOMRIGHT", self.units.player, "TOPLEFT", -20, 36.5)	
+    local focustarget = spawnHelper(self, "focustarget", "BOTTOMRIGHT", self.units.focus, "BOTTOMLEFT", -10, 1)
+    local pet = spawnHelper(self, "pet", "BOTTOM", 0, 220)
+	
+	getmetatable(player).__index.UpdateLayout = R.UpdateSingle
 	
 	self:SetActiveStyle'Freeb - Party'
     local party = self:SpawnHeader('oUF_Party', nil, 
@@ -1162,6 +1164,8 @@ oUF:Factory(function(self)
 	party:Point("TOPRIGHT", oUF_FreebPlayer, "TOPLEFT", -20, 0)
 	party:SetScale(1)
 
+	getmetatable(party).__index.UpdateLayout = R.UpdateHeader
+	
     self:SetActiveStyle'Freeb - Arena'
     local arena = {}
 	--[[
