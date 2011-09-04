@@ -77,6 +77,37 @@ local fixStatusbar = function(bar)
     bar:GetStatusBarTexture():SetVertTile(false)
 end
 
+local function ComboDisplay(self, event, unit)
+	if(unit == 'pet') then return end
+	
+	local cpoints = self.CPoints
+	local cp
+	if (UnitHasVehicleUI("player") or UnitHasVehicleUI("vehicle")) then
+		cp = GetComboPoints('vehicle', 'target')
+	else
+		cp = GetComboPoints('player', 'target')
+	end
+
+	for i=1, MAX_COMBO_POINTS do
+		if(i <= cp) then
+			cpoints[i]:SetAlpha(1)
+		else
+			cpoints[i]:SetAlpha(0.15)
+		end
+	end
+	
+	if cpoints[1]:GetAlpha() == 1 then
+		for i=1, MAX_COMBO_POINTS do
+			cpoints[i]:Show()
+		end
+		
+	else
+		for i=1, MAX_COMBO_POINTS do
+			cpoints[i]:Hide()
+		end
+	end
+end
+
 local createStatusbar = function(parent, tex, layer, height, width, r, g, b, alpha)
     local bar = CreateFrame"StatusBar"
     bar:SetParent(parent)
@@ -616,12 +647,12 @@ local UnitSpecific = {
         func(self, ...)
 		CreateCastBar(self)
 		-- BarFader(self)
-
-        local _, class = UnitClass("player")
+		R.CreateTrinketButton(self)
+		
         -- Runes, Shards, HolyPower
-        if R.multicheck(class, "DEATHKNIGHT", "WARLOCK", "PALADIN") then
+        if R.multicheck(R.myclass, "DEATHKNIGHT", "WARLOCK", "PALADIN") then
             local count
-            if class == "DEATHKNIGHT" then 
+            if R.myclass == "DEATHKNIGHT" then 
                 count = 6 
             else 
                 count = 3 
@@ -639,10 +670,10 @@ local UnitSpecific = {
             for index = 1, count do
                 bars[i] = createStatusbar(bars, C["media"].normal, nil, 5, 200/count-5, 1, 1, 1, 1)
 
-                if class == "WARLOCK" then
+                if R.myclass == "WARLOCK" then
                     local color = oUF.colors.class["WARLOCK"]
                     bars[i]:SetStatusBarColor(color[1], color[2], color[3])
-                elseif class == "PALADIN" then
+                elseif R.myclass == "PALADIN" then
                     local color = self.colors.power["HOLY_POWER"]
                     bars[i]:SetStatusBarColor(color[1], color[2], color[3])
                 end 
@@ -662,17 +693,17 @@ local UnitSpecific = {
                 i=i-1
             end
 
-            if class == "DEATHKNIGHT" then
+            if R.myclass == "DEATHKNIGHT" then
                 bars[3], bars[4], bars[5], bars[6] = bars[5], bars[6], bars[3], bars[4]
                 self.Runes = bars
-            elseif class == "WARLOCK" then
+            elseif R.myclass == "WARLOCK" then
                 self.SoulShards = bars
-            elseif class == "PALADIN" then
+            elseif R.myclass == "PALADIN" then
                 self.HolyPower = bars
             end
         end
 
-        if class == "DRUID" then
+        if R.myclass == "DRUID" then
             local ebar = CreateFrame("Frame", nil, self)
             ebar:Point("TOPRIGHT", self, "BOTTOMRIGHT", 0, -8)
             ebar:SetSize(150, 16)
@@ -701,7 +732,7 @@ local UnitSpecific = {
             --EclipseBarFrame:Point("TOPRIGHT", self, "BOTTOMRIGHT", 0, -55)
         end
 
-        if  class == "SHAMAN" then
+        if  R.myclass == "SHAMAN" then
             self.TotemBar = {}
             self.TotemBar.Destroy = true
             for i = 1, 4 do
@@ -821,7 +852,7 @@ local UnitSpecific = {
 			b.size = 30
 			b.num = 14
 			b.spacing = 4.8
-			if R.multicheck(class, "DEATHKNIGHT", "WARLOCK", "PALADIN", "SHAMAN") then
+			if R.multicheck(R.myclass, "DEATHKNIGHT", "WARLOCK", "PALADIN", "SHAMAN") then
 				b:Point("BOTTOMRIGHT", self,  "TOPRIGHT", 0, 10)
 			else
 				b:Point("BOTTOMRIGHT", self,  "TOPRIGHT", 0, 5)
@@ -887,9 +918,47 @@ local UnitSpecific = {
         -- tpp.frequentUpdates = true
         -- self:Tag(tpp, '[freeb:pp]')
 
-        local cpoints = createFont(self, "OVERLAY", C["media"].font, 24, "THINOUTLINE", 1, 0, 0)
-        cpoints:Point('RIGHT', self, 'LEFT', -4, 0)
-        self:Tag(cpoints, '[cpoints]')
+		--================--
+		-- Combo Bars
+		--================--
+		
+		local bars = CreateFrame("Frame", nil, self)
+		bars:SetWidth(35)
+		bars:SetHeight(5)
+		bars:Point("BOTTOMLEFT", self, "TOP", - bars:GetWidth()*2.5 - 10,0)
+		
+		bars:SetBackdropBorderColor(0,0,0,0)
+		bars:SetBackdropColor(0,0,0,0)
+			
+		for i = 1, 5 do					
+			bars[i] = CreateFrame("StatusBar", self:GetName().."_Combo"..i, bars)
+			bars[i]:SetHeight(5)					
+			bars[i]:SetStatusBarTexture(C["media"].normal)
+			bars[i]:GetStatusBarTexture():SetHorizTile(false)
+								
+			if i == 1 then
+				bars[i]:SetPoint("LEFT", bars)
+			else
+				bars[i]:SetPoint("LEFT", bars[i-1], "RIGHT", 5, 0)
+			end
+			bars[i]:SetAlpha(0.15)
+			bars[i]:SetWidth(35)
+			bars[i].bg = bars[i]:CreateTexture(nil, "BACKGROUND")
+			bars[i].bg:SetAllPoints(bars[i])
+			bars[i].bg:SetTexture(C["media"].normal)
+			bars[i].bg.multiplier = .2
+
+			bars[i].bd = R.createBackdrop(bars[i], bars[i])
+		end
+			
+		bars[1]:SetStatusBarColor(0.69, 0.31, 0.31)		
+		bars[2]:SetStatusBarColor(0.69, 0.31, 0.31)
+		bars[3]:SetStatusBarColor(0.65, 0.63, 0.35)
+		bars[4]:SetStatusBarColor(0.65, 0.63, 0.35)
+		bars[5]:SetStatusBarColor(0.33, 0.59, 0.33)
+			
+		self.CPoints = bars
+		self.CPoints.Override = ComboDisplay
 		
 		tinsert(self.mouseovers, self.Health)
 		self.Health.PostUpdate = PostUpdateHealth

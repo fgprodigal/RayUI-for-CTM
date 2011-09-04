@@ -287,6 +287,151 @@ function R.postCreateIconSmall(auras, button)
     button.remaining = remaining
 end
 
+function R.CreateTrinketButton(frame)
+	local top = CreateFrame("Button", "TopTrinket", frame, "SecureActionButtonTemplate")
+	top:Size(frame:GetHeight())
+	top:StripTextures(true)
+	top:SetTemplate("Default")
+	-- top.bg = CreateFrame("Frame", nil, top)
+	-- top.bg:Point("TOPLEFT", -2, 2)
+	-- top.bg:Point("BOTTOMRIGHT", 2, -2)
+	-- top.bg:CreateShadow("Background")
+	top:StyleButton()
+	local hover = top:CreateTexture("frame", nil, self)
+	hover:SetTexture(1,1,1,0.3)
+	hover:SetHeight(top:GetHeight())
+	hover:SetWidth(top:GetWidth())
+	hover:Point("TOPLEFT",top, 1 , -1)
+	hover:Point("BOTTOMRIGHT",top, -1, 1)
+	top:SetHighlightTexture(hover)
+	local pushed = top:CreateTexture("frame", nil, self)
+	pushed:SetTexture(0.9,0.8,0.1,0.3)
+	pushed:SetHeight(top:GetHeight())
+	pushed:SetWidth(top:GetWidth())
+	pushed:Point("TOPLEFT",top,1,-1)
+	pushed:Point("BOTTOMRIGHT",top,-1,1)
+	top:SetPushedTexture(pushed)
+	
+	top:SetAttribute("type", "item")
+	top:SetAttribute("slot", 13)
+	top:SetID(13)
+	
+	top:EnableMouse(true)
+	top:RegisterForClicks("AnyUp")
+	
+	top:SetScript("OnEnter", function(self)
+		GameTooltip:SetOwner(self, "ANCHOR_TOP")
+		GameTooltip:SetInventoryItem("player", self:GetID())
+        GameTooltip:Show()
+	end)
+	top:SetScript("OnLeave", function(self)
+		GameTooltip:Hide()
+	end)
+	
+	top:RegisterEvent("BAG_UPDATE")
+	top:RegisterEvent("BAG_UPDATE_COOLDOWN")
+	top:RegisterEvent("PLAYER_ENTERING_WORLD")
+	top:RegisterEvent("PLAYER_ENTER_COMBAT")
+	top:RegisterEvent("PLAYER_REGEN_ENABLED")
+	top:RegisterEvent("PLAYER_REGEN_DISABLED")
+	top:RegisterEvent("ACTIONBAR_UPDATE_COOLDOWN")
+	top:RegisterEvent("UNIT_INVENTORY_CHANGED")
+	
+	top.texture = top:CreateTexture(nil, "OVERLAY")
+	top.texture:SetTexCoord(0.08, 0.92, 0.08, 0.92)
+	top.texture:Point("TOPLEFT", top ,"TOPLEFT", R.mult, -R.mult)
+	top.texture:Point("BOTTOMRIGHT", top ,"BOTTOMRIGHT", -R.mult, R.mult)
+	
+	top.cooldown = CreateFrame("Cooldown", "$parentCD", top, "CooldownFrameTemplate")
+	top.cooldown:SetAllPoints(top.texture)
+	
+	top.value = top:CreateFontString(nil, "OVERLAY")
+	top.value:SetFont(C["media"].pxfont, 8, "MONOCHROMEOUTLINE")
+	top.value:SetJustifyH("LEFT")
+	top.value:SetShadowColor(0, 0, 0)
+	top.value:SetShadowOffset(R.mult, -R.mult)
+	top.value:SetTextColor(1, 0, 0)
+	top.value:Point("CENTER", top, "CENTER")
+		
+	top:SetScript("OnEvent", function(self, event, ...)
+		self.texture:SetTexture(GetInventoryItemTexture("player", 13))
+		CooldownFrame_SetTimer(_G["TopTrinketCD"], GetInventoryItemCooldown("player", 13))
+	end)
+	
+	local bottom = CreateFrame("Button", "BottomTrinket", frame, "SecureActionButtonTemplate")
+	bottom:Size(frame:GetHeight())
+	bottom:StripTextures(true)
+	bottom:SetTemplate("Default")
+	-- bottom.bg = CreateFrame("Frame", nil, bottom)
+	-- bottom.bg:Point("TOPLEFT", -2, 2)
+	-- bottom.bg:Point("BOTTOMRIGHT", 2, -2)
+	-- bottom.bg:CreateShadow("Background")
+	bottom:StyleButton()
+	local hover = bottom:CreateTexture("frame", nil, self)
+	hover:SetTexture(1,1,1,0.3)
+	hover:SetHeight(bottom:GetHeight())
+	hover:SetWidth(bottom:GetWidth())
+	hover:Point("TOPLEFT",bottom, 1 , -1)
+	hover:Point("BOTTOMRIGHT",bottom, -1, 1)
+	bottom:SetHighlightTexture(hover)
+	local pushed = bottom:CreateTexture("frame", nil, self)
+	pushed:SetTexture(0.9,0.8,0.1,0.3)
+	pushed:SetHeight(bottom:GetHeight())
+	pushed:SetWidth(bottom:GetWidth())
+	pushed:Point("TOPLEFT",bottom,1,-1)
+	pushed:Point("BOTTOMRIGHT",bottom,-1,1)
+	bottom:SetPushedTexture(pushed)
+	
+	bottom:SetAttribute("type", "item")
+	bottom:SetAttribute("slot", 14)
+	bottom:SetID(14)
+	
+	bottom:EnableMouse(true)
+	bottom:RegisterForClicks("AnyUp")
+	
+	bottom:SetScript("OnEnter", function(self)
+		GameTooltip:SetOwner(self, "ANCHOR_TOP")
+		GameTooltip:SetInventoryItem("player", self:GetID())
+        GameTooltip:Show()
+	end)
+	bottom:SetScript("OnLeave", function(self)
+		GameTooltip:Hide()
+	end)
+	
+	bottom:RegisterEvent("BAG_UPDATE")
+	bottom:RegisterEvent("BAG_UPDATE_COOLDOWN")
+	bottom:RegisterEvent("PLAYER_ENTERING_WORLD")
+	bottom:RegisterEvent("PLAYER_ENTER_COMBAT")
+	bottom:RegisterEvent("PLAYER_REGEN_ENABLED")
+	bottom:RegisterEvent("PLAYER_REGEN_DISABLED")
+	bottom:RegisterEvent("ACTIONBAR_UPDATE_COOLDOWN")
+	bottom:RegisterEvent("UNIT_INVENTORY_CHANGED")
+	
+	bottom.texture = bottom:CreateTexture(nil, "OVERLAY")
+	bottom.texture:SetTexCoord(0.08, 0.92, 0.08, 0.92)
+	bottom.texture:Point("TOPLEFT", bottom ,"TOPLEFT", R.mult, -R.mult)
+	bottom.texture:Point("BOTTOMRIGHT", bottom ,"BOTTOMRIGHT", -R.mult, R.mult)
+
+	
+	bottom.cooldown = CreateFrame("Cooldown", "$parentCD", bottom, "CooldownFrameTemplate")
+	bottom.cooldown:SetAllPoints(bottom.texture)		
+	
+	bottom.value = bottom:CreateFontString(nil, "OVERLAY")
+	bottom.value:SetFont(C["media"].pxfont, 8, "MONOCHROMEOUTLINE")
+	bottom.value:SetJustifyH("LEFT")
+	bottom.value:SetShadowColor(0, 0, 0)
+	bottom.value:SetShadowOffset(R.mult, -R.mult)
+	bottom.value:SetTextColor(1, 0, 0)
+	bottom.value:Point("CENTER", bottom, "CENTER")
+		
+	bottom:SetScript("OnEvent", function(self, event, ...)
+		bottom.texture:SetTexture(GetInventoryItemTexture("player", 14))
+		CooldownFrame_SetTimer(_G["BottomTrinketCD"], GetInventoryItemCooldown("player", 14))
+	end)
+	bottom:Point("TOPLEFT", top, "TOPRIGHT", 1, 0)
+	top:Point("TOPLEFT", frame, "TOPRIGHT", 2, 1)
+end
+
 local CreateAuraTimer = function(self,elapsed)
     self.elapsed = (self.elapsed or 0) + elapsed
 
@@ -483,12 +628,11 @@ function R.UpdateSingle(frame, healer)
 			frame:DisableElement('Aura')
 		end		
 		if C["ouf"].PlayerBuffFilter then
-			local _, class = UnitClass("player")
 			local b = CreateFrame("Frame", nil, frame)
 			b.size = 30
 			b.num = 14
 			b.spacing = 4.8
-			if R.multicheck(class, "DEATHKNIGHT", "WARLOCK", "PALADIN", "SHAMAN") then
+			if R.multicheck(R.myclass, "DEATHKNIGHT", "WARLOCK", "PALADIN", "SHAMAN") then
 				b:Point("BOTTOMRIGHT", frame,  "TOPRIGHT", 0, 10)
 			else
 				b:Point("BOTTOMRIGHT", frame,  "TOPRIGHT", 0, 5)
@@ -566,7 +710,11 @@ function R.UpdateSingle(frame, healer)
 			debuffs.num = 9
 			debuffs["growth-x"] = "RIGHT"
 			debuffs["growth-y"] = "DOWN"
-			debuffs:Point("TOPLEFT", frame, "BOTTOMLEFT", 0, 50)
+			if R.myclass == "ROGUE" or R.myclass == "DRUID" then
+				debuffs:Point("TOPLEFT", frame, "BOTTOMLEFT", 0, 55)
+			else
+				debuffs:Point("TOPLEFT", frame, "BOTTOMLEFT", 0, 50)
+			end
 			debuffs.size = height
 
 			debuffs.PostCreateIcon = R.postCreateIconSmall
@@ -610,8 +758,12 @@ function R.UpdateSingle(frame, healer)
 			Auras["growth-y"] = "UP"
 			Auras.size = 30
 			Auras.onlyShowPlayer = true
-			Auras.CustomFilter = R.CustomFilter			
-			Auras:Point("BOTTOMLEFT", frame, "TOPLEFT", 0, 5)
+			Auras.CustomFilter = R.CustomFilter		
+			if R.myclass == "ROGUE" or R.myclass == "DRUID" then
+				Auras:Point("BOTTOMLEFT", frame, "TOPLEFT", 0, 10)
+			else
+				Auras:Point("BOTTOMLEFT", frame, "TOPLEFT", 0, 5)
+			end
 			Auras.gap = true
 			Auras.PostCreateIcon = R.postCreateIcon
 			Auras.PostUpdateIcon = R.postUpdateIcon

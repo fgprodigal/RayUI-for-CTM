@@ -1,5 +1,5 @@
 local L = LibStub("AceLocale-3.0"):GetLocale("Multishot")
-local dataDefaults = { levelup = false, achievement = true, party = false, raid = false, rares = true, repchange = false, delay1 = 1.2,  delay2 = 2, debug = false, trade = false, firstkill = false, close = false, uihide = false, played = false, charpane = true, guildlevelup = true, guildachievement = true, history = {} }
+local dataDefaults = { levelup = false, achievement = true, party = false, raid = false, rares = true, repchange = false, delay1 = 1.2,  delay2 = 2, debug = false, trade = false, firstkill = false, close = false, uihide = false, played = false, charpane = false, guildlevelup = true, guildachievement = true, history = {} }
 local dataOptions = {
   type = "group",
   name = "Multishot",
