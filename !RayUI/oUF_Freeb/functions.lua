@@ -509,17 +509,21 @@ function R.UpdateSingle(frame, healer)
 			if C["ouf"].HealFrames and healer then
 				frame:ClearAllPoints()
 				frame:Point("BOTTOM", -350, 350)
-				frame.Castbar:ClearAllPoints()
-				frame.Castbar:Point("TOP", frame, "BOTTOM", 0, -35)
-				frame.Castbar:Width(frame:GetWidth())
-				frame.Castbar:Height(10)
+				if frame.Castbar then
+					frame.Castbar:ClearAllPoints()
+					frame.Castbar:Point("TOP", frame, "BOTTOM", 0, -35)
+					frame.Castbar:Width(frame:GetWidth())
+					frame.Castbar:Height(10)
+				end
 			else
 				frame:ClearAllPoints()
 				frame:Point("BOTTOM", -300, 450)
-				frame.Castbar:ClearAllPoints()
-				frame.Castbar:Point("BOTTOM", UIParent, "BOTTOM", 0, 305)
-				frame.Castbar:Width(rABS_MainMenuBar:GetWidth())
-				frame.Castbar:Height(5)
+				if frame.Castbar then
+					frame.Castbar:ClearAllPoints()
+					frame.Castbar:Point("BOTTOM", UIParent, "BOTTOM", 0, 305)
+					frame.Castbar:Width(rABS_MainMenuBar:GetWidth())
+					frame.Castbar:Height(5)
+				end
 			end
 		end
 	elseif frame.unit == "target" then

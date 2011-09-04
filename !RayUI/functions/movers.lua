@@ -125,6 +125,7 @@ function R.CreateMover(parent, name, text, overlay, postdrag)
 		R.CreatedMovers[name]["p5"] = p5
 	end	
 	
+	CreateMover(parent, name, text, overlay, postdrag)
 end
 
 function R.ToggleMovers()
