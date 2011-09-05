@@ -53,19 +53,35 @@ end
 
 -- oUF.colors.power['MANA'] = { 78/255,  150/255,  222/255}
 -- oUF.colors.power['RAGE'] = {.69,.31,.31}
-oUF.colors.runes = {{0.87, 0.12, 0.23};{0.40, 0.95, 0.20};{0.14, 0.50, 1};{.70, .21, 0.94};}
-oUF.colors.power['MANA'] = {.3,.45,.65}
-oUF.colors.power['RAGE'] = {.7,.3,.3}
-oUF.colors.power['FOCUS'] = {.7,.45,.25}
-oUF.colors.power['ENERGY'] = {.65,.65,.35}
-oUF.colors.power['RUNIC_POWER'] = {.45,.45,.75}
-oUF.colors.power['AMMOSLOT'] = {.8,.6,0}
-oUF.colors.power['FUEL'] = {0,.55,.5}
-oUF.colors.power['POWER_TYPE_STEAM'] = {.55,.57,.61}
-oUF.colors.power['POWER_TYPE_PYRITE'] = {.6,.09,.17}
-oUF.colors.power['POWER_TYPE_HEAT'] = {.9,.45,.1}
-oUF.colors.power['POWER_TYPE_OOZE'] = {.1,.1,.9}
-oUF.colors.power['POWER_TYPE_BLOOD_POWER'] = {.9,.1,.1}
+-- oUF.colors.runes = {{0.87, 0.12, 0.23};{0.40, 0.95, 0.20};{0.14, 0.50, 1};{.70, .21, 0.94};}
+-- oUF.colors.power['MANA'] = {.3,.45,.65}
+-- oUF.colors.power['RAGE'] = {.7,.3,.3}
+-- oUF.colors.power['FOCUS'] = {.7,.45,.25}
+-- oUF.colors.power['ENERGY'] = {.65,.65,.35}
+-- oUF.colors.power['RUNIC_POWER'] = {.45,.45,.75}
+-- oUF.colors.power['AMMOSLOT'] = {.8,.6,0}
+-- oUF.colors.power['FUEL'] = {0,.55,.5}
+-- oUF.colors.power['POWER_TYPE_STEAM'] = {.55,.57,.61}
+-- oUF.colors.power['POWER_TYPE_PYRITE'] = {.6,.09,.17}
+-- oUF.colors.power['POWER_TYPE_HEAT'] = {.9,.45,.1}
+-- oUF.colors.power['POWER_TYPE_OOZE'] = {.1,.1,.9}
+-- oUF.colors.power['POWER_TYPE_BLOOD_POWER'] = {.9,.1,.1}
+
+do
+	local pcolor = oUF.colors.power
+	pcolor.MANA[1], pcolor.MANA[2], pcolor.MANA[3] = 0, 0.8, 1
+	pcolor.RUNIC_POWER[1], pcolor.RUNIC_POWER[2], pcolor.RUNIC_POWER[3] = 0.8, 0, 1
+
+	local rcolor = oUF.colors.reaction
+	rcolor[1][1], rcolor[1][2], rcolor[1][3] = 1,   0.2, 0.2 -- Hated
+	rcolor[2][1], rcolor[2][2], rcolor[2][3] = 1,   0.2, 0.2 -- Hostile
+	rcolor[3][1], rcolor[3][2], rcolor[3][3] = 1,   0.6, 0.2 -- Unfriendly
+	rcolor[4][1], rcolor[4][2], rcolor[4][3] = 1,   1,   0.2 -- Neutral
+	rcolor[5][1], rcolor[5][2], rcolor[5][3] = 0.2, 1,   0.2 -- Friendly
+	rcolor[6][1], rcolor[6][2], rcolor[6][3] = 0.2, 1,   0.2 -- Honored
+	rcolor[7][1], rcolor[7][2], rcolor[7][3] = 0.2, 1,   0.2 -- Revered
+	rcolor[8][1], rcolor[8][2], rcolor[8][3] = 0.2, 1,   0.2 -- Exalted
+end
 
 oUF.Tags['freeb:lvl'] = function(u) 
     local level = UnitLevel(u)

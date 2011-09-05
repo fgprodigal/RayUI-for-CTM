@@ -65,6 +65,8 @@
 	  
       if C["actionbar"].hotkeys then
         ho:SetFont(C["media"].pxfont, 11, "OUTLINE,MONOCHROME")
+		ho:SetShadowColor(0, 0, 0)
+		ho:SetShadowOffset(R.mult, -R.mult)
         ho:ClearAllPoints()
         ho:SetPoint("TOPRIGHT", 0, 0)
         ho:SetPoint("TOPLEFT", 0, 0)
@@ -84,6 +86,8 @@
 
       if C["actionbar"].itemcount then
         co:SetFont(C["media"].pxfont, 11, "OUTLINE,MONOCHROME")
+		co:SetShadowColor(0, 0, 0)
+		co:SetShadowOffset(R.mult, -R.mult)
         co:ClearAllPoints()
         co:SetPoint("BOTTOMRIGHT", bu, 0, 0)        
       else

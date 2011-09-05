@@ -10,4 +10,6 @@
 	<Script file="timerTracker.lua"/>
 	<Script file="chathide.lua"/>
 	<Script file="vehicle.lua"/>
+	<Script file="itemglow.lua"/>
+	<Script file="durability.lua"/>
 </Ui>

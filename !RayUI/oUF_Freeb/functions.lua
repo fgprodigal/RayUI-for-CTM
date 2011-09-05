@@ -223,6 +223,7 @@ end
 
 function R.postUpdateIcon(element, unit, button, index)
 	local name, _, _, _, dtype, duration, expirationTime, unitCaster, isStealable = UnitAura(unit, index, button.filter)
+	local color = DebuffTypeColor[dtype] or DebuffTypeColor.none
 	
 	if duration and duration > 0 then
 		button.time:Show()
@@ -237,14 +238,15 @@ function R.postUpdateIcon(element, unit, button, index)
 	if(button.debuff) then
 		if(unit == "target") then	
 			if (unitCaster == "player" or unitCaster == "vehicle") then
-				button.icon:SetDesaturated(false)                 
+				button.icon:SetDesaturated(false)
+				button.bg:SetBackdropBorderColor(color.r, color.g, color.b)				
 			elseif(not UnitPlayerControlled(unit)) then -- If Unit is Player Controlled don"t desaturate debuffs
 				button:SetBackdropColor(0, 0, 0)
 				button.overlay:SetVertexColor(0.3, 0.3, 0.3)      
-				button.icon:SetDesaturated(true)  
+				button.icon:SetDesaturated(true) 
+				button.bg:SetBackdropBorderColor(0, 0, 0)
 			end
 		end
-		button.bg:SetBackdropBorderColor(0, 0, 0)
 	else
 		if (isStealable or ((R.myclass == "PRIEST" or R.myclass == "SHAMAN" or R.myclass == "MAGE") and dtype == "Magic")) and not UnitIsFriend("player", unit) then
 			button.bg:SetBackdropBorderColor(78/255, 150/255, 222/255)

@@ -9,9 +9,7 @@ local R, C, DB = unpack(select(2, ...))
       local holder = CreateFrame("Frame","rABS_TotemBar",UIParent, "SecureHandlerStateTemplate")
       holder:SetWidth(bar:GetWidth())
       holder:SetHeight(bar:GetHeight())
-	
-	  R.CreateMover(holder, "TotemBarMover", "图腾条锚点", true)  
-            
+	            
       bar:SetParent(holder)
       bar:SetAllPoints(holder)
       bar:EnableMouse(false)
@@ -25,6 +23,8 @@ local R, C, DB = unpack(select(2, ...))
       --hooksecurefunc(bar, "SetPoint", moveTotem)  
       holder:SetPoint("BOTTOMRIGHT", "UIParent", "BOTTOMRIGHT", -134, 180)  
       holder:SetScale(C["actionbar"].barscale)
+	  
+	  R.CreateMover(holder, "TotemBarMover", "图腾条锚点", true)  
 
 
     end

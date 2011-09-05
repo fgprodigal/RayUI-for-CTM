@@ -286,21 +286,31 @@ local aurafilter = {
 
 local function PostUpdateHealth(self, unit, cur, max)
 	local curhealth, maxhealth = UnitHealth(unit), UnitHealthMax(unit)
-
+	local color
+	if UnitIsPlayer(unit) then
+		local _, class = UnitClass(unit)
+		color = oUF.colors.class[class]
+	elseif UnitIsTapped(unit) and not UnitIsTappedByPlayer(unit) then
+		color = oUF.colors.tapped
+	elseif UnitIsEnemy(unit, "player") then
+		color = oUF.colors.reaction[1]
+	else
+		color = oUF.colors.reaction[UnitReaction(unit, "player") or 5]
+	end
 	if cur < max then
-		if UnitCanAssist("player", unit) then
+		if R.isHealer and UnitCanAssist("player", unit) then
 			if self.__owner.isMouseOver and not unit:match("^party") then
-				self.value:SetFormattedText("%s", UnitHealth(unit))
+				self.value:SetFormattedText("|cff%02x%02x%02x%s|r", color[1] * 255, color[2] * 255, color[3] * 255, R.ShortValue(UnitHealth(unit)))
 			else
-				self.value:SetFormattedText("%s", UnitHealth(unit) - UnitHealthMax(unit))
+				self.value:SetFormattedText("|cff%02x%02x%02x%s|r", color[1] * 255, color[2] * 255, color[3] * 255, R.ShortValue(UnitHealth(unit) - UnitHealthMax(unit)))
 			end
 		elseif self.__owner.isMouseOver then
-			self.value:SetFormattedText("%s", UnitHealth(unit))
+			self.value:SetFormattedText("|cff%02x%02x%02x%s|r", color[1] * 255, color[2] * 255, color[3] * 255, R.ShortValue(UnitHealth(unit)))
 		else
-			self.value:SetFormattedText("%d%%", floor(UnitHealth(unit) / UnitHealthMax(unit) * 100 + 0.5))
+			self.value:SetFormattedText("|cff%02x%02x%02x%d%%|r", color[1] * 255, color[2] * 255, color[3] * 255, floor(UnitHealth(unit) / UnitHealthMax(unit) * 100 + 0.5))
 		end
 	elseif self.__owner.isMouseOver then
-		self.value:SetFormattedText("%s", UnitHealthMax(unit))
+		self.value:SetFormattedText("|cff%02x%02x%02x%s|r", color[1] * 255, color[2] * 255, color[3] * 255, R.ShortValue(UnitHealthMax(unit)))
 	else
 		self.value:SetText(nil)
 	end
@@ -331,7 +341,7 @@ local function PostUpdatePower(self, unit, cur, max)
 	local color = oUF.colors.power[type] or oUF.colors.power.FUEL
 	if cur < max then
 		if self.__owner.isMouseOver then
-			self.value:SetFormattedText("%s - |cff%02x%02x%02x%s|r", UnitPower(unit), color[1] * 255, color[2] * 255, color[3] * 255, UnitPowerMax(unit))
+			self.value:SetFormattedText("%s - |cff%02x%02x%02x%s|r", R.ShortValue(UnitPower(unit)), color[1] * 255, color[2] * 255, color[3] * 255, R.ShortValue(UnitPowerMax(unit)))
 		elseif type == "MANA" then
 			self.value:SetFormattedText("|cff%02x%02x%02x%d%%|r", color[1] * 255, color[2] * 255, color[3] * 255, floor(UnitPower(unit) / UnitPowerMax(unit) * 100 + 0.5))
 		elseif cur > 0 then
@@ -340,7 +350,7 @@ local function PostUpdatePower(self, unit, cur, max)
 			self.value:SetText(nil)
 		end
 	elseif type == "MANA" and self.__owner.isMouseOver then
-		self.value:SetFormattedText("|cff%02x%02x%02x%s|r", color[1] * 255, color[2] * 255, color[3] * 255, UnitPowerMax(unit))
+		self.value:SetFormattedText("|cff%02x%02x%02x%s|r", color[1] * 255, color[2] * 255, color[3] * 255, R.ShortValue(UnitPowerMax(unit)))
 	else
 		self.value:SetText(nil)
 	end

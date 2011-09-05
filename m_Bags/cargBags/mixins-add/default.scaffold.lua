@@ -24,7 +24,7 @@ DESCRIPTION
 DEPENDENCIES
 	mixins/api-common.lua
 ]]
-
+local R, C = unpack(RayUI)
 local addon, ns = ...
 local cargBags = ns.cargBags
 
@@ -39,6 +39,9 @@ local function ItemButton_Scaffold(self)
 	self.Cooldown = _G[name.."Cooldown"]
 	self.Quest = _G[name.."IconQuestTexture"]
 	self.Border = _G[name.."NormalTexture"]
+	self.Count:SetFont(C.media.pxfont, 11, "OUTLINE,MONOCHROME")
+	self.Count:SetShadowColor(0, 0, 0)
+	self.Count:SetShadowOffset(R.mult, -R.mult)
 end
 
 --[[!
@@ -114,21 +117,36 @@ local function ItemButton_UpdateQuest(self, item)
 		tL,tR,tT,tB = unpack(self.glowCoords)
 	end
 
+	if(not self.glow) then
+		self.glow = CreateFrame("Frame",nil,self)
+		self.glow:Point("TOPLEFT", 0, 0)
+		self.glow:Point("BOTTOMRIGHT", 0, 0)
+		self.glow:CreateBorder()
+	end
+
 	if(texture) then
-		self.Quest:SetTexture(texture)
-		self.Quest:SetTexCoord(tL,tR,tT,tB)
-		self.Quest:SetBlendMode(blend)
-		self.Quest:SetVertexColor(r,g,b,a)
-		self.Quest:Show()
+		if item.questID then
+			r, g, b = 1, 0, 0
+		else
+			if(r==1) then r, g, b = 1, 1, 0 end
+		end
+		self.glow:SetBackdropBorderColor(r, g, b)
+		self.glow:Show()
 	else
-		self.Quest:Hide()
+		self.glow:Hide()
+	end
+	
+	if (item.rarity) then
+		self:SetAlpha(1)
+	else
+		self:SetAlpha(0)
 	end
 
 	if(self.OnUpdateQuest) then self:OnUpdateQuest(item) end
 end
 
 cargBags:RegisterScaffold("Default", function(self)
-	self.glowTex = "Interface\\Buttons\\UI-ActionButton-Border" --! @property glowTex <string> The textures used for the glow
+	self.glowTex = "" --! @property glowTex <string> The textures used for the glow
 	self.glowAlpha = 0.8 --! @property glowAlpha <number> The alpha of the glow texture
 	self.glowBlend = "ADD" --! @property glowBlend <string> The blendMode of the glow texture
 	self.glowCoords = { 16/64, 48/64, 16/64, 48/64 } --! @property glowCoords <table> Indexed table of texCoords for the glow texture
