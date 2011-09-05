@@ -52,7 +52,7 @@ end
 local function ItemButton_Update(self, item)
 	self.Icon:SetTexture(item.texture or self.bgTex)
 	self.Icon:SetTexCoord(.08, .92, .08, .92)
-	self.Border:SetTexCoord(.02, .98, .02, .98)
+	self.Border:Hide()
 	if(item.count and item.count > 1) then
 		self.Count:SetText(item.count >= 1e3 and "*" or item.count)
 		self.Count:Show()
@@ -137,9 +137,9 @@ local function ItemButton_UpdateQuest(self, item)
 	end
 	
 	if (item.rarity) then
-		self:SetAlpha(1)
+		-- self:SetAlpha(1)
 	else
-		self:SetAlpha(0)
+		-- self:SetAlpha(0)
 	end
 
 	if(self.OnUpdateQuest) then self:OnUpdateQuest(item) end

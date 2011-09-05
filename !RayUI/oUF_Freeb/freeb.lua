@@ -447,7 +447,7 @@ local func = function(self, unit)
     end
 
     hp.frequentUpdates = true
-    hp.Smooth = false
+    hp.Smooth = true
 
     local hpbg = hp:CreateTexture(nil, "BORDER")
     hpbg:SetAllPoints(hp)
@@ -484,7 +484,7 @@ local func = function(self, unit)
         pp:SetPoint"BOTTOM" 
 
         pp.frequentUpdates = true
-        pp.Smooth = false
+        pp.Smooth = true
 		pp.colorTapping = true
 		pp.colorDisconnected = true
 		pp.colorReaction = true
@@ -655,7 +655,12 @@ local UnitSpecific = {
     --========================--
     player = function(self, ...)
         func(self, ...)
-		CreateCastBar(self)
+		
+		R.CreateCastBar(self)
+		-- self.Castbar.Icon:Hide()
+		-- self.Castbar.Time:Hide()
+		
+		-- CreateCastBar(self)
 		-- BarFader(self)
 		R.CreateTrinketButton(self)
 		
@@ -919,7 +924,8 @@ local UnitSpecific = {
     --========================--
     target = function(self, ...)
         func(self, ...)
-		CreateCastBar(self)
+		-- CreateCastBar(self)
+		R.CreateCastBar(self)
 		SpellRange(self)
 		R.FocusText(self)
 		
@@ -1036,7 +1042,8 @@ local UnitSpecific = {
     --========================--
     focus = function(self, ...)
         func(self, ...)
-		CreateCastBar(self)
+		-- CreateCastBar(self)
+		R.CreateCastBar(self)
 	    SpellRange(self)
 		R.ClearFocusText(self)
 	    self:SetWidth(width-40)

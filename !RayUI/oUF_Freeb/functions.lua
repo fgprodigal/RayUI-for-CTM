@@ -138,6 +138,82 @@ function R.ClearFocusText(self)
 	clearfocus:SetScript("OnEnter", function(self) clearfocustext:SetTextColor(.6,.6,.6) end)
 end
 
+local function PostCastStart(self, unit, name, rank, castid)
+	local r, g, b
+	if UnitIsUnit(unit, "player") then
+		r, g, b = unpack(oUF.colors.class[R.myclass])
+	elseif self.interrupt then
+		r, g, b = unpack(1, 0.7, 0)
+	elseif UnitIsFriend(unit, "player") then
+		r, g, b = unpack(oUF.colors.reaction[5])
+	else
+		r, g, b = unpack(oUF.colors.reaction[1])
+	end
+	self:SetBackdropColor(r * 1, g * 1, b * 1)
+	self:SetStatusBarColor(r * 1, g * 1, b * 1)
+
+	if self.SafeZone then
+		self:GetStatusBarTexture():SetDrawLayer("ARTWORK")
+		self.SafeZone:SetDrawLayer("BORDER")
+		self.SafeZone:ClearAllPoints()
+		self.SafeZone:SetPoint("TOPRIGHT", self)
+		self.SafeZone:SetPoint("BOTTOMRIGHT", self)
+	end
+end
+
+local function PostChannelStart(self, unit, name, rank, text)
+	local r, g, b
+	if UnitIsUnit(unit, "player") then
+		r, g, b = unpack(oUF.colors.class[R.myclass])
+	elseif self.interrupt then
+		r, g, b = unpack(oUF.colors.reaction[4])
+	elseif UnitIsFriend(unit, "player") then
+		r, g, b = unpack(oUF.colors.reaction[5])
+	else
+		r, g, b = unpack(oUF.colors.reaction[1])
+	end
+	self:SetBackdropColor(r * 1, g * 1, b * 1)
+	self:SetStatusBarColor(r * 1, g * 1, b * 1)
+
+	if self.SafeZone then
+		self:GetStatusBarTexture():SetDrawLayer("BORDER")
+		self.SafeZone:SetDrawLayer("ARTWORK")
+		self.SafeZone:ClearAllPoints()
+		self.SafeZone:SetPoint("TOPLEFT", self)
+		self.SafeZone:SetPoint("BOTTOMLEFT", self)
+	end
+end
+
+function R.CreateCastBar(self)
+	self.Castbar = CreateFrame("StatusBar", nil, self)
+	self.Castbar:SetStatusBarTexture(C["media"].normal)
+	self.Castbar:GetStatusBarTexture():SetDrawLayer("BORDER")
+	self.Castbar:GetStatusBarTexture():SetHorizTile(false)
+	self.Castbar:GetStatusBarTexture():SetVertTile(false)
+	self.Castbar:SetFrameStrata("HIGH")
+	self.Castbar:SetHeight(4)
+	R.createBackdrop(self.Castbar, self.Castbar)
+	self.Castbar.bg = self.Castbar:CreateTexture(nil, "BACKGROUND")
+	self.Castbar.bg:SetTexture(C["media"].normal)
+	self.Castbar.bg:SetAllPoints(true)
+	self.Castbar.bg:SetVertexColor(.12,.12,.12)
+	self.Castbar.Text = self.Castbar:CreateFontString(nil, "OVERLAY")
+	self.Castbar.Text:SetFont(C.media.font, 12, "THINOUTLINE")
+	self.Castbar.Text:SetPoint("BOTTOMLEFT", self.Castbar, "TOPLEFT", 5, -2)
+	self.Castbar.Time = self.Castbar:CreateFontString(nil, "OVERLAY")
+	self.Castbar.Time:SetFont(C.media.font, 12, "THINOUTLINE")
+	self.Castbar.Time:SetJustifyH("RIGHT")
+	self.Castbar.Time:SetPoint("BOTTOMRIGHT", self.Castbar, "TOPRIGHT", -5, -2)
+	if self.unit == "player" then
+		self.Castbar.SafeZone = self.Castbar:CreateTexture(nil, "BORDER")
+		self.Castbar.SafeZone:SetTexture(C["media"].normal)
+		self.Castbar.SafeZone:SetVertexColor(1, 0.5, 0, 0.75)
+		self.Castbar.bg:SetVertexColor(.2,.2,.2)		
+	end
+	self.Castbar.PostCastStart = PostCastStart
+	self.Castbar.PostChannelStart = PostChannelStart
+end
+
 local formatTime = function(s)
 	local day, hour, minute = 86400, 3600, 60
 	if s >= day then
@@ -798,6 +874,9 @@ function R.UpdateSingle(frame, healer)
 			end
 		end
 	elseif frame.unit == "focus" then
+		frame.Castbar:ClearAllPoints()
+		frame.Castbar:Point("CENTER", UIParent, "CENTER", 0, 100)
+		frame.Castbar:Width(200)
 	elseif frame.unit == "focustarget" then
 	elseif frame.unit == "pet" then
 		if R.TableIsEmpty(R.SavePath["UFPos"]["Freeb - Pet"]) then
