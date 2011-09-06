@@ -161,6 +161,28 @@ local PostAltUpdate = function(altpp, min, cur, max)
     end 
 end
 
+local function ColorGradient(perc, color1, color2, color3)
+	local r1,g1,b1 = 1, 0, 0
+	local r2,g2,b2 = .85, .8, .45
+	local r3,g3,b3 = .12, .12, .12
+
+	if perc >= 1 then
+		return r3, g3, b3
+	elseif perc <= 0 then
+		return r1, g1, b1
+	end
+
+	local segment, relperc = math.modf(perc*(3-1))
+	local offset = (segment*3)+1
+
+	-- < 50% > 0%
+	if(offset == 1) then
+		return r1 + (r2-r1)*relperc, g1 + (g2-g1)*relperc, b1 + (b2-b1)*relperc
+	end
+	-- < 99% > 50%
+	return r2 + (r3-r2)*relperc, g2 + (g3-g2)*relperc, b2 + (b3-b2)*relperc
+end
+
 local GetTime = GetTime
 local floor, fmod = floor, math.fmod
 local day, hour, minute = 86400, 3600, 60
@@ -286,6 +308,35 @@ local aurafilter = {
 
 local function PostUpdateHealth(self, unit, cur, max)
 	local curhealth, maxhealth = UnitHealth(unit), UnitHealthMax(unit)
+	local r, g, b
+	r,g,b = ColorGradient(curhealth/maxhealth)
+	
+	if not C["ouf"].HealthcolorClass then
+		if(b) then
+			self:SetStatusBarColor(r, g, b, 1)
+		elseif not UnitIsConnected(unit) then
+			local color = colors.disconnected
+			local power = self.__owner.Power
+			if power then
+				power:SetValue(0)
+				if power.value then
+					power.value:SetText(nil)
+				end
+			end
+			return self.value:SetFormattedText("|cff%02x%02x%02x%s|r", color[1] * 255, color[2] * 255, color[3] * 255, PLAYER_OFFLINE)
+		elseif UnitIsDeadOrGhost(unit) then
+			local color = colors.disconnected
+			local power = self.__owner.Power
+			if power then
+				power:SetValue(0)
+				if power.value then
+					power.value:SetText(nil)
+				end
+			end
+			return self.value:SetFormattedText("|cff%02x%02x%02x%s|r", color[1] * 255, color[2] * 255, color[3] * 255, UnitIsGhost(unit) and GHOST or DEAD)
+		end
+	end
+	
 	local color
 	if UnitIsPlayer(unit) then
 		local _, class = UnitClass(unit)
@@ -443,7 +494,8 @@ local func = function(self, unit)
     if(unit == "pet" or unit == "targettarget" or unit == "focustarget") then
         hp:SetHeight(0)
     else
-        hp:SetHeight(height*hpheight)
+        -- hp:SetHeight(height*hpheight)
+        hp:SetHeight(height)
     end
 
     hp.frequentUpdates = true
@@ -463,16 +515,16 @@ local func = function(self, unit)
         hpbg:SetVertexColor(1,1,1,.6)
     end
 
-    if not (unit == "targettarget" or unit == "pet" or unit == "focustarget" or unit == "player" or unit == "target") then
-        local hpp = createFont(hp, "OVERLAY", C["media"].font, C["media"].fontsize, C["media"].fontflag, 1, 1, 1)
-		if (unit=="player" or unit == "focus" or unit == "boss" ) then
-		hpp:Point("LEFT", hp, 2, 0)
-        self:Tag(hpp, '[freeb:hp]')
-		else
-        hpp:Point("RIGHT", hp, -2, 0)
-        self:Tag(hpp, '[freeb:hp]')
-		end
-    end
+    -- if not (unit == "targettarget" or unit == "pet" or unit == "focustarget" or unit == "player" or unit == "target") then
+        -- local hpp = createFont(hp, "OVERLAY", C["media"].font, C["media"].fontsize, C["media"].fontflag, 1, 1, 1)
+		-- if (unit=="player" or unit == "focus" or unit == "boss" ) then
+		-- hpp:Point("LEFT", hp, 2, 0)
+        -- self:Tag(hpp, '[freeb:hp]')
+		-- else
+        -- hpp:Point("RIGHT", hp, -2, 0)
+        -- self:Tag(hpp, '[freeb:hp]')
+		-- end
+    -- end
 
     hp.bg = hpbg
     self.Health = hp
@@ -508,6 +560,7 @@ local func = function(self, unit)
 		pp.value:SetFont(C["media"].font, C["media"].fontsize, C["media"].fontflag)
 		pp.value:Point("RIGHT", self, "RIGHT", -5, 0)
 		-- end
+		pp:SetFrameLevel(hp:GetFrameLevel()+1)
         self.Power = pp
     end
 
@@ -569,40 +622,41 @@ local func = function(self, unit)
     self.PhaseIcon = PhaseIcon
 
     local name = createFont(hp, "OVERLAY", C["media"].font, 15, C["media"].fontflag, 1, 1, 1)	
-        if(unit == "targettarget" or unit == "pet" or unit == "partypet" or unit == "partytarget" or unit == "focustarget") then
-            name:Point("TOP", hp, 0, 12)
-			name:SetFont(C["media"].font,14, C["media"].fontflag)
-        elseif(unit == "target" ) then
-            name:Point("BOTTOM", hp,  6, -27)
-            name:Point("RIGHT", hp, 0, 0)
-            name:SetJustifyH"LEFT"
-		 elseif(unit == "focus" ) then
-            name:Point("BOTTOM", hp, -4, -27)
-            name:Point("LEFT", hp, 0, 0)
-			name:SetFont(C["media"].font,14, C["media"].fontflag)
-            name:SetJustifyH"RIGHT"		
-		elseif( unit == "player" or unit =="party") then
-            name:Point("BOTTOM", hp, -4, -27)
-            name:Point("LEFT", hp, 0, 0)
-            name:SetJustifyH"RIGHT"		
+	if(unit == "targettarget" or unit == "pet" or unit == "partypet" or unit == "partytarget" or unit == "focustarget") then
+		name:Point("TOP", hp, 0, 12)
+		name:SetFont(C["media"].font,14, C["media"].fontflag)
+	elseif(unit == "target" ) then
+		name:Point("BOTTOM", hp,  6, -15)
+		name:Point("RIGHT", hp, 0, 0)
+		name:SetJustifyH"LEFT"
+	 elseif(unit == "focus" ) then
+		name:Point("BOTTOM", hp, -4, -15)
+		name:Point("LEFT", hp, 0, 0)
+		name:SetFont(C["media"].font,14, C["media"].fontflag)
+		name:SetJustifyH"RIGHT"		
+	elseif( unit == "player" or unit =="party") then
+		name:Point("BOTTOM", hp, -4, -15)
+		name:Point("LEFT", hp, 0, 0)
+		name:SetJustifyH"RIGHT"		
+	else
+		name:Point("TOP", hp, 0, 20)
+		name:Point("LEFT", hp, 0, 0)
+		name:SetJustifyH"RIGHT"		
+	end
+	self.Name = name
+	
+	if C["ouf"].HealthcolorClass then
+		if(unit == "targettarget" or unit == "focustarget" or unit == "pet" or unit == "partypet" or unit == "partytarget" ) then
+			self:Tag(name, '[freeb:name]')
 		else
-            name:Point("TOP", hp, 0, 20)
-            name:Point("LEFT", hp, 0, 0)
-            name:SetJustifyH"RIGHT"		
-        end
-
-        if C["ouf"].HealthcolorClass then
-            if(unit == "targettarget" or unit == "focustarget" or unit == "pet" or unit == "partypet" or unit == "partytarget" ) then
-                self:Tag(name, '[freeb:name]')
-            else
-                self:Tag(name, '[freeb:name] [freeb:info]')
-            end
-        else
-            if(unit == "targettarget" or unit == "focustarget" or unit == "pet" or unit == "partypet" or unit == "partytarget" ) then
-                self:Tag(name, '[freeb:color][freeb:name]')
-            else
-                self:Tag(name, '[freeb:color][freeb:name] [freeb:info]')
-            end
+			self:Tag(name, '[freeb:name] [freeb:info]')
+		end
+	else
+		if(unit == "targettarget" or unit == "focustarget" or unit == "pet" or unit == "partypet" or unit == "partytarget" ) then
+			self:Tag(name, '[freeb:color][freeb:name]')
+		else
+			self:Tag(name, '[freeb:color][freeb:name] [freeb:info]')
+		end
     end
 
     local ricon = hp:CreateTexture(nil, 'OVERLAY')
@@ -628,6 +682,16 @@ local func = function(self, unit)
     end
 
     self:SetScale(scale)
+	
+	tinsert(self.mouseovers, self.Health)
+	self.Health.PostUpdate = PostUpdateHealth
+	
+	if self.Power then
+		if self.Power.value then 
+			tinsert(self.mouseovers, self.Power)
+			self.Power.PostUpdate = PostUpdatePower	
+		end
+	end
 end
 
 local BarFader = function(self)
@@ -910,13 +974,13 @@ local UnitSpecific = {
 			-- _G[bar].bg = R.createBackdrop(_G[bar], _G[bar])
 		-- end
 	  
-		tinsert(self.mouseovers, self.Health)
-		self.Health.PostUpdate = PostUpdateHealth
+		-- tinsert(self.mouseovers, self.Health)
+		-- self.Health.PostUpdate = PostUpdateHealth
 		
-		if self.Power.value then 
-			tinsert(self.mouseovers, self.Power)
-			self.Power.PostUpdate = PostUpdatePower	
-		end
+		-- if self.Power.value then 
+			-- tinsert(self.mouseovers, self.Power)
+			-- self.Power.PostUpdate = PostUpdatePower	
+		-- end
     end,
 
     --========================--
@@ -976,13 +1040,13 @@ local UnitSpecific = {
 		self.CPoints = bars
 		self.CPoints.Override = ComboDisplay
 		
-		tinsert(self.mouseovers, self.Health)
-		self.Health.PostUpdate = PostUpdateHealth
+		-- tinsert(self.mouseovers, self.Health)
+		-- self.Health.PostUpdate = PostUpdateHealth
 		
-		if self.Power.value then 
-			tinsert(self.mouseovers, self.Power)
-			self.Power.PostUpdate = PostUpdatePower	
-		end
+		-- if self.Power.value then 
+			-- tinsert(self.mouseovers, self.Power)
+			-- self.Power.PostUpdate = PostUpdatePower	
+		-- end
     end,
 
     --========================--
@@ -1052,10 +1116,10 @@ local UnitSpecific = {
             Portrait(self)
         end
 		]]
-		local tpp = createFont(self.Health, "OVERLAY", C["media"].font, C["media"].fontsize, C["media"].fontflag, 1, 1, 1)
-        tpp:Point("RIGHT", -2, 0)
-        tpp.frequentUpdates = true
-        self:Tag(tpp, '[freeb:pp]')
+		-- local tpp = createFont(self.Health, "OVERLAY", C["media"].font, C["media"].fontsize, C["media"].fontflag, 1, 1, 1)
+        -- tpp:Point("RIGHT", -2, 0)
+        -- tpp.frequentUpdates = true
+        -- self:Tag(tpp, '[freeb:pp]')
 
         if auras then 
 		    -- local buffs = CreateFrame("Frame", nil, self)
@@ -1093,6 +1157,13 @@ local UnitSpecific = {
             self.Debuffs = debuffs
             self.Debuffs.num = 14
         end
+		-- tinsert(self.mouseovers, self.Health)
+		-- self.Health.PostUpdate = PostUpdateHealth
+		
+		-- if self.Power.value then 
+			-- tinsert(self.mouseovers, self.Power)
+			-- self.Power.PostUpdate = PostUpdatePower	
+		-- end
     end,
 
     --========================--

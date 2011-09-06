@@ -310,9 +310,9 @@ local function CreatePanel(f, t, w, h, a1, p, a2, x, y)
 	f:SetFrameStrata("BACKGROUND")
 	f:SetPoint(a1, p, a2, scale(x), scale(y))
 	if t ~= "Transparent" then
-		f:CreateShadow(t,"Background")
+		f:CreateShadow("Background")
 	else
-		f:CreateShadow(t)
+		f:CreateShadow()
 	end
 end
 

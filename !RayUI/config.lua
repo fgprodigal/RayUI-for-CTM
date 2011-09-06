@@ -26,6 +26,7 @@ DB["ouf"]={
 	highlight_texture = "Interface\\AddOns\\!RayUI\\media\\raidbg",
 	debuffBorder = "Interface\\AddOns\\!RayUI\\media\\iconborder",
 
+	showPortrait = false,
 	PlayerBuffFilter = true,
 	DebuffOnyshowPlayer = true,
 	Powercolor = true,
@@ -58,7 +59,6 @@ DB["ouf"]={
 	RCheckIcon = true, -- show raid check icon
 	Castbars = true, -- use built-in castbars
 	showLFDIcons = true, -- Show dungeon role icons in raid/party
-	showPortrait = true,
 	--Frame positions
 
 	--player

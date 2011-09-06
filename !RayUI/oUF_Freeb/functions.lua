@@ -63,7 +63,7 @@ function R.createBackdrop(parent, anchor)
         frame:SetBackdrop(frameBD)
     end
 
-    frame:SetBackdropColor(0, 0, 0, 0.8)
+    frame:SetBackdropColor(0.1, 0.1, 0.1)
     frame:SetBackdropBorderColor(0, 0, 0)
 
     return frame
@@ -203,7 +203,14 @@ function R.CreateCastBar(self)
 	self.Castbar.Time = self.Castbar:CreateFontString(nil, "OVERLAY")
 	self.Castbar.Time:SetFont(C.media.font, 12, "THINOUTLINE")
 	self.Castbar.Time:SetJustifyH("RIGHT")
-	self.Castbar.Time:SetPoint("BOTTOMRIGHT", self.Castbar, "TOPRIGHT", -5, -2)
+	self.Castbar.Time:SetPoint("BOTTOMRIGHT", self.Castbar, "TOPRIGHT", -5, -2)	
+	self.Castbar.Iconbg = CreateFrame("Frame", nil ,self.Castbar)
+	self.Castbar.Iconbg:SetPoint("BOTTOMRIGHT", self.Castbar, "BOTTOMLEFT", -5, 0)
+	self.Castbar.Iconbg:SetSize(21, 21)
+	R.createBackdrop(self.Castbar.Iconbg, self.Castbar.Iconbg)
+	self.Castbar.Icon = self.Castbar:CreateTexture(nil, "OVERLAY")
+	self.Castbar.Icon:SetAllPoints(self.Castbar.Iconbg)
+	self.Castbar.Icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
 	if self.unit == "player" then
 		self.Castbar.SafeZone = self.Castbar:CreateTexture(nil, "BORDER")
 		self.Castbar.SafeZone:SetTexture(C["media"].normal)
@@ -660,7 +667,7 @@ function R.UpdateSingle(frame, healer)
         frame.Health.bg.multiplier = .2
     else
 		frame.Health:SetStatusBarColor(.1, .1, .1, 1)
-        frame.Health.bg:SetVertexColor(1,1,1,.6)
+        frame.Health.bg:SetVertexColor(0.12, 0.12, 0.12, 1)
     end
 	if frame.Power then
 		frame.Power.colorClass = nil
@@ -727,25 +734,43 @@ function R.UpdateSingle(frame, healer)
 			frame.Buffs = b
 			frame:EnableElement('Aura')
 		end
+		if C["ouf"].HealFrames and healer then
+			frame.Name:Show()
+			if frame.Castbar then
+				frame.Castbar:ClearAllPoints()
+				frame.Castbar:Point("TOPRIGHT", frame, "TOPRIGHT", 0, -50)
+				frame.Castbar:Width(frame:GetWidth()-25)
+				frame.Castbar:Height(20)
+				frame.Castbar.Text:ClearAllPoints()
+				frame.Castbar.Text:SetPoint("LEFT", frame.Castbar, "LEFT", 5, 0)
+				frame.Castbar.Time:ClearAllPoints()
+				frame.Castbar.Time:SetPoint("RIGHT", frame.Castbar, "RIGHT", -5, 0)
+				frame.Castbar.Icon:Show()
+				frame.Castbar.Iconbg:Show()
+			end
+		else
+			frame.Name:Hide()
+			if frame.Castbar then
+				frame.Castbar:ClearAllPoints()
+				frame.Castbar:Point("TOPRIGHT", frame, "TOPRIGHT", 0, -35)
+				frame.Castbar:Width(frame:GetWidth())
+				frame.Castbar:Height(5)
+				frame.Castbar.Text:ClearAllPoints()
+				frame.Castbar.Text:SetPoint("BOTTOMLEFT", frame.Castbar, "TOPLEFT", 5, -2)	
+				frame.Castbar.Time:ClearAllPoints()
+				frame.Castbar.Time:SetPoint("BOTTOMRIGHT", frame.Castbar, "TOPRIGHT", -5, -2)
+				frame.Castbar.Icon:Hide()
+				frame.Castbar.Iconbg:Hide()
+			end
+		end
+		
 		if R.TableIsEmpty(R.SavePath["UFPos"]["Freeb - Player"]) then
 			if C["ouf"].HealFrames and healer then
 				frame:ClearAllPoints()
-				frame:Point("BOTTOM", -350, 350)
-				if frame.Castbar then
-					frame.Castbar:ClearAllPoints()
-					frame.Castbar:Point("TOP", frame, "BOTTOM", 0, -35)
-					frame.Castbar:Width(frame:GetWidth())
-					frame.Castbar:Height(10)
-				end
+				frame:Point("BOTTOM", -350, 350)				
 			else
 				frame:ClearAllPoints()
 				frame:Point("BOTTOM", -300, 450)
-				if frame.Castbar then
-					frame.Castbar:ClearAllPoints()
-					frame.Castbar:Point("BOTTOM", UIParent, "BOTTOM", 0, 305)
-					frame.Castbar:Width(rABS_MainMenuBar:GetWidth())
-					frame.Castbar:Height(5)
-				end
 			end
 		end
 	elseif frame.unit == "target" then
@@ -779,6 +804,25 @@ function R.UpdateSingle(frame, healer)
 		if frame:IsElementEnabled('Aura') then
 			frame:DisableElement('Aura')
 		end		
+		if C["ouf"].HealFrames and healer then
+			frame.Castbar:ClearAllPoints()
+			frame.Castbar:Point("TOPRIGHT", frame, "TOPRIGHT", 0, -50)
+			frame.Castbar:Width(frame:GetWidth()-25)
+			frame.Castbar:Height(20)
+			frame.Castbar.Text:ClearAllPoints()
+			frame.Castbar.Text:SetPoint("LEFT", frame.Castbar, "LEFT", 5, 0)
+			frame.Castbar.Time:ClearAllPoints()
+			frame.Castbar.Time:SetPoint("RIGHT", frame.Castbar, "RIGHT", -5, 0)
+		else
+			frame.Castbar:ClearAllPoints()
+			frame.Castbar:Point("TOPRIGHT", frame, "TOPRIGHT", 0, -42)
+			frame.Castbar:Width(frame:GetWidth()-25)
+			frame.Castbar:Height(20)
+			frame.Castbar.Text:ClearAllPoints()
+			frame.Castbar.Text:SetPoint("LEFT", frame.Castbar, "LEFT", 5, 0)
+			frame.Castbar.Time:ClearAllPoints()
+			frame.Castbar.Time:SetPoint("RIGHT", frame.Castbar, "RIGHT", -5, 0)
+		end
 		if (C["ouf"].HealFrames and healer) or not C["ouf"].DebuffOnyshowPlayer then
 			local debuffs = CreateFrame("Frame", nil, frame)
 			debuffs:SetHeight(height)
@@ -817,11 +861,6 @@ function R.UpdateSingle(frame, healer)
 			frame.Buffs = buffs
 			frame.Buffs.num = 32
 			frame:EnableElement('Aura')
-			
-			frame.Castbar:ClearAllPoints()
-			frame.Castbar:Point("TOP", frame, "BOTTOM", 0, -35)
-			frame.Castbar:Width(frame:GetWidth())
-			frame.Castbar:Height(10)
 		else
 			Auras = CreateFrame("Frame", nil, frame)
 			Auras:SetHeight(42)
@@ -847,12 +886,6 @@ function R.UpdateSingle(frame, healer)
 			Auras.PostUpdateIcon = R.postUpdateIcon
 			frame.Auras = Auras
 			frame:EnableElement('Aura')
-			
-			frame:Point("BOTTOM", -300, 450)
-			frame.Castbar:ClearAllPoints()
-			frame.Castbar:Point("CENTER", UIParent, "CENTER", 0, 50)
-			frame.Castbar:Width(240)
-			frame.Castbar:Height(5)
 		end
 		if R.TableIsEmpty(R.SavePath["UFPos"]["Freeb - Target"]) then
 			if C["ouf"].HealFrames and healer then

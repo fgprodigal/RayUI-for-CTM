@@ -162,7 +162,7 @@ function MyContainer:OnCreate(name, settings)
 		-- This one shows currencies, ammo and - most important - money!
 		local tagDisplay = self:SpawnPlugin("TagDisplay", "[money]", infoFrame)
 		tagDisplay:SetFontObject("NumberFontNormal")
-		tagDisplay:SetFont("Fonts\\bLEI00D.ttf", 14)
+		tagDisplay:SetFont("Fonts\\ZYKai_T.ttf", 14)
 		tagDisplay:SetPoint("RIGHT", infoFrame,"RIGHT",0,0)
 		
 		-- Plugin: BagBar
@@ -180,7 +180,7 @@ function MyContainer:OnCreate(name, settings)
 		-- Plugin: SearchBar
 		local searchText = infoFrame:CreateFontString(nil, "OVERLAY")
 		searchText:SetPoint("LEFT", infoFrame, "LEFT", 0, 0)
-		searchText:SetFont("Fonts\\bLEI00D.ttf", 14)
+		searchText:SetFont("Fonts\\ZYKai_T.ttf", 14)
 		searchText:SetText("搜索") -- our searchbar comes up when we click on infoFrame
 
 		local search = self:SpawnPlugin("SearchBar", infoFrame)
@@ -206,7 +206,7 @@ function MyContainer:OnCreate(name, settings)
 		local bagToggleText = bagToggle:CreateFontString(nil, "OVERLAY")
 		bagToggleText:SetPoint("CENTER", bagToggle)
 		bagToggleText:SetFontObject(GameFontNormalSmall)
-		bagToggleText:SetFont("Fonts\\bLEI00D.TTF", 14)
+		bagToggleText:SetFont("Fonts\\ZYKai_T.TTF", 14)
 		bagToggleText:SetText("背包")
 		
 		-- Jpack Button --
@@ -219,7 +219,7 @@ function MyContainer:OnCreate(name, settings)
 		local JpackButtonText = JpackButton:CreateFontString(nil, "OVERLAY")
 		JpackButtonText:SetPoint("CENTER", JpackButton)
 		JpackButtonText:SetFontObject(GameFontNormalSmall)
-		JpackButtonText:SetFont("Fonts\\bLEI00D.TTF", 14)
+		JpackButtonText:SetFont("Fonts\\ZYKai_T.TTF", 14)
 		JpackButtonText:SetText("整理背包")
 
 		-- CloseButton --
@@ -248,7 +248,7 @@ function MyContainer:OnCreate(name, settings)
  	elseif name == "ItemSets" then
 		setname = self:CreateFontString(nil,"OVERLAY")
 		setname:SetPoint("TOPLEFT", self, "TOPLEFT",5,-5)
-		setname:SetFont("Fonts\\bLEI00D.TTF", 14, "THINOUTLINE")
+		setname:SetFont("Fonts\\ZYKai_T.TTF", 14, "THINOUTLINE")
 		setname:SetText(string.format(EQUIPMENT_SETS,' ')) 
 	end
 end

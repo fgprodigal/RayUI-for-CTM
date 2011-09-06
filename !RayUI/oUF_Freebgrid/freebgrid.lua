@@ -28,6 +28,28 @@ local function menu(self)
     return ToggleDropDownMenu(1, nil, dropdown, 'cursor', 0, 0)
 end
 
+local function ColorGradient(perc, color1, color2, color3)
+	local r1,g1,b1 = 1, 0, 0
+	local r2,g2,b2 = .85, .8, .45
+	local r3,g3,b3 = .12, .12, .12
+
+	if perc >= 1 then
+		return r3, g3, b3
+	elseif perc <= 0 then
+		return r1, g1, b1
+	end
+
+	local segment, relperc = math.modf(perc*(3-1))
+	local offset = (segment*3)+1
+
+	-- < 50% > 0%
+	if(offset == 1) then
+		return r1 + (r2-r1)*relperc, g1 + (g2-g1)*relperc, b1 + (b2-b1)*relperc
+	end
+	-- < 99% > 50%
+	return r2 + (r3-r2)*relperc, g2 + (g3-g2)*relperc, b2 + (b3-b2)*relperc
+end
+
 local init = function(self)
     if (ns.db and ns.db.hidemenu) and InCombatLockdown() then
         return
@@ -208,27 +230,53 @@ local function PostHealth(hp, unit)
 		hp.colorClass=true
 		hp.bg.multiplier = .2
 	else
-		local r, g, b, t
-		if(UnitIsPlayer(unit)) then
-			local _, class = UnitClass(unit)
-			t = colors.class[class]
-		else		
-			r, g, b = .2, .9, .1
-		end
-
-		if(t) then
-			r, g, b = t[1], t[2], t[3]
-		end
-
+		local curhealth, maxhealth = UnitHealth(unit), UnitHealthMax(unit)
+		local r, g, b
+		r,g,b = ColorGradient(curhealth/maxhealth)
+		
 		if(b) then
-			if ns.db.reversecolors then
-				hp.bg:SetVertexColor(r*.2, g*.2, b*.2)
-				hp:SetStatusBarColor(r, g, b)
-			else
-				hp.bg:SetVertexColor(1, 1, 1,.6)
-				hp:SetStatusBarColor(.1, .1, .1)
+			hp:SetStatusBarColor(r, g, b, 1)
+		elseif not UnitIsConnected(unit) then
+			local color = colors.disconnected
+			local power = hp.__owner.Power
+			if power then
+				power:SetValue(0)
+				if power.value then
+					power.value:SetText(nil)
+				end
+			end
+		elseif UnitIsDeadOrGhost(unit) then
+			local color = colors.disconnected
+			local power = hp.__owner.Power
+			if power then
+				power:SetValue(0)
+				if power.value then
+					power.value:SetText(nil)
+				end
 			end
 		end
+		hp.bg:SetVertexColor(0.12, 0.12, 0.12, 1)
+		-- local r, g, b, t
+		-- if(UnitIsPlayer(unit)) then
+			-- local _, class = UnitClass(unit)
+			-- t = colors.class[class]
+		-- else		
+			-- r, g, b = .2, .9, .1
+		-- end
+
+		-- if(t) then
+			-- r, g, b = t[1], t[2], t[3]
+		-- end
+
+		-- if(b) then
+			-- if ns.db.reversecolors then
+				-- hp.bg:SetVertexColor(r*.2, g*.2, b*.2)
+				-- hp:SetStatusBarColor(r, g, b)
+			-- else
+				-- hp.bg:SetVertexColor(1, 1, 1,.6)
+				-- hp:SetStatusBarColor(.1, .1, .1)
+			-- end
+		-- end
 	end
 end
 
@@ -272,10 +320,10 @@ local function PostPower(power, unit)
         -- power:Show()
         if(ns.db.porientation == "VERTICAL")then
             power:SetWidth(ns.db.width*ns.db.powerbarsize)
-            self.Health:SetWidth((0.98 - ns.db.powerbarsize)*ns.db.width - 1)
+            self.Health:SetWidth((0.98 - ns.db.powerbarsize)*ns.db.width-1)
         else
             power:SetHeight(ns.db.height*ns.db.powerbarsize)
-            self.Health:SetHeight((0.98 - ns.db.powerbarsize)*ns.db.height - 1)
+            self.Health:SetHeight((0.98 - ns.db.powerbarsize)*ns.db.height-1)
         end
     -- else
         -- power:Hide()
