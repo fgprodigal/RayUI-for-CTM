@@ -142,8 +142,9 @@ local function PostCastStart(self, unit, name, rank, castid)
 	local r, g, b
 	if UnitIsUnit(unit, "player") then
 		r, g, b = unpack(oUF.colors.class[R.myclass])
+		if R.myname == "夏可" then r, g, b = 95/255, 182/255, 255/255 end
 	elseif self.interrupt then
-		r, g, b = unpack(1, 0.7, 0)
+		r, g, b = 1, 0.7, 0
 	elseif UnitIsFriend(unit, "player") then
 		r, g, b = unpack(oUF.colors.reaction[5])
 	else
@@ -165,8 +166,9 @@ local function PostChannelStart(self, unit, name, rank, text)
 	local r, g, b
 	if UnitIsUnit(unit, "player") then
 		r, g, b = unpack(oUF.colors.class[R.myclass])
+		if R.myname == "夏可" then r, g, b = 95/255, 182/255, 255/255 end
 	elseif self.interrupt then
-		r, g, b = unpack(oUF.colors.reaction[4])
+		r, g, b = 1, 0.7, 0
 	elseif UnitIsFriend(unit, "player") then
 		r, g, b = unpack(oUF.colors.reaction[5])
 	else

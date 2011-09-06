@@ -545,7 +545,7 @@ for i=1,numf do
 	f:SetClampRectInsets(0,0,ct.fontsize,0)
 	if(i==1)then
 		f:SetJustifyH(ct.justify_1)
-		f:SetPoint("BOTTOMRIGHT",UIParent, "CENTER", -259, 500)
+		f:SetPoint("BOTTOMRIGHT",UIParent, "CENTER", -180, 40)
 		f:SetHeight(220)
 		f:SetWidth(180)
 	elseif(i==2)then
@@ -827,7 +827,7 @@ SlashCmdList["XCT"]=function(input)
 		end
 	elseif(input=="mypos")then
 		xCT1:ClearAllPoints()
-		xCT1:SetPoint("BOTTOMRIGHT",UIParent, "BOTTOM", -259, 500)
+		xCT1:SetPoint("BOTTOMRIGHT",UIParent, "CENTER", -180, 40)
 		xCT1:SetHeight(220)
 		xCT1:SetWidth(180)
 		xCT2:ClearAllPoints()

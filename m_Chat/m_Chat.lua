@@ -1,14 +1,16 @@
-﻿local AutoApply = true											-- /setchat upon UI loading
+﻿local R, C= unpack(RayUI)
+local AutoApply = true											-- /setchat upon UI loading
 --Setchat parameters. Those parameters will apply to ChatFrame1 when you use /setchat
 local def_position = {"BOTTOMLEFT",UIParent,"BOTTOMLEFT",10,30} -- Chat Frame position
 local chat_height = 140
-local chat_width = 362
+local chat_width = 400
 local fontsize = 15
 local fontFlag = "THINOUTLINE"
 --other variables
-local eb_point = {"BOTTOM", -200, 180}		-- Editbox position
-local eb_width = 400						-- Editbox width
+local eb_point = {"BOTTOMLEFT", 10, 165}		-- Editbox position
+local eb_width = chat_width						-- Editbox width
 local tscol = "64C2F5"						-- Timestamp coloring
+local TimeStampsCopy = true
 local LinkHover = {}; LinkHover.show = {	-- enable (true) or disable (false) LinkHover functionality for different things in chat
 	["achievement"] = true,
 	["enchant"]     = true,
@@ -46,7 +48,19 @@ CHAT_FRAME_TAB_NORMAL_NOMOUSE_ALPHA = 0
 CHAT_FRAME_TAB_SELECTED_NOMOUSE_ALPHA = 0
 
 ---------------- > Function to move and scale chatframes 
-SetChat = function()
+function SetChatColor()
+	--Adjust Chat Colors
+	--General
+	ChangeChatColor("CHANNEL1", 195/255, 230/255, 232/255)
+	--Trade
+	ChangeChatColor("CHANNEL2", 232/255, 158/255, 121/255)
+	--Local Defense
+	ChangeChatColor("CHANNEL3", 232/255, 228/255, 121/255)
+end
+SlashCmdList["SETCHATCOLOR"] = SetChatColor
+SLASH_SETCHATCOLOR1 = "/setchatcolor"
+
+function SetChat()
     FCF_SetLocked(ChatFrame1, nil)
 	FCF_SetChatWindowFontSize(self, ChatFrame1, fontsize) 
     ChatFrame1:ClearAllPoints()
@@ -98,7 +112,7 @@ do
 	--EditBox Module
 		local ebParts = {'Left', 'Mid', 'Right'}
 		local eb = _G['ChatFrame'..i..'EditBox']
-		local cf = _G[format("%s%d", "ChatFrame", i)]
+		--local cf = _G[format("%s%d", "ChatFrame", i)]
 		for _, ebPart in ipairs(ebParts) do
 			_G['ChatFrame'..i..'EditBox'..ebPart]:SetTexture(0, 0, 0, 0)
 			local ebed = _G['ChatFrame'..i..'EditBoxFocus'..ebPart]
@@ -107,10 +121,10 @@ do
 		end
 		eb:SetAltArrowKeyMode(false)
 		eb:ClearAllPoints()
-		eb:SetPoint("BOTTOMLEFT", cf, "TOPLEFT",  0, 0)
-		--eb:SetPoint("BOTTOMLEFT", UIParent, eb_point[1], eb_point[2], eb_point[3])
-		eb:SetPoint("BOTTOMRIGHT", cf, "TOPRIGHT", 0, 0)
-		--eb:SetPoint("BOTTOMRIGHT", UIParent, eb_point[1], eb_point[2]+eb_width, eb_point[3])
+		--eb:SetPoint("BOTTOMLEFT", cf, "TOPLEFT",  0, 0)
+		eb:SetPoint("BOTTOMLEFT", UIParent, eb_point[1], eb_point[2], eb_point[3])
+		--eb:SetPoint("BOTTOMRIGHT", cf, "TOPRIGHT", 0, 0)
+		eb:SetPoint("BOTTOMRIGHT", UIParent, eb_point[1], eb_point[2]+eb_width, eb_point[3])
 		eb:EnableMouse(false)
 	
 	--Remove scroll buttons
@@ -127,7 +141,7 @@ do
 		bb:SetHeight(18)
 		bb:SetWidth(18)
 		bb:ClearAllPoints()
-		bb:SetPoint("TOPRIGHT", cf, "TOPRIGHT", 0, -6)
+		bb:SetPoint("TOPRIGHT", cf, "TOPRIGHT", 0, -20)
 		bb:SetAlpha(0.4)
 		bb.SetPoint = function() end
 		bb:SetScript("OnClick", BottomButtonClick)
@@ -138,6 +152,145 @@ do
 		cf:SetShadowOffset(0, 0)
 		cf:SetShadowColor(0, 0, 0, 0)
 	end
+end
+
+-----------------------------------------------------------------------------
+-- Copy on chatframes feature
+-----------------------------------------------------------------------------
+
+local lines = {}
+local frame = nil
+local editBox = nil
+local isf = nil
+
+local sizes = {
+	":14:14",
+	":16:16",
+	":12:20",
+	":14",
+}
+
+local function CreatCopyFrame()
+	frame = CreateFrame("Frame", "CopyFrame", UIParent)
+	frame:CreateShadow("Background")
+	frame:Height(200)
+	frame:SetScale(1)
+	frame:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
+	frame:SetSize(400,400)
+	frame:Hide()
+	frame:EnableMouse(true)
+	frame:SetFrameStrata("DIALOG")
+
+	local scrollArea = CreateFrame("ScrollFrame", "CopyScroll", frame, "UIPanelScrollFrameTemplate")
+	scrollArea:Point("TOPLEFT", frame, "TOPLEFT", 8, -30)
+	scrollArea:Point("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -30, 8)
+	
+	R.ReskinScroll(CopyScrollScrollBar)
+
+	editBox = CreateFrame("EditBox", "CopyBox", frame)
+	editBox:SetMultiLine(true)
+	editBox:SetMaxLetters(99999)
+	editBox:EnableMouse(true)
+	editBox:SetAutoFocus(false)
+	editBox:SetFontObject(ChatFontNormal)
+	editBox:SetWidth(scrollArea:GetWidth())
+	editBox:Height(200)
+	editBox:SetScript("OnEscapePressed", function()
+		frame:Hide()
+	end)
+	
+	--EXTREME HACK..
+	editBox:SetScript("OnTextSet", function(self)
+		local text = self:GetText()
+		
+		for _, size in pairs(sizes) do
+			if string.find(text, size) then
+				self:SetText(string.gsub(text, size, ":12:12"))
+			end		
+		end
+	end)
+
+	scrollArea:SetScrollChild(editBox)
+
+	local close = CreateFrame("Button", "CopyCloseButton", frame, "UIPanelCloseButton")
+	close:EnableMouse(true)
+	close:SetScript("OnMouseUp", function()
+		frame:Hide()
+	end)
+	
+	R.ReskinClose(close)	
+	close:ClearAllPoints()
+	close:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -7, -5)
+	isf = true
+end
+
+local function GetLines(...)
+	--[[		Grab all those lines		]]--
+	local ct = 1
+	for i = select("#", ...), 1, -1 do
+		local region = select(i, ...)
+		if region:GetObjectType() == "FontString" then
+			lines[ct] = tostring(region:GetText())
+			ct = ct + 1
+		end
+	end
+	return ct - 1
+end
+
+local function Copy(cf)
+	local _, size = cf:GetFont()
+	FCF_SetChatWindowFontSize(cf, cf, 0.01)
+	local lineCt = GetLines(cf:GetRegions())
+	local text = table.concat(lines, "\n", 1, lineCt)
+	FCF_SetChatWindowFontSize(cf, cf, size)
+	if not isf then CreatCopyFrame() end
+	if frame:IsShown() then frame:Hide() return end
+	frame:Show()
+	editBox:SetText(text)
+end
+
+local function ChatCopyButtons(id)
+	local cf = _G[format("ChatFrame%d",  id)]
+	local tab = _G[format("ChatFrame%dTab", id)]
+	local name = FCF_GetChatWindowInfo(id)
+	local point = GetChatWindowSavedPosition(id)
+	local _, fontSize = FCF_GetChatWindowInfo(id)
+	local _, _, _, _, _, _, _, _, docked, _ = GetChatWindowInfo(id)
+	local button = _G[format("ButtonCF%d", id)]
+	
+	if not button then
+		local button = CreateFrame("Button", format("ButtonCF%d", id), cf)
+		button:Height(22)
+		button:Width(20)
+		button:SetAlpha(0)
+		button:SetPoint("TOPRIGHT", 0, 0)
+		button:SetTemplate("Default", true)
+		
+		local buttontex = button:CreateTexture(nil, 'OVERLAY')
+		buttontex:SetPoint('TOPLEFT', button, 'TOPLEFT', 2, -2)
+		buttontex:SetPoint('BOTTOMRIGHT', button, 'BOTTOMRIGHT', -2, 2)
+		buttontex:SetTexture([[Interface\AddOns\m_chat\copy.tga]])
+		
+		if id == 1 then
+			button:SetScript("OnMouseUp", function(self, btn)
+				if btn == "RightButton" then
+					ToggleFrame(ChatMenu)
+				else
+					Copy(cf)
+				end
+			end)
+		else
+			button:SetScript("OnMouseUp", function(self, btn)
+				Copy(cf)
+			end)		
+		end
+		
+		button:SetScript("OnEnter", function() 
+			button:SetAlpha(1) 
+		end)
+		button:SetScript("OnLeave", function() button:SetAlpha(0) end)
+	end
+
 end
 
 ---------------- > TellTarget function
@@ -162,22 +315,22 @@ local newAddMsg = {}
 local chn, rplc
 do
 	rplc = {
-		"[GEN]", --General
-		"[T]", --Trade
-		"[WD]", --WorldDefense
-		"[LD]", --LocalDefense
-		"[LFG]", --LookingForGroup
-		"[GR]", --GuildRecruitment
-		"[BG]", --Battleground
-		"[BGL]", --Battleground Leader
+		"[綜合]", --General
+		"[交易]", --Trade
+		"[世界防務]", --WorldDefense
+		"[本地防務]", --LocalDefense
+		"[尋求組隊]", --LookingForGroup
+		"[公會招募]", --GuildRecruitment
+		"[戰場]", --Battleground
+		"[戰場領袖]", --Battleground Leader
 		"[G]", --Guild
 		"[P]", --Party
-		"[PL]", --Party Leader
-		"[PL]", --Party Leader (Guide)
+		"[隊長]", --Party Leader
+		"[隊長]", --Party Leader (Guide)
 		"[O]", --Officer
-		"[R]", --Raid
+		"[Raid]", --Raid
 		"[RL]", --Raid Leader
-		"[RW]", --Raid Warning
+		"[團隊警告]", --Raid Warning
 	}
 	chn = {
 		"%[%d+%. General.-%]",
@@ -258,75 +411,6 @@ end
 hooksecurefunc("ChatFrame_OpenChat",eb_mouseon)
 hooksecurefunc("ChatEdit_SendText",eb_mouseoff)
 
----------------- > ChatCopy Module
-local lines = {}
-do
-	--Create Frames/Objects
-	local frame = CreateFrame("Frame", "BCMCopyFrame", UIParent)
-	frame:SetBackdrop({bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
-		edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
-		tile = true, tileSize = 16, edgeSize = 16,
-		insets = {left = 3, right = 3, top = 5, bottom = 3}})
-	frame:SetBackdropColor(0,0,0,1)
-	frame:SetWidth(500)
-	frame:SetHeight(400)
-	frame:SetPoint("CENTER", UIParent, "CENTER")
-	frame:Hide()
-	frame:SetFrameStrata("DIALOG")
-
-	local scrollArea = CreateFrame("ScrollFrame", "BCMCopyScroll", frame, "UIPanelScrollFrameTemplate")
-	scrollArea:SetPoint("TOPLEFT", frame, "TOPLEFT", 8, -30)
-	scrollArea:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -30, 8)
-
-	local editBox = CreateFrame("EditBox", "BCMCopyBox", frame)
-	editBox:SetMultiLine(true)
-	editBox:SetMaxLetters(99999)
-	editBox:EnableMouse(true)
-	editBox:SetAutoFocus(false)
-	editBox:SetFontObject(ChatFontNormal)
-	editBox:SetWidth(400)
-	editBox:SetHeight(270)
-	editBox:SetScript("OnEscapePressed", function(f) f:GetParent():GetParent():Hide() f:SetText("") end)
-	scrollArea:SetScrollChild(editBox)
-
-	local close = CreateFrame("Button", "BCMCloseButton", frame, "UIPanelCloseButton")
-	close:SetPoint("TOPRIGHT", frame, "TOPRIGHT")
-	local copyFunc = function(frame, btn)
-		local cf = _G[format("%s%d", "ChatFrame", frame:GetID())]
-		local _, size = cf:GetFont()
-		FCF_SetChatWindowFontSize(cf, cf, 0.01)
-		local ct = 1
-		for i = select("#", cf:GetRegions()), 1, -1 do
-			local region = select(i, cf:GetRegions())
-			if region:GetObjectType() == "FontString" then
-				lines[ct] = tostring(region:GetText())
-				ct = ct + 1
-			end
-		end
-		local lineCt = ct - 1
-		local text = table.concat(lines, "\n", 1, lineCt)
-		FCF_SetChatWindowFontSize(cf, cf, size)
-		BCMCopyFrame:Show()
-		BCMCopyBox:SetText(text)
-		BCMCopyBox:HighlightText(0)
-		wipe(lines)
-	end
-	local hintFunc = function(frame)
-		GameTooltip:SetOwner(frame, "ANCHOR_TOP")
-		if SHOW_NEWBIE_TIPS == "1" then
-			GameTooltip:AddLine(CHAT_OPTIONS_LABEL, 1, 1, 1)
-			GameTooltip:AddLine(NEWBIE_TOOLTIP_CHATOPTIONS, nil, nil, nil, 1)
-		end
-		GameTooltip:AddLine((SHOW_NEWBIE_TIPS == "1" and "\n" or "").."|TInterface\\Buttons\\UI-GuildButton-OfficerNote-Disabled:27|t双击复制.", 1, 0, 0)
-		GameTooltip:Show()
-	end
-	for i = 1, 10 do
-		local tab = _G[format("%s%d%s", "ChatFrame", i, "Tab")]
-		tab:SetScript("OnDoubleClick", copyFunc)
-		tab:SetScript("OnEnter", hintFunc)
-	end
-end
-
 ---------------- > Show tooltips when hovering a link in chat (credits to Adys for his LinkHover)
 function LinkHover.OnHyperlinkEnter(_this, linkData, link)
 	local t = linkData:match("^(.-):")
@@ -380,72 +464,103 @@ ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL_NOTICE", function(msg) return 
 ChatFrame_AddMessageEventFilter("CHAT_MSG_AFK", function(msg) return true end)
 ChatFrame_AddMessageEventFilter("CHAT_MSG_DND", function(msg) return true end)
 
----------------- > URL Copy Module
-local color = "8A9DDE"
+---------------- > Per-line chat copy via time stamps
+if TimeStampsCopy then
+	local AddMsg = {}
+	local AddMessage = function(frame, text, ...)
+		text = string.gsub(text, "%[(%d+)%. .-%]", "[%1]")
+		text = ('|cffffffff|Hm_Chat|h|r%s|h %s'):format('|cff'..tscol..''..date('[%H:%M]')..'|r', text)
+		return AddMsg[frame:GetName()](frame, text, ...)
+	end
+	for i = 1, 10 do
+		if i ~= 2 then
+			AddMsg["ChatFrame"..i] = _G["ChatFrame"..i].AddMessage
+			_G["ChatFrame"..i].AddMessage = AddMessage
+		end
+	end
+end
+
+---------------- > URL copy Module
 local tlds = {
 	"[Cc][Oo][Mm]", "[Uu][Kk]", "[Nn][Ee][Tt]", "[Dd][Ee]", "[Ff][Rr]", "[Ee][Ss]",
 	"[Bb][Ee]", "[Cc][Cc]", "[Uu][Ss]", "[Kk][Oo]", "[Cc][Hh]", "[Tt][Ww]",
 	"[Cc][Nn]", "[Rr][Uu]", "[Gg][Rr]", "[Ii][Tt]", "[Ee][Uu]", "[Tt][Vv]",
 	"[Nn][Ll]", "[Hh][Uu]", "[Oo][Rr][Gg]", "[Ss][Ee]", "[Nn][Oo]", "[Ff][Ii]"
 }
-local gsub = gsub
-local filterFunc = function(self, event, msg, ...)
-	for i=1, 24 do --Number of TLD's in tlds table
-		local newMsg, found = gsub(msg, "(%S-%."..tlds[i].."/?%S*)", "|cff"..color.."|Hurl:%1|h[%1]|h|r")
-		if found > 0 then
-			return false, newMsg, ...
+
+local uPatterns = {
+	'(http://%S+)',
+	'(www%.%S+)',
+	'(%d+%.%d+%.%d+%.%d+:?%d*)',
+}
+
+local cTypes = {
+	"CHAT_MSG_CHANNEL",
+	"CHAT_MSG_YELL",
+	"CHAT_MSG_GUILD",
+	"CHAT_MSG_OFFICER",
+	"CHAT_MSG_PARTY",
+	"CHAT_MSG_PARTY_LEADER",
+	"CHAT_MSG_RAID",
+	"CHAT_MSG_RAID_LEADER",
+	"CHAT_MSG_SAY",
+	"CHAT_MSG_WHISPER",
+	"CHAT_MSG_BN_WHISPER",
+	"CHAT_MSG_BN_CONVERSATION",
+}
+
+for _, event in pairs(cTypes) do
+	ChatFrame_AddMessageEventFilter(event, function(self, event, text, ...)
+		for i=1, 24 do
+			local result, matches = string.gsub(text, "(%S-%."..tlds[i].."/?%S*)", "|cff8A9DDE|Hurl:%1|h[%1]|h|r")
+			if matches > 0 then
+				return false, result, ...
+			end
 		end
-	end
-	local newMsg, found = gsub(msg, "(%d+%.%d+%.%d+%.%d+:?%d*/?%S*)", "|cff"..color.."|Hurl:%1|h[%1]|h|r")
-	if found > 0 then
-		return false, newMsg, ...
+ 		for _, pattern in pairs(uPatterns) do
+			local result, matches = string.gsub(text, pattern, '|cff8A9DDE|Hurl:%1|h[%1]|h|r')
+			if matches > 0 then
+				return false, result, ...
+			end
+		end 
+	end)
+end
+
+local GetText = function(...)
+	for l = 1, select("#", ...) do
+		local obj = select(l, ...)
+		if obj:GetObjectType() == "FontString" and obj:IsMouseOver() then
+			return obj:GetText()
+		end
 	end
 end
-do
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL", filterFunc)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_YELL", filterFunc)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_GUILD", filterFunc)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_OFFICER", filterFunc)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY", filterFunc)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY_LEADER", filterFunc)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID", filterFunc)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID_LEADER", filterFunc)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_SAY", filterFunc)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER", filterFunc)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_BN_WHISPER", filterFunc)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_BN_CONVERSATION", filterFunc)
-	local currentLink = nil
-	ChatFrame_OnHyperlinkShow = function(self, link, text, button)
-		if (link):sub(1, 3) == "url" then
-			currentLink = (link):sub(5)
-			StaticPopup_Show("BCMUrlCopyDialog")
-			return
-		end
-		SetItemRef(link, text, button, self)
+
+local SetIRef = SetItemRef
+SetItemRef = function(link, text, ...)
+	local txt, frame
+	if link:sub(1, 6) == 'm_Chat' then
+		frame = GetMouseFocus():GetParent()
+		txt = GetText(frame:GetRegions())
+		txt = txt:gsub("|c%x%x%x%x%x%x%x%x(.-)|r", "%1")
+		txt = txt:gsub("|H.-|h(.-)|h", "%1")
+	elseif link:sub(1, 3) == 'url' then
+		frame = GetMouseFocus():GetParent()
+		txt = link:sub(5)
 	end
-	StaticPopupDialogs["BCMUrlCopyDialog"] = {
-		text = "URL",
-		button2 = TEXT(CLOSE),
-		hasEditBox = 1,
-		hasWideEditBox = 1,
-		showAlert = 1,
-		OnShow = function(frame)
-			local editBox = _G[frame:GetName().."EditBox"]
-			editBox:SetText(currentLink)
-			currentLink = nil
-			editBox:SetFocus()
-			editBox:HighlightText(0)
-			local button = _G[frame:GetName().."Button2"]
-			button:ClearAllPoints()
-			button:SetWidth(200)
-			button:SetPoint("CENTER", editBox, "CENTER", 0, -30)
-			_G[frame:GetName().."AlertIcon"]:Hide()
-		end,
-		EditBoxOnEscapePressed = function(frame) frame:GetParent():Hide() end,
-		timeout = 0,
-		whileDead = 1,
-		hideOnEscape = 1,
-	}
+	if txt then
+		local editbox
+		if GetCVar('chatStyle') == 'classic' then
+			editbox = LAST_ACTIVE_CHAT_EDIT_BOX
+		else
+			editbox = _G['ChatFrame'..frame:GetID()..'EditBox']
+		end
+		editbox:Show()
+		editbox:Insert(txt)
+		editbox:HighlightText()
+		editbox:SetFocus()
+		return
+	end
+	return SetIRef(link, text, ...)
 end
 
 for i = 1, NUM_CHAT_WINDOWS do
@@ -461,8 +576,9 @@ _G[format("ChatFrame%sTabSelectedMiddle", i)]:SetTexture(nil)
 _G[format("ChatFrame%sTabSelectedRight", i)]:SetTexture(nil) 
 _G[format("ChatFrame%sTabHighlightLeft", i)]:SetTexture(nil) 
 _G[format("ChatFrame%sTabHighlightMiddle", i)]:SetTexture(nil) 
-_G[format("ChatFrame%sTabHighlightRight", i)]:SetTexture(nil) 
- end
+_G[format("ChatFrame%sTabHighlightRight", i)]:SetTexture(nil)
+ChatCopyButtons(i)
+end
 
 SlashCmdList['RELOAD'] = function() ReloadUI() end
 

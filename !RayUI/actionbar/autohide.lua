@@ -106,3 +106,23 @@ autohide:SetScript("OnEvent", function(self, event, ...)
 		end
 	end
 end)
+
+SpellBookFrame:HookScript("OnShow", function(self, event)
+	for _, v in ipairs(rabs) do if _G[v]:GetAlpha()<1 then _G[v]:Show() UIFrameFadeIn(_G[v], 0.5, _G[v]:GetAlpha(), 1) end end
+end)
+
+SpellBookFrame:HookScript("OnHide", function(self, event)
+	if not InCombatLockdown() then
+		for _, v in ipairs(rabs) do 
+			if _G[v]:GetAlpha()>0 then
+				local fadeInfo = {};
+				fadeInfo.mode = "OUT";
+				fadeInfo.timeToFade = 0.5;
+				fadeInfo.finishedFunc = function() _G[v]:Hide() end
+				fadeInfo.startAlpha = _G[v]:GetAlpha()
+				fadeInfo.endAlpha = 0
+				UIFrameFade(_G[v], fadeInfo)
+			end 
+		end
+	end
+end)
