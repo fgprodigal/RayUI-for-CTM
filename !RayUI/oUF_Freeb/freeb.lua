@@ -407,6 +407,31 @@ local function PostUpdatePower(self, unit, cur, max)
 	end
 end
 
+local function HealPrediction(self)
+	local mhpb = CreateFrame('StatusBar', nil, self)
+	mhpb:SetPoint('BOTTOMLEFT', self.Health:GetStatusBarTexture(), 'BOTTOMRIGHT')
+	mhpb:SetPoint('TOPLEFT', self.Health:GetStatusBarTexture(), 'TOPRIGHT')	
+	mhpb:SetWidth(self:GetWidth())
+	mhpb:SetStatusBarTexture(C["media"].blank)
+	mhpb:SetStatusBarColor(0, 1, 0.5, 0.25)
+	
+	local ohpb = CreateFrame('StatusBar', nil, self)
+	ohpb:SetPoint('BOTTOMLEFT', mhpb:GetStatusBarTexture(), 'BOTTOMRIGHT', 0, 0)
+	ohpb:SetPoint('TOPLEFT', mhpb:GetStatusBarTexture(), 'TOPRIGHT', 0, 0)		
+	ohpb:SetWidth(mhpb:GetWidth())
+	ohpb:SetStatusBarTexture(C["media"].blank)
+	ohpb:SetStatusBarColor(0, 1, 0, 0.25)
+	self.HealPrediction = {
+			myBar = mhpb,
+			otherBar = ohpb,
+			maxOverflow = 1.2,
+			PostUpdate = function(self)
+				if self.myBar:GetValue() == 0 then self.myBar:SetAlpha(0) else self.myBar:SetAlpha(1) end
+				if self.otherBar:GetValue() == 0 then self.otherBar:SetAlpha(0) else self.otherBar:SetAlpha(1) end
+			end
+		}
+end
+
 -- mouseover highlight
 local UnitFrame_OnEnter = function(self)
 	if IsShiftKeyDown() or not UnitAffectingCombat("player") then
@@ -724,7 +749,6 @@ local UnitSpecific = {
 		-- self.Castbar.Icon:Hide()
 		-- self.Castbar.Time:Hide()
 		
-		-- CreateCastBar(self)
 		-- BarFader(self)
 		R.CreateTrinketButton(self)
 		
@@ -988,10 +1012,8 @@ local UnitSpecific = {
     --========================--
     target = function(self, ...)
         func(self, ...)
-		-- CreateCastBar(self)
 		R.CreateCastBar(self)
-		SpellRange(self)
-		R.FocusText(self)
+		R.FocusText(self)		
 		
 		-- local tpp = createFont(self.Health, "OVERLAY", font, fontsize, fontflag, 1, 1, 1)
         -- tpp:Point("LEFT", 2, 0)
@@ -1106,9 +1128,7 @@ local UnitSpecific = {
     --========================--
     focus = function(self, ...)
         func(self, ...)
-		-- CreateCastBar(self)
 		R.CreateCastBar(self)
-	    SpellRange(self)
 		R.ClearFocusText(self)
 	    self:SetWidth(width-40)
 --[[
@@ -1179,7 +1199,6 @@ local UnitSpecific = {
     --========================--
     pet = function(self, ...)
         func(self, ...)
-		SpellRange(self)
 
         --[[if auras then 
             local debuffs = CreateFrame("Frame", nil, self)
@@ -1206,7 +1225,6 @@ local UnitSpecific = {
     targettarget = function(self, ...)
         func(self, ...)
 		--self:SetHeight(height-4)
-	    SpellRange(self)
 
 		--[[
         if auras then 
@@ -1233,7 +1251,6 @@ local UnitSpecific = {
     --========================--
     boss = function(self, ...)
         func(self, ...)
-		SpellRange(self)
 		
 		local tpp = createFont(self.Health, "OVERLAY", C["media"].font, C["media"].fontsize, C["media"].fontflag, 1, 1, 1)
         tpp:Point("LEFT", 2, 0)
@@ -1345,14 +1362,6 @@ oUF:Factory(function(self)
     end
 	
 end)
-
-SpellRange = function(self)
-	if IsAddOnLoaded("oUF_SpellRange") then	
-		self.SpellRange = {
-		insideAlpha = 1, --范围内的透明度
-		outsideAlpha = 0.3}	 --范围外的透明度
-	end
-end
 
 local testui = TestUI or function() end
 local TestUI = function(msg)

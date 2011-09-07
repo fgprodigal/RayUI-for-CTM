@@ -626,7 +626,48 @@ function R.Portrait(frame)
 	frame.Portrait = portrait
 end
 
+local function HealPrediction(self)
+	local mhpb = CreateFrame('StatusBar', nil, self)
+	mhpb:SetPoint('BOTTOMLEFT', self.Health:GetStatusBarTexture(), 'BOTTOMRIGHT')
+	mhpb:SetPoint('TOPLEFT', self.Health:GetStatusBarTexture(), 'TOPRIGHT')	
+	mhpb:SetWidth(self:GetWidth())
+	mhpb:SetStatusBarTexture(C["media"].blank)
+	mhpb:SetStatusBarColor(0, 1, 0.5, 0.4)
+	
+	local ohpb = CreateFrame('StatusBar', nil, self)
+	ohpb:SetPoint('BOTTOMLEFT', mhpb:GetStatusBarTexture(), 'BOTTOMRIGHT', 0, 0)
+	ohpb:SetPoint('TOPLEFT', mhpb:GetStatusBarTexture(), 'TOPRIGHT', 0, 0)		
+	ohpb:SetWidth(mhpb:GetWidth())
+	ohpb:SetStatusBarTexture(C["media"].blank)
+	ohpb:SetStatusBarColor(0, 1, 0, 0.4)
+	self.HealPrediction = {
+			myBar = mhpb,
+			otherBar = ohpb,
+			maxOverflow = 1.2,
+			PostUpdate = function(self)
+				if self.myBar:GetValue() == 0 then self.myBar:SetAlpha(0) else self.myBar:SetAlpha(1) end
+				if self.otherBar:GetValue() == 0 then self.otherBar:SetAlpha(0) else self.otherBar:SetAlpha(1) end
+			end
+		}
+end
+
 local function Update_Common(frame)
+	if C["ouf"].HealFrames and healer then
+		if not frame:IsElementEnabled('HealPrediction') then
+			HealPrediction(frame)
+			frame:EnableElement('HealPrediction')
+		end	
+	else
+		if frame:IsElementEnabled('HealPrediction') then
+			frame:DisableElement('HealPrediction')
+		end
+	end
+	if not frame:IsElementEnabled('SpellRange') then
+		frame.SpellRange = {
+		  insideAlpha = 1,
+		  outsideAlpha = 0.3}
+		frame:EnableElement('SpellRange')
+	end	
 	frame.Health.colorClass = nil
 	frame.Health.colorReaction = nil
 	frame.Health.colorTapping = nil
@@ -657,6 +698,22 @@ local function Update_Common(frame)
 end
 
 function R.UpdateSingle(frame, healer)
+	if C["ouf"].HealFrames and healer then
+		if not frame:IsElementEnabled('HealPrediction') then
+			HealPrediction(frame)
+			frame:EnableElement('HealPrediction')
+		end	
+	else
+		if frame:IsElementEnabled('HealPrediction') then
+			frame:DisableElement('HealPrediction')
+		end
+	end
+	if not frame:IsElementEnabled('SpellRange') then
+		frame.SpellRange = {
+		  insideAlpha = 1,
+		  outsideAlpha = 0.3}
+		frame:EnableElement('SpellRange')
+	end	
 	frame.Health.colorClass = nil
 	frame.Health.colorReaction = nil
 	frame.Health.colorTapping = nil
@@ -684,6 +741,10 @@ function R.UpdateSingle(frame, healer)
 	end
 	frame:SetScale(C["ouf"].scale)
 	if frame.unit == "player" then
+		if not frame:IsElementEnabled('HealPrediction') then
+			HealPrediction(frame)
+			frame:EnableElement('HealPrediction')
+		end	
 		if C["ouf"].showPortrait then
 			if not frame:IsElementEnabled('Portrait') then
 				R.Portrait(frame)
@@ -714,7 +775,7 @@ function R.UpdateSingle(frame, healer)
 		if frame:IsElementEnabled('Aura') then
 			frame:DisableElement('Aura')
 		end		
-		if C["ouf"].PlayerBuffFilter then
+		--[[ if C["ouf"].PlayerBuffFilter then
 			local b = CreateFrame("Frame", nil, frame)
 			b.size = 30
 			b.num = 14
@@ -735,7 +796,7 @@ function R.UpdateSingle(frame, healer)
 
 			frame.Buffs = b
 			frame:EnableElement('Aura')
-		end
+		end ]]
 		if C["ouf"].HealFrames and healer then
 			frame.Name:Show()
 			if frame.Castbar then

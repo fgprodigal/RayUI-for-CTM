@@ -49,7 +49,7 @@ local function SetUpFlyout()
 				button:SetScript("OnEnter", function(self) UIFrameFadeIn(rABS_MultiBarBottomRight,0.5,rABS_MultiBarBottomRight:GetAlpha(),1) end)
 				button:SetScript("OnLeave", function(self) UIFrameFadeOut(rABS_MultiBarBottomRight,0.5,rABS_MultiBarBottomRight:GetAlpha(),0) end)
 			end
-			if button:GetParent():GetParent():GetParent() == MultiBarBottomLeft and C["actionbar"].bar3mouseover then
+			if button:GetParent():GetParent():GetParent() == MultiBarBottomLeft and C["actionbar"].bar2mouseover then
 				button:SetScript("OnEnter", function(self) UIFrameFadeIn(rABS_MultiBarBottomLeft,0.5,rABS_MultiBarBottomLeft:GetAlpha(),1) end)
 				button:SetScript("OnLeave", function(self) UIFrameFadeOut(rABS_MultiBarBottomLeft,0.5,rABS_MultiBarBottomLeft:GetAlpha(),0) end)
 			end
@@ -112,7 +112,7 @@ SpellBookFrame:HookScript("OnShow", function(self, event)
 end)
 
 SpellBookFrame:HookScript("OnHide", function(self, event)
-	if not InCombatLockdown() then
+	if not InCombatLockdown() and not UnitExists("target") and not UnitInVehicle("player") then
 		for _, v in ipairs(rabs) do 
 			if _G[v]:GetAlpha()>0 then
 				local fadeInfo = {};
