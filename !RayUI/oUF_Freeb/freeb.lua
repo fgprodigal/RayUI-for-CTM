@@ -537,7 +537,7 @@ local func = function(self, unit)
 		hp.colorDisconnected = true
         hpbg.multiplier = .2
     else
-        hpbg:SetVertexColor(1,1,1,.6)
+        hpbg:SetVertexColor(0.12, 0.12, 0.12, 1)
     end
 
     -- if not (unit == "targettarget" or unit == "pet" or unit == "focustarget" or unit == "player" or unit == "target") then

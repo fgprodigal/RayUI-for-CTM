@@ -144,7 +144,6 @@ local ReminderBuffs = {
 			["weapon"] = true,
 			["combat"] = true,
 			["instance"] = true,
-			["pvp"] = true,
 			["level"] = 10,
 		},
 	},

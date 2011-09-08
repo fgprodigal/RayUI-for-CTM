@@ -679,8 +679,9 @@ local function Update_Common(frame)
 		frame.Health.colorDisconnected = true
         frame.Health.bg.multiplier = .2
     else
-		frame.Health:SetStatusBarColor(.1, .1, .1, 1)
-        frame.Health.bg:SetVertexColor(1,1,1,.6)
+		frame.Health:SetStatusBarColor(0.12, 0.12, 0.12, 1)
+        -- frame.Health.bg:SetVertexColor(1,1,1,.6)
+		frame.Health.bg:SetVertexColor(0.12, 0.12, 0.12, 1)
     end
 	if frame.Power then
 		frame.Power.colorClass = nil
@@ -725,8 +726,9 @@ function R.UpdateSingle(frame, healer)
 		frame.Health.colorDisconnected = true
         frame.Health.bg.multiplier = .2
     else
-		frame.Health:SetStatusBarColor(.1, .1, .1, 1)
-        frame.Health.bg:SetVertexColor(0.12, 0.12, 0.12, 1)
+		frame.Health:SetStatusBarColor(0.12, 0.12, 0.12, 1)
+        -- frame.Health.bg:SetVertexColor(1,1,1,.6)
+		frame.Health.bg:SetVertexColor(0.12, 0.12, 0.12, 1)
     end
 	if frame.Power then
 		frame.Power.colorClass = nil

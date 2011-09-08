@@ -576,13 +576,18 @@ end
 local CheckRoster = function()
 	wipe(units)
 	if GetNumRaidMembers() > 0 then
+		MainFrame:Show()
 		for i = 1, GetNumRaidMembers(), 1 do
 			CheckUnit("raid"..i)
 		end
 	elseif GetNumPartyMembers() > 0 then
+		MainFrame:Show()
 		for i = 1, GetNumPartyMembers(), 1 do
 			CheckUnit("party"..i)
 		end
+	end
+	if GetNumPartyMembers() == 0 and GetNumRaidMembers() == 0 then
+		MainFrame:Hide()
 	end
 	CheckUnit("player")
 end
