@@ -2,7 +2,7 @@
 ## Title: |cff7aa6d6Ray|r|cffff0000U|r|cff7aa6d6I|r
 ## Version: 0.2
 ## Author: Tukz, Elv, Ray
-## OptionalDeps: Skada, ACP
+## OptionalDeps: Skada, ACP, DBM-Core, BigWigs
 ## RequiredDeps: !RayUI_Config
 ## X-oUF: oUF_Freeb
 
@@ -33,7 +33,7 @@ datatexts\gold.lua
 
 misc\misc.xml
 
-addonskin\skada.lua
+addonskin\addonskin.xml
 
 actionbar\actionbar.xml
 oUF_Freeb\oUF_Freeb.xml

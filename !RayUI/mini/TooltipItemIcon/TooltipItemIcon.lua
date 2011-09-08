@@ -288,6 +288,7 @@ DisplayIconTable.frame = function(data, iconpath)
 	end
 	-- show the icon
 	data.frameicon:SetTexture(iconpath)
+	data.frameicon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
 	iconframe:Show()
 	return iconpath
 end
@@ -309,6 +310,7 @@ DisplayIconTable.background = function(data, iconpath)
 	parent:SetBackdropColor(0, 0, 0, 0)
 	-- show the icon
 	icon:SetTexture (iconpath)
+	icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
 	icon:Show()
 	return iconpath
 end

@@ -62,11 +62,12 @@ function Update(self)
 			bar:Height(value.data.size)
 			bar:SetScale(1)
 			bar.bd = CreateFrame("Frame", nil , bar)
-			bar.bd:Point("TOPLEFT", 1, -1)
-			bar.bd:Point("BOTTOMRIGHT", -1, 1)
+			bar.bd:Point("TOPLEFT", -1, 1)
+			bar.bd:Point("BOTTOMRIGHT", 1, -1)
 			bar.bd:SetFrameStrata("BACKGROUND")
-			bar.bd:CreateBorder()
-			bar:CreateShadow("Background")
+			bar.bd:CreateShadow("Background")
+			-- bar:CreateShadow("Background")
+			bar.shadow = bar.bd.shadow
 
 			if (index == 1) then
 				bar:Point(unpack(self.setPoint))
@@ -88,7 +89,7 @@ function Update(self)
 				bar.icon = bar:CreateTexture("$parentIcon", "ARTWORK")
 				bar.icon:Point("TOPLEFT", 2, -2)
 				bar.icon:Point("BOTTOMRIGHT", -2, 2)
-				bar.icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+				bar.icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
 			end
 
 			if (self.Mode == "ICON") then
@@ -110,7 +111,7 @@ function Update(self)
 				else
 					bar.statusbar = CreateFrame("StatusBar", "$parentStatusBar", bar);
 					bar.statusbar:Width(value.data.barWidth - 2)
-					bar.statusbar:Height(value.data.size - 10)
+					bar.statusbar:Height(3)
 					bar.statusbar:SetStatusBarTexture(C["media"].normal)
 					bar.statusbar:SetStatusBarColor(classcolor.r, classcolor.g, classcolor.b, 1)
 					if ( self.IconSide == "LEFT" ) then
@@ -126,14 +127,14 @@ function Update(self)
 					bar.bg = _G[bar.bg:GetName()]
 				else
 					bar.bg = CreateFrame("Frame","$parentBG", bar.statusbar)
-					bar.bg:Point("TOPLEFT", -2, 2)
-					bar.bg:Point("BOTTOMRIGHT", 2, -2)
+					bar.bg:Point("TOPLEFT", -3, 3)
+					bar.bg:Point("BOTTOMRIGHT", 3, -3)
 					bar.bg:SetFrameStrata("BACKGROUND")
-					bar.bgbd = CreateFrame("Frame", nil , bar)
-					bar.bgbd:Point("TOPLEFT", 1, -1)
-					bar.bgbd:Point("BOTTOMRIGHT", -1, 1)
-					bar.bgbd:SetFrameStrata("BACKGROUND")
-					bar.bgbd:CreateBorder()
+					-- bar.bgbd = CreateFrame("Frame", nil , bar.bg)
+					-- bar.bgbd:Point("TOPLEFT", 1, -1)
+					-- bar.bgbd:Point("BOTTOMRIGHT", -1, 1)
+					-- bar.bgbd:SetFrameStrata("BACKGROUND")
+					-- bar.bgbd:CreateBorder()
 					bar.bg:CreateShadow("Background")
 				end
 
@@ -151,7 +152,7 @@ function Update(self)
 				else
 					bar.time = bar.statusbar:CreateFontString("$parentTime", "ARTWORK")
 					bar.time:SetFont(C["media"].font, 14, "OUTLINE")
-					bar.time:Point("RIGHT", bar.statusbar, 0, 0)
+					bar.time:Point("BOTTOMRIGHT", bar.statusbar, "TOPRIGHT", 0, 0)
 				end
 
 				if (bar.count) then
@@ -168,7 +169,7 @@ function Update(self)
 				else
 					bar.spellname = bar.statusbar:CreateFontString("$parentSpellName", "ARTWORK")
 					bar.spellname:SetFont(C["media"].font, 14, "OUTLINE")
-					bar.spellname:Point("LEFT", bar.statusbar, 2, 0)
+					bar.spellname:Point("BOTTOMLEFT", bar.statusbar, "TOPLEFT", 2, 0)
 					bar.spellname:SetPoint("RIGHT", bar.time, "LEFT")
 					bar.spellname:SetJustifyH("LEFT")
 				end
@@ -178,13 +179,37 @@ function Update(self)
 
 		bar.spellName = value.data.spellName
 
-		bar.icon:SetTexture(value.icon)
-		local color = DebuffTypeColor[value.debuffType] or DebuffTypeColor.none
-		if (value.data.filter == "DEBUFF") or (value.data.unitId~="player") then
-			bar.shadow:SetBackdropBorderColor(color.r, color.g, color.b)
-		else
-			bar.shadow:SetBackdropBorderColor(.05,.05,.05, .9)
+		local OnEnter = function(self)
+			GameTooltip:SetOwner(self, "ANCHOR_TOP")
+			if value.data.filter == "CD" then
+				GameTooltip:SetSpellByID(value.data.spellID)
+			else
+				local filter = value.data.filter == "BUFF" and "HELPFUL" or "HARMFUL"
+				local auraindex = 1
+				while UnitAura(value.data.unitId, auraindex, filter) do
+					if value.data.spellName == UnitAura(value.data.unitId, auraindex, filter) then
+						GameTooltip:SetUnitAura(value.data.unitId, auraindex, filter)
+						GameTooltip:Show()
+					end
+					auraindex = auraindex + 1
+				end
+			end				
 		end
+
+		local OnLeave = function()
+			GameTooltip:Hide()
+		end
+		
+		bar:SetScript("OnEnter", OnEnter)
+		bar:SetScript("OnLeave", OnLeave)
+
+		bar.icon:SetTexture(value.icon)
+		-- local color = DebuffTypeColor[value.debuffType] or DebuffTypeColor.none
+		-- if (value.data.filter == "DEBUFF") or (value.data.filter == "BUFF" and value.data.caster ~= "player") then
+			-- bar.shadow:SetBackdropBorderColor(color.r, color.g, color.b)
+		-- else
+			-- bar.shadow:SetBackdropBorderColor(.05,.05,.05, .9)
+		-- end
 		bar.count:SetText(value.count > 1 and value.count or "")
 		if (self.Mode == "BAR") then
 			bar.spellname:SetText(value.data.spellName)

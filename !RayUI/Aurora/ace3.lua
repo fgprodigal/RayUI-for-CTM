@@ -30,10 +30,9 @@ AceGUI.RegisterAsWidget = function(self, widget)
 		local button = widget.button
 		local text = widget.text
 		frame:StripTextures()
-		
 		local bg = CreateFrame("Frame", nil, frame)
 		bg:Point("TOPLEFT", 16, -1)
-		bg:Point("BOTTOMRIGHT", -4, -1)
+		bg:Point("BOTTOMRIGHT", -20, -1)
 		bg:SetFrameLevel(frame:GetFrameLevel()-1)
 		R.CreateBD(bg, 0)
 
@@ -44,8 +43,7 @@ AceGUI.RegisterAsWidget = function(self, widget)
 		tex:SetGradientAlpha("VERTICAL", 0, 0, 0, .3, .35, .35, .35, .35)
 
 		button:ClearAllPoints()
-		button:Point("LEFT", frame, "RIGHT", -2, -1)
-		R.Reskin(button)
+		button:Point("RIGHT", frame, "RIGHT", -20, 0)
 	
 		button:SetDisabledTexture(C.Aurora.backdrop)
 		local dis = button:GetDisabledTexture()
