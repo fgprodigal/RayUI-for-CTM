@@ -1320,7 +1320,6 @@ oUF:Factory(function(self)
     local focus = spawnHelper(self, "focus", "BOTTOMRIGHT", self.units.player, "TOPLEFT", -20, 36.5)	
     local focustarget = spawnHelper(self, "focustarget", "BOTTOMRIGHT", self.units.focus, "BOTTOMLEFT", -10, 1)
     local pet = spawnHelper(self, "pet", "BOTTOM", 0, 220)
-	
 	getmetatable(player).__index.UpdateLayout = R.UpdateSingle
 	
 	self:SetActiveStyle'Freeb - Party'

@@ -216,10 +216,8 @@ local function CreateShadow(f, t)
 	local shadow = CreateFrame("Frame", nil, f)
 	shadow:SetFrameLevel(1)
 	shadow:SetFrameStrata(f:GetFrameStrata())
-	shadow:Point("TOPLEFT", -2, 2)
-	shadow:Point("BOTTOMRIGHT", 2, -2)
-	shadow:Point("TOPRIGHT", 2, 2)
-	shadow:Point("BOTTOMRIGHT", 2, -2)
+	shadow:Point("TOPLEFT", -3, 3)
+	shadow:Point("BOTTOMRIGHT", 3, -3)
 	shadow:SetBackdrop({
 	bgFile = C["media"].blank, 
 	edgeFile = C["media"].glow, 

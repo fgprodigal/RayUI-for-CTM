@@ -42,3 +42,4 @@ oUF_Freeb\swicthlayout.lua
 oUF_Freeb\plugins\Movable.lua
 
 mini\mini.xml
+Filger\Filger.xml

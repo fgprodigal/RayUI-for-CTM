@@ -6,7 +6,7 @@
 
 ]]
 
-local R, C = unpack(RayUI) -- Import: T - functions, constants, variables; C - config; L - locales
+local R, C, DB = unpack(select(2, ...))
 
 local _, ns = ...
 local f_s = ns.Filger_Settings;
@@ -61,13 +61,7 @@ function Update(self)
 			bar:Width(value.data.size)
 			bar:Height(value.data.size)
 			bar:SetScale(1)
-			bar.bd = CreateFrame("Frame", nil , bar)
-			bar.bd:Point("TOPLEFT", -1, 1)
-			bar.bd:Point("BOTTOMRIGHT", 1, -1)
-			bar.bd:SetFrameStrata("BACKGROUND")
-			bar.bd:CreateShadow("Background")
-			-- bar:CreateShadow("Background")
-			bar.shadow = bar.bd.shadow
+			bar:CreateShadow("Background")
 
 			if (index == 1) then
 				bar:Point(unpack(self.setPoint))
@@ -127,14 +121,9 @@ function Update(self)
 					bar.bg = _G[bar.bg:GetName()]
 				else
 					bar.bg = CreateFrame("Frame","$parentBG", bar.statusbar)
-					bar.bg:Point("TOPLEFT", -3, 3)
-					bar.bg:Point("BOTTOMRIGHT", 3, -3)
+					bar.bg:Point("TOPLEFT", -2, 2)
+					bar.bg:Point("BOTTOMRIGHT", 2, -2)
 					bar.bg:SetFrameStrata("BACKGROUND")
-					-- bar.bgbd = CreateFrame("Frame", nil , bar.bg)
-					-- bar.bgbd:Point("TOPLEFT", 1, -1)
-					-- bar.bgbd:Point("BOTTOMRIGHT", -1, 1)
-					-- bar.bgbd:SetFrameStrata("BACKGROUND")
-					-- bar.bgbd:CreateBorder()
 					bar.bg:CreateShadow("Background")
 				end
 

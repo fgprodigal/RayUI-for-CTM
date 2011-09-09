@@ -1,0 +1,5 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="FilgerAnchor.lua"/>
+	<Script file="Filger_Settings.lua"/>
+	<Script file="Filger.lua"/>
+</Ui>

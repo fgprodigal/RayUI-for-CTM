@@ -1,7 +1,9 @@
+local R, C = unpack(RayUI)
+
 local _, ns = ...
 
 ns.Filger_Settings = {
-	configmode = false,
+	configmode = true,
 }
 
 --[[ CD-Example
@@ -24,7 +26,7 @@ ns.Filger_Spells = {
 			Direction = "LEFT",
 			Interval = 4,
 			Mode = "ICON",
-			setPoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 2, 5 },
+			setPoint = { "RIGHT", "FilgerPlayerBuffs", "RIGHT", 0, 0 },
 
 			-- Lifebloom / Blühendes Leben
 			{ spellID = 33763, size = 32, unitId = "player", caster = "player", filter = "BUFF" },
@@ -40,7 +42,7 @@ ns.Filger_Spells = {
 			Direction = "RIGHT",
 			Interval = 4,
 			Mode = "ICON",
-			setPoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", -2, 5 },
+			setPoint = { "LEFT", "FilgerTargetBuffs", "LEFT", 0, 0 },
 
 			-- Lifebloom / Blühendes Leben
 			{ spellID = 33763, size = 32, unitId = "target", caster = "player", filter = "BUFF" },
@@ -56,7 +58,7 @@ ns.Filger_Spells = {
 			Direction = "LEFT",
 			Interval = 4,
 			Mode = "ICON",
-			setPoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 2, 40 },
+			setPoint = { "RIGHT", "FilgerPlayerProcs", "RIGHT", 0, 0 },
 
 			-- Eclipse (Lunar) / Mondfinsternis
 			{ spellID = 48518, size = 47, unitId = "player", caster = "player", filter = "BUFF" },
@@ -82,7 +84,7 @@ ns.Filger_Spells = {
 			Direction = "RIGHT",
 			Interval = 4,
 			Mode = "ICON",
-			setPoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", -2, 40 },
+			setPoint = { "LEFT", "FilgerTargetDebuffs", "LEFT", 0, 0 },
 
 			-- Hibernate / Winterschlaf
 			{ spellID = 2637, size = 47, unitId = "target", caster = "all", filter = "DEBUFF" },
@@ -117,7 +119,7 @@ ns.Filger_Spells = {
 			IconSide = "LEFT",
 			Interval = 4,
 			Mode = "BAR",
-			setPoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", -2, 165 },
+			setPoint = { "LEFT", "FilgerFocusDebuffs", "LEFT", 0, 0 },
 
 			-- Hibernate / Winterschlaf
 			{ spellID = 2637, size = 32, barWidth = 200, unitId = "focus", caster = "all", filter = "DEBUFF" },
@@ -126,14 +128,13 @@ ns.Filger_Spells = {
 			-- Cyclone / Wirbelsturm
 			{ spellID = 33786, size = 32, barWidth = 200, unitId = "focus", caster = "all", filter = "DEBUFF" },
 		},
-
 		{
 			Name = "CD/HEAL",
 			Direction = "UP",
 			IconSide = "RIGHT",
 			Interval = 4,
 			Mode = "BAR",
-			setPoint = { "RIGHT", UIParent, "CENTER", -198, 100 },
+			setPoint = { "RIGHT", "FilgerPlayerCDs", "RIGHT", 0, 0 },
 
 			-- Swiftmend / Rasche Heilung
 			{ spellID = 18562, size = 32, barWidth = 200, filter = "CD" },
@@ -147,7 +148,7 @@ ns.Filger_Spells = {
 			Direction = "LEFT",
 			Interval = 4,
 			Mode = "ICON",
-			setPoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 2, 40 },
+			setPoint = { "RIGHT", "FilgerPlayerProcs", "RIGHT", 0, 0 },
 
 			-- Lock and Load / Sichern und Laden
 			{ spellID = 56342, size = 47, unitId = "player", caster = "player", filter = "BUFF" },
@@ -171,7 +172,7 @@ ns.Filger_Spells = {
 			Direction = "RIGHT",
 			Interval = 4,
 			Mode = "ICON",
-			setPoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", -2, 40 },
+			setPoint = { "LEFT", "FilgerTargetDebuffs", "LEFT", 0, 0 },
 
 			-- Wyvern Sting / Wyverngift
 			{ spellID = 19386, size = 47, unitId = "target", caster = "all", filter = "DEBUFF" },
@@ -195,7 +196,7 @@ ns.Filger_Spells = {
 			IconSide = "LEFT",
 			Interval = 4,
 			Mode = "BAR",
-			setPoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", -2, 165 },
+			setPoint = { "LEFT", "FilgerFocusDebuffs", "LEFT", 0, 0 },
 
 			-- Wyvern Sting / Wyverngift
 			{ spellID = 19386, size = 32, barWidth = 200, unitId = "focus", caster = "all", filter = "DEBUFF" },
@@ -209,7 +210,7 @@ ns.Filger_Spells = {
 			Direction = "LEFT",
 			Interval = 4,
 			Mode = "ICON",
-			setPoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 2, 40 },
+			setPoint = { "RIGHT", "FilgerPlayerProcs", "RIGHT", 0, 0 },
 
 			-- Frostbite / Frostbite
 			--{ spellID = 11071, size = 47, unitId = "target", caster = "all", filter = "DEBUFF" },
@@ -233,7 +234,7 @@ ns.Filger_Spells = {
 			Direction = "RIGHT",
 			Interval = 4,
 			Mode = "ICON",
-			setPoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", -2, 40 },
+			setPoint = { "LEFT", "FilgerTargetDebuffs", "LEFT", 0, 0 },
 
 			-- Polymorph / Verwandlung
 			{ spellID = 118, size = 47, unitId = "target", caster = "all", filter = "DEBUFF" },
@@ -258,7 +259,7 @@ ns.Filger_Spells = {
 			IconSide = "LEFT",
 			Interval = 4,
 			Mode = "BAR",
-			setPoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", -2, 165 },
+			setPoint = { "LEFT", "FilgerFocusDebuffs", "LEFT", 0, 0 },
 
 			-- Polymorph / Verwandlung
 			{ spellID = 118, size = 32, barWidth = 191, unitId = "focus", caster = "all", filter = "DEBUFF" },
@@ -270,7 +271,7 @@ ns.Filger_Spells = {
 			Direction = "LEFT",
 			Interval = 4,
 			Mode = "ICON",
-			setPoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 2, 40 },
+			setPoint = { "RIGHT", "FilgerPlayerProcs", "RIGHT", 0, 0 },
 
 			-- Sudden Death / Plötzlicher Tod
 			{ spellID = 52437, size = 47, unitId = "player", caster = "player", filter = "BUFF" },
@@ -296,7 +297,7 @@ ns.Filger_Spells = {
 			Direction = "RIGHT",
 			Interval = 4,
 			Mode = "ICON",
-			setPoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", -2, 40 },
+			setPoint = { "LEFT", "FilgerTargetDebuffs", "LEFT", 0, 0 },
 
 			-- Charge Stun / Sturmangriffsbetäubung
 			{ spellID = 7922, size = 47, unitId = "target", caster = "all", filter = "DEBUFF" },
@@ -330,7 +331,7 @@ ns.Filger_Spells = {
 			Direction = "LEFT",
 			Interval = 4,
 			Mode = "ICON",
-			setPoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 2, 5 },
+			setPoint = { "RIGHT", "FilgerPlayerBuffs", "RIGHT", 0, 0 },
 
 			-- Earth Shield / Erdschild
 			{ spellID = 974, size = 32, unitId = "player", caster = "player", filter = "BUFF" },
@@ -346,7 +347,7 @@ ns.Filger_Spells = {
 			Direction = "RIGHT",
 			Interval = 4,
 			Mode = "ICON",
-			setPoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", -2, 5 },
+			setPoint = { "LEFT", "FilgerTargetBuffs", "LEFT", 0, 0 },
 
 			-- Earth Shield / Erdschild
 			{ spellID = 974, size = 32, unitId = "target", caster = "player", filter = "BUFF" },
@@ -358,7 +359,7 @@ ns.Filger_Spells = {
 			Direction = "LEFT",
 			Interval = 4,
 			Mode = "ICON",
-			setPoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 2, 40 },
+			setPoint = { "RIGHT", "FilgerPlayerProcs", "RIGHT", 0, 0 },
 
 			-- Maelstorm Weapon / Waffe des Mahlstroms
 			{ spellID = 53817, size = 47, unitId = "player", caster = "player", filter = "BUFF" },
@@ -376,7 +377,7 @@ ns.Filger_Spells = {
 			Direction = "RIGHT",
 			Interval = 4,
 			Mode = "ICON",
-			setPoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", -2, 40 },
+			setPoint = { "LEFT", "FilgerTargetDebuffs", "LEFT", 0, 0 },
 
 			-- Hex / Verhexen
 			{ spellID = 51514, size = 47, unitId = "target", caster = "all", filter = "DEBUFF" },
@@ -397,7 +398,7 @@ ns.Filger_Spells = {
 			IconSide = "LEFT",
 			Interval = 4,
 			Mode = "BAR",
-			setPoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", -2, 165 },
+			setPoint = { "LEFT", "FilgerFocusDebuffs", "LEFT", 0, 0 },
 
 			-- Hex / Verhexen
 			{ spellID = 51514, size = 32, barWidth = 200, unitId = "focus", caster = "all", filter = "DEBUFF" },
@@ -411,7 +412,7 @@ ns.Filger_Spells = {
 			Direction = "LEFT",
 			Interval = 4,
 			Mode = "ICON",
-			setPoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 2, 5 },
+			setPoint = { "RIGHT", "FilgerPlayerBuffs", "RIGHT", 0, 0 },
 
 			-- Beacon of Light / Flamme des Glaubens
 			{ spellID = 53563, size = 32, unitId = "player", caster = "player", filter = "BUFF" },
@@ -421,7 +422,7 @@ ns.Filger_Spells = {
 			Direction = "RIGHT",
 			Interval = 4,
 			Mode = "ICON",
-			setPoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", -2, 5 },
+			setPoint = { "LEFT", "FilgerTargetBuffs", "LEFT", 0, 0 },
 
 			-- Beacon of Light / Flamme des Glaubens
 			{ spellID = 53563, size = 32, unitId = "target", caster = "player", filter = "BUFF" },
@@ -431,7 +432,7 @@ ns.Filger_Spells = {
 			Direction = "LEFT",
 			Interval = 4,
 			Mode = "ICON",
-			setPoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 2, 40 },
+			setPoint = { "RIGHT", "FilgerPlayerProcs", "RIGHT", 0, 0 },
 
 			-- Judgements of the Pure / Richturteile des Reinen
 			{ spellID = 53671, size = 47, unitId = "player", caster = "player", filter = "BUFF" },
@@ -453,7 +454,7 @@ ns.Filger_Spells = {
 			Direction = "RIGHT",
 			Interval = 4,
 			Mode = "ICON",
-			setPoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", -2, 40 },
+			setPoint = { "LEFT", "FilgerTargetDebuffs", "LEFT", 0, 0 },
 
 			-- Hammer of Justice / Hammer der Gerechtigkeit
 			{ spellID = 853, size = 47, unitId = "target", caster = "all", filter = "DEBUFF" },
@@ -466,7 +467,7 @@ ns.Filger_Spells = {
 			IconSide = "LEFT",
 			Interval = 4,
 			Mode = "BAR",
-			setPoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", -2, 165 },
+			setPoint = { "LEFT", "FilgerFocusDebuffs", "LEFT", 0, 0 },
 
 			-- Hammer of Justice / Hammer der Gerechtigkeit
 			{ spellID = 853, size = 32, barWidth = 200, unitId = "focus", caster = "all", filter = "DEBUFF" },
@@ -478,7 +479,7 @@ ns.Filger_Spells = {
 			Direction = "LEFT",
 			Interval = 4,
 			Mode = "ICON",
-			setPoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 2, 5 },
+			setPoint = { "RIGHT", "FilgerPlayerBuffs", "RIGHT", 0, 0 },
 
 			-- Prayer of Mending / Gebet der Besserung
 			{ spellID = 41635, size = 32, unitId = "player", caster = "player", filter = "BUFF" },
@@ -510,7 +511,7 @@ ns.Filger_Spells = {
 			Direction = "RIGHT",
 			Interval = 4,
 			Mode = "ICON",
-			setPoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", -2, 5 },
+			setPoint = { "LEFT", "FilgerTargetBuffs", "LEFT", 0, 0 },
 
 			-- Prayer of Mending / Gebet der Besserung
 			{ spellID = 41635, size = 32, unitId = "target", caster = "player", filter = "BUFF" },
@@ -536,7 +537,7 @@ ns.Filger_Spells = {
 			Direction = "LEFT",
 			Interval = 4,
 			Mode = "ICON",
-			setPoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 2, 40 },
+			setPoint = { "RIGHT", "FilgerPlayerProcs", "RIGHT", 0, 0 },
 
 			-- Surge of Light / Woge des Lichts
 			{ spellID = 88688, size = 47, unitId = "player", caster = "all", filter = "BUFF" },
@@ -562,7 +563,7 @@ ns.Filger_Spells = {
 			Direction = "RIGHT",
 			Interval = 4,
 			Mode = "ICON",
-			setPoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", -2, 40 },
+			setPoint = { "LEFT", "FilgerTargetDebuffs", "LEFT", 0, 0 },
 
 			-- Shackle Undead / Untote fesseln
 			{ spellID = 9484, size = 47, unitId = "target", caster = "all", filter = "DEBUFF" },
@@ -581,7 +582,7 @@ ns.Filger_Spells = {
 			IconSide = "LEFT",
 			Interval = 4,
 			Mode = "BAR",
-			setPoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", -2, 165 },
+			setPoint = { "LEFT", "FilgerFocusDebuffs", "LEFT", 0, 0 },
 
 			-- Shackle Undead / Untote fesseln
 			{ spellID = 9484, size = 32, barWidth = 200, unitId = "focus", caster = "all", filter = "DEBUFF" },
@@ -595,7 +596,7 @@ ns.Filger_Spells = {
 			Direction = "LEFT",
 			Interval = 4,
 			Mode = "ICON",
-			setPoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 2, 40 },
+			setPoint = { "RIGHT", "FilgerPlayerProcs", "RIGHT", 0, 0 },
 
 			-- Devious Minds / Teuflische Absichten
 			{ spellID = 70840, size = 47, unitId = "player", caster = "player", filter = "BUFF" },
@@ -621,7 +622,7 @@ ns.Filger_Spells = {
 			Direction = "RIGHT",
 			Interval = 4,
 			Mode = "ICON",
-			setPoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", -2, 40 },
+			setPoint = { "LEFT", "FilgerTargetDebuffs", "LEFT", 0, 0 },
 
 			-- Fear / Furcht
 			{ spellID = 5782, size = 47, unitId = "target", caster = "all", filter = "DEBUFF" },
@@ -666,7 +667,7 @@ ns.Filger_Spells = {
 			IconSide = "LEFT",
 			Interval = 4,
 			Mode = "BAR",
-			setPoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", -2, 165 },
+			setPoint = { "LEFT", "FilgerFocusDebuffs", "LEFT", 0, 0 },
 
 			-- Fear / Furcht
 			{ spellID = 5782, size = 32, barWidth = 200, unitId = "focus", caster = "all", filter = "DEBUFF" },
@@ -680,7 +681,7 @@ ns.Filger_Spells = {
 			Direction = "LEFT",
 			Interval = 4,
 			Mode = "ICON",
-			setPoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 2, 5 },
+			setPoint = { "RIGHT", "FilgerPlayerBuffs", "RIGHT", 0, 0 },
 
 			-- Sprint / Sprinten
 			{ spellID = 2983, size = 47, unitId = "player", caster = "player", filter = "BUFF" },
@@ -706,7 +707,7 @@ ns.Filger_Spells = {
 			Direction = "RIGHT",
 			Interval = 4,
 			Mode = "ICON",
-			setPoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", -2, 40 },
+			setPoint = { "LEFT", "FilgerTargetDebuffs", "LEFT", 0, 0 },
 
 			-- Cheap Shot / Fieser Trick
 			{ spellID = 1833, size = 47, unitId = "target", caster = "all", filter = "DEBUFF" },
@@ -741,7 +742,7 @@ ns.Filger_Spells = {
 			IconSide = "LEFT",
 			Interval = 4,
 			Mode = "BAR",
-			setPoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", -2, 165 },
+			setPoint = { "LEFT", "FilgerFocusDebuffs", "LEFT", 0, 0 },
 
 			-- Blind / Blenden
 			{ spellID = 2094, size = 32, barWidth = 200, unitId = "focus", caster = "all", filter = "DEBUFF" },
@@ -755,7 +756,7 @@ ns.Filger_Spells = {
 			Direction = "LEFT",
 			Interval = 4,
 			Mode = "ICON",
-			setPoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 2, 40 },
+			setPoint = { "RIGHT", "FilgerPlayerProcs", "RIGHT", 0, 0 },
 
 			-- Blood Shield / Blutschild
 			{ spellID = 77513, size = 47, unitId = "player", caster = "player", filter = "BUFF" },
@@ -783,7 +784,7 @@ ns.Filger_Spells = {
 			Direction = "RIGHT",
 			Interval = 4,
 			Mode = "ICON",
-			setPoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", -2, 40 },
+			setPoint = { "LEFT", "FilgerTargetDebuffs", "LEFT", 0, 0 },
 
 			-- Strangulate / Strangulieren
 			{ spellID = 47476, size = 47, unitId = "target", caster = "player", filter = "DEBUFF" },
@@ -805,7 +806,7 @@ ns.Filger_Spells = {
 			Direction = "LEFT",
 			Interval = 4,
 			Mode = "ICON",
-			setPoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 2, 90 },
+			setPoint = { "RIGHT", "FilgerSpecialPlayerBuffs", "RIGHT", 0, 0 },
 
 		-- Trinket Procs
 			-- Cleansing Tears / Läuternde Tränen (Tear of Blood)
@@ -868,7 +869,7 @@ ns.Filger_Spells = {
 			Direction = "LEFT",
 			Interval = 4,
 			Mode = "ICON",
-			setPoint = { "TOPRIGHT", "oUF_FreebPlayer", "BOTTOMRIGHT", 2, -50 },
+			setPoint = { "RIGHT", "FilgerPVPPlayerDebuffs", "RIGHT", 0, 0 },
 
 		-- Death Knight
 			-- Gnaw (Ghoul)
@@ -1201,7 +1202,7 @@ ns.Filger_Spells = {
 			Direction = "RIGHT",
 			Interval = 4,
 			Mode = "ICON",
-			setPoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", -2, 90 },
+			setPoint = { "LEFT", "FilgerPVPTargetDebuffs", "LEFT", 0, 0 },
 
 			-- Aspect of the Pack
 			{ spellID = 13159, size = 72, unitId = "player", caster = "player", filter = "BUFF" },
