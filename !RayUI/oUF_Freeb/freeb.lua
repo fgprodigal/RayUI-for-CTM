@@ -746,6 +746,31 @@ local UnitSpecific = {
         func(self, ...)
 		
 		R.CreateCastBar(self)
+		if C["ouf"].HealFrames and healer then
+			self.Name:Show()
+			self.Castbar:ClearAllPoints()
+			self.Castbar:Point("TOPRIGHT", self, "TOPRIGHT", 0, -50)
+			self.Castbar:Width(self:GetWidth()-25)
+			self.Castbar:Height(20)
+			self.Castbar.Text:ClearAllPoints()
+			self.Castbar.Text:SetPoint("LEFT", self.Castbar, "LEFT", 5, 0)
+			self.Castbar.Time:ClearAllPoints()
+			self.Castbar.Time:SetPoint("RIGHT", self.Castbar, "RIGHT", -5, 0)
+			self.Castbar.Icon:Show()
+			self.Castbar.Iconbg:Show()
+		else
+			self.Name:Hide()
+			self.Castbar:ClearAllPoints()
+			self.Castbar:Point("TOPRIGHT", self, "TOPRIGHT", 0, -35)
+			self.Castbar:Width(self:GetWidth())
+			self.Castbar:Height(5)
+			self.Castbar.Text:ClearAllPoints()
+			self.Castbar.Text:SetPoint("BOTTOMLEFT", self.Castbar, "TOPLEFT", 5, -2)	
+			self.Castbar.Time:ClearAllPoints()
+			self.Castbar.Time:SetPoint("BOTTOMRIGHT", self.Castbar, "TOPRIGHT", -5, -2)
+			self.Castbar.Icon:Hide()
+			self.Castbar.Iconbg:Hide()
+		end
 		-- self.Castbar.Icon:Hide()
 		-- self.Castbar.Time:Hide()
 		
@@ -860,8 +885,8 @@ local UnitSpecific = {
         end
 
 		self.Experience = createStatusbar(self, C["media"].normal, nil, 4, nil, 0.58, 0.0, 0.55, 1.0)
-		self.Experience:Point('TOPLEFT', BottomInfoBar, 'TOPLEFT', 3, -3)
-		self.Experience:Point('BOTTOMRIGHT', BottomInfoBar, 'BOTTOMRIGHT', -3, 3)
+		self.Experience:Point('TOPLEFT', BottomInfoBar, 'TOPLEFT', 2, -2)
+		self.Experience:Point('BOTTOMRIGHT', BottomInfoBar, 'BOTTOMRIGHT', -2, 2)
 		self.Experience:SetFrameStrata("BACKGROUND")
 		self.Experience:SetFrameLevel(1)
 		
@@ -885,8 +910,8 @@ local UnitSpecific = {
 		self.Experience.Tooltip = true
 		
 		self.Reputation = createStatusbar(self, C["media"].normal, nil, 4, nil, 0, .7, 1, 1)
-		self.Reputation:Point('TOPLEFT', BottomInfoBar, 'TOPLEFT', 3, -3)
-		self.Reputation:Point('BOTTOMRIGHT', BottomInfoBar, 'BOTTOMRIGHT', -3, 3)
+		self.Reputation:Point('TOPLEFT', BottomInfoBar, 'TOPLEFT', 2, -2)
+		self.Reputation:Point('BOTTOMRIGHT', BottomInfoBar, 'BOTTOMRIGHT', -2, 2)
 		self.Reputation:SetFrameStrata("BACKGROUND")
 		self.Reputation:SetFrameLevel(0)
 		
@@ -1199,7 +1224,6 @@ local UnitSpecific = {
     --========================--
     pet = function(self, ...)
         func(self, ...)
-
         --[[if auras then 
             local debuffs = CreateFrame("Frame", nil, self)
             debuffs:SetHeight(height+2)

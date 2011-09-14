@@ -19,7 +19,7 @@ DB["general"]={
 }
 
 DB["ouf"]={
-	scale = 1,
+	scale = 1,    --不要改
 
 	backdrop_edge_texture = "Interface\\AddOns\\!RayUI\\media\\backdrop_edge",
 	backdrop_texture = "Interface\\AddOns\\!RayUI\\media\\backdrop",
@@ -83,7 +83,7 @@ DB["ouf"]={
 }
 
 DB["actionbar"]= {
-	barinset = 10,	
+	barinset = 4,	
 	buttonsize   = 26,
 	buttonspacing   = 5,
 	barscale = 1,

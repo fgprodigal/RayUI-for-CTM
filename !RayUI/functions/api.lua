@@ -8,6 +8,8 @@ R.level = UnitLevel("player")
 R.myname = UnitName("player")
 R.myrealm = GetRealmName()
 R.version = GetAddOnMetadata("!RayUI", "Version")
+BINDING_HEADER_RAYUI = GetAddOnMetadata("!RayUI", "Title")
+
 local noop = function() return end
 R.dummy = noop
 R.colors = {

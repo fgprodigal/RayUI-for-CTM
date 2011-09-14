@@ -12,4 +12,6 @@
 	<Script file="vehicle.lua"/>
 	<Script file="itemglow.lua"/>
 	<Script file="durability.lua"/>
+	<Script file="raidUtility.lua"/>
+	<Script file="raidmarker.lua"/>
 </Ui>

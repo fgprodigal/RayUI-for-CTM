@@ -391,3 +391,32 @@ AnchorLoader:SetScript("OnEvent", function(self,event)
 		Update(_G["FilgerAnchor"..i])
 	end
 end)
+
+function R.ToggleFilger()
+	if active[#Filger_Spells[class]][#Filger_Spells[class][#Filger_Spells[class]]] then
+		for i = 1, #Filger_Spells[class], 1 do
+			wipe(active[i])
+			Update(_G["FilgerAnchor"..i])
+		end
+	else
+		for i = 1, #Filger_Spells[class], 1 do
+			local spellIcon
+			for j = 1, #Filger_Spells[class][i], 1 do
+				data = Filger_Spells[class][i][j]
+				if (not active[i]) then
+					active[i] = {}
+				end
+				if (data.spellID) then
+					_, _, spellIcon = GetSpellInfo(data.spellID)
+				else
+					local slotLink = GetInventoryItemLink("player", data.slotID)
+					if (slotLink) then
+						_, _, _, _, _, _, _, _, _, spellIcon = GetItemInfo(slotLink)
+					end
+				end
+				table.insert(active[i], { data = data, icon = spellIcon, count = 9, duration = 0, expirationTime = 0, debuffType = "Curse" })
+			end
+			Update(_G["FilgerAnchor"..i])
+		end
+	end
+end

@@ -5,7 +5,6 @@ local oUF = oUF_Freeb or ns.oUF or oUF
 local Private = oUF.Private
 
 local buttonTex = "Interface\\AddOns\\!RayUI\\media\\buttontex"
-local height, width = 22, 240
 local scale = 1.0
 local hpheight = .85 -- .70 - .90 
 
@@ -139,16 +138,15 @@ function R.ClearFocusText(self)
 end
 
 local function PostCastStart(self, unit, name, rank, castid)
+	if unit == "vehicle" then unit = "player" end
 	local r, g, b
 	if UnitIsUnit(unit, "player") then
 		r, g, b = unpack(oUF.colors.class[R.myclass])
 		if R.myname == "夏可" then r, g, b = 95/255, 182/255, 255/255 end
 	elseif self.interrupt then
-		r, g, b = 1, 0.7, 0
-	elseif UnitIsFriend(unit, "player") then
-		r, g, b = unpack(oUF.colors.reaction[5])
-	else
 		r, g, b = unpack(oUF.colors.reaction[1])
+	else
+		r, g, b = unpack(oUF.colors.reaction[5])
 	end
 	self:SetBackdropColor(r * 1, g * 1, b * 1)
 	self:SetStatusBarColor(r * 1, g * 1, b * 1)
@@ -159,30 +157,6 @@ local function PostCastStart(self, unit, name, rank, castid)
 		self.SafeZone:ClearAllPoints()
 		self.SafeZone:SetPoint("TOPRIGHT", self)
 		self.SafeZone:SetPoint("BOTTOMRIGHT", self)
-	end
-end
-
-local function PostChannelStart(self, unit, name, rank, text)
-	local r, g, b
-	if UnitIsUnit(unit, "player") then
-		r, g, b = unpack(oUF.colors.class[R.myclass])
-		if R.myname == "夏可" then r, g, b = 95/255, 182/255, 255/255 end
-	elseif self.interrupt then
-		r, g, b = 1, 0.7, 0
-	elseif UnitIsFriend(unit, "player") then
-		r, g, b = unpack(oUF.colors.reaction[5])
-	else
-		r, g, b = unpack(oUF.colors.reaction[1])
-	end
-	self:SetBackdropColor(r * 1, g * 1, b * 1)
-	self:SetStatusBarColor(r * 1, g * 1, b * 1)
-
-	if self.SafeZone then
-		self:GetStatusBarTexture():SetDrawLayer("BORDER")
-		self.SafeZone:SetDrawLayer("ARTWORK")
-		self.SafeZone:ClearAllPoints()
-		self.SafeZone:SetPoint("TOPLEFT", self)
-		self.SafeZone:SetPoint("BOTTOMLEFT", self)
 	end
 end
 
@@ -220,7 +194,7 @@ function R.CreateCastBar(self)
 		self.Castbar.bg:SetVertexColor(.2,.2,.2)		
 	end
 	self.Castbar.PostCastStart = PostCastStart
-	self.Castbar.PostChannelStart = PostChannelStart
+	self.Castbar.PostChannelStart = PostCastStart
 end
 
 local formatTime = function(s)
@@ -349,11 +323,13 @@ end
 function R.postCreateIconSmall(auras, button)
     local count = button.count
     count:ClearAllPoints()
-    count:Point("TOPLEFT", -4, 2)
+    count:Point("CENTER", button, "BOTTOMRIGHT", 0, 5)
     count:SetFontObject(nil)
     count:SetFont(C["media"].font, 13, "THINOUTLINE")
     count:SetTextColor(.8, .8, .8)
-
+	count:SetShadowColor(0,0,0,1)
+    count:SetShadowOffset(0.5,-0.5)
+	
     auras.disableCooldown = true
 
     button.icon:SetTexCoord(.1, .9, .1, .9)
@@ -370,7 +346,9 @@ function R.postCreateIconSmall(auras, button)
     end
 
     local remaining = createFont(button, "OVERLAY", C["media"].font, 13, "THINOUTLINE", 0.99, 0.99, 0.99)
-    remaining:Point("BOTTOMRIGHT", 4, -4)
+    remaining:Point("CENTER", 0, 0)
+	remaining:SetShadowColor(0,0,0,1)
+    remaining:SetShadowOffset(0.5,-0.5)
     button.remaining = remaining
 end
 
@@ -832,10 +810,10 @@ function R.UpdateSingle(frame, healer)
 		if R.TableIsEmpty(R.SavePath["UFPos"]["Freeb - Player"]) then
 			if C["ouf"].HealFrames and healer then
 				frame:ClearAllPoints()
-				frame:Point("BOTTOM", -350, 350)				
+				frame:Point("CENTER", -350, -120)				
 			else
 				frame:ClearAllPoints()
-				frame:Point("BOTTOM", -300, 450)
+				frame:Point("CENTER", -300, -20)
 			end
 		end
 	elseif frame.unit == "target" then
@@ -888,15 +866,16 @@ function R.UpdateSingle(frame, healer)
 			frame.Castbar.Time:ClearAllPoints()
 			frame.Castbar.Time:SetPoint("RIGHT", frame.Castbar, "RIGHT", -5, 0)
 		end
-		if (C["ouf"].HealFrames and healer) or not C["ouf"].DebuffOnyshowPlayer then
-			local debuffs = CreateFrame("Frame", nil, frame)
+		if (C["ouf"].HealFrames and healer) then --or not C["ouf"].DebuffOnyshowPlayer
+			--[[ local debuffs = CreateFrame("Frame", nil, frame)
+			local height = frame:GetHeight()
 			debuffs:SetHeight(height)
 			debuffs:SetWidth(245)
 			debuffs.initialAnchor = "BOTTOMLEFT"
 			debuffs.spacing = 5
 			debuffs.num = 9
 			debuffs["growth-x"] = "RIGHT"
-			debuffs["growth-y"] = "DOWN"
+			debuffs["growth-y"] = "UP"
 			if R.myclass == "ROGUE" or R.myclass == "DRUID" then
 				debuffs:Point("TOPLEFT", frame, "BOTTOMLEFT", 0, 55)
 			else
@@ -910,7 +889,7 @@ function R.UpdateSingle(frame, healer)
 			frame.Debuffs = debuffs
 
 			local buffs = CreateFrame("Frame", nil, frame)
-			buffs:SetHeight(height+1)
+			buffs:SetHeight(height)
 			buffs:SetWidth(190)
 			buffs:Point("LEFT", frame, "RIGHT", 5, 0)
 			buffs.spacing = 4
@@ -925,9 +904,27 @@ function R.UpdateSingle(frame, healer)
 
 			frame.Buffs = buffs
 			frame.Buffs.num = 32
+			frame:EnableElement('Aura') ]]
+			local height = frame:GetHeight()
+			local auras = CreateFrame("Frame", nil, frame)
+			auras:SetHeight(height)
+			auras:SetWidth(245)
+			auras:Point("TOPLEFT", frame, "TOPRIGHT", 5, 0)
+			auras.spacing = 5
+			auras["growth-x"] = "RIGHT"
+			auras["growth-y"] = "DOWN"
+			auras.size = height
+			auras.initialAnchor = "BOTTOMLEFT"
+			auras.numBuffs = 15 
+			auras.numDebuffs = 15
+			auras.gap = true
+			auras.PostCreateIcon = R.postCreateIconSmall
+			auras.PostUpdateIcon = R.postUpdateIconSmall
+
+			frame.Auras = auras
 			frame:EnableElement('Aura')
 		else
-			Auras = CreateFrame("Frame", nil, frame)
+			--[[ Auras = CreateFrame("Frame", nil, frame)
 			Auras:SetHeight(42)
 			Auras:SetWidth(frame:GetWidth())
 			Auras.initialAnchor = "BOTTOMLEFT"
@@ -950,15 +947,33 @@ function R.UpdateSingle(frame, healer)
 			Auras.PostCreateIcon = R.postCreateIcon
 			Auras.PostUpdateIcon = R.postUpdateIcon
 			frame.Auras = Auras
+			frame:EnableElement('Aura') ]]
+			local height = frame:GetHeight()
+			local auras = CreateFrame("Frame", nil, frame)
+			auras:SetHeight(height)
+			auras:SetWidth(245)
+			auras:Point("TOPLEFT", frame, "TOPRIGHT", 5, 0)
+			auras.spacing = 5
+			auras["growth-x"] = "RIGHT"
+			auras["growth-y"] = "DOWN"
+			auras.size = height
+			auras.initialAnchor = "BOTTOMLEFT"
+			auras.numBuffs = 15 
+			auras.numDebuffs = 15
+			auras.gap = true
+			auras.PostCreateIcon = R.postCreateIconSmall
+			auras.PostUpdateIcon = R.postUpdateIconSmall
+
+			frame.Auras = auras
 			frame:EnableElement('Aura')
 		end
 		if R.TableIsEmpty(R.SavePath["UFPos"]["Freeb - Target"]) then
 			if C["ouf"].HealFrames and healer then
 				frame:ClearAllPoints()
-				frame:Point("BOTTOM", 350, 350)
+				frame:Point("CENTER", 350, -120)
 			else
 				frame:ClearAllPoints()
-				frame:Point("BOTTOM", 0, 340)
+				frame:Point("CENTER", 0, -120)
 			end
 		end
 	elseif frame.unit == "targettarget" then
@@ -968,7 +983,7 @@ function R.UpdateSingle(frame, healer)
 				frame:Point("TOPLEFT", oUF_FreebTarget, "BOTTOMLEFT", 0, -15)
 			else
 				frame:ClearAllPoints()
-				frame:Point("BOTTOMLEFT", oUF_FreebTarget, "BOTTOMRIGHT", 10, 1)
+				frame:Point("BOTTOMLEFT", oUF_FreebTarget, "TOPRIGHT", 10, 6)
 			end
 		end
 	elseif frame.unit == "focus" then
@@ -980,10 +995,10 @@ function R.UpdateSingle(frame, healer)
 		if R.TableIsEmpty(R.SavePath["UFPos"]["Freeb - Pet"]) then
 			if C["ouf"].HealFrames and healer then
 				frame:ClearAllPoints()
-				frame:Point("BOTTOM", 0, 160)
+				frame:Point("BOTTOM", "rABS_PetBar", "TOP", 0, 5)
 			else
 				frame:ClearAllPoints()
-				frame:Point("BOTTOM", 0, 220)
+				frame:Point("BOTTOM", "rABS_PetBar", "TOP", 0, 5)
 			end
 		end
 	elseif frame.unit:match('[^%d]+') == "boss" then

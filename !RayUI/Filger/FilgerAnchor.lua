@@ -6,45 +6,45 @@ R.Filger = R.Filger or {}
 
 R.Filger.Interval = 4
 R.Filger.PlayerBuffSize = 32
-R.Filger.SpecialPlayerBuffSize = 47
+R.Filger.SpecialPlayerBuffSize = 36
 R.Filger.PVPPlayerDebuffSize = 72
 R.Filger.PlayerCDBarWidth = 204
 R.Filger.PlayerCDSize = 32
 
 R.Filger.TargetBuffSize = 32
-R.Filger.TargetDebuffSize = 47
+R.Filger.TargetDebuffSize = 36
 R.Filger.PVPTargetDebuffSize = 72
 
 R.Filger.FocusDebuffSize = 32
 R.Filger.FocusDebuffBarWidth = 164
-R.Filger.PlayerProcSize = 47
+R.Filger.PlayerProcSize = 36
 
 local test = CreateFrame("Frame")
 test:RegisterEvent("PLAYER_LOGIN")
 test:SetScript("OnEvent", function(self, event)
 	local PlayerBuffs = CreateFrame("Frame","FilgerPlayerBuffs",oUF_FreebPlayer)
-	PlayerBuffs:SetPoint("BOTTOMRIGHT", oUF_FreebPlayer, "TOPRIGHT", 2, 5)
+	PlayerBuffs:SetPoint("BOTTOMRIGHT", oUF_FreebPlayer, "TOPRIGHT", 2, 44)
 	PlayerBuffs:SetSize(R.Filger.PlayerBuffSize * 4 + R.Filger.Interval * 3 , R.Filger.PlayerBuffSize)
 	PlayerBuffs:SetFrameLevel(1)
 	PlayerBuffs:SetFrameStrata("BACKGROUND")
 	R.CreateMover(PlayerBuffs, "FilgerCooldownsMover", "Filger玩家BUFF锚点")
 	
 	local PlayerProcs = CreateFrame("Frame","FilgerPlayerProcs",oUF_FreebPlayer)
-	PlayerProcs:SetPoint("BOTTOMRIGHT", oUF_FreebPlayer, "TOPRIGHT", 2, 40)
+	PlayerProcs:SetPoint("BOTTOMRIGHT", oUF_FreebPlayer, "TOPRIGHT", 2, 5)
 	PlayerProcs:SetSize(R.Filger.PlayerProcSize * 4 + R.Filger.Interval * 3 , R.Filger.PlayerProcSize)
 	PlayerProcs:SetFrameLevel(1)
 	PlayerProcs:SetFrameStrata("BACKGROUND")
 	R.CreateMover(PlayerProcs, "FilgerPlayerProcsMover", "Filger玩家重要技能锚点")
 	
 	local TargetBuffs = CreateFrame("Frame","FilgerTargetBuffs",oUF_FreebTarget)
-	TargetBuffs:SetPoint("BOTTOMLEFT", oUF_FreebTarget, "TOPLEFT", -2, 5)
+	TargetBuffs:SetPoint("BOTTOMLEFT", oUF_FreebTarget, "TOPLEFT", -2, 44)
 	TargetBuffs:SetSize(R.Filger.TargetBuffSize * 4 + R.Filger.Interval * 3 , R.Filger.TargetBuffSize)
 	TargetBuffs:SetFrameLevel(1)
 	TargetBuffs:SetFrameStrata("BACKGROUND")
 	R.CreateMover(TargetBuffs, "FilgerTargetBuffsMover", "Filger目标BUFF锚点")
 	
 	local TargetDebuffs = CreateFrame("Frame","FilgerTargetDebuffs",oUF_FreebTarget)
-	TargetDebuffs:SetPoint("BOTTOMLEFT", oUF_FreebTarget, "TOPLEFT", -2, 40)
+	TargetDebuffs:SetPoint("BOTTOMLEFT", oUF_FreebTarget, "TOPLEFT", -2, 5)
 	TargetDebuffs:SetSize(R.Filger.TargetDebuffSize * 4 + R.Filger.Interval * 3 , R.Filger.TargetDebuffSize)
 	TargetDebuffs:SetFrameLevel(1)
 	TargetDebuffs:SetFrameStrata("BACKGROUND")
@@ -58,14 +58,14 @@ test:SetScript("OnEvent", function(self, event)
 	R.CreateMover(FocusDebuffs, "FilgerFocusDebuffsMover", "Filger焦点DEBUFF锚点")
 	
 	local PlayerCDs = CreateFrame("Frame","FilgerPlayerCDs",oUF_FreebPlayer)
-	PlayerCDs:SetPoint("BOTTOMRIGHT", oUF_FreebPlayer, "TOPRIGHT", 2, 165)
+	PlayerCDs:SetPoint("BOTTOMRIGHT", oUF_FreebPlayer, "TOPRIGHT", 2, 154)
 	PlayerCDs:SetSize(R.Filger.PlayerCDBarWidth + R.Filger.PlayerCDSize + R.Filger.Interval , R.Filger.PlayerCDSize)
 	PlayerCDs:SetFrameLevel(1)
 	PlayerCDs:SetFrameStrata("BACKGROUND")
 	R.CreateMover(PlayerCDs, "FilgerPlayerCDsMover", "Filger玩家CD锚点")
 	
 	local SpecialPlayerBuffs = CreateFrame("Frame","FilgerSpecialPlayerBuffs",oUF_FreebPlayer)
-	SpecialPlayerBuffs:SetPoint("BOTTOMRIGHT", oUF_FreebPlayer, "TOPRIGHT", 2, 90)
+	SpecialPlayerBuffs:SetPoint("BOTTOMRIGHT", oUF_FreebPlayer, "TOPRIGHT", 2, 79)
 	SpecialPlayerBuffs:SetSize(R.Filger.SpecialPlayerBuffSize * 4 + R.Filger.Interval * 3 , R.Filger.SpecialPlayerBuffSize)
 	SpecialPlayerBuffs:SetFrameLevel(1)
 	SpecialPlayerBuffs:SetFrameStrata("BACKGROUND")
@@ -79,7 +79,7 @@ test:SetScript("OnEvent", function(self, event)
 	R.CreateMover(PVPPlayerDebuffs, "FilgerPVPPlayerDebuffsMover", "Filger玩家PVP DEBUFF锚点")
 	
 	local PVPTargetDebuffs = CreateFrame("Frame","FilgerPVPTargetDebuffs",oUF_FreebTarget)
-	PVPTargetDebuffs:SetPoint("BOTTOMLEFT", oUF_FreebTarget, "TOPLEFT", -2, 90)
+	PVPTargetDebuffs:SetPoint("BOTTOMLEFT", oUF_FreebTarget, "TOPLEFT", -2, 79)
 	PVPTargetDebuffs:SetSize(R.Filger.PVPTargetDebuffSize * 4 + R.Filger.Interval * 3 , R.Filger.PVPTargetDebuffSize)
 	PVPTargetDebuffs:SetFrameLevel(1)
 	PVPTargetDebuffs:SetFrameStrata("BACKGROUND")

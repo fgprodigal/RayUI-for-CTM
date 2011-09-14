@@ -20,7 +20,7 @@ function R.Update_ActionBar()
 			ActionBar3Mover:ClearAllPoints()
 			ActionBar3Mover:SetPoint("BOTTOM", "UIParent", "BOTTOM", 0, 300)
 			PetBarMover:ClearAllPoints()
-			PetBarMover:SetPoint("BOTTOM", "UIParent", "BOTTOM", 0, 190)
+			PetBarMover:SetPoint("BOTTOM", "UIParent", "BOTTOM", 0, 210)
 		end
 	end
 end

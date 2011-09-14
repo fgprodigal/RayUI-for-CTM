@@ -471,9 +471,9 @@ GuildChallengeAlertFrame:Kill()
 -- MinimapBackground
 -----------------------------------------------------
 Minimap.bg = CreateFrame("Frame", nil, Minimap)
-Minimap.bg:Point("TOPLEFT", -2, 2)
-Minimap.bg:Point("BOTTOMRIGHT", 2, -2)
-Minimap.bg:CreateShadow()
+Minimap.bg:SetPoint("TOPLEFT", -2, 2)
+Minimap.bg:SetPoint("BOTTOMRIGHT", 2, -2)
+Minimap.bg:CreateShadow("Background")
 
 --New Mail Check
 local checkmail = CreateFrame("Frame")
