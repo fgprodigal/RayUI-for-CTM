@@ -3,6 +3,9 @@ local R, C, DB = unpack(select(2, ...))
 ----------------------------------------------------------------------
 -- Setup animating chat during combat
 ----------------------------------------------------------------------
+R.ChatIn = true
+local hasNew = false
+
 R.SetUpAnimGroup = function(self)
 	self.anim = self:CreateAnimationGroup("Flash")
 	self.anim.fadein = self.anim:CreateAnimation("ALPHA", "FadeIn")
@@ -35,19 +38,25 @@ local function CheckWhisperWindows(self, event)
 	local chat = self:GetName()
 	if chat == "ChatFrame1" and R.ChatIn == false then
 		if event == "CHAT_MSG_WHISPER" then
-			BottomInfoBar.shadow:SetBackdropBorderColor(ChatTypeInfo["WHISPER"].r,ChatTypeInfo["WHISPER"].g,ChatTypeInfo["WHISPER"].b, 1)
+			hasNew = true
+			ChatToggle:SetAlpha(1)
+			ChatToggle.shadow:SetBackdropBorderColor(ChatTypeInfo["WHISPER"].r,ChatTypeInfo["WHISPER"].g,ChatTypeInfo["WHISPER"].b, 1)
 		elseif event == "CHAT_MSG_BN_WHISPER" then
-			BottomInfoBar.shadow:SetBackdropBorderColor(ChatTypeInfo["BN_WHISPER"].r,ChatTypeInfo["BN_WHISPER"].g,ChatTypeInfo["BN_WHISPER"].b, 1)
+			hasNew = true
+			ChatToggle:SetAlpha(1)
+			ChatToggle.shadow:SetBackdropBorderColor(ChatTypeInfo["BN_WHISPER"].r,ChatTypeInfo["BN_WHISPER"].g,ChatTypeInfo["BN_WHISPER"].b, 1)
 		end
-		BottomInfoBar:SetScript("OnUpdate", function(self)
+		ChatToggle:SetScript("OnUpdate", function(self)
 			if not R.ChatIn then
 				R.Flash(self.shadow, 1)
 			else
 				R.StopFlash(self.shadow)
 				self:SetScript('OnUpdate', nil)				
-				R.Delay(1, function()
-					self.shadow:SetBackdropBorderColor(C["media"].backdropcolor) 
-				end)
+				-- R.Delay(1, function()
+				self.shadow:SetBackdropBorderColor(C["media"].backdropcolor) 
+				self:SetAlpha(0)
+				hasNew = false
+				-- end)
 			end
 		end)
 	end
@@ -55,18 +64,83 @@ end
 ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER", CheckWhisperWindows)	
 ChatFrame_AddMessageEventFilter("CHAT_MSG_BN_WHISPER", CheckWhisperWindows)
 
--- R.ToggleChat = function()
-	-- if R.ChatIn == true then
-		-- ChatBG:Hide()
-		-- R.ChatIn = false
-	-- else
-		-- ChatBG:Show()
-		-- R.ChatIn = true
-	-- end
--- end
+local ChatToggle = CreateFrame("Frame", "ChatToggle", UIParent)
+ChatToggle:CreatePanel("Default", 15, 140, "BOTTOMLEFT",UIParent,"BOTTOMLEFT", 0,30)
+ChatToggle:SetAlpha(0)
+ChatToggle:SetScript("OnEnter",function(self)
+	GameTooltip:SetOwner(self, "ANCHOR_RIGHT", 0, 0)
+	GameTooltip:ClearLines()
+	if R.ChatIn then
+		GameTooltip:AddLine("点击隐藏聊天栏")
+	else
+		GameTooltip:AddLine("点击显示聊天栏")
+	end
+	if not hasNew then
+		UIFrameFadeIn(self, 0.5, self:GetAlpha(), 1)
+	else
+		GameTooltip:AddLine("有新的悄悄话")
+	end		
+	GameTooltip:Show()
+end)
+ChatToggle:SetScript("OnLeave",function(self)
+	if not hasNew then
+		UIFrameFadeOut(self, 0.5, self:GetAlpha(), 0)
+	end
+	GameTooltip:Hide()
+end)
 
--- BottomInfoBar:SetScript("OnMouseDown", function(self, btn)
-	-- if btn == "LeftButton" then
-		-- R.ToggleChat()
-	-- end
--- end)
+function MoveOut()
+	local nowwidth = 0
+	local all = .7  ---all time
+	local allwidth = 400
+	local finished = false
+	local Updater = CreateFrame("Frame")	
+	Updater:SetScript("OnUpdate",function(self,elapsed)	
+		if nowwidth > -400 and not finished then
+			nowwidth = nowwidth-allwidth/(all/0.2)/8
+			ChatBG:ClearAllPoints()			
+			ChatBG:SetPoint("BOTTOMLEFT",UIParent,"BOTTOMLEFT",nowwidth,30);	
+		else
+			finished = true
+			ChatBG:ClearAllPoints()
+			ChatBG:SetPoint("BOTTOMLEFT",UIParent,"BOTTOMLEFT",-400,30);	
+		end
+	end)
+	UIFrameFadeOut(ChatBG, .7, 1, 0)
+end
+
+function MoveIn()
+	local nowwidth = -400
+	local all = .7  ---all time
+	local allwidth = 400
+	local finished = false
+	local Updater = CreateFrame("Frame")	
+	Updater:SetScript("OnUpdate",function(self,elapsed)	
+		if nowwidth <15 and not finished then
+			nowwidth = nowwidth+allwidth/(all/0.2)/8
+			ChatBG:ClearAllPoints()			
+			ChatBG:SetPoint("BOTTOMLEFT",UIParent,"BOTTOMLEFT",nowwidth,30);	
+		else
+			finished = true
+			ChatBG:ClearAllPoints()
+			ChatBG:SetPoint("BOTTOMLEFT",UIParent,"BOTTOMLEFT",15,30);	
+		end
+	end)
+	UIFrameFadeIn(ChatBG, .7, 0, 1)
+end
+
+R.ToggleChat = function()
+	if R.ChatIn == true then
+		MoveOut()
+		R.ChatIn = false
+	else
+		MoveIn()
+		R.ChatIn = true
+	end
+end
+
+ChatToggle:SetScript("OnMouseDown", function(self, btn)
+	if btn == "LeftButton" then
+		R.ToggleChat()
+	end
+end)

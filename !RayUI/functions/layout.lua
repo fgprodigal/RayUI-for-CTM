@@ -422,18 +422,16 @@ UIParent:SetScript("OnShow", function(self)
 -----------------------------------------------------
 SetCVar("chatStyle", "classic")
 
-local chatpr = CreateFrame("Frame", "ChatBG", UIParent)
-chatpr:SetSize(1,1)
-chatpr:SetFrameStrata("BACKGROUND")
-chatpr:SetFrameLevel(0)
-GeneralDockManager:SetParent(chatpr)
+local ChatBG = CreateFrame("Frame", "ChatBG", UIParent)
+ChatBG:CreatePanel("Default", 400, 140, "BOTTOMLEFT",UIParent,"BOTTOMLEFT",15,30)
+GeneralDockManager:SetParent(ChatBG)
 
 for i=1,NUM_CHAT_WINDOWS do
-	local chatbg = CreateFrame("Frame",nil , _G["ChatFrame"..i])
-	chatbg:SetPoint("TOPLEFT", -2, 2)
-	chatbg:SetPoint("BOTTOMRIGHT", 2, -4)
-	chatbg:CreateShadow("Background")
-
+	_G["ChatFrame"..i]:SetParent(ChatBG)
+	_G["ChatFrame"..i]:ClearAllPoints(ChatBG)
+	_G["ChatFrame"..i]:SetPoint("TOPLEFT", ChatBG, "TOPLEFT", 2, -2)
+	_G["ChatFrame"..i]:SetPoint("BOTTOMRIGHT", ChatBG, "BOTTOMRIGHT", -2, 4)
+	
 	local ebParts = {'Left', 'Mid', 'Right'}
 	for _, ebPart in ipairs(ebParts) do
 		_G['ChatFrame'..i..'EditBoxFocus'..ebPart]:SetTexture(0, 0, 0, 0)
