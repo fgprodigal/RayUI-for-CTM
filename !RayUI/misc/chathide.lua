@@ -3,9 +3,20 @@ local R, C, DB = unpack(select(2, ...))
 ----------------------------------------------------------------------
 -- Setup animating chat during combat
 ----------------------------------------------------------------------
-R.ChatIn = true
 local hasNew = false
+local whentoshow={
+		"say", "emote", "text_emote",
+		"party", "party_leader", "party_guide",
+		"whisper",
+		"guild", "officer",
+		"battleground", "battleground_leader",
+		"raid", "raid_leader", "raid_warning",	
+		"bn_whisper",
+		"bn_conversation",
+		"bn_broadcast",
+}
 
+R.ChatIn = true
 R.SetUpAnimGroup = function(self)
 	self.anim = self:CreateAnimationGroup("Flash")
 	self.anim.fadein = self.anim:CreateAnimation("ALPHA", "FadeIn")
@@ -33,36 +44,38 @@ R.StopFlash = function(self)
 	end
 end
 
-R.SetUpAnimGroup(BottomInfoBar.shadow)
-local function CheckWhisperWindows(self, event)
-	local chat = self:GetName()
-	if chat == "ChatFrame1" and R.ChatIn == false then
-		if event == "CHAT_MSG_WHISPER" then
-			hasNew = true
-			ChatToggle:SetAlpha(1)
-			ChatToggle.shadow:SetBackdropBorderColor(ChatTypeInfo["WHISPER"].r,ChatTypeInfo["WHISPER"].g,ChatTypeInfo["WHISPER"].b, 1)
-		elseif event == "CHAT_MSG_BN_WHISPER" then
-			hasNew = true
-			ChatToggle:SetAlpha(1)
-			ChatToggle.shadow:SetBackdropBorderColor(ChatTypeInfo["BN_WHISPER"].r,ChatTypeInfo["BN_WHISPER"].g,ChatTypeInfo["BN_WHISPER"].b, 1)
-		end
-		ChatToggle:SetScript("OnUpdate", function(self)
-			if not R.ChatIn then
-				R.Flash(self.shadow, 1)
-			else
-				R.StopFlash(self.shadow)
-				self:SetScript('OnUpdate', nil)				
-				-- R.Delay(1, function()
-				self.shadow:SetBackdropBorderColor(C["media"].backdropcolor) 
-				self:SetAlpha(0)
-				hasNew = false
-				-- end)
+if not C["chat"].autoshow then
+	R.SetUpAnimGroup(BottomInfoBar.shadow)
+	local function CheckWhisperWindows(self, event)
+		local chat = self:GetName()
+		if chat == "ChatFrame1" and R.ChatIn == false then
+			if event == "CHAT_MSG_WHISPER" then
+				hasNew = true
+				ChatToggle:SetAlpha(1)
+				ChatToggle.shadow:SetBackdropBorderColor(ChatTypeInfo["WHISPER"].r,ChatTypeInfo["WHISPER"].g,ChatTypeInfo["WHISPER"].b, 1)
+			elseif event == "CHAT_MSG_BN_WHISPER" then
+				hasNew = true
+				ChatToggle:SetAlpha(1)
+				ChatToggle.shadow:SetBackdropBorderColor(ChatTypeInfo["BN_WHISPER"].r,ChatTypeInfo["BN_WHISPER"].g,ChatTypeInfo["BN_WHISPER"].b, 1)
 			end
-		end)
+			ChatToggle:SetScript("OnUpdate", function(self)
+				if not R.ChatIn then
+					R.Flash(self.shadow, 1)
+				else
+					R.StopFlash(self.shadow)
+					self:SetScript('OnUpdate', nil)				
+					-- R.Delay(1, function()
+					self.shadow:SetBackdropBorderColor(C["media"].backdropcolor) 
+					self:SetAlpha(0)
+					hasNew = false
+					-- end)
+				end
+			end)
+		end
 	end
+	ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER", CheckWhisperWindows)	
+	ChatFrame_AddMessageEventFilter("CHAT_MSG_BN_WHISPER", CheckWhisperWindows)
 end
-ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER", CheckWhisperWindows)	
-ChatFrame_AddMessageEventFilter("CHAT_MSG_BN_WHISPER", CheckWhisperWindows)
 
 local ChatToggle = CreateFrame("Frame", "ChatToggle", UIParent)
 ChatToggle:CreatePanel("Default", 15, 140, "BOTTOMLEFT",UIParent,"BOTTOMLEFT", 0,30)
@@ -89,6 +102,8 @@ ChatToggle:SetScript("OnLeave",function(self)
 	GameTooltip:Hide()
 end)
 
+local LockToggle = false
+
 function MoveOut()
 	local nowwidth = 0
 	local all = .7  ---all time
@@ -96,12 +111,15 @@ function MoveOut()
 	local finished = false
 	local Updater = CreateFrame("Frame")	
 	Updater:SetScript("OnUpdate",function(self,elapsed)	
-		if nowwidth > -400 and not finished then
+		if nowwidth > -400 then
+			LockToggle = true
 			nowwidth = nowwidth-allwidth/(all/0.2)/8
 			ChatBG:ClearAllPoints()			
 			ChatBG:SetPoint("BOTTOMLEFT",UIParent,"BOTTOMLEFT",nowwidth,30);	
-		else
+		elseif not finished then
+			LockToggle = false
 			finished = true
+			R.ChatIn = false
 			ChatBG:ClearAllPoints()
 			ChatBG:SetPoint("BOTTOMLEFT",UIParent,"BOTTOMLEFT",-400,30);	
 		end
@@ -116,12 +134,15 @@ function MoveIn()
 	local finished = false
 	local Updater = CreateFrame("Frame")	
 	Updater:SetScript("OnUpdate",function(self,elapsed)	
-		if nowwidth <15 and not finished then
+		if nowwidth <15 then
+			LockToggle = true
 			nowwidth = nowwidth+allwidth/(all/0.2)/8
 			ChatBG:ClearAllPoints()			
 			ChatBG:SetPoint("BOTTOMLEFT",UIParent,"BOTTOMLEFT",nowwidth,30);	
-		else
+		elseif not finished then
+			LockToggle = false
 			finished = true
+			R.ChatIn = true
 			ChatBG:ClearAllPoints()
 			ChatBG:SetPoint("BOTTOMLEFT",UIParent,"BOTTOMLEFT",15,30);	
 		end
@@ -129,18 +150,64 @@ function MoveIn()
 	UIFrameFadeIn(ChatBG, .7, 0, 1)
 end
 
+local timeout = 0
+
 R.ToggleChat = function()
+	timeout = 0
 	if R.ChatIn == true then
 		MoveOut()
-		R.ChatIn = false
 	else
 		MoveIn()
-		R.ChatIn = true
 	end
 end
 
 ChatToggle:SetScript("OnMouseDown", function(self, btn)
-	if btn == "LeftButton" then
+	if btn == "LeftButton" and not LockToggle then
 		R.ToggleChat()
+	end
+end)
+
+local ChatAutoHide = CreateFrame("Frame")
+
+if C["chat"].autoshow then	
+	for _, event in pairs(whentoshow) do
+		if(not event:match("[A-Z]")) then
+			event = "CHAT_MSG_"..event:upper()
+		end
+		ChatAutoHide:RegisterEvent(event)
+	end
+	ChatAutoHide:SetScript("OnEvent", function(self, event)
+		timeout = 0
+		if R.ChatIn == false then
+			ChatBG:ClearAllPoints()
+			ChatBG:SetPoint("BOTTOMLEFT",UIParent,"BOTTOMLEFT",15,30)
+			UIFrameFadeIn(ChatBG, .7, 0, 1)
+			R.ChatIn = true
+			hasNew = false
+		end
+	end)
+end
+
+if C["chat"].autohide then
+	ChatAutoHide:SetScript("OnUpdate", function(self, elapsed)
+		timeout = timeout + elapsed
+		if timeout>C["chat"].autohidetime and R.ChatIn == true and not ChatFrame1EditBox:IsShown() then
+			MoveOut()
+			R.ChatIn = false
+		end
+	end)
+end
+
+ChatFrame1EditBox:HookScript("OnShow", function(self)
+	timeout = 0
+	if R.ChatIn == false and not LockToggle then
+		-- MoveIn()
+		ChatBG:ClearAllPoints()
+		ChatBG:SetPoint("BOTTOMLEFT",UIParent,"BOTTOMLEFT",15,30)
+		UIFrameFadeIn(ChatBG, .7, 0, 1)
+		R.ChatIn = true
+		hasNew = false
+	elseif LockToggle then
+		self:Hide()
 	end
 end)

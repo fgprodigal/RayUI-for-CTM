@@ -18,6 +18,7 @@ function RayUIConfig:LoadDefaults()
 			media = DB["media"],
 			ouf = DB["ouf"],
 			actionbar = DB["actionbar"],
+			chat = DB["chat"],
 		},
 	}
 end	
@@ -347,6 +348,35 @@ function RayUIConfig.GenerateOptionsInternal()
 								order = 2,								
 							},
 						},
+					},
+				},
+			},
+			chat = {
+				order = 7,
+				type = "group",
+				name = "聊天",
+				get = function(info) return db.chat[ info[#info] ] end,
+				set = function(info, value) db.chat[ info[#info] ] = value; C.chat[ info[#info] ] = value; StaticPopup_Show("CFG_RELOAD") end,
+				args = {
+					autohide = {
+						order = 1,
+						name = "自动隐藏聊天栏",
+						desc = "短时间内没有消息则自动隐藏聊天栏",
+						type = "toggle",
+					},
+					autohidetime = {
+						order = 1,
+						name = "自动隐藏时间",
+						desc = "设置多少秒没有新消息时隐藏",
+						type = "range",
+						min = 5, max = 60, step = 1,
+						disabled = function() return not db.chat.autohide end,
+					},
+					autoshow = {
+						order = 3,
+						name = "自动显示聊天栏",
+						desc = "频道内有信消息则自动显示聊天栏，关闭后如有新密语会闪烁提示",
+						type = "toggle",
 					},
 				},
 			},

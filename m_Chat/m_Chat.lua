@@ -63,15 +63,21 @@ SLASH_SETCHATCOLOR1 = "/setchatcolor"
 function SetChat()
     FCF_SetLocked(ChatFrame1, nil)
 	FCF_SetChatWindowFontSize(self, ChatFrame1, fontsize) 
-    ChatFrame1:ClearAllPoints()
-	ChatFrame1:SetPoint("TOPLEFT", ChatBG, "TOPLEFT", 2, -2)
-	ChatFrame1:SetPoint("BOTTOMRIGHT", ChatBG, "BOTTOMRIGHT", -2, 4)
+    -- ChatFrame1:ClearAllPoints()
+	-- ChatFrame1:SetPoint("TOPLEFT", ChatBG, "TOPLEFT", 2, -2)
+	-- ChatFrame1:SetPoint("BOTTOMRIGHT", ChatBG, "BOTTOMRIGHT", -2, 4)
     -- ChatFrame1:SetPoint(unpack(def_position))
     -- ChatFrame1:SetWidth(chat_width)
     -- ChatFrame1:SetHeight(chat_height)
     ChatFrame1:SetFrameLevel(8)
     -- ChatFrame1:SetUserPlaced(false)
-	for i=1,10 do local cf = _G["ChatFrame"..i] FCF_SetWindowAlpha(cf, 0) end
+	for i=1,10 do 
+		local cf = _G["ChatFrame"..i]
+		FCF_SetWindowAlpha(cf, 0)
+		cf:ClearAllPoints()
+		cf:SetPoint("TOPLEFT", ChatBG, "TOPLEFT", 2, -2)
+		cf:SetPoint("BOTTOMRIGHT", ChatBG, "BOTTOMRIGHT", -2, 4)
+	end
     FCF_SavePositionAndDimensions(ChatFrame1)
 	FCF_SetLocked(ChatFrame1, 1)
 end

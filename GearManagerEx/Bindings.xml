@@ -1,5 +1,5 @@
 <Bindings>
-	<Binding name="GEARMANAGEREX_TOGGLEUI" header="GEARMANAGEREX_TITLE"> GearManagerEx_ToggleUI() </Binding>
+	<Binding name="GEARMANAGEREX_TOGGLEUI" header="RAYUI"> GearManagerEx_ToggleUI() </Binding>
 	<Binding name="GEARMANAGEREX_QUICKSTRIP"> GearManagerEx_QuickStrip() </Binding>
 	<Binding name="GEARMANAGEREX_WEARSET1"> GearManagerEx_EquipSetByIndex(1) </Binding>
 	<Binding name="GEARMANAGEREX_WEARSET2"> GearManagerEx_EquipSetByIndex(2) </Binding>

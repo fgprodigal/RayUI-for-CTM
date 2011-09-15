@@ -82,6 +82,12 @@ DB["ouf"]={
 	pety = 0,
 }
 
+DB["chat"]={
+	autohide = true,
+	autoshow = true,
+	autohidetime = 10,
+}
+
 DB["actionbar"]= {
 	barinset = 4,	
 	buttonsize   = 26,
