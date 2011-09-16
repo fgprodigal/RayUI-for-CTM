@@ -774,8 +774,8 @@ local UnitSpecific = {
 		-- self.Castbar.Icon:Hide()
 		-- self.Castbar.Time:Hide()
 		
-		-- BarFader(self)
-		R.CreateTrinketButton(self)
+		BarFader(self)
+		-- R.CreateTrinketButton(self)
 		
         -- Runes, Shards, HolyPower
         if R.multicheck(R.myclass, "DEATHKNIGHT", "WARLOCK", "PALADIN") then
@@ -1344,6 +1344,7 @@ oUF:Factory(function(self)
     local focus = spawnHelper(self, "focus", "BOTTOMRIGHT", self.units.player, "TOPLEFT", -20, 36.5)	
     local focustarget = spawnHelper(self, "focustarget", "BOTTOMRIGHT", self.units.focus, "BOTTOMLEFT", -10, 1)
     local pet = spawnHelper(self, "pet", "BOTTOM", 0, 220)
+	hooksecurefunc(player, "SetAlpha", function(_,a) pet:SetAlpha(a) end)
 	getmetatable(player).__index.UpdateLayout = R.UpdateSingle
 	
 	self:SetActiveStyle'Freeb - Party'

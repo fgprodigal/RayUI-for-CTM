@@ -84,8 +84,9 @@ MinimapCluster:EnableMouse(false)
 -- Tracking
 MiniMapTrackingBackground:SetAlpha(0)
 MiniMapTrackingButton:SetAlpha(0)
-MiniMapTracking:ClearAllPoints()
-MiniMapTracking:SetPoint("BOTTOMLEFT", Minimap, -5, -7)
+-- MiniMapTracking:ClearAllPoints()
+-- MiniMapTracking:SetPoint("BOTTOMLEFT", Minimap, -5, -7)
+MiniMapTracking:Hide()
 
 -- BG icon
 MiniMapBattlefieldFrame:ClearAllPoints()

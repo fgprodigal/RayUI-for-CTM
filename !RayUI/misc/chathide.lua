@@ -5,15 +5,21 @@ local R, C, DB = unpack(select(2, ...))
 ----------------------------------------------------------------------
 local hasNew = false
 local whentoshow={
-		"say", "emote", "text_emote",
+		"say", "emote", "text_emote", "yell", 
 		"party", "party_leader", "party_guide",
-		"whisper",
+		"whisper", "system", "channel",
 		"guild", "officer",
 		"battleground", "battleground_leader",
 		"raid", "raid_leader", "raid_warning",	
 		"bn_whisper",
-		"bn_conversation",
-		"bn_broadcast",
+		"bn_inline_toast_alert",
+		"bn_inline_toast_broadcast",
+}
+local channelNumbers = {
+	[1] = true,
+	[2] = true,
+	[3]  = true,
+	[4]  = true,
 }
 
 R.ChatIn = true
@@ -176,7 +182,8 @@ if C["chat"].autoshow then
 		end
 		ChatAutoHide:RegisterEvent(event)
 	end
-	ChatAutoHide:SetScript("OnEvent", function(self, event)
+	ChatAutoHide:SetScript("OnEvent", function(self, event, ...)
+		if(event == "CHAT_MSG_CHANNEL" and channelNumbers and not channelNumbers[select(8,...)]) then return end
 		timeout = 0
 		if R.ChatIn == false then
 			ChatBG:ClearAllPoints()
