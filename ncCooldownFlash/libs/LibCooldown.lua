@@ -93,7 +93,7 @@ function addon:SPELL_UPDATE_COOLDOWN()
 	now = GetTime()
 	
 	for name, id in next, spells do
-		local starttime, duration, enabled = GetSpellCooldown(name)
+		local starttime, duration, enabled = GetSpellCooldown(id)
 		
 		if starttime == nil then
 			watched[id] = nil
@@ -111,7 +111,7 @@ function addon:SPELL_UPDATE_COOLDOWN()
 	end
 	
 	for name, id in next, pets do
-		local start, duration, enabled = GetSpellCooldown(name)
+		local start, duration, enabled = GetSpellCooldown(id)
 
 		if starttime == nil then
 			watched[id] = nil

@@ -48,6 +48,7 @@ flash:RegisterEvent("PLAYER_ENTERING_WORLD")
 lib:RegisterCallback("stop", function(id, class)
 	if filter[class]=="all" or filter[class][id] then return end
 	flash.icon:SetTexture(class=="item" and GetItemIcon(id) or select(3, GetSpellInfo(id)))
+	DEFAULT_CHAT_FRAME:AddMessage(id.." "..GetSpellInfo(id))
 	flash.e = 0
 	flash:Show()
 end)
