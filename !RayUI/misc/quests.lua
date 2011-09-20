@@ -1,5 +1,6 @@
 local R, C, DB = unpack(select(2, ...))
 
+--显示任务等级
 local function questlevel()
 	local buttons = QuestLogScrollFrame.buttons
 	local numButtons = #buttons
@@ -21,6 +22,7 @@ end
 hooksecurefunc("QuestLog_Update", questlevel)
 QuestLogScrollFrameScrollBar:HookScript("OnValueChanged", questlevel)
 
+--自动交接任务, Shift点npc不自动交接
 local idQuestAutomation = CreateFrame('Frame')
 idQuestAutomation.completed_quests = {}
 idQuestAutomation.incomplete_quests = {}
@@ -147,3 +149,17 @@ idQuestAutomation:RegisterEvent('QUEST_LOG_UPDATE')
 idQuestAutomation:RegisterEvent('QUEST_PROGRESS')
 
 _G.idQuestAutomation = idQuestAutomation
+
+--进出副本自动收放任务追踪
+local autocollapse = CreateFrame("Frame")
+autocollapse:RegisterEvent("ZONE_CHANGED_NEW_AREA")
+autocollapse:RegisterEvent("PLAYER_ENTERING_WORLD")
+autocollapse:SetScript("OnEvent", function(self)
+   if IsInInstance() then
+      WatchFrame.userCollapsed = true
+      WatchFrame_Collapse(WatchFrame)
+   else
+      WatchFrame.userCollapsed = nil
+      WatchFrame_Expand(WatchFrame)
+   end
+end)
