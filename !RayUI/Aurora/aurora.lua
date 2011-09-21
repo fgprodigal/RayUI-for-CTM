@@ -4012,8 +4012,8 @@ Delay:SetScript("OnEvent", function()
 		CreateBackdrop(WorldMapFrame)
 		WorldMapDetailFrame.backdrop = CreateFrame("Frame", nil, WorldMapFrame)
 		R.CreateBD(WorldMapDetailFrame.backdrop)
-		WorldMapDetailFrame.backdrop:SetPoint("TOPLEFT", WorldMapDetailFrame, "TOPLEFT", -2, 2)
-		WorldMapDetailFrame.backdrop:SetPoint("BOTTOMRIGHT", WorldMapDetailFrame, "BOTTOMRIGHT", 2, -2)
+		WorldMapDetailFrame.backdrop:Point("TOPLEFT", WorldMapDetailFrame, "TOPLEFT", -2, 2)
+		WorldMapDetailFrame.backdrop:Point("BOTTOMRIGHT", WorldMapDetailFrame, "BOTTOMRIGHT", 2, -2)
 		WorldMapDetailFrame.backdrop:SetFrameLevel(WorldMapDetailFrame:GetFrameLevel() - 2)
 
 		SkinCloseButton(WorldMapFrameCloseButton)
@@ -4027,9 +4027,9 @@ Delay:SetScript("OnEvent", function()
 		R.ReskinDropDown(WorldMapZoneDropDown)
 
 		R.Reskin(WorldMapZoomOutButton)
-		WorldMapZoomOutButton:SetPoint("LEFT", WorldMapZoneDropDown, "RIGHT", 0, 4)
-		WorldMapLevelUpButton:SetPoint("TOPLEFT", WorldMapLevelDropDown, "TOPRIGHT", -2, 8)
-		WorldMapLevelDownButton:SetPoint("BOTTOMLEFT", WorldMapLevelDropDown, "BOTTOMRIGHT", -2, 2)
+		WorldMapZoomOutButton:Point("LEFT", WorldMapZoneDropDown, "RIGHT", 0, 4)
+		WorldMapLevelUpButton:Point("TOPLEFT", WorldMapLevelDropDown, "TOPRIGHT", -2, 8)
+		WorldMapLevelDownButton:Point("BOTTOMLEFT", WorldMapLevelDropDown, "BOTTOMRIGHT", -2, 2)
 
 		SkinCheckBox(WorldMapTrackQuest)
 		SkinCheckBox(WorldMapQuestShowObjectives)
@@ -4038,11 +4038,11 @@ Delay:SetScript("OnEvent", function()
 		--Mini
 		local function SmallSkin()
 			WorldMapLevelDropDown:ClearAllPoints()
-			WorldMapLevelDropDown:SetPoint("TOPLEFT", WorldMapDetailFrame, "TOPLEFT", -17, 27)
+			WorldMapLevelDropDown:Point("TOPLEFT", WorldMapDetailFrame, "TOPLEFT", -17, 27)
 
 			WorldMapFrame.backdrop:ClearAllPoints()
-			WorldMapFrame.backdrop:SetPoint("TOPLEFT", 2, 2)
-			WorldMapFrame.backdrop:SetPoint("BOTTOMRIGHT", 2, -2)
+			WorldMapFrame.backdrop:Point("TOPLEFT", 2, 2)
+			WorldMapFrame.backdrop:Point("BOTTOMRIGHT", 2, -2)
 		end
 
 		--Large
@@ -4056,8 +4056,8 @@ Delay:SetScript("OnEvent", function()
 			end
 			
 			WorldMapFrame.backdrop:ClearAllPoints()
-			WorldMapFrame.backdrop:SetPoint("TOPLEFT", WorldMapDetailFrame, "TOPLEFT", -25, 70)
-			WorldMapFrame.backdrop:SetPoint("BOTTOMRIGHT", WorldMapDetailFrame, "BOTTOMRIGHT", 25, -30)    
+			WorldMapFrame.backdrop:Point("TOPLEFT", WorldMapDetailFrame, "TOPLEFT", -25, 70)
+			WorldMapFrame.backdrop:Point("BOTTOMRIGHT", WorldMapDetailFrame, "BOTTOMRIGHT", 25, -30)    
 		end
 		R.CreateSD(WorldMapFrame.backdrop)
 
@@ -4072,24 +4072,24 @@ Delay:SetScript("OnEvent", function()
 			end
 			
 			WorldMapFrame.backdrop:ClearAllPoints()
-			WorldMapFrame.backdrop:SetPoint("TOPLEFT", WorldMapDetailFrame, "TOPLEFT", -25, 70)
-			WorldMapFrame.backdrop:SetPoint("BOTTOMRIGHT", WorldMapDetailFrame, "BOTTOMRIGHT", 325, -235)  
+			WorldMapFrame.backdrop:Point("TOPLEFT", WorldMapDetailFrame, "TOPLEFT", -25, 70)
+			WorldMapFrame.backdrop:Point("BOTTOMRIGHT", WorldMapDetailFrame, "BOTTOMRIGHT", 325, -235)  
 			
 			if not WorldMapQuestDetailScrollFrame.backdrop then
 				CreateBackdrop(WorldMapQuestDetailScrollFrame)
-				WorldMapQuestDetailScrollFrame.backdrop:SetPoint("TOPLEFT", -22, 2)
-				WorldMapQuestDetailScrollFrame.backdrop:SetPoint("BOTTOMRIGHT", 23, -4)
+				WorldMapQuestDetailScrollFrame.backdrop:Point("TOPLEFT", -22, 2)
+				WorldMapQuestDetailScrollFrame.backdrop:Point("BOTTOMRIGHT", 23, -4)
 			end
 			
 			if not WorldMapQuestRewardScrollFrame.backdrop then
 				CreateBackdrop(WorldMapQuestRewardScrollFrame)
-				WorldMapQuestRewardScrollFrame.backdrop:SetPoint("BOTTOMRIGHT", 22, -4)				
+				WorldMapQuestRewardScrollFrame.backdrop:Point("BOTTOMRIGHT", 22, -4)				
 			end
 			
 			if not WorldMapQuestScrollFrame.backdrop then
 				CreateBackdrop(WorldMapQuestScrollFrame)
-				WorldMapQuestScrollFrame.backdrop:SetPoint("TOPLEFT", 0, 2)
-				WorldMapQuestScrollFrame.backdrop:SetPoint("BOTTOMRIGHT", 24, -3)				
+				WorldMapQuestScrollFrame.backdrop:Point("TOPLEFT", 0, 2)
+				WorldMapQuestScrollFrame.backdrop:Point("BOTTOMRIGHT", 24, -3)				
 			end
 		end			
 
@@ -4139,9 +4139,9 @@ Delay:SetScript("OnEvent", function()
 		coords.MouseText:SetFont(GameFontNormalSmall:GetFont(), fontheight, "THINOUTLINE")
 		coords.PlayerText:SetTextColor(WorldMapQuestShowObjectivesText:GetTextColor())
 		coords.MouseText:SetTextColor(WorldMapQuestShowObjectivesText:GetTextColor())
-		coords.PlayerText:SetPoint("TOPLEFT", WorldMapButton, "TOPLEFT", 5, -5)
+		coords.PlayerText:Point("TOPLEFT", WorldMapButton, "TOPLEFT", 5, -5)
 		coords.PlayerText:SetText("Player:   0, 0")
-		coords.MouseText:SetPoint("TOPLEFT", coords.PlayerText, "BOTTOMLEFT", 0, -5)
+		coords.MouseText:Point("TOPLEFT", coords.PlayerText, "BOTTOMLEFT", 0, -5)
 		coords.MouseText:SetText("Mouse:   0, 0")
 		local int = 0
 
