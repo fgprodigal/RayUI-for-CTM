@@ -26,23 +26,23 @@ local function SkinBars(self)
 				
 				if not (icon1.overlay) then
 					icon1.overlay = CreateFrame("Frame", "$parentIcon1Overlay", tbar)
-					icon1.overlay:CreatePanel(template, buttonsize+2, buttonsize+2, "BOTTOMRIGHT", tbar, "BOTTOMLEFT", -buttonsize/4, -3)
+					icon1.overlay:CreatePanel(template, buttonsize, buttonsize, "BOTTOMRIGHT", tbar, "BOTTOMLEFT", -buttonsize/4, -2)
 					
 					local backdroptex = icon1.overlay:CreateTexture(nil, "BORDER")
 					backdroptex:SetTexture([=[Interface\Icons\Spell_Nature_WispSplode]=])
-					backdroptex:Point("TOPLEFT", icon1.overlay, "TOPLEFT", 3, -3)
-					backdroptex:Point("BOTTOMRIGHT", icon1.overlay, "BOTTOMRIGHT", -3, 3)
+					backdroptex:Point("TOPLEFT", icon1.overlay, "TOPLEFT", 2, -2)
+					backdroptex:Point("BOTTOMRIGHT", icon1.overlay, "BOTTOMRIGHT", -2, 2)
 					backdroptex:SetTexCoord(0.08, 0.92, 0.08, 0.92)
 				end
 
 				if not (icon2.overlay) then
 					icon2.overlay = CreateFrame("Frame", "$parentIcon2Overlay", tbar)
-					icon2.overlay:CreatePanel(template, buttonsize+2, buttonsize+2, "BOTTOMLEFT", tbar, "BOTTOMRIGHT", buttonsize/4, -3)
+					icon2.overlay:CreatePanel(template, buttonsize, buttonsize, "BOTTOMLEFT", tbar, "BOTTOMRIGHT", buttonsize/4, -2)
 					
 					local backdroptex = icon2.overlay:CreateTexture(nil, "BORDER")
 					backdroptex:SetTexture([=[Interface\Icons\Spell_Nature_WispSplode]=])
-					backdroptex:Point("TOPLEFT", icon2.overlay, "TOPLEFT", 3, -3)
-					backdroptex:Point("BOTTOMRIGHT", icon2.overlay, "BOTTOMRIGHT", -3, 3)
+					backdroptex:Point("TOPLEFT", icon2.overlay, "TOPLEFT", 2, -2)
+					backdroptex:Point("BOTTOMRIGHT", icon2.overlay, "BOTTOMRIGHT", -2, 2)
 					backdroptex:SetTexCoord(0.08, 0.92, 0.08, 0.92)					
 				end
 
@@ -59,12 +59,7 @@ local function SkinBars(self)
 					frame:SetScale(1)
 					frame.SetScale=R.dummy
 					frame:SetHeight(buttonsize)
-					if not frame.bg then
-						frame.bg = CreateFrame("Frame", nil, frame)
-						frame.bg:Point("TOPLEFT", -1, 1)
-						frame.bg:Point("BOTTOMRIGHT", 1, -1)
-					end
-					frame.bg:CreateShadow("Background")
+					frame:CreateShadow("Background")
 					frame.styled=true
 				end
 
@@ -77,16 +72,16 @@ local function SkinBars(self)
 				if not icon1.styled then
 					icon1:SetTexCoord(0.08, 0.92, 0.08, 0.92)
 					icon1:ClearAllPoints()
-					icon1:Point("TOPLEFT", icon1.overlay, 3, -3)
-					icon1:Point("BOTTOMRIGHT", icon1.overlay, -3, 3)
+					icon1:Point("TOPLEFT", icon1.overlay, 2, -2)
+					icon1:Point("BOTTOMRIGHT", icon1.overlay, -2, 2)
 					icon1.styled=true
 				end
 				
 				if not icon2.styled then
 					icon2:SetTexCoord(0.08, 0.92, 0.08, 0.92)
 					icon2:ClearAllPoints()
-					icon2:Point("TOPLEFT", icon2.overlay, 3, -3)
-					icon2:Point("BOTTOMRIGHT", icon2.overlay, -3, 3)
+					icon2:Point("TOPLEFT", icon2.overlay, 2, -2)
+					icon2:Point("BOTTOMRIGHT", icon2.overlay, -2, 2)
 					icon2.styled=true
 				end
 
@@ -184,12 +179,7 @@ local SkinBoss=function()
 
 		if not bar.styled then
 			bar:SetHeight(buttonsize)
-			if not bar.bg then
-				bar.bg = CreateFrame("Frame", nil, bar)
-				bar.bg:Point("TOPLEFT", -1, 1)
-				bar.bg:Point("BOTTOMRIGHT", 1, -1)
-			end
-			bar.bg:CreateShadow("Background")
+			bar:CreateShadow("Background")
 			background:SetNormalTexture(nil)
 			bar.styled=true
 		end	
@@ -233,6 +223,12 @@ DBM.RangeCheck:Hide()
 DBMRangeCheck:HookScript("OnShow",function(self)
 	self:SetBackdrop(nil)
 	self:CreateShadow("Background")
+end)
+DBMRangeCheckRadar:HookScript("OnShow",function(self)
+	self:CreateShadow("Background")
+	self.text:SetFont(C.media.font, C.media.fontsize, C.media.fontflag)
+	self.text:SetShadowColor(0, 0, 0)
+	self.text:SetShadowOffset(R.mult, -R.mult)
 end)
 
 
