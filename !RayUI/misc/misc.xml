@@ -14,4 +14,5 @@
 	<Script file="durability.lua"/>
 	<Script file="raidUtility.lua"/>
 	<Script file="raidmarker.lua"/>
+	<Script file="spam.lua"/>
 </Ui>
