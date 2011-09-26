@@ -3297,7 +3297,7 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 
 		for i = 1, #slots do
 			local slot = _G["Inspect"..slots[i].."Slot"]
-			slot:DisableDrawLayer("BACKGROUND")
+			_G["Inspect"..slots[i].."SlotFrame"]:Hide()
 			slot:SetNormalTexture("")
 			slot:SetPushedTexture("")
 			slot.bd = CreateFrame("Frame", nil, slot)
@@ -3307,6 +3307,8 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 			R.CreateBD(slot.bd, .25)
 			_G["Inspect"..slots[i].."SlotIconTexture"]:SetTexCoord(.08, .92, .08, .92)
 		end
+		select(8, InspectMainHandSlot:GetRegions()):Hide()
+		select(8, InspectRangedSlot:GetRegions()):Hide()
 
 		R.ReskinClose(InspectFrameCloseButton)
 	elseif addon == "Blizzard_ItemSocketingUI" then

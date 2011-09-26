@@ -45,7 +45,7 @@ end
 --[[ Bags ]]
 
 local holder = CreateFrame("Button", "BagsHolder", UIParent)
-holder:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -49, 49)
+holder:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -28, 33)
 holder:SetFrameStrata("HIGH")
 holder:Hide()
 R.CreateBD(holder, .6)
@@ -76,7 +76,7 @@ local ReanchorButtons = function()
 				bu:SetFrameStrata("HIGH")
 				_G[con.."Item"..i.."Count"]:SetFont(C.media.font, C.media.fontsize, C.media.fontflag)
 				_G[con.."Item"..i.."Count"]:ClearAllPoints()
-				_G[con.."Item"..i.."Count"]:SetPoint("TOP", bu, 1, -2)
+				_G[con.."Item"..i.."Count"]:SetPoint("BOTTOMRIGHT", bu, 0, 0)
 				_G[con.."Item"..i.."IconTexture"]:SetTexCoord(.08, .92, .08, .92)
 				_G[con.."Item"..i.."IconQuestTexture"]:SetAlpha(0)
 				bu.reskinned = true
@@ -119,7 +119,7 @@ local ReanchorBankButtons = function()
 			_G["BankFrameItem"..i.."IconTexture"]:SetTexCoord(.08, .92, .08, .92)
 			_G["BankFrameItem"..i.."Count"]:SetFont(C.media.font, C.media.fontsize, C.media.fontflag)
 			_G["BankFrameItem"..i.."Count"]:ClearAllPoints()
-			_G["BankFrameItem"..i.."Count"]:SetPoint("TOP", bu, 1, -2)
+			_G["BankFrameItem"..i.."Count"]:SetPoint("BOTTOMRIGHT", bu, 0, 0)
 			_G["BankFrameItem"..i.."IconQuestTexture"]:SetAlpha(0)
 			bu.reskinned = true
 		end
@@ -161,7 +161,7 @@ local ReanchorBankButtons = function()
 				bu:SetFrameStrata("HIGH")
 				_G[con.."Item"..i.."Count"]:SetFont(C.media.font, C.media.fontsize, C.media.fontflag)
 				_G[con.."Item"..i.."Count"]:ClearAllPoints()
-				_G[con.."Item"..i.."Count"]:SetPoint("TOP", bu, 1, -2)
+				_G[con.."Item"..i.."Count"]:SetPoint("BOTTOMRIGHT", bu, 0, 0)
 				_G[con.."Item"..i.."IconTexture"]:SetTexCoord(.08, .92, .08, .92)
 				_G[con.."Item"..i.."IconQuestTexture"]:SetAlpha(0)
 				bu.reskinned = true

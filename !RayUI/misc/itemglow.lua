@@ -25,7 +25,9 @@ local function UpdateGlow(button, id)
 			r, g, b = 1, 0, 0
 		else
 			r, g, b = GetItemQualityColor(quality)
-			if(r==1) then r, g, b = 0, 0, 0 end
+			-- if(r==1) then r, g, b = 0, 0, 0 end
+			-- if(quality==0) then r, g, b = 0.4, 0.4, 0.4 end
+			if (quality <=1 ) then r, g, b = 0, 0, 0 end
 		end
 		glow:SetVertexColor(r, g, b)
 		glow:Show()
@@ -75,7 +77,7 @@ CharacterFrame:HookScript('OnShow', updatechar)
 
 local updateinspect = function(self)
 	local unit = InspectFrame.unit
-	if InspectFrame:IsShown() and unit then
+	if InspectFrame:IsShown() and UnitExists(unit) then
 		for key, slotName in ipairs(slots) do
 			local slotID = key % 20
 			local slotFrame = _G["Inspect"..slotName.."Slot"]
