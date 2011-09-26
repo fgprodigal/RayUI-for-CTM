@@ -7,29 +7,24 @@ BUFFS_PER_ROW = 16
 DEBUFF_MAX_DISPLAY = 16
 local warningtime = 6
 
-local backdrop_tab = { 
-    bgFile = cfg.backdrop_texture, 
-    edgeFile = cfg.backdrop_edge_texture,
-    tile = false, tileSize = 0, edgeSize = 5, 
-    insets = {left = 4, right = 4, top = 4, bottom = 4,},}
-local overlay
-
-local make_backdrop = function(f)
-	f:SetFrameLevel(20)
-	f:SetPoint("TOPLEFT",-2.5,2.5)
-	f:SetPoint("BOTTOMRIGHT",2.5,-2.5)
-	f:SetBackdrop(backdrop_tab);
-	f:SetBackdropColor(0,0,0,0)
-	f:SetBackdropBorderColor(0,0,0,1)
+local GetFormattedTime = function(s)
+	if s >= 86400 then
+		return format('%dd', floor(s/86400 + 0.5))
+	elseif s >= 3600 then
+		return format('%dh', floor(s/3600 + 0.5))
+	elseif s >= 60 then
+		return format('%dm', floor(s/60 + 0.5))
+	end
+	return format('%ds', floor(s + 0.5))
 end
 
 ConsolidatedBuffs:ClearAllPoints()
-ConsolidatedBuffs:SetPoint(unpack(cfg.BUFFpos))
-ConsolidatedBuffs:SetSize(cfg.iconsize, cfg.iconsize)
+ConsolidatedBuffs:Point(unpack(cfg.BUFFpos))
+ConsolidatedBuffs:Size(cfg.iconsize, cfg.iconsize)
 ConsolidatedBuffs.SetPoint = nil
 ConsolidatedBuffsIcon:SetTexture("Interface\\Icons\\Spell_ChargePositive")
 ConsolidatedBuffsIcon:SetTexCoord(0.03,0.97,0.03,0.97)
-ConsolidatedBuffsIcon:SetSize(cfg.iconsize-2,cfg.iconsize-2)
+ConsolidatedBuffsIcon:Size(cfg.iconsize-2,cfg.iconsize-2)
 local h = CreateFrame("Frame")
 h:SetParent(ConsolidatedBuffs)
 h:SetAllPoints(ConsolidatedBuffs)
@@ -37,9 +32,7 @@ h:SetFrameLevel(30)
 ConsolidatedBuffsCount:SetParent(h)
 ConsolidatedBuffsCount:SetPoint("BOTTOMRIGHT")
 ConsolidatedBuffsCount:SetFont(cfg.font, cfg.countfontsize, "OUTLINE")
--- local CBbg = CreateFrame("Frame", nil, ConsolidatedBuffs)
--- make_backdrop(CBbg)
-ConsolidatedBuffs:CreateShadow("Background")
+ConsolidatedBuffs:CreateShadow()
 
 for i = 1, 3 do
 	_G["TempEnchant"..i.."Border"]:Hide()
@@ -50,17 +43,15 @@ for i = 1, 3 do
 	h:SetParent(te)
 	h:SetAllPoints(te)
 	h:SetFrameLevel(30)
-	te:SetSize(cfg.iconsize,cfg.iconsize)
-	teicon:SetPoint("BOTTOMRIGHT", te, -2, 2)
+	te:Size(cfg.iconsize,cfg.iconsize)
+	teicon:Point("BOTTOMRIGHT", te, -2, 2)
 	teicon:SetTexCoord(.08, .92, .08, .92)
-	teicon:SetPoint("TOPLEFT", te, 2, -2)
+	teicon:Point("TOPLEFT", te, 2, -2)
 	teduration:ClearAllPoints()
 	teduration:SetParent(h)
-	teduration:SetPoint("BOTTOM", 0, cfg.timeYoffset)
+	teduration:Point("BOTTOM", 0, cfg.timeYoffset)
 	teduration:SetFont(cfg.font, cfg.timefontsize, "THINOUTLINE")
-	-- local bg = CreateFrame("Frame", nil, te)
-	-- make_backdrop(bg)
-	te:CreateShadow("Background")
+	te:CreateShadow()
 end
 
 local function CreateBuffStyle(buttonName, i, debuff)
@@ -75,16 +66,14 @@ local function CreateBuffStyle(buttonName, i, debuff)
 		h:SetAllPoints(buff)
 		h:SetFrameLevel(30)
 		icon:SetTexCoord(.08, .92, .08, .92)
-		icon:SetPoint("TOPLEFT", buff, 2, -2)
-		icon:SetPoint("BOTTOMRIGHT", buff, -2, 2)
-		buff:SetSize(cfg.iconsize,cfg.iconsize)
+		icon:Point("TOPLEFT", buff, 2, -2)
+		icon:Point("BOTTOMRIGHT", buff, -2, 2)
+		buff:Size(cfg.iconsize,cfg.iconsize)
 		duration:ClearAllPoints()
 		duration:SetParent(h)
-		duration:SetPoint("BOTTOM", 0, cfg.timeYoffset)
+		duration:Point("BOTTOM", 0, cfg.timeYoffset)
 		duration:SetFont(cfg.font, cfg.timefontsize, "THINOUTLINE")
-		-- local bg = CreateFrame("Frame", buttonName..i.."Background", buff)
-		-- make_backdrop(bg)
-		buff:CreateShadow("Background")
+		buff:CreateShadow()
 		count:SetParent(h)
 		count:ClearAllPoints()
 		count:SetPoint("TOPRIGHT")
@@ -93,8 +82,8 @@ local function CreateBuffStyle(buttonName, i, debuff)
 	if border then 
 		border:SetTexture(cfg.auratex)
 		border:SetTexCoord(0.03, 0.97, 0.03, 0.97)
-		border:SetPoint("TOPLEFT",2.7,-2.7)
-		border:SetPoint("BOTTOMRIGHT",-2.7,2.7)
+		border:Point("TOPLEFT",1, -1)
+		border:Point("BOTTOMRIGHT",-1, 1)
 	end
 end
 
@@ -115,27 +104,27 @@ local function OverrideBuffAnchors()
 			buff:ClearAllPoints()
 			if ( (i > 1) and (mod(i, BUFFS_PER_ROW) == 1) ) then
  				if ( i == BUFFS_PER_ROW+1 ) then
-					buff:SetPoint("TOP", ConsolidatedBuffs, "BOTTOM", 0, -10)
+					buff:Point("TOP", ConsolidatedBuffs, "BOTTOM", 0, -10)
 				else
-					buff:SetPoint("TOP", aboveBuff, "BOTTOM", 0, -10)
+					buff:Point("TOP", aboveBuff, "BOTTOM", 0, -10)
 				end
 				aboveBuff = buff; 
 			elseif ( i == 1 ) then
-				buff:SetPoint(unpack(cfg.BUFFpos))
+				buff:Point(unpack(cfg.BUFFpos))
 			else
 				if ( numBuffs == 1 ) then
 					local  mh, _, _, oh, _, _, te = GetWeaponEnchantInfo()
 					if mh and oh and te and not UnitHasVehicleUI("player") then
-						buff:SetPoint("TOPRIGHT", TempEnchant3, "TOPLEFT", -cfg.spacing, 0);
+						buff:Point("TOPRIGHT", TempEnchant3, "TOPLEFT", -cfg.spacing, 0);
 					elseif ((mh and oh) or (mh and te) or (oh and te)) and not UnitHasVehicleUI("player") then
-						buff:SetPoint("TOPRIGHT", TempEnchant2, "TOPLEFT", -cfg.spacing, 0);
+						buff:Point("TOPRIGHT", TempEnchant2, "TOPLEFT", -cfg.spacing, 0);
 					elseif ((mh and not oh and not te) or (oh and not mh and not te) or (te and not mh and not oh)) and not UnitHasVehicleUI("player") then
-						buff:SetPoint("TOPRIGHT", TempEnchant1, "TOPLEFT", -cfg.spacing, 0)
+						buff:Point("TOPRIGHT", TempEnchant1, "TOPLEFT", -cfg.spacing, 0)
 					else
-						buff:SetPoint("TOPRIGHT", ConsolidatedBuffs, "TOPLEFT", -cfg.spacing, 0);
+						buff:Point("TOPRIGHT", ConsolidatedBuffs, "TOPLEFT", -cfg.spacing, 0);
 					end
 				else
-					buff:SetPoint("RIGHT", previousBuff, "LEFT", -cfg.spacing, 0);
+					buff:Point("RIGHT", previousBuff, "LEFT", -cfg.spacing, 0);
 				end
 			end
 			previousBuff = buff
@@ -152,9 +141,9 @@ local function OverrideDebuffAnchors(buttonName, i)
 	local debuff = _G[buttonName..i];
 	debuff:ClearAllPoints()
 	if i == 1 then
-		debuff:SetPoint(unpack(cfg.DEBUFFpos))
+		debuff:Point(unpack(cfg.DEBUFFpos))
 	else
-		debuff:SetPoint("RIGHT", _G[buttonName..(i-1)], "LEFT", -cfg.spacing, 0)
+		debuff:Point("RIGHT", _G[buttonName..(i-1)], "LEFT", -cfg.spacing, 0)
 	end
 	if (dtype ~= nil) then
 		color = DebuffTypeColor[dtype]
@@ -179,7 +168,21 @@ function UpdateFlash(self, elapsed)
 		self:SetAlpha(1.0);
 	end
 end
+
+local UpdateDuration = function(auraButton, timeLeft)
+	local duration = auraButton.duration
+	if SHOW_BUFF_DURATIONS == "1" and timeLeft then
+		duration:SetFormattedText(GetFormattedTime(timeLeft))
+		if timeLeft < BUFF_DURATION_WARNING_TIME then
+			duration:SetVertexColor(1, 0, 0)
+		end
+		duration:Show()
+	else
+		duration:Hide()
+	end
+end
 hooksecurefunc("BuffFrame_UpdateAllBuffAnchors", OverrideBuffAnchors)
 hooksecurefunc("DebuffButton_UpdateAnchors", OverrideDebuffAnchors)
 hooksecurefunc("ConsolidatedBuffs_UpdateAllAnchors", OverrideConsolidatedBuffsAnchors)
 hooksecurefunc("AuraButton_OnUpdate", UpdateFlash)
+hooksecurefunc("AuraButton_UpdateDuration", UpdateDuration)
