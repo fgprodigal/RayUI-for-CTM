@@ -135,8 +135,6 @@ function R.ToggleMovers()
 		R.MoveoUF()
 	end
 	
-	R.ToggleFilger()
-	
 	for name, _ in pairs(R.CreatedMovers) do
 		if _G[name]:IsShown() then
 			_G[name]:Hide()

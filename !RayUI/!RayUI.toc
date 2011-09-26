@@ -32,6 +32,7 @@ datatexts\guild.lua
 datatexts\gold.lua
 
 misc\misc.xml
+bags\bags.xml
 
 addonskin\addonskin.xml
 
@@ -42,4 +43,3 @@ oUF_Freeb\swicthlayout.lua
 oUF_Freeb\plugins\Movable.lua
 
 mini\mini.xml
-Filger\Filger.xml

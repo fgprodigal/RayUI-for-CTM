@@ -428,10 +428,6 @@ GeneralDockManager:SetParent(ChatBG)
 
 for i=1,NUM_CHAT_WINDOWS do
 	_G["ChatFrame"..i]:SetParent(ChatBG)
-	_G["ChatFrame"..i]:ClearAllPoints(ChatBG)
-	_G["ChatFrame"..i]:SetPoint("TOPLEFT", ChatBG, "TOPLEFT", 2, -2)
-	_G["ChatFrame"..i]:SetPoint("BOTTOMRIGHT", ChatBG, "BOTTOMRIGHT", -2, 4)
-	
 	local ebParts = {'Left', 'Mid', 'Right'}
 	for _, ebPart in ipairs(ebParts) do
 		_G['ChatFrame'..i..'EditBoxFocus'..ebPart]:SetTexture(0, 0, 0, 0)
@@ -461,6 +457,25 @@ for i=1,NUM_CHAT_WINDOWS do
 			end
 		end)
 end
+		
+local ChatPosUpdate = CreateFrame("Frame")
+ChatPosUpdate:SetScript("OnUpdate", function(self, elapsed)
+	if(self.elapsed and self.elapsed > 1) then
+		for i=1,NUM_CHAT_WINDOWS do
+			if i == 2 then
+				_G["ChatFrame"..i]:ClearAllPoints(ChatBG)
+				_G["ChatFrame"..i]:SetPoint("TOPLEFT", ChatBG, "TOPLEFT", 2, -2 - CombatLogQuickButtonFrame_Custom:GetHeight())
+				_G["ChatFrame"..i]:SetPoint("BOTTOMRIGHT", ChatBG, "BOTTOMRIGHT", -2, 4)
+			else				
+				_G["ChatFrame"..i]:ClearAllPoints(ChatBG)
+				_G["ChatFrame"..i]:SetPoint("TOPLEFT", ChatBG, "TOPLEFT", 2, -2)
+				_G["ChatFrame"..i]:SetPoint("BOTTOMRIGHT", ChatBG, "BOTTOMRIGHT", -2, 4)
+			end
+		end
+	else
+		self.elapsed = (self.elapsed or 0) + elapsed
+	end
+end)
 
 --公会挑战框
 GuildChallengeAlertFrame:Kill()

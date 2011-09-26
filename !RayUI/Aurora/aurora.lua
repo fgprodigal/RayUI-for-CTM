@@ -3959,7 +3959,7 @@ Delay:RegisterEvent("PLAYER_ENTERING_WORLD")
 Delay:SetScript("OnEvent", function()
 	Delay:UnregisterEvent("PLAYER_ENTERING_WORLD")
 
-	if not(IsAddOnLoaded("CowTip") or IsAddOnLoaded("TipTac") or IsAddOnLoaded("FreebTip") or IsAddOnLoaded("lolTip") or IsAddOnLoaded("StarTip")) then
+	if not(IsAddOnLoaded("CowTip") or IsAddOnLoaded("TipTac") or IsAddOnLoaded("FreebTip") or IsAddOnLoaded("lolTip") or IsAddOnLoaded("StarTip") or IsAddOnLoaded("alTooltip")) then
 		local tooltips = {
 			"GameTooltip",
 			"ItemRefTooltip",
@@ -4207,7 +4207,7 @@ Delay:SetScript("OnEvent", function()
 		end
 	end
 	
-	if not(IsAddOnLoaded("Baggins") or IsAddOnLoaded("Stuffing") or IsAddOnLoaded("Combuctor") or IsAddOnLoaded("cargBags") or IsAddOnLoaded("famBags") or IsAddOnLoaded("ArkInventory")) then
+	--[[ if not(IsAddOnLoaded("Baggins") or IsAddOnLoaded("Stuffing") or IsAddOnLoaded("Combuctor") or IsAddOnLoaded("cargBags") or IsAddOnLoaded("famBags") or IsAddOnLoaded("ArkInventory")) then
 		for i = 1, 12 do
 			local con = _G["ContainerFrame"..i]
 
@@ -4295,7 +4295,7 @@ Delay:SetScript("OnEvent", function()
 
 			R.CreateBD(bag, 0)
 		end
-	end
+	end ]]
 
 	if not(IsAddOnLoaded("Butsu") or IsAddOnLoaded("LovelyLoot") or IsAddOnLoaded("XLoot")) then
 		LootFramePortraitOverlay:Hide()

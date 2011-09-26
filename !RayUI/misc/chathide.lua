@@ -182,6 +182,7 @@ if C["chat"].autoshow then
 		end
 		ChatAutoHide:RegisterEvent(event)
 	end
+	ChatAutoHide:RegisterEvent("PLAYER_REGEN_DISABLED")
 	ChatAutoHide:SetScript("OnEvent", function(self, event, ...)
 		if(event == "CHAT_MSG_CHANNEL" and channelNumbers and not channelNumbers[select(8,...)]) then return end
 		timeout = 0
@@ -198,7 +199,7 @@ end
 if C["chat"].autohide then
 	ChatAutoHide:SetScript("OnUpdate", function(self, elapsed)
 		timeout = timeout + elapsed
-		if timeout>C["chat"].autohidetime and R.ChatIn == true and not ChatFrame1EditBox:IsShown() then
+		if timeout>C["chat"].autohidetime and R.ChatIn == true and not ChatFrame1EditBox:IsShown() and not InCombatLockdown() then
 			MoveOut()
 			R.ChatIn = false
 		end
@@ -217,4 +218,8 @@ ChatFrame1EditBox:HookScript("OnShow", function(self)
 	elseif LockToggle then
 		self:Hide()
 	end
+end)
+
+ChatFrame1EditBox:HookScript("OnHide", function(self)
+	timeout = 0
 end)
