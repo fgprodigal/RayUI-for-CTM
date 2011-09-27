@@ -151,7 +151,7 @@ end
 local function CreateVirtualFrame(parent, point)
 	if point == nil then point = parent end
 	
-	if point.backdrop then return end
+	if point.backdrop or parent.backdrop then return end
 	-- parent.backdrop = parent:CreateTexture(nil, "BORDER")
 	-- parent.backdrop:SetDrawLayer("BORDER", -8)
 	-- parent.backdrop:SetPoint("TOPLEFT", point, "TOPLEFT", -noscalemult*3, noscalemult*3)

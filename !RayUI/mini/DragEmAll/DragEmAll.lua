@@ -178,9 +178,9 @@ addon:RegisterEvent("PLAYER_LOGIN")
 addon:RegisterEvent("ADDON_LOADED")
 
 -- Hook bag frames
-hooksecurefunc("ContainerFrame_GenerateFrame", function(frame, size, id)
-  if id <= NUM_BAG_FRAMES or id == KEYRING_CONTAINER then
-    addon:HookFrame(frame:GetName())
-  end
-end)
+-- hooksecurefunc("ContainerFrame_GenerateFrame", function(frame, size, id)
+  -- if id <= NUM_BAG_FRAMES or id == KEYRING_CONTAINER then
+    -- addon:HookFrame(frame:GetName())
+  -- end
+-- end)
 

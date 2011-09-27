@@ -34,45 +34,6 @@ for i = 1,8 do
 	topinfo[i]:SetAlpha(0)
 end
 
--- for i = 1,3 do
-	-- if i == 1 then
-		-- botinfo[i] = CreateFrame("Frame", "BottomInfoBar"..i, UIParent)
-		-- botinfo[i]:CreatePanel("Transparent", 80, 10, "BOTTOMLEFT", UIParent, "BOTTOM", -200, 5)
-	-- else
-		-- botinfo[i] = CreateFrame("Frame", "BottomInfoBar"..i, UIParent)
-		-- botinfo[i]:CreatePanel("Transparent", 80, 10, "LEFT", botinfo[i-1], "RIGHT", 80, 0)
-	-- end
-	
-	-- botinfo[i].Status = CreateFrame("StatusBar", "BottomLeftInfoBarStatus"..i, botinfo[i])
-	-- botinfo[i].Status:SetFrameLevel(12)
-	-- botinfo[i].Status:SetStatusBarTexture(C["media"].normal)
-	-- botinfo[i].Status:SetMinMaxValues(0, 100)
-	-- botinfo[i].Status:SetStatusBarColor(0, 0.4, 1, 0.6)
-	-- botinfo[i].Status:Point("TOPLEFT", botinfo[i], "TOPLEFT", 2, -2)
-	-- botinfo[i].Status:Point("BOTTOMRIGHT", botinfo[i], "BOTTOMRIGHT", -2, 2)
-	-- botinfo[i].Status:SetValue(0)
-	
-	-- botinfo[i].Text = botinfo[i].Status:CreateFontString(nil, "OVERLAY")
-	-- botinfo[i].Text:SetFont(C["media"].font, C["media"].fontsize, C["media"].fontflag)
-	-- botinfo[i].Text:Point("CENTER", botinfo[i], "CENTER", 0, 7)
-	-- botinfo[i].Text:SetShadowColor(0, 0, 0, 0.4)
-	-- botinfo[i].Text:SetShadowOffset(1.25, -1.25)
-	
-	-- botinfo[i].showed = false
-	-- botinfo[i].timer = 0
-	-- botinfo[i]:SetScript("OnShow", function(self)
-		-- self.timer = 0
-		-- self.showed = false
-		-- self:SetAlpha(0)
-		-- self:SetScript("OnUpdate", function(self, elasped)
-			-- self.timer = self.timer + elasped
-			-- self:SetAlpha(self.timer)
-			-- if self.timer>0.5 then self.showed = true end
-		-- end)
-	-- end)
-	-- botinfo[i]:Hide()
--- end
-
 -- FPS
 topinfo[2].Text:SetText("FPS: 0")
 topinfo[2].Status:SetScript("OnUpdate", function(self, elapsed)
@@ -197,7 +158,14 @@ local function UpdateMem(self, t)
 	end
 end
 
-Stat:SetScript("OnMouseDown", function(self) collectgarbage("collect") end)
+Stat:SetScript("OnMouseDown", function(self)
+	UpdateAddOnMemoryUsage()
+	local before = gcinfo()
+	collectgarbage()
+	UpdateAddOnMemoryUsage()
+	DEFAULT_CHAT_FRAME:AddMessage(format(GetAddOnMetadata("!RayUI", "Title")..": %s %s","共释放内存",formatMem(before - gcinfo())))
+	-- collectgarbage("collect")
+end)
 Stat:SetScript("OnUpdate", UpdateMem)
 Stat:SetScript("OnEnter", function(self)
 	local bandwidth = GetAvailableBandwidth()
@@ -417,169 +385,12 @@ UIParent:SetScript("OnShow", function(self)
 		UIFrameFadeIn(UIParent, 1, 0, 1)
 	end)
 
------------------------------------------------------
--- ChatBackground
------------------------------------------------------
-SetCVar("chatStyle", "classic")
-
-local ChatBG = CreateFrame("Frame", "ChatBG", UIParent)
-ChatBG:CreatePanel("Default", 400, 140, "BOTTOMLEFT",UIParent,"BOTTOMLEFT",15,30)
-GeneralDockManager:SetParent(ChatBG)
-
-for i=1,NUM_CHAT_WINDOWS do
-	_G["ChatFrame"..i]:SetParent(ChatBG)
-	local ebParts = {'Left', 'Mid', 'Right'}
-	for _, ebPart in ipairs(ebParts) do
-		_G['ChatFrame'..i..'EditBoxFocus'..ebPart]:SetTexture(0, 0, 0, 0)
-		_G['ChatFrame'..i..'EditBoxFocus'..ebPart].SetTexture = function() return end
-	end
-	local chatebbg = CreateFrame("Frame",nil , _G["ChatFrame"..i.."EditBox"])
-	chatebbg:SetPoint("TOPLEFT", -2, -5)
-	chatebbg:SetPoint("BOTTOMRIGHT", 2, 4)
-	chatebbg:CreateShadow("Background")
-	chatebbg.bd = CreateFrame("Frame",nil , chatebbg)
-	chatebbg.bd:SetPoint("TOPLEFT", 2, -2)
-	chatebbg.bd:SetPoint("BOTTOMRIGHT", -2, 2)
-	chatebbg.bd:CreateBorder()
-	_G["ChatFrame"..i.."EditBoxLanguage"]:Kill()
-	
-	hooksecurefunc("ChatEdit_UpdateHeader", function()
-			local type = _G["ChatFrame"..i.."EditBox"]:GetAttribute("chatType")
-			if ( type == "CHANNEL" ) then
-			local id = GetChannelName(_G["ChatFrame"..i.."EditBox"]:GetAttribute("channelTarget"))
-				if id == 0 then
-					chatebbg.bd:SetBackdropBorderColor(unpack(C["media"].bordercolor))
-				else
-					chatebbg.bd:SetBackdropBorderColor(ChatTypeInfo[type..id].r,ChatTypeInfo[type..id].g,ChatTypeInfo[type..id].b)
-				end
-			else
-				chatebbg.bd:SetBackdropBorderColor(ChatTypeInfo[type].r,ChatTypeInfo[type].g,ChatTypeInfo[type].b)
-			end
-		end)
-end
-		
-local ChatPosUpdate = CreateFrame("Frame")
-ChatPosUpdate:SetScript("OnUpdate", function(self, elapsed)
-	if(self.elapsed and self.elapsed > 1) then
-		for i=1,NUM_CHAT_WINDOWS do
-			if i == 2 then
-				_G["ChatFrame"..i]:ClearAllPoints(ChatBG)
-				_G["ChatFrame"..i]:SetPoint("TOPLEFT", ChatBG, "TOPLEFT", 2, -2 - CombatLogQuickButtonFrame_Custom:GetHeight())
-				_G["ChatFrame"..i]:SetPoint("BOTTOMRIGHT", ChatBG, "BOTTOMRIGHT", -2, 4)
-			else				
-				_G["ChatFrame"..i]:ClearAllPoints(ChatBG)
-				_G["ChatFrame"..i]:SetPoint("TOPLEFT", ChatBG, "TOPLEFT", 2, -2)
-				_G["ChatFrame"..i]:SetPoint("BOTTOMRIGHT", ChatBG, "BOTTOMRIGHT", -2, 4)
-			end
-		end
-	else
-		self.elapsed = (self.elapsed or 0) + elapsed
-	end
-end)
-
 --公会挑战框
 GuildChallengeAlertFrame:Kill()
 
------------------------------------------------------
--- MinimapBackground
------------------------------------------------------
-Minimap.bg = CreateFrame("Frame", nil, Minimap)
-Minimap.bg:SetPoint("TOPLEFT", -2, 2)
-Minimap.bg:SetPoint("BOTTOMRIGHT", 2, -2)
-Minimap.bg:CreateShadow("Background")
-
---New Mail Check
-local checkmail = CreateFrame("Frame")
-checkmail:RegisterEvent("ADDON_LOADED")
-checkmail:RegisterEvent("CALENDAR_UPDATE_PENDING_INVITES")
-checkmail:RegisterEvent("UPDATE_PENDING_MAIL")
-checkmail:RegisterEvent("PLAYER_ENTERING_WORLD")
-checkmail:SetScript("OnEvent", function(self, event, addon)
-	local inv = CalendarGetNumPendingInvites()
-	local mail = HasNewMail()
-	if inv > 0 and mail then -- New invites and mail
-		Minimap.bg.glow:SetBackdropBorderColor(1, .5, 0)
-		Minimap.bg:StartGlow()
-	elseif inv > 0 and not mail then -- New invites and no mail
-		Minimap.bg.glow:SetBackdropBorderColor(1, 30/255, 60/255)
-		Minimap.bg:StartGlow()
-	elseif inv==0 and mail then -- No invites and new mail
-		Minimap.bg.glow:SetBackdropBorderColor(0, 1, 0)
-		Minimap.bg:StartGlow()
-	else -- None of the above
-		Minimap.bg:StopGlow()
-		Minimap.bg.glow:SetAlpha(1)
-		Minimap.bg.glow:SetBackdropBorderColor(unpack(C["media"].bordercolor))
-	end
-end)
 
 --实名好友弹窗位置
 BNToastFrame:HookScript("OnShow", function(self)
 	self:ClearAllPoints()
 	self:SetPoint("BOTTOMLEFT", ChatFrame1Tab, "TOPLEFT", 0, 0)
 end)
-
-local AchievementHolder = CreateFrame("Frame", "AchievementHolder", UIParent)
-AchievementHolder:SetWidth(180)
-AchievementHolder:SetHeight(20)
-AchievementHolder:SetPoint("CENTER", UIParent, "CENTER", 0, 170)
-
-local pos = "TOP"
-
-function AchievementMove(self, event, ...)
-	local previousFrame
-	for i=1, MAX_ACHIEVEMENT_ALERTS do
-		local aFrame = _G["AchievementAlertFrame"..i]
-		if ( aFrame ) then
-			aFrame:ClearAllPoints()
-			if pos == "TOP" then
-				if ( previousFrame and previousFrame:IsShown() ) then
-					aFrame:SetPoint("TOP", previousFrame, "BOTTOM", 0, -10)
-				else
-					aFrame:SetPoint("TOP", AchievementHolder, "BOTTOM")
-				end
-			else
-				if ( previousFrame and previousFrame:IsShown() ) then
-					aFrame:SetPoint("BOTTOM", previousFrame, "TOP", 0, 10)
-				else
-					aFrame:SetPoint("BOTTOM", AchievementHolder, "TOP")	
-				end			
-			end
-			
-			previousFrame = aFrame
-		end
-	end
-	
-end
-
-hooksecurefunc("AchievementAlertFrame_FixAnchors", AchievementMove)
-
-hooksecurefunc("DungeonCompletionAlertFrame_FixAnchors", function()
-	for i=MAX_ACHIEVEMENT_ALERTS, 1, -1 do
-		local aFrame = _G["AchievementAlertFrame"..i]
-		if ( aFrame and aFrame:IsShown() ) then
-			DungeonCompletionAlertFrame1:ClearAllPoints()
-			if pos == "TOP" then
-				DungeonCompletionAlertFrame1:SetPoint("TOP", aFrame, "BOTTOM", 0, -10)
-			else
-				DungeonCompletionAlertFrame1:SetPoint("BOTTOM", aFrame, "TOP", 0, 10)
-			end
-			
-			return
-		end
-		
-		DungeonCompletionAlertFrame1:ClearAllPoints()	
-		if pos == "TOP" then
-			DungeonCompletionAlertFrame1:SetPoint("TOP", AchievementHolder, "BOTTOM")
-		else
-			DungeonCompletionAlertFrame1:SetPoint("BOTTOM", AchievementHolder, "TOP")
-		end
-	end
-end)
-
-local achieveframe = CreateFrame("Frame")
-achieveframe:RegisterEvent("ACHIEVEMENT_EARNED")
-achieveframe:SetScript("OnEvent", function(self, event, ...) AchievementMove(self, event, ...) end)
-
--- local test = CreateFrame("Button",nil,UIParent)
--- test:CreateButton("Shadow", 200, 10, "CENTER", UIParent, "CENTER", 0, 0)

@@ -20,9 +20,7 @@ functions\movers.lua
 Aurora\ACP.lua
 Aurora\ace3.lua
 
-functions\layout.lua
-functions\nameplates.lua
-functions\bubbles.lua
+layout\layout.xml
 
 datatexts\specswitch.lua
 datatexts\stat1.lua
@@ -32,7 +30,7 @@ datatexts\guild.lua
 datatexts\gold.lua
 
 misc\misc.xml
-bags\bags.xml
+scripts\scripts.xml
 
 addonskin\addonskin.xml
 

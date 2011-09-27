@@ -1,0 +1,6 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="infobar.lua"/>
+	<Script file="chatbg.lua"/>
+	<Script file="achievementalert.lua"/>
+	<Script file="minimapglow.lua"/>
+</Ui>

@@ -3300,15 +3300,24 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 			_G["Inspect"..slots[i].."SlotFrame"]:Hide()
 			slot:SetNormalTexture("")
 			slot:SetPushedTexture("")
-			slot.bd = CreateFrame("Frame", nil, slot)
-			slot.bd:SetPoint("TOPLEFT", -1, 1)
-			slot.bd:SetPoint("BOTTOMRIGHT", 1, -1)
-			slot.bd:SetFrameLevel(0)
-			R.CreateBD(slot.bd, .25)
 			_G["Inspect"..slots[i].."SlotIconTexture"]:SetTexCoord(.08, .92, .08, .92)
 		end
 		select(8, InspectMainHandSlot:GetRegions()):Hide()
 		select(8, InspectRangedSlot:GetRegions()):Hide()
+		
+		hooksecurefunc("InspectPaperDollItemSlotButton_Update", function()
+			if InspectFrame:IsShown() and UnitExists(InspectFrame.unit) then
+				for i = 1, #slots do
+					local ic = _G["Inspect"..slots[i].."SlotIconTexture"]
+
+					if GetInventoryItemLink(InspectFrame.unit, i) then
+						ic:SetAlpha(1)
+					else
+						ic:SetAlpha(0)
+					end
+				end
+			end
+		end)
 
 		R.ReskinClose(InspectFrameCloseButton)
 	elseif addon == "Blizzard_ItemSocketingUI" then

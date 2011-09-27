@@ -2,17 +2,19 @@
 	<Script file="announce.lua"/>
 	<Script file="autodez.lua"/>
 	<Script file="autorelease.lua"/>
+	<Script file="bubbles.lua"/>
+	<Script file="chathide.lua"/>
+	<Script file="durability.lua"/>
+	<Script file="itemglow.lua"/>
 	<Script file="loot_roll.lua"/>
 	<Script file="merchant.lua"/>
+	<Script file="minimapbuttoncollector.lua"/>
 	<Script file="mirror.lua"/>
 	<Script file="quests.lua"/>
-	<Script file="reminder.lua"/>
-	<Script file="timerTracker.lua"/>
-	<Script file="chathide.lua"/>
-	<Script file="vehicle.lua"/>
-	<Script file="itemglow.lua"/>
-	<Script file="durability.lua"/>
-	<Script file="raidUtility.lua"/>
 	<Script file="raidmarker.lua"/>
+	<Script file="raidUtility.lua"/>
+	<Script file="reminder.lua"/>
 	<Script file="spam.lua"/>
+	<Script file="timerTracker.lua"/>
+	<Script file="vehicle.lua"/>
 </Ui>
