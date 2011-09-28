@@ -1,4 +1,4 @@
-local R, C, DB = unpack(select(2, ...))
+local R, C, L, DB = unpack(select(2, ...))
 
 local bar = CreateFrame("Frame","rABS_MainMenuBar",UIParent, "SecureHandlerStateTemplate")
 bar:SetWidth(C["actionbar"].buttonsize*12+C["actionbar"].buttonspacing*11)
@@ -9,7 +9,7 @@ bar:SetHitRectInsets(-C["actionbar"].barinset, -C["actionbar"].barinset, -C["act
 
 bar:SetScale(C["actionbar"].barscale)
 
-R.CreateMover(bar, "ActionBar1Mover", "动作条1锚点", true)
+R.CreateMover(bar, "ActionBar1Mover", L["动作条1锚点"], true)
 
 local Page = {
 	["DRUID"] = "[bonusbar:1,nostealth] 7; [bonusbar:1,stealth] 8; [bonusbar:2] 8; [bonusbar:3] 9; [bonusbar:4] 10;",

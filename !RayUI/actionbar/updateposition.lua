@@ -1,4 +1,4 @@
-local R, C, DB = unpack(select(2, ...))
+local R, C, L, DB = unpack(select(2, ...))
 
 function R.Update_ActionBar()
 	if R.SavePath["movers"] == nil then R.SavePath["movers"] = {} end

@@ -1,6 +1,6 @@
 -- Based on tekability by Tekkub
 
-local R, C = unpack(select(2, ...))
+local R, C, L, DB = unpack(select(2, ...))
 
 local SLOTIDS = {}
 for _, slot in pairs({"Head", "Shoulder", "Chest", "Waist", "Legs", "Feet", "Wrist", "Hands", "MainHand", "SecondaryHand", "Ranged"}) do SLOTIDS[slot] = GetInventorySlotInfo(slot .. "Slot") end

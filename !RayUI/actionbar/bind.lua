@@ -1,9 +1,9 @@
-local R, C, DB = unpack(select(2, ...))
+local R, C, L, DB = unpack(select(2, ...))
 
 local bind = CreateFrame("Frame", "ElvuiHoverBind", UIParent)
 -- SLASH COMMAND
 SlashCmdList.MOUSEOVERBIND = function()
-	if InCombatLockdown() then print("您不能在战斗中设定快捷键") return end
+	if InCombatLockdown() then print(L["您不能在战斗中设定快捷键"]) return end
 	if not bind.loaded then
 		local find = string.find
 		local _G = getfenv(0)
@@ -62,9 +62,9 @@ SlashCmdList.MOUSEOVERBIND = function()
 					self:AddLine(bind.button.name, 1, 1, 1)
 					bind.button.bindings = {GetBindingKey(spellmacro.." "..bind.button.name)}
 					if #bind.button.bindings == 0 then
-						self:AddLine("未绑定.", .6, .6, .6)
+						self:AddLine(L["未绑定."], .6, .6, .6)
 					else
-						self:AddDoubleLine("序号", "按键", .6, .6, .6, .6, .6, .6)
+						self:AddDoubleLine(L["序号"], L["按键"], .6, .6, .6, .6, .6, .6)
 						for i = 1, #bind.button.bindings do
 							self:AddDoubleLine(i, bind.button.bindings[i])
 						end
@@ -85,9 +85,9 @@ SlashCmdList.MOUSEOVERBIND = function()
 				
 				bind.button.bindings = {GetBindingKey(spellmacro.." "..bind.button.name)}
 					if #bind.button.bindings == 0 then
-						GameTooltip:AddLine("未绑定.", .6, .6, .6)
+						GameTooltip:AddLine(L["未绑定."], .6, .6, .6)
 					else
-						GameTooltip:AddDoubleLine("序号", "按键", .6, .6, .6, .6, .6, .6)
+						GameTooltip:AddDoubleLine(L["序号"], L["按键"], .6, .6, .6, .6, .6, .6)
 						for i = 1, #bind.button.bindings do
 							GameTooltip:AddDoubleLine("Binding"..i, bind.button.bindings[i], 1, 1, 1)
 						end
@@ -113,9 +113,9 @@ SlashCmdList.MOUSEOVERBIND = function()
 					self:AddLine(bind.button.name, 1, 1, 1)
 					bind.button.bindings = {GetBindingKey(bind.button.bindstring)}
 					if #bind.button.bindings == 0 then
-						self:AddLine("未绑定.", .6, .6, .6)
+						self:AddLine(L["未绑定."], .6, .6, .6)
 					else
-						self:AddDoubleLine("序号", "按键", .6, .6, .6, .6, .6, .6)
+						self:AddDoubleLine(L["序号"], L["按键"], .6, .6, .6, .6, .6, .6)
 						for i = 1, #bind.button.bindings do
 							self:AddDoubleLine(i, bind.button.bindings[i])
 						end
@@ -154,9 +154,9 @@ SlashCmdList.MOUSEOVERBIND = function()
 					self:AddLine(bind.button.name, 1, 1, 1)
 					bind.button.bindings = {GetBindingKey(bind.button.bindstring)}
 					if #bind.button.bindings == 0 then
-						self:AddLine("未绑定.", .6, .6, .6)
+						self:AddLine(L["未绑定."], .6, .6, .6)
 					else
-						self:AddDoubleLine("序号", "按键", .6, .6, .6, .6, .6, .6)
+						self:AddDoubleLine(L["序号"], L["按键"], .6, .6, .6, .6, .6, .6)
 						for i = 1, #bind.button.bindings do
 							self:AddDoubleLine(i, bind.button.bindings[i])
 						end
@@ -172,7 +172,7 @@ SlashCmdList.MOUSEOVERBIND = function()
 				for i = 1, #self.button.bindings do
 					SetBinding(self.button.bindings[i])
 				end
-				print("该按键的绑定已全部取消 |cff00ff00"..self.button.name.."|r.")
+				print(L["该按键的绑定已全部取消"].." |cff00ff00"..self.button.name.."|r.")
 				self:Update(self.button, self.spellmacro)
 				if self.spellmacro~="MACRO" then GameTooltip:Hide() end
 				return
@@ -201,7 +201,7 @@ SlashCmdList.MOUSEOVERBIND = function()
 			else
 				SetBinding(alt..ctrl..shift..key, self.spellmacro.." "..self.button.name)
 			end
-			print(alt..ctrl..shift..key.." |cff00ff00绑定至 |r"..self.button.name..".")
+			print(alt..ctrl..shift..key.." |cff00ff00"..L["绑定至"].." |r"..self.button.name..".")
 			self:Update(self.button, self.spellmacro)
 			if self.spellmacro~="MACRO" then GameTooltip:Hide() end
 		end
@@ -217,10 +217,10 @@ SlashCmdList.MOUSEOVERBIND = function()
 		function bind:Deactivate(save)
 			if save then
 				SaveBindings(2)
-				print("所有快捷键修改已储存")
+				print(L["所有快捷键修改已储存"])
 			else
 				LoadBindings(2)
-				print("这次的快捷键修改已重设为上一次修改")
+				print(L["这次的快捷键修改已重设为上一次修改"])
 			end
 			self.enabled = false
 			self:HideFrame()
@@ -229,9 +229,9 @@ SlashCmdList.MOUSEOVERBIND = function()
 		end
 
 		StaticPopupDialogs["KEYBIND_MODE"] = {
-			text = "将鼠标指向动作列上以绑定快捷键, 您可以按ESC或以右键点击快捷工具栏上任何一格以清除该位置的设定",
-			button1 = "储存",
-			button2 = "放弃",
+			text = L["将鼠标指向动作列上以绑定快捷键, 您可以按ESC或以右键点击快捷工具栏上任何一格以清除该位置的设定"],
+			button1 = L["储存"],
+			button2 = L["放弃"],
 			OnAccept = function() bind:Deactivate(true) end,
 			OnCancel = function() bind:Deactivate(false) end,
 			timeout = 0,

@@ -1,5 +1,5 @@
 --Credit Baudzilla
-local R, C, DB = unpack(select(2, ...))
+local R, C, L, DB = unpack(select(2, ...))
 
 local ButtonIsDown
 local RaidMarkFrame = CreateFrame("Frame", nil, UIParent)
@@ -14,7 +14,7 @@ local function RaidMarkCanMark()
 		if IsRaidLeader()or IsRaidOfficer()then
 			return true
 		else
-			UIErrorsFrame:AddMessage("你没有权限设置团队标记", 1.0, 0.1, 0.1, 1.0, UIERRORS_HOLD_TIME)
+			UIErrorsFrame:AddMessage(L["你没有权限设置团队标记"], 1.0, 0.1, 0.1, 1.0, UIERRORS_HOLD_TIME)
 			return false
 		end	
 	else

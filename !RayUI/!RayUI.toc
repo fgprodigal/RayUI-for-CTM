@@ -1,6 +1,6 @@
 ﻿## Interface: 40100
 ## Title: |cff7aa6d6Ray|r|cffff0000U|r|cff7aa6d6I|r
-## Version: 20110927
+## Version: 0.5
 ## Author: Tukz, Elv, Ray
 ## OptionalDeps: Skada, ACP, DBM-Core, BigWigs
 ## RequiredDeps: !RayUI_Config
@@ -9,6 +9,7 @@
 functions\init.lua
 libs\libs.xml
 config.lua
+locale\locale.xml
 functions\configui.lua
 media\sharedmedia.lua
 

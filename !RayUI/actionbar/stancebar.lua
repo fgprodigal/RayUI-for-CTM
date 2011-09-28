@@ -1,4 +1,4 @@
-local R, C, DB = unpack(select(2, ...))
+local R, C, L, DB = unpack(select(2, ...))
     
   
 local num = NUM_SHAPESHIFT_SLOTS
@@ -11,7 +11,7 @@ bar:SetHitRectInsets(-C["actionbar"].barinset, -C["actionbar"].barinset, -C["act
 
 bar:SetScale(C["actionbar"].barscale)
 
-R.CreateMover(bar, "StanceBarMover", "姿态条锚点", true)  
+R.CreateMover(bar, "StanceBarMover", L["姿态条锚点"], true)  
 
 ShapeshiftBarFrame:SetParent(bar)
 ShapeshiftBarFrame:EnableMouse(false)

@@ -19,7 +19,7 @@
 			.multiplier : Sets the multiplier for the text or the background (can be two differents multipliers)
 
 --]]
-local R, C, DB = unpack(select(2, ...))
+local R, C, L, DB = unpack(select(2, ...))
 
 local _, ns = ...
 local oUF = oUF_Freeb or ns.oUF or oUF

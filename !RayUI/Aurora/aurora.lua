@@ -1,4 +1,4 @@
-local R,C = unpack(select(2, ...))
+local R, C, L, DB = unpack(select(2, ...))
 local map = true -- yay map
 
 local alpha = .5 -- controls the backdrop opacity (0 = invisible, 1 = solid)

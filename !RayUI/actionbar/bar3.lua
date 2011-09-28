@@ -1,4 +1,4 @@
-local R, C, DB = unpack(select(2, ...))
+local R, C, L, DB = unpack(select(2, ...))
 
 local bar = CreateFrame("Frame","rABS_MultiBarBottomRight",UIParent, "SecureHandlerStateTemplate")
 bar:SetWidth(C["actionbar"].buttonsize*12+C["actionbar"].buttonspacing*11)
@@ -9,7 +9,7 @@ bar:SetHitRectInsets(-C["actionbar"].barinset, -C["actionbar"].barinset, -C["act
 
 bar:SetScale(C["actionbar"].barscale)
 
-R.CreateMover(bar, "ActionBar3Mover", "动作条3锚点", true)
+R.CreateMover(bar, "ActionBar3Mover", L["动作条3锚点"], true)
 
 MultiBarBottomRight:SetParent(bar)
   

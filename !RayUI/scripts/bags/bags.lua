@@ -1,6 +1,6 @@
 -- Originally based on aBags by Alza.
 
-local R, C, DB = unpack(select(2, ...))
+local R, C, L, DB = unpack(select(2, ...))
 
 --[[ Get the number of bag and bank container slots used ]]
 
@@ -106,7 +106,7 @@ local purchase = bankholder:CreateFontString(nil, "OVERLAY")
 purchase:SetFont(C.media.font, C.media.fontsize, C.media.fontflag)
 purchase:SetShadowColor(0, 0, 0, 0)
 purchase:SetPoint("BOTTOMLEFT", bankholder, "BOTTOMLEFT", 4, 4)
-purchase:SetText("输入/purchase购买栏位.")
+purchase:SetText(L["输入/purchase购买栏位."])
 
 local ReanchorBankButtons = function()
 	table.wipe(bankbuttons)
@@ -409,7 +409,7 @@ editbox:SetPoint("TOPLEFT", holder, "BOTTOMLEFT", 0, -5)
 editbox:SetPoint("TOPRIGHT", holder, "BOTTOMRIGHT", 0, -5)
 editbox:SetAutoFocus(false)
 editbox:SetFont(C.media.font, C.media.fontsize, C.media.fontflag)
-editbox:SetText("点击查找...")
+editbox:SetText(L["点击查找..."])
 editbox:SetJustifyH("CENTER")
 R.CreateBD(editbox, .6)
 R.CreateSD(editbox)
@@ -461,7 +461,7 @@ local Reset = function(self)
 	end
 	self:SetAlpha(0)
 	self:SetScript("OnLeave", HideSearch)
-	self:SetText("点击查找...")
+	self:SetText(L["点击查找..."])
 end
 
 local text
@@ -502,7 +502,7 @@ JpackButton:SetScript("OnMouseUp", function(self, btn)
 JpackButton:SetScript("OnEnter", function(self)
 		GameTooltip:SetOwner(self, "ANCHOR_LEFT", -10, 0)
 		GameTooltip:ClearLines()
-		GameTooltip:AddLine("左键点击逆序整理，右键点击正序整理")
+		GameTooltip:AddLine(L["左键点击逆序整理，右键点击正序整理"])
 		GameTooltip:Show()
 	end)
 JpackButton:SetScript("OnLeave", function(self)
@@ -513,7 +513,7 @@ local JpackButtonText = JpackButton:CreateFontString(nil, "OVERLAY")
 JpackButtonText:SetPoint("CENTER", JpackButton)
 JpackButtonText:SetFontObject(GameFontNormalSmall)
 JpackButtonText:SetFont(C.media.font, C.media.fontsize)
-JpackButtonText:SetText("整理背包")
+JpackButtonText:SetText(L["整理背包"])
 
 holder:SetMovable(true)
 holder:RegisterForDrag("LeftButton")
@@ -571,12 +571,12 @@ SlashCmdList.PURCHASE = function(cmd)
 	if BankFrame and BankFrame:IsShown() then
 		local _, full = GetNumBankSlots()
 		if full then
-			print("不能再购买栏位了.")
+			print(L["不能再购买栏位了."])
 			return
 		end
 		StaticPopup_Show("CONFIRM_BUY_BANK_SLOT")
 	else
-		print("请先访问银行.")
+		print(L["请先访问银行."])
 	end
 end
 SLASH_PURCHASE1 = "/purchase"

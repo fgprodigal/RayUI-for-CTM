@@ -1,4 +1,4 @@
-local R, C, DB = unpack(select(2, ...))
+local R, C, L, DB = unpack(select(2, ...))
   
   if R.myclass == "SHAMAN" then
 
@@ -24,7 +24,7 @@ local R, C, DB = unpack(select(2, ...))
       holder:SetPoint("BOTTOMRIGHT", "UIParent", "BOTTOMRIGHT", -134, 180)  
       holder:SetScale(C["actionbar"].barscale)
 	  
-	  R.CreateMover(holder, "TotemBarMover", "图腾条锚点", true)  
+	  R.CreateMover(holder, "TotemBarMover", L["图腾条锚点"], true)  
 
 
     end

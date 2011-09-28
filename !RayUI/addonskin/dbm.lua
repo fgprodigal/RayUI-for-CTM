@@ -3,7 +3,7 @@ Author: Affli@RU-Howling Fjord,
 Modified: Elv
 All rights reserved.
 ]]--
-local R, C, DB = unpack(select(2, ...))
+local R, C, L, DB = unpack(select(2, ...))
 
 if not IsAddOnLoaded("DBM-Core") then return end
 

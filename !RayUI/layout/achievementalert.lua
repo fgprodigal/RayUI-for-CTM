@@ -1,4 +1,4 @@
-local R, C, DB = unpack(select(2, ...))
+local R, C, L, DB = unpack(select(2, ...))
 ----AchievementAlertFrame_ShowAlert(50)  测试位置
 local AchievementHolder = CreateFrame("Frame", "AchievementHolder", UIParent)
 AchievementHolder:SetWidth(180)

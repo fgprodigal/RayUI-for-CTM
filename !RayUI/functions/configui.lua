@@ -1,7 +1,7 @@
 ----------------------------------------------------------------------------
 -- Copyrights Elv
 ----------------------------------------------------------------------------
-local R, C, DB = unpack(select(2, ...))
+local R, C, L, DB = unpack(select(2, ...))
 
 --Convert default database
 for group,options in pairs(DB) do

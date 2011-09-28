@@ -1,4 +1,4 @@
-local R, C, DB = unpack(select(2, ...))
+local R, C, L, DB = unpack(select(2, ...))
 
 -- create a popup
 StaticPopupDialogs.SET_BN_BROADCAST = {
@@ -127,7 +127,7 @@ local function Update(self, event, ...)
 	-- force update when showing tooltip
 	dataValid = false
 
-	TopInfoBar5.Text:SetFormattedText(displayString, "好友", onlineFriends + numBNetOnline)
+	TopInfoBar5.Text:SetFormattedText(displayString, L["好友"], onlineFriends + numBNetOnline)
 	TopInfoBar5.Status:SetMinMaxValues(0, totalFriends + totalBN)
 	TopInfoBar5.Status:SetValue(onlineFriends + numBNetOnline)
 	self:SetAllPoints(TopInfoBar5)
@@ -210,7 +210,7 @@ Stat:SetScript("OnEnter", function(self)
 
 	GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT", xoff, yoff)
 	GameTooltip:ClearLines()
-	GameTooltip:AddDoubleLine("好友名单:", format(totalOnlineString, totalonline, totalfriends),tthead.r,tthead.g,tthead.b,tthead.r,tthead.g,tthead.b)
+	GameTooltip:AddDoubleLine(L["好友名单"]..":", format(totalOnlineString, totalonline, totalfriends),tthead.r,tthead.g,tthead.b,tthead.r,tthead.g,tthead.b)
 	if onlineFriends > 0 then
 		GameTooltip:AddLine(' ')
 		GameTooltip:AddLine(worldOfWarcraftString)

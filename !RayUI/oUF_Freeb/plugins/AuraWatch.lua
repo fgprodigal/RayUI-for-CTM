@@ -108,7 +108,7 @@ Here is an example of how to set oUF_AW up:
 	end
 -----------------------------------------------------------------------------------------------------------]]
 
-local R, C, DB = unpack(select(2, ...))
+local R, C, L, DB = unpack(select(2, ...))
 
 local _, ns = ...
 local oUF = oUF_Freeb or ns.oUF or oUF

@@ -7,6 +7,11 @@ local colors = RAID_CLASS_COLORS
 local modules = {}
 local testing = false
 
+local _G = _G
+local UnitBuff = UnitBuff
+local UnitDebuff = UnitDebuff
+local CooldownFrame_SetTimer = CooldownFrame_SetTimer
+
 local function CreateShadow(f)
 	if f.shadow then return end
 	

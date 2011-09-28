@@ -1,4 +1,4 @@
-local R, C, DB = unpack(select(2, ...))
+local R, C, L, DB = unpack(select(2, ...))
 
 local autoreleasepvp = CreateFrame("frame")
 autoreleasepvp:RegisterEvent("PLAYER_DEAD")

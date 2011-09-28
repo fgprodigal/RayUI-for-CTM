@@ -1,4 +1,4 @@
-local R, C, DB = unpack(select(2, ...))
+local R, C, L, DB = unpack(select(2, ...))
 
 local announceinterrupt = "PARTY"
 local announce = CreateFrame("Frame")
@@ -37,11 +37,11 @@ drinking_announce:SetScript("OnEvent", function(self, event, ...)
 	local unit, spellName, spellrank, spelline, spellID = ...
 	if UnitIsEnemy("player", unit) and (spellID == 80167 or spellID == 94468 or spellID == 43183 or spellID == 57073 or spellName == "Drinking") then
 		if GetRealNumRaidMembers() > 0 then
-			SendChatMessage(UnitName(unit).."正在吃喝.", "RAID")
+			SendChatMessage(UnitName(unit)..L["正在吃喝."], "RAID")
 		elseif GetRealNumPartyMembers() > 0 and not UnitInRaid("player") then
-			SendChatMessage(UnitName(unit).."正在吃喝.", "PARTY")
+			SendChatMessage(UnitName(unit)..L["正在吃喝."], "PARTY")
 		else
-			SendChatMessage(UnitName(unit).."正在吃喝.", "SAY")
+			SendChatMessage(UnitName(unit)..L["正在吃喝."], "SAY")
 		end
 	end
 end)
@@ -61,22 +61,22 @@ local COMBATLOG_OBJECT_AFFILIATION_MINE = COMBATLOG_OBJECT_AFFILIATION_MINE
 local events = {
 	["SPELL_STOLEN"] = {
 		["enabled"] = true,
-		["msg"] = "已移除",
+		["msg"] = L["已移除"],
 		["color"] = "69CCF0",
 	},
 	["SPELL_DISPEL"] = {
 		["enabled"] = true,
-		["msg"] = "已移除",
+		["msg"] = L["已移除"],
 		["color"] = "3BFF33",
 	},
 	["SPELL_DISPEL_FAILED"] = {
 		["enabled"] = true,
-		["msg"] = "失败",
+		["msg"] = L["失败"],
 		["color"] = "C41F3B",
 	},
 	["SPELL_HEAL"] = {
 		["enabled"] = false,
-		["msg"] = "已治疗",
+		["msg"] = L["已治疗"],
 		["color"] = "3BFF33",
 	},
 }
@@ -145,7 +145,7 @@ local updaterun = CreateFrame("Frame")
  
 local flowingframe = CreateFrame("Frame",nil,UIParent)
 flowingframe:SetFrameStrata("HIGH")
-flowingframe:SetPoint("CENTER",UIParent,0, 150) -- where we want the textframe
+flowingframe:SetPoint("CENTER",UIParent,0, 140) -- where we want the textframe
 flowingframe:SetHeight(64)
  
 local flowingtext = flowingframe:CreateFontString(nil,"OVERLAY")
@@ -275,13 +275,18 @@ SLASH_ALLEYRUN1 = "/arn" -- /command to test the text
 local a = CreateFrame ("Frame")
 a:RegisterEvent("PLAYER_REGEN_ENABLED")
 a:RegisterEvent("PLAYER_REGEN_DISABLED")
+a:RegisterEvent("PLAYER_ENTERING_WORLD")
 a:SetScript("OnEvent", function (self,event)
 	if (UnitIsDead("player")) then return end
-	if event == "PLAYER_REGEN_ENABLED" then
+	if event == "PLAYER_REGEN_ENABLED" and(COMBAT_TEXT_SHOW_COMBAT_STATE=="1") then
 		-- allertrun("LEAVING COMBAT",0.1,1,0.1)
-		allertrun("脱离战斗！",0.1,1,0.1)
-	else
+		allertrun(L["脱离战斗！"],0.1,1,0.1)
+	elseif event == "PLAYER_REGEN_DISABLED" and(COMBAT_TEXT_SHOW_COMBAT_STATE=="1") then
 		-- allertrun("ENTERING COMBAT",1,0.1,0.1)
-		allertrun("进入战斗！",1,0.1,0.1)
+		allertrun(L["进入战斗！"],1,0.1,0.1)
+	elseif event == "PLAYER_ENTERING_WORLD" then
+		self:UnregisterEvent("PLAYER_ENTERING_WORLD")
+		CombatText:UnregisterEvent("PLAYER_REGEN_ENABLED")
+		CombatText:UnregisterEvent("PLAYER_REGEN_DISABLED")
 	end
 end)

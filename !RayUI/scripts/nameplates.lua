@@ -1,4 +1,4 @@
-local R, C, DB = unpack(select(2, ...)) -- Import Functions/Constants, Config, Locales
+local R, C, L, DB = unpack(select(2, ...))
 
 local FONTSIZE = 10
 local hpHeight = 7

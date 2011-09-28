@@ -1,4 +1,4 @@
-local R, C, DB = unpack(select(2, ...))
+local R, C, L, DB = unpack(select(2, ...))
 
 local ADDON_NAME, ns = ...
 local oUF = oUF_Freeb or ns.oUF or oUF

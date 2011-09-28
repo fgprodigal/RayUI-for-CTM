@@ -9,16 +9,18 @@
 local addon, engine = ...
 engine[1] = {} -- R, functions, constants
 engine[2] = {} -- C, config
-engine[3] = {} -- DB
+engine[3] = {} -- L, locale
+engine[4] = {} -- DB
 
+setmetatable(engine[3], {__index = function(_, key) return key end})
 RayUI = engine 
 
 --[[
-	This should be at the top of every file inside of the ElvUI AddOn:
+	This should be at the top of every file inside of the RayUI AddOn:
 	
-	local E, C, L, DB = unpack(select(2, ...))
+	local R, C, L, DB = unpack(select(2, ...))
 
-	This is how another addon imports the ElvUI engine:
+	This is how another addon imports the RayUI engine:
 	
-	local E, C, L, DB = unpack(ElvUI)
+	local R, C, L, DB = unpack(RayUI)
 ]]

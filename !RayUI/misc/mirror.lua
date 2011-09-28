@@ -1,10 +1,10 @@
-local R, C, DB = unpack(select(2, ...))
+local R, C, L, DB = unpack(select(2, ...))
 
 ---------------------------------------------------------------------
 -- original by haste, edited for Elvui :), styled for RayUI
 ---------------------------------------------------------------------
 
-local _, settings = ...
+local settings = {}
 
 local _DEFAULTS = {
 	width = R.Scale(220),

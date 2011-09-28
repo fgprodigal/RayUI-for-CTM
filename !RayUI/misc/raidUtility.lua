@@ -1,6 +1,6 @@
 --Raid Utility by Elv22
 
-local R, C, DB = unpack(select(2, ...))
+local R, C, L, DB = unpack(select(2, ...))
 
 local panel_height = ((R.Scale(5)*5) + (R.Scale(20)*5))
 
@@ -19,7 +19,7 @@ R.CreateSD(RaidUtilityPanel)
 local function DisbandRaidGroup()
 		if InCombatLockdown() then return end -- Prevent user error in combat
 		
-		SendChatMessage("正在解散队伍..", "RAID" or "PARTY")
+		SendChatMessage(L["正在解散队伍.."], "RAID" or "PARTY")
 		if UnitInRaid("player") then
 			for i = 1, GetNumRaidMembers() do
 				local name, _, _, _, _, _, _, online = GetRaidRosterInfo(i)
@@ -43,7 +43,7 @@ end
 SLASH_GROUPDISBAND1 = '/rd'
 
 StaticPopupDialogs["DISBAND_RAID"] = {
-	text = "是否确定解散队伍?",
+	text = L["是否确定解散队伍?"],
 	button1 = ACCEPT,
 	button2 = CANCEL,
 	OnAccept = DisbandRaidGroup,
@@ -99,7 +99,7 @@ local function CreateButton(name, parent, template, width, height, point, relati
 end
 
 --Show Button
-CreateButton("ShowButton", UIParent, "UIMenuButtonStretchTemplate, SecureHandlerClickTemplate", 80, 18, "TOP", UIParent, "TOP", 0, 2, "团队工具", nil)
+CreateButton("ShowButton", UIParent, "UIMenuButtonStretchTemplate, SecureHandlerClickTemplate", 80, 18, "TOP", UIParent, "TOP", 0, 2, L["团队工具"], nil)
 ShowButton:SetFrameRef("RaidUtilityPanel", RaidUtilityPanel)
 ShowButton:SetAttribute("_onclick", [=[self:Hide(); self:GetFrameRef("RaidUtilityPanel"):Show();]=])
 ShowButton:SetScript("OnMouseUp", function(self) RaidUtilityPanel.toggled = true end)
@@ -111,7 +111,7 @@ CloseButton:SetAttribute("_onclick", [=[self:GetParent():Hide(); self:GetFrameRe
 CloseButton:SetScript("OnMouseUp", function(self) RaidUtilityPanel.toggled = false end)
 
 --Disband Raid button
-CreateButton("DisbandRaidButton", RaidUtilityPanel, "UIMenuButtonStretchTemplate", RaidUtilityPanel:GetWidth() * 0.8, R.Scale(18), "TOP", RaidUtilityPanel, "TOP", 0, R.Scale(-5), "解散队伍", nil)
+CreateButton("DisbandRaidButton", RaidUtilityPanel, "UIMenuButtonStretchTemplate", RaidUtilityPanel:GetWidth() * 0.8, R.Scale(18), "TOP", RaidUtilityPanel, "TOP", 0, R.Scale(-5), L["解散队伍"], nil)
 DisbandRaidButton:SetScript("OnMouseUp", function(self)
 	if CheckRaidStatus() then
 		StaticPopup_Show("DISBAND_RAID")

@@ -1,4 +1,4 @@
-local R, C, DB = unpack(select(2, ...))
+local R, C, L, DB = unpack(select(2, ...))
 
 local ADDON_NAME, ns = ...
 local oUF = oUF_Freeb or ns.oUF or oUF
@@ -95,7 +95,7 @@ function R.FocusText(self)
 	focusdummytext = focusdummy:CreateFontString(self,"OVERLAY")
 	focusdummytext:Point("CENTER", self,0,0)
 	focusdummytext:SetFont(C["media"].font, C["media"].fontsize, C["media"].fontflag)
-	focusdummytext:SetText("焦点")
+	focusdummytext:SetText(L["焦点"])
 	focusdummytext:SetVertexColor(1,0.2,0.1,0)
 
 	focusdummy:SetScript("OnLeave", function(self) focusdummytext:SetVertexColor(1,0.2,0.1,0) end)
@@ -130,7 +130,7 @@ function R.ClearFocusText(self)
 	clearfocustext = clearfocus:CreateFontString(self,"OVERLAY")
 	clearfocustext:Point("CENTER", self,0,0)
 	clearfocustext:SetFont(C["media"].font, C["media"].fontsize, C["media"].fontflag)
-	clearfocustext:SetText("取消焦点")
+	clearfocustext:SetText(L["取消焦点"])
 	clearfocustext:SetVertexColor(1,0.2,0.1,0)
 
 	clearfocus:SetScript("OnLeave", function(self) clearfocustext:SetVertexColor(1,0.2,0.1,0) end)

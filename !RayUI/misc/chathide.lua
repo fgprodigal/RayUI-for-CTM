@@ -1,4 +1,4 @@
-local R, C, DB = unpack(select(2, ...))
+local R, C, L, DB = unpack(select(2, ...))
 
 ----------------------------------------------------------------------
 -- Setup animating chat during combat
@@ -90,14 +90,14 @@ ChatToggle:SetScript("OnEnter",function(self)
 	GameTooltip:SetOwner(self, "ANCHOR_RIGHT", 0, 0)
 	GameTooltip:ClearLines()
 	if R.ChatIn then
-		GameTooltip:AddLine("点击隐藏聊天栏")
+		GameTooltip:AddLine(L["点击隐藏聊天栏"])
 	else
-		GameTooltip:AddLine("点击显示聊天栏")
+		GameTooltip:AddLine(L["点击显示聊天栏"])
 	end
 	if not hasNew then
 		UIFrameFadeIn(self, 0.5, self:GetAlpha(), 1)
 	else
-		GameTooltip:AddLine("有新的悄悄话")
+		GameTooltip:AddLine(L["有新的悄悄话"])
 	end		
 	GameTooltip:Show()
 end)

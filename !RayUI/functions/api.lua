@@ -1,7 +1,7 @@
 -----------------------------------------------------
 -- Credit Tukz, Elv
 -----------------------------------------------------
-local R, C, DB = unpack(select(2, ...))
+local R, C, L, DB = unpack(select(2, ...))
 
 _, R.myclass = UnitClass("player")
 R.level = UnitLevel("player")

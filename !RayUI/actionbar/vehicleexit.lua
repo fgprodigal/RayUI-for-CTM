@@ -1,4 +1,4 @@
-local R, C, DB = unpack(select(2, ...))
+local R, C, L, DB = unpack(select(2, ...))
   
 
 local bar = CreateFrame("Frame","rABS_VehicleBar",UIParent, "SecureHandlerStateTemplate")

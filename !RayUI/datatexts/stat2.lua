@@ -1,4 +1,4 @@
-local R, C, DB = unpack(select(2, ...))
+local R, C, L, DB = unpack(select(2, ...))
 
 local Stat = CreateFrame("Frame")
 Stat:EnableMouse(true)
@@ -49,7 +49,7 @@ local function ShowTooltip(self)
 	GameTooltip:ClearLines()
 	
 	if R.Role == "Tank" then
-		AddTooltipHeader("等级缓和: ")
+		AddTooltipHeader(L["等级缓和"]..": ")
 		local lv = R.level +3
 		for i = 1, 4 do
 			GameTooltip:AddDoubleLine(lv,format(chanceString, CalculateMitigation(lv, effectiveArmor) * 100),1,1,1)
@@ -88,7 +88,7 @@ end
 local function UpdateCaster(self)
 	local spellcrit = GetSpellCritChance(1)
 
-	Text:SetFormattedText(displayFloatString, "致命: ", spellcrit)
+	Text:SetFormattedText(displayFloatString, L["致命"]..": ", spellcrit)
 	--Setup Tooltip
 	self:SetAllPoints(Text)
 end
@@ -104,7 +104,7 @@ local function UpdateMelee(self)
 		critChance = meleecrit
 	end
 	
-	Text:SetFormattedText(displayFloatString, "致命: ", critChance)
+	Text:SetFormattedText(displayFloatString, L["致命"]..": ", critChance)
 	--Setup Tooltip
 	self:SetAllPoints(Text)
 end

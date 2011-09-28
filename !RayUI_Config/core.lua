@@ -1,5 +1,5 @@
 local RayUIConfig = LibStub("AceAddon-3.0"):NewAddon("RayUIConfig", "AceConsole-3.0", "AceEvent-3.0")
-local R, C, DB
+local R, C, L, DB
 local LSM = LibStub("LibSharedMedia-3.0")
 local db = {}
 local defaults
@@ -10,7 +10,7 @@ local ACD = LibStub("AceConfigDialog-3.0")
 local ACR = LibStub("AceConfigRegistry-3.0")
 
 function RayUIConfig:LoadDefaults()
-	R, C, DB = unpack(RayUI)
+	R, C, L, DB = unpack(RayUI)
 	--Defaults
 	defaults = {
 		profile = {
@@ -73,7 +73,7 @@ function RayUIConfig.GenerateOptions()
 end
 
 function RayUIConfig.GenerateOptionsInternal()
-	local R, C, DB = unpack(RayUI)
+	local R, C, L, DB = unpack(RayUI)
 
 	StaticPopupDialogs["CFG_RELOAD"] = {
 		text = "改变参数需重载应用设置",
@@ -385,5 +385,3 @@ function RayUIConfig.GenerateOptionsInternal()
 	
 	RayUIConfig.Options.args.profiles = RayUIConfig.profile
 end
-
-

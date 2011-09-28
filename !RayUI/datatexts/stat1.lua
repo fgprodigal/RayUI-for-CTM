@@ -1,4 +1,4 @@
-local R, C, DB = unpack(select(2, ...))
+local R, C, L, DB = unpack(select(2, ...))
 
 local Stat = CreateFrame("Frame")
 Stat:EnableMouse(true)
@@ -29,11 +29,11 @@ local function ShowTooltip(self)
 	
 	if R.Role == "Tank" then
 		if targetlv > 1 then
-			GameTooltip:AddDoubleLine("免伤分析", string.join("", " (", "等级", " ", targetlv, ")"))
+			GameTooltip:AddDoubleLine(L["免伤分析"], string.join("", " (", L["等级"], " ", targetlv, ")"))
 		elseif targetlv == -1 then
-			GameTooltip:AddDoubleLine("免伤分析", string.join("", " (", "首领", ")"))
+			GameTooltip:AddDoubleLine(L["免伤分析"], string.join("", " (", L["首领"], ")"))
 		else
-			GameTooltip:AddDoubleLine("免伤分析", string.join("", " (", "等级", " ", playerlv, ")"))
+			GameTooltip:AddDoubleLine(L["免伤分析"], string.join("", " (", L["等级"], " ", playerlv, ")"))
 		end
 		GameTooltip:AddLine' '
 		GameTooltip:AddDoubleLine(DODGE_CHANCE, format(chanceString, dodge),1,1,1)
@@ -140,7 +140,7 @@ local function UpdateTank(self)
 	end
 	avoidance = (dodge+parry+block+basemisschance)
 	
-	Text:SetFormattedText(displayFloatString, "免伤: ", avoidance)
+	Text:SetFormattedText(displayFloatString, L["免伤"]..": ", avoidance)
 	--Setup Tooltip
 	self:SetAllPoints(Text)
 end
@@ -152,7 +152,7 @@ local function UpdateCaster(self)
 		spellpwr = GetSpellBonusDamage(7)
 	end
 	
-	Text:SetFormattedText(displayNumberString, "法伤: ", spellpwr)
+	Text:SetFormattedText(displayNumberString, L["法伤"]..": ", spellpwr)
 	--Setup Tooltip
 	self:SetAllPoints(Text)
 end
@@ -169,7 +169,7 @@ local function UpdateMelee(self)
 		pwr = effective
 	end
 	
-	Text:SetFormattedText(displayNumberString, "攻强: ", pwr)      
+	Text:SetFormattedText(displayNumberString, L["攻强"]..": ", pwr)      
 	--Setup Tooltip
 	self:SetAllPoints(Text)
 end

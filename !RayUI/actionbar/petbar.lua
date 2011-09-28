@@ -1,4 +1,4 @@
-local R, C, DB = unpack(select(2, ...))
+local R, C, L, DB = unpack(select(2, ...))
   
 local num = NUM_PET_ACTION_SLOTS
 
@@ -10,7 +10,7 @@ bar:SetHitRectInsets(-C["actionbar"].barinset, -C["actionbar"].barinset, -C["act
 
 bar:SetScale(C["actionbar"].petbarscale)
 
-R.CreateMover(bar, "PetBarMover", "宠物动作条锚点", true)  
+R.CreateMover(bar, "PetBarMover", L["宠物动作条锚点"], true)  
 
 PetBarMover:SetScale(C["actionbar"].petbarscale)
 

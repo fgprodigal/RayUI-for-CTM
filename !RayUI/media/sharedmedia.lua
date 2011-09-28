@@ -1,4 +1,4 @@
-local R, C, DB = unpack(select(2, ...))
+local R, C, L, DB = unpack(select(2, ...))
 local LSM = LibStub("LibSharedMedia-3.0")
 
 if LSM == nil then return end

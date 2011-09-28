@@ -1,5 +1,5 @@
-local R, C, DB = unpack(select(2, ...))
-  
+local R, C, L, DB = unpack(select(2, ...))
+
   --hide blizzard stuff
 
   MainMenuBar:SetScale(0.00001)

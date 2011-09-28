@@ -1,4 +1,4 @@
-local R, C, DB = unpack(select(2, ...))
+local R, C, L, DB = unpack(select(2, ...))
 
 local topinfo= {}
 local botinfo= {}
@@ -163,7 +163,7 @@ Stat:SetScript("OnMouseDown", function(self)
 	local before = gcinfo()
 	collectgarbage()
 	UpdateAddOnMemoryUsage()
-	DEFAULT_CHAT_FRAME:AddMessage(format(GetAddOnMetadata("!RayUI", "Title")..": %s %s","共释放内存",formatMem(before - gcinfo())))
+	DEFAULT_CHAT_FRAME:AddMessage(format(GetAddOnMetadata("!RayUI", "Title")..": %s %s",L["共释放内存"],formatMem(before - gcinfo())))
 	-- collectgarbage("collect")
 end)
 Stat:SetScript("OnUpdate", UpdateMem)
@@ -174,15 +174,15 @@ Stat:SetScript("OnEnter", function(self)
 	GameTooltip:SetOwner(panel, anchor, xoff, yoff)
 	GameTooltip:ClearLines()
 	
-	GameTooltip:AddDoubleLine("本地延迟: ", string.format(homeLatencyString, home_latency), 0.69, 0.31, 0.31,0.84, 0.75, 0.65)
+	GameTooltip:AddDoubleLine(L["本地延迟"]..": ", string.format(homeLatencyString, home_latency), 0.69, 0.31, 0.31,0.84, 0.75, 0.65)
 	
 	if bandwidth ~= 0 then
-		GameTooltip:AddDoubleLine("带宽: " , string.format(bandwidthString, bandwidth),0.69, 0.31, 0.31,0.84, 0.75, 0.65)
-		GameTooltip:AddDoubleLine("下载: " , string.format(percentageString, GetDownloadedPercentage() *100),0.69, 0.31, 0.31, 0.84, 0.75, 0.65)
+		GameTooltip:AddDoubleLine(L["带宽"]..": " , string.format(bandwidthString, bandwidth),0.69, 0.31, 0.31,0.84, 0.75, 0.65)
+		GameTooltip:AddDoubleLine(L["下载"]..": " , string.format(percentageString, GetDownloadedPercentage() *100),0.69, 0.31, 0.31, 0.84, 0.75, 0.65)
 		GameTooltip:AddLine(" ")
 	end
 	local totalMemory = UpdateMemory()
-	GameTooltip:AddDoubleLine("总共内存使用: ", formatMem(totalMemory), 0.69, 0.31, 0.31,0.84, 0.75, 0.65)
+	GameTooltip:AddDoubleLine(L["总共内存使用"]..": ", formatMem(totalMemory), 0.69, 0.31, 0.31,0.84, 0.75, 0.65)
 	GameTooltip:AddLine(" ")
 	for i = 1, #memoryTable do
 		if (memoryTable[i][4]) then
@@ -198,17 +198,17 @@ UpdateMem(Stat, 10)
 
 -- DURABILITY
 local Slots = {
-		[1] = {1, "头部", 1000},
-		[2] = {3, "肩部", 1000},
-		[3] = {5, "胸部", 1000},
-		[4] = {6, "腰部", 1000},
-		[5] = {9, "手腕", 1000},
-		[6] = {10, "手", 1000},
-		[7] = {7, "腿部", 1000},
-		[8] = {8, "脚", 1000},
-		[9] = {16, "主手", 1000},
-		[10] = {17, "副手", 1000},
-		[11] = {18, "远程", 1000}
+		[1] = {1, L["头部"], 1000},
+		[2] = {3, L["肩部"], 1000},
+		[3] = {5, L["胸部"], 1000},
+		[4] = {6, L["腰部"], 1000},
+		[5] = {9, L["手腕"], 1000},
+		[6] = {10, L["手"], 1000},
+		[7] = {7, L["腿部"], 1000},
+		[8] = {8, L["脚"], 1000},
+		[9] = {16, L["主手"], 1000},
+		[10] = {17, L["副手"], 1000},
+		[11] = {18, L["远程"], 1000}
 	}
 local tooltipString = "%d %%"
 topinfo[5].Status:SetScript("OnEvent", function(self)
@@ -242,6 +242,7 @@ topinfo[5].Status:SetScript("OnEnter", function(self)
 	if not InCombatLockdown() then
 		GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT", 0, 0)
 		GameTooltip:ClearLines()
+		GameTooltip:AddLine(DURABILITY..":")
 		for i = 1, 11 do
 			if Slots[i][3] ~= 1000 then
 				green = Slots[i][3]*2
@@ -364,7 +365,7 @@ toggle:ClearAllPoints()
 toggle:SetAllPoints(topinfo[8])
 toggle:EnableMouse(true)
 
-topinfo[8].Text:SetText("货币")
+topinfo[8].Text:SetText(L["货币"])
 topinfo[8].Status:SetValue(0)
 toggle:SetScript("OnMouseDown", function(self)
 	for _, frame in pairs(CurrencyData) do

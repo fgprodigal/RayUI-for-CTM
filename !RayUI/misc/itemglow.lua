@@ -1,6 +1,6 @@
 -- Based on oGlow by Haste
 
-local R, C = unpack(select(2, ...))
+local R, C, L, DB = unpack(select(2, ...))
 
 local function UpdateGlow(button, id)
 	local quality, texture, _
