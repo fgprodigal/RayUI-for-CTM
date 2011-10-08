@@ -1,10 +1,11 @@
-﻿-- Config
+﻿local R, C = unpack(RayUI)
+-- Config
 local Scale = 1				-- Minimap scale
 local ClassColorBorder = false	-- Should border around minimap be classcolored? Enabling it disables color settings below
 local r, g, b, a = 0, 0, 0, .7	-- Border colors and alhpa. More info: http://www.wowwiki.com/API_Frame_SetBackdropColor
 local BGThickness = 2           -- Border thickness in pixels
 --local MapPosition = {"TOPRIGHT", "UIParent", "TOPRIGHT", -10, -20}
-local MapPosition = {"BOTTOMRIGHT", "UIParent", "BOTTOMRIGHT", -28, 33}
+local MapPosition = C.general.speciallayout and {"TOPLEFT", "UIParent", "TOPLEFT", 10, -40} or {"BOTTOMRIGHT", "UIParent", "BOTTOMRIGHT", -28, 33}
 local zoneTextYOffset = 10		-- Zone text position
 
 -- Shape, location and scale

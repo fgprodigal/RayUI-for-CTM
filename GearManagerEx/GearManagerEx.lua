@@ -265,18 +265,6 @@ setMenu.relativePoint = "BOTTOMLEFT"
 setMenu.xOffset = -4
 setMenu.yOffset = -4
 
-local function OnMenuResaveSet()
-	GearManagerEx_ResaveSet(rClickedSet)
-end
-
-local function OnMenuDeleteSet()
-	GearManagerEx_DeleteSet(rClickedSet)
-end
-
-local function OnMenuRenameSet()
-	GearManagerEx_RenameSet(rClickedSet)
-end
-
 local function OnMenuDepositSet()
 	GearManagerEx_BankSet(rClickedSet, 1)
 end
@@ -304,9 +292,6 @@ end
 -- Our menu items for advanced set operations
 UIDropDownMenu_Initialize(setMenu, function()
 	UIDropDownMenu_AddButton({ text = rClickedSet, isTitle = 1, icon = rClickedSetIcon })
-	UIDropDownMenu_AddButton({ text = L["save set"], disabled = activeSet and activeSet ~= rClickedSet, func = OnMenuResaveSet })
-	UIDropDownMenu_AddButton({ text = L["delete set"], func = OnMenuDeleteSet })
-	UIDropDownMenu_AddButton({ text = L["rename set"], disabled = not activeSet or activeSet ~= rClickedSet, func = OnMenuRenameSet })
 	UIDropDownMenu_AddButton({ text = L["put into bank"], disabled = not bankOpened, func = OnMenuDepositSet })
 	UIDropDownMenu_AddButton({ text = L["take from bank"], disabled = not bankOpened, func = OnMenuWithdrawSet })
 	UIDropDownMenu_AddButton({ text = SHOW_CLOAK, checked = db.showCloaks[rClickedSet] == 1, func = OnMenuShowCloak })
@@ -352,7 +337,7 @@ end, "MENU")
 
 
 
-hooksecurefunc("GearSetButton_OnClick", function(self)
+hooksecurefunc("GearSetButton_OnClick", function(self, ...)
 				prevDropDown = self
 				setMenu.relativeTo = self
 				rClickedSet = self.name

@@ -1,4 +1,4 @@
-## Interface: 40100
+﻿## Interface: 40200
 ## Author: nightcracker
 ## Version: 1.0
 ## Title: ncCooldownFlash

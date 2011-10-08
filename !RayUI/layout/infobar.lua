@@ -5,7 +5,7 @@ local botinfo= {}
 local LastUpdate = 1
 for i = 1,8 do
 	if i == 1 then
-		 topinfo[i] = CreateFrame("Frame", "BottomInfoBar", UIParent)
+		topinfo[i] = CreateFrame("Frame", "BottomInfoBar", UIParent)
 		topinfo[i]:CreatePanel("Transparent", 400, 10, "BOTTOM", UIParent, "BOTTOM", 0, 5)
 	elseif i == 2 then
 		topinfo[i] = CreateFrame("Frame", "TopInfoBar"..i-1, UIParent)

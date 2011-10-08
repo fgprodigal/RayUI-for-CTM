@@ -23,7 +23,7 @@ checkmail:SetScript("OnEvent", function(self, event, addon)
 		Minimap.bg.glow:SetBackdropBorderColor(1, 30/255, 60/255)
 		Minimap.bg:StartGlow()
 	elseif inv==0 and mail then -- No invites and new mail
-		Minimap.bg.glow:SetBackdropBorderColor(0, 1, 0)
+		Minimap.bg.glow:SetBackdropBorderColor(.5, 1, 1)
 		Minimap.bg:StartGlow()
 	else -- None of the above
 		Minimap.bg:StopGlow()

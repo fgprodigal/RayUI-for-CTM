@@ -1,30 +1,59 @@
 local R, C, L, DB = unpack(select(2, ...))
 
-local announceinterrupt = "PARTY"
 local announce = CreateFrame("Frame")
-announce:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
-announce:SetScript("OnEvent", function(self, _, _, event, _, _, sourceName, _, _, destName, _, _, _, _, spellID, spellName)
-	if not (event == "SPELL_INTERRUPT" and (sourceName == UnitName("player") or sourceName == UnitName("pet"))) then return end
-	
-	
-	if announceinterrupt == "PARTY" then
-		if GetRealNumPartyMembers() > 0 then
-			SendChatMessage(INTERRUPT.." "..destName.."的 \124cff71d5ff\124Hspell:"..spellID.."\124h["..spellName.."]\124h\124r!", "PARTY", nil, nil)
-		end
-	elseif announceinterrupt == "RAID" then
+local band = bit.band
+local font = C.media.font -- HOOG0555.ttf 
+local fontflag = "OUTLINE" -- for pixelfont stick to this else OUTLINE or THINOUTLINE
+local fontsize = 20 -- font size
+local iconsize = 24
+local COMBATLOG_OBJECT_AFFILIATION_MINE = COMBATLOG_OBJECT_AFFILIATION_MINE
+ 
+-- Frame function
+local function CreateMessageFrame(name)
+	local f = CreateFrame("ScrollingMessageFrame", name, UIParent)
+	f:SetHeight(80)
+	f:SetWidth(500)
+	f:SetPoint("CENTER", 0, 120)
+	f:SetFrameStrata("HIGH")
+	f:SetTimeVisible(1.5)
+	f:SetFadeDuration(1.5)
+	f:SetMaxLines(3)
+	f:SetFont(font, fontsize, fontflag)
+	f:SetShadowOffset(1.5,-1.5)
+	return f
+end
+
+local announceMessages = CreateMessageFrame("fDispelFrame")
+ 
+local function OnEvent(self, event, timestamp, eventType, hideCaster, sourceGUID, sourceName, sourceFlags, destGUID, destName, destFlags, ...)
+	if (eventType=="SPELL_DISPEL" or eventType=="SPELL_STOLEN" or eventType=="SPELL_INTERRUPT" or eventType=="SPELL_DISPEL_FAILED") and band(sourceFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) == COMBATLOG_OBJECT_AFFILIATION_MINE then
+		local _, _, _, id, effect, _, etype = ...
+		local msg = _G["ACTION_" .. eventType]
+		local color
+		local icon =GetSpellTexture(id)
+
+
 		if GetRealNumRaidMembers() > 0 then
-			SendChatMessage(INTERRUPT.." "..destName.."的 \124cff71d5ff\124Hspell:"..spellID.."\124h["..spellName.."]\124h\124r!", "RAID", nil, nil)		
+			SendChatMessage(msg..": "..destName.." \124cff71d5ff\124Hspell:"..id.."\124h["..effect.."]\124h\124r!", "RAID")
 		elseif GetRealNumPartyMembers() > 0 then
-			SendChatMessage(INTERRUPT.." "..destName.."的 \124cff71d5ff\124Hspell:"..spellID.."\124h["..spellName.."]\124h\124r!", "PARTY", nil, nil)
+			SendChatMessage(msg..": "..destName.." \124cff71d5ff\124Hspell:"..id.."\124h["..effect.."]\124h\124r!", "PARTY")
 		end	
-	elseif announceinterrupt == "SAY" then
-		if GetRealNumRaidMembers() > 0 then
-			SendChatMessage(INTERRUPT.." "..destName.."的 \124cff71d5ff\124Hspell:"..spellID.."\124h["..spellName.."]\124h\124r!", "SAY", nil, nil)		
-	elseif GetRealNumPartyMembers() > 0 then
-			SendChatMessage(INTERRUPT.." "..destName.."的 \124cff71d5ff\124Hspell:"..spellID.."\124h["..spellName.."]\124h\124r!",  "SAY", nil, nil)
-		end		
+
+		if etype=="BUFF"then
+			color={0,1,.5}
+		else
+			color={1,0,.5}
+		end
+		if icon then
+			announceMessages:AddMessage(msg .. ": " .. effect .. " \124T"..icon..":"..iconsize..":"..iconsize..":0:0:64:64:5:59:5:59\124t",unpack(color))
+		else
+			announceMessages:AddMessage(msg .. ": " .. effect ,unpack(color))
+		end
 	end
-end)
+end
+
+announce:RegisterEvent('COMBAT_LOG_EVENT_UNFILTERED')
+announce:SetScript('OnEvent', OnEvent)
 
 -----------------------------------------------
 -- enemy drinking(by Duffed)
@@ -45,76 +74,6 @@ drinking_announce:SetScript("OnEvent", function(self, event, ...)
 		end
 	end
 end)
-
------------------------------------------
--- fDispelAnnounce made by Foof
------------------------------------------
-
-local fDispelAnnounce = CreateFrame("Frame", fDispelAnnounce)
-local band = bit.band
-local font = C.media.font -- HOOG0555.ttf 
-local fontflag = "OUTLINE" -- for pixelfont stick to this else OUTLINE or THINOUTLINE
-local fontsize = 20 -- font size
-local COMBATLOG_OBJECT_AFFILIATION_MINE = COMBATLOG_OBJECT_AFFILIATION_MINE
- 
--- Registered events
-local events = {
-	["SPELL_STOLEN"] = {
-		["enabled"] = true,
-		["msg"] = L["已移除"],
-		["color"] = "69CCF0",
-	},
-	["SPELL_DISPEL"] = {
-		["enabled"] = true,
-		["msg"] = L["已移除"],
-		["color"] = "3BFF33",
-	},
-	["SPELL_DISPEL_FAILED"] = {
-		["enabled"] = true,
-		["msg"] = L["失败"],
-		["color"] = "C41F3B",
-	},
-	["SPELL_HEAL"] = {
-		["enabled"] = false,
-		["msg"] = L["已治疗"],
-		["color"] = "3BFF33",
-	},
-}
- 
--- Frame function
-local function CreateMessageFrame(name)
-	local f = CreateFrame("ScrollingMessageFrame", name, UIParent)
-	f:SetHeight(80)
-	f:SetWidth(500)
-	f:SetPoint("CENTER", 0, 120)
-	f:SetFrameStrata("HIGH")
-	f:SetTimeVisible(1.5)
-	f:SetFadeDuration(1.5)
-	f:SetMaxLines(3)
-	f:SetFont(font, fontsize, fontflag)
-	f:SetShadowOffset(1.5,-1.5)
-	return f
-end
- 
--- Create messageframe
-local dispelMessages = CreateMessageFrame("fDispelFrame")
- 
-local function OnEvent(self, event, timestamp, eventType, hideCaster, sourceGUID, sourceName, sourceFlags, destGUID, destName, destFlags, ...)
-	if(not events[eventType] or not events[eventType].enabled or band(sourceFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) ~= COMBATLOG_OBJECT_AFFILIATION_MINE or sourceGUID ~= UnitGUID("player")) then
-		return
-	end
-	-- Print to partychat
-	local numraid = GetNumRaidMembers()
-	if (numraid > 0 and numraid < 6) then
-		SendChatMessage(events[eventType].msg .. ": " .. select(5, ...), "PARTY")
-	end
-	-- Add to messageframe
-	dispelMessages:AddMessage("|cff" .. events[eventType].color .. events[eventType].msg .. ":|r " .. select(5, ...))
-end
- 
--- finally
-fDispelAnnounce:RegisterEvent('COMBAT_LOG_EVENT_UNFILTERED')
-fDispelAnnounce:SetScript('OnEvent', OnEvent)
 
 -------------------------------------------------------------------------------------
 -- Credit Alleykat 

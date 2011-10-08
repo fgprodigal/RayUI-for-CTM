@@ -566,6 +566,8 @@ MainMenuBarBackpackButton:HookScript("OnLeave", function(self)
 		b.glow:SetAlpha(1)
 	end
 end)
+TradeFrame:HookScript("OnShow", function() OpenBags() end)
+TradeFrame:HookScript("OnHide", function() CloseBags() end)
 
 SlashCmdList.PURCHASE = function(cmd)
 	if BankFrame and BankFrame:IsShown() then

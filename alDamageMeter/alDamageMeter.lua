@@ -1,11 +1,12 @@
 local R, C = unpack(RayUI)
 -- Config start
-local anchor = {"TOPRIGHT", "Minimap", "TOPLEFT", -10, 0}
+local topanchor = {"TOP", "Minimap", "BOTTOM", 0, -10}
+local bottomanchor = {"TOPRIGHT", "Minimap", "TOPLEFT", -10, 0}
 local x, y = 12, -12
 local barheight = 16.5
 local spacing = 1
 local maxbars = 8
-local width, height = 150, maxbars*(barheight+spacing)-spacing
+local width, height = 140, maxbars*(barheight+spacing)-spacing
 local maxfights = 10
 local reportstrings = 10
 local texture = C.media.normal
@@ -13,7 +14,7 @@ local backdrop_color = {0, 0, 0, 0.5}
 local border_color = {0, 0, 0, 1}
 local border_size = 1
 local font = GameFontNormal:GetFont()
-local font_style = "NONE"
+local font_style = "THINOUTLINE"
 local font_size = 12
 local hidetitle = true
 local classcolorbar = true
@@ -696,7 +697,9 @@ local OnEvent = function(self, event, ...)
 				end
 			end
 		end
-		if band(sourceFlags, raidFlags) == 0 and band(destFlags, raidFlags) == 0 and band(sourceFlags, petFlags) == 0 and band(destFlags, petFlags) == 0 then return end
+		if band(sourceFlags, raidFlags) == 0 and band(destFlags, raidFlags) == 0 
+		-- and band(sourceFlags, petFlags) == 0 and band(destFlags, petFlags) == 0 
+		then return end
 		if eventType=="SWING_DAMAGE" or eventType=="RANGE_DAMAGE" or eventType=="SPELL_DAMAGE" or eventType=="SPELL_PERIODIC_DAMAGE" or eventType=="DAMAGE_SHIELD" then
 			local amount, _, _, _, _, absorbed = select(eventType=="SWING_DAMAGE" and 10 or 13, ...)
 			local spellName = eventType=="SWING_DAMAGE" and MELEE_ATTACK or select(11, ...)
@@ -771,7 +774,15 @@ local OnEvent = function(self, event, ...)
 		if name == addon_name then
 			self:UnregisterEvent(event)
 			MainFrame = CreateFrame("Frame", addon_name.."Frame", UIParent)
-			MainFrame:SetPoint(unpack(anchor))
+			MainFrame:SetPoint(unpack(select(3, Minimap:GetPoint()):upper():find("TOP") and topanchor or bottomanchor))
+			hooksecurefunc(Minimap, "SetPoint", function()
+				MainFrame:ClearAllPoints()
+				if select(3, Minimap:GetPoint()):upper():find("TOP") then
+					MainFrame:SetPoint(unpack(topanchor))
+				else
+					MainFrame:SetPoint(unpack(bottomanchor))
+				end
+			end)
 			MainFrame.bg = CreateBG(MainFrame)
 			MainFrame:SetMovable(true)
 			MainFrame:EnableMouse(true)

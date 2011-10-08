@@ -2,8 +2,13 @@ local R, C, L, DB = unpack(select(2, ...))
 
   
 local bar = CreateFrame("Frame","rABS_MultiBarBottomLeft",UIParent, "SecureHandlerStateTemplate")
-bar:SetWidth(C["actionbar"].buttonsize*12+C["actionbar"].buttonspacing*11)
-bar:SetHeight(C["actionbar"].buttonsize)
+if C.general.speciallayout then
+	bar:SetWidth(C["actionbar"].buttonsize*6+C["actionbar"].buttonspacing*5)
+	bar:SetHeight(C["actionbar"].buttonsize*2+C["actionbar"].buttonspacing)
+else
+	bar:SetWidth(C["actionbar"].buttonsize*12+C["actionbar"].buttonspacing*11)
+	bar:SetHeight(C["actionbar"].buttonsize)
+end
 
 bar:SetPoint("BOTTOM", "UIParent", "BOTTOM", 0, 270)
 bar:SetHitRectInsets(-C["actionbar"].barinset, -C["actionbar"].barinset, -C["actionbar"].barinset, -C["actionbar"].barinset)
@@ -18,11 +23,22 @@ for i=1, 12 do
 	local button = _G["MultiBarBottomLeftButton"..i]
 	button:SetSize(C["actionbar"].buttonsize, C["actionbar"].buttonsize)
 	button:ClearAllPoints()
-	if i == 1 then
-		button:SetPoint("BOTTOMLEFT", bar, 0,0)
+	if C.general.speciallayout then
+		if i == 1 then
+			button:SetPoint("TOPLEFT", bar, 0,0)
+		elseif i==7 then
+			button:SetPoint("BOTTOMLEFT", bar, 0,0)
+		else
+			local previous = _G["MultiBarBottomLeftButton"..i-1]      
+			button:SetPoint("LEFT", previous, "RIGHT", C["actionbar"].buttonspacing, 0)
+		end
 	else
-		local previous = _G["MultiBarBottomLeftButton"..i-1]      
-		button:SetPoint("LEFT", previous, "RIGHT", C["actionbar"].buttonspacing, 0)
+		if i == 1 then
+			button:SetPoint("BOTTOMLEFT", bar, 0,0)
+		else
+			local previous = _G["MultiBarBottomLeftButton"..i-1]      
+			button:SetPoint("LEFT", previous, "RIGHT", C["actionbar"].buttonspacing, 0)
+		end
 	end
 end
   

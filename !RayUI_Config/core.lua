@@ -116,6 +116,12 @@ function RayUIConfig.GenerateOptionsInternal()
 						min = 0.64, max = 1, step = 0.01,
 						isPercent = true,
 					},
+					speciallayout = {
+						order = 2,
+						name = "特殊布局",
+						desc = "夏某可的奇葩布局",
+						type = "toggle",
+					},
 				},
 			},
 			ouf = {

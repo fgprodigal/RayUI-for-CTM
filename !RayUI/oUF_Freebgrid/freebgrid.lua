@@ -189,12 +189,6 @@ function ns:UpdateName(name, unit)
             if name:GetStringWidth() <= ns.db.width - 8 then name:SetText(nil); break end
         end
 		
-		if not UnitIsConnected(unit) then
-			name:Hide()
-		elseif not name:IsShown() then
-			name:Show()
-		end
-		
         local str = ns.colorCache[class]..substring
         ns.nameCache[_NAME] = str
         name:UpdateTag()

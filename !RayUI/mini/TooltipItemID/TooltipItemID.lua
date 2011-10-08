@@ -8,6 +8,9 @@ end)
 local function addLine(self,id,isItem)
 	self:AddLine(" ")
 	if isItem then
+		if select(8, GetItemInfo(id)) and select(8, GetItemInfo(id)) >1 then
+			self:AddDoubleLine("|cFFCA3C3C堆叠数:|r","|cffffffff"..select(8, GetItemInfo(id)))
+		end
 		self:AddDoubleLine("|cFFCA3C3C物品ID:|r","|cffffffff"..id)
 	else
 		self:AddDoubleLine("|cFFCA3C3C技能ID:|r","|cffffffff"..id)

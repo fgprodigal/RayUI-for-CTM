@@ -7,7 +7,7 @@ RaidMarkFrame:EnableMouse(true)
 RaidMarkFrame:SetSize(100, 100)
 RaidMarkFrame:SetFrameStrata("DIALOG")
 
-BINDING_NAME_RAIDMARKER = "快速团队标记"
+BINDING_NAME_RAIDMARKER = L["快速团队标记"]
 
 local function RaidMarkCanMark()
 	if GetNumRaidMembers() > 0 then

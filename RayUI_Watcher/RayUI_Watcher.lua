@@ -11,7 +11,6 @@ local _G = _G
 local UnitBuff = UnitBuff
 local UnitDebuff = UnitDebuff
 local CooldownFrame_SetTimer = CooldownFrame_SetTimer
-
 local function CreateShadow(f)
 	if f.shadow then return end
 	
@@ -236,7 +235,7 @@ function RayUIWatcher:NewWatcher(data)
 	function module:UpdateButton(button, index, icon, count, duration, expires, spellID, unitId, filter)
 		button.icon:SetTexture(icon)
 		button.icon:SetTexCoord(.1, .9, .1, .9)
-		button.count:SetText(count==0 and "" or count)
+		button.count:SetText(count > 1 and count or "")
 		if button.cooldown then
 			CooldownFrame_SetTimer(button.cooldown, filter == "CD" and expires or (expires - duration), duration, 1)
 		end
@@ -374,6 +373,7 @@ function RayUIWatcher:NewWatcher(data)
 		num = self:CheckAura("item","ITEM",num)
 		num = self:CheckAura("player","BUFF",num)
 		num = self:CheckAura("player","DEBUFF",num)
+		num = self:CheckAura("pet","BUFF",num)
 		num = self:CheckAura("target","BUFF",num)
 		num = self:CheckAura("target","DEBUFF",num)
 		num = self:CheckAura("focus","DEBUFF",num)
@@ -437,6 +437,9 @@ function RayUIWatcher:NewWatcher(data)
 	end
 	
 	function module:PLAYER_ENTERING_WORLD()
+		if not module.parent:GetPoint() then
+			module.parent:SetPoint(unpack(module.setpoint))
+		end
 		if db.profiles[myclass][self:GetName()] == false then
 			self:Disable()
 		else
@@ -450,7 +453,7 @@ function RayUIWatcher:NewWatcher(data)
 	
 	module.parent = CreateFrame("Frame", module.name, UIParent)
 	module.parent:SetSize(module.size, module.size)
-	module.parent:SetPoint(unpack(module.setpoint))
+	-- module.parent:SetPoint(unpack(module.setpoint))
 	module.parent:SetMovable(true)
 	
 	local mover = CreateFrame("Frame", nil, module.parent)

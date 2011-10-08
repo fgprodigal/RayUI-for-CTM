@@ -137,6 +137,11 @@ function R.ClearFocusText(self)
 	clearfocus:SetScript("OnEnter", function(self) clearfocustext:SetTextColor(.6,.6,.6) end)
 end
 
+local function OnCastSent(self, event, unit, spell, rank)
+	if unit and not self.Castbar.SafeZone then return end
+	self.Castbar.SafeZone.sendTime = GetTime()
+end
+
 local function PostCastStart(self, unit, name, rank, castid)
 	if unit == "vehicle" then unit = "player" end
 	local r, g, b
@@ -151,12 +156,59 @@ local function PostCastStart(self, unit, name, rank, castid)
 	self:SetBackdropColor(r * 1, g * 1, b * 1)
 	self:SetStatusBarColor(r * 1, g * 1, b * 1)
 
-	if self.SafeZone then
-		self:GetStatusBarTexture():SetDrawLayer("ARTWORK")
-		self.SafeZone:SetDrawLayer("BORDER")
+	if self.SafeZone and self.casting then
+		self:GetStatusBarTexture():SetDrawLayer("BORDER")
+		self.SafeZone:SetDrawLayer("ARTWORK")
 		self.SafeZone:ClearAllPoints()
 		self.SafeZone:SetPoint("TOPRIGHT", self)
 		self.SafeZone:SetPoint("BOTTOMRIGHT", self)
+		self.SafeZone.timeDiff = GetTime() - self.SafeZone.sendTime
+		self.SafeZone.timeDiff = self.SafeZone.timeDiff > self.max and self.max or self.SafeZone.timeDiff
+		self.SafeZone:SetWidth(self:GetWidth() * self.SafeZone.timeDiff / self.max)
+	end
+	
+	if self.SafeZone and self.channeling then
+		self:GetStatusBarTexture():SetDrawLayer("BORDER")
+		self.SafeZone:SetDrawLayer("ARTWORK")
+		self.SafeZone:ClearAllPoints()
+		self.SafeZone:SetPoint("TOPLEFT", self)
+		self.SafeZone:SetPoint("BOTTOMLEFT", self)
+		self.SafeZone.timeDiff = GetTime() - self.SafeZone.sendTime
+		self.SafeZone.timeDiff = self.SafeZone.timeDiff > self.max and self.max or self.SafeZone.timeDiff
+		self.SafeZone:SetWidth(self:GetWidth() * self.SafeZone.timeDiff / self.max)
+	end
+end
+
+local function OnCastbarUpdate(self, elapsed)
+	local currentTime = GetTime()
+	if self.casting or self.channeling then
+		local parent = self:GetParent()
+		local duration = self.casting and self.duration + elapsed or self.duration - elapsed
+		if (self.casting and duration >= self.max) or (self.channeling and duration <= 0) then
+			self.casting = nil
+			self.channeling = nil
+			return
+		end
+		if parent.unit == 'player' then
+			if self.delay ~= 0 then
+				self.Time:SetFormattedText('%.1f | |cffff0000%.1f|r', duration, self.casting and self.max + self.delay or self.max - self.delay)
+			else
+				self.Time:SetFormattedText('%.1f | %.1f', duration, self.max)
+			end
+		else
+			self.Time:SetFormattedText('%.1f | %.1f', duration, self.casting and self.max + self.delay or self.max - self.delay)
+		end
+		self.duration = duration
+		self:SetValue(duration)
+		self:SetAlpha(1)
+	else
+		local alpha = self:GetAlpha() - 0.02
+		if alpha > 0 then
+			self:SetAlpha(alpha)
+		else
+			self.fadeOut = nil
+			self:Hide()
+		end
 	end
 end
 
@@ -168,6 +220,14 @@ function R.CreateCastBar(self)
 	self.Castbar:GetStatusBarTexture():SetVertTile(false)
 	self.Castbar:SetFrameStrata("HIGH")
 	self.Castbar:SetHeight(4)
+	
+	self.Castbar.Spark = self.Castbar:CreateTexture(nil, "OVERLAY")
+	self.Castbar.Spark:SetTexture[[Interface\CastingBar\UI-CastingBar-Spark]]
+	self.Castbar.Spark:SetBlendMode("ADD")
+	self.Castbar.Spark:SetAlpha(.8)
+	self.Castbar.Spark:Point("TOPLEFT", self.Castbar:GetStatusBarTexture(), "TOPRIGHT", -15, 16)
+	self.Castbar.Spark:Point("BOTTOMLEFT", self.Castbar:GetStatusBarTexture(), "BOTTOMRIGHT", -15, -16)
+			
 	R.createBackdrop(self.Castbar, self.Castbar)
 	self.Castbar.bg = self.Castbar:CreateTexture(nil, "BACKGROUND")
 	self.Castbar.bg:SetTexture(C["media"].normal)
@@ -187,14 +247,17 @@ function R.CreateCastBar(self)
 	self.Castbar.Icon = self.Castbar:CreateTexture(nil, "OVERLAY")
 	self.Castbar.Icon:SetAllPoints(self.Castbar.Iconbg)
 	self.Castbar.Icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
+	self:RegisterEvent("UNIT_SPELLCAST_SENT", OnCastSent)
 	if self.unit == "player" then
 		self.Castbar.SafeZone = self.Castbar:CreateTexture(nil, "BORDER")
 		self.Castbar.SafeZone:SetTexture(C["media"].normal)
-		self.Castbar.SafeZone:SetVertexColor(1, 0.5, 0, 0.75)
-		self.Castbar.bg:SetVertexColor(.2,.2,.2)		
+		-- self.Castbar.SafeZone:SetVertexColor(1, 0.5, 0, 0.75)
+		self.Castbar.SafeZone:SetVertexColor(255/255, 0/255, 0/255, 0.75)
+		self.Castbar.bg:SetVertexColor(.2,.2,.2)
 	end
 	self.Castbar.PostCastStart = PostCastStart
 	self.Castbar.PostChannelStart = PostCastStart
+	self.Castbar.OnUpdate = OnCastbarUpdate
 end
 
 local formatTime = function(s)
@@ -777,7 +840,21 @@ function R.UpdateSingle(frame, healer)
 			frame.Buffs = b
 			frame:EnableElement('Aura')
 		end ]]
-		if C["ouf"].HealFrames and healer then
+		if C.general.speciallayout then
+			frame.Name:Show()
+			if frame.Castbar then
+				frame.Castbar:ClearAllPoints()
+				frame.Castbar:Point("BOTTOM",UIParent,"BOTTOM",0,305)
+				frame.Castbar:Width(350)
+				frame.Castbar:Height(5)
+				frame.Castbar.Text:ClearAllPoints()
+				frame.Castbar.Text:SetPoint("BOTTOMLEFT", frame.Castbar, "TOPLEFT", 5, -2)
+				frame.Castbar.Time:ClearAllPoints()
+				frame.Castbar.Time:SetPoint("BOTTOMRIGHT", frame.Castbar, "TOPRIGHT", -5, -2)
+				frame.Castbar.Icon:Hide()
+				frame.Castbar.Iconbg:Hide()
+			end
+		elseif C["ouf"].HealFrames and healer then
 			frame.Name:Show()
 			if frame.Castbar then
 				frame.Castbar:ClearAllPoints()
@@ -808,7 +885,10 @@ function R.UpdateSingle(frame, healer)
 		end
 		
 		if R.TableIsEmpty(R.SavePath["UFPos"]["Freeb - Player"]) then
-			if C["ouf"].HealFrames and healer then
+			if C.general.speciallayout then
+				frame:ClearAllPoints()
+				frame:Point("BOTTOMRIGHT", UIParent, "BOTTOM", -70, 380)
+			elseif C["ouf"].HealFrames and healer then
 				frame:ClearAllPoints()
 				frame:Point("CENTER", -350, -120)				
 			else
@@ -968,7 +1048,10 @@ function R.UpdateSingle(frame, healer)
 			frame:EnableElement('Aura')
 		end
 		if R.TableIsEmpty(R.SavePath["UFPos"]["Freeb - Target"]) then
-			if C["ouf"].HealFrames and healer then
+			if C.general.speciallayout then
+				frame:ClearAllPoints()
+				frame:Point("BOTTOMLEFT", UIParent, "BOTTOM", 70, 380)
+			elseif C["ouf"].HealFrames and healer then
 				frame:ClearAllPoints()
 				frame:Point("CENTER", 350, -120)
 			else
@@ -978,7 +1061,10 @@ function R.UpdateSingle(frame, healer)
 		end
 	elseif frame.unit == "targettarget" then
 		if R.TableIsEmpty(R.SavePath["UFPos"]["Freeb - Targettarget"]) then
-			if C["ouf"].HealFrames and healer then
+			if C.general.speciallayout then
+				frame:ClearAllPoints()
+				frame:Point("BOTTOMLEFT", oUF_FreebTarget, "TOPRIGHT", 10, 6)
+			elseif C["ouf"].HealFrames and healer then
 				frame:ClearAllPoints()
 				frame:Point("TOPLEFT", oUF_FreebTarget, "BOTTOMLEFT", 0, -15)
 			else
@@ -1035,7 +1121,10 @@ function R.UpdateHeader(frame, healer)
 			RegisterAttributeDriver(frame, 'state-visibility', "[@raid6,exists] hide;show")
 		end
 	elseif frame.style == "Freebgrid" then
-		if C["ouf"].HealFrames and healer then
+		if C.general.speciallayout then
+			frame:SetScale(1)
+			frame:SetAttribute("showParty", true)
+		elseif C["ouf"].HealFrames and healer then
 			frame:SetScale(1.25)
 			frame:SetAttribute("showParty", true)
 		else
@@ -1050,7 +1139,10 @@ function R.UpdateHeader(frame, healer)
 			end
 		end
 		if R.TableIsEmpty(R.SavePath["UFPos"]["Freebgrid"]) and frame==Raid_Freebgrid1 then
-			if C["ouf"].HealFrames and healer then
+			if C.general.speciallayout then
+				frame:ClearAllPoints()
+				frame:Point("TOPLEFT", UIParent, "BOTTOMRIGHT", - frame:GetChildren():GetWidth()*5 -  frame:GetAttribute("columnSpacing")*4 - 50, frame:GetChildren():GetHeight()*5 +  frame:GetAttribute("columnSpacing")*4 + 260)
+			elseif C["ouf"].HealFrames and healer then
 				frame:ClearAllPoints()
 				frame:Point("TOPLEFT", UIParent, "BOTTOM", - frame:GetChildren():GetWidth()*2.5 -  frame:GetAttribute("columnSpacing")*2, frame:GetChildren():GetHeight()*5 +  frame:GetAttribute("columnSpacing")*4 + 150)
 			else

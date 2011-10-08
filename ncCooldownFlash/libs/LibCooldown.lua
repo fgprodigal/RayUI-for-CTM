@@ -50,10 +50,11 @@ local function update()
 	if nextupdate < 0 then addon:Hide() end
 end
 
-local function start(id, duration, class)
+local function start(id, starttime, duration, class)
 	update()
 
 	watched[id] = {
+		["start"] = starttime,
 		["dur"] = duration,
 		["class"] = class,
 	}
@@ -97,12 +98,14 @@ function addon:SPELL_UPDATE_COOLDOWN()
 		
 		if starttime == nil then
 			watched[id] = nil
+		elseif starttime == 0 and watched[id] then
+			stop(id, "spell")
 		elseif starttime ~= 0 then
 			local timeleft = starttime + duration - now
 		
 			if enabled == 1 and timeleft > 1.5 then
-				if not watched[id] then
-					start(id, timeleft, "spell")
+				if not watched[id] or watched[id].start ~= starttime then
+					start(id, starttime, timeleft, "spell")
 				end
 			elseif enabled == 1 and watched[id] and timeleft <= 0 then
 				stop(id, "spell")
@@ -111,16 +114,18 @@ function addon:SPELL_UPDATE_COOLDOWN()
 	end
 	
 	for name, id in next, pets do
-		local start, duration, enabled = GetSpellCooldown(id)
+		local starttime, duration, enabled = GetSpellCooldown(id)
 
 		if starttime == nil then
 			watched[id] = nil
+		elseif starttime == 0 and watched[id] then
+			stop(id, "pet")
 		elseif starttime ~= 0 then
 			local timeleft = starttime + duration - now
 		
 			if enabled == 1 and timeleft > 1.5 then
-				if not watched[id] then
-					start(id, timeleft, "pet")
+				if not watched[id] or watched[id].start ~= starttime then
+					start(id, starttime, timeleft, "pet")
 				end
 			elseif enabled == 1 and watched[id] and timeleft <= 0 then
 				stop(id, "pet")
@@ -131,9 +136,9 @@ end
 
 function addon:BAG_UPDATE_COOLDOWN()
 	for name, id  in next, items do
-		local _, duration, enabled = GetItemCooldown(id)
+		local starttime, duration, enabled = GetItemCooldown(id)
 		if enabled == 1 and duration > 10 then
-			start(id, duration, "item")
+			start(id, starttime, duration, "item")
 		elseif enabled == 1 and watched[id] and duration <= 0 then
 			stop(id, "item")
 		end
