@@ -6,5 +6,5 @@
 ## RequiredDeps: !RayUI
 
 libs\load_libs.xml
-
+locale\locale.xml
 core.lua

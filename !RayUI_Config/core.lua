@@ -1,5 +1,6 @@
 local RayUIConfig = LibStub("AceAddon-3.0"):NewAddon("RayUIConfig", "AceConsole-3.0", "AceEvent-3.0")
-local R, C, L, DB
+local L = LibStub("AceLocale-3.0"):GetLocale("RayUIConfig", false)
+local R, C, DB
 local LSM = LibStub("LibSharedMedia-3.0")
 local db = {}
 local defaults
@@ -10,7 +11,7 @@ local ACD = LibStub("AceConfigDialog-3.0")
 local ACR = LibStub("AceConfigRegistry-3.0")
 
 function RayUIConfig:LoadDefaults()
-	R, C, L, DB = unpack(RayUI)
+	R, C, _, DB = unpack(RayUI)
 	--Defaults
 	defaults = {
 		profile = {
@@ -73,10 +74,10 @@ function RayUIConfig.GenerateOptions()
 end
 
 function RayUIConfig.GenerateOptionsInternal()
-	local R, C, L, DB = unpack(RayUI)
+	local R, C, _, DB = unpack(RayUI)
 
 	StaticPopupDialogs["CFG_RELOAD"] = {
-		text = "改变参数需重载应用设置",
+		text = L["改变参数需重载应用设置"],
 		button1 = ACCEPT,
 		button2 = CANCEL,
 		OnAccept = function() ReloadUI() end,
@@ -91,35 +92,35 @@ function RayUIConfig.GenerateOptionsInternal()
 			RayUI_Header = {
 				order = 1,
 				type = "header",
-				name = "版本"..R.version,
+				name = L["版本"]..R.version,
 				width = "full",		
 			},
 			ToggleAnchors = {
 				order = 2,
 				type = "execute",
-				name = "解锁锚点",
-				desc = "解锁并移动头像和动作条",
+				name = L["解锁锚点"],
+				desc = L["解锁并移动头像和动作条"],
 				func = function() R.ToggleMovers() end,
 			},
 			general = {
 				order = 4,
 				type = "group",
-				name = "一般",
+				name = L["一般"],
 				get = function(info) return db.general[ info[#info] ] end,
 				set = function(info, value) db.general[ info[#info] ] = value; StaticPopup_Show("CFG_RELOAD") end,
 				args = {
 					uiscale = {
 						order = 1,
-						name = "UI缩放",
-						desc = "UI界面缩放",
+						name = L["UI缩放"],
+						desc = L["UI界面缩放"],
 						type = "range",
 						min = 0.64, max = 1, step = 0.01,
 						isPercent = true,
 					},
 					speciallayout = {
 						order = 2,
-						name = "特殊布局",
-						desc = "夏某可的奇葩布局",
+						name = L["特殊布局"],
+						desc = L["夏某可的奇葩布局"],
 						type = "toggle",
 					},
 				},
@@ -127,14 +128,14 @@ function RayUIConfig.GenerateOptionsInternal()
 			ouf = {
 				order = 5,
 				type = "group",
-				name = "头像",
+				name = L["头像"],
 				get = function(info) return db.ouf[ info[#info] ] end,
 				set = function(info, value) db.ouf[ info[#info] ] = value; C.ouf[ info[#info] ] = value; R.Update_All(); end,
 				args = {
 					scale = {
 						order = 1,
-						name = "头像缩放",
-						desc = "头像整体缩放",
+						name = L["头像缩放"],
+						desc = L["头像整体缩放"],
 						type = "range",
 						min = 0.5, max = 1.5, step = 0.01,
 						isPercent = true,
@@ -145,31 +146,19 @@ function RayUIConfig.GenerateOptionsInternal()
 						desc = '',
 						order = 2,
 					},	
-					PlayerBuffFilter = {
-						order = 3,
-						name = "玩家头像BUFF过滤",
-						desc = "玩家头像上的BUFF将只显示白名单中存在的",
-						type = "toggle",
-					},
-					DebuffOnyshowPlayer = {
-						order = 4,
-						name = "目标DEBUFF过滤",
-						desc = "目标头像上的DEBUFF将只显示玩家、宠物、载具释放的，敌方BUFF将只显示可偷取的，右方BUFF显示全部",
-						type = "toggle",
-					},
 					HealthcolorClass = {
-						order = 5,
-						name = "生命条按职业着色",
+						order = 3,
+						name = L["生命条按职业着色"],
 						type = "toggle",
 					},
 					Powercolor = {
-						order = 6,
-						name = "法力条按职业着色",
+						order = 4,
+						name = L["法力条按职业着色"],
 						type = "toggle",
 					},
 					showPortrait = {
-						order = 7,
-						name = "显示3D头像",
+						order = 5,
+						name = L["显示3D头像"],
 						type = "toggle",
 					},
 				},
@@ -177,49 +166,49 @@ function RayUIConfig.GenerateOptionsInternal()
 			actionbar = {
 				order = 6,
 				type = "group",
-				name = "动作条",
+				name = L["动作条"],
 				get = function(info) return db.actionbar[ info[#info] ] end,
 				set = function(info, value) db.actionbar[ info[#info] ] = value; StaticPopup_Show("CFG_RELOAD") end,
 				args = {
 					barscale = {
 						order = 1,
-						name = "动作条缩放",
+						name = L["动作条缩放"],
 						type = "range",
 						min = 0.5, max = 1.5, step = 0.01,
 						isPercent = true,
 					},
 					petbarscale = {
 						order = 2,
-						name = "宠物动作条缩放",
+						name = L["宠物动作条缩放"],
 						type = "range",
 						min = 0.5, max = 1.5, step = 0.01,
 						isPercent = true,
 					},
 					buttonsize = {
 						order = 3,
-						name = "按键大小",
+						name = L["按键大小"],
 						type = "range",
 						min = 20, max = 35, step = 1,
 					},
 					buttonspacing = {
 						order = 4,
-						name = "按键间距",
+						name = L["按键间距"],
 						type = "range",
 						min = 1, max = 10, step = 1,
 					},
 					macroname = {
 						order = 5,
-						name = "显示宏名称",
+						name = L["显示宏名称"],
 						type = "toggle",
 					},
 					itemcount = {
 						order = 6,
-						name = "显示物品数量",
+						name = L["显示物品数量"],
 						type = "toggle",
 					},
 					hotkeys = {
 						order = 7,
-						name = "显示快捷键",
+						name = L["显示快捷键"],
 						type = "toggle",
 					},
 					spacer = {
@@ -231,12 +220,12 @@ function RayUIConfig.GenerateOptionsInternal()
 					Bar1Group = {
 						order = 11,
 						type = "group",
-						name = "动作条1",
+						name = L["动作条1"],
 						guiInline = true,
 						args = {
 							bar1fade = {
 								type = "toggle",
-								name = "自动隐藏",
+								name = L["自动隐藏"],
 								order = 1,								
 							},
 							spacer = {
@@ -251,16 +240,16 @@ function RayUIConfig.GenerateOptionsInternal()
 						order = 12,
 						type = "group",
 						guiInline = true,
-						name = "动作条2",
+						name = L["动作条2"],
 						args = {
 							bar2fade = {
 								type = "toggle",
-								name = "自动隐藏",
+								name = L["自动隐藏"],
 								order = 1,								
 							},
 							bar2mouseover = {
 								type = "toggle",
-								name = "鼠标滑过显示",
+								name = L["鼠标滑过显示"],
 								order = 2,								
 							},
 						},
@@ -269,16 +258,16 @@ function RayUIConfig.GenerateOptionsInternal()
 						order = 13,
 						type = "group",
 						guiInline = true,
-						name = "动作条3",
+						name = L["动作条3"],
 						args = {
 							bar3fade = {
 								type = "toggle",
-								name = "自动隐藏",
+								name = L["自动隐藏"],
 								order = 1,								
 							},
 							bar3mouseover = {
 								type = "toggle",
-								name = "鼠标滑过显示",
+								name = L["鼠标滑过显示"],
 								order = 2,								
 							},
 						},
@@ -287,16 +276,16 @@ function RayUIConfig.GenerateOptionsInternal()
 						order = 14,
 						type = "group",
 						guiInline = true,
-						name = "动作条4",
+						name = L["动作条4"],
 						args = {
 							bar4fade = {
 								type = "toggle",
-								name = "自动隐藏",
+								name = L["自动隐藏"],
 								order = 1,								
 							},
 							bar4mouseover = {
 								type = "toggle",
-								name = "鼠标滑过显示",
+								name = L["鼠标滑过显示"],
 								order = 2,								
 							},
 						},
@@ -305,16 +294,16 @@ function RayUIConfig.GenerateOptionsInternal()
 						order = 15,
 						type = "group",
 						guiInline = true,
-						name = "动作条5",
+						name = L["动作条5"],
 						args = {
 							bar5fade = {
 								type = "toggle",
-								name = "自动隐藏",
+								name = L["自动隐藏"],
 								order = 1,								
 							},
 							bar5mouseover = {
 								type = "toggle",
-								name = "鼠标滑过显示",
+								name = L["鼠标滑过显示"],
 								order = 2,								
 							},
 						},
@@ -323,16 +312,16 @@ function RayUIConfig.GenerateOptionsInternal()
 						order = 16,
 						type = "group",
 						guiInline = true,
-						name = "宠物条",
+						name = L["宠物条"],
 						args = {
 							petbarfade = {
 								type = "toggle",
-								name = "自动隐藏",
+								name = L["自动隐藏"],
 								order = 1,								
 							},
 							petbarmouseover = {
 								type = "toggle",
-								name = "鼠标滑过显示",
+								name = L["鼠标滑过显示"],
 								order = 2,								
 							},
 						},
@@ -341,16 +330,16 @@ function RayUIConfig.GenerateOptionsInternal()
 						order = 17,
 						type = "group",
 						guiInline = true,
-						name = "姿态",
+						name = L["姿态"],
 						args = {
 							stancebarfade = {
 								type = "toggle",
-								name = "自动隐藏",
+								name = L["自动隐藏"],
 								order = 1,								
 							},
 							stancebarmouseover = {
 								type = "toggle",
-								name = "鼠标滑过显示",
+								name = L["鼠标滑过显示"],
 								order = 2,								
 							},
 						},
@@ -360,28 +349,28 @@ function RayUIConfig.GenerateOptionsInternal()
 			chat = {
 				order = 7,
 				type = "group",
-				name = "聊天",
+				name = L["聊天"],
 				get = function(info) return db.chat[ info[#info] ] end,
 				set = function(info, value) db.chat[ info[#info] ] = value; C.chat[ info[#info] ] = value; StaticPopup_Show("CFG_RELOAD") end,
 				args = {
 					autohide = {
 						order = 1,
-						name = "自动隐藏聊天栏",
-						desc = "短时间内没有消息则自动隐藏聊天栏",
+						name = L["自动隐藏聊天栏"],
+						desc = L["短时间内没有消息则自动隐藏聊天栏"],
 						type = "toggle",
 					},
 					autohidetime = {
 						order = 1,
-						name = "自动隐藏时间",
-						desc = "设置多少秒没有新消息时隐藏",
+						name = L["自动隐藏时间"],
+						desc = L["设置多少秒没有新消息时隐藏"],
 						type = "range",
 						min = 5, max = 60, step = 1,
 						disabled = function() return not db.chat.autohide end,
 					},
 					autoshow = {
 						order = 3,
-						name = "自动显示聊天栏",
-						desc = "频道内有信消息则自动显示聊天栏，关闭后如有新密语会闪烁提示",
+						name = L["自动显示聊天栏"],
+						desc = L["频道内有信消息则自动显示聊天栏，关闭后如有新密语会闪烁提示"],
 						type = "toggle",
 					},
 				},
