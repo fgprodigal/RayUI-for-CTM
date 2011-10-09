@@ -1,4 +1,4 @@
-## Interface: 40100
+﻿## Interface: 40200
 ## X-Curse-Packaged-Version: 4.1.0.35-Beta
 ## X-Curse-Project-Name: Buffet
 ## X-Curse-Project-ID: buffet

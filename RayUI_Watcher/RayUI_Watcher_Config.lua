@@ -1,12 +1,12 @@
 
 -----------------------------------------------------------------------------------------------------
 -- name = "目标debuff",
--- setpoint = { "LEFT", UIParent, "CENTER", 198, -190 },
+-- setpoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", 0, 10 },
 -- direction = "UP",
 -- iconSide = "LEFT",
 -- mode = "BAR", 
 -- size = 24,
--- barWidth = 200,				
+-- barWidth = 170,				
 --	{spellID = 8050, unitId = "target", caster = "target", filter = "DEBUFF"},
 --	{ spellID = 18499, filter = "CD" },
 --	{ itemID = 56285, filter = "CD" },
@@ -23,7 +23,7 @@ ns.watchers ={
 		{
 			name = "玩家buff",
 			direction = "LEFT",
-			setpoint = { "RIGHT", UIParent, "CENTER", -198, -146 },
+			setpoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 0, 60 },
 			size = 32,
 
 			-- Lifebloom / Blühendes Leben
@@ -38,7 +38,7 @@ ns.watchers ={
 		{
 			name = "目标buff",
 			direction = "RIGHT",
-			setpoint = { "LEFT", UIParent, "CENTER", 198, -146 },
+			setpoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", 0, 60 },
 			size = 32,
 
 			-- Lifebloom / Blühendes Leben
@@ -54,7 +54,7 @@ ns.watchers ={
 		{
 			name = "玩家重要buff",
 			direction = "LEFT",
-			setpoint = { "RIGHT", UIParent, "CENTER", -198, -190 },
+			setpoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 0, 10 },
 			size = 47,
 			
 			-- Eclipse (Lunar) / Mondfinsternis
@@ -80,7 +80,7 @@ ns.watchers ={
 		{
 			name = "目标debuff",
 			direction = "RIGHT",
-			setpoint = { "LEFT", UIParent, "CENTER", 198, -190 },
+			setpoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", 0, 10 },
 			size = 47,
 			
 			-- Hibernate / Winterschlaf
@@ -114,11 +114,11 @@ ns.watchers ={
 		{
 			name = "焦点debuff",
 			direction = "UP",
-			setpoint = { "LEFT", UIParent, "CENTER", 198, 100 },
+			setpoint = { "BOTTOMLEFT", "oUF_FreebFocus", "TOPLEFT", 0, 10 },
 			size = 32, 
 			mode = "BAR",
 			iconSide = "LEFT",
-			barWidth = 200,
+			barWidth = 170,
 			
 			-- Hibernate / Winterschlaf
 			{ spellID = 2637, unitId = "focus", caster = "all", filter = "DEBUFF" },
@@ -130,11 +130,11 @@ ns.watchers ={
 		{
 			name = "CD",
 			direction = "UP",
-			iconSide = "RIGHT",
+			iconSide = "LEFT",
 			mode = "BAR",
 			size = 32,
-			barWidth = 200,
-			setpoint = { "RIGHT", UIParent, "CENTER", -198, 100 },
+			barWidth = 170,
+			setpoint = { "TOPLEFT", "rABS_MultiBarBottomLeft", "TOPRIGHT", 10, 0 },
 
 			-- Swiftmend / Rasche Heilung
 			{ spellID = 18562, filter = "CD" },
@@ -146,7 +146,7 @@ ns.watchers ={
 		{
 			name = "玩家重要buff",
 			direction = "LEFT",
-			setpoint = { "RIGHT", UIParent, "CENTER", -198, -190 },
+			setpoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 0, 10 },
 			size = 47,
 			
 			-- Lock and Load / Sichern und Laden
@@ -170,7 +170,7 @@ ns.watchers ={
 		{
 			name = "目标debuff",
 			direction = "RIGHT",
-			setpoint = { "LEFT", UIParent, "CENTER", 198, -190 },
+			setpoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", 0, 10 },
 			size = 47,
 			
 			-- Wyvern Sting / Wyverngift
@@ -192,11 +192,11 @@ ns.watchers ={
 		{
 			name = "焦点debuff",
 			direction = "UP",
-			setpoint = { "LEFT", UIParent, "CENTER", 198, 100 },
+			setpoint = { "BOTTOMLEFT", "oUF_FreebFocus", "TOPLEFT", 0, 10 },
 			size = 32, 
 			mode = "BAR",
 			iconSide = "LEFT",
-			barWidth = 200,
+			barWidth = 170,
 			
 			-- Wyvern Sting / Wyverngift
 			{ spellID = 19386, unitId = "focus", caster = "all", filter = "DEBUFF" },
@@ -208,7 +208,7 @@ ns.watchers ={
 		{
 			name = "玩家重要buff",
 			direction = "LEFT",
-			setpoint = { "RIGHT", UIParent, "CENTER", -198, -190 },
+			setpoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 0, 10 },
 			size = 47,
 			
 			-- Frostbite / Frostbite
@@ -232,7 +232,7 @@ ns.watchers ={
 		{
 			name = "目标debuff",
 			direction = "RIGHT",
-			setpoint = { "LEFT", UIParent, "CENTER", 198, -190 },
+			setpoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", 0, 10 },
 			size = 47,
 			
 			-- Polymorph / Verwandlung
@@ -256,11 +256,11 @@ ns.watchers ={
 		{
 			name = "焦点debuff",
 			direction = "UP",
-			setpoint = { "LEFT", UIParent, "CENTER", 198, 100 },
+			setpoint = { "BOTTOMLEFT", "oUF_FreebFocus", "TOPLEFT", 0, 10 },
 			size = 32, 
 			mode = "BAR",
 			iconSide = "LEFT",
-			barWidth = 200,
+			barWidth = 170,
 			
 			-- Polymorph / Verwandlung
 			{ spellID = 118, unitId = "focus", caster = "all", filter = "DEBUFF" },
@@ -270,7 +270,7 @@ ns.watchers ={
 		{
 			name = "玩家重要buff",
 			direction = "LEFT",
-			setpoint = { "RIGHT", UIParent, "CENTER", -198, -190 },
+			setpoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 0, 10 },
 			size = 47,
 			
 			-- Sudden Death / Plötzlicher Tod
@@ -296,7 +296,7 @@ ns.watchers ={
 		{
 			name = "目标debuff",
 			direction = "RIGHT",
-			setpoint = { "LEFT", UIParent, "CENTER", 198, -190 },
+			setpoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", 0, 10 },
 			size = 47,
 			
 			-- Charge Stun / Sturmangriffsbetäubung
@@ -330,7 +330,7 @@ ns.watchers ={
 		{
 			name = "玩家buff",
 			direction = "LEFT",
-			setpoint = { "RIGHT", UIParent, "CENTER", -198, -146 },
+			setpoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 0, 60 },
 			size = 32,
 			
 			-- Earth Shield / Erdschild
@@ -346,7 +346,7 @@ ns.watchers ={
 		{
 			name = "目标buff",
 			direction = "RIGHT",
-			setpoint = { "LEFT", UIParent, "CENTER", 198, -146 },
+			setpoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", 0, 60 },
 			size = 32,
 			
 			-- Earth Shield / Erdschild
@@ -358,7 +358,7 @@ ns.watchers ={
 		{
 			name = "玩家重要buff",
 			direction = "LEFT",
-			setpoint = { "RIGHT", UIParent, "CENTER", -198, -190 },
+			setpoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 0, 10 },
 			size = 47,
 			
 			-- Maelstorm Weapon / Waffe des Mahlstroms
@@ -376,7 +376,7 @@ ns.watchers ={
 		{
 			name = "目标debuff",
 			direction = "RIGHT",
-			setpoint = { "LEFT", UIParent, "CENTER", 198, -190 },
+			setpoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", 0, 10 },
 			size = 47,
 			
 			-- Hex / Verhexen
@@ -396,11 +396,11 @@ ns.watchers ={
 		{
 			name = "焦点debuff",
 			direction = "UP",
-			setpoint = { "LEFT", UIParent, "CENTER", 198, 100 },
+			setpoint = { "BOTTOMLEFT", "oUF_FreebFocus", "TOPLEFT", 0, 10 },
 			size = 32, 
 			mode = "BAR",
 			iconSide = "LEFT",
-			barWidth = 200,
+			barWidth = 170,
 			
 			-- Hex / Verhexen
 			{ spellID = 51514, unitId = "focus", caster = "all", filter = "DEBUFF" },
@@ -413,7 +413,7 @@ ns.watchers ={
 		{
 			name = "玩家buff",
 			direction = "LEFT",
-			setpoint = { "RIGHT", UIParent, "CENTER", -198, -146 },
+			setpoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 0, 60 },
 			size = 32,
 			
 			-- Beacon of Light / Flamme des Glaubens
@@ -423,7 +423,7 @@ ns.watchers ={
 		{
 			name = "目标buff",
 			direction = "RIGHT",
-			setpoint = { "LEFT", UIParent, "CENTER", 198, -146 },
+			setpoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", 0, 60 },
 			size = 32,
 			
 			-- Beacon of Light / Flamme des Glaubens
@@ -433,7 +433,7 @@ ns.watchers ={
 		{
 			name = "玩家重要buff",
 			direction = "LEFT",
-			setpoint = { "RIGHT", UIParent, "CENTER", -198, -190 },
+			setpoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 0, 10 },
 			size = 47,
 			
 			-- Judgements of the Pure / Richturteile des Reinen
@@ -455,7 +455,7 @@ ns.watchers ={
 		{
 			name = "目标debuff",
 			direction = "RIGHT",
-			setpoint = { "LEFT", UIParent, "CENTER", 198, -190 },
+			setpoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", 0, 10 },
 			size = 47,
 			
 			-- Hammer of Justice / Hammer der Gerechtigkeit
@@ -467,11 +467,11 @@ ns.watchers ={
 		{
 			name = "焦点debuff",
 			direction = "UP",
-			setpoint = { "LEFT", UIParent, "CENTER", 198, 100 },
+			setpoint = { "BOTTOMLEFT", "oUF_FreebFocus", "TOPLEFT", 0, 10 },
 			size = 32, 
 			mode = "BAR",
 			iconSide = "LEFT",
-			barWidth = 200,
+			barWidth = 170,
 			
 			-- Hammer of Justice / Hammer der Gerechtigkeit
 			{ spellID = 853, unitId = "focus", caster = "all", filter = "DEBUFF" },
@@ -482,7 +482,7 @@ ns.watchers ={
 		{
 			name = "玩家buff",
 			direction = "LEFT",
-			setpoint = { "RIGHT", UIParent, "CENTER", -198, -146 },
+			setpoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 0, 60 },
 			size = 32,
 			
 			-- Prayer of Mending / Gebet der Besserung
@@ -499,8 +499,6 @@ ns.watchers ={
 			{ spellID = 586, unitId = "player", caster = "player", filter = "BUFF" },
 			-- Fear Ward / Furchtzauberschutz
 			{ spellID = 6346, unitId = "player", caster = "player", filter = "BUFF" },
-			-- Inner Fire / Inneres Feuer
-			{ spellID = 588, unitId = "player", caster = "player", filter = "BUFF" },
 			-- Inner Will / Innerer Wille
 			{ spellID = 73413, unitId = "player", caster = "player", filter = "BUFF" },
 			-- Archangel / Erzengel
@@ -514,7 +512,7 @@ ns.watchers ={
 		{
 			name = "目标buff",
 			direction = "RIGHT",
-			setpoint = { "LEFT", UIParent, "CENTER", 198, -146 },
+			setpoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", 0, 60 },
 			size = 32,
 			
 			-- Prayer of Mending / Gebet der Besserung
@@ -540,7 +538,7 @@ ns.watchers ={
 		{
 			name = "玩家重要buff",
 			direction = "LEFT",
-			setpoint = { "RIGHT", UIParent, "CENTER", -198, -190 },
+			setpoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 0, 10 },
 			size = 47,
 			
 			-- Surge of Light / Woge des Lichts
@@ -566,7 +564,7 @@ ns.watchers ={
 		{
 			name = "目标debuff",
 			direction = "RIGHT",
-			setpoint = { "LEFT", UIParent, "CENTER", 198, -190 },
+			setpoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", 0, 10 },
 			size = 47,
 			
 			-- Shackle Undead / Untote fesseln
@@ -584,11 +582,11 @@ ns.watchers ={
 		{
 			name = "焦点debuff",
 			direction = "UP",
-			setpoint = { "LEFT", UIParent, "CENTER", 198, 100 },
+			setpoint = { "BOTTOMLEFT", "oUF_FreebFocus", "TOPLEFT", 0, 10 },
 			size = 32, 
 			mode = "BAR",
 			iconSide = "LEFT",
-			barWidth = 200,
+			barWidth = 170,
 			
 			-- Shackle Undead / Untote fesseln
 			{ spellID = 9484, unitId = "focus", caster = "all", filter = "DEBUFF" },
@@ -600,7 +598,7 @@ ns.watchers ={
 	["WARLOCK"]={
 		{
 			name = "目标debuff",
-			setpoint = { "LEFT", UIParent, "CENTER", 198, -190 },
+			setpoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", 0, 10 },
 			direction = "RIGHT",
 			mode = "ICON",
 			size = 47,
@@ -645,7 +643,7 @@ ns.watchers ={
 		},
 		{
 			name = "玩家重要buff",
-			setpoint = { "RIGHT", UIParent, "CENTER", -198, -190 },
+			setpoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 0, 10 },
 			direction = "LEFT",
 			size = 47,
 			-- Improved Soul Fire / Verbessertes Seelenfeuer
@@ -670,7 +668,7 @@ ns.watchers ={
 		{
 			name = "玩家重要buff",
 			direction = "LEFT",
-			setpoint = { "RIGHT", UIParent, "CENTER", -198, -190 },
+			setpoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 0, 10 },
 			size = 47,
 			
 			-- Sprint / Sprinten
@@ -696,7 +694,7 @@ ns.watchers ={
 		{
 			name = "目标debuff",
 			direction = "RIGHT",
-			setpoint = { "LEFT", UIParent, "CENTER", 198, -190 },
+			setpoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", 0, 10 },
 			size = 47,
 			
 			-- Cheap Shot / Fieser Trick
@@ -730,11 +728,11 @@ ns.watchers ={
 		{
 			name = "焦点debuff",
 			direction = "UP",
-			setpoint = { "LEFT", UIParent, "CENTER", 198, 100 },
+			setpoint = { "BOTTOMLEFT", "oUF_FreebFocus", "TOPLEFT", 0, 10 },
 			size = 32, 
 			mode = "BAR",
 			iconSide = "LEFT",
-			barWidth = 200,
+			barWidth = 170,
 			
 			-- Blind / Blenden
 			{ spellID = 2094, unitId = "focus", caster = "all", filter = "DEBUFF" },
@@ -747,7 +745,7 @@ ns.watchers ={
 		{
 			name = "玩家重要buff",
 			direction = "LEFT",
-			setpoint = { "RIGHT", UIParent, "CENTER", -198, -190 },
+			setpoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 0, 10 },
 			size = 47,
 			
 			-- Blood Shield / Blutschild
@@ -775,7 +773,7 @@ ns.watchers ={
 		{
 			name = "目标debuff",
 			direction = "RIGHT",
-			setpoint = { "LEFT", UIParent, "CENTER", 198, -190 },
+			setpoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", 0, 10 },
 			size = 47,
 			
 			-- Strangulate / Strangulieren
@@ -797,8 +795,8 @@ ns.watchers ={
 		{
 			name = "玩家特殊buff",
 			direction = "LEFT",
-			setpoint = { "RIGHT", UIParent, "CENTER", -198, -255 },
-			size = 72,
+			setpoint = { "TOPRIGHT", "oUF_FreebPlayer", "BOTTOMRIGHT", 0, -10 },
+			size = 55,
 
 		-- Trinket Procs
 			-- Cleansing Tears / Läuternde Tränen (Tear of Blood)
@@ -860,9 +858,9 @@ ns.watchers ={
 		},
 		{
 			name = "PVE/PVP目标debuff",
-			direction = "LEFT",
-			setpoint = { "RIGHT", UIParent, "CENTER", -198, -90 },
-			size = 72,
+			direction = "UP",
+			setpoint = { "BOTTOM", UIParent, "BOTTOM", 35, 350 },
+			size = 55,
 			
 		
 			
@@ -1155,9 +1153,9 @@ ns.watchers ={
 		},
 		{
 			name = "PVP目标buff",
-			direction = "RIGHT",
-			setpoint = { "LEFT", UIParent, "CENTER", 198, -90 },
-			size = 72,
+			direction = "UP",
+			setpoint = { "BOTTOM", UIParent, "BOTTOM", -35, 350 },
+			size = 55,
 			
 			
 			-- Aspect of the Pack

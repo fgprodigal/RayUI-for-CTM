@@ -21,10 +21,10 @@ ns.config={
 	["healtreshold"] = 1,		-- minimum healing to show in incoming/outgoing healing messages.
 
 -- appearence
-	["font"] = "Fonts\\ZYKai_T.TTF",	-- "Fonts\\ZYKai_T.TTF" is default WoW font.
+	["font"] = "Fonts\\bLEI00D.TTF",	-- "Fonts\\bLEI00D.TTF" is default WoW font.
 	["fontsize"] = 20,
 	["fontstyle"] = "OUTLINE",	-- valid options are "OUTLINE", "MONOCHROME", "THICKOUTLINE", "OUTLINE,MONOCHROME", "THICKOUTLINE,MONOCHROME"
-	["damagefont"] = "Fonts\\ZYKai_C.TTF",	 -- "Fonts\\bKAI00M.TTF" is default WoW damage font
+	["damagefont"] = "Fonts\\bKAI00M.TTF",	 -- "Fonts\\bKAI00M.TTF" is default WoW damage font
 	["damagefontsize"] = 15,	-- size of xCT damage font. use "auto" to set it automatically depending on icon size, or use own value, 16 for example. if it's set to number value icons will change size.
 	["timevisible"] = 3, 		-- time (seconds) a single message will be visible. 3 is a good value.
 	["scrollable"] = false,		-- allows you to scroll frame lines with mousewheel.

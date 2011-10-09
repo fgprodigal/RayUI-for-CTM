@@ -312,7 +312,7 @@ local function CreatePanel(f, t, w, h, a1, p, a2, x, y)
 	if t ~= "Transparent" then
 		f:CreateShadow("Background")
 	else
-		f:CreateShadow()
+		f:CreateShadow(t)
 	end
 end
 

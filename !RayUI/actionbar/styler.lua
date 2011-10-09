@@ -101,6 +101,7 @@
 	  end
     
       --applying the textures
+
 	  bu:CreateShadow("Background")
 	  
 
@@ -110,8 +111,8 @@
       ic:SetPoint("BOTTOMRIGHT", bu, "BOTTOMRIGHT", -2, 2)
   
       --adjust the cooldown frame
-      cd:SetPoint("TOPLEFT", bu, "TOPLEFT", 2, -2)
-      cd:SetPoint("BOTTOMRIGHT", bu, "BOTTOMRIGHT", -2, 2)
+      cd:SetPoint("TOPLEFT", bu, "TOPLEFT", 0, -0)
+      cd:SetPoint("BOTTOMRIGHT", bu, "BOTTOMRIGHT", -0, 0)
     
       self.rABS_Styled = true
   end

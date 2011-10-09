@@ -668,22 +668,26 @@ function R.Portrait(frame)
 end
 
 local function HealPrediction(self)
-	local mhpb = CreateFrame('StatusBar', nil, self)
-	mhpb:SetPoint('BOTTOMLEFT', self.Health:GetStatusBarTexture(), 'BOTTOMRIGHT')
-	mhpb:SetPoint('TOPLEFT', self.Health:GetStatusBarTexture(), 'TOPRIGHT')	
-	mhpb:SetWidth(self:GetWidth())
-	mhpb:SetStatusBarTexture(C["media"].blank)
-	mhpb:SetStatusBarColor(0, 1, 0.5, 0.4)
+	if not _G[self:GetName().."myBar"] then
+		local mhpb = CreateFrame('StatusBar', "$ParentmyBar", self)
+		mhpb:SetPoint('BOTTOMLEFT', self.Health:GetStatusBarTexture(), 'BOTTOMRIGHT')
+		mhpb:SetPoint('TOPLEFT', self.Health:GetStatusBarTexture(), 'TOPRIGHT')	
+		mhpb:SetWidth(self:GetWidth())
+		mhpb:SetStatusBarTexture(C["media"].blank)
+		mhpb:SetStatusBarColor(0, 1, 0.5, 0.4)
+	end
 	
-	local ohpb = CreateFrame('StatusBar', nil, self)
-	ohpb:SetPoint('BOTTOMLEFT', mhpb:GetStatusBarTexture(), 'BOTTOMRIGHT', 0, 0)
-	ohpb:SetPoint('TOPLEFT', mhpb:GetStatusBarTexture(), 'TOPRIGHT', 0, 0)		
-	ohpb:SetWidth(mhpb:GetWidth())
-	ohpb:SetStatusBarTexture(C["media"].blank)
-	ohpb:SetStatusBarColor(0, 1, 0, 0.4)
+	if not _G[self:GetName().."otherBar"] then
+		local ohpb = CreateFrame('StatusBar', "$ParentotherBar", self)
+		ohpb:SetPoint('BOTTOMLEFT', _G[self:GetName().."myBar"]:GetStatusBarTexture(), 'BOTTOMRIGHT', 0, 0)
+		ohpb:SetPoint('TOPLEFT', _G[self:GetName().."myBar"]:GetStatusBarTexture(), 'TOPRIGHT', 0, 0)		
+		ohpb:SetWidth(_G[self:GetName().."myBar"]:GetWidth())
+		ohpb:SetStatusBarTexture(C["media"].blank)
+		ohpb:SetStatusBarColor(0, 1, 0, 0.4)
+	end
 	self.HealPrediction = {
-			myBar = mhpb,
-			otherBar = ohpb,
+			myBar = _G[self:GetName().."myBar"],
+			otherBar = _G[self:GetName().."otherBar"],
 			maxOverflow = 1.2,
 			PostUpdate = function(self)
 				if self.myBar:GetValue() == 0 then self.myBar:SetAlpha(0) else self.myBar:SetAlpha(1) end

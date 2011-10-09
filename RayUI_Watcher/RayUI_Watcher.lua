@@ -440,6 +440,8 @@ function RayUIWatcher:NewWatcher(data)
 		if not module.parent:GetPoint() then
 			module.parent:SetPoint(unpack(module.setpoint))
 		end
+		local _, parent = module.parent:GetPoint()
+		if parent then module.parent:SetParent(parent) end
 		if db.profiles[myclass][self:GetName()] == false then
 			self:Disable()
 		else

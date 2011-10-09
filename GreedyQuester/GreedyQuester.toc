@@ -1,4 +1,4 @@
-## Interface: 40100
+﻿## Interface: 40200
 ## Title: GreedyQuester
 ## Notes: Auto select most expensive item when you finish quests
 ## Author: Extaliones

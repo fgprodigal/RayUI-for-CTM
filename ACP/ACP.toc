@@ -1,4 +1,4 @@
-﻿## Interface: 40100
+﻿## Interface: 40200
 ## X-Curse-Packaged-Version: 3.3.15
 ## X-Curse-Project-Name: Addon Control Panel
 ## X-Curse-Project-ID: acp

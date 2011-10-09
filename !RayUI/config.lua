@@ -134,5 +134,5 @@ local myLover = {
 }
 
 if myLover[UnitName("player")] then
-	DB.general.special = true
+	DB.general.speciallayout = true
 end

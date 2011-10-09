@@ -833,15 +833,15 @@ local UnitSpecific = {
 
         if R.myclass == "DRUID" then
             local ebar = CreateFrame("Frame", nil, self)
-            ebar:Point("TOPRIGHT", self, "BOTTOMRIGHT", 0, -8)
-            ebar:SetSize(150, 16)
+            ebar:Point("BOTTOM", self, "TOP", 0, 0)
+            ebar:SetSize(200, 5)
             ebar.bd = R.createBackdrop(ebar, ebar)
 
-            local lbar = createStatusbar(ebar, C["media"].normal, nil, 16, 150, 0, .4, 1, 1)
+            local lbar = createStatusbar(ebar, C["media"].normal, nil, 5, 200, 0, .4, 1, 1)
             lbar:SetPoint("LEFT", ebar, "LEFT")
             ebar.LunarBar = lbar
 
-            local sbar = createStatusbar(ebar, C["media"].normal, nil, 16, 150, 1, .6, 0, 1)
+            local sbar = createStatusbar(ebar, C["media"].normal, nil, 5, 200, 1, .6, 0, 1)
             sbar:SetPoint("LEFT", lbar:GetStatusBarTexture(), "RIGHT")
             ebar.SolarBar = sbar
 
@@ -849,7 +849,7 @@ local UnitSpecific = {
             ebar.Spark:SetTexture[[Interface\CastingBar\UI-CastingBar-Spark]]
             ebar.Spark:SetBlendMode("ADD")
             ebar.Spark:SetAlpha(0.5)
-            ebar.Spark:SetHeight(48)
+            ebar.Spark:SetHeight(20)
             ebar.Spark:Point("LEFT", sbar:GetStatusBarTexture(), "LEFT", -15, 0)
 
             self.EclipseBar = ebar

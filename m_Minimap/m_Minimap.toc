@@ -1,4 +1,4 @@
-## Interface: 40100
+﻿## Interface: 40200
 ## Title: mono|cffffffffMinimap|r
 ## Notes: Slightly simplified combination of aMinimap v1 and v2 (with GUI) by ALZA
 ## Author: Monolit, ALZA

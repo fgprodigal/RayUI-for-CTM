@@ -17,4 +17,5 @@
 	<Script file="spam.lua"/>
 	<Script file="timerTracker.lua"/>
 	<Script file="vehicle.lua"/>
+	<Script file="watchframe.lua"/>
 </Ui>

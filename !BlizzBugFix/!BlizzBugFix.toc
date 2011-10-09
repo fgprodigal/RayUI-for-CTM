@@ -1,4 +1,4 @@
-## Interface: 40100
+﻿## Interface: 40200
 ## Title: !BlizzBugFix
 ## Notes: 
 ## Author: oscarucb

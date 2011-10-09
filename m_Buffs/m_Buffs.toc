@@ -1,4 +1,4 @@
-﻿## Interface: 40100
+﻿## Interface: 40200
 ## Title: mono|cffffffffBuffs|r
 ## Notes: Buffs styling
 ## Author: Monolit

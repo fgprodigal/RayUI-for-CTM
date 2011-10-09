@@ -149,17 +149,3 @@ idQuestAutomation:RegisterEvent('QUEST_LOG_UPDATE')
 idQuestAutomation:RegisterEvent('QUEST_PROGRESS')
 
 _G.idQuestAutomation = idQuestAutomation
-
---进出副本自动收放任务追踪
-local autocollapse = CreateFrame("Frame")
-autocollapse:RegisterEvent("ZONE_CHANGED_NEW_AREA")
-autocollapse:RegisterEvent("PLAYER_ENTERING_WORLD")
-autocollapse:SetScript("OnEvent", function(self)
-   if IsInInstance() then
-      WatchFrame.userCollapsed = true
-      WatchFrame_Collapse(WatchFrame)
-   else
-      WatchFrame.userCollapsed = nil
-      WatchFrame_Expand(WatchFrame)
-   end
-end)
