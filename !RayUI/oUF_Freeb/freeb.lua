@@ -285,27 +285,6 @@ local aurafilter = {
     ["Chill of the Throne"] = true,
 }
 
- -- local CustomFilter = function(icons, ...)
-    -- local _, icon, name, _, _, _, _, _, _, caster = ...
-
-    -- if aurafilter[name] then
-        -- return false
-    -- end
-
-    -- local isPlayer
-
-    -- if R.multicheck(caster, 'player', 'vechicle') then
-        -- isPlayer = true
-    -- end
-
-    -- if((icons.onlyShowPlayer and isPlayer) or (not icons.onlyShowPlayer and name)) then
-        -- icon.isPlayer = isPlayer
-        -- icon.owner = caster
-        -- return true
-    -- end
- -- end
-
-
 local function PostUpdateHealth(self, unit, cur, max)
 	local curhealth, maxhealth = UnitHealth(unit), UnitHealthMax(unit)
 	local r, g, b
@@ -539,17 +518,6 @@ local func = function(self, unit)
     else
         hpbg:SetVertexColor(0.12, 0.12, 0.12, 1)
     end
-
-    -- if not (unit == "targettarget" or unit == "pet" or unit == "focustarget" or unit == "player" or unit == "target") then
-        -- local hpp = createFont(hp, "OVERLAY", C["media"].font, C["media"].fontsize, C["media"].fontflag, 1, 1, 1)
-		-- if (unit=="player" or unit == "focus" or unit == "boss" ) then
-		-- hpp:Point("LEFT", hp, 2, 0)
-        -- self:Tag(hpp, '[freeb:hp]')
-		-- else
-        -- hpp:Point("RIGHT", hp, -2, 0)
-        -- self:Tag(hpp, '[freeb:hp]')
-		-- end
-    -- end
 
     hp.bg = hpbg
     self.Health = hp
@@ -887,6 +855,7 @@ local UnitSpecific = {
 		self.Experience = createStatusbar(self, C["media"].normal, nil, 4, nil, 0.58, 0.0, 0.55, 1.0)
 		self.Experience:Point('TOPLEFT', BottomInfoBar, 'TOPLEFT', 2, -2)
 		self.Experience:Point('BOTTOMRIGHT', BottomInfoBar, 'BOTTOMRIGHT', -2, 2)
+		self.Experience:SetParent(BottomInfoBar)
 		self.Experience:SetFrameStrata("BACKGROUND")
 		self.Experience:SetFrameLevel(1)
 		
@@ -894,18 +863,6 @@ local UnitSpecific = {
 		self.Experience.Rested:SetAllPoints(self.Experience)
 		self.Experience.Rested:SetFrameStrata("BACKGROUND")
 		self.Experience.Rested:SetFrameLevel(0)
-
-		-- self.Experience.bg = self.Experience.Rested:CreateTexture(nil, 'BORDER')
-		-- self.Experience.bg:SetAllPoints(self.Experience)
-		-- self.Experience.bg:SetTexture(C["media"].normal)
-		-- self.Experience.bg:SetVertexColor(.1, .1, .1)
-
-		-- self.Experience.bd = R.createBackdrop(self.Experience, self.Experience)
-
-		-- self.Experience.text = createFont(self.Experience, "OVERLAY", C["media"].font, C["media"].fontsize, C["media"].fontflag, 1, 1, 1)
-		-- self.Experience.text:SetPoint("CENTER")
-		-- self.Experience.text:Hide()
-		-- self:Tag(self.Experience.text, '[freeb:curxp] / [freeb:maxxp] - [freeb:perxp]%')
 		
 		self.Experience.Tooltip = true
 		
@@ -923,9 +880,22 @@ local UnitSpecific = {
 		
 		self:SetScript("OnEnter", UnitFrame_OnEnter)
 		self:SetScript("OnLeave", UnitFrame_OnLeave)
-
-		-- self:RegisterEvent('UNIT_POWER_BAR_SHOW', AltPower)
-		-- self:RegisterEvent('UNIT_POWER_BAR_HIDE', AltPower)
+		
+		RayUIThreatBar:HookScript("OnShow", function()
+			if RayUIThreatBar:GetAlpha() > 0 then
+				self.Experience:Hide()
+			end
+		end)
+		RayUIThreatBar:HookScript("OnHide", function() self.Experience:Show() end)
+		hooksecurefunc(RayUIThreatBar, "SetAlpha", function()
+			if RayUIThreatBar:GetAlpha() > 0 then
+				self.Experience:Hide()
+			else
+				self.Experience:Show()
+			end
+		end)
+		-- self:RegisterEvent('PLAYER_REGEN_DISABLED', function() self.Experience:Hide() end)
+		-- self:RegisterEvent('PLAYER_REGEN_ENABLED', function() self.Experience:Show() end)
 
 
         if overrideBlizzbuffs then
@@ -997,39 +967,6 @@ local UnitSpecific = {
 			self.Buffs = b
 		end
 		
-		--======================--
-		--     MirrorBar
-		--======================--
-		-- for _, bar in pairs({'MirrorTimer1','MirrorTimer2','MirrorTimer3',}) do   
-			-- for i, region in pairs({_G[bar]:GetRegions()}) do
-				-- if (region.GetTexture and region:GetTexture() == C["media"].normal) then
-				-- region:Hide()
-				-- end
-			-- end
-			-- _G[bar]:StripTextures()
-			-- _G[bar]:SetParent(UIParent)
-			-- _G[bar]:SetScale(1)
-			-- _G[bar]:SetHeight(13)
-			-- _G[bar]:SetWidth(250)
-			-- _G[bar]:SetBackdropColor(.1,.1,.1)
-			-- _G[bar..'Background'] = _G[bar]:CreateTexture(bar..'Background', 'BACKGROUND', _G[bar])
-			-- _G[bar..'Background']:SetTexture(C["media"].normal)
-			-- _G[bar..'Background']:SetAllPoints(bar)
-			-- _G[bar..'Background']:SetVertexColor(.15,.15,.15,.75)
-			-- _G[bar..'Text']:SetFont(C["media"].font, 13)
-			-- _G[bar..'Text']:ClearAllPoints()
-			-- _G[bar..'Text']:SetPoint('CENTER', MirrorTimer1StatusBar, 0, 1)
-			-- _G[bar..'StatusBar']:SetAllPoints(_G[bar])
-			-- _G[bar].bg = R.createBackdrop(_G[bar], _G[bar])
-		-- end
-	  
-		-- tinsert(self.mouseovers, self.Health)
-		-- self.Health.PostUpdate = PostUpdateHealth
-		
-		-- if self.Power.value then 
-			-- tinsert(self.mouseovers, self.Power)
-			-- self.Power.PostUpdate = PostUpdatePower	
-		-- end
     end,
 
     --========================--
@@ -1275,11 +1212,6 @@ local UnitSpecific = {
     --========================--
     boss = function(self, ...)
         func(self, ...)
-		
-		local tpp = createFont(self.Health, "OVERLAY", C["media"].font, C["media"].fontsize, C["media"].fontflag, 1, 1, 1)
-        tpp:Point("LEFT", 2, 0)
-        tpp.frequentUpdates = true
-        self:Tag(tpp, '[freeb:pp]')
 
         if auras then
             -- local buffs = CreateFrame("Frame", nil, self)

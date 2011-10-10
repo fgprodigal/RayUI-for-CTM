@@ -1,8 +1,0 @@
-﻿## Interface: 40200
-## Author: Allez
-## Title: |cff777777al|rThreatMeter
-## Version: 40200.1
-## Notes: Threat meter
-## OptionalDeps: alInterface
-
-alThreatMeter.lua

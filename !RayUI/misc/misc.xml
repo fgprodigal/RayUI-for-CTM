@@ -15,6 +15,7 @@
 	<Script file="raidUtility.lua"/>
 	<Script file="reminder.lua"/>
 	<Script file="spam.lua"/>
+	<Script file="threat.lua"/>
 	<Script file="timerTracker.lua"/>
 	<Script file="vehicle.lua"/>
 	<Script file="watchframe.lua"/>

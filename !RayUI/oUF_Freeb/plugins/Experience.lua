@@ -29,7 +29,7 @@ local function xp(unit)
 end
 
 local function tooltip(self)
-	local unit = self:GetParent().unit
+	local unit = self:GetParent().unit or "player"
 	local min, max = xp(unit)
 	local bars = unit == 'pet' and 6 or 20
 

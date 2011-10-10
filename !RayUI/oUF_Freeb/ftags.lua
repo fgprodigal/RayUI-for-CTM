@@ -103,9 +103,21 @@ oUF.Tags['freeb:lvl'] = function(u)
     end
 end
 
-oUF.Tags['freeb:hp']  = function(u) 
+oUF.Tags['freeb:hp']  = function(u)
+		local color
+		if UnitIsPlayer(u) then
+			local _, class = UnitClass(u)
+			color = oUF.colors.class[class]
+		elseif UnitIsTapped(u) and not UnitIsTappedByPlayer(u) then
+			color = oUF.colors.tapped
+		elseif UnitIsEnemy(u, "player") then
+			color = oUF.colors.reaction[1]
+		else
+			color = oUF.colors.reaction[UnitReaction(u, "player") or 5]
+		end
     local min, max = UnitHealth(u), UnitHealthMax(u)
-    return siValue(min).." | "..math.floor(min/max*100+.5).."%"
+    -- return siValue(min).." | "..math.floor(min/max*100+.5).."%"
+    return format("|cff%02x%02x%02x%s|r", color[1] * 255, color[2] * 255, color[3] * 255, siValue(min).." | "..math.floor(min/max*100+.5).."%")
 end
 oUF.TagEvents['freeb:hp'] = 'UNIT_HEALTH'
 

@@ -4319,6 +4319,7 @@ Delay:SetScript("OnEvent", function()
 			ToggleFrame(WorldMapFrame)				
 			ToggleFrame(WorldMapFrame)
 		end
+		WorldMapFrame:SetFrameStrata("HIGH")
 	end
 
 	--[[ if not(IsAddOnLoaded("Baggins") or IsAddOnLoaded("Stuffing") or IsAddOnLoaded("Combuctor") or IsAddOnLoaded("cargBags") or IsAddOnLoaded("famBags") or IsAddOnLoaded("ArkInventory")) then

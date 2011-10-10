@@ -125,6 +125,13 @@ end
 R.mult = mult
 R.Scale = scale
 
+QuestDifficultyColors["impossible"] = { r = 1.00, g = 0.10, b = 0.10, font = QuestDifficulty_Impossible }
+QuestDifficultyColors["verydifficult"] = { r = 1.00, g = 0.50, b = 0.25, font = QuestDifficulty_VeryDifficult }
+QuestDifficultyColors["difficult"] = { r = 1.00, g = 1.00, b = 0.00, font = QuestDifficulty_Difficult }
+QuestDifficultyColors["standard"] = { r = 0.25, g = 0.75, b = 0.25, font = QuestDifficulty_Standard }
+QuestDifficultyColors["trivial"] = { r = 0.50, g = 0.50, b = 0.50, font = QuestDifficulty_Trivial }
+QuestDifficultyColors["header"] = { r = 0.70, g = 0.70, b = 0.70, font = QuestDifficulty_Header }
+
 local waitTable = {}
 local waitFrame
 function R.Delay(delay, func, ...)
