@@ -60,7 +60,7 @@ local function OnUpdate(self, event, unit)
 		local threatval = threatpct or 0
 		
 		self:SetValue(threatval)
-		self.text:SetFormattedText("%s%3.1f%%", L["当前仇恨: "], threatval)
+		self.text:SetFormattedText("%s%3.1f%%", L["当前仇恨"]..": ", threatval)
 		
 		if R.Role ~= "Tank" then
 			if( threatval < 30 ) then
