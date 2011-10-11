@@ -2,6 +2,7 @@ local R, C, L, DB = unpack(select(2, ...))
 
 if GetLocale() ~= "zhTW" then return end
 
+CALENDAR = "行事曆"
 L["动作条1锚点"] = "動作條1錨點"
 L["动作条2锚点"] = "動作條2錨點"
 L["动作条3锚点"] = "動作條3錨點"

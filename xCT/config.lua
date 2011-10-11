@@ -1,3 +1,4 @@
+local R, C = unpack(RayUI)
 local addon, ns=...
 ns.config={
 ---------------------------------------------------------------------------------
@@ -21,10 +22,10 @@ ns.config={
 	["healtreshold"] = 1,		-- minimum healing to show in incoming/outgoing healing messages.
 
 -- appearence
-	["font"] = "Fonts\\bLEI00D.TTF",	-- "Fonts\\bLEI00D.TTF" is default WoW font.
+	["font"] = C.media.font,
 	["fontsize"] = 20,
 	["fontstyle"] = "OUTLINE",	-- valid options are "OUTLINE", "MONOCHROME", "THICKOUTLINE", "OUTLINE,MONOCHROME", "THICKOUTLINE,MONOCHROME"
-	["damagefont"] = "Fonts\\bKAI00M.TTF",	 -- "Fonts\\bKAI00M.TTF" is default WoW damage font
+	["damagefont"] = C.media.dmgfont,
 	["damagefontsize"] = 15,	-- size of xCT damage font. use "auto" to set it automatically depending on icon size, or use own value, 16 for example. if it's set to number value icons will change size.
 	["timevisible"] = 3, 		-- time (seconds) a single message will be visible. 3 is a good value.
 	["scrollable"] = false,		-- allows you to scroll frame lines with mousewheel.

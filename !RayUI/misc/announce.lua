@@ -25,7 +25,7 @@ end
 
 local announceMessages = CreateMessageFrame("fDispelFrame")
  
-local function OnEvent(self, event, timestamp, eventType, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, ...)
+local function OnEvent(self, event, timestamp, eventType, hideCaster, sourceGUID, sourceName, sourceFlags, destGUID, destName, destFlags, ...)
 	if (eventType=="SPELL_DISPEL" or eventType=="SPELL_STOLEN" or eventType=="SPELL_INTERRUPT" or eventType=="SPELL_DISPEL_FAILED") and band(sourceFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) == COMBATLOG_OBJECT_AFFILIATION_MINE then
 		local _, _, _, id, effect, _, etype = ...
 		local msg = _G["ACTION_" .. eventType]
@@ -83,7 +83,7 @@ local speed = .057799924 -- how fast the text appears
 local font = C.media.font -- HOOG0555.ttf 
 local fontflag = "OUTLINE" -- for pixelfont stick to this else OUTLINE or THINOUTLINE
 local fontsize = 24 -- font size
-
+ 
 local GetNextChar = function(word,num)
 	local c = word:byte(num)
 	local shift
@@ -231,6 +231,9 @@ end
 SlashCmdList.ALLEYRUN = function(lol) allertrun(lol) end
 SLASH_ALLEYRUN1 = "/arn" -- /command to test the text
 
+CombatText:UnregisterEvent("PLAYER_REGEN_ENABLED")
+CombatText:UnregisterEvent("PLAYER_REGEN_DISABLED")
+		
 local a = CreateFrame ("Frame")
 a:RegisterEvent("PLAYER_REGEN_ENABLED")
 a:RegisterEvent("PLAYER_REGEN_DISABLED")
@@ -245,7 +248,5 @@ a:SetScript("OnEvent", function (self,event)
 		allertrun(L["进入战斗！"],1,0.1,0.1)
 	elseif event == "PLAYER_ENTERING_WORLD" then
 		self:UnregisterEvent("PLAYER_ENTERING_WORLD")
-		CombatText:UnregisterEvent("PLAYER_REGEN_ENABLED")
-		CombatText:UnregisterEvent("PLAYER_REGEN_DISABLED")
 	end
 end)

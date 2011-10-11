@@ -16,8 +16,6 @@ function R.Update_ActionBar()
 			PetBarMover:SetPoint("BOTTOM", "UIParent", "BOTTOM", 0, 210)
 			StanceBarMover:ClearAllPoints()
 			StanceBarMover:SetPoint("BOTTOMLEFT", "UIParent", "BOTTOMLEFT", 15, 202)
-			TotemBarMover:ClearAllPoints()
-			TotemBarMover:SetPoint("BOTTOMLEFT", "UIParent", "BOTTOMLEFT", 15, 202)
 		elseif C["ouf"].HealFrames and R.isHealer then
 			ActionBar1Mover:ClearAllPoints()
 			ActionBar1Mover:SetPoint("BOTTOM", "UIParent", "BOTTOM", 0, 40)

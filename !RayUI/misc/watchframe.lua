@@ -36,6 +36,9 @@ local function setup()
 	WatchFrameTitle:SetParent(RayUIWatchFrame)
 	WatchFrameCollapseExpandButton:SetParent(RayUIWatchFrame)
 	WatchFrameCollapseExpandButton.Disable = R.dummy
+	
+	WatchFrameTitle:Hide()
+	WatchFrameTitle.Show = R.dummy
 end
 
 local f = CreateFrame("Frame")

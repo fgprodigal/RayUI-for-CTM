@@ -2,6 +2,7 @@ local R, C, L, DB = unpack(select(2, ...))
 
 setmetatable(L, {__index = function(_, key) return key end})
 
+CALENDAR = "日历"
 L["动作条1锚点"] = "动作条1锚点"
 L["动作条2锚点"] = "动作条2锚点"
 L["动作条3锚点"] = "动作条3锚点"

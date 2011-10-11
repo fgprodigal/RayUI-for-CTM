@@ -136,29 +136,31 @@ end
 -- Creating right click menu
 local menuFrame = CreateFrame("Frame", "m_MinimapRightClickMenu", UIParent, "UIDropDownMenuTemplate")
 local menuList = {
-    {text = "角色信息",
+    {text = CHARACTER_BUTTON,
     func = function() ToggleCharacter("PaperDollFrame") end},
-    {text = "法术书",
+    {text = SPELLBOOK_ABILITIES_BUTTON,
     func = function() ToggleSpellBook("spell") end},
-    {text = "天赋",
+    {text = TALENTS_BUTTON,
     func = function() ToggleTalentFrame() end},
-    {text = "成就",
+    {text = ACHIEVEMENT_BUTTON,
     func = function() ToggleAchievementFrame() end},
-    {text = "任务日志",
+    {text = QUESTLOG_BUTTON,
     func = function() ToggleFrame(QuestLogFrame) end},
-    {text = "好友",
+    {text = SOCIAL_BUTTON,
     func = function() ToggleFriendsFrame(1) end},
-    {text = "工会",
+    {text = GUILD,
     func = function() ToggleGuildFrame(1) end},
-    {text = "PvP",
+    {text = PLAYER_V_PLAYER,
     func = function() ToggleFrame(PVPFrame) end},
-    {text = "地下城查找器",
+	{text = ENCOUNTER_JOURNAL,
+    func = function() ToggleFrame(EncounterJournal) end},
+    {text = LFG_TITLE,
     func = function() ToggleFrame(LFDParentFrame) end},
-    {text = "团队浏览器",
+    {text = LOOKING_FOR_RAID,
     func = function() ToggleFrame(LFRParentFrame) end},
-    {text = "帮助",
+    {text = HELP_BUTTON,
     func = function() ToggleHelpFrame() end},
-    {text = "日历",
+    {text = CALENDAR,
     func = function()
     if(not CalendarFrame) then LoadAddOn("Blizzard_Calendar") end
         Calendar_Toggle()
@@ -191,7 +193,7 @@ if not IsAddOnLoaded("Blizzard_TimeManager") then
 end
 local clockFrame, clockTime = TimeManagerClockButton:GetRegions()
 clockFrame:Hide()
-clockTime:SetFont("Fonts\\ZYKai_T.TTF", 12, "THINOUTLINE")
+clockTime:SetFont(C.media.font, C.media.fontsize, C.media.fontflag)
 clockTime:SetTextColor(1,1,1)
 TimeManagerClockButton:SetPoint("BOTTOM", Minimap, "BOTTOM", 0, -3)
 TimeManagerClockButton:SetScript("OnClick", function(_,btn)
@@ -216,7 +218,7 @@ MinimapZoneText:SetParent(zoneTextFrame)
 MinimapZoneText:ClearAllPoints()
 MinimapZoneText:SetPoint("LEFT", 2, 1)
 MinimapZoneText:SetPoint("RIGHT", -2, 1)
-MinimapZoneText:SetFont("Fonts\\ZYKai_T.TTF", 12, "THINOUTLINE")
+MinimapZoneText:SetFont(C.media.font, C.media.fontsize, C.media.fontflag)
 Minimap:HookScript("OnEnter", function(self)
 	UIFrameFadeIn(zoneTextFrame, 0.3, 0, 1)
 end)

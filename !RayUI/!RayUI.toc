@@ -3,7 +3,7 @@
 ## Version: 20111008
 ## Author: Tukz, Elv, Ray
 ## OptionalDeps: Skada, ACP, DBM-Core, BigWigs
-## RequiredDeps: !RayUI_Config
+## RequiredDeps: !RayUI_Config, Blizzard_CombatText
 ## X-oUF: oUF_Freeb
 
 functions\init.lua

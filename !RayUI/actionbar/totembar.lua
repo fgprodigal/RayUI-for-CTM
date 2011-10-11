@@ -21,12 +21,10 @@ local R, C, L, DB = unpack(select(2, ...))
       end
             
       --hooksecurefunc(bar, "SetPoint", moveTotem)  
-      holder:SetPoint("BOTTOMRIGHT", "UIParent", "BOTTOMRIGHT", -134, 180)  
+      holder:SetPoint("BOTTOMLEFT", "UIParent", "BOTTOMLEFT", 15, 202)
       holder:SetScale(C["actionbar"].barscale)
 	  
-	  R.CreateMover(holder, "TotemBarMover", L["图腾条锚点"], true)  
-
-
+	  R.CreateMover(holder, "TotemBarMover", L["图腾条锚点"], true)
     end
   
   end --disable

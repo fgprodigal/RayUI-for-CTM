@@ -1,8 +1,9 @@
-﻿## Interface: 40100
+﻿## Interface: 40200
 ## Title: |cff7aa6d6Ray|r|cffff0000U|r|cff7aa6d6I|r Watcher
 ## Version: 1.0 beta
 ## Author: Ray
 ## SavedVariables: RayUI_WatcherDB
+## RequiredDeps: !RayUI
 
 libs\AceAddon-3.0\AceAddon-3.0.xml
 libs\AceConsole-3.0\AceConsole-3.0.xml

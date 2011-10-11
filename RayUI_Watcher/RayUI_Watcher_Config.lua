@@ -1,7 +1,6 @@
-
 -----------------------------------------------------------------------------------------------------
 -- name = "目标debuff",
--- setpoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", 0, 10 },
+-- setpoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", 0, 33 },
 -- direction = "UP",
 -- iconSide = "LEFT",
 -- mode = "BAR", 
@@ -11,10 +10,10 @@
 --	{ spellID = 18499, filter = "CD" },
 --	{ itemID = 56285, filter = "CD" },
 ---------------------------------------------------------------------------------------------------
-
+local R, C = unpack(RayUI)
 local _, ns = ...
 
-ns.font = "Fonts\\ZYKai_T.ttf"
+ns.font = C.media.font
 ns.fontsize = 12
 ns.fontflag = "OUTLINE"
 
@@ -23,7 +22,7 @@ ns.watchers ={
 		{
 			name = "玩家buff",
 			direction = "LEFT",
-			setpoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 0, 60 },
+			setpoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 0, 85 },
 			size = 32,
 
 			-- Lifebloom / Blühendes Leben
@@ -38,7 +37,7 @@ ns.watchers ={
 		{
 			name = "目标buff",
 			direction = "RIGHT",
-			setpoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", 0, 60 },
+			setpoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", 0, 85 },
 			size = 32,
 
 			-- Lifebloom / Blühendes Leben
@@ -54,7 +53,7 @@ ns.watchers ={
 		{
 			name = "玩家重要buff",
 			direction = "LEFT",
-			setpoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 0, 10 },
+			setpoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 0, 33 },
 			size = 47,
 			
 			-- Eclipse (Lunar) / Mondfinsternis
@@ -80,7 +79,7 @@ ns.watchers ={
 		{
 			name = "目标debuff",
 			direction = "RIGHT",
-			setpoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", 0, 10 },
+			setpoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", 0, 33 },
 			size = 47,
 			
 			-- Hibernate / Winterschlaf
@@ -146,7 +145,7 @@ ns.watchers ={
 		{
 			name = "玩家重要buff",
 			direction = "LEFT",
-			setpoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 0, 10 },
+			setpoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 0, 33 },
 			size = 47,
 			
 			-- Lock and Load / Sichern und Laden
@@ -170,7 +169,7 @@ ns.watchers ={
 		{
 			name = "目标debuff",
 			direction = "RIGHT",
-			setpoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", 0, 10 },
+			setpoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", 0, 33 },
 			size = 47,
 			
 			-- Wyvern Sting / Wyverngift
@@ -208,7 +207,7 @@ ns.watchers ={
 		{
 			name = "玩家重要buff",
 			direction = "LEFT",
-			setpoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 0, 10 },
+			setpoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 0, 33 },
 			size = 47,
 			
 			-- Frostbite / Frostbite
@@ -232,7 +231,7 @@ ns.watchers ={
 		{
 			name = "目标debuff",
 			direction = "RIGHT",
-			setpoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", 0, 10 },
+			setpoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", 0, 33 },
 			size = 47,
 			
 			-- Polymorph / Verwandlung
@@ -270,7 +269,7 @@ ns.watchers ={
 		{
 			name = "玩家重要buff",
 			direction = "LEFT",
-			setpoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 0, 10 },
+			setpoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 0, 33 },
 			size = 47,
 			
 			-- Sudden Death / Plötzlicher Tod
@@ -296,7 +295,7 @@ ns.watchers ={
 		{
 			name = "目标debuff",
 			direction = "RIGHT",
-			setpoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", 0, 10 },
+			setpoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", 0, 33 },
 			size = 47,
 			
 			-- Charge Stun / Sturmangriffsbetäubung
@@ -330,7 +329,7 @@ ns.watchers ={
 		{
 			name = "玩家buff",
 			direction = "LEFT",
-			setpoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 0, 60 },
+			setpoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 0, 85 },
 			size = 32,
 			
 			-- Earth Shield / Erdschild
@@ -346,7 +345,7 @@ ns.watchers ={
 		{
 			name = "目标buff",
 			direction = "RIGHT",
-			setpoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", 0, 60 },
+			setpoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", 0, 85 },
 			size = 32,
 			
 			-- Earth Shield / Erdschild
@@ -358,7 +357,7 @@ ns.watchers ={
 		{
 			name = "玩家重要buff",
 			direction = "LEFT",
-			setpoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 0, 10 },
+			setpoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 0, 33 },
 			size = 47,
 			
 			-- Maelstorm Weapon / Waffe des Mahlstroms
@@ -376,7 +375,7 @@ ns.watchers ={
 		{
 			name = "目标debuff",
 			direction = "RIGHT",
-			setpoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", 0, 10 },
+			setpoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", 0, 33 },
 			size = 47,
 			
 			-- Hex / Verhexen
@@ -413,7 +412,7 @@ ns.watchers ={
 		{
 			name = "玩家buff",
 			direction = "LEFT",
-			setpoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 0, 60 },
+			setpoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 0, 85 },
 			size = 32,
 			
 			-- Beacon of Light / Flamme des Glaubens
@@ -423,7 +422,7 @@ ns.watchers ={
 		{
 			name = "目标buff",
 			direction = "RIGHT",
-			setpoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", 0, 60 },
+			setpoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", 0, 85 },
 			size = 32,
 			
 			-- Beacon of Light / Flamme des Glaubens
@@ -433,7 +432,7 @@ ns.watchers ={
 		{
 			name = "玩家重要buff",
 			direction = "LEFT",
-			setpoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 0, 10 },
+			setpoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 0, 33 },
 			size = 47,
 			
 			-- Judgements of the Pure / Richturteile des Reinen
@@ -455,7 +454,7 @@ ns.watchers ={
 		{
 			name = "目标debuff",
 			direction = "RIGHT",
-			setpoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", 0, 10 },
+			setpoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", 0, 33 },
 			size = 47,
 			
 			-- Hammer of Justice / Hammer der Gerechtigkeit
@@ -482,7 +481,7 @@ ns.watchers ={
 		{
 			name = "玩家buff",
 			direction = "LEFT",
-			setpoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 0, 60 },
+			setpoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 0, 85 },
 			size = 32,
 			
 			-- Prayer of Mending / Gebet der Besserung
@@ -512,7 +511,7 @@ ns.watchers ={
 		{
 			name = "目标buff",
 			direction = "RIGHT",
-			setpoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", 0, 60 },
+			setpoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", 0, 85 },
 			size = 32,
 			
 			-- Prayer of Mending / Gebet der Besserung
@@ -538,7 +537,7 @@ ns.watchers ={
 		{
 			name = "玩家重要buff",
 			direction = "LEFT",
-			setpoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 0, 10 },
+			setpoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 0, 33 },
 			size = 47,
 			
 			-- Surge of Light / Woge des Lichts
@@ -564,7 +563,7 @@ ns.watchers ={
 		{
 			name = "目标debuff",
 			direction = "RIGHT",
-			setpoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", 0, 10 },
+			setpoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", 0, 33 },
 			size = 47,
 			
 			-- Shackle Undead / Untote fesseln
@@ -598,7 +597,7 @@ ns.watchers ={
 	["WARLOCK"]={
 		{
 			name = "目标debuff",
-			setpoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", 0, 10 },
+			setpoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", 0, 33 },
 			direction = "RIGHT",
 			mode = "ICON",
 			size = 47,
@@ -643,7 +642,7 @@ ns.watchers ={
 		},
 		{
 			name = "玩家重要buff",
-			setpoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 0, 10 },
+			setpoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 0, 33 },
 			direction = "LEFT",
 			size = 47,
 			-- Improved Soul Fire / Verbessertes Seelenfeuer
@@ -668,7 +667,7 @@ ns.watchers ={
 		{
 			name = "玩家重要buff",
 			direction = "LEFT",
-			setpoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 0, 10 },
+			setpoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 0, 33 },
 			size = 47,
 			
 			-- Sprint / Sprinten
@@ -694,7 +693,7 @@ ns.watchers ={
 		{
 			name = "目标debuff",
 			direction = "RIGHT",
-			setpoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", 0, 10 },
+			setpoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", 0, 33 },
 			size = 47,
 			
 			-- Cheap Shot / Fieser Trick
@@ -745,7 +744,7 @@ ns.watchers ={
 		{
 			name = "玩家重要buff",
 			direction = "LEFT",
-			setpoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 0, 10 },
+			setpoint = { "BOTTOMRIGHT", "oUF_FreebPlayer", "TOPRIGHT", 0, 33 },
 			size = 47,
 			
 			-- Blood Shield / Blutschild
@@ -773,7 +772,7 @@ ns.watchers ={
 		{
 			name = "目标debuff",
 			direction = "RIGHT",
-			setpoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", 0, 10 },
+			setpoint = { "BOTTOMLEFT", "oUF_FreebTarget", "TOPLEFT", 0, 33 },
 			size = 47,
 			
 			-- Strangulate / Strangulieren

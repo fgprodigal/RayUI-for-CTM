@@ -869,8 +869,9 @@ local UnitSpecific = {
 		self.Reputation = createStatusbar(self, C["media"].normal, nil, 4, nil, 0, .7, 1, 1)
 		self.Reputation:Point('TOPLEFT', BottomInfoBar, 'TOPLEFT', 2, -2)
 		self.Reputation:Point('BOTTOMRIGHT', BottomInfoBar, 'BOTTOMRIGHT', -2, 2)
+		self.Reputation:SetParent(BottomInfoBar)
 		self.Reputation:SetFrameStrata("BACKGROUND")
-		self.Reputation:SetFrameLevel(0)
+		self.Reputation:SetFrameLevel(1)
 		
 		self.Reputation.PostUpdate = function(self, event, unit, bar)
 															local name, id = GetWatchedFactionInfo()
@@ -884,14 +885,20 @@ local UnitSpecific = {
 		RayUIThreatBar:HookScript("OnShow", function()
 			if RayUIThreatBar:GetAlpha() > 0 then
 				self.Experience:Hide()
+				self.Reputation:Hide()				
 			end
 		end)
-		RayUIThreatBar:HookScript("OnHide", function() self.Experience:Show() end)
+		RayUIThreatBar:HookScript("OnHide", function()
+			self.Experience:Show()
+			self.Reputation:Show()
+		end)
 		hooksecurefunc(RayUIThreatBar, "SetAlpha", function()
 			if RayUIThreatBar:GetAlpha() > 0 then
 				self.Experience:Hide()
+				self.Reputation:Hide()
 			else
 				self.Experience:Show()
+				self.Reputation:Show()
 			end
 		end)
 		-- self:RegisterEvent('PLAYER_REGEN_DISABLED', function() self.Experience:Hide() end)
