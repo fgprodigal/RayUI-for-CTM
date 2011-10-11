@@ -32,7 +32,7 @@ ns.config={
 	["maxlines"] = 64,		-- max lines to keep in scrollable mode. more lines=more memory. nom nom nom.
 
 -- justify messages in frames, valid values are "RIGHT" "LEFT" "CENTER"
-	["justify_1"] = "RIGHT",		-- incoming damage justify
+	["justify_1"] = "LEFT",		-- incoming damage justify
 	["justify_2"] = "LEFT",	-- incoming healing justify
 	["justify_3"] = "CENTER",	-- various messages justify (mana, rage, auras, etc)
 	["justify_4"] = "RIGHT",	-- outgoing damage/healing justify

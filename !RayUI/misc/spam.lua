@@ -235,3 +235,29 @@ local function REPEAT_FILTER(self, event, arg1, arg2)
 	tinsert(Cache, data)
 end
 ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL", REPEAT_FILTER)
+
+----------------------------------------------------------------------------------
+-- 高亮显示自己名字
+----------------------------------------------------------------------------------
+local function changeName(msgHeader, name, msgCnt, chatGroup, displayName, msgBody)
+	if name ~= R.myname then
+		msgBody = msgBody:gsub("("..R.myname..")" , "|cffff0000>%1<|r"):gsub("("..R.myname:lower()..")" , "|cffff0000>%1<|r")
+	end
+	return ("|Hplayer:%s%s%s|h[%s]|h%s"):format(name, msgCnt, chatGroup, displayName, msgBody)
+end
+
+local newAddMsg = {}
+local function AddMessage(frame, text, ...)
+	if text and type(text) == "string" then
+		text = text:gsub("(|Hplayer:([^:]+)([:%d+]*)([:%w+]*)|h%[(.-)%]|h)(.-)$", changeName)
+	end
+	return newAddMsg[frame:GetName()](frame, text, ...)
+end
+
+for i = 1, NUM_CHAT_WINDOWS do
+	local f = _G[format("%s%d", "ChatFrame", i)]
+	if f ~= COMBATLOG then
+		newAddMsg[format("%s%d", "ChatFrame", i)] = f.AddMessage
+		f.AddMessage = AddMessage
+	end
+end

@@ -267,8 +267,6 @@ infoshow:SetScript("OnEvent", function(self)
 				UIFrameFadeIn(topinfo[i], 1, 0, 1)
 			end)
 		end
-		UIParent:SetAlpha(0)
-		R.Delay(3, function() UIFrameFadeIn(UIParent,2,0,1) end)
 end)
 
 -- CURRENCY DATA BARS
