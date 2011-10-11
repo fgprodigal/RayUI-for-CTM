@@ -930,7 +930,25 @@ function R.UpdateSingle(frame, healer)
 		end
 		if frame:IsElementEnabled('Aura') then
 			frame:DisableElement('Aura')
-		end		
+		end
+		local height = frame:GetHeight()
+		local auras = CreateFrame("Frame", nil, frame)
+		auras:SetHeight(height)
+		auras:SetWidth(245)
+		auras:Point("BOTTOMLEFT", frame, "TOPLEFT", 0, 7)
+		auras.spacing = 5
+		auras["growth-x"] = "RIGHT"
+		auras["growth-y"] = "UP"
+		auras.size = height
+		auras.initialAnchor = "BOTTOMLEFT"
+		auras.numBuffs = 9 
+		auras.numDebuffs = 9
+		auras.gap = true
+		auras.PostCreateIcon = R.postCreateIconSmall
+		auras.PostUpdateIcon = R.postUpdateIconSmall
+
+		frame.Auras = auras
+		frame:EnableElement('Aura')
 		if C["ouf"].HealFrames and healer then
 			frame.Castbar:ClearAllPoints()
 			frame.Castbar:Point("TOPRIGHT", frame, "TOPRIGHT", 0, -50)
@@ -949,107 +967,6 @@ function R.UpdateSingle(frame, healer)
 			frame.Castbar.Text:SetPoint("LEFT", frame.Castbar, "LEFT", 5, 0)
 			frame.Castbar.Time:ClearAllPoints()
 			frame.Castbar.Time:SetPoint("RIGHT", frame.Castbar, "RIGHT", -5, 0)
-		end
-		if (C["ouf"].HealFrames and healer) then --or not C["ouf"].DebuffOnyshowPlayer
-			--[[ local debuffs = CreateFrame("Frame", nil, frame)
-			local height = frame:GetHeight()
-			debuffs:SetHeight(height)
-			debuffs:SetWidth(245)
-			debuffs.initialAnchor = "BOTTOMLEFT"
-			debuffs.spacing = 5
-			debuffs.num = 9
-			debuffs["growth-x"] = "RIGHT"
-			debuffs["growth-y"] = "UP"
-			if R.myclass == "ROGUE" or R.myclass == "DRUID" then
-				debuffs:Point("TOPLEFT", frame, "BOTTOMLEFT", 0, 55)
-			else
-				debuffs:Point("TOPLEFT", frame, "BOTTOMLEFT", 0, 50)
-			end
-			debuffs.size = height
-
-			debuffs.PostCreateIcon = R.postCreateIconSmall
-			debuffs.PostUpdateIcon = R.postUpdateIconSmall
-
-			frame.Debuffs = debuffs
-
-			local buffs = CreateFrame("Frame", nil, frame)
-			buffs:SetHeight(height)
-			buffs:SetWidth(190)
-			buffs:Point("LEFT", frame, "RIGHT", 5, 0)
-			buffs.spacing = 4
-			buffs["growth-x"] = "RIGHT"
-			buffs["growth-y"] = "DOWN"
-			buffs.size = height
-			buffs.initialAnchor = "TOPLEFT"
-			buffs.onlyShowPlayer = onlyShowPlayer
-
-			buffs.PostCreateIcon = R.postCreateIconSmall
-			buffs.PostUpdateIcon = R.postUpdateIconSmall
-
-			frame.Buffs = buffs
-			frame.Buffs.num = 32
-			frame:EnableElement('Aura') ]]
-			local height = frame:GetHeight()
-			local auras = CreateFrame("Frame", nil, frame)
-			auras:SetHeight(height)
-			auras:SetWidth(245)
-			auras:Point("TOPLEFT", frame, "TOPRIGHT", 5, 0)
-			auras.spacing = 5
-			auras["growth-x"] = "RIGHT"
-			auras["growth-y"] = "DOWN"
-			auras.size = height
-			auras.initialAnchor = "BOTTOMLEFT"
-			auras.numBuffs = 15 
-			auras.numDebuffs = 15
-			auras.gap = true
-			auras.PostCreateIcon = R.postCreateIconSmall
-			auras.PostUpdateIcon = R.postUpdateIconSmall
-
-			frame.Auras = auras
-			frame:EnableElement('Aura')
-		else
-			--[[ Auras = CreateFrame("Frame", nil, frame)
-			Auras:SetHeight(42)
-			Auras:SetWidth(frame:GetWidth())
-			Auras.initialAnchor = "BOTTOMLEFT"
-			Auras["growth-x"] = "RIGHT"		
-			Auras["growth-y"] = "DOWN"
-			Auras.numBuffs = 24
-			Auras.numDebuffs = 10
-			Auras.size = 18
-			Auras.spacing = 4.8
-			Auras["growth-y"] = "UP"
-			Auras.size = 30
-			Auras.onlyShowPlayer = true
-			Auras.CustomFilter = R.CustomFilter		
-			if R.myclass == "ROGUE" or R.myclass == "DRUID" then
-				Auras:Point("BOTTOMLEFT", frame, "TOPLEFT", 0, 10)
-			else
-				Auras:Point("BOTTOMLEFT", frame, "TOPLEFT", 0, 5)
-			end
-			Auras.gap = true
-			Auras.PostCreateIcon = R.postCreateIcon
-			Auras.PostUpdateIcon = R.postUpdateIcon
-			frame.Auras = Auras
-			frame:EnableElement('Aura') ]]
-			local height = frame:GetHeight()
-			local auras = CreateFrame("Frame", nil, frame)
-			auras:SetHeight(height)
-			auras:SetWidth(245)
-			auras:Point("TOPLEFT", frame, "TOPRIGHT", 5, 0)
-			auras.spacing = 5
-			auras["growth-x"] = "RIGHT"
-			auras["growth-y"] = "DOWN"
-			auras.size = height
-			auras.initialAnchor = "BOTTOMLEFT"
-			auras.numBuffs = 15 
-			auras.numDebuffs = 15
-			auras.gap = true
-			auras.PostCreateIcon = R.postCreateIconSmall
-			auras.PostUpdateIcon = R.postUpdateIconSmall
-
-			frame.Auras = auras
-			frame:EnableElement('Aura')
 		end
 		if R.TableIsEmpty(R.SavePath["UFPos"]["Freeb - Target"]) then
 			if C.general.speciallayout then

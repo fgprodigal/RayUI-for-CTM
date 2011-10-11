@@ -225,3 +225,6 @@ end)
 Minimap:HookScript("OnLeave", function(self)
 	UIFrameFadeOut(zoneTextFrame, 0.3, 1, 0)
 end)
+
+DropDownList1:SetClampedToScreen(true)
+LFDSearchStatus:SetClampedToScreen(true)
