@@ -388,7 +388,7 @@ CloseAllBags = CloseBags
 
 BackpackTokenFrame:GetRegions():Hide()
 BackpackTokenFrameToken1:ClearAllPoints()
-BackpackTokenFrameToken1:SetPoint("BOTTOMLEFT", holder, "BOTTOMLEFT", 0, 2)
+BackpackTokenFrameToken1:SetPoint("BOTTOMLEFT", holder, "BOTTOMLEFT", 80, 2)
 for i = 1, 3 do
 	local bu = _G["BackpackTokenFrameToken"..i]
 	local ic = _G["BackpackTokenFrameToken"..i.."Icon"]
@@ -491,7 +491,7 @@ editbox:SetScript("OnLeave", HideSearch)
 local JpackButton = CreateFrame("Button", nil, holder)
 JpackButton:SetWidth(70)
 JpackButton:SetHeight(15)
-JpackButton:SetPoint("BOTTOMLEFT", 3, 3)
+JpackButton:SetPoint("BOTTOMLEFT", 3, 2)
 JpackButton:SetScript("OnMouseUp", function(self, btn)
 		if(btn=="RightButton") then
 			JPack:Pack(nil, 1)

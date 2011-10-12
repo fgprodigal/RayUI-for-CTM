@@ -884,21 +884,21 @@ local UnitSpecific = {
 		
 		RayUIThreatBar:HookScript("OnShow", function()
 			if RayUIThreatBar:GetAlpha() > 0 then
-				self.Experience:Hide()
-				self.Reputation:Hide()				
+				self.Experience:SetAlpha(0)
+				self.Reputation:SetAlpha(0)
 			end
 		end)
 		RayUIThreatBar:HookScript("OnHide", function()
-			self.Experience:Show()
-			self.Reputation:Show()
+			self.Experience:SetAlpha(1)
+			self.Reputation:SetAlpha(1)
 		end)
 		hooksecurefunc(RayUIThreatBar, "SetAlpha", function()
 			if RayUIThreatBar:GetAlpha() > 0 then
-				self.Experience:Hide()
-				self.Reputation:Hide()
+				self.Experience:SetAlpha(0)
+				self.Reputation:SetAlpha(0)
 			else
-				self.Experience:Show()
-				self.Reputation:Show()
+				self.Experience:SetAlpha(1)
+				self.Reputation:SetAlpha(1)
 			end
 		end)
 		-- self:RegisterEvent('PLAYER_REGEN_DISABLED', function() self.Experience:Hide() end)

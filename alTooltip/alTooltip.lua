@@ -122,9 +122,10 @@ GameTooltip:HookScript("OnTooltipSetUnit", function(self)
 		if unitLevel < 0 then unitLevel = '??' end
 		if UnitIsPlayer(unit) then
 			local unitRace = UnitRace(unit)
-			local unitClass = UnitClass(unit)
+			local _, unitClass = UnitClass(unit)
 			local guild, rank = GetGuildInfo(unit)
 			local playerGuild = GetGuildInfo("player")
+			GameTooltipStatusBar:SetStatusBarColor(unpack({GameTooltip_UnitColor(unit)}))
 			if guild then
 				GameTooltipTextLeft2:SetFormattedText("<%s>"..hex(1, 1, 1).." %s|r", guild, rank)
 				if IsInGuild() and guild == playerGuild then
@@ -174,10 +175,11 @@ GameTooltipStatusBar.bg:SetFrameStrata("LOW")
 GameTooltipStatusBar.bg:SetBackdrop(backdrop)
 GameTooltipStatusBar.bg:SetBackdropColor(0, 0, 0, 0.5)
 GameTooltipStatusBar.bg:SetBackdropBorderColor(0, 0, 0, 1)
+GameTooltipStatusBar:SetHeight(8)
 GameTooltipStatusBar:SetStatusBarTexture("Interface\\TargetingFrame\\UI-StatusBar")
 GameTooltipStatusBar:ClearAllPoints()
-GameTooltipStatusBar:SetPoint("TOPLEFT", GameTooltip, "BOTTOMLEFT", 1, 0)
-GameTooltipStatusBar:SetPoint("TOPRIGHT", GameTooltip, "BOTTOMRIGHT", -1, 0)
+GameTooltipStatusBar:SetPoint("TOPLEFT", GameTooltip, "BOTTOMLEFT", 1, -2)
+GameTooltipStatusBar:SetPoint("TOPRIGHT", GameTooltip, "BOTTOMRIGHT", -1, -2)
 GameTooltipStatusBar:HookScript("OnValueChanged", function(self, value)
 	if not value then
 		return
@@ -246,4 +248,14 @@ hooksecurefunc("GameTooltip_SetDefaultAnchor", function(tooltip, parent)
 		tooltip:SetPoint(unpack(position))
     end	
 	tooltip.default = 1
+end)
+
+GameTooltip:HookScript("OnUpdate", function(self, ...)
+   if self:GetAnchorType() == "ANCHOR_CURSOR" then
+	  local x, y = GetCursorPosition()
+	  local effScale = self:GetEffectiveScale()
+	  local width = self:GetWidth() or 0
+	  self:ClearAllPoints()
+	  self:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", x / effScale - width / 2, y / effScale + 15)
+   end
 end)

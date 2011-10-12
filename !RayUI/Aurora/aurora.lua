@@ -4073,7 +4073,7 @@ Delay:RegisterEvent("PLAYER_ENTERING_WORLD")
 Delay:SetScript("OnEvent", function()
 	Delay:UnregisterEvent("PLAYER_ENTERING_WORLD")
 
-	if not(IsAddOnLoaded("CowTip") or IsAddOnLoaded("TipTac") or IsAddOnLoaded("FreebTip") or IsAddOnLoaded("lolTip") or IsAddOnLoaded("StarTip")) then
+	if not(IsAddOnLoaded("CowTip") or IsAddOnLoaded("TipTac") or IsAddOnLoaded("FreebTip") or IsAddOnLoaded("lolTip") or IsAddOnLoaded("StarTip") or IsAddOnLoaded("alTooltip")) then
 		local tooltips = {
 			"GameTooltip",
 			"ItemRefTooltip",
@@ -4113,13 +4113,6 @@ Delay:SetScript("OnEvent", function()
 
 		R.CreateBD(FriendsTooltip)
 	end
-	
-	local sb = _G["GameTooltipStatusBar"]
-	sb:SetHeight(3)
-	sb:ClearAllPoints()
-	sb:SetPoint("BOTTOMLEFT", GameTooltip, "BOTTOMLEFT", 1, 1)
-	sb:SetPoint("BOTTOMRIGHT", GameTooltip, "BOTTOMRIGHT", -1, 1)
-	sb:SetStatusBarTexture(C.media.normal)
 
 	if not(IsAddOnLoaded("MetaMap") or IsAddOnLoaded("Mapster") or IsAddOnLoaded("m_Map")) then
 		--World Map		

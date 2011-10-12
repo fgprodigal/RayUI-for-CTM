@@ -198,17 +198,17 @@ UpdateMem(Stat, 10)
 
 -- DURABILITY
 local Slots = {
-		[1] = {1, L["头部"], 1000},
-		[2] = {3, L["肩部"], 1000},
-		[3] = {5, L["胸部"], 1000},
-		[4] = {6, L["腰部"], 1000},
-		[5] = {9, L["手腕"], 1000},
-		[6] = {10, L["手"], 1000},
-		[7] = {7, L["腿部"], 1000},
-		[8] = {8, L["脚"], 1000},
-		[9] = {16, L["主手"], 1000},
-		[10] = {17, L["副手"], 1000},
-		[11] = {18, L["远程"], 1000}
+		[1] = {1, INVTYPE_HEAD, 1000},
+		[2] = {3, INVTYPE_SHOULDER, 1000},
+		[3] = {5, INVTYPE_ROBE, 1000},
+		[4] = {6, INVTYPE_WAIST, 1000},
+		[5] = {9, INVTYPE_WRIST, 1000},
+		[6] = {10, INVTYPE_HAND, 1000},
+		[7] = {7, INVTYPE_LEGS, 1000},
+		[8] = {8, INVTYPE_FEET, 1000},
+		[9] = {16, INVTYPE_WEAPONMAINHAND, 1000},
+		[10] = {17, INVTYPE_WEAPONOFFHAND, 1000},
+		[11] = {18, INVTYPE_RANGED, 1000}
 	}
 local tooltipString = "%d %%"
 topinfo[5].Status:SetScript("OnEvent", function(self)

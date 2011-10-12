@@ -527,11 +527,21 @@ end
 local function getPackingItems()
 	local c=1
 	local items={}
-	for i=#JPack.packingBags,1,-1 do
-		local num = GetContainerNumSlots(JPack.packingBags[i]) 
-		for j = num,1,-1 do
-			items[c]=getJPackItem(JPack.packingBags[i],j)
-			c = c+1
+	if JPackDB.asc then
+		for i=1,#JPack.packingBags do
+			local num = GetContainerNumSlots(JPack.packingBags[i]) 
+			for j = 1,num do
+				items[c]=getJPackItem(JPack.packingBags[i],j)
+				c = c+1
+			end
+		end
+	else
+		for i=#JPack.packingBags,1,-1 do
+			local num = GetContainerNumSlots(JPack.packingBags[i]) 
+			for j = num,1,-1 do
+				items[c]=getJPackItem(JPack.packingBags[i],j)
+				c = c+1
+			end
 		end
 	end
 	return items,c-1
@@ -552,12 +562,22 @@ end
 ]]
 local function getSlotId(packIndex)
 	local slot=packIndex
-	for i=#JPack.packingBags,1,-1 do
-		local num=GetContainerNumSlots(JPack.packingBags[i]) 
-		if(slot<=num)then
-			return JPack.packingBags[i],1+num-slot
+	if JPackDB.asc then
+		for i=1,#JPack.packingBags do
+			local num=GetContainerNumSlots(JPack.packingBags[i]) 
+			if(slot<=num)then
+				return JPack.packingBags[i],slot
+			end
+			slot = slot - num
 		end
-		slot = slot - num
+	else
+		for i=#JPack.packingBags,1,-1 do
+			local num=GetContainerNumSlots(JPack.packingBags[i]) 
+			if(slot<=num)then
+				return JPack.packingBags[i],1+num-slot
+			end
+			slot = slot - num
+		end
 	end
 	return -1,-1
 end
@@ -1016,6 +1036,11 @@ function JPack:Pack(access, order)
 		JPack.draw = true
 	elseif access == 3 and DEV_MOD then
 		JPack.packupguildbank = true
-	end	
+	end
+	if order == 1 then
+		JPackDB.asc=true
+	elseif order == 2 then
+		JPackDB.asc=false
+	end
 	pack()
 end

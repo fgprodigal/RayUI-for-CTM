@@ -856,9 +856,9 @@ ns.watchers ={
 
 		},
 		{
-			name = "PVE/PVP目标debuff",
+			name = "PVE/PVP玩家debuff",
 			direction = "UP",
-			setpoint = { "BOTTOM", UIParent, "BOTTOM", 35, 350 },
+			setpoint = { "BOTTOM", UIParent, "BOTTOM", -35, 350 },
 			size = 55,
 			
 		
@@ -1153,7 +1153,7 @@ ns.watchers ={
 		{
 			name = "PVP目标buff",
 			direction = "UP",
-			setpoint = { "BOTTOM", UIParent, "BOTTOM", -35, 350 },
+			setpoint = { "BOTTOM", UIParent, "BOTTOM", 35, 350 },
 			size = 55,
 			
 			
