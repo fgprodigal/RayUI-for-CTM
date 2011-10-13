@@ -1,8 +1,8 @@
 ﻿## Interface: 40200
 ## Title: |cff7aa6d6Ray|r|cffff0000U|r|cff7aa6d6I|r
-## Version: 20111010
+## Version: 20111013
 ## Author: Tukz, Elv, Ray
-## OptionalDeps: Skada, ACP, DBM-Core, BigWigs
+## OptionalDeps: Skada, ACP, DBM-Core, BigWigs, AtlasLoot
 ## RequiredDeps: !RayUI_Config, Blizzard_CombatText
 ## X-oUF: oUF_Freeb
 
@@ -15,7 +15,9 @@ media\sharedmedia.lua
 
 Aurora\aurora.lua
 
+functions\consts.lua
 functions\api.lua
+functions\functions.lua
 functions\movers.lua
 
 Aurora\ACP.lua

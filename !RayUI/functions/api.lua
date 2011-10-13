@@ -3,65 +3,7 @@
 -----------------------------------------------------
 local R, C, L, DB = unpack(select(2, ...))
 
-_, R.myclass = UnitClass("player")
-R.level = UnitLevel("player")
-R.myname = UnitName("player")
-R.myrealm = GetRealmName()
-R.version = GetAddOnMetadata("!RayUI", "Version")
-BINDING_HEADER_RAYUI = GetAddOnMetadata("!RayUI", "Title")
-
-local noop = function() return end
-R.dummy = noop
-R.colors = {
-	tapped = {0.55, 0.57, 0.61},
-	disconnected = {0.84, 0.75, 0.65},
-	power = {
-		["MANA"] = {0.31, 0.45, 0.63},
-		["RAGE"] = {0.78, 0.25, 0.25},
-		["FOCUS"] = {0.71, 0.43, 0.27},
-		["ENERGY"] = {0.65, 0.63, 0.35},
-		["RUNES"] = {0.55, 0.57, 0.61},
-		["RUNIC_POWER"] = {0, 0.82, 1},
-		["AMMOSLOT"] = {0.8, 0.6, 0},
-		["FUEL"] = {0, 0.55, 0.5},
-		["POWER_TYPE_STEAM"] = {0.55, 0.57, 0.61},
-		["POWER_TYPE_PYRITE"] = {0.60, 0.09, 0.17},
-	},
-	happiness = {
-		[1] = {.69,.31,.31},
-		[2] = {.65,.63,.35},
-		[3] = {.33,.59,.33},
-	},
-	runes = {
-			[1] = {.69,.31,.31},
-			[2] = {.33,.59,.33},
-			[3] = {.31,.45,.63},
-			[4] = {.84,.75,.65},
-	},
-	reaction = {
-		[1] = { 0.78, 0.25, 0.25 }, -- Hated
-		[2] = { 0.78, 0.25, 0.25 }, -- Hostile
-		[3] = { 0.78, 0.25, 0.25 }, -- Unfriendly
-		[4] = { 218/255, 197/255, 92/255 }, -- Neutral
-		[5] = { 75/255,  175/255, 76/255 }, -- Friendly
-		[6] = { 75/255,  175/255, 76/255 }, -- Honored
-		[7] = { 75/255,  175/255, 76/255 }, -- Revered
-		[8] = { 75/255,  175/255, 76/255 }, -- Exalted	
-	},
-	class = {
-		["DEATHKNIGHT"] = { 196/255,  30/255,  60/255 },
-		["DRUID"]       = { 255/255, 125/255,  10/255 },
-		["HUNTER"]      = { 171/255, 214/255, 116/255 },
-		["MAGE"]        = { 104/255, 205/255, 255/255 },
-		["PALADIN"]     = { 245/255, 140/255, 186/255 },
-		["PRIEST"]      = { 212/255, 212/255, 212/255 },
-		["ROGUE"]       = { 255/255, 243/255,  82/255 },
-		["SHAMAN"]      = {  41/255,  79/255, 155/255 },
-		["WARLOCK"]     = { 148/255, 130/255, 201/255 },
-		["WARRIOR"]     = { 199/255, 156/255, 110/255 },
-	},
-}
-local classcolours = {
+local classcolors = {
 	["HUNTER"] = { r = 0.58, g = 0.86, b = 0.49 },
 	["WARLOCK"] = { r = 0.6, g = 0.47, b = 0.85 },
 	["PALADIN"] = { r = 1, g = 0.22, b = 0.52 },
@@ -73,7 +15,7 @@ local classcolours = {
 	["WARRIOR"] = { r = 0.9, g = 0.65, b = 0.45 },
 	["DEATHKNIGHT"] = { r = 0.77, g = 0.12 , b = 0.23 },
 }
-local r, g, b = classcolours[R.myclass].r, classcolours[R.myclass].g, classcolours[R.myclass].b
+local r, g, b = classcolors[R.myclass].r, classcolors[R.myclass].g, classcolors[R.myclass].b
 
 RoleUpdater = CreateFrame("Frame")
 local function CheckRole(self, event, unit)
@@ -124,68 +66,6 @@ local function scale(x)
 end
 R.mult = mult
 R.Scale = scale
-
-QuestDifficultyColors["impossible"] = { r = 1.00, g = 0.10, b = 0.10, font = QuestDifficulty_Impossible }
-QuestDifficultyColors["verydifficult"] = { r = 1.00, g = 0.50, b = 0.25, font = QuestDifficulty_VeryDifficult }
-QuestDifficultyColors["difficult"] = { r = 1.00, g = 1.00, b = 0.00, font = QuestDifficulty_Difficult }
-QuestDifficultyColors["standard"] = { r = 0.25, g = 0.75, b = 0.25, font = QuestDifficulty_Standard }
-QuestDifficultyColors["trivial"] = { r = 0.50, g = 0.50, b = 0.50, font = QuestDifficulty_Trivial }
-QuestDifficultyColors["header"] = { r = 0.70, g = 0.70, b = 0.70, font = QuestDifficulty_Header }
-
-local waitTable = {}
-local waitFrame
-function R.Delay(delay, func, ...)
-	if(type(delay)~="number" or type(func)~="function") then
-		return false
-	end
-	if(waitFrame == nil) then
-		waitFrame = CreateFrame("Frame","WaitFrame", UIParent)
-		waitFrame:SetScript("onUpdate",function (self,elapse)
-			local count = #waitTable
-			local i = 1
-			while(i<=count) do
-				local waitRecord = tremove(waitTable,i)
-				local d = tremove(waitRecord,1)
-				local f = tremove(waitRecord,1)
-				local p = tremove(waitRecord,1)
-				if(d>elapse) then
-				  tinsert(waitTable,i,{d-elapse,f,p})
-				  i = i + 1
-				else
-				  count = count - 1
-				  f(unpack(p))
-				end
-			end
-		end)
-	end
-	tinsert(waitTable,{delay,func,{...}})
-	return true
-end
-
-function R.RGBToHex(r, g, b)
-	r = r <= 1 and r >= 0 and r or 0
-	g = g <= 1 and g >= 0 and g or 0
-	b = b <= 1 and b >= 0 and b or 0
-	return string.format("|cff%02x%02x%02x", r*255, g*255, b*255)
-end
-
-function R.ShortValue(v)
-	if v >= 1e6 then
-		return ("%.1fm"):format(v / 1e6):gsub("%.?0+([km])$", "%1")
-	elseif v >= 1e3 or v <= -1e3 then
-		return ("%.1fk"):format(v / 1e3):gsub("%.?0+([km])$", "%1")
-	else
-		return v
-	end
-end
-
-function R.TableIsEmpty(t)
-	if type(t) ~= "table" then 
-		return true
-	else
-		return _G.next(t) == nil
-	end
-end
 
 local function Size(frame, width, height)
 	frame:SetSize(scale(width), scale(height or width))
@@ -332,7 +212,7 @@ local function Kill(object)
 	if object.UnregisterAllEvents then
 		object:UnregisterAllEvents()
 	end
-	object.Show = noop
+	object.Show = function() return end
 	object:Hide()
 end
 
@@ -438,26 +318,3 @@ while object do
 
 	object = EnumerateFrames(object)
 end
-
-local SetUIScale = CreateFrame("Frame")
-SetUIScale:RegisterEvent("PLAYER_ENTERING_WORLD")
-SetUIScale:SetScript("OnEvent", function(self, event)
-	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
-	Advanced_UIScaleSlider:Kill()
-	Advanced_UseUIScale:Kill()
-	SetCVar("useUiScale", 1)
-	SetCVar("uiScale", C["general"].uiscale)
-end)
-
-local eventcount = 0
-local RayUIInGame = CreateFrame("Frame")
-RayUIInGame:RegisterAllEvents()
-RayUIInGame:SetScript("OnEvent", function(self, event)
-	eventcount = eventcount + 1
-	if InCombatLockdown() then return end
-
-	if eventcount > 6000 or event == "PLAYER_ENTERING_WORLD" then
-		collectgarbage("collect")
-		eventcount = 0
-	end
-end)

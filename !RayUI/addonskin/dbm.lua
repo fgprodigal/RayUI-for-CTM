@@ -11,7 +11,36 @@ local croprwicons = true			-- crops blizz shitty borders from icons in RaidWarni
 local rwiconsize = 18			-- RaidWarning icon size, because 12 is small for me. Works only if croprwicons=true
 local buttonsize = 24
 
+local function ApplyMyStyle(self)
+	if DBM_GUI_Option_57 then
+		DBM_GUI_Option_57:Kill()
+	end
+	self.options.BarYOffset = 10
+	if C.general.speciallayout then
+		self.options.ExpandUpwards = false
+		if self.mainAnchor then
+			self.mainAnchor:ClearAllPoints()
+			self.mainAnchor:SetPoint("TOPLEFT", Minimap, "TOPRIGHT", self.options.Width/2 + 10 + buttonsize + buttonsize/4, self.options.BarYOffset)
+		end
+		if self.secAnchor then
+			self.secAnchor:ClearAllPoints()
+			self.secAnchor:SetPoint("TOP", UIParent, "TOP", buttonsize/2 + buttonsize/8, -250)
+		end
+	else
+		self.options.ExpandUpwards = true
+		if self.mainAnchor then
+			self.mainAnchor:ClearAllPoints()
+			self.mainAnchor:SetPoint("BOTTOMRIGHT", Minimap, "TOPRIGHT", - self.options.Width/2 + 3, -self.options.BarYOffset - 10)
+		end
+		if self.secAnchor then
+			self.secAnchor:ClearAllPoints()
+			self.secAnchor:SetPoint("TOP", UIParent, "TOP", buttonsize/2 + buttonsize/8, -300)
+		end
+	end
+end
+
 local function SkinBars(self)
+	ApplyMyStyle(self)
 	for bar in self:GetBarIterator() do
 		if not bar.injected then
 				bar.ApplyStyle=function()
@@ -134,7 +163,7 @@ local function SkinBars(self)
 
 	end
 end
- 
+
 local SkinBossTitle=function()
 	local anchor=DBMBossHealthDropdown:GetParent()
 	if not anchor.styled then
@@ -215,6 +244,7 @@ end
 
 -- mwahahahah, eat this ugly DBM.
 hooksecurefunc(DBT,"CreateBar",SkinBars)
+hooksecurefunc(DBT,"ApplyStyle",ApplyMyStyle)
 hooksecurefunc(DBM.BossHealth,"Show",SkinBossTitle)
 hooksecurefunc(DBM.BossHealth,"AddBoss",SkinBoss)
 hooksecurefunc(DBM.BossHealth,"UpdateSettings",SkinBoss)

@@ -169,9 +169,10 @@ GameTooltip:HookScript("OnTooltipSetUnit", function(self)
 end)
 
 GameTooltipStatusBar.bg = CreateFrame("Frame", nil, GameTooltipStatusBar)
-GameTooltipStatusBar.bg:SetPoint("TOPLEFT", GameTooltipStatusBar, "TOPLEFT", -1, 1)
-GameTooltipStatusBar.bg:SetPoint("BOTTOMRIGHT", GameTooltipStatusBar, "BOTTOMRIGHT", 1, -1)
-GameTooltipStatusBar.bg:SetFrameStrata("LOW")
+GameTooltipStatusBar.bg:Point("TOPLEFT", GameTooltipStatusBar, "TOPLEFT", -1, 1)
+GameTooltipStatusBar.bg:Point("BOTTOMRIGHT", GameTooltipStatusBar, "BOTTOMRIGHT", 1, -1)
+GameTooltipStatusBar.bg:SetFrameStrata(GameTooltipStatusBar:GetFrameStrata())
+GameTooltipStatusBar.bg:SetFrameLevel(GameTooltipStatusBar:GetFrameLevel() - 1)
 GameTooltipStatusBar.bg:SetBackdrop(backdrop)
 GameTooltipStatusBar.bg:SetBackdropColor(0, 0, 0, 0.5)
 GameTooltipStatusBar.bg:SetBackdropBorderColor(0, 0, 0, 1)
@@ -190,6 +191,9 @@ GameTooltipStatusBar:HookScript("OnValueChanged", function(self, value)
 	end
 	local unit  = select(2, GameTooltip:GetUnit())
 	if unit then
+		if UnitIsPlayer(unit) then
+			GameTooltipStatusBar:SetStatusBarColor(unpack({GameTooltip_UnitColor(unit)}))
+		end
 		min, max = UnitHealth(unit), UnitHealthMax(unit)
 		if not self.text then
 			self.text = self:CreateFontString(nil, "OVERLAY")

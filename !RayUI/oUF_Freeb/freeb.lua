@@ -685,6 +685,10 @@ local func = function(self, unit)
 			self.Power.PostUpdate = PostUpdatePower	
 		end
 	end
+	
+	self.SpellRange = {
+		  insideAlpha = 1,
+		  outsideAlpha = 0.3}
 end
 
 local BarFader = function(self)
@@ -974,6 +978,29 @@ local UnitSpecific = {
 			self.Buffs = b
 		end
 		
+		local mhpb = CreateFrame('StatusBar', nil, self)
+		mhpb:SetPoint('BOTTOMLEFT', self.Health:GetStatusBarTexture(), 'BOTTOMRIGHT')
+		mhpb:SetPoint('TOPLEFT', self.Health:GetStatusBarTexture(), 'TOPRIGHT')	
+		mhpb:SetWidth(self:GetWidth())
+		mhpb:SetStatusBarTexture(C["media"].blank)
+		mhpb:SetStatusBarColor(0, 1, 0.5, 0.25)
+		
+		local ohpb = CreateFrame('StatusBar', nil, self)
+		ohpb:SetPoint('BOTTOMLEFT', mhpb:GetStatusBarTexture(), 'BOTTOMRIGHT', 0, 0)
+		ohpb:SetPoint('TOPLEFT', mhpb:GetStatusBarTexture(), 'TOPRIGHT', 0, 0)		
+		ohpb:SetWidth(mhpb:GetWidth())
+		ohpb:SetStatusBarTexture(C["media"].blank)
+		ohpb:SetStatusBarColor(0, 1, 0, 0.25)
+		
+		self.HealPrediction = {
+			myBar = mhpb,
+			otherBar = ohpb,
+			maxOverflow = 1,
+			PostUpdate = function(self)
+				if self.myBar:GetValue() == 0 then self.myBar:SetAlpha(0) else self.myBar:SetAlpha(1) end
+				if self.otherBar:GetValue() == 0 then self.otherBar:SetAlpha(0) else self.otherBar:SetAlpha(1) end
+			end
+		}
     end,
 
     --========================--
@@ -1022,22 +1049,38 @@ local UnitSpecific = {
 			bars[i].bd = R.createBackdrop(bars[i], bars[i])
 		end
 			
-		bars[1]:SetStatusBarColor(0.69, 0.31, 0.31)		
-		bars[2]:SetStatusBarColor(0.69, 0.31, 0.31)
-		bars[3]:SetStatusBarColor(0.65, 0.63, 0.35)
-		bars[4]:SetStatusBarColor(0.65, 0.63, 0.35)
-		bars[5]:SetStatusBarColor(0.33, 0.59, 0.33)
+		bars[1]:SetStatusBarColor(255/255, 0/255, 0)		
+		bars[2]:SetStatusBarColor(255/255, 0/255, 0)
+		bars[3]:SetStatusBarColor(255/255, 255/255, 0)
+		bars[4]:SetStatusBarColor(255/255, 255/255, 0)
+		bars[5]:SetStatusBarColor(0, 1, 0)
 			
 		self.CPoints = bars
 		self.CPoints.Override = ComboDisplay
 		
-		-- tinsert(self.mouseovers, self.Health)
-		-- self.Health.PostUpdate = PostUpdateHealth
+		local mhpb = CreateFrame('StatusBar', nil, self)
+		mhpb:SetPoint('BOTTOMLEFT', self.Health:GetStatusBarTexture(), 'BOTTOMRIGHT')
+		mhpb:SetPoint('TOPLEFT', self.Health:GetStatusBarTexture(), 'TOPRIGHT')	
+		mhpb:SetWidth(self:GetWidth())
+		mhpb:SetStatusBarTexture(C["media"].blank)
+		mhpb:SetStatusBarColor(0, 1, 0.5, 0.25)
 		
-		-- if self.Power.value then 
-			-- tinsert(self.mouseovers, self.Power)
-			-- self.Power.PostUpdate = PostUpdatePower	
-		-- end
+		local ohpb = CreateFrame('StatusBar', nil, self)
+		ohpb:SetPoint('BOTTOMLEFT', mhpb:GetStatusBarTexture(), 'BOTTOMRIGHT', 0, 0)
+		ohpb:SetPoint('TOPLEFT', mhpb:GetStatusBarTexture(), 'TOPRIGHT', 0, 0)		
+		ohpb:SetWidth(mhpb:GetWidth())
+		ohpb:SetStatusBarTexture(C["media"].blank)
+		ohpb:SetStatusBarColor(0, 1, 0, 0.25)
+		
+		self.HealPrediction = {
+			myBar = mhpb,
+			otherBar = ohpb,
+			maxOverflow = 1,
+			PostUpdate = function(self)
+				if self.myBar:GetValue() == 0 then self.myBar:SetAlpha(0) else self.myBar:SetAlpha(1) end
+				if self.otherBar:GetValue() == 0 then self.otherBar:SetAlpha(0) else self.otherBar:SetAlpha(1) end
+			end
+		}
     end,
 
     --========================--
@@ -1336,8 +1379,9 @@ local TestUI = function(msg)
 		oUF_FreebArena5:Show(); oUF_FreebArena5.Hide = function() end; oUF_FreebArena5.unit = "player"
 	elseif msg == "boss" or msg == "b" then
 		oUF_FreebBoss1:Show(); oUF_FreebBoss1.Hide = function() end; oUF_FreebBoss1.unit = "player"
-		oUF_FreebBoss2:Show(); oUF_FreebBoss2.Hide = function() end; oUF_FreebBoss2.unit = "target"
-		oUF_FreebBoss3:Show(); oUF_FreebBoss3.Hide = function() end; oUF_FreebBoss3.unit = "player"
+		oUF_FreebBoss2:Show(); oUF_FreebBoss2.Hide = function() end; oUF_FreebBoss2.unit = "boss2"
+		oUF_FreebBoss3:Show(); oUF_FreebBoss3.Hide = function() end; oUF_FreebBoss3.unit = "boss3"
+		oUF_FreebBoss4:Show(); oUF_FreebBoss4.Hide = function() end; oUF_FreebBoss4.unit = "player"
 	elseif msg == "buffs" then -- better dont test it ^^
 		if oUF_FreebPlayer.Buffs then oUF_FreebPlayer.Buffs.CustomFilter = nil end
 		if oUF_FreebTarget.Auras then oUF_FreebTarget.Auras.CustomFilter = nil end

@@ -2,4 +2,5 @@
 	<Script file="skada.lua"/>
 	<Script file="bigwigs.lua"/>
 	<Script file="dbm.lua"/>
+	<Script file="atlasloot.lua"/>
 </Ui>
