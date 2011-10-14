@@ -84,7 +84,7 @@ do
 		border:SetPoint("BOTTOMRIGHT", frame, R.Scale(2), R.Scale(-2))
 		border:CreateShadow("Background")
 		border:SetFrameLevel(0)
-
+	
 		local text = frame:CreateFontString(nil, 'OVERLAY')
 		text:SetFont(C["media"].font, C["media"].fontsize, "THINOUTLINE")
 
@@ -101,6 +101,13 @@ do
 		frame:SetStatusBarTexture(settings.texture)
 		frame:SetStatusBarColor(r, g, b)
 
+		local spark = frame:CreateTexture(nil, "OVERLAY")
+		spark:SetTexture[[Interface\CastingBar\UI-CastingBar-Spark]]
+		spark:SetBlendMode("ADD")
+		spark:SetAlpha(.8)
+		spark:Point("TOPLEFT", frame:GetStatusBarTexture(), "TOPRIGHT", -10, 13)
+		spark:Point("BOTTOMRIGHT", frame:GetStatusBarTexture(), "BOTTOMRIGHT", 10, -13)
+		
 		frame.type = type
 		frame.text = text
 

@@ -115,10 +115,10 @@ GameTooltip:HookScript("OnTooltipSetUnit", function(self)
 	local unit = select(2, self:GetUnit())
 	if unit then
 		local unitClassification = types[UnitClassification(unit)] or " "
-		local diffColor = GetQuestDifficultyColor(UnitLevel(unit))
 		local creatureType = UnitCreatureType(unit) or ""
 		local unitName = UnitName(unit)
 		local unitLevel = UnitLevel(unit)
+		local diffColor = unitLevel > 0 and GetQuestDifficultyColor(UnitLevel(unit)) or QuestDifficultyColors["impossible"]
 		if unitLevel < 0 then unitLevel = '??' end
 		if UnitIsPlayer(unit) then
 			local unitRace = UnitRace(unit)

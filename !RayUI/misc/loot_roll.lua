@@ -247,6 +247,7 @@ local function START_LOOT_ROLL(rollid, time)
 
 	local texture, name, count, quality, bop, canNeed, canGreed, canDisenchant = GetLootRollItemInfo(rollid)
 	f.button:SetNormalTexture(texture)
+	f.button:GetNormalTexture():SetTexCoord(.1, .9, .1, .9)
 	f.button.link = GetLootRollItemLink(rollid)
 
 	if canNeed then f.needbutt:Enable() else f.needbutt:Disable() end

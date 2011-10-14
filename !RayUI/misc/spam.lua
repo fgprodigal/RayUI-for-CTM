@@ -240,9 +240,9 @@ ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL", REPEAT_FILTER)
 -- 高亮显示自己名字
 ----------------------------------------------------------------------------------
 local function changeName(msgHeader, name, msgCnt, chatGroup, displayName, msgBody)
-	if name ~= R.myname then
-		msgBody = msgBody:gsub("("..R.myname..")" , "|cffff0000>%1<|r"):gsub("("..R.myname:lower()..")" , "|cffff0000>%1<|r")
-	end
+	-- if name ~= R.myname then
+		msgBody = msgBody:gsub("("..R.myname:lower()..")" , "|cffff0000>>%1<<|r")
+	-- end
 	return ("|Hplayer:%s%s%s|h[%s]|h%s"):format(name, msgCnt, chatGroup, displayName, msgBody)
 end
 

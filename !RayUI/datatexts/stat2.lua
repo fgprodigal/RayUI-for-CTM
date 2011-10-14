@@ -41,7 +41,6 @@ end
 
 local function AddTooltipHeader(description)
 	GameTooltip:AddLine(description)
-	GameTooltip:AddLine(' ')
 end
 
 local function ShowTooltip(self)

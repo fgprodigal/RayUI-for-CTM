@@ -26,6 +26,7 @@ local haste, hasteBonus
 local function ShowTooltip(self)
 	GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", xoff, yoff)
 	GameTooltip:ClearLines()
+	GameTooltip:AddLine(STATS_LABEL)
 	
 	if R.Role == "Tank" then
 		if targetlv > 1 then

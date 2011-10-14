@@ -4449,4 +4449,9 @@ Delay:SetScript("OnEvent", function()
 			end
 		end)
 	end
+	
+	if FriendsMenuXPSecure then
+		FriendsMenuXPSecureMenuBackdrop:StripTextures()
+		R.CreateBD(FriendsMenuXPSecureMenuBackdrop)
+	end
 end)

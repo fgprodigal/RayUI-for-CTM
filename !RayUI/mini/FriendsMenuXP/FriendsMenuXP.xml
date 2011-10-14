@@ -174,9 +174,6 @@
 			<OnLoad>
 				self:HookScript("OnClick", FriendsMenuXPButton_OnClick);
 				self:RegisterForClicks("AnyUp");
-				FriendsMenuXPSecure:CreateShadow("Background")
-				FriendsMenuXPSecureMenuBackdrop:StripTextures()
-				FriendsMenuXPSecureMenuBackdrop:CreateBorder(.7, .7, .7)
 			</OnLoad>
 		</Scripts>
 	</Button>
