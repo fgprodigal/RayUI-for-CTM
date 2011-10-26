@@ -8,7 +8,7 @@
 -- barWidth = 170,				
 --	{spellID = 8050, unitId = "target", caster = "target", filter = "DEBUFF"},
 --	{ spellID = 18499, filter = "CD" },
---	{ itemID = 56285, filter = "CD" },
+--	{ itemID = 56285, filter = "itemCD" },
 ---------------------------------------------------------------------------------------------------
 local R, C = unpack(RayUI)
 local _, ns = ...
@@ -688,6 +688,8 @@ ns.watchers ={
 			{ spellID = 57934, unitId = "player", caster = "player", filter = "BUFF" },
 			-- Turn the Tables / Den Spieß umdrehen
 			{ spellID = 51627, unitId = "player", caster = "player", filter = "BUFF" },
+			--养精蓄锐
+			{ spellID = 73651, unitId = "player", caster = "player", filter = "BUFF" },
 
 		},
 		{
@@ -738,6 +740,44 @@ ns.watchers ={
 			-- Sap / Kopfnuss
 			{ spellID = 6770, unitId = "focus", caster = "all", filter = "DEBUFF" },
 
+		},
+		{
+			name = "CD",
+			direction = "DOWN",
+			iconSide = "LEFT",
+			mode = "BAR",
+			size = 32,
+			barWidth = 170,
+			setpoint = { "TOPLEFT", "rABS_MultiBarBottomLeft", "TOPRIGHT", 10, 0 },
+
+			--暗影步
+			{ spellID = 36554, filter = "CD" },
+			--预备
+			{ spellID = 14185, filter = "CD" },
+			--疾跑
+			{ spellID = 2983, filter = "CD" },
+			--斗篷
+			{ spellID = 31224, filter = "CD" },
+			--闪避
+			{ spellID = 5277, filter = "CD" },
+			--拆卸
+			{ spellID = 51722, filter = "CD" },
+			--影舞
+			{ spellID = 51713, filter = "CD" },
+			--致盲
+			{ spellID = 2094, filter = "CD" },
+			--战斗就绪
+			{ spellID = 74001, filter = "CD" },
+			--烟雾弹
+			{ spellID = 76577, filter = "CD" },
+			--消失
+			{ spellID = 1856, filter = "CD" },
+			--转攻
+			{ spellID = 73981, filter = "CD" },
+			--宿怨
+			{ itemID = 79140, filter = "CD" },
+			--冷血
+			{ itemID = 14177, filter = "CD" },
 		},
 	},
 	["DEATHKNIGHT"] = {
