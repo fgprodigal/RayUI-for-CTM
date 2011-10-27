@@ -1211,6 +1211,8 @@ local UnitSpecific = {
     --========================--
     pet = function(self, ...)
         func(self, ...)
+		local castbar = CreateFrame("StatusBar", nil, self)
+		self.Castbar = castbar
         --[[if auras then 
             local debuffs = CreateFrame("Frame", nil, self)
             debuffs:SetHeight(height+2)

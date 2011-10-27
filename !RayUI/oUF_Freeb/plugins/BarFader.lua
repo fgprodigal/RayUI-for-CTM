@@ -19,8 +19,10 @@ local function update(self, event, unit)
 
 	if(not pending(self, self.unit)) then
 		UIFrameFadeOut(self, 1.5, self:GetAlpha(), self.BarFaderMinAlpha or 0.25)
-	else
+	elseif not InCombatLockdown() then
 		UIFrameFadeIn(self, 0.8, self:GetAlpha(), self.BarFaderMaxAlpha or 1)
+	else
+		self:SetAlpha(self.BarFaderMaxAlpha or 1)
 	end
 end
 

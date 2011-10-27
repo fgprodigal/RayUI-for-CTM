@@ -13,17 +13,17 @@ end
 R.dummy= function() return end
 
 --该死的低等级染色，给我只读！
-function R.readOnly(t)
-    local proxy = {}
-    local mt = {         -- create metatable
-       __index = t,
-       __newindex = function() end
-    }
+-- function R.readOnly(t)
+    -- local proxy = {}
+    -- local mt = {         -- create metatable
+       -- __index = t,
+       -- __newindex = function() end
+    -- }
  
-    setmetatable(proxy, mt)
-    return proxy
-end
-QuestDifficultyColors = R.readOnly(QuestDifficultyColors)
+    -- setmetatable(proxy, mt)
+    -- return proxy
+-- end
+-- QuestDifficultyColors = R.readOnly(QuestDifficultyColors)
 -- QuestDifficultyColors["impossible"] = { r = 1.00, g = 0.10, b = 0.10, font = QuestDifficulty_Impossible }
 -- QuestDifficultyColors["verydifficult"] = { r = 1.00, g = 0.50, b = 0.25, font = QuestDifficulty_VeryDifficult }
 -- QuestDifficultyColors["difficult"] = { r = 1.00, g = 1.00, b = 0.00, font = QuestDifficulty_Difficult }
@@ -101,6 +101,9 @@ local RayUIInGame = CreateFrame("Frame")
 RayUIInGame:RegisterAllEvents()
 RayUIInGame:SetScript("OnEvent", function(self, event)
 	eventcount = eventcount + 1
+	if QuestDifficultyColors["trivial"].r ~= 0.50 then
+		QuestDifficultyColors["trivial"] = { r = 0.50, g = 0.50, b = 0.50, font = QuestDifficulty_Trivial }
+	end
 	if InCombatLockdown() then return end
 
 	if eventcount > 6000 then

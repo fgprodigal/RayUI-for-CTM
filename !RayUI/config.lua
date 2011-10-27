@@ -7,6 +7,7 @@ DB["media"]={
 	font = "RayUI Font",
 	dmgfont = "RayUI Combat",
 	pxfont = "RayUI Pixel",
+	cdfont = "RayUI Roadway",
 	fontsize = 12,
 	fontflag = "THINOUTLINE",
 	warning = "RayUI Warning",

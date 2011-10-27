@@ -16,6 +16,7 @@ elseif GetLocale() == "zhTW" then
 	LSM:Register("font","RayUI Combat", [[Fonts\bKAI00M.ttf]], 255)
 end
 LSM:Register("font","RayUI Pixel", [[Interface\AddOns\!RayUI\media\pixel.ttf]], 255)
+LSM:Register("font","RayUI Roadway", [[Interface\AddOns\!RayUI\media\ROADWAY.ttf]], 255)
 
 -------------------------------
 -- Load Shared Media Settings
@@ -23,6 +24,7 @@ LSM:Register("font","RayUI Pixel", [[Interface\AddOns\!RayUI\media\pixel.ttf]], 
 C["media"].font = LSM:Fetch("font", C["media"].font)
 C["media"].dmgfont = LSM:Fetch("font", C["media"].dmgfont)
 C["media"].pxfont = LSM:Fetch("font", C["media"].pxfont)
+C["media"].cdfont = LSM:Fetch("font", C["media"].cdfont)
 C["media"].normal = LSM:Fetch("statusbar", C["media"].normal)
 C["media"].glow = LSM:Fetch("border", C["media"].glow)
 C["media"].blank = LSM:Fetch("background", C["media"].blank)

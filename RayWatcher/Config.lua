@@ -615,8 +615,6 @@ ns.watchers ={
 			{ spellID = 18223, unitId = "target", caster = "player", filter = "DEBUFF" },
 			-- Curse of Weakness / Fluch der Schwäche
 			{ spellID = 702, unitId = "target", caster = "player", filter = "DEBUFF" },
-			-- Shadow Embrace / Umschlingende Schatten
-			{ spellID = 32385, filter = "BUFF" },
 			-- Corruption / Verderbnis
 			{ spellID = 172, unitId = "target", caster = "player", filter = "DEBUFF" },
 			-- Immolate / Feuerbrand
