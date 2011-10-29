@@ -1,8 +1,9 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
 	<Include file="oUF\oUF.xml"/>
 	<Include file="plugins\plugins.xml"/>
-	<Script file="filter.lua"/>
-	<Script file="ftags.lua"/>
+	<Script file="tags.lua"/>
 	<Script file="functions.lua"/>
-	<Script file="freeb.lua"/>
+	<Script file="layout.lua"/>
+	<Script file="init.lua"/>
+	<Script file="focuser.lua"/>
 </Ui>

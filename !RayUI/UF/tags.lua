@@ -1,7 +1,7 @@
 ﻿local R, C, L, DB = unpack(select(2, ...))
 
 local _, ns = ...
-local oUF = oUF_Freeb or ns.oUF or oUF
+local oUF = RayUF or ns.oUF or oUF
 
 local siValue = function(val)
     if(val >= 1e6) then

@@ -1,7 +1,7 @@
 local R, C, L, DB = unpack(select(2, ...))
 
 local _, ns = ...
-local oUF = oUF_Freeb or ns.oUF or oUF
+local oUF = RayUF or ns.oUF or oUF
 
 local f = CreateFrame("frame")
 f:SetScript("OnEvent", function(self, event, ...) if ns[event] then return ns[event](ns, event, ...) end end)

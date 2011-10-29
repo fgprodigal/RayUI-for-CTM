@@ -1,7 +1,7 @@
 local R, C, L, DB = unpack(select(2, ...))
 
 local ADDON_NAME, ns = ...
-local oUF = oUF_Freeb or ns.oUF or oUF
+local oUF = RayUF or ns.oUF or oUF
 
 ns.mediapath = "Interface\\AddOns\\!RayUI\\oUF_Freebgrid\\media\\"
 
@@ -60,7 +60,7 @@ ns.defaults = {
     otherhealcolor = { r = 0.0, g = 1.0, b = 0.0, a = 0.4 },
     hpcolor = { r = 0.1, g = 0.1, b = 0.1, a = 1 },
     hpbgcolor = { r = 1, g = 1, b = 1, a = .6 },
-    powercolor = { r = 1, g = 1, b = 1, a = 1 },
+    PowercolorClass = { r = 1, g = 1, b = 1, a = 1 },
     powerbgcolor = { r = 0.33, g = 0.33, b = 0.33, a = 1 },
     powerdefinecolors = false,
     colorSmooth = false,
@@ -70,7 +70,7 @@ ns.defaults = {
     afk = true,
     highlight = true,
     dispel = true,
-    powerclass = C["ouf"].Powercolor,
+    powerclass = C["ouf"].PowercolorClass,
     tooltip = true,
     smooth = true,
     altpower = false,

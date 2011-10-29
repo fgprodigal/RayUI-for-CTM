@@ -12,6 +12,8 @@
 		text = string.gsub(text, '(a%-)', 'A')
 		text = string.gsub(text, '(c%-)', 'C')
 		text = string.gsub(text, '(Mouse Button )', 'M')
+		text = string.gsub(text, '(滑鼠按鍵)', 'M')
+		text = string.gsub(text, '(鼠标按键)', 'M')
 		text = string.gsub(text, KEY_BUTTON3, 'M3')
 		text = string.gsub(text, '(Num Pad )', 'N')
 		text = string.gsub(text, KEY_PAGEUP, 'PU')

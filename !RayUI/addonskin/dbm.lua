@@ -16,26 +16,14 @@ local function ApplyMyStyle(self)
 		DBM_GUI_Option_57:Kill()
 	end
 	self.options.BarYOffset = 10
-	if C.general.speciallayout then
-		self.options.ExpandUpwards = false
-		if self.mainAnchor then
-			self.mainAnchor:ClearAllPoints()
-			self.mainAnchor:SetPoint("TOPLEFT", Minimap, "TOPRIGHT", self.options.Width/2 + 10 + buttonsize + buttonsize/4, self.options.BarYOffset)
-		end
-		if self.secAnchor then
-			self.secAnchor:ClearAllPoints()
-			self.secAnchor:SetPoint("TOP", UIParent, "TOP", buttonsize/2 + buttonsize/8, -250)
-		end
-	else
-		self.options.ExpandUpwards = true
-		if self.mainAnchor then
-			self.mainAnchor:ClearAllPoints()
-			self.mainAnchor:SetPoint("BOTTOMRIGHT", Minimap, "TOPRIGHT", - self.options.Width/2 + 3, -self.options.BarYOffset - 10)
-		end
-		if self.secAnchor then
-			self.secAnchor:ClearAllPoints()
-			self.secAnchor:SetPoint("TOP", UIParent, "TOP", buttonsize/2 + buttonsize/8, -300)
-		end
+	self.options.ExpandUpwards = false
+	if self.mainAnchor then
+		self.mainAnchor:ClearAllPoints()
+		self.mainAnchor:SetPoint("TOPLEFT", Minimap, "TOPRIGHT", self.options.Width/2 + 10 + buttonsize + buttonsize/4, self.options.BarYOffset)
+	end
+	if self.secAnchor then
+		self.secAnchor:ClearAllPoints()
+		self.secAnchor:SetPoint("TOP", UIParent, "TOP", buttonsize/2 + buttonsize/8, -250)
 	end
 end
 

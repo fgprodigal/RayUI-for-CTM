@@ -6,7 +6,7 @@ local num = NUM_SHAPESHIFT_SLOTS
 local bar = CreateFrame("Frame","rABS_StanceBar",UIParent, "SecureHandlerStateTemplate")
 bar:SetWidth(C["actionbar"].buttonsize*num+C["actionbar"].buttonspacing*(num-1))
 bar:SetHeight(C["actionbar"].buttonsize)
-bar:SetPoint("TOPLEFT", "UIParent", "TOPLEFT", 10, -50)
+bar:SetPoint("BOTTOMLEFT", "UIParent", "BOTTOMLEFT", 15, 202)
 bar:SetHitRectInsets(-C["actionbar"].barinset, -C["actionbar"].barinset, -C["actionbar"].barinset, -C["actionbar"].barinset)
 
 bar:SetScale(C["actionbar"].barscale)

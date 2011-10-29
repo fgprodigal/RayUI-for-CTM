@@ -32,9 +32,12 @@ local duf = {
 	PartyMemberFrame3PetFrame,
 	PartyMemberFrame4PetFrame,
 	TargetFrame,
-	TargetofTargetFrame,
 }
 
 for i,frame in pairs(duf) do
+	SetFocusHotkey(frame)
+end
+
+for i,frame in pairs(RayUF.objects) do 
 	SetFocusHotkey(frame)
 end

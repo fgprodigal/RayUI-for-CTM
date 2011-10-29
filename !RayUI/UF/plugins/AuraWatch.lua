@@ -111,7 +111,7 @@ Here is an example of how to set oUF_AW up:
 local R, C, L, DB = unpack(select(2, ...))
 
 local _, ns = ...
-local oUF = oUF_Freeb or ns.oUF or oUF
+local oUF = RayUF or ns.oUF or oUF
 assert(oUF, "oUF_AuraWatch cannot find an instance of oUF. If your oUF is embedded into a layout, it may not be embedded properly.")
 
 local UnitAura, UnitGUID = UnitAura, UnitGUID

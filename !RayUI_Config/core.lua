@@ -1,14 +1,12 @@
 local RayUIConfig = LibStub("AceAddon-3.0"):NewAddon("RayUIConfig", "AceConsole-3.0", "AceEvent-3.0")
 local L = LibStub("AceLocale-3.0"):GetLocale("RayUIConfig", false)
 local R, C, DB
-local LSM = LibStub("LibSharedMedia-3.0")
 local db = {}
 local defaults
 local DEFAULT_WIDTH = 700
 local DEFAULT_HEIGHT = 500
 local AC = LibStub("AceConfig-3.0")
 local ACD = LibStub("AceConfigDialog-3.0")
-local ACR = LibStub("AceConfigRegistry-3.0")
 
 function RayUIConfig:LoadDefaults()
 	R, C, _, DB = unpack(RayUI)
@@ -117,12 +115,6 @@ function RayUIConfig.GenerateOptionsInternal()
 						min = 0.64, max = 1, step = 0.01,
 						isPercent = true,
 					},
-					speciallayout = {
-						order = 2,
-						name = L["特殊布局"],
-						desc = L["夏某可的奇葩布局"],
-						type = "toggle",
-					},
 				},
 			},
 			ouf = {
@@ -130,7 +122,7 @@ function RayUIConfig.GenerateOptionsInternal()
 				type = "group",
 				name = L["头像"],
 				get = function(info) return db.ouf[ info[#info] ] end,
-				set = function(info, value) db.ouf[ info[#info] ] = value; C.ouf[ info[#info] ] = value; R.Update_All(); end,
+				set = function(info, value) db.ouf[ info[#info] ] = value; C.ouf[ info[#info] ] = value; StaticPopup_Show("CFG_RELOAD"); end,
 				args = {
 					scale = {
 						order = 1,

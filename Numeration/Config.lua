@@ -3,8 +3,8 @@ local R, C = unpack(RayUI)
 -- window settings
 n.windowsettings = {
 	-- pos = { "TOPLEFT", 4, -4 },
-	pos = C.general.speciallayout and { "BOTTOMRIGHT", nil, "BOTTOMRIGHT", -15, 30 } or { "BOTTOMRIGHT", "Minimap", "BOTTOMLEFT", -10, 0 },
-	width = C.general.speciallayout and 220 or 180,
+	pos = { "BOTTOMRIGHT", nil, "BOTTOMRIGHT", -15, 30 },
+	width = 220,
 	maxlines = 7,
 	backgroundalpha = 0,
 	scrollbar = true,
@@ -16,7 +16,7 @@ n.windowsettings = {
 	titlefontcolor = {1, .82, 0},
 	buttonhighlightcolor = {1, 1, 1},
 
-	lineheight = C.general.speciallayout and 16 or 15.4,
+	lineheight = 16,
 	linegap = 2,
 	linealpha = 1,
 	linetexture = C.media.normal,

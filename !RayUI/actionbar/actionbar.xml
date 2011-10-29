@@ -18,5 +18,4 @@
 	<Script file="range.lua"/>
 	<Script file="bind.lua"/>
 	<Script file="autohide.lua"/>
-	<Script file="updateposition.lua"/>
 </Ui>

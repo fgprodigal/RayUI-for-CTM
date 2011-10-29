@@ -1,7 +1,7 @@
 local R, C, L, DB = unpack(select(2, ...))
 
 local ADDON_NAME, ns = ...
-local oUF = oUF_Freeb or ns.oUF or oUF
+local oUF = RayUF or ns.oUF or oUF
 assert(oUF, "oUF_Freebgrid was unable to locate oUF install.")
 
 -- This is a stripped and modified oUF MovableFrames to fit my needs.

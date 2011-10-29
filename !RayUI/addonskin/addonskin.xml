@@ -3,4 +3,6 @@
 	<Script file="bigwigs.lua"/>
 	<Script file="dbm.lua"/>
 	<Script file="atlasloot.lua"/>
+	<Script file="acp.lua"/>
+	<Script file="ace3.lua"/>
 </Ui>

@@ -4,33 +4,25 @@
 ## Author: Tukz, Elv, Ray
 ## OptionalDeps: Skada, ACP, DBM-Core, BigWigs, AtlasLoot
 ## RequiredDeps: !RayUI_Config, Blizzard_CombatText
-## X-oUF: oUF_Freeb
+## X-oUF: RayUF
 
 functions\init.lua
 libs\libs.xml
+functions\consts.lua
 config.lua
 locale\locale.xml
 functions\configui.lua
 media\sharedmedia.lua
 
-Aurora\aurora.lua
+aurora\aurora.lua
 
-functions\consts.lua
 functions\api.lua
 functions\functions.lua
 functions\movers.lua
 
-Aurora\ACP.lua
-Aurora\ace3.lua
-
 layout\layout.xml
 
-datatexts\specswitch.lua
-datatexts\stat1.lua
-datatexts\stat2.lua
-datatexts\friend.lua
-datatexts\guild.lua
-datatexts\gold.lua
+datatexts\datatexts.xml
 
 misc\misc.xml
 scripts\scripts.xml
@@ -38,9 +30,8 @@ scripts\scripts.xml
 addonskin\addonskin.xml
 
 actionbar\actionbar.xml
-oUF_Freeb\oUF_Freeb.xml
+UF\UF.xml
 oUF_Freebgrid\oUF_Freebgrid.xml
-oUF_Freeb\swicthlayout.lua
-oUF_Freeb\plugins\Movable.lua
+UF\plugins\Movable.lua
 
 mini\mini.xml

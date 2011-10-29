@@ -1,7 +1,7 @@
 local R, C, L, DB = unpack(select(2, ...))
 
 local _, ns = ...
-local oUF = oUF_Freeb or ns.oUF or oUF
+local oUF = RayUF or ns.oUF or oUF
 
 local spellcache = setmetatable({}, {__index=function(t,v) local a = {GetSpellInfo(v)} if GetSpellInfo(v) then t[v] = a end return a end})
 local function GetSpellInfo(a)
@@ -34,7 +34,99 @@ ns.auras = {
         --},
 
         [800] = { --[[ Firelands ]]--
+             
+              --Trash
+              --Flamewaker Forward Guard
+              [GetSpellInfo(76622)] = 4, -- Sunder Armor
+              [GetSpellInfo(99610)] = 5, -- Shockwave
+              --Flamewaker Pathfinder
+              [GetSpellInfo(99695)] = 4, -- Flaming Spear
+              [GetSpellInfo(99800)] = 4, -- Ensnare
+              --Flamewaker Cauterizer
+              [GetSpellInfo(99625)] = 4, -- Conflagration (Magic/dispellable)
+              --Fire Scorpion
+              [GetSpellInfo(99993)] = 4, -- Fiery Blood
+              --Molten Lord
+              [GetSpellInfo(100767)] = 4, -- Melt Armor
+              --Ancient Core Hound
+              [GetSpellInfo(99692)] = 4, -- Terrifying Roar (Magic/dispellable)
+              [GetSpellInfo(99693)] = 4, -- Dinner Time
+              --Magma
+              [GetSpellInfo(97151)] = 4, -- Magma
 
+             --Beth'tilac
+             [GetSpellInfo(99506)] = 5, -- The Widow's Kiss
+             --Cinderweb Drone
+             [GetSpellInfo(49026)] = 6, -- Fixate
+             --Cinderweb Spinner
+             [GetSpellInfo(97202)] = 5, -- Fiery Web Spin
+             --Cinderweb Spiderling
+             [GetSpellInfo(97079)] = 4, -- Seeping Venom
+             --Cinderweb Broodling
+             --Also cast fixate, same one as above?
+
+             --Lord Rhyolith
+             [GetSpellInfo(98492)] = 5, --Eruption
+
+             --Alysrazor
+             [GetSpellInfo(101729)] = 5, -- Blazing Claw
+             [GetSpellInfo(100094)] = 4, -- Fieroblast
+             [GetSpellInfo(99389)] = 5, -- Imprinted
+             [GetSpellInfo(99308)] = 4, -- Gushing Wound
+             [GetSpellInfo(100640)] = 6, -- Harsh Winds
+             [GetSpellInfo(100555)] = 6, -- Smouldering Roots
+             --Do we want to show these?
+             [GetSpellInfo(99461)] = 4, -- Blazing Power
+             --[GetSpellInfo(98734)] = 4, -- Molten Feather
+             --[GetSpellInfo(98619)] = 4, -- Wings of Flame
+             --[GetSpellInfo(100029)] = 4, -- Alysra's Razor
+             
+              --Shannox
+             [GetSpellInfo(99936)] = 5, -- Jagged Tear
+             [GetSpellInfo(99837)] = 7, -- Crystal Prison Trap Effect
+             [GetSpellInfo(101208)] = 4, -- Immolation Trap
+             [GetSpellInfo(99840)] = 4, -- Magma Rupture
+             -- Riplimp
+             [GetSpellInfo(99937)] = 5, -- Jagged Tear
+             -- Rageface
+             [GetSpellInfo(99947)] = 6, -- Face Rage
+             [GetSpellInfo(100415)] = 5, -- Rage 
+              
+            --Baleroc
+            [GetSpellInfo(99252)] = 5, -- Blaze of Glory
+            [GetSpellInfo(99256)] = 5, -- Torment
+            [GetSpellInfo(99403)] = 6, -- Tormented
+            [GetSpellInfo(99262)] = 4, -- Vital Spark
+            [GetSpellInfo(99263)] = 4, -- Vital Flame
+            [GetSpellInfo(99516)] = 7, -- Countdown
+            [GetSpellInfo(99353)] = 7, -- Decimating Strike
+            [GetSpellInfo(100908)] = 6, -- Fiery Torment
+
+            --Majordomo Staghelm
+            [GetSpellInfo(98535)] = 5, -- Leaping Flames
+            [GetSpellInfo(98443)] = 6, -- Fiery Cyclone
+            [GetSpellInfo(98450)] = 5, -- Searing Seeds
+            --Burning Orbs
+            [GetSpellInfo(100210)] = 6, -- Burning Orb
+            -- ?
+            [GetSpellInfo(96993)] = 5, -- Stay Withdrawn?
+
+            --Ragnaros
+           [GetSpellInfo(99339)] = 5, -- Burning Wound
+           [GetSpellInfo(100293)] = 5, -- Lava Wave
+           [GetSpellInfo(100238)] = 4, -- Magma Trap Vulnerability
+           [GetSpellInfo(98313)] = 4, -- Magma Blast
+           --Lava Scion
+           [GetSpellInfo(100460)] = 7, -- Blazing Heat
+           --Dreadflame?
+           --Son of Flame
+           --Lava
+           [GetSpellInfo(98981)] = 5, -- Lava Bolt
+           --Molten Elemental
+           --Living Meteor
+           [GetSpellInfo(100249)] = 5, -- Combustion
+           --Molten Wyrms
+           [GetSpellInfo(99613)] = 6, -- Molten Blast 
         },
 
         [752] = { --[[ Baradin Hold ]]--

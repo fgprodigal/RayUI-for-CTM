@@ -263,6 +263,7 @@ RegisterMount(69826, "ground") -- Summon Great Sunwalker Kodo
 RegisterMount(69820, "ground") -- Summon Sunwalker Kodo
 RegisterMount(88749, "ground") -- Tan Riding Camel
 RegisterMount(92155, "ground") -- Ultramarine Qiraji Battle Tank
+RegisterMount(98204, "ground") -- 祖阿曼熊
 
 RegisterMount(71810, "fly")
 RegisterMount(72807, "fly")

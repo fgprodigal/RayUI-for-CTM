@@ -79,7 +79,7 @@ local function CreateMover(parent, name, text, overlay, postdrag)
 	parent.SetPoint = function() return end
 
 	local fs = f:CreateFontString(nil, "OVERLAY")
-	fs:SetFont(C["media"].font, C["media"].fontsize, "THINOUTLINE")
+	fs:SetFont(C["media"].font, C["media"].fontsize)
 	fs:SetShadowOffset(R.mult*1.2, -R.mult*1.2)
 	fs:SetJustifyH("CENTER")
 	fs:SetPoint("CENTER")
@@ -131,7 +131,7 @@ end
 function R.ToggleMovers()
 	if InCombatLockdown() then print(ERR_NOT_IN_COMBAT) return end
 	
-	if oUF_Freeb or oUF then
+	if RayUF or oUF then
 		R.MoveoUF()
 	end
 	

@@ -12,10 +12,10 @@ local function UpdateGlow(button, id)
 	local glow = button.glow
 	if(not glow) then
 		button.glow = glow
-		glow = button:CreateTexture(nil, "BACKGROUND")
+		glow = CreateFrame("Frame", nil, button)
 		glow:Point("TOPLEFT", -1, 1)
 		glow:Point("BOTTOMRIGHT", 1, -1)
-		glow:SetTexture(C.Aurora.backdrop)
+		glow:CreateBorder()
 		button.glow = glow
 	end
 
@@ -25,11 +25,9 @@ local function UpdateGlow(button, id)
 			r, g, b = 1, 0, 0
 		else
 			r, g, b = GetItemQualityColor(quality)
-			-- if(r==1) then r, g, b = 0, 0, 0 end
-			-- if(quality==0) then r, g, b = 0.4, 0.4, 0.4 end
 			if (quality <=1 ) then r, g, b = 0, 0, 0 end
 		end
-		glow:SetVertexColor(r, g, b)
+		glow:SetBackdropBorderColor(r, g, b)
 		glow:Show()
 	else
 		glow:Hide()

@@ -197,9 +197,9 @@ GameTooltipStatusBar:HookScript("OnValueChanged", function(self, value)
 		min, max = UnitHealth(unit), UnitHealthMax(unit)
 		if not self.text then
 			self.text = self:CreateFontString(nil, "OVERLAY")
-			self.text:SetPoint("CENTER", GameTooltipStatusBar)
-			self.text:SetFont(GameFontNormal:GetFont(), 11, "THINOUTLINE")
-			self.text:SetShadowOffset(R.mult, -R.mult)
+			self.text:SetPoint("CENTER", GameTooltipStatusBar, 0, -4)
+			self.text:SetFont(C["media"].font, 12, "THINOUTLINE")
+			-- self.text:SetShadowOffset(R.mult, -R.mult)
 		end
 		self.text:Show()
 		local hp = truncate(min).." / "..truncate(max)

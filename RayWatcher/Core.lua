@@ -139,15 +139,25 @@ local function BarUpdate(self, elapsed)
 	if self.spellID then
 		if self.filter == "BUFF" or self.filter == "DEBUFF" then
 			local _, _, _, _, _, duration, expires = (self.filter == "BUFF" and UnitBuff or UnitDebuff)(self.unitID, self.index)
-			self.statusbar:SetMinMaxValues(0, duration)
-			local time = expires - GetTime()
-			self.statusbar:SetValue(time)
-			self.name:SetText(self.spn)
-			if time <= 60 then
-				self.time:SetFormattedText("%.1f", time)
-			else
-				self.time:SetFormattedText("%d:%.2d", time/60, time%60)
+			if not duration then
+				self.owner:Update()
 			end
+			if duration == 0 then
+				self.statusbar:SetMinMaxValues(0, 1)
+				self.time:SetText("")
+				self.name:SetText(self.spn)
+				self.statusbar:SetValue(1)
+			else
+				self.statusbar:SetMinMaxValues(0, duration)
+				local time = expires - GetTime()
+				self.statusbar:SetValue(time)
+				self.name:SetText(self.spn)
+				if time <= 60 then
+					self.time:SetFormattedText("%.1f", time)
+				else
+					self.time:SetFormattedText("%d:%.2d", time/60, time%60)
+				end
+			end			
 		elseif self.filter == "CD" or self.filter == "itemCD" then
 			local start, duration = (self.filter == "CD" and GetSpellCooldown or GetItemCooldown)(self.spellID)
 			if self.mode == "BAR" then

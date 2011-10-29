@@ -5,7 +5,7 @@ local num = NUM_PET_ACTION_SLOTS
 local bar = CreateFrame("Frame","rABS_PetBar",UIParent, "SecureHandlerStateTemplate")
 bar:SetWidth(C["actionbar"].buttonsize*num+C["actionbar"].buttonspacing*(num-1))
 bar:SetHeight(C["actionbar"].buttonsize)
-bar:SetPoint("BOTTOM", "UIParent", "BOTTOM", 0, 190)
+bar:SetPoint("BOTTOM", "UIParent", "BOTTOM", 0, 210)
 bar:SetHitRectInsets(-C["actionbar"].barinset, -C["actionbar"].barinset, -C["actionbar"].barinset, -C["actionbar"].barinset)
 
 bar:SetScale(C["actionbar"].petbarscale)

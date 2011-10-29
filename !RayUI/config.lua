@@ -17,7 +17,6 @@ DB["media"]={
 
 DB["general"]={
 	uiscale = 0.80,
-	speciallayout = false,
 }
 
 DB["ouf"]={
@@ -31,9 +30,11 @@ DB["ouf"]={
 	showPortrait = false,
 	PlayerBuffFilter = true,
 	DebuffOnyshowPlayer = true,
-	Powercolor = true,
+	PowercolorClass = true,
 	HealthcolorClass = false,
 	HealFrames = true,
+	Smooth = true,
+	SmoothColor = true,	
 	showIndicators = true, -- buffs indicators on healframes only
 	showAuraWatch = true, -- buffs timer on raid frames(hots, shields etc)
 	ShowParty = true, -- show party frames (shown as 5man raid)
@@ -121,19 +122,10 @@ DB["actionbar"]= {
 	petbarfade = true,
 }
 
-local myLover = {
-		["夢翎"] = true,
-		["茗汐"] = true,
-		["汐翎"] = true,
-		["溫柔的歎息"] = true,
-		["夏苓"] = true,
-		["夏璃"] = true,
-		["翎汐"] = true,
-		["夏可"] = true,
-		["夏琉"] = true,
-		["Divineseraph"] = true,
+local SpecialList = {
+	["夏琉"] = true,
 }
 
-if myLover[UnitName("player")] then
-	DB.general.speciallayout = true
+if SpecialList[R.myname] then
+	R.SpecialFunc = true
 end

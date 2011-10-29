@@ -1,7 +1,7 @@
 local R, C, L, DB = unpack(select(2, ...))
 
 local ADDON_NAME, ns = ...
-local oUF = oUF_Freeb or ns.oUF or oUF
+local oUF = RayUF or ns.oUF or oUF
 assert(oUF, "oUF_Freebgrid was unable to locate oUF install.")
 
 ns._Objects = {}
@@ -226,7 +226,11 @@ local function PostHealth(hp, unit)
 	else
 		local curhealth, maxhealth = UnitHealth(unit), UnitHealthMax(unit)
 		local r, g, b
-		r,g,b = ColorGradient(curhealth/maxhealth)
+		if C["ouf"].SmoothColor then
+			r,g,b = ColorGradient(curhealth/maxhealth)
+		else
+			r,g,b = .12, .12, .12, 1
+		end
 		
 		if(b) then
 			hp:SetStatusBarColor(r, g, b, 1)
@@ -249,28 +253,13 @@ local function PostHealth(hp, unit)
 				end
 			end
 		end
-		hp.bg:SetVertexColor(0.12, 0.12, 0.12, 1)
-		-- local r, g, b, t
-		-- if(UnitIsPlayer(unit)) then
-			-- local _, class = UnitClass(unit)
-			-- t = colors.class[class]
-		-- else		
-			-- r, g, b = .2, .9, .1
-		-- end
-
-		-- if(t) then
-			-- r, g, b = t[1], t[2], t[3]
-		-- end
-
-		-- if(b) then
-			-- if ns.db.reversecolors then
-				-- hp.bg:SetVertexColor(r*.2, g*.2, b*.2)
-				-- hp:SetStatusBarColor(r, g, b)
-			-- else
-				-- hp.bg:SetVertexColor(1, 1, 1,.6)
-				-- hp:SetStatusBarColor(.1, .1, .1)
-			-- end
-		-- end
+		if C["ouf"].SmoothColor then
+			if UnitIsDeadOrGhost(unit) or (not UnitIsConnected(unit)) then
+				hp.bg:SetVertexColor(0.5, 0.5, 0.5, 1)
+			else
+				hp.bg:SetVertexColor(0.12, 0.12, 0.12, 1)
+			end
+		end
 	end
 end
 
@@ -340,7 +329,7 @@ local function PostPower(power, unit)
 
     if ns.db.powerdefinecolors then
         power.bg:SetVertexColor(ns.db.powerbgcolor.r, ns.db.powerbgcolor.g, ns.db.powerbgcolor.b)
-        power:SetStatusBarColor(ns.db.powercolor.r, ns.db.powercolor.g, ns.db.powercolor.b)
+        power:SetStatusBarColor(ns.db.PowercolorClass.r, ns.db.PowercolorClass.g, ns.db.PowercolorClass.b)
         return
     end
 
@@ -362,7 +351,7 @@ local function PostPower(power, unit)
             -- power:SetStatusBarColor(0, 0, 0, .8)
         -- end
     -- end
-	if C["ouf"].Powercolor then
+	if C["ouf"].PowercolorClass then
 		power.colorClass=true
 		power.bg.multiplier = .2
 	else
@@ -715,7 +704,7 @@ oUF:Factory(function(self)
         for i=1, ns.db.numCol do
             local group = freebHeader("Raid_Freebgrid"..i, i)
             if i == 1 then
-                group:SetPoint("TOPLEFT", UIParent, "BOTTOM", - ns.db.width*2.5 - ns.db.spacing*2, ns.db.height*5 + ns.db.spacing*4 + 40)
+                group:SetPoint("TOPLEFT", UIParent, "BOTTOMRIGHT", - ns.db.width*5 -  ns.db.spacing*4 - 50, ns.db.height*5 +  ns.db.spacing*4 + 260)
             else
                 group:SetPoint(pos, raid[i-1], posRel, colX or 0, colY or 0)
             end

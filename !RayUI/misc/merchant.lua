@@ -1,5 +1,13 @@
 local R, C, L, DB = unpack(select(2, ...))
 
+local poisons = {
+	[6947] = 0,		--速效
+	[3775] = 0,		--减速
+	-- [5237] = 0,		--麻痹
+	[2892] = 0,		--致命
+	[10918] = 0,	--致伤
+}
+
 local f = CreateFrame("Frame")
 f:SetScript("OnEvent", function()
 	local c = 0
@@ -38,6 +46,21 @@ f:SetScript("OnEvent", function()
 						DEFAULT_CHAT_FRAME:AddMessage(L["您没有足够的金钱来修理!"],255,0,0)
 						return
 					end
+				end
+			end
+		end
+	end
+	if R.SpecialFunc then
+		for id,num in pairs(poisons) do
+			poisons[id] = GetItemCount(id)
+		end
+		local numItems = GetMerchantNumItems()
+		for i = 1, numItems do
+			local merchantItemLink = GetMerchantItemLink(i)
+			if merchantItemLink then
+				local id = tonumber(merchantItemLink:match("item:(%d+)"))
+				if poisons[id] and poisons[id]<20 then
+					BuyMerchantItem(i, 20 - poisons[id])
 				end
 			end
 		end
