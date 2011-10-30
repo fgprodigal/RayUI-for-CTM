@@ -8,6 +8,4 @@
 	<Script file="SpellRange.lua"/>
 	
 	<Script file="TotemBar.lua"/>
-	<!--<Script file="ThreatBar.lua"/>
-	<Script file="DebuffHighlight.lua"/>-->
 </Ui>

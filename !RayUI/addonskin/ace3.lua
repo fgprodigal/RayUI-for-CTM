@@ -95,7 +95,15 @@ AceGUI.RegisterAsWidget = function(self, widget)
 		button:Point("RIGHT", frame, "RIGHT", -10, -6)
 
 		if not frame.backdrop then
-			frame:CreateBackdrop("Default")
+			frame.backdrop = CreateFrame("Frame", nil, frame)
+			frame.backdrop:Point("TOPLEFT", -3, 3)
+			frame.backdrop:Point("BOTTOMRIGHT", 3, -3)
+			frame.backdrop:CreateShadow("Background")
+			if frame:GetFrameLevel() - 1 >= 0 then
+				frame.backdrop:SetFrameLevel(frame:GetFrameLevel() - 1)
+			else
+				frame.backdrop:SetFrameLevel(0)
+			end
 			if TYPE == "LSM30_Font" then
 				frame.backdrop:Point("TOPLEFT", 20, -17)
 			elseif TYPE == "LSM30_Sound" then

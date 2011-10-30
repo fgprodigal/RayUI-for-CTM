@@ -1,11 +1,13 @@
 local R, C, L, DB = unpack(select(2, ...))
 
+if not C["misc"].merchant then return end
+
 local poisons = {
-	[6947] = 0,		--速效
-	[3775] = 0,		--减速
-	-- [5237] = 0,		--麻痹
-	[2892] = 0,		--致命
-	[10918] = 0,	--致伤
+	[6947] = 20,		--速效
+	[3775] = 20,		--减速
+	-- [5237] = 20,		--麻痹
+	[2892] = 20,		--致命
+	[10918] = 20,	--致伤
 }
 
 local f = CreateFrame("Frame")
@@ -50,17 +52,14 @@ f:SetScript("OnEvent", function()
 			end
 		end
 	end
-	if R.SpecialFunc then
-		for id,num in pairs(poisons) do
-			poisons[id] = GetItemCount(id)
-		end
+	if C["misc"].poisons and R.myclass == "ROGUE" then
 		local numItems = GetMerchantNumItems()
 		for i = 1, numItems do
 			local merchantItemLink = GetMerchantItemLink(i)
 			if merchantItemLink then
 				local id = tonumber(merchantItemLink:match("item:(%d+)"))
-				if poisons[id] and poisons[id]<20 then
-					BuyMerchantItem(i, 20 - poisons[id])
+				if poisons[id] and GetItemCount(id) < poisons[id] then
+					BuyMerchantItem(i, poisons[id] - GetItemCount(id))
 				end
 			end
 		end

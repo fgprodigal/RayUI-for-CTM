@@ -1,5 +1,7 @@
 local R, C, L, DB = unpack(select(2, ...))
 
+if not C["misc"].anounce then return end
+
 local announce = CreateFrame("Frame")
 local band = bit.band
 local font = C.media.font -- HOOG0555.ttf 
@@ -32,12 +34,13 @@ local function OnEvent(self, event, timestamp, eventType, hideCaster, sourceGUID
 		local color
 		local icon =GetSpellTexture(id)
 
-
-		if GetRealNumRaidMembers() > 0 then
-			SendChatMessage(msg..": "..destName.." \124cff71d5ff\124Hspell:"..id.."\124h["..effect.."]\124h\124r!", "RAID")
-		elseif GetRealNumPartyMembers() > 0 then
-			SendChatMessage(msg..": "..destName.." \124cff71d5ff\124Hspell:"..id.."\124h["..effect.."]\124h\124r!", "PARTY")
-		end	
+		if eventType=="SPELL_INTERRUPT" then
+			if GetRealNumRaidMembers() > 0 then
+				SendChatMessage(msg..": "..destName.." \124cff71d5ff\124Hspell:"..id.."\124h["..effect.."]\124h\124r!", "RAID")
+			elseif GetRealNumPartyMembers() > 0 then
+				SendChatMessage(msg..": "..destName.." \124cff71d5ff\124Hspell:"..id.."\124h["..effect.."]\124h\124r!", "PARTY")
+			end
+		end
 
 		if etype=="BUFF"then
 			color={0,1,.5}

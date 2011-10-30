@@ -1,5 +1,7 @@
 local R, C, L, DB = unpack(select(2, ...))
 
+if not C["misc"].reminder then return end
+
 local ReminderBuffs = {
 	PRIEST = {
 		["Shields"] = { --inner fire/will group

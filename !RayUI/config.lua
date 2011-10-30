@@ -19,70 +19,47 @@ DB["general"]={
 	uiscale = 0.80,
 }
 
-DB["ouf"]={
-	scale = 1,    --不要改
+DB["uf"]={
+	powerColorClass = true,
+	healthColorClass = false,
+	smooth = true,
+	smoothColor = true,
+	showParty = true,
+	showBossFrames = true,
+	showArenaFrames = true,
+}
 
-	backdrop_edge_texture = "Interface\\AddOns\\!RayUI\\media\\backdrop_edge",
-	backdrop_texture = "Interface\\AddOns\\!RayUI\\media\\backdrop",
-	highlight_texture = "Interface\\AddOns\\!RayUI\\media\\raidbg",
-	debuffBorder = "Interface\\AddOns\\!RayUI\\media\\iconborder",
-
-	showPortrait = false,
-	PlayerBuffFilter = true,
-	DebuffOnyshowPlayer = true,
-	PowercolorClass = true,
-	HealthcolorClass = false,
-	HealFrames = true,
-	Smooth = true,
-	SmoothColor = true,	
-	showIndicators = true, -- buffs indicators on healframes only
-	showAuraWatch = true, -- buffs timer on raid frames(hots, shields etc)
-	ShowParty = true, -- show party frames (shown as 5man raid)
-	ShowRaid = true, -- show raid frames
-	RaidShowSolo = false, -- show raid frames even when solo
-	RaidShowAllGroups = false, -- show raid groups 6, 7 and 8 (more than 25man raid)
-	enableDebuffHighlight = true, -- enable *dispelable* debuff highlight for raid frames
-	showRaidDebuffs = true, -- enable important debuff icons to show on raid units
-	showtot = true, -- show target of target frame
-	showpet = true, -- show pet frame
-	showfocus = true, -- show focus frame
-	showfocustarget = true, -- show focus target frame
-	showBossFrames = true, -- show boss frame
-	showArenaFrames = true, -- show arena frame
-	TotemBars = true, -- show Totem Bars
-	MTFrames = true, -- show main tank frames
-	Reputationbar = true, -- show Reputation bar
-	Experiencebar = true, -- show Experience bar
-	showPlayerAuras = false, -- use a custom player buffs/debuffs frame instead of Blizzard's default.
-	ThreatBar = true,  -- show Threat Bar
-	showRunebar = true, -- show DK rune bar
-	showHolybar = true, -- show Paladin HolyPower bar
-	showEclipsebar = true, -- show druid Eclipse bar
-	showShardbar = true, -- show Warlock SoulShard bar
-	RCheckIcon = true, -- show raid check icon
-	Castbars = true, -- use built-in castbars
-	showLFDIcons = true, -- Show dungeon role icons in raid/party
-	--Frame positions
-
-	--player
-	playerx = -260,
-	playery = 450,
-
-	--target
-	targetx = 0,
-	targety = 340,
-
-	--tot
-	totx = 20,
-	toty = 0,
-
-	--focus
-	focusx = 10,
-	focusy = -100,
-
-	--pet 
-	petx = -20,
-	pety = 0,
+DB["raid"]={
+	enable = true,
+    width = 60,
+    height = 22,
+    spacing = 8,
+    numCol = 5,
+    showwhensolo = false,
+    showplayerinparty = true,
+    showgridwhenparty = false,
+    horizontal = false,
+    growth = "RIGHT",
+    powerbarsize = .1,
+    outsideRange = .40,
+    arrow = true,
+    arrowmouseover = true,
+    healbar = true,
+    healoverflow = true,
+    healothersonly = false,
+    roleicon = false,    
+    indicatorsize = 5,
+    symbolsize = 11,
+    leadersize = 12,
+    aurasize = 18,
+    deficit = false, --缺失生命
+    perc = false, --百分比
+    actual = false, --当前生命
+    afk = true,
+    highlight = true,
+    dispel = true,
+    tooltip = true,
+    hidemenu = false,
 }
 
 DB["chat"]={
@@ -91,7 +68,7 @@ DB["chat"]={
 	autohidetime = 10,
 }
 
-DB["actionbar"]= {
+DB["actionbar"]={
 	barinset = 4,	
 	buttonsize   = 26,
 	buttonspacing   = 5,
@@ -120,6 +97,18 @@ DB["actionbar"]= {
 	
 	petbarmouseover = false,
 	petbarfade = true,
+}
+
+DB["misc"]={
+	anounce = true,
+	auction = true,
+	autodez = true,
+	autorelease = true,
+	merchant = true,
+		poisons = true,
+	quest = true,
+		automation = true,
+	reminder = true,
 }
 
 local SpecialList = {

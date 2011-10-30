@@ -1,12 +1,12 @@
 local modifier = "shift" -- shift, alt or ctrl
 local mouseButton = "1" -- 1 = left, 2 = right, 3 = middle, 4 and 5 = thumb buttons if there are any
 
-local function SetFocusHotkey(frame)
+function SetFocusHotkey(frame)
 	frame:SetAttribute(modifier.."-type"..mouseButton,"focus")
 end
 
 local function CreateFrame_Hook(type, name, parent, template)
-	if template == "SecureUnitButtonTemplate" then
+	if name and (name:lower():find("rayuf") or name:lower():find("freebgrid")) then
 		SetFocusHotkey(_G[name])
 	end
 end
@@ -35,9 +35,5 @@ local duf = {
 }
 
 for i,frame in pairs(duf) do
-	SetFocusHotkey(frame)
-end
-
-for i,frame in pairs(RayUF.objects) do 
 	SetFocusHotkey(frame)
 end

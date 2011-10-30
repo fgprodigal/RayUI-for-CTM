@@ -67,7 +67,7 @@ function R.ContructHealthBar(self, bg, text)
 	health.frequentUpdates = 0.2
 	health.PostUpdate = R.PostUpdateHealth
 	
-	if C["ouf"].Smooth == true then
+	if C["uf"].smooth == true then
 		health.Smooth = true
 	end	
 	
@@ -75,11 +75,12 @@ function R.ContructHealthBar(self, bg, text)
 		health.bg = health:CreateTexture(nil, 'BORDER')
 		health.bg:SetAllPoints()
 		health.bg:SetTexture(C["media"].normal)
-		if C["ouf"].SmoothColor then
+		if C["uf"].smoothColor then
 			health.bg:SetVertexColor(0.12, 0.12, 0.12, 1)
 		else
 			health.bg:SetVertexColor(0.33, 0.33, 0.33, 1)
 		end
+		health.bg.multiplier = .2
 	end
 	
 	if text then
@@ -89,7 +90,7 @@ function R.ContructHealthBar(self, bg, text)
 		health.value:SetParent(self)
 	end
 	
-	if C["ouf"].HealthcolorClass ~= true then
+	if C["uf"].healthColorClass ~= true then
 		health:SetStatusBarColor(.1, .1, .1)
 	else
 		health.colorTapping = true	
@@ -108,7 +109,7 @@ function R.ConstructPowerBar(self, bg, text)
 	power:SetFrameStrata("LOW")
 	power.PostUpdate = R.PostUpdatePower
 	
-	if C["ouf"].Smooth == true then
+	if C["uf"].smooth == true then
 		power.Smooth = true
 	end	
 	
@@ -126,7 +127,7 @@ function R.ConstructPowerBar(self, bg, text)
 		power.value:SetParent(self)
 	end
 	
-	if C["ouf"].PowercolorClass == true then
+	if C["uf"].powerColorClass == true then
 		power.colorClass = true
 		power.colorReaction = true
 	else
@@ -267,12 +268,12 @@ end
 function R.PostUpdateHealth(self, unit, cur, max)
 	local curhealth, maxhealth = UnitHealth(unit), UnitHealthMax(unit)
 	local r, g, b
-	if C["ouf"].SmoothColor then
+	if C["uf"].smoothColor then
 		r,g,b = ColorGradient(curhealth/maxhealth)
 	else
-		r,g,b = .12, .12, .12, 1
+		r,g,b = .12, .12, .12
 	end
-	if not C["ouf"].HealthcolorClass then
+	if not C["uf"].healthColorClass then
 		if(b) then
 			self:SetStatusBarColor(r, g, b, 1)
 		elseif not UnitIsConnected(unit) then
@@ -297,8 +298,8 @@ function R.PostUpdateHealth(self, unit, cur, max)
 			return self.value:SetFormattedText("|cff%02x%02x%02x%s|r", color[1] * 255, color[2] * 255, color[3] * 255, UnitIsGhost(unit) and GHOST or DEAD)
 		end
 	end
-	if not C["ouf"].HealthcolorClass then
-		if C["ouf"].SmoothColor then
+	if not C["uf"].healthColorClass then
+		if C["uf"].smoothColor then
 			if UnitIsDeadOrGhost(unit) or (not UnitIsConnected(unit)) then
 				self.bg:SetVertexColor(0.5, 0.5, 0.5, 1)
 			else

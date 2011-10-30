@@ -1,4 +1,5 @@
 local R, C, L, DB = unpack(select(2, ...))
+local ADDON_NAME = ...
 local map = true -- yay map
 
 local alpha = .5 -- controls the backdrop opacity (0 = invisible, 1 = solid)
@@ -364,7 +365,7 @@ end
 local Skin = CreateFrame("Frame", nil, UIParent)
 Skin:RegisterEvent("ADDON_LOADED")
 Skin:SetScript("OnEvent", function(self, event, addon)
-	if addon == "!RayUI" then
+	if addon == ADDON_NAME then
 		-- reskin all esc/menu buttons
 		local BlizzardMenuButtons = {
 			"Options", 

@@ -1,11 +1,12 @@
 local R, C, L, DB = unpack(select(2, ...))
+local ADDON_NAME = ...
 
 _, R.myclass = UnitClass("player")
 R.level = UnitLevel("player")
 R.myname = UnitName("player")
 R.myrealm = GetRealmName()
-R.version = GetAddOnMetadata("!RayUI", "Version")
-BINDING_HEADER_RAYUI = GetAddOnMetadata("!RayUI", "Title")
+R.version = GetAddOnMetadata(ADDON_NAME, "Version")
+BINDING_HEADER_RAYUI = GetAddOnMetadata(ADDON_NAME, "Title")
 
 R.colors = {
 	tapped = {0.55, 0.57, 0.61},

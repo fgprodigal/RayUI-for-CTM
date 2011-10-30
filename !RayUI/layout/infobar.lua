@@ -1,4 +1,5 @@
 local R, C, L, DB = unpack(select(2, ...))
+local ADDON_NAME = ...
 
 local topinfo= {}
 local botinfo= {}
@@ -163,7 +164,7 @@ Stat:SetScript("OnMouseDown", function(self)
 	local before = gcinfo()
 	collectgarbage()
 	UpdateAddOnMemoryUsage()
-	DEFAULT_CHAT_FRAME:AddMessage(format(GetAddOnMetadata("!RayUI", "Title")..": %s %s",L["共释放内存"],formatMem(before - gcinfo())))
+	DEFAULT_CHAT_FRAME:AddMessage(format(GetAddOnMetadata(ADDON_NAME, "Title")..": %s %s",L["共释放内存"],formatMem(before - gcinfo())))
 end)
 Stat:SetScript("OnUpdate", UpdateMem)
 Stat:SetScript("OnEnter", function(self)

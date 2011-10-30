@@ -1,5 +1,6 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
 	<Script file="announce.lua"/>
+	<Script file="auction.lua"/>
 	<Script file="autodez.lua"/>
 	<Script file="autorelease.lua"/>
 	<Script file="bubbles.lua"/>

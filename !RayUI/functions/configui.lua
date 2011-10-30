@@ -26,7 +26,3 @@ if IsAddOnLoaded("!RayUI_Config") then
 	
 	R.SavePath = RayUIConfig.db.profile
 end
-
-
-
-

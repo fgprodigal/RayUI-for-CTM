@@ -89,7 +89,7 @@ local function Shared(self, unit)
 		name:Point("BOTTOM", health, 0, -13)
 		name:Point("LEFT", health, -3, 0)
 		name:SetJustifyH("LEFT")
-		if C["ouf"].HealthcolorClass then
+		if C["uf"].healthColorClass then
 			self:Tag(name, '[freeb:name] [freeb:info]')
 		else
 			self:Tag(name, '[freeb:color][freeb:name] [freeb:info]')
@@ -374,7 +374,7 @@ local function Shared(self, unit)
 		name:Point("BOTTOM", health,  0, -13)
 		name:Point("RIGHT", health, 3, 0)
 		name:SetJustifyH("RIGHT")		
-		if C["ouf"].HealthcolorClass then
+		if C["uf"].healthColorClass then
 			self:Tag(name, '[freeb:name] [freeb:info]')
 		else
 			self:Tag(name, '[freeb:color][freeb:name] [freeb:info]')
@@ -501,7 +501,7 @@ local function Shared(self, unit)
 		name:Point("BOTTOM", health, -6, -15)
 		name:Point("LEFT", health, 0, 0)
 		name:SetJustifyH("LEFT")
-		if C["ouf"].HealthcolorClass then
+		if C["uf"].healthColorClass then
 			self:Tag(name, '[freeb:name] [freeb:info]')
 		else
 			self:Tag(name, '[freeb:color][freeb:name] [freeb:info]')
@@ -524,7 +524,7 @@ local function Shared(self, unit)
 		health.value:Point("LEFT", self, "LEFT", 5, 0)
 		name:Point("TOP", health, 0, 12)
 		name:SetFont(C["media"].font, 14, C["media"].fontflag)
-		if C["ouf"].HealthcolorClass then
+		if C["uf"].healthColorClass then
 			self:Tag(name, '[freeb:name]')
 		else
 			self:Tag(name, '[freeb:color][freeb:name]')
@@ -536,13 +536,13 @@ local function Shared(self, unit)
 		end
 	end
 	
-	if (unit and unit:find("arena%d") and C["ouf"].showArenaFrames == true) or (unit and unit:find("boss%d") and C["ouf"].showBossFrames == true) then
+	if (unit and unit:find("arena%d") and C["uf"].showArenaFrames == true) or (unit and unit:find("boss%d") and C["uf"].showBossFrames == true) then
 		health:SetSize(BOSS_WIDTH, BOSS_HEIGHT * 0.9)
 		health.value:Point("LEFT", self, "LEFT", 5, 0)
 		name:Point("BOTTOM", health, -6, -15)
 		name:Point("LEFT", health, 0, 0)
 		name:SetJustifyH("LEFT")
-		if C["ouf"].HealthcolorClass then
+		if C["uf"].healthColorClass then
 			self:Tag(name, '[freeb:name] [freeb:info]')
 		else
 			self:Tag(name, '[freeb:color][freeb:name] [freeb:info]')
@@ -650,7 +650,7 @@ local function LoadDPSLayout()
 	focustarget:Point("BOTTOMRIGHT", RayUF_focus, "BOTTOMLEFT", -10, 1)
 	focustarget:Size(SMALL_WIDTH, SMALL_HEIGHT)
 
-	if C["ouf"].showArenaFrames then
+	if C["uf"].showArenaFrames then
 		local arena = {}
 		for i = 1, 5 do
 			arena[i] = oUF:Spawn("arena"..i, "RayUFArena"..i)
@@ -663,7 +663,7 @@ local function LoadDPSLayout()
 		end
 	end
 
-	if C["ouf"].showBossFrames then
+	if C["uf"].showBossFrames then
 		local boss = {}
 		for i = 1, MAX_BOSS_FRAMES do
 			boss[i] = oUF:Spawn("boss"..i, "RayUFBoss"..i)
@@ -676,7 +676,7 @@ local function LoadDPSLayout()
 		end
 	end
 	
-	if C["ouf"].ShowParty then
+	if C["uf"].showParty then
 		local party = oUF:SpawnHeader('RayUFParty', nil, 
 		"custom [@raid6,exists] hide;show",
 		-- "custom [group:party,nogroup:raid][@raid,noexists,group:raid] show;hide",

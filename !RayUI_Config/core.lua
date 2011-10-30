@@ -15,9 +15,11 @@ function RayUIConfig:LoadDefaults()
 		profile = {
 			general = DB["general"],
 			media = DB["media"],
-			ouf = DB["ouf"],
+			uf = DB["uf"],
+			raid = DB["raid"],
 			actionbar = DB["actionbar"],
 			chat = DB["chat"],
+			misc = DB["misc"],
 		},
 	}
 end	
@@ -48,7 +50,6 @@ end
 function RayUIConfig:OnProfileChanged(event, database, newProfileKey)
 	StaticPopup_Show("CFG_RELOAD")
 end
-
 
 function RayUIConfig:SetupOptions()
 	AC:RegisterOptionsTable("RayUIConfig", self.GenerateOptions)
@@ -117,46 +118,283 @@ function RayUIConfig.GenerateOptionsInternal()
 					},
 				},
 			},
-			ouf = {
+			uf = {
 				order = 5,
 				type = "group",
 				name = L["头像"],
-				get = function(info) return db.ouf[ info[#info] ] end,
-				set = function(info, value) db.ouf[ info[#info] ] = value; C.ouf[ info[#info] ] = value; StaticPopup_Show("CFG_RELOAD"); end,
+				get = function(info) return db.uf[ info[#info] ] end,
+				set = function(info, value) db.uf[ info[#info] ] = value; StaticPopup_Show("CFG_RELOAD"); end,
 				args = {
-					scale = {
+					healthColorClass = {
 						order = 1,
-						name = L["头像缩放"],
-						desc = L["头像整体缩放"],
-						type = "range",
-						min = 0.5, max = 1.5, step = 0.01,
-						isPercent = true,
-					},
-					spacer = {
-						type = 'description',
-						name = '',
-						desc = '',
-						order = 2,
-					},	
-					HealthcolorClass = {
-						order = 3,
 						name = L["生命条按职业着色"],
 						type = "toggle",
 					},
-					Powercolor = {
-						order = 4,
+					powerColorClass = {
+						order = 2,
 						name = L["法力条按职业着色"],
 						type = "toggle",
 					},
-					showPortrait = {
+					smooth = {
+						order = 3,
+						name = L["平滑变化"],
+						type = "toggle",
+					},
+					smoothColor = {
+						order = 4,
+						name = L["颜色随血量渐变"],
+						type = "toggle",
+					},
+					showParty = {
 						order = 5,
-						name = L["显示3D头像"],
+						name = L["显示小队"],
+						type = "toggle",
+					},
+					showBossFrames = {
+						order = 6,
+						name = L["显示BOSS"],
+						type = "toggle",
+					},
+					showArenaFrames = {
+						order = 7,
+						name = L["显示竞技场头像"],
 						type = "toggle",
 					},
 				},
 			},
-			actionbar = {
+			raid = {
 				order = 6,
+				type = "group",
+				name = L["团队"],
+				get = function(info) return db.raid[ info[#info] ] end,
+				set = function(info, value) db.raid[ info[#info] ] = value; StaticPopup_Show("CFG_RELOAD"); end,
+				args = {
+					enable = {
+						order = 1,
+						name = L["启用"],
+						type = "toggle",
+					},
+					spacer = {
+						order = 2,
+						name = " ",
+						desc = " ",
+						type = "description",
+					},
+					width = {
+						order = 3,
+						name = L["单位长度"],
+						min = 50, max = 150, step = 1,
+						type = "range",
+						hidden = function() return not db.raid.enable end,
+					},
+					height = {
+						order = 4,
+						name = L["单位高度"],
+						min = 20, max = 50, step = 1,
+						type = "range",
+						hidden = function() return not db.raid.enable end,
+					},
+					spacing = {
+						order = 5,
+						name = L["间距"],
+						min = 1, max = 20, step = 1,
+						type = "range",
+						hidden = function() return not db.raid.enable end,
+					},
+					numCol = {
+						order = 6,
+						name = L["小队数"],
+						min = 1, max = 8, step = 1,
+						type = "range",
+						hidden = function() return not db.raid.enable end,
+					},
+					showwhensolo = {
+						order = 7,
+						name = L["solo时显示"],
+						type = "toggle",
+						hidden = function() return not db.raid.enable end,
+					},
+					showplayerinparty = {
+						order = 8,
+						name = L["在队伍中显示自己"],
+						type = "toggle",
+						hidden = function() return not db.raid.enable end,
+					},
+					showgridwhenparty = {
+						order = 9,
+						name = L["小队也显示团队框体"],
+						type = "toggle",
+						hidden = function() return not db.raid.enable end,
+					},
+					spacer2 = {
+						order = 10,
+						name = " ",
+						desc = " ",
+						type = "description",
+					},
+					horizontal = {
+						order = 11,
+						name = L["水平排列"],
+						desc = L["小队成员水平排列"],
+						type = "toggle",
+						hidden = function() return not db.raid.enable end,
+					},
+					growth = {
+						order = 12,
+						name = L["小队增长方向"],
+						type = "select",
+						values = {
+							["UP"] = L["上"],
+							["DOWN"] = L["下"],
+							["LEFT"] = L["左"],
+							["RIGHT"] = L["右"],
+						},
+						hidden = function() return not db.raid.enable end,
+					},
+					powerbarsize = {
+						order = 13,
+						name = L["法力条高度"],
+						type = "range",
+						min = 0, max = 0.5, step = 0.01,
+						hidden = function() return not db.raid.enable end,
+					},
+					outsideRange = {
+						order = 14,
+						name = L["超出距离透明度"],
+						type = "range",
+						min = 0, max = 1, step = 0.05,
+						hidden = function() return not db.raid.enable end,
+					},
+					arrow = {
+						order = 15,
+						name = L["箭头方向指示"],
+						type = "toggle",
+						hidden = function() return not db.raid.enable end,
+					},
+					arrowmouseover = {
+						order = 16,
+						name = L["鼠标悬停时显示"],
+						desc = L["只在鼠标悬停时显示方向指示"],
+						type = "toggle",
+						hidden = function() return not (db.raid.enable and db.raid.arrow) end,
+					},
+					healbar = {
+						order = 17,
+						name = L["治疗预读"],
+						type = "toggle",
+						hidden = function() return not db.raid.enable end,
+					},
+					healoverflow = {
+						order = 18,
+						name = L["显示过量预读"],
+						type = "toggle",
+						hidden = function() return not (db.raid.enable and db.raid.healbar) end,
+					},
+					healothersonly = {
+						order = 19,
+						name = L["只显示他人预读"],
+						type = "toggle",
+						hidden = function() return not (db.raid.enable and db.raid.healbar) end,
+					},
+					spacer3 = {
+						order = 20,
+						name = " ",
+						desc = " ",
+						type = "description",
+					},
+					roleicon = {
+						order = 21,
+						name = L["职责图标"],
+						type = "toggle",
+						hidden = function() return not db.raid.enable end,
+					},
+					afk = {
+						order = 22,
+						name = L["AFK文字"],
+						type = "toggle",
+						hidden = function() return not db.raid.enable end,
+					},
+					aurasize = {
+						order = 23,
+						name = L["技能图标大小"],
+						type = "range",
+						min = 10, max = 30, step = 1,
+						hidden = function() return not db.raid.enable end,
+					},
+					indicatorsize = {
+						order = 24,
+						name = L["角标大小"],
+						type = "range",
+						min = 2, max = 10, step = 1,
+						hidden = function() return not db.raid.enable end,
+					},
+					leadersize = {
+						order = 25,
+						name = L["职责图标大小"],
+						type = "range",
+						min = 8, max = 20, step = 1,
+						hidden = function() return not db.raid.enable end,
+					},
+					symbolsize = {
+						order = 26,
+						name = L["特殊标志大小"],
+						desc = L["特殊标志大小, 如愈合祷言标志"],
+						type = "range",
+						min = 8, max = 20, step = 1,
+						hidden = function() return not db.raid.enable end,
+					},
+					deficit = {
+						order = 27,
+						name = L["缺失生命文字"],
+						type = "toggle",
+						hidden = function() return not db.raid.enable end,
+					},
+					actual = {
+						order = 28,
+						name = L["当前生命文字"],
+						type = "toggle",
+						hidden = function() return not db.raid.enable end,
+					},
+					perc = {
+						order = 29,
+						name = L["生命值百分比"],
+						type = "toggle",
+						hidden = function() return not db.raid.enable end,
+					},
+					spacer4 = {
+						order = 30,
+						name = " ",
+						desc = " ",
+						type = "description",
+					},
+					dispel = {
+						order = 31,
+						name = L["可驱散提示"],
+						type = "toggle",
+						hidden = function() return not db.raid.enable end,
+					},
+					highlight = {
+						order = 32,
+						name = L["鼠标悬停高亮"],
+						type = "toggle",
+						hidden = function() return not db.raid.enable end,
+					},
+					tooltip = {
+						order = 33,
+						name = L["鼠标提示"],
+						type = "toggle",
+						hidden = function() return not db.raid.enable end,
+					},
+					hidemenu = {
+						order = 34,
+						name = L["屏蔽右键菜单"],
+						type = "toggle",
+						hidden = function() return not db.raid.enable end,
+					},
+				},
+			},
+			actionbar = {
+				order = 7,
 				type = "group",
 				name = L["动作条"],
 				get = function(info) return db.actionbar[ info[#info] ] end,
@@ -339,7 +577,7 @@ function RayUIConfig.GenerateOptionsInternal()
 				},
 			},
 			chat = {
-				order = 7,
+				order = 8,
 				type = "group",
 				name = L["聊天"],
 				get = function(info) return db.chat[ info[#info] ] end,
@@ -367,8 +605,95 @@ function RayUIConfig.GenerateOptionsInternal()
 					},
 				},
 			},
+			misc = {
+				order = 9,
+				type = "group",
+				name = L["小玩意儿"],
+				get = function(info) return db.misc[ info[#info] ] end,
+				set = function(info, value) db.misc[ info[#info] ] = value; StaticPopup_Show("CFG_RELOAD") end,
+				args = {
+					anounce = {
+						order = 1,
+						name = L["通报"],
+						desc = L["打断通报，打断、驱散、进出战斗文字提示"],
+						type = "toggle",
+					},
+					auction = {
+						order = 2,
+						name = L["拍卖行"],
+						desc = L["Shift + 右键直接一口价，价格上限请在misc/auction.lua里设置"],
+						type = "toggle",
+					},
+					autodez = {
+						order = 3,
+						name = L["自动贪婪"],
+						desc = L["满级之后自动贪婪/分解绿装"],
+						type = "toggle",
+					},
+					autorelease = {
+						order = 4,
+						name = L["自动释放尸体"],
+						desc = L["战场中自动释放尸体"],
+						type = "toggle",
+					},
+					merchant = {
+						order = 5,
+						name = L["商人"],
+						desc = L["自动修理、自动卖灰色物品"],
+						type = "toggle",
+					},
+					poisons = {
+						order = 6,
+						name = L["补购毒药"],
+						desc = L["自动补购毒药，数量在misc/merchant.lua里修改"],
+						disabled = function() return not (R.myclass == "ROGUE" and db.misc.merchant) end,
+						type = "toggle",
+					},
+					quest = {
+						order = 7,
+						name = L["任务"],
+						desc = L["任务等级，进/出副本自动收起/展开任务追踪，任务面板的展开/收起全部分类按钮"],
+						type = "toggle",
+					},
+					automation = {
+						order = 8,
+						name = L["自动交接任务"],
+						desc = L["自动交接任务，按shift点npc则不自动交接"],
+						disabled = function() return not db.misc.quest end,
+						type = "toggle",
+					},
+					reminder = {
+						order = 9,
+						name = L["buff提醒"],
+						desc = L["缺失重要buff时提醒"],
+						type = "toggle",
+					},
+				},
+			},
 		},
 	}
 	
 	RayUIConfig.Options.args.profiles = RayUIConfig.profile
 end
+
+local RayUIConfigButton = CreateFrame("Button", "RayUIConfigButton", GameMenuFrame, "GameMenuButtonTemplate")
+RayUIConfigButton:SetSize(GameMenuButtonMacros:GetWidth(), GameMenuButtonMacros:GetHeight())
+GameMenuFrame:SetHeight(GameMenuFrame:GetHeight()+GameMenuButtonMacros:GetHeight());
+GameMenuButtonOptions:SetPoint("TOP", RayUIConfigButton, "BOTTOM", 0, -2)
+RayUIConfigButton:SetPoint("TOP", GameMenuButtonHelp, "BOTTOM", 0, -2)
+RayUIConfigButton:SetText(L["|cff7aa6d6Ray|r|cffff0000U|r|cff7aa6d6I|r设置"])
+RayUIConfigButton:SetScript("OnClick", function()
+	HideUIPanel(GameMenuFrame)
+	RayUIConfig:ShowConfig()
+end)
+
+local a = CreateFrame("Frame")
+a:RegisterEvent("PLAYER_ENTERING_WORLD")
+a:SetScript("OnEvent", function(self, event)
+	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
+	R.Reskin(RayUIConfigButton)
+	local font = {GameMenuButtonMacros:GetFontString():GetFont()}
+	local shadow = {GameMenuButtonMacros:GetFontString():GetShadowOffset()}
+	RayUIConfigButton:GetFontString():SetFont(unpack(font))
+	RayUIConfigButton:GetFontString():SetShadowOffset(unpack(shadow))
+end)

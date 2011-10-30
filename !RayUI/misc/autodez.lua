@@ -1,5 +1,7 @@
 local R, C, L, DB = unpack(select(2, ...))
 
+if not C["misc"].autodez then return end
+
 local autogreed = CreateFrame("frame")
 autogreed:RegisterEvent("START_LOOT_ROLL")
 autogreed:SetScript("OnEvent", function(self, event, id)

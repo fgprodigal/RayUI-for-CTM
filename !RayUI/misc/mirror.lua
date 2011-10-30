@@ -1,4 +1,5 @@
 local R, C, L, DB = unpack(select(2, ...))
+local ADDON_NAME = ...
 
 ---------------------------------------------------------------------
 -- original by haste, edited for Elvui :), styled for RayUI
@@ -133,7 +134,7 @@ frame:SetScript('OnEvent', function(self, event, ...)
 end)
 
 function frame:ADDON_LOADED(addon)
-	if(addon == '!RayUI') then
+	if(addon == ADDON_NAME) then
 		UIParent:UnregisterEvent'MIRROR_TIMER_START'
 
 		self:UnregisterEvent'ADDON_LOADED'

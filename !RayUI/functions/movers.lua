@@ -1,6 +1,7 @@
 --Create a Mover frame by Elv
 
 local R, C, L, DB = unpack(select(2, ...))
+local ADDON_NAME = ...
 
 R.CreatedMovers = {}
 
@@ -191,7 +192,7 @@ loadmovers:RegisterEvent("ADDON_LOADED")
 loadmovers:RegisterEvent("PLAYER_REGEN_DISABLED")
 loadmovers:SetScript("OnEvent", function(self, event, addon)
 	if event == "ADDON_LOADED" then
-		if addon ~= "!RayUI" then return end
+		if addon ~= ADDON_NAME then return end
 		for name, _ in pairs(R.CreatedMovers) do
 			local n = name
 			local p, t, o, pd
