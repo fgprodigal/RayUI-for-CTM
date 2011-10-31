@@ -2,10 +2,7 @@ local R, C, L, DB = unpack(select(2, ...))
 -----------------------------------------------------
 -- MinimapBackground
 -----------------------------------------------------
-Minimap.bg = CreateFrame("Frame", nil, Minimap)
-Minimap.bg:SetPoint("TOPLEFT", -2, 2)
-Minimap.bg:SetPoint("BOTTOMRIGHT", 2, -2)
-Minimap.bg:CreateShadow("Background")
+Minimap:CreateShadow("Background", 2)
 
 --New Mail Check
 local checkmail = CreateFrame("Frame")
@@ -17,17 +14,17 @@ checkmail:SetScript("OnEvent", function(self, event, addon)
 	local inv = CalendarGetNumPendingInvites()
 	local mail = HasNewMail()
 	if inv > 0 and mail then -- New invites and mail
-		Minimap.bg.glow:SetBackdropBorderColor(1, .5, 0)
-		Minimap.bg:StartGlow()
+		Minimap.shadow:SetBackdropBorderColor(1, .5, 0)
+		Minimap:StartGlow()
 	elseif inv > 0 and not mail then -- New invites and no mail
-		Minimap.bg.glow:SetBackdropBorderColor(1, 30/255, 60/255)
-		Minimap.bg:StartGlow()
+		Minimap.shadow:SetBackdropBorderColor(1, 30/255, 60/255)
+		Minimap:StartGlow()
 	elseif inv==0 and mail then -- No invites and new mail
-		Minimap.bg.glow:SetBackdropBorderColor(.5, 1, 1)
-		Minimap.bg:StartGlow()
+		Minimap.shadow:SetBackdropBorderColor(.5, 1, 1)
+		Minimap:StartGlow()
 	else -- None of the above
-		Minimap.bg:StopGlow()
-		Minimap.bg.glow:SetAlpha(1)
-		Minimap.bg.glow:SetBackdropBorderColor(unpack(C["media"].bordercolor))
+		Minimap:StopGlow()
+		Minimap.shadow:SetAlpha(1)
+		Minimap.shadow:SetBackdropBorderColor(unpack(C["media"].bordercolor))
 	end
 end)

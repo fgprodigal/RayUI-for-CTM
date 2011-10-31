@@ -462,7 +462,7 @@ do
 		backdrop:SetParent(UIParent)
 		backdrop:Hide()
 
-		backdrop:SetBackdrop(_BACKDROP)
+		backdrop:SetTemplate("Transparent")
 		backdrop:SetFrameStrata"TOOLTIP"
 		backdrop:SetAllPoints(target)
 
@@ -493,7 +493,6 @@ do
 		backdrop.header = isHeader
 		backdrop.target = target
 
-		backdrop:SetTemplate("Transparent", true)
 		backdrop.bd = CreateFrame("Button",nil, backdrop)
 		backdrop.bd:CreateButton("Default", backdrop:GetWidth(), backdrop:GetHeight(), "CENTER", backdrop, "CENTER", 0, 0)
 		backdrop.bd:ClearAllPoints()

@@ -17,6 +17,7 @@ DB["media"]={
 
 DB["general"]={
 	uiscale = 0.80,
+	logo = true,
 }
 
 DB["uf"]={
@@ -27,7 +28,7 @@ DB["uf"]={
 	showParty = true,
 	showBossFrames = true,
 	showArenaFrames = true,
-	separateEnergy = true,
+	separateEnergy = false,
 }
 
 DB["raid"]={

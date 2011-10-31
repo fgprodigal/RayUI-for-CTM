@@ -1,9 +1,7 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
 	<Script file="Smooth.lua"/>
 	<Script file="Experience.lua"/>
-	<Script file="AuraWatch.lua"/>
 	<Script file="Reputation.lua"/>
-	<Script file="RaidDebuffs.lua"/>
 	<Script file="BarFader.lua"/>
 	<Script file="SpellRange.lua"/>
 	

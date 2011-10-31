@@ -90,7 +90,7 @@ local function Point(obj, arg1, arg2, arg3, arg4, arg5)
 	obj:SetPoint(arg1, arg2, arg3, arg4, arg5)
 end
 
-local function CreateShadow(f, t, offset)
+local function CreateShadow(f, t, offset, thickness, texture)
 	if f.shadow then return end
 	
 	local borderr, borderg, borderb, bordera = unpack(C["media"].bordercolor)
@@ -103,8 +103,11 @@ local function CreateShadow(f, t, offset)
 	end
 	
 	local shadow = CreateFrame("Frame", nil, f)
-	shadow:SetFrameLevel(1)
-	shadow:SetFrameStrata(f:GetFrameStrata())
+	if f:GetFrameLevel() - 1 >= 0 then
+		shadow:SetFrameLevel(f:GetFrameLevel() - 1)
+	else
+		shadow:SetFrameLevel(0)
+	end
 	if offset and type(offset) == "number" then
 		shadow:Point("TOPLEFT", -3 - offset, 3 + offset)
 		shadow:Point("BOTTOMRIGHT", 3 + offset, -3 - offset)
@@ -112,16 +115,19 @@ local function CreateShadow(f, t, offset)
 		shadow:Point("TOPLEFT", -3, 3)
 		shadow:Point("BOTTOMRIGHT", 3, -3)
 	end
+	local thick = 4
+	if type(thickness) == "number" then
+		thick = thickness
+	end
 	shadow:SetBackdrop({
-	bgFile = C["media"].blank, 
+	bgFile = texture and C["media"].normal or C["media"].blank, 
 	edgeFile = C["media"].glow, 
-	edgeSize = scale(5),
-	insets = { left = scale(4), right = scale(4), top = scale(4), bottom = scale(4) }
+	edgeSize = scale(thick + 1),
+	insets = { left = scale(thick), right = scale(thick), top = scale(thick), bottom = scale(thick) }
 	})
 	shadow:SetBackdropColor( backdropr, backdropg, backdropb, backdropa )
 	shadow:SetBackdropBorderColor( borderr, borderg, borderb, bordera )
 	f.shadow = shadow
-	f.glow = shadow
 end
 
 local function SetTemplate(f, t, texture)
@@ -266,25 +272,30 @@ end
 local function StartGlow(f)
 	f:SetBackdropColor(r, g, b, .1)
 	f:SetBackdropBorderColor(r, g, b)
-	CreatePulse(f.glow)
+	if f.shadow then
+		CreatePulse(f.shadow)
+	else
+		CreatePulse(f.glow)
+	end
 end
 
 local function StopGlow(f)
 	f:SetBackdropColor(0, 0, 0, 0)
 	f:SetBackdropBorderColor(0, 0, 0)
-	f.glow:SetScript("OnUpdate", nil)
-	f.glow:SetAlpha(0)
+	if f.shadow then
+		f.shadow:SetScript("OnUpdate", nil)
+		f.shadow:SetAlpha(0)
+	else
+		f.glow:SetScript("OnUpdate", nil)
+		f.glow:SetAlpha(0)
+	end
 end
 
 local function CreateButton(f, bg, w, h, a1, p, a2, x, y)
 	f:SetHeight(h)
 	f:SetWidth(w)
 	if bg == "Shadow" then
-		f.bg = CreateFrame("Frame",nil,f)
-		f.bg:Point("TOPLEFT", -1, 1)
-		f.bg:Point("BOTTOMRIGHT", 1, -1)
-		f.bg:CreateShadow("Background")
-		f.bg:SetFrameLevel(0)
+		f:CreateShadow("Background", 1)
 	end
 	f:SetPoint(a1, p, a2, scale(x), scale(y))
 	R.Reskin(f)

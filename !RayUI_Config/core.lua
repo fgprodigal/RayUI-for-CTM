@@ -117,6 +117,12 @@ function RayUIConfig.GenerateOptionsInternal()
 						min = 0.64, max = 1, step = 0.01,
 						isPercent = true,
 					},
+					logo = {
+						order = 2,
+						type = "toggle",
+						name = L["登陆Logo"],
+						desc = L["开关登陆时的logo"],
+					},
 				},
 			},
 			uf = {

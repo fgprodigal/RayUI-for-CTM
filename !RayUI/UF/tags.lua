@@ -82,7 +82,7 @@ do
 	rcolor[8][1], rcolor[8][2], rcolor[8][3] = 0.2, 1,   0.2 -- Exalted
 end
 
-oUF.Tags['freeb:lvl'] = function(u) 
+oUF.Tags['RayUF:lvl'] = function(u) 
     local level = UnitLevel(u)
     local typ = UnitClassification(u)
     local color = GetQuestDifficultyColor(level)
@@ -103,7 +103,7 @@ oUF.Tags['freeb:lvl'] = function(u)
     end
 end
 
-oUF.Tags['freeb:hp']  = function(u)
+oUF.Tags['RayUF:hp']  = function(u)
 		local color
 		if UnitIsPlayer(u) then
 			local _, class = UnitClass(u)
@@ -119,9 +119,9 @@ oUF.Tags['freeb:hp']  = function(u)
     -- return siValue(min).." | "..math.floor(min/max*100+.5).."%"
     return format("|cff%02x%02x%02x%s|r", color[1] * 255, color[2] * 255, color[3] * 255, siValue(min).." | "..math.floor(min/max*100+.5).."%")
 end
-oUF.TagEvents['freeb:hp'] = 'UNIT_HEALTH'
+oUF.TagEvents['RayUF:hp'] = 'UNIT_HEALTH'
 
-oUF.Tags['freeb:pp'] = function(u)
+oUF.Tags['RayUF:pp'] = function(u)
     local _, str = UnitPowerType(u)
     local power = UnitPower(u)
 
@@ -130,9 +130,9 @@ oUF.Tags['freeb:pp'] = function(u)
         return hex(oUF.colors.power[str])..siValue(min).." | "..math.floor(min/max*100+.5).."%".."|r"
     end
 end
-oUF.TagEvents['freeb:pp'] = 'UNIT_POWER'
+oUF.TagEvents['RayUF:pp'] = 'UNIT_POWER'
 
-oUF.Tags['freeb:color'] = function(u, r)
+oUF.Tags['RayUF:color'] = function(u, r)
     local _, class = UnitClass(u)
     local reaction = UnitReaction(u, "player")
 
@@ -146,13 +146,13 @@ oUF.Tags['freeb:color'] = function(u, r)
         return hex(1, 1, 1)
     end
 end
---oUF.TagEvents['freeb:color'] = 'UNIT_REACTION UNIT_HEALTH UNIT_HAPPINESS'
+--oUF.TagEvents['RayUF:color'] = 'UNIT_REACTION UNIT_HEALTH UNIT_HAPPINESS'
 
-oUF.Tags['freeb:name'] = function(u, r)
+oUF.Tags['RayUF:name'] = function(u, r)
     local name = UnitName(r or u)
     return name
 end
-oUF.TagEvents['freeb:name'] = 'UNIT_NAME_UPDATE'
+oUF.TagEvents['RayUF:name'] = 'UNIT_NAME_UPDATE'
 
 oUF.Tags['raid:name'] = function(u, r)
     local name = UnitName(realUnit or u or r)
@@ -160,18 +160,18 @@ oUF.Tags['raid:name'] = function(u, r)
 end
 oUF.TagEvents['raid:name'] = 'UNIT_NAME_UPDATE'
 
-oUF.Tags['freeb:info'] = function(u)
+oUF.Tags['RayUF:info'] = function(u)
     if UnitIsDead(u) then
-        return oUF.Tags['freeb:lvl'](u).."|cffCFCFCF 死亡|r"
+        return oUF.Tags['RayUF:lvl'](u).."|cffCFCFCF 死亡|r"
     elseif UnitIsGhost(u) then
-        return oUF.Tags['freeb:lvl'](u).."|cffCFCFCF 靈魂|r"
+        return oUF.Tags['RayUF:lvl'](u).."|cffCFCFCF 靈魂|r"
     elseif not UnitIsConnected(u) then
-        return oUF.Tags['freeb:lvl'](u).."|cffCFCFCF 離線|r"
+        return oUF.Tags['RayUF:lvl'](u).."|cffCFCFCF 離線|r"
     else
-        return oUF.Tags['freeb:lvl'](u)
+        return oUF.Tags['RayUF:lvl'](u)
     end
 end
-oUF.TagEvents['freeb:info'] = 'UNIT_HEALTH'
+oUF.TagEvents['RayUF:info'] = 'UNIT_HEALTH'
 
 oUF.Tags['freebraid:info'] = function(u)
     local _, class = UnitClass(u)
@@ -188,27 +188,27 @@ oUF.Tags['freebraid:info'] = function(u)
 end
 oUF.TagEvents['freebraid:info'] = 'UNIT_HEALTH UNIT_CONNECTION'
 
-oUF.Tags['freeb:curxp'] = function(unit)
+oUF.Tags['RayUF:curxp'] = function(unit)
     return siValue(UnitXP(unit))
 end
 
-oUF.Tags['freeb:maxxp'] = function(unit)
+oUF.Tags['RayUF:maxxp'] = function(unit)
     return siValue(UnitXPMax(unit))
 end
 
-oUF.Tags['freeb:perxp'] = function(unit)
+oUF.Tags['RayUF:perxp'] = function(unit)
     return math.floor(UnitXP(unit) / UnitXPMax(unit) * 100 + 0.5)
 end
 
-oUF.TagEvents['freeb:curxp'] = 'PLAYER_XP_UPDATE PLAYER_LEVEL_UP'
-oUF.TagEvents['freeb:maxxp'] = 'PLAYER_XP_UPDATE PLAYER_LEVEL_UP'
-oUF.TagEvents['freeb:perxp'] = 'PLAYER_XP_UPDATE PLAYER_LEVEL_UP'
+oUF.TagEvents['RayUF:curxp'] = 'PLAYER_XP_UPDATE PLAYER_LEVEL_UP'
+oUF.TagEvents['RayUF:maxxp'] = 'PLAYER_XP_UPDATE PLAYER_LEVEL_UP'
+oUF.TagEvents['RayUF:perxp'] = 'PLAYER_XP_UPDATE PLAYER_LEVEL_UP'
 
-oUF.Tags['freeb:altpower'] = function(u)
+oUF.Tags['RayUF:altpower'] = function(u)
 	local cur = UnitPower(u, ALTERNATE_POWER_INDEX)
 	local max = UnitPowerMax(u, ALTERNATE_POWER_INDEX)
     local per = floor(cur/max*100)
     
     return format("%d", per > 0 and per or 0).."%"
 end
-oUF.TagEvents['freeb:altpower'] = "UNIT_POWER UNIT_MAXPOWER"
+oUF.TagEvents['RayUF:altpower'] = "UNIT_POWER UNIT_MAXPOWER"

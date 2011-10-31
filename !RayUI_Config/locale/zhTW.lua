@@ -5,6 +5,8 @@ if not L then return end
 L["|cff7aa6d6Ray|r|cffff0000U|r|cff7aa6d6I|r设置"] = "|cff7aa6d6Ray|r|cffff0000U|r|cff7aa6d6I|r設置"
 L["版本"] = "版本"
 L["改变参数需重载应用设置"] = "改變參數需重載應用設置"
+L["登陆Logo"] = "登陸Logo"
+	L["开关登陆时的logo"] = "開關登陸時的Logo"
 L["解锁锚点"] = "解鎖錨點"
 L["解锁并移动头像和动作条"] = "解锁并移动头像和动作条"
 L["一般"] = "一般"

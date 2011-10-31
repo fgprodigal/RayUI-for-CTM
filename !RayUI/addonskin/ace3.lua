@@ -16,10 +16,9 @@ AceGUI.RegisterAsWidget = function(self, widget)
 
 		if not widget.skinnedCheckBG then
 			widget.skinnedCheckBG = CreateFrame('Frame', nil, widget.frame)
-			widget.skinnedCheckBG:SetTemplate('Transparent')
-			widget.skinnedCheckBG:CreateBorder(.2, .2, .2)
 			widget.skinnedCheckBG:Point('TOPLEFT', widget.checkbg, 'TOPLEFT', 4, -4)
 			widget.skinnedCheckBG:Point('BOTTOMRIGHT', widget.checkbg, 'BOTTOMRIGHT', -4, 4)
+			R.CreateBD(widget.skinnedCheckBG)
 		end
 
 		if widget.skinnedCheckBG.oborder then
@@ -33,8 +32,8 @@ AceGUI.RegisterAsWidget = function(self, widget)
 		local text = widget.text
 		frame:StripTextures()
 		local bg = CreateFrame("Frame", nil, frame)
-		bg:Point("TOPLEFT", 16, -1)
-		bg:Point("BOTTOMRIGHT", -20, -1)
+		bg:Point("TOPLEFT", 16, 0)
+		bg:Point("BOTTOMRIGHT", -20, 0)
 		bg:SetFrameLevel(frame:GetFrameLevel()-1)
 		R.CreateBD(bg, 0)
 
@@ -57,19 +56,13 @@ AceGUI.RegisterAsWidget = function(self, widget)
 		downtex:Size(8, 8)
 		downtex:SetPoint("CENTER")
 		downtex:SetVertexColor(1, 1, 1)
-
-		if not frame.backdrop then
-			-- frame:CreateBackdrop("Default")
-			frame.backdrop =CreateFrame("Frame", nil , frame)
-			frame.backdrop:Point("TOPLEFT", 20, -2)
-			frame.backdrop:Point("BOTTOMRIGHT", button, "BOTTOMRIGHT", 2, -2)
-		end
-		button:SetParent(frame.backdrop)
-		text:SetParent(frame.backdrop)
+		
+		button:SetParent(bg)
+		text:SetParent(bg)
 		button:HookScript('OnClick', function(this)
 			local self = this.obj
-			self.pullout.frame:SetTemplate('Default', true)
-		end)	
+			R.CreateBD(self.pullout.frame)
+		end)
 	elseif TYPE == "LSM30_Font" or TYPE == "LSM30_Sound" or TYPE == "LSM30_Border" or TYPE == "LSM30_Background" or TYPE == "LSM30_Statusbar" then
 		local frame = widget.frame
 		local button = frame.dropButton
@@ -130,52 +123,53 @@ AceGUI.RegisterAsWidget = function(self, widget)
 		button:HookScript('OnClick', function(this, button)
 			local self = this.obj
 			if self.dropdown then
-				self.dropdown:SetTemplate('Default', true)
+				R.CreateBD(self.dropdown)
 			end
 		end)		
 	elseif TYPE == "EditBox" then
 		local frame = widget.editbox
 		local button = widget.button
-		_G[frame:GetName()..'Left']:Kill()
-		_G[frame:GetName()..'Middle']:Kill()
-		_G[frame:GetName()..'Right']:Kill()
-		frame:Height(17)
-		-- frame:CreateBackdrop('Default')
-		-- frame.backdrop =CreateFrame("Frame", nil , frame)
-		-- frame.backdrop:Point('TOPLEFT', -2, 0)
-		-- frame.backdrop:Point('BOTTOMRIGHT', 2, 0)		
-		-- frame.backdrop:SetParent(widget.frame)
-		-- frame:SetParent(frame.backdrop)
+		frame:StripTextures()		
 		R.ReskinInput(frame)
+		button:ClearAllPoints()
+		button:SetPoint("RIGHT", frame, "RIGHT", -7, 0)
+		button:SetParent(frame)
 		R.Reskin(button)
 	elseif TYPE == "Button" then
 		local frame = widget.frame
 		R.Reskin(frame)
-		-- frame:StripTextures()
-		-- frame.backdrop =CreateFrame("Frame", nil , frame)
-		-- frame.backdrop:Point("TOPLEFT", 2, -2)
-		-- frame.backdrop:Point("BOTTOMRIGHT", -2, 2)
-		-- widget.text:SetParent(frame.backdrop)
 	elseif TYPE == "Slider" then
-		-- local frame = widget.slider
-		-- local editbox = widget.editbox
-		-- local lowtext = widget.lowtext
-		-- local hightext = widget.hightext
-		-- local HEIGHT = 12
+		local frame = widget.slider
+		local editbox = widget.editbox
+		local lowtext = widget.lowtext
+		local hightext = widget.hightext
+		local HEIGHT = 12
 
-		-- frame:StripTextures()
-		-- frame:SetTemplate('Transparent')
-		-- frame:Height(HEIGHT)
-		-- frame:SetThumbTexture(C["media"].blank)
-		-- frame:GetThumbTexture():SetVertexColor(1,1,1)
-		-- frame:GetThumbTexture():Size(HEIGHT-2,HEIGHT+2)
+		frame:StripTextures()
+		R.CreateBD(frame, 0)
+		frame:Height(HEIGHT)
+		local slider = CreateFrame("Frame", nil, frame)
+		slider:Point("TOPLEFT", frame:GetThumbTexture())
+		slider:Point("BOTTOMRIGHT", frame:GetThumbTexture())
+		R.CreateBD(slider, 0)
+		frame:SetThumbTexture(C["media"].blank)
+		frame:GetThumbTexture():SetGradientAlpha("VERTICAL", 0, 0, 0, .3, .35, .35, .35, .35)
+		frame:GetThumbTexture():Size(HEIGHT-2,HEIGHT-2)
 
-		-- editbox:SetTemplate('Transparent')
-		-- editbox:Height(15)
-		-- editbox:Point("TOP", frame, "BOTTOM", 0, -1)
+		R.CreateBD(editbox, 0)
+		editbox.SetBackdropColor = R.dummy
+		editbox.SetBackdropBorderColor = R.dummy
+		editbox:Height(15)
+		editbox:Point("TOP", frame, "BOTTOM", 0, -1)
+		
+		local tex = editbox:CreateTexture(nil, "BACKGROUND")
+		tex:SetPoint("TOPLEFT")
+		tex:SetPoint("BOTTOMRIGHT")
+		tex:SetTexture(C.Aurora.backdrop)
+		tex:SetGradientAlpha("VERTICAL", 0, 0, 0, .3, .35, .35, .35, .35)
 
-		-- lowtext:SetPoint("TOPLEFT", frame, "BOTTOMLEFT", 2, -2)
-		-- hightext:SetPoint("TOPRIGHT", frame, "BOTTOMRIGHT", -2, -2)
+		lowtext:SetPoint("TOPLEFT", frame, "BOTTOMLEFT", 2, -2)
+		hightext:SetPoint("TOPRIGHT", frame, "BOTTOMRIGHT", -2, -2)
 
 
 	--[[elseif TYPE == "ColorPicker" then
@@ -192,9 +186,11 @@ AceGUI.RegisterAsContainer = function(self, widget)
 	local TYPE = widget.type
 	if TYPE == "ScrollFrame" then
 		local frame = widget.scrollbar
+		frame:StripTextures()
 		R.ReskinScroll(frame)
 	elseif TYPE == "InlineGroup" or TYPE == "TreeGroup" or TYPE == "TabGroup" or TYPE == "SimpleGroup" or TYPE == "Frame" or TYPE == "DropdownGroup" then
 		local frame = widget.content:GetParent()
+		R.CreateBD(frame, .3)
 		if TYPE == "Frame" then
 			frame:StripTextures()
 			for i=1, frame:GetNumChildren() do
@@ -205,24 +201,12 @@ AceGUI.RegisterAsContainer = function(self, widget)
 					child:StripTextures()
 				end
 			end
-			frame.bg = CreateFrame("Frame", nil , frame)
-			frame.bg:Point("TOPLEFT", -4, 4)
-			frame.bg:Point("BOTTOMRIGHT", 4, -4)
-			frame.bg:CreateShadow()
-		else
-			frame.bd = CreateFrame("Frame", nil , frame)
-			frame.bd:SetPoint("TOPLEFT")
-			frame.bd:SetPoint("BOTTOMRIGHT")
-			frame.bd:CreateBorder(0.2,0.2,0.2,1)
-		end	
-		frame:SetTemplate('Transparent')
+			R.CreateSD(frame)
+			R.CreateBD(frame)
+		end		
 		
 		if widget.treeframe then
-			widget.treeframe:SetTemplate('Transparent')
-			widget.treeframe.bd = CreateFrame("Frame", nil , widget.treeframe)
-			widget.treeframe.bd:SetPoint("TOPLEFT")
-			widget.treeframe.bd:SetPoint("BOTTOMRIGHT")
-			widget.treeframe.bd:CreateBorder(0.2,0.2,0.2,1)
+			R.CreateBD(widget.treeframe, .3)
 			frame:Point("TOPLEFT", widget.treeframe, "TOPRIGHT", 1, 0)
 		end
 

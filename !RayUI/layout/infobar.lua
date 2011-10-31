@@ -267,9 +267,13 @@ infoshow:SetScript("OnEvent", function(self)
 				UIFrameFadeIn(topinfo[i], 1, 0, 1)
 			end)
 		end
-		R.Delay(5,function() UIFrameFadeIn(RayUILogo, 1, 0, 1) end)
-		R.Delay(8,function() UIFrameFadeOut(RayUILogo, 1, 1, 0) end)
-		R.Delay(10,function() RayUILogo:Hide() RayUILogo = nil collectgarbage("collect") end)
+		if C["general"].logo then
+			R.Delay(5,function() UIFrameFadeIn(RayUILogo, 1, 0, 1) end)
+			R.Delay(8,function() UIFrameFadeOut(RayUILogo, 1, 1, 0) end)
+			R.Delay(10,function() RayUILogo:Hide() wipe(RayUILogo) collectgarbage("collect") end)
+		else
+			R.Delay(5,function() wipe(RayUILogo) collectgarbage("collect") end)
+		end
 end)
 
 -- CURRENCY DATA BARS

@@ -425,6 +425,8 @@ function R.ComboDisplay(self, event, unit)
 	for i=1, MAX_COMBO_POINTS do
 		if(i <= cp) then
 			cpoints[i]:SetAlpha(1)
+		elseif C["uf"].separateEnergy then
+			cpoints[i]:SetAlpha(0)
 		else
 			cpoints[i]:SetAlpha(0.15)
 		end

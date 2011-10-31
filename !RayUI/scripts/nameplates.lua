@@ -152,11 +152,6 @@ local function CreateVirtualFrame(parent, point)
 	if point == nil then point = parent end
 	
 	if point.backdrop or parent.backdrop then return end
-	-- parent.backdrop = parent:CreateTexture(nil, "BORDER")
-	-- parent.backdrop:SetDrawLayer("BORDER", -8)
-	-- parent.backdrop:SetPoint("TOPLEFT", point, "TOPLEFT", -noscalemult*3, noscalemult*3)
-	-- parent.backdrop:SetPoint("BOTTOMRIGHT", point, "BOTTOMRIGHT", noscalemult*3, -noscalemult*3)
-	-- parent.backdrop:SetTexture(0, 0, 0, 1)
 	
 	parent.backdrop = CreateFrame("Frame", nil ,parent)
 	parent.backdrop:SetPoint("TOPLEFT", -noscalemult*1, noscalemult*1)
@@ -166,42 +161,11 @@ local function CreateVirtualFrame(parent, point)
 	parent.backdrop2 = parent:CreateTexture(nil, "BORDER")
 	parent.backdrop2:SetDrawLayer("BORDER", -7)
 	parent.backdrop2:SetAllPoints(point)
-	parent.backdrop2:SetTexture(.05,.05,.05)	
-	
-	-- parent.bordertop = parent:CreateTexture(nil, "BORDER")
-	-- parent.bordertop:SetPoint("TOPLEFT", point, "TOPLEFT", -noscalemult*2, noscalemult*2)
-	-- parent.bordertop:SetPoint("TOPRIGHT", point, "TOPRIGHT", noscalemult*2, noscalemult*2)
-	-- parent.bordertop:SetHeight(noscalemult)
-	-- parent.bordertop:SetTexture(0, 0, 0, 1)	
-	-- parent.bordertop:SetDrawLayer("BORDER", -7)
-	
-	-- parent.borderbottom = parent:CreateTexture(nil, "BORDER")
-	-- parent.borderbottom:SetPoint("BOTTOMLEFT", point, "BOTTOMLEFT", -noscalemult*2, -noscalemult*2)
-	-- parent.borderbottom:SetPoint("BOTTOMRIGHT", point, "BOTTOMRIGHT", noscalemult*2, -noscalemult*2)
-	-- parent.borderbottom:SetHeight(noscalemult)
-	-- parent.borderbottom:SetTexture(0, 0, 0, 1)	
-	-- parent.borderbottom:SetDrawLayer("BORDER", -7)
-	
-	-- parent.borderleft = parent:CreateTexture(nil, "BORDER")
-	-- parent.borderleft:SetPoint("TOPLEFT", point, "TOPLEFT", -noscalemult*2, noscalemult*2)
-	-- parent.borderleft:SetPoint("BOTTOMLEFT", point, "BOTTOMLEFT", noscalemult*2, -noscalemult*2)
-	-- parent.borderleft:SetWidth(noscalemult)
-	-- parent.borderleft:SetTexture(0, 0, 0, 1)	
-	-- parent.borderleft:SetDrawLayer("BORDER", -7)
-	
-	-- parent.borderright = parent:CreateTexture(nil, "BORDER")
-	-- parent.borderright:SetPoint("TOPRIGHT", point, "TOPRIGHT", noscalemult*2, noscalemult*2)
-	-- parent.borderright:SetPoint("BOTTOMRIGHT", point, "BOTTOMRIGHT", -noscalemult*2, -noscalemult*2)
-	-- parent.borderright:SetWidth(noscalemult)
-	-- parent.borderright:SetTexture(0, 0, 0, 1)	
-	-- parent.borderright:SetDrawLayer("BORDER", -7)	
+	parent.backdrop2:SetTexture(.05,.05,.05)
 end
 
 local function SetVirtualBorder(parent, r, g, b)
-	-- parent.bordertop:SetTexture(r, g, b)
-	-- parent.borderbottom:SetTexture(r, g, b)
-	-- parent.borderleft:SetTexture(r, g, b)
-	-- parent.borderright:SetTexture(r, g, b)
+
 end
 
 --Create our Aura Icons
@@ -211,9 +175,6 @@ local function CreateAuraIcon(parent)
 	button:SetHeight(20)
 	
 	button:CreateShadow()
-	-- button.bg = button:CreateTexture(nil, "BACKGROUND")
-	-- button.bg:SetTexture(unpack(C["media"].backdropcolor))
-	-- button.bg:SetAllPoints(button)
 	
 	button.bord = button:CreateTexture(nil, "BORDER")
 	button.bord:SetTexture(0, 0, 0, 1)

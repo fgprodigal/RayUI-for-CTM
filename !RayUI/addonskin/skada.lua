@@ -56,24 +56,16 @@ barmod.ApplySettings = function(self, win)
 	win.bargroup.button:SetBackdropColor(unpack(C["media"].bordercolor))
 
 	skada:SetBackdrop(nil)
-	if not skada.backdrop then
-		skada.backdrop = CreateFrame("Frame", nil, skada)
-		skada.backdrop:Point("TOPLEFT", -3, 3)
-		skada.backdrop:Point("BOTTOMRIGHT", 3, -3)
-		skada.backdrop:CreateShadow("Background")
-		if skada:GetFrameLevel() - 1 >= 0 then
-			skada.backdrop:SetFrameLevel(skada:GetFrameLevel() - 1)
-		else
-			skada.backdrop:SetFrameLevel(0)
-		end
+	if not skada.shadow then
+		skada:CreateShadow("Background")
 	end
-	skada.backdrop:ClearAllPoints()
+	skada.shadow:ClearAllPoints()
 	if win.db.enabletitle then
-		skada.backdrop:Point('TOPLEFT', win.bargroup.button, 'TOPLEFT', -2, 2)
+		skada.shadow:Point('TOPLEFT', win.bargroup.button, 'TOPLEFT', -5, 5)
 	else
-		skada.backdrop:Point('TOPLEFT', win.bargroup, 'TOPLEFT', -2, 2)
+		skada.shadow:Point('TOPLEFT', win.bargroup, 'TOPLEFT', -5, 5)
 	end
-	skada.backdrop:Point('BOTTOMRIGHT', win.bargroup, 'BOTTOMRIGHT', 2, -2)
+	skada.shadow:Point('BOTTOMRIGHT', win.bargroup, 'BOTTOMRIGHT', 5, -5)
 	
 	win.bargroup.button:SetFrameStrata("MEDIUM")
 	win.bargroup.button:SetFrameLevel(5)	
