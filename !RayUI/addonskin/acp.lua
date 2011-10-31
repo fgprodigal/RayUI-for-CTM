@@ -1,6 +1,6 @@
 local R, C, L, DB = unpack(select(2, ...))
 
-if not IsAddOnLoaded("ACP") then return end
+if not C["skins"].acp or not IsAddOnLoaded("ACP") then return end
 
 local function ReskinDropDown(f)
 	local frame = f:GetName()

@@ -1,5 +1,7 @@
 ﻿local R, C, L, DB = unpack(select(2, ...))
 
+if not C["skins"].skada or not IsAddOnLoaded("Skada") then return end
+
 local Skada = Skada
 local barSpacing = R.Scale(1)
 local bars = 8
@@ -78,6 +80,34 @@ barmod.ApplySettings = function(self, win)
 	win.bargroup:SetFrameStrata("MEDIUM")
 end
 
+hooksecurefunc(Skada, "UpdateDisplay", function(self)
+	for _,window in ipairs(self:GetWindows()) do
+		for i,v in pairs(window.bargroup:GetBars()) do
+			if not v.BarStyled then
+				v.label:ClearAllPoints()
+				v.label.ClearAllPoints = R.dummy
+				v.label:SetPoint("LEFT", v, "LEFT", 2, 0)
+				v.label.SetPoint = R.dummy
+				v.timerLabel:ClearAllPoints()
+				v.timerLabel.ClearAllPoints = R.dummy
+				v.timerLabel:SetPoint("RIGHT", v, "RIGHT", -2, 0)
+				v.timerLabel.SetPoint = R.dummy
+				v.label:SetFont(C["media"].font, C["media"].fontsize, "OUTLINE")
+				v.label.SetFont = R.dummy
+				v.timerLabel:SetFont(C["media"].font, C["media"].fontsize, "OUTLINE")
+				v.timerLabel.SetFont = R.dummy
+				v.label:SetShadowOffset(0, 0)
+				v.label.SetShadowOffset = R.dummy
+				v.timerLabel:SetShadowOffset(0, 0)
+				v.timerLabel.SetShadowOffset = R.dummy
+				v.BarStyled = true
+			end
+		end
+	end
+end)
+
+if not C["skins"].skadaposition then return end
+
 local function EmbedWindow(window, width, barheight, height, point, relativeFrame, relativePoint, ofsx, ofsy)
 	window.db.barwidth = width
 	window.db.barheight = barheight
@@ -107,7 +137,6 @@ end
 for _, window in ipairs(Skada:GetWindows()) do
 	window:UpdateDisplay()
 end
-
 
 Skada.CreateWindow_ = Skada.CreateWindow
 function Skada:CreateWindow(name, db)
@@ -140,30 +169,4 @@ Skada_Skin:SetScript("OnEvent", function(self)
 	self = nil
 	
 	EmbedSkada()
-end)
-
-hooksecurefunc(Skada, "UpdateDisplay", function(self)
-	for _,window in ipairs(self:GetWindows()) do
-		for i,v in pairs(window.bargroup:GetBars()) do
-			if not v.BarStyled then
-				v.label:ClearAllPoints()
-				v.label.ClearAllPoints = R.dummy
-				v.label:SetPoint("LEFT", v, "LEFT", 2, 0)
-				v.label.SetPoint = R.dummy
-				v.timerLabel:ClearAllPoints()
-				v.timerLabel.ClearAllPoints = R.dummy
-				v.timerLabel:SetPoint("RIGHT", v, "RIGHT", -2, 0)
-				v.timerLabel.SetPoint = R.dummy
-				v.label:SetFont(C["media"].font, C["media"].fontsize, "OUTLINE")
-				v.label.SetFont = R.dummy
-				v.timerLabel:SetFont(C["media"].font, C["media"].fontsize, "OUTLINE")
-				v.timerLabel.SetFont = R.dummy
-				v.label:SetShadowOffset(0, 0)
-				v.label.SetShadowOffset = R.dummy
-				v.timerLabel:SetShadowOffset(0, 0)
-				v.timerLabel.SetShadowOffset = R.dummy
-				v.BarStyled = true
-			end
-		end
-	end
 end)

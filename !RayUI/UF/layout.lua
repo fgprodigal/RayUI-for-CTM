@@ -218,7 +218,7 @@ local function Shared(self, unit)
             local ebar = CreateFrame("Frame", nil, self)
             ebar:Point("BOTTOM", self, "TOP", 0, 0)
             ebar:SetSize(200, 5)
-            ebar.bd = R.createBackdrop(ebar, ebar)
+            ebar.bd = R.CreateBackdrop(ebar, ebar)
 
 			local lbar = CreateFrame("StatusBar", nil, ebar)
 			lbar:SetStatusBarTexture(C["media"].normal)
@@ -650,7 +650,7 @@ local function LoadDPSLayout()
 	focustarget:Point("BOTTOMRIGHT", RayUF_focus, "BOTTOMLEFT", -10, 1)
 	focustarget:Size(SMALL_WIDTH, SMALL_HEIGHT)
 
-	if C["uf"].showArenaFrames then
+	if C["uf"].showArenaFrames and not IsAddOnLoaded("Gladius") then
 		local arena = {}
 		for i = 1, 5 do
 			arena[i] = oUF:Spawn("arena"..i, "RayUFArena"..i)

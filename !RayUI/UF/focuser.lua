@@ -6,7 +6,7 @@ function SetFocusHotkey(frame)
 end
 
 local function CreateFrame_Hook(type, name, parent, template)
-	if name and (name:lower():find("rayuf") or name:lower():find("freebgrid")) then
+	if name and name.lower and (name:lower():find("rayuf") or name:lower():find("freebgrid")) then
 		SetFocusHotkey(_G[name])
 	end
 end

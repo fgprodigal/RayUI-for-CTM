@@ -1,5 +1,7 @@
 local R, C, L, DB = unpack(select(2, ...))
 
+if not C["skins"].ace3 then return end
+
 local AceGUI = LibStub and LibStub("AceGUI-3.0", true)
 if not AceGUI then return end
 

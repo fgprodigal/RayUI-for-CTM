@@ -5,7 +5,7 @@ All rights reserved.
 ]]--
 local R, C, L, DB = unpack(select(2, ...))
 
-if not IsAddOnLoaded("BigWigs") then return end
+if not C["skins"].acp or not IsAddOnLoaded("BigWigs") then return end
 
 local buttonsize = 19
 

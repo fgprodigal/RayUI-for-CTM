@@ -1,6 +1,6 @@
 ﻿local R, C, L, DB = unpack(select(2, ...))
 
-if not IsAddOnLoaded("AtlasLoot") then return end
+if not C["skins"].atlasloot or not IsAddOnLoaded("AtlasLoot") then return end
 
 local function AL_OnShow(self, event, ...)
 

@@ -1,8 +1,8 @@
 ﻿## Interface: 40200
 ## Title: |cff7aa6d6Ray|r|cffff0000U|r|cff7aa6d6I|r
-## Version: 20111030
+## Version: 20111031
 ## Author: Tukz, Elv, Ray
-## OptionalDeps: Skada, ACP, DBM-Core, BigWigs, AtlasLoot
+## OptionalDeps: Skada, ACP, DBM-Core, BigWigs, AtlasLoot, Gladius
 ## RequiredDeps: !RayUI_Config, Blizzard_CombatText
 ## X-oUF: RayUF
 

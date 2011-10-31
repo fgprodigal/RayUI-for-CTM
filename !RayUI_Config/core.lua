@@ -20,6 +20,7 @@ function RayUIConfig:LoadDefaults()
 			actionbar = DB["actionbar"],
 			chat = DB["chat"],
 			misc = DB["misc"],
+			skins = DB["skins"],
 		},
 	}
 end	
@@ -666,6 +667,57 @@ function RayUIConfig.GenerateOptionsInternal()
 						order = 9,
 						name = L["buff提醒"],
 						desc = L["缺失重要buff时提醒"],
+						type = "toggle",
+					},
+				},
+			},
+			skins = {
+				order = 10,
+				type = "group",
+				name = L["插件美化"],
+				get = function(info) return db.skins[ info[#info] ] end,
+				set = function(info, value) db.skins[ info[#info] ] = value; StaticPopup_Show("CFG_RELOAD") end,
+				args = {
+					skada = {
+						order = 1,
+						name = L["Skada"],
+						type = "toggle",
+					},
+					skadaposition = {
+						order = 2,
+						name = L["固定Skada位置"],
+						type = "toggle",
+						disabled = function() return not db.skins.skada end,
+					},
+					dbm = {
+						order = 3,
+						name = L["DBM"],
+						type = "toggle",
+					},
+					dbmposition = {
+						order = 4,
+						name = L["固定DBM位置"],
+						type = "toggle",
+						disabled = function() return not db.skins.dbm end,
+					},
+					ace3 = {
+						order = 5,
+						name = L["ACE3控制台"],
+						type = "toggle",
+					},
+					acp = {
+						order = 6,
+						name = L["ACP"],
+						type = "toggle",
+					},
+					atlasloot = {
+						order = 7,
+						name = L["Atlasloot"],
+						type = "toggle",
+					},
+					bigwigs = {
+						order = 8,
+						name = L["BigWigs"],
 						type = "toggle",
 					},
 				},

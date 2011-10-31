@@ -111,6 +111,18 @@ DB["misc"]={
 	reminder = true,
 }
 
+DB["skins"]={
+	skada = true,
+		skadaposition = true,
+	dbm = true,
+		dbmposition = true,
+	ace3 = true,
+	acp = true,
+	atlasloot = true,
+	bigwigs = true,
+	gladius = true,
+}
+
 local SpecialList = {
 	["夏琉"] = true,
 }
