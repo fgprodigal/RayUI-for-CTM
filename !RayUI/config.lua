@@ -27,6 +27,7 @@ DB["uf"]={
 	showParty = true,
 	showBossFrames = true,
 	showArenaFrames = true,
+	separateEnergy = true,
 }
 
 DB["raid"]={

@@ -103,6 +103,33 @@ local function Shared(self, unit)
 		power:SetHeight(PLAYER_HEIGHT * 0.1)
 		self.Power = power
 		
+		if C["uf"].separateEnergy and R.myclass == "ROGUE" then
+			local oUF = RayUF or ns.oUF or oUF
+			local EnergyBar = CreateFrame("Statusbar", "RayUF_EnergyBar", self)
+			EnergyBar:SetStatusBarTexture(C["media"].normal)
+			EnergyBar:SetStatusBarColor(unpack(C["uf"].powerColorClass and oUF.colors.class[R.myclass] or oUF.colors.power['ENERGY']))
+			EnergyBar:SetPoint("BOTTOM", UIParent, "BOTTOM", 0, 325)
+			EnergyBar:SetSize(200,15)
+			EnergyBar:CreateShadow("Background", 1)
+			EnergyBar.shadow:SetBackdrop({
+				bgFile = C["media"].normal, 
+				edgeFile = C["media"].glow, 
+				edgeSize = R.Scale(4),
+				insets = { left = R.Scale(3), right = R.Scale(3), top = R.Scale(3), bottom = R.Scale(3) }
+			})
+			EnergyBar.shadow:SetBackdropColor(.12, .12, .12, 1)
+			EnergyBar.shadow:SetBackdropBorderColor(unpack(C["media"].bordercolor))
+			EnergyBar.text = EnergyBar:CreateFontString(nil, "OVERLAY")
+			EnergyBar.text:SetPoint("CENTER")
+			EnergyBar.text:SetFont(C["media"].font, C["media"].fontsize, C["media"].fontflag)
+			EnergyBar:SetScript("OnUpdate", function(self)
+				self:SetMinMaxValues(0, UnitPowerMax("player"))
+				self:SetValue(UnitPower("player"))
+				self.text:SetText(UnitPower("player"))
+			end)
+			R.CreateMover(EnergyBar, "EnergyBarMover", L["能量条锚点"], true)
+		end
+		
 		-- Alternative Power Bar
 		local altpp = CreateFrame("StatusBar", nil, self)
 		altpp:SetStatusBarTexture(C["media"].normal)
@@ -468,6 +495,12 @@ local function Shared(self, unit)
 			
 		self.CPoints = bars
 		self.CPoints.Override = R.ComboDisplay
+		
+		if C["uf"].separateEnergy and R.myclass == "ROGUE" then
+			bars:SetParent(RayUF_EnergyBar)
+			bars:ClearAllPoints()
+			bars:Point("BOTTOMLEFT", RayUF_EnergyBar, "TOP", - bars:GetWidth()*2.5 - 10,0)
+		end
 		
 		-- Heal Prediction
 		local mhpb = CreateFrame('StatusBar', nil, self)

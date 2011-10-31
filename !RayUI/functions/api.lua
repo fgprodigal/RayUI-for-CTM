@@ -90,7 +90,7 @@ local function Point(obj, arg1, arg2, arg3, arg4, arg5)
 	obj:SetPoint(arg1, arg2, arg3, arg4, arg5)
 end
 
-local function CreateShadow(f, t)
+local function CreateShadow(f, t, offset)
 	if f.shadow then return end
 	
 	local borderr, borderg, borderb, bordera = unpack(C["media"].bordercolor)
@@ -105,8 +105,13 @@ local function CreateShadow(f, t)
 	local shadow = CreateFrame("Frame", nil, f)
 	shadow:SetFrameLevel(1)
 	shadow:SetFrameStrata(f:GetFrameStrata())
-	shadow:Point("TOPLEFT", -3, 3)
-	shadow:Point("BOTTOMRIGHT", 3, -3)
+	if offset and type(offset) == "number" then
+		shadow:Point("TOPLEFT", -3 - offset, 3 + offset)
+		shadow:Point("BOTTOMRIGHT", 3 + offset, -3 - offset)
+	else
+		shadow:Point("TOPLEFT", -3, 3)
+		shadow:Point("BOTTOMRIGHT", 3, -3)
+	end
 	shadow:SetBackdrop({
 	bgFile = C["media"].blank, 
 	edgeFile = C["media"].glow, 
