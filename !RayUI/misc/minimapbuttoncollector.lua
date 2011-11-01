@@ -1,3 +1,5 @@
+local R, C, L, DB = unpack(select(2, ...))
+
 local BlackList = { 
 	["MiniMapTracking"] = true,
 	["MiniMapVoiceChatFrame"] = true,
@@ -35,6 +37,8 @@ local function PositionAndStyle()
 		for i =1, #buttons do
 			buttons[i]:ClearAllPoints()
 			buttons[i]:SetPoint("TOP", MinimapButtonCollectFrame, "TOP", 0,  - (i - 1) * 30)
+			buttons[i].ClearAllPoints = R.dummy
+			buttons[i].SetPoint = R.dummy
 		end
 	else
 		MBCF:SetSize(150, 20)
@@ -43,6 +47,8 @@ local function PositionAndStyle()
 		for i =1, #buttons do
 			buttons[i]:ClearAllPoints()
 			buttons[i]:SetPoint("RIGHT", MinimapButtonCollectFrame, "RIGHT", - (i - 1) * 30 , 0)
+			buttons[i].ClearAllPoints = R.dummy
+			buttons[i].SetPoint = R.dummy
 		end
 	end
 end

@@ -12,6 +12,7 @@
 	<Script file="minimapbuttoncollector.lua"/>
 	<Script file="mirror.lua"/>
 	<Script file="quests.lua"/>
+	<Script file="raidBuffReminder.lua"/>
 	<Script file="raidmarker.lua"/>
 	<Script file="raidUtility.lua"/>
 	<Script file="reminder.lua"/>

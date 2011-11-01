@@ -1,9 +1,9 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
-	<Script file="Smooth.lua"/>
+	<Script file="BarFader.lua"/>
 	<Script file="Experience.lua"/>
 	<Script file="Reputation.lua"/>
-	<Script file="BarFader.lua"/>
-	<Script file="SpellRange.lua"/>
-	
+	<Script file="Smooth.lua"/>
+	<Script file="SpellRange.lua"/>	
 	<Script file="TotemBar.lua"/>
+	<Script file="Vengeance.lua"/>
 </Ui>

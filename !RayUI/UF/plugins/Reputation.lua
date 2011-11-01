@@ -15,20 +15,25 @@ local function update(self, event, unit)
 	local bar = self.Reputation
 	if(not GetWatchedFactionInfo()) then return bar:Hide() end
 
-	local name, id, min, max, value = GetWatchedFactionInfo()
+	local name, standing, min, max, value = GetWatchedFactionInfo()
 	bar:SetMinMaxValues(min, max)
 	bar:SetValue(value)
 	bar:Show()
 
 	if(bar.Text) then
 		if(bar.OverrideText) then
-			bar:OverrideText(min, max, value, name, id)
+			bar:OverrideText(min, max, value, name, standing)
 		else
 			bar.Text:SetFormattedText('%d / %d - %s', value - min, max - min, name)
 		end
 	end
+	
+	if(bar.colorStanding) then
+		local color = FACTION_BAR_COLORS[standing]
+		bar:SetStatusBarColor(color.r, color.g, color.b)
+	end
 
-	if(bar.PostUpdate) then bar.PostUpdate(self, event, unit, bar, min, max, value, name, id) end
+	if(bar.PostUpdate) then bar.PostUpdate(self, event, unit, bar, min, max, value, name, standing) end
 end
 
 local function enable(self, unit)

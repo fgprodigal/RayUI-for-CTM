@@ -195,6 +195,12 @@ function RayUIConfig.GenerateOptionsInternal()
 								type = "toggle",
 								disabled = function() return R.myclass ~= "ROGUE" end,
 							},
+							vengeance = {
+								order = 2,
+								name = L["坦克复仇条"],
+								type = "toggle",
+								disabled = function() return R.Role ~= "Tank" end,
+							},
 						},
 					},
 				},
@@ -682,62 +688,137 @@ function RayUIConfig.GenerateOptionsInternal()
 				get = function(info) return db.misc[ info[#info] ] end,
 				set = function(info, value) db.misc[ info[#info] ] = value; StaticPopup_Show("CFG_RELOAD") end,
 				args = {
-					anounce = {
+					anouncegroup = {
 						order = 1,
+						type = "group",
 						name = L["通报"],
-						desc = L["打断通报，打断、驱散、进出战斗文字提示"],
-						type = "toggle",
+						guiInline = true,
+						args = {
+							anounce = {
+								order = 1,
+								name = L["启用"],
+								desc = L["打断通报，打断、驱散、进出战斗文字提示"],
+								type = "toggle",
+							},
+						},
 					},
-					auction = {
+					auctiongroup = {
 						order = 2,
+						type = "group",
 						name = L["拍卖行"],
-						desc = L["Shift + 右键直接一口价，价格上限请在misc/auction.lua里设置"],
-						type = "toggle",
+						guiInline = true,
+						args = {
+							auction = {
+								order = 1,
+								name = L["启用"],
+								desc = L["Shift + 右键直接一口价，价格上限请在misc/auction.lua里设置"],
+								type = "toggle",
+							},
+						},
 					},
-					autodez = {
+					autodezgroup = {
 						order = 3,
+						type = "group",
 						name = L["自动贪婪"],
-						desc = L["满级之后自动贪婪/分解绿装"],
-						type = "toggle",
+						guiInline = true,
+						args = {
+							autodez = {
+								order = 1,
+								name = L["启用"],
+								desc = L["满级之后自动贪婪/分解绿装"],
+								type = "toggle",
+							},
+						},
 					},
-					autorelease = {
+					autoreleasegroup = {
 						order = 4,
+						type = "group",
 						name = L["自动释放尸体"],
-						desc = L["战场中自动释放尸体"],
-						type = "toggle",
+						guiInline = true,
+						args = {
+							autorelease = {
+								order = 1,
+								name = L["启用"],
+								desc = L["战场中自动释放尸体"],
+								type = "toggle",
+							},
+						},
 					},
-					merchant = {
+					merchantgroup = {
 						order = 5,
+						type = "group",
 						name = L["商人"],
-						desc = L["自动修理、自动卖灰色物品"],
-						type = "toggle",
+						guiInline = true,
+						args = {
+							merchant = {
+								order = 1,
+								name = L["启用"],
+								desc = L["自动修理、自动卖灰色物品"],
+								type = "toggle",
+							},
+							poisons = {
+								order = 2,
+								name = L["补购毒药"],
+								desc = L["自动补购毒药，数量在misc/merchant.lua里修改"],
+								disabled = function() return not (R.myclass == "ROGUE" and db.misc.merchant) end,
+								type = "toggle",
+							},
+						},
 					},
-					poisons = {
+					questgroup = {
 						order = 6,
-						name = L["补购毒药"],
-						desc = L["自动补购毒药，数量在misc/merchant.lua里修改"],
-						disabled = function() return not (R.myclass == "ROGUE" and db.misc.merchant) end,
-						type = "toggle",
-					},
-					quest = {
-						order = 7,
+						type = "group",
 						name = L["任务"],
-						desc = L["任务等级，进/出副本自动收起/展开任务追踪，任务面板的展开/收起全部分类按钮"],
-						type = "toggle",
+						guiInline = true,
+						args = {
+							quest = {
+								order = 1,
+								name = L["启用"],
+								desc = L["任务等级，进/出副本自动收起/展开任务追踪，任务面板的展开/收起全部分类按钮"],
+								type = "toggle",
+							},
+							automation = {
+								order = 2,
+								name = L["自动交接任务"],
+								desc = L["自动交接任务，按shift点npc则不自动交接"],
+								disabled = function() return not db.misc.quest end,
+								type = "toggle",
+							},
+						},
 					},
-					automation = {
-						order = 8,
-						name = L["自动交接任务"],
-						desc = L["自动交接任务，按shift点npc则不自动交接"],
-						disabled = function() return not db.misc.quest end,
-						type = "toggle",
-					},
-					reminder = {
-						order = 9,
+					remindergroup = {
+						order = 7,
+						type = "group",
 						name = L["buff提醒"],
-						desc = L["缺失重要buff时提醒"],
-						type = "toggle",
+						guiInline = true,
+						args = {
+							reminder = {
+								order = 1,
+								name = L["启用"],
+								desc = L["缺失重要buff时提醒"],
+								type = "toggle",
+							},
+						},
 					},
+					raidbuffremindergroup = {
+						order = 8,
+						type = "group",
+						name = L["团队buff提醒"],
+						guiInline = true,
+						args = {
+							raidbuffreminder = {
+								order = 1,
+								name = L["启用"],
+								type = "toggle",
+							},
+							raidbuffreminderparty = {
+								order = 2,
+								name = L["单人隐藏团队buff提醒"],
+								type = "toggle",
+								disabled = function() return not db.misc.raidbuffreminder end,
+							},
+						},
+					},					
 				},
 			},
 			skins = {
@@ -747,47 +828,95 @@ function RayUIConfig.GenerateOptionsInternal()
 				get = function(info) return db.skins[ info[#info] ] end,
 				set = function(info, value) db.skins[ info[#info] ] = value; StaticPopup_Show("CFG_RELOAD") end,
 				args = {
-					skada = {
+					skadagroup = {
 						order = 1,
+						type = "group",
 						name = L["Skada"],
-						type = "toggle",
+						guiInline = true,
+						args = {
+							skada = {
+								order = 1,
+								name = L["启用"],
+								type = "toggle",
+							},
+							skadaposition = {
+								order = 2,
+								name = L["固定Skada位置"],
+								type = "toggle",
+								disabled = function() return not db.skins.skada end,
+							},
+						},
 					},
-					skadaposition = {
+					dbmgroup = {
 						order = 2,
-						name = L["固定Skada位置"],
-						type = "toggle",
-						disabled = function() return not db.skins.skada end,
-					},
-					dbm = {
-						order = 3,
+						type = "group",
 						name = L["DBM"],
-						type = "toggle",
+						guiInline = true,
+						args = {
+							dbm = {
+								order = 1,
+								name = L["启用"],
+								type = "toggle",
+							},
+							dbmposition = {
+								order = 2,
+								name = L["固定DBM位置"],
+								type = "toggle",
+								disabled = function() return not db.skins.dbm end,
+							},
+						},
 					},
-					dbmposition = {
-						order = 4,
-						name = L["固定DBM位置"],
-						type = "toggle",
-						disabled = function() return not db.skins.dbm end,
-					},
-					ace3 = {
-						order = 5,
+					ace3group = {
+						order = 3,
+						type = "group",
 						name = L["ACE3控制台"],
-						type = "toggle",
+						guiInline = true,
+						args = {
+							ace3 = {
+								order = 1,
+								name = L["启用"],
+								type = "toggle",
+							},
+						},
 					},
-					acp = {
-						order = 6,
+					acpgroup = {
+						order = 4,
+						type = "group",
 						name = L["ACP"],
-						type = "toggle",
+						guiInline = true,
+						args = {
+							acp = {
+								order = 1,
+								name = L["启用"],
+								type = "toggle",
+							},
+						},
 					},
-					atlasloot = {
-						order = 7,
+					atlaslootgroup = {
+						order = 5,
+						type = "group",
 						name = L["Atlasloot"],
-						type = "toggle",
+						guiInline = true,
+						args = {
+							atlasloot = {
+								order = 1,
+								name = L["启用"],
+								type = "toggle",
+							},
+						},
 					},
-					bigwigs = {
-						order = 8,
+					bigwigsgroup = {
+						order = 6,
+						type = "group",
 						name = L["BigWigs"],
-						type = "toggle",
+						guiInline = true,
+						args = {
+							bigwigs = {
+								order = 1,
+								name = L["启用"],
+								type = "toggle",
+							},
+						},
 					},
 				},
 			},

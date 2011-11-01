@@ -29,6 +29,7 @@ DB["uf"]={
 	showBossFrames = true,
 	showArenaFrames = true,
 	separateEnergy = false,
+	vengeance = true,
 }
 
 DB["raid"]={
@@ -111,6 +112,8 @@ DB["misc"]={
 	quest = true,
 		automation = true,
 	reminder = true,
+	raidbuffreminder = true,
+		raidbuffreminderparty = false,
 }
 
 DB["skins"]={

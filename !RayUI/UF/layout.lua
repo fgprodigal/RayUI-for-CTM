@@ -100,6 +100,7 @@ local function Shared(self, unit)
 			self:Tag(name, '[RayUF:color][RayUF:name] [RayUF:info]')
 		end
 		
+		-- Separated Energy Bar
 		if C["uf"].separateEnergy and R.myclass == "ROGUE" then
 			local EnergyBarHolder = CreateFrame("Frame", nil, self)
 			EnergyBarHolder:SetPoint("BOTTOM", UIParent, "BOTTOM", 0, 311)
@@ -129,6 +130,25 @@ local function Shared(self, unit)
 			power:SetWidth(PLAYER_WIDTH)
 			power:SetHeight(PLAYER_HEIGHT * 0.1)
 			self.Power = power
+		end
+		
+		-- Vengeance Bar
+		if C["uf"].vengeance then
+			local VengeanceBarHolder = CreateFrame("Frame", nil, self)
+			VengeanceBarHolder:SetPoint("BOTTOM", UIParent, "BOTTOM", 0, 317)
+			VengeanceBarHolder:SetSize(ENERGY_WIDTH, ENERGY_HEIGHT)
+			local VengeanceBar = CreateFrame("Statusbar", "RayUF_VengeanceBar", VengeanceBarHolder)
+			VengeanceBar:SetStatusBarTexture(C["media"].normal)
+			VengeanceBar:SetStatusBarColor(unpack(C["uf"].powerColorClass and oUF.colors.class[R.myclass] or oUF.colors.power['RAGE']))
+			VengeanceBar:SetPoint("CENTER")
+			VengeanceBar:SetSize(ENERGY_WIDTH, ENERGY_HEIGHT)
+			VengeanceBar:CreateShadow("Background", 1, 3, true)
+			VengeanceBar.shadow:SetBackdropColor(.12, .12, .12, 1)
+			VengeanceBar.Text = VengeanceBar:CreateFontString(nil, "OVERLAY")
+			VengeanceBar.Text:SetPoint("CENTER")
+			VengeanceBar.Text:SetFont(C["media"].font, C["media"].fontsize + 2, C["media"].fontflag)
+			R.CreateMover(VengeanceBarHolder, "VengeanceBarMover", L["复仇条锚点"], true)
+			self.Vengeance = VengeanceBar
 		end
 		
 		-- Alternative Power Bar
@@ -343,6 +363,7 @@ local function Shared(self, unit)
 															bar:SetStatusBarColor(FACTION_BAR_COLORS[id].r, FACTION_BAR_COLORS[id].g, FACTION_BAR_COLORS[id].b)
 														end
 		reputation.Tooltip = true
+		reputation.colorStanding = true
 		
 		self:SetScript("OnEnter", UnitFrame_OnEnter)
 		self:SetScript("OnLeave", UnitFrame_OnLeave)
