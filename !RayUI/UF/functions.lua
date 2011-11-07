@@ -87,7 +87,7 @@ function R.ContructHealthBar(self, bg, text)
 		health.value = health:CreateFontString(nil, "OVERLAY")
 		health.value:SetFont(C["media"].font, C["media"].fontsize, C["media"].fontflag)
 		health.value:SetJustifyH("LEFT")
-		health.value:SetParent(self)
+		health.value:SetParent(health)
 	end
 	
 	if C["uf"].healthColorClass ~= true then
@@ -124,7 +124,7 @@ function R.ConstructPowerBar(self, bg, text)
 		power.value = power:CreateFontString(nil, "OVERLAY")
 		power.value:SetFont(C["media"].font, C["media"].fontsize, C["media"].fontflag)
 		power.value:SetJustifyH("LEFT")
-		power.value:SetParent(self)
+		power.value:SetParent(power)
 	end
 	
 	if C["uf"].powerColorClass == true then
@@ -301,6 +301,7 @@ function R.PostUpdateHealth(self, unit, cur, max)
 	if not C["uf"].healthColorClass then
 		if C["uf"].smoothColor then
 			if UnitIsDeadOrGhost(unit) or (not UnitIsConnected(unit)) then
+				self:SetStatusBarColor(0.5, 0.5, 0.5, 1)
 				self.bg:SetVertexColor(0.5, 0.5, 0.5, 1)
 			else
 				self.bg:SetVertexColor(0.12, 0.12, 0.12, 1)

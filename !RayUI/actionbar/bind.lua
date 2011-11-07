@@ -1,6 +1,6 @@
 local R, C, L, DB = unpack(select(2, ...))
 
-local bind = CreateFrame("Frame", "ElvuiHoverBind", UIParent)
+local bind = CreateFrame("Frame", "HoverBind", UIParent)
 -- SLASH COMMAND
 SlashCmdList.MOUSEOVERBIND = function()
 	if InCombatLockdown() then print(L["您不能在战斗中设定快捷键"]) return end

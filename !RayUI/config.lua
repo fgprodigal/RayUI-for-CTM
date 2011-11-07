@@ -20,6 +20,14 @@ DB["general"]={
 	logo = true,
 }
 
+DB["modules"]={
+	worldmap = true,
+	worldmaplock = false,
+	worldmapscale = 0.8,
+	ejbuttonscale = 0.6,
+	partymemberscale = 25,
+}
+
 DB["uf"]={
 	powerColorClass = true,
 	healthColorClass = false,

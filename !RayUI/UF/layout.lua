@@ -155,6 +155,7 @@ local function Shared(self, unit)
 		local altpp = CreateFrame("StatusBar", nil, self)
 		altpp:SetStatusBarTexture(C["media"].normal)
 		altpp:GetStatusBarTexture():SetHorizTile(false)
+		altpp:SetFrameStrata("LOW")
 		altpp:SetHeight(4)
 		altpp:Point('TOPLEFT', self, 'BOTTOMLEFT', 0, -2)
 		altpp:Point('TOPRIGHT', self, 'BOTTOMRIGHT', 0, -2)
@@ -566,9 +567,6 @@ local function Shared(self, unit)
 		else
 			self:Tag(name, '[RayUF:color][RayUF:name] [RayUF:info]')
 		end
-		if unit == "focus" then
-			R.ClearFocusText(self)
-		end
 		local power = R.ConstructPowerBar(self, true, true)
 		power:SetPoint("LEFT")
 		power:SetPoint("RIGHT")
@@ -577,6 +575,25 @@ local function Shared(self, unit)
 		power:SetWidth(PLAYER_WIDTH)
 		power:SetHeight(PLAYER_HEIGHT * 0.1)
 		self.Power = power
+	end
+	
+	if unit == "focus" then
+		-- CastBar
+		local castbar = R.ConstructCastBar(self)
+		castbar:ClearAllPoints()
+		castbar:Point("CENTER", UIParent, "CENTER", 0, 100)
+		castbar:Width(250)
+		castbar:Height(5)
+		castbar.Text:ClearAllPoints()
+		castbar.Text:SetPoint("BOTTOMLEFT", castbar, "TOPLEFT", 5, -2)
+		castbar.Time:ClearAllPoints()
+		castbar.Time:SetPoint("BOTTOMRIGHT", castbar, "TOPRIGHT", -5, -2)
+		castbar.Iconbg:SetSize(25, 25)
+		castbar.Iconbg:ClearAllPoints()
+		castbar.Iconbg:SetPoint("BOTTOM", castbar, "TOP", 0, 5)
+		self.Castbar = castbar
+		
+		R.ClearFocusText(self)
 	end
 	
 	if unit == "targettarget" or unit == "pet" or unit == "pettarget" or unit == "focustarget" then
@@ -733,7 +750,7 @@ local function LoadDPSLayout()
 		end
 	end
 	
-	if C["uf"].showParty then
+	if C["uf"].showParty and not C["raid"].showgridwhenparty then
 		local party = oUF:SpawnHeader('RayUFParty', nil, 
 		"custom [@raid6,exists] hide;show",
 		-- "custom [group:party,nogroup:raid][@raid,noexists,group:raid] show;hide",

@@ -102,12 +102,6 @@ bankholder:Hide()
 R.CreateBD(bankholder, .6)
 R.CreateSD(bankholder)
 
-local purchase = bankholder:CreateFontString(nil, "OVERLAY")
-purchase:SetFont(C.media.font, C.media.fontsize, C.media.fontflag)
-purchase:SetShadowColor(0, 0, 0, 0)
-purchase:SetPoint("BOTTOMLEFT", bankholder, "BOTTOMLEFT", 4, 4)
-purchase:SetText(L["输入/purchase购买栏位."])
-
 local ReanchorBankButtons = function()
 	table.wipe(bankbuttons)
 	for i = 1, 28 do
@@ -169,8 +163,6 @@ local ReanchorBankButtons = function()
 			tinsert(bankbuttons, bu)
 		end
 	end
-	local _, full = GetNumBankSlots()
-	if full then purchase:Hide() end
 	MoveButtons(bankbuttons, bankholder, CheckSlots() + 8)
 	bankholder:Show()
 end
@@ -544,7 +536,12 @@ for i = 0, 3 do
 	_G["CharacterBag"..i.."Slot"]:SetScript("OnClick", nil)
 end
 for i = 1, 7 do
-	_G["BankFrameBag"..i]:SetScript("OnClick", nil)
+	_G["BankFrameBag"..i]:SetScript("OnClick", function()
+		local slot, full = GetNumBankSlots()
+		if (slot + 1) <= i then
+			StaticPopup_Show("CONFIRM_BUY_BANK_SLOT")
+		end
+	end)
 end
 MainMenuBarBackpackButton:HookScript("OnEnter", function(self)
 	for _, b in ipairs(buttons) do
@@ -568,17 +565,3 @@ MainMenuBarBackpackButton:HookScript("OnLeave", function(self)
 end)
 TradeFrame:HookScript("OnShow", function() OpenBags() end)
 TradeFrame:HookScript("OnHide", function() CloseBags() end)
-
-SlashCmdList.PURCHASE = function(cmd)
-	if BankFrame and BankFrame:IsShown() then
-		local _, full = GetNumBankSlots()
-		if full then
-			print(L["不能再购买栏位了."])
-			return
-		end
-		StaticPopup_Show("CONFIRM_BUY_BANK_SLOT")
-	else
-		print(L["请先访问银行."])
-	end
-end
-SLASH_PURCHASE1 = "/purchase"

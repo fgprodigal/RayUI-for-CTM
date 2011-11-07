@@ -270,9 +270,9 @@ infoshow:SetScript("OnEvent", function(self)
 		if C["general"].logo then
 			R.Delay(5,function() UIFrameFadeIn(RayUILogo, 1, 0, 1) end)
 			R.Delay(8,function() UIFrameFadeOut(RayUILogo, 1, 1, 0) end)
-			R.Delay(10,function() RayUILogo:Hide() wipe(RayUILogo) collectgarbage("collect") end)
+			R.Delay(10,function() RayUILogo:Hide() RayUILogo=nil collectgarbage("collect") end)
 		else
-			R.Delay(5,function() wipe(RayUILogo) collectgarbage("collect") end)
+			R.Delay(5,function() collectgarbage("collect") end)
 		end
 end)
 
@@ -401,38 +401,40 @@ BNToastFrame:HookScript("OnShow", function(self)
 	self:SetPoint("BOTTOMLEFT", ChatFrame1Tab, "TOPLEFT", 0, 0)
 end)
 
-local logo = CreateFrame("Frame", "RayUILogo", UIParent)
-logo:SetScale(.9)
-logo:Hide()
-logo:SetSize(512,302)
-logo:SetPoint("CENTER", 0, 0)
-logo.shadow = CreateFrame("Frame", nil, logo)
-logo.shadow:SetPoint("TOPLEFT", -9, 6)
-logo.shadow:SetPoint("BOTTOMRIGHT", 9, -7)
-logo.shadow:SetBackdrop({
-	bgFile = C.media.blank, 
-	edgeFile = C.media.glow, 
-	edgeSize = 12,
-	insets = { left = 10, right = 10, top = 10, bottom = 10 }
-	})
-logo.shadow:SetFrameStrata("BACKGROUND")
-logo.shadow:SetFrameLevel(1)
-logo.shadow:SetBackdropColor( 0, 0, 0 )
-logo.shadow:SetBackdropBorderColor( 0, 0, 0 )
-logo.logo = logo:CreateTexture(nil,"OVERLAY")
-logo.logo:SetPoint("CENTER", 0, 0)
-logo.logo:SetTexture("Interface\\AddOns\\!RayUI\\media\\logo")
+if C["general"].logo then
+	local logo = CreateFrame("Frame", "RayUILogo", UIParent)
+	logo:SetScale(.9)
+	logo:Hide()
+	logo:SetSize(512,302)
+	logo:SetPoint("CENTER", 0, 0)
+	logo.shadow = CreateFrame("Frame", nil, logo)
+	logo.shadow:SetPoint("TOPLEFT", -9, 6)
+	logo.shadow:SetPoint("BOTTOMRIGHT", 9, -7)
+	logo.shadow:SetBackdrop({
+		bgFile = C.media.blank, 
+		edgeFile = C.media.glow, 
+		edgeSize = 12,
+		insets = { left = 10, right = 10, top = 10, bottom = 10 }
+		})
+	logo.shadow:SetFrameStrata("BACKGROUND")
+	logo.shadow:SetFrameLevel(1)
+	logo.shadow:SetBackdropColor( 0, 0, 0 )
+	logo.shadow:SetBackdropBorderColor( 0, 0, 0 )
+	logo.logo = logo:CreateTexture(nil,"OVERLAY")
+	logo.logo:SetPoint("CENTER", 0, 0)
+	logo.logo:SetTexture("Interface\\AddOns\\!RayUI\\media\\logo")
 
-logo.text = logo:CreateFontString(nil, "OVERLAY")
-logo.text:SetFont(C.media.font, 20, "NONE")
-logo.text:SetTextColor(.2, .2, .2)
-logo.text:SetPoint("BOTTOM", 0, 20)
-logo.text:SetJustifyH("CENTER")
-logo.text:SetText("欢迎使用RayUI")
+	logo.text = logo:CreateFontString(nil, "OVERLAY")
+	logo.text:SetFont(C.media.font, 20, "NONE")
+	logo.text:SetTextColor(.2, .2, .2)
+	logo.text:SetPoint("BOTTOM", 0, 20)
+	logo.text:SetJustifyH("CENTER")
+	logo.text:SetText("欢迎使用RayUI")
 
-logo.version = logo:CreateFontString(nil, "OVERLAY")
-logo.version:SetFont(C.media.font, 14, "NONE")
-logo.version:SetTextColor(.35, .35, .35)
-logo.version:SetPoint("BOTTOMRIGHT", -25, 15)
-logo.version:SetJustifyH("RIGHT")
-logo.version:SetText("v "..R.version)
+	logo.version = logo:CreateFontString(nil, "OVERLAY")
+	logo.version:SetFont(C.media.font, 14, "NONE")
+	logo.version:SetTextColor(.35, .35, .35)
+	logo.version:SetPoint("BOTTOMRIGHT", -25, 15)
+	logo.version:SetJustifyH("RIGHT")
+	logo.version:SetText("v "..R.version)
+end

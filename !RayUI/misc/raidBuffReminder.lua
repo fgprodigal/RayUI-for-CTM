@@ -83,14 +83,14 @@ local function SetCasterOnlyBuffs()
 		21562, -- Fortitude
 	}
 	Spell5Buff = { --Total Mana
+		54424, --"Fel Intelligence"
 		61316, --"Dalaran Brilliance"
 		79058, --"Arcane Brilliance"
-		54424, --"Fel Intelligence"
 	}
 	Spell6Buff = { --Mana Regen
+		54424, --"Fel Intelligence"
 		5675, --"Mana Spring Totem"
 		19740, --"Blessing of Might"
-		54424, --"Fel Intelligence"
 	}
 end
 
@@ -109,9 +109,10 @@ local function SetBuffs()
 		21562, -- Fortitude
 	}
 	Spell5Buff = { --Total Mana
-		61316, --"Dalaran Brilliance"
-		79058, --"Arcane Brilliance"
-		54424, --"Fel Intelligence"
+		8075, --"Strength of Earth Totem"
+		93435, --"Roar of Courage"
+		57330, --"Horn of Winter"
+		6673, --"Battle Shout"
 	}
 	Spell6Buff = { --Total AP
 		19740, --"Blessing of Might" placing it twice because i like the icon better :D code will stop after this one is read, we want this first 
@@ -176,13 +177,14 @@ local function OnAuraChange(self, event, arg1, unit)
 	FoodFrame.locale = L["食物Buff"]
 	Spell3Frame.locale = L["全属性Buff"]
 	Spell4Frame.locale = L["血量上限Buff"]
-	Spell5Frame.locale = L["法力上限Buff"]
 	--If We're a caster we may want to see differant buffs
 	if R.Role == "Caster" then 
 		SetCasterOnlyBuffs()
+		Spell5Frame.locale = L["法力上限Buff"]
 		Spell6Frame.locale = L["法力恢复Buff"]
 	else
 		SetBuffs()
+		Spell5Frame.locale = L["力量与敏捷Buff"]
 		Spell6Frame.locale = L["攻击强度Buff"]
 	end
 	
@@ -238,22 +240,17 @@ local function OnAuraChange(self, event, arg1, unit)
 			Spell4Frame.t:SetTexture(select(3, GetSpellInfo(Spell4Buff)))
 		end
 	end
-	
-	if R.Role == "Caster" then 
-		for i, Spell5Buff in pairs(Spell5Buff) do
-			local spellname = select(1, GetSpellInfo(Spell5Buff))
-			if UnitAura("player", spellname) then
-				Spell5Frame:SetAlpha(0.2)
-				Spell5Frame.t:SetTexture(select(3, GetSpellInfo(Spell5Buff)))
-				break
-			else
-				Spell5Frame:SetAlpha(1)
-				Spell5Frame.t:SetTexture(select(3, GetSpellInfo(Spell5Buff)))
-			end
-		end	
-	else
-		Spell5Frame:SetAlpha(0.2)
-		Spell5Frame.t:SetTexture(select(3, GetSpellInfo(79058)))
+
+	for i, Spell5Buff in pairs(Spell5Buff) do
+		local spellname = select(1, GetSpellInfo(Spell5Buff))
+		if UnitAura("player", spellname) then
+			Spell5Frame:SetAlpha(0.2)
+			Spell5Frame.t:SetTexture(select(3, GetSpellInfo(Spell5Buff)))
+			break
+		else
+			Spell5Frame:SetAlpha(1)
+			Spell5Frame.t:SetTexture(select(3, GetSpellInfo(Spell5Buff)))
+		end
 	end
 
 	for i, Spell6Buff in pairs(Spell6Buff) do
@@ -269,7 +266,7 @@ local function OnAuraChange(self, event, arg1, unit)
 	end	
 end
 
-local bsize = ((Minimap:GetWidth() - 6) / 6)
+local bsize = ((Minimap:GetWidth() - 5) / 6)
 
 --Create the Main bar
 local raidbuff_reminder = CreateFrame("Frame", "RaidBuffReminder", Minimap)
@@ -295,9 +292,9 @@ local function CreateButton(name, relativeTo, firstbutton)
 	button:SetSize(bsize, bsize)
 	button:CreateShadow("Background", -2, 2)
 	if firstbutton == true then
-		button:Point("TOPLEFT", relativeTo, "BOTTOMLEFT", -2, -3)
+		button:SetPoint("TOPLEFT", relativeTo, "BOTTOMLEFT", -2, -3)
 	else
-		button:Point("LEFT", relativeTo, "RIGHT", 2, 0)
+		button:SetPoint("LEFT", relativeTo, "RIGHT", 2, 0)
 	end
 	button:SetFrameLevel(RaidBuffReminder:GetFrameLevel() + 2)
 	

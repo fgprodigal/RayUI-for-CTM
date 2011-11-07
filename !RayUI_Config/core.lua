@@ -15,6 +15,7 @@ function RayUIConfig:LoadDefaults()
 		profile = {
 			general = DB["general"],
 			media = DB["media"],
+			modules = DB["modules"],
 			uf = DB["uf"],
 			raid = DB["raid"],
 			actionbar = DB["actionbar"],
@@ -125,8 +126,59 @@ function RayUIConfig.GenerateOptionsInternal()
 					},
 				},
 			},
-			uf = {
+			modules = {
 				order = 5,
+				type = "group",
+				name = L["功能"],
+				get = function(info) return db.modules[ info[#info] ] end,
+				set = function(info, value) db.modules[ info[#info] ] = value; StaticPopup_Show("CFG_RELOAD") end,
+				args = {
+					worldmapGroup = {
+						order = 1,
+						type = "group",
+						name = L["世界地图"],
+						guiInline = true,
+						args = {
+							worldmap = {
+								order = 1,
+								name = L["启用"],
+								type = "toggle",
+							},
+							worldmaplock = {
+								order = 2,
+								name = L["地图锁定"],
+								type = "toggle",
+								disabled = function() return not db.modules.worldmap end,
+							},
+							worldmapscale = {
+								order = 3,
+								name = L["地图大小"],
+								type = "range",
+								min = 0.6, max = 1, step = 0.01,
+								isPercent = true,
+								disabled = function() return not db.modules.worldmap end,
+							},
+							ejbuttonscale = {
+								order = 4,
+								name = L["Boss头像大小"],
+								type = "range",
+								min = 0.6, max = 1, step = 0.01,
+								isPercent = true,
+								disabled = function() return not db.modules.worldmap end,
+							},
+							partymemberscale = {
+								order = 5,
+								name = L["队友标示大小"],
+								type = "range",
+								min = 20, max = 30, step = 1,
+								disabled = function() return not db.modules.worldmap end,
+							},
+						},
+					},
+				},
+			},
+			uf = {
+				order = 6,
 				type = "group",
 				name = L["头像"],
 				get = function(info) return db.uf[ info[#info] ] end,
@@ -206,7 +258,7 @@ function RayUIConfig.GenerateOptionsInternal()
 				},
 			},
 			raid = {
-				order = 6,
+				order = 7,
 				type = "group",
 				name = L["团队"],
 				get = function(info) return db.raid[ info[#info] ] end,
@@ -470,7 +522,7 @@ function RayUIConfig.GenerateOptionsInternal()
 				},
 			},
 			actionbar = {
-				order = 7,
+				order = 8,
 				type = "group",
 				name = L["动作条"],
 				get = function(info) return db.actionbar[ info[#info] ] end,
@@ -653,7 +705,7 @@ function RayUIConfig.GenerateOptionsInternal()
 				},
 			},
 			chat = {
-				order = 8,
+				order = 9,
 				type = "group",
 				name = L["聊天"],
 				get = function(info) return db.chat[ info[#info] ] end,
@@ -682,7 +734,7 @@ function RayUIConfig.GenerateOptionsInternal()
 				},
 			},
 			misc = {
-				order = 9,
+				order = 10,
 				type = "group",
 				name = L["小玩意儿"],
 				get = function(info) return db.misc[ info[#info] ] end,
@@ -822,7 +874,7 @@ function RayUIConfig.GenerateOptionsInternal()
 				},
 			},
 			skins = {
-				order = 10,
+				order = 11,
 				type = "group",
 				name = L["插件美化"],
 				get = function(info) return db.skins[ info[#info] ] end,

@@ -572,7 +572,7 @@ for i=1,numf do
 	elseif(i==3)then
 		f:SetJustifyH(ct.justify_3)
 		f:ClearAllPoints()
-		f:SetPoint("TOP",UIParent, "TOP", 0, -200)
+		f:SetPoint("TOP",UIParent, "TOP", 0, -150)
 		f:SetHeight(128)
 		f:SetWidth(256)
 	else
@@ -851,7 +851,7 @@ SlashCmdList["XCT"]=function(input)
 		xCT2:SetHeight(260)
 		xCT2:SetWidth(128)
 		xCT3:ClearAllPoints()
-		xCT3:SetPoint("TOP",UIParent, "TOP", 0, -200)
+		xCT3:SetPoint("TOP",UIParent, "TOP", 0, -150)
 		xCT3:SetHeight(128)
 		xCT3:SetWidth(256)
 		xCT4:ClearAllPoints()

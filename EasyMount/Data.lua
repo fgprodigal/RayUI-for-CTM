@@ -350,7 +350,7 @@ RegisterMount(61451, "both") -- fly Carpet
 RegisterMount(71342, "both")
 RegisterMount(72286, "both")
 RegisterMount(75596, "both") -- Frosty fly Carpet
-RegisterMount(75614, "both")
+RegisterMount(75614, "fly") -- 星穹戰馬
 RegisterMount(75973, "both")
 
 RegisterMount(26055, "taq") -- Yellow Qiraji Battle Tank

@@ -58,7 +58,7 @@ local function SetUpFlyout()
 end
 SpellFlyout:HookScript("OnShow", SetUpFlyout)
 	
-autohide:SetScript("OnEvent", function(self, event, ...)
+autohide:SetScript("OnEvent", function(self, event, arg1, ...)
 	if event == "PLAYER_ENTERING_WORLD" and not UnitInVehicle("player") and not InCombatLockdown() then
 		self:UnregisterEvent("PLAYER_ENTERING_WORLD")
 		for _, v in ipairs(rabs) do 
@@ -72,6 +72,8 @@ autohide:SetScript("OnEvent", function(self, event, ...)
 				UIFrameFade(_G[v], fadeInfo)
 			end 
 		end
+	elseif event == "PLAYER_ENTERING_WORLD" and (UnitInVehicle("player") or InCombatLockdown()) then
+		for _, v in ipairs(rabs) do _G[v]:Show() _G[v]:SetAlpha(1) end
 	elseif event == "PLAYER_REGEN_ENABLED" and not UnitInVehicle("player") then
 		if not UnitExists("target") or UnitIsDead("target") then
 			for _, v in ipairs(rabs) do 
@@ -86,10 +88,10 @@ autohide:SetScript("OnEvent", function(self, event, ...)
 				end
 			end
 		end
-	elseif event == "PLAYER_REGEN_DISABLED" or event == "UNIT_ENTERED_VEHICLE" then
+	elseif event == "PLAYER_REGEN_DISABLED" or (event == "UNIT_ENTERED_VEHICLE" and arg1 == "player") then
 		for _, v in ipairs(rabs) do if _G[v]:GetAlpha()<1 then _G[v]:Show() UIFrameFadeIn(_G[v], 0.5, _G[v]:GetAlpha(), 1) end end
-	elseif (event == "PLAYER_TARGET_CHANGED" and not InCombatLockdown() and not UnitInVehicle("player")) or  event == "UNIT_EXITED_VEHICLE" then
-		if UnitExists("target") then
+	elseif (event == "PLAYER_TARGET_CHANGED" and not InCombatLockdown() and not UnitInVehicle("player")) or (event == "UNIT_EXITED_VEHICLE" and arg1 == "player") then
+		if UnitExists("target") or UnitInVehicle("player") then
 			for _, v in ipairs(rabs) do if _G[v]:GetAlpha()<1 then _G[v]:Show() UIFrameFadeIn(_G[v], 0.5, _G[v]:GetAlpha(), 1) end end
 		else
 			for _, v in ipairs(rabs) do 

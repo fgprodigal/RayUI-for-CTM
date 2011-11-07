@@ -234,7 +234,7 @@ end
 function watcherPrototype:CheckCooldown(num)
 	if self.CD then
 		for spellID in pairs(self.CD) do
-			if self.CD[spellID] then
+			if type(spellID) == "number" and self.CD[spellID] then
 				local start, duration = GetSpellCooldown(spellID)
 				local _, _, icon = GetSpellInfo(spellID)
 				if start ~= 0 and duration > 2.9 then
@@ -255,7 +255,7 @@ function watcherPrototype:CheckCooldown(num)
 	end
 	if self.itemCD then
 		for itemID in pairs(self.itemCD) do
-			if self.itemCD[itemID] then
+			if type(itemID) == "number" and self.itemCD[itemID] then
 				local start, duration = GetItemCooldown(itemID)
 				local _, _, _, _, _, _, _, _, _, icon = GetItemInfo(itemID)
 				if start ~= 0 and duration > 2.9 then
@@ -554,11 +554,11 @@ function RayUIWatcher:NewWatcher(data)
 				module[v.filter] = module[v.filter] or {}
 				module[v.filter][v.spellID or v.itemID] = module[v.filter][v.spellID or v.itemID] or {}
 				for ii,vv in pairs(v) do
-					if ii ~= 'filter' and ii ~= 'spellID' and ii ~= 'itemID' then
+					if ii ~= 'filter' and ii ~= 'spellID' and ii ~= 'itemID' and v.filter ~= "CD" and v.filter ~= "itemCD" then
 						ii = ii == 'unitId' and 'unitID' or ii
 						module[v.filter][v.spellID or v.itemID][ii] = vv
 					end
-					if ii == 'unitId' or ii == 'unitID' then
+					if (ii == 'unitId' or ii == 'unitID') and (v.filter == "BUFF" or v.filter == "DEBUFF")then
 						module[v.filter]['unitIDs'] = module[v.filter]['unitIDs'] or {}
 						module[v.filter]['unitIDs'][vv] = true
 					end

@@ -2050,6 +2050,56 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 
 		local LFRClose = LFRParentFrame:GetChildren()
 		R.ReskinClose(LFRClose, "TOPRIGHT", LFRParentFrame, "TOPRIGHT", -4, -14)
+		
+		-- [[ Mac Options ]]
+
+		if IsMacClient() then
+			R.CreateBD(MacOptionsFrame)
+			MacOptionsFrameHeader:SetTexture("")
+			MacOptionsFrameHeader:ClearAllPoints()
+			MacOptionsFrameHeader:SetPoint("TOP", MacOptionsFrame, 0, 0)
+		 
+			R.CreateBD(MacOptionsFrameMovieRecording, .25)
+			R.CreateBD(MacOptionsITunesRemote, .25)
+
+			R.Reskin(MacOptionsButtonKeybindings)
+			R.Reskin(MacOptionsButtonCompress)
+			R.Reskin(MacOptionsFrameCancel)
+			R.Reskin(MacOptionsFrameOkay)
+			R.Reskin(MacOptionsFrameDefaults)
+
+			R.ReskinDropDown(MacOptionsFrameResolutionDropDown)
+			R.ReskinDropDown(MacOptionsFrameFramerateDropDown)
+			R.ReskinDropDown(MacOptionsFrameCodecDropDown)
+			R.ReskinCheck(MacOptionsFrameCheckButton1)
+			R.ReskinCheck(MacOptionsFrameCheckButton2)
+			R.ReskinCheck(MacOptionsFrameCheckButton3)
+			R.ReskinCheck(MacOptionsFrameCheckButton4)
+			R.ReskinCheck(MacOptionsFrameCheckButton5)
+			R.ReskinCheck(MacOptionsFrameCheckButton6)
+			R.ReskinCheck(MacOptionsFrameCheckButton7)
+			R.ReskinCheck(MacOptionsFrameCheckButton8)
+		 
+			MacOptionsButtonCompress:SetWidth(136)
+		 
+			MacOptionsFrameCancel:SetWidth(96)
+			MacOptionsFrameCancel:SetHeight(22)
+			MacOptionsFrameCancel:ClearAllPoints()
+			MacOptionsFrameCancel:SetPoint("LEFT", MacOptionsButtonKeybindings, "RIGHT", 107, 0)
+		 
+			MacOptionsFrameOkay:SetWidth(96)
+			MacOptionsFrameOkay:SetHeight(22)
+			MacOptionsFrameOkay:ClearAllPoints()
+			MacOptionsFrameOkay:SetPoint("LEFT", MacOptionsButtonKeybindings, "RIGHT", 5, 0)
+		 
+			MacOptionsButtonKeybindings:SetWidth(96)
+			MacOptionsButtonKeybindings:SetHeight(22)
+			MacOptionsButtonKeybindings:ClearAllPoints()
+			MacOptionsButtonKeybindings:SetPoint("LEFT", MacOptionsFrameDefaults, "RIGHT", 5, 0)
+		 
+			MacOptionsFrameDefaults:SetWidth(96)
+			MacOptionsFrameDefaults:SetHeight(22)
+		end
 
 	-- [[ Load on Demand Addons ]]
 
@@ -3976,99 +4026,6 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 	end
 end)
 
-local function CreateBackdrop(f, t, tex)
-	if f.backdrop then return end
-	
-	local b = CreateFrame("Frame", nil, f)
-	b:Point("TOPLEFT", -2, 2)
-	b:Point("BOTTOMRIGHT", 2, -2)
-	R.CreateBD(b)
-
-	if f:GetFrameLevel() - 1 >= 0 then
-		b:SetFrameLevel(f:GetFrameLevel() - 1)
-	else
-		b:SetFrameLevel(0)
-	end
-	
-	f.backdrop = b
-end
-local function SkinCheckBox(frame)
-	-- KillTex(frame)
-	frame:StripTextures()
-	CreateBackdrop(frame)
-	frame.backdrop:Point("TOPLEFT", 4, -4)
-	frame.backdrop:Point("BOTTOMRIGHT", -4, 4)
-	
-	if frame.SetCheckedTexture then
-		frame:SetCheckedTexture("Interface\\Buttons\\UI-CheckBox-Check")
-	end
-	
-	frame:SetDisabledTexture("Interface\\Buttons\\UI-CheckBox-Check-Disabled")
-end
-local function SkinCloseButton(f, SetPoint)
-	for i=1, f:GetNumRegions() do
-		local region = select(i, f:GetRegions())
-		if region:GetObjectType() == "Texture" then
-			region:SetDesaturated(1)
-		end
-	end	
-	
-	if SetPoint then
-		f:Point("TOPRIGHT", SetPoint, "TOPRIGHT", -4, -4)
-	end
-end
-
-
--- [[ Mac Options ]]
-
-if IsMacClient() then
-	R.CreateBD(MacOptionsFrame)
-	MacOptionsFrameHeader:SetTexture("")
-	MacOptionsFrameHeader:ClearAllPoints()
-	MacOptionsFrameHeader:SetPoint("TOP", MacOptionsFrame, 0, 0)
- 
-	R.CreateBD(MacOptionsFrameMovieRecording, .25)
-	R.CreateBD(MacOptionsITunesRemote, .25)
-
-	R.Reskin(MacOptionsButtonKeybindings)
-	R.Reskin(MacOptionsButtonCompress)
-	R.Reskin(MacOptionsFrameCancel)
-	R.Reskin(MacOptionsFrameOkay)
-	R.Reskin(MacOptionsFrameDefaults)
-
-	R.ReskinDropDown(MacOptionsFrameResolutionDropDown)
-	R.ReskinDropDown(MacOptionsFrameFramerateDropDown)
-	R.ReskinDropDown(MacOptionsFrameCodecDropDown)
-	R.ReskinCheck(MacOptionsFrameCheckButton1)
-	R.ReskinCheck(MacOptionsFrameCheckButton2)
-	R.ReskinCheck(MacOptionsFrameCheckButton3)
-	R.ReskinCheck(MacOptionsFrameCheckButton4)
-	R.ReskinCheck(MacOptionsFrameCheckButton5)
-	R.ReskinCheck(MacOptionsFrameCheckButton6)
-	R.ReskinCheck(MacOptionsFrameCheckButton7)
-	R.ReskinCheck(MacOptionsFrameCheckButton8)
- 
-	MacOptionsButtonCompress:SetWidth(136)
- 
-	MacOptionsFrameCancel:SetWidth(96)
-	MacOptionsFrameCancel:SetHeight(22)
-	MacOptionsFrameCancel:ClearAllPoints()
-	MacOptionsFrameCancel:SetPoint("LEFT", MacOptionsButtonKeybindings, "RIGHT", 107, 0)
- 
-	MacOptionsFrameOkay:SetWidth(96)
-	MacOptionsFrameOkay:SetHeight(22)
-	MacOptionsFrameOkay:ClearAllPoints()
-	MacOptionsFrameOkay:SetPoint("LEFT", MacOptionsButtonKeybindings, "RIGHT", 5, 0)
- 
-	MacOptionsButtonKeybindings:SetWidth(96)
-	MacOptionsButtonKeybindings:SetHeight(22)
-	MacOptionsButtonKeybindings:ClearAllPoints()
-	MacOptionsButtonKeybindings:SetPoint("LEFT", MacOptionsFrameDefaults, "RIGHT", 5, 0)
- 
-	MacOptionsFrameDefaults:SetWidth(96)
-	MacOptionsFrameDefaults:SetHeight(22)
-end
-
 local Delay = CreateFrame("Frame")
 Delay:RegisterEvent("PLAYER_ENTERING_WORLD")
 Delay:SetScript("OnEvent", function()
@@ -4114,297 +4071,6 @@ Delay:SetScript("OnEvent", function()
 
 		R.CreateBD(FriendsTooltip)
 	end
-
-	if not(IsAddOnLoaded("MetaMap") or IsAddOnLoaded("Mapster") or IsAddOnLoaded("m_Map")) then
-		--World Map		
-		CreateBackdrop(WorldMapFrame)
-		WorldMapDetailFrame.backdrop = CreateFrame("Frame", nil, WorldMapFrame)
-		R.CreateBD(WorldMapDetailFrame.backdrop)
-		WorldMapDetailFrame.backdrop:Point("TOPLEFT", WorldMapDetailFrame, "TOPLEFT", -2, 2)
-		WorldMapDetailFrame.backdrop:Point("BOTTOMRIGHT", WorldMapDetailFrame, "BOTTOMRIGHT", 2, -2)
-		WorldMapDetailFrame.backdrop:SetFrameLevel(WorldMapDetailFrame:GetFrameLevel() - 2)
-
-		SkinCloseButton(WorldMapFrameCloseButton)
-		SkinCloseButton(WorldMapFrameSizeDownButton)
-		SkinCloseButton(WorldMapFrameSizeUpButton)
-								
-
-		-- R.ReskinDropDown(WorldMapLevelDropDown)
-		R.ReskinDropDown(WorldMapZoneMinimapDropDown)
-		R.ReskinDropDown(WorldMapContinentDropDown)
-		R.ReskinDropDown(WorldMapZoneDropDown)
-
-		R.Reskin(WorldMapZoomOutButton)
-		WorldMapZoomOutButton:Point("LEFT", WorldMapZoneDropDown, "RIGHT", 0, 4)
-		WorldMapLevelUpButton:Point("TOPLEFT", WorldMapLevelDropDown, "TOPRIGHT", -2, 8)
-		WorldMapLevelDownButton:Point("BOTTOMLEFT", WorldMapLevelDropDown, "BOTTOMRIGHT", -2, 2)
-
-		SkinCheckBox(WorldMapTrackQuest)
-		SkinCheckBox(WorldMapQuestShowObjectives)
-		SkinCheckBox(WorldMapShowDigSites)
-
-		--Mini
-		local function SmallSkin()
-			WorldMapLevelDropDown:ClearAllPoints()
-			WorldMapLevelDropDown:Point("TOPLEFT", WorldMapDetailFrame, "TOPLEFT", -17, 27)
-
-			WorldMapFrame.backdrop:ClearAllPoints()
-			WorldMapFrame.backdrop:Point("TOPLEFT", 2, 2)
-			WorldMapFrame.backdrop:Point("BOTTOMRIGHT", 2, -2)
-		end
-
-		--Large
-		local function LargeSkin()
-			if not InCombatLockdown() then
-				WorldMapFrame:SetParent(UIParent)
-				WorldMapFrame:EnableMouse(false)
-				WorldMapFrame:EnableKeyboard(false)
-				SetUIPanelAttribute(WorldMapFrame, "area", "center");
-				SetUIPanelAttribute(WorldMapFrame, "allowOtherPanels", true)
-			end
-			
-			WorldMapFrame.backdrop:ClearAllPoints()
-			WorldMapFrame.backdrop:Point("TOPLEFT", WorldMapDetailFrame, "TOPLEFT", -25, 70)
-			WorldMapFrame.backdrop:Point("BOTTOMRIGHT", WorldMapDetailFrame, "BOTTOMRIGHT", 25, -30)    
-		end
-		R.CreateSD(WorldMapFrame.backdrop)
-
-
-		local function QuestSkin()
-			if not InCombatLockdown() then
-				WorldMapFrame:SetParent(UIParent)
-				WorldMapFrame:EnableMouse(false)
-				WorldMapFrame:EnableKeyboard(false)
-				SetUIPanelAttribute(WorldMapFrame, "area", "center");
-				SetUIPanelAttribute(WorldMapFrame, "allowOtherPanels", true)
-			end
-			
-			WorldMapFrame.backdrop:ClearAllPoints()
-			WorldMapFrame.backdrop:Point("TOPLEFT", WorldMapDetailFrame, "TOPLEFT", -25, 70)
-			WorldMapFrame.backdrop:Point("BOTTOMRIGHT", WorldMapDetailFrame, "BOTTOMRIGHT", 325, -235)  
-			
-			if not WorldMapQuestDetailScrollFrame.backdrop then
-				CreateBackdrop(WorldMapQuestDetailScrollFrame)
-				WorldMapQuestDetailScrollFrame.backdrop:Point("TOPLEFT", -22, 2)
-				WorldMapQuestDetailScrollFrame.backdrop:Point("BOTTOMRIGHT", 23, -4)
-			end
-			
-			if not WorldMapQuestRewardScrollFrame.backdrop then
-				CreateBackdrop(WorldMapQuestRewardScrollFrame)
-				WorldMapQuestRewardScrollFrame.backdrop:Point("BOTTOMRIGHT", 22, -4)				
-			end
-			
-			if not WorldMapQuestScrollFrame.backdrop then
-				CreateBackdrop(WorldMapQuestScrollFrame)
-				WorldMapQuestScrollFrame.backdrop:Point("TOPLEFT", 0, 2)
-				WorldMapQuestScrollFrame.backdrop:Point("BOTTOMRIGHT", 24, -3)				
-			end
-		end			
-
-		local function FixSkin()
-			WorldMapFrame:StripTextures()
-			if WORLDMAP_SETTINGS.size == WORLDMAP_FULLMAP_SIZE then
-				LargeSkin()
-			elseif WORLDMAP_SETTINGS.size == WORLDMAP_WINDOWED_SIZE then
-				SmallSkin()
-			elseif WORLDMAP_SETTINGS.size == WORLDMAP_QUESTLIST_SIZE then
-				QuestSkin()
-			end
-
-			if not InCombatLockdown() then
-				WorldMapFrame:SetScale(.9)
-				WorldMapFrameSizeDownButton:Show()
-				WorldMapFrame:SetFrameLevel(10)
-			else
-				WorldMapFrameSizeDownButton:Disable()
-				WorldMapFrameSizeUpButton:Disable()
-			end	
-			
-			WorldMapFrameAreaLabel:SetFont(GameFontNormalSmall:GetFont(), 50, "OUTLINE")
-			WorldMapFrameAreaLabel:SetShadowOffset(2, -2)
-			WorldMapFrameAreaLabel:SetTextColor(0.90, 0.8294, 0.6407)	
-			
-			WorldMapFrameAreaDescription:SetFont(GameFontNormalSmall:GetFont(), 40, "OUTLINE")
-			WorldMapFrameAreaDescription:SetShadowOffset(2, -2)	
-			
-			WorldMapZoneInfo:SetFont(GameFontNormalSmall:GetFont(), 27, "OUTLINE")
-			WorldMapZoneInfo:SetShadowOffset(2, -2)		
-		end
-
-		WorldMapFrame:HookScript("OnShow", FixSkin)
-		hooksecurefunc("WorldMapFrame_SetFullMapView", LargeSkin)
-		hooksecurefunc("WorldMapFrame_SetQuestMapView", QuestSkin)
-		hooksecurefunc("WorldMap_ToggleSizeUp", FixSkin)
-		
-		
-
-		local coords = CreateFrame("Frame", "CoordsFrame", WorldMapFrame)
-		local fontheight = select(2, WorldMapQuestShowObjectivesText:GetFont())*1.1
-		coords:SetFrameLevel(90)
-		coords.PlayerText = coords:CreateFontString("PLAYERText", "OVERLAY")
-		coords.MouseText = coords:CreateFontString("MOUSEText", "OVERLAY")
-		coords.PlayerText:SetFont(GameFontNormalSmall:GetFont(), fontheight, "THINOUTLINE")
-		coords.MouseText:SetFont(GameFontNormalSmall:GetFont(), fontheight, "THINOUTLINE")
-		coords.PlayerText:SetTextColor(WorldMapQuestShowObjectivesText:GetTextColor())
-		coords.MouseText:SetTextColor(WorldMapQuestShowObjectivesText:GetTextColor())
-		coords.PlayerText:Point("TOPLEFT", WorldMapButton, "TOPLEFT", 5, -5)
-		coords.PlayerText:SetText("Player:   0, 0")
-		coords.MouseText:Point("TOPLEFT", coords.PlayerText, "BOTTOMLEFT", 0, -5)
-		coords.MouseText:SetText("Mouse:   0, 0")
-		local int = 0
-
-		WorldMapFrame:HookScript("OnUpdate", function(self, elapsed)
-			--For some reason these buttons aren't functioning correctly, and we can't afford for it to fuckup because toggling to a big map in combat will cause a taint.
-			if InCombatLockdown() then
-				WorldMapFrameSizeDownButton:Disable()
-				WorldMapFrameSizeUpButton:Disable()
-			else
-				WorldMapFrameSizeDownButton:Enable()
-				WorldMapFrameSizeUpButton:Enable()			
-			end
-			
-			if WORLDMAP_SETTINGS.size == WORLDMAP_FULLMAP_SIZE then
-				WorldMapFrameSizeUpButton:Hide()
-				WorldMapFrameSizeDownButton:Show()
-			elseif WORLDMAP_SETTINGS.size == WORLDMAP_WINDOWED_SIZE then
-				WorldMapFrameSizeUpButton:Show()
-				WorldMapFrameSizeDownButton:Hide()
-			elseif WORLDMAP_SETTINGS.size == WORLDMAP_QUESTLIST_SIZE then
-				WorldMapFrameSizeUpButton:Hide()
-				WorldMapFrameSizeDownButton:Show()
-			end		
-
-			int = int + 1
-			
-			if int >= 3 then
-				local inInstance, _ = IsInInstance()
-				local x,y = GetPlayerMapPosition("player")
-				x = math.floor(100 * x)
-				y = math.floor(100 * y)
-				if x ~= 0 and y ~= 0 then
-					coords.PlayerText:SetText(PLAYER..":   "..x..", "..y)
-				else
-					coords.PlayerText:SetText(" ")
-				end
-				
-
-				local scale = WorldMapDetailFrame:GetEffectiveScale()
-				local width = WorldMapDetailFrame:GetWidth()
-				local height = WorldMapDetailFrame:GetHeight()
-				local centerX, centerY = WorldMapDetailFrame:GetCenter()
-				local x, y = GetCursorPosition()
-				local adjustedX = (x / scale - (centerX - (width/2))) / width
-				local adjustedY = (centerY + (height/2) - y / scale) / height	
-
-
-				if (adjustedX >= 0  and adjustedY >= 0 and adjustedX <= 1 and adjustedY <= 1) then
-					adjustedX = math.floor(100 * adjustedX)
-					adjustedY = math.floor(100 * adjustedY)
-					coords.MouseText:SetText(MOUSE_LABEL..":   "..adjustedX..", "..adjustedY)
-				else
-					coords.MouseText:SetText(" ")
-				end
-				
-				int = 0
-			end				
-		end)
-		
-		if not GetCVarBool("miniWorldMap") then
-			ToggleFrame(WorldMapFrame)				
-			ToggleFrame(WorldMapFrame)
-		end
-		WorldMapFrame:SetFrameStrata("HIGH")
-	end
-
-	--[[ if not(IsAddOnLoaded("Baggins") or IsAddOnLoaded("Stuffing") or IsAddOnLoaded("Combuctor") or IsAddOnLoaded("cargBags") or IsAddOnLoaded("famBags") or IsAddOnLoaded("ArkInventory")) then
-		for i = 1, 12 do
-			local con = _G["ContainerFrame"..i]
-
-			for j = 1, 7 do
-				select(j, con:GetRegions()):SetAlpha(0)
-			end
-
-			for k = 1, MAX_CONTAINER_ITEMS do
-				local item = "ContainerFrame"..i.."Item"..k
-				local button = _G[item]
-				local icon = _G[item.."IconTexture"]
-				local quest = _G[item.."IconQuestTexture"]
-
-				button:SetNormalTexture("")
-				button:SetPushedTexture("")
-
-				icon:SetPoint("TOPLEFT", 1, -1)
-				icon:SetPoint("BOTTOMRIGHT", -1, 1)
-				icon:SetTexCoord(.08, .92, .08, .92)
-
-				quest:SetTexture("Interface\\AddOns\\!RayUI\\Aurora\\quest")
-				quest:SetVertexColor(1, 0, 0)
-				quest:SetTexCoord(0.05, .955, 0.05, .965)
-				quest.SetTexture = R.dummy
-
-				R.CreateBD(button, 0)
-			end
-
-			local f = CreateFrame("Frame", nil, con)
-			f:SetPoint("TOPLEFT", 8, -4)
-			f:SetPoint("BOTTOMRIGHT", -4, 3)
-			f:SetFrameLevel(con:GetFrameLevel()-1)
-			R.CreateBD(f, .6)
-
-			R.ReskinClose(_G["ContainerFrame"..i.."CloseButton"], "TOPRIGHT", con, "TOPRIGHT", -6, -6)
-		end
-
-		BackpackTokenFrame:GetRegions():Hide()
-
-		for i = 1, 3 do
-			local ic = _G["BackpackTokenFrameToken"..i.."Icon"]
-			ic:SetDrawLayer("OVERLAY")
-			ic:SetTexCoord(.08, .92, .08, .92)
-			R.CreateBG(ic)
-		end
-
-		R.SetBD(BankFrame, 28, -8, -30, 96)
-		BankPortraitTexture:Hide()
-		select(2, BankFrame:GetRegions()):Hide()
-		R.Reskin(BankFramePurchaseButton)
-		R.ReskinClose(BankCloseButton, "TOPRIGHT", BankFrame, "TOPRIGHT", -34, -12)
-
-		for i = 1, 28 do
-			local item = "BankFrameItem"..i
-			local button = _G[item]
-			local icon = _G[item.."IconTexture"]
-			local quest = _G[item.."IconQuestTexture"]
-
-			button:SetNormalTexture("")
-			button:SetPushedTexture("")
-
-			icon:SetPoint("TOPLEFT", 1, -1)
-			icon:SetPoint("BOTTOMRIGHT", -1, 1)
-			icon:SetTexCoord(.08, .92, .08, .92)
-
-			quest:SetTexture("Interface\\AddOns\\!RayUI\\Aurora\\quest")
-			quest:SetVertexColor(1, 0, 0)
-			quest:SetTexCoord(0.05, .955, 0.05, .965)
-			quest.SetTexture = R.dummy
-
-			R.CreateBD(button, 0)
-		end
-
-		for i = 1, 7 do
-			local bag = _G["BankFrameBag"..i]
-			local ic = _G["BankFrameBag"..i.."IconTexture"]
-			_G["BankFrameBag"..i.."HighlightFrameTexture"]:SetTexture(C.Aurora.checked)
-
-			bag:SetNormalTexture("")
-			bag:SetPushedTexture("")
-
-			ic:SetPoint("TOPLEFT", 1, -1)
-			ic:SetPoint("BOTTOMRIGHT", -1, 1)
-			ic:SetTexCoord(.08, .92, .08, .92)
-
-			R.CreateBD(bag, 0)
-		end
-	end ]]
 
 	if not(IsAddOnLoaded("Butsu") or IsAddOnLoaded("LovelyLoot") or IsAddOnLoaded("XLoot")) then
 		LootFramePortraitOverlay:Hide()

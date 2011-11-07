@@ -31,6 +31,7 @@ QuestLogExpandButtonFrame:SetPoint("TOPLEFT", 40, -48)
 local QuestLogCollapseAllButton = CreateFrame("Button", "QuestLogCollapseAllButton", QuestLogExpandButtonFrame, "QuestLogTitleButtonTemplate")
 QuestLogCollapseAllButton:SetSize(40, 22)
 QuestLogCollapseAllButton:SetPoint("TOPLEFT", 0, -2)
+QuestLogCollapseAllButton:SetScript("OnEnter", nil)
 QuestLogCollapseAllButtonNormalText:SetText(L["全部"])
 QuestLogCollapseAllButtonNormalText:SetWidth(0)
 

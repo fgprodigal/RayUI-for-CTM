@@ -117,14 +117,18 @@ local glowBorder = {
 local ChangedTarget = function(self)
     if UnitIsUnit('target', self.unit) then
         self.TargetBorder:Show()
-    end
+    else
+		self.TargetBorder:Hide()
+	end
 end
 
 -- Show Focus Border
 local FocusTarget = function(self)
     if UnitIsUnit('focus', self.unit) then
         self.FocusHighlight:Show()
-    end
+    else
+		self.FocusHighlight:Hide()
+	end
 end
 
 local updateThreat = function(self, event, unit)
