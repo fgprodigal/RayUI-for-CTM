@@ -533,6 +533,20 @@ function R.PostCreateIcon(auras, button)
     button.remaining:Point("CENTER", 0, 0)
 end
 
+function R.CustomFilter(icons, unit, icon, name, rank, texture, count, dtype, duration, timeLeft, caster)
+	local isPlayer
+
+	if(caster == 'player' or caster == 'vehicle') then
+		isPlayer = true
+	end
+
+	if((icons.onlyShowPlayer and isPlayer) or (not icons.onlyShowPlayer and name)) then
+		icon.isPlayer = isPlayer
+		icon.owner = caster
+		return true
+	end
+end
+
 function R.FocusText(self)
 	local focusdummy = CreateFrame("BUTTON", "focusdummy", self, "SecureActionButtonTemplate")
 	focusdummy:SetFrameStrata("HIGH")

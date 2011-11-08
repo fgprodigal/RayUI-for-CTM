@@ -248,6 +248,7 @@ local function PostHealth(hp, unit)
 		end
 		if C["uf"].smoothColor then
 			if UnitIsDeadOrGhost(unit) or (not UnitIsConnected(unit)) then
+				hp:SetStatusBarColor(0.5, 0.5, 0.5, 1)
 				hp.bg:SetVertexColor(0.5, 0.5, 0.5, 1)
 			else
 				hp.bg:SetVertexColor(0.12, 0.12, 0.12, 1)
@@ -389,7 +390,6 @@ local style = function(self)
     name:SetPoint("CENTER")
     name:SetJustifyH("CENTER")
     name:SetFont(C["media"].font, C["media"].fontsize, C["media"].fontflag)
-    -- name:SetShadowOffset(1.25, -1.25)
     name:SetWidth(C["raid"].width)
     name.overrideUnit = true
     self.Name = name
@@ -614,14 +614,6 @@ function ns:ADDON_LOADED(event, addon)
 end
 
 function ns:PLAYER_LOGIN()
-    local f = CreateFrame('Frame', nil, InterfaceOptionsFrame)
-    f:SetScript('OnShow', function(self)
-        self:SetScript('OnShow', nil)
-        if not IsAddOnLoaded('oUF_Freebgrid_Config') then
-            LoadAddOn('oUF_Freebgrid_Config')
-        end
-    end)
-
     self:UnregisterEvent("PLAYER_LOGIN")
     self.PLAYER_LOGIN = nil
 end
