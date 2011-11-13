@@ -88,7 +88,7 @@ local function Shared(self, unit)
 		  outsideAlpha = 0.3}
 
 	if unit == "player" then
-		health:SetSize(PLAYER_WIDTH, PLAYER_HEIGHT * 0.9)
+		health:SetSize(PLAYER_WIDTH, PLAYER_HEIGHT * (1 - C["uf"].powerheight))
 		health.value:Point("LEFT", self, "LEFT", 5, 0)
 		name:Point("BOTTOM", health, 0, -13)
 		name:Point("LEFT", health, -3, 0)
@@ -128,7 +128,7 @@ local function Shared(self, unit)
 			power:SetPoint("BOTTOM") 
 			power.value:Point("RIGHT", self, "RIGHT", -5, 0)
 			power:SetWidth(PLAYER_WIDTH)
-			power:SetHeight(PLAYER_HEIGHT * 0.1)
+			power:SetHeight(PLAYER_HEIGHT * C["uf"].powerheight)
 			self.Power = power
 		end
 		
@@ -198,7 +198,7 @@ local function Shared(self, unit)
 		debuffs.num = 9
 		debuffs.PostCreateIcon = R.PostCreateIcon
 		debuffs.PostUpdateIcon = R.PostUpdateIcon
-
+		
 		self.Debuffs = debuffs
 		
 		-- BarFader
@@ -336,7 +336,7 @@ local function Shared(self, unit)
 		experience:Point('BOTTOMRIGHT', BottomInfoBar, 'BOTTOMRIGHT', -2, 2)
 		experience:SetParent(BottomInfoBar)
 		experience:SetFrameStrata("BACKGROUND")
-		experience:SetFrameLevel(1)
+		experience:SetFrameLevel(2)
 		
 		experience.Rested = CreateFrame("StatusBar", nil, experience)
 		experience.Rested:SetStatusBarTexture(C["media"].normal)
@@ -419,7 +419,7 @@ local function Shared(self, unit)
 	end
 	
 	if unit == "target" then
-		health:SetSize(TARGET_WIDTH, TARGET_HEIGHT * 0.9)
+		health:SetSize(TARGET_WIDTH, TARGET_HEIGHT * (1 - C["uf"].powerheight))
 		health.value:Point("LEFT", self, "LEFT", 5, 0)
 		name:Point("BOTTOM", health,  0, -13)
 		name:Point("RIGHT", health, 3, 0)
@@ -436,7 +436,7 @@ local function Shared(self, unit)
 		power:SetPoint("BOTTOM") 
 		power.value:Point("RIGHT", self, "RIGHT", -5, 0)
 		power:SetWidth(PLAYER_WIDTH)
-		power:SetHeight(PLAYER_HEIGHT * 0.1)
+		power:SetHeight(PLAYER_HEIGHT * C["uf"].powerheight)
 		self.Power = power
 		
 		local castbar = R.ConstructCastBar(self)
@@ -476,6 +476,7 @@ local function Shared(self, unit)
 		debuffs.num = 9
 		debuffs.PostCreateIcon = R.PostCreateIcon
 		debuffs.PostUpdateIcon = R.PostUpdateIcon
+		debuffs.CustomFilter = R.CustomFilter
 
 		self.Buffs = buffs
 		self.Debuffs = debuffs
@@ -557,7 +558,7 @@ local function Shared(self, unit)
 	end
 	
 	if unit == "party" or unit == "focus" then
-		health:SetSize(PARTY_WIDTH, PARTY_HEIGHT * 0.9)
+		health:SetSize(PARTY_WIDTH, PARTY_HEIGHT * (1 - C["uf"].powerheight))
 		health.value:Point("LEFT", self, "LEFT", 5, 0)
 		name:Point("BOTTOM", health, -6, -15)
 		name:Point("LEFT", health, 0, 0)
@@ -573,8 +574,35 @@ local function Shared(self, unit)
 		power:SetPoint("BOTTOM") 
 		power.value:Point("RIGHT", self, "RIGHT", -5, 0)
 		power:SetWidth(PLAYER_WIDTH)
-		power:SetHeight(PLAYER_HEIGHT * 0.1)
+		power:SetHeight(PLAYER_HEIGHT * C["uf"].powerheight)
 		self.Power = power
+	end
+	
+	if unit == "party" then
+		-- Heal Prediction
+		local mhpb = CreateFrame('StatusBar', nil, self)
+		mhpb:SetPoint('BOTTOMLEFT', self.Health:GetStatusBarTexture(), 'BOTTOMRIGHT')
+		mhpb:SetPoint('TOPLEFT', self.Health:GetStatusBarTexture(), 'TOPRIGHT')	
+		mhpb:SetWidth(health:GetWidth())
+		mhpb:SetStatusBarTexture(C["media"].blank)
+		mhpb:SetStatusBarColor(0, 1, 0.5, 0.25)
+		
+		local ohpb = CreateFrame('StatusBar', nil, self)
+		ohpb:SetPoint('BOTTOMLEFT', mhpb:GetStatusBarTexture(), 'BOTTOMRIGHT', 0, 0)
+		ohpb:SetPoint('TOPLEFT', mhpb:GetStatusBarTexture(), 'TOPRIGHT', 0, 0)		
+		ohpb:SetWidth(mhpb:GetWidth())
+		ohpb:SetStatusBarTexture(C["media"].blank)
+		ohpb:SetStatusBarColor(0, 1, 0, 0.25)
+		
+		self.HealPrediction = {
+			myBar = mhpb,
+			otherBar = ohpb,
+			maxOverflow = 1,
+			PostUpdate = function(self)
+				if self.myBar:GetValue() == 0 then self.myBar:SetAlpha(0) else self.myBar:SetAlpha(1) end
+				if self.otherBar:GetValue() == 0 then self.otherBar:SetAlpha(0) else self.otherBar:SetAlpha(1) end
+			end
+		}
 	end
 	
 	if unit == "focus" then
@@ -591,6 +619,7 @@ local function Shared(self, unit)
 		castbar.Iconbg:SetSize(25, 25)
 		castbar.Iconbg:ClearAllPoints()
 		castbar.Iconbg:SetPoint("BOTTOM", castbar, "TOP", 0, 5)
+		castbar:SetParent(UIParent)
 		self.Castbar = castbar
 		
 		R.ClearFocusText(self)
@@ -613,8 +642,26 @@ local function Shared(self, unit)
 		end
 	end
 	
+	if unit == "targettarget" then
+		-- Debuffs
+		local debuffs = CreateFrame("Frame", nil, self)
+		debuffs:SetHeight(PLAYER_HEIGHT)
+		debuffs:SetWidth(SMALL_WIDTH)
+		debuffs:Point("TOPLEFT", self, "BOTTOMLEFT", 1, -6)
+		debuffs.spacing = 5
+		debuffs["growth-x"] = "RIGHT"
+		debuffs["growth-y"] = "DOWN"
+		debuffs.size = PLAYER_HEIGHT
+		debuffs.initialAnchor = "TOPLEFT"
+		debuffs.num = 5
+		debuffs.PostCreateIcon = R.PostCreateIcon
+		debuffs.PostUpdateIcon = R.PostUpdateIcon
+		
+		self.Debuffs = debuffs
+	end
+	
 	if (unit and unit:find("arena%d") and C["uf"].showArenaFrames == true) or (unit and unit:find("boss%d") and C["uf"].showBossFrames == true) then
-		health:SetSize(BOSS_WIDTH, BOSS_HEIGHT * 0.9)
+		health:SetSize(BOSS_WIDTH, BOSS_HEIGHT * (1 - C["uf"].powerheight))
 		health.value:Point("LEFT", self, "LEFT", 5, 0)
 		name:Point("BOTTOM", health, -6, -15)
 		name:Point("LEFT", health, 0, 0)
@@ -630,10 +677,51 @@ local function Shared(self, unit)
 		power:SetPoint("BOTTOM") 
 		power.value:Point("RIGHT", self, "RIGHT", -5, 0)
 		power:SetWidth(PLAYER_WIDTH)
-		power:SetHeight(PLAYER_HEIGHT * 0.1)
+		power:SetHeight(PLAYER_HEIGHT * C["uf"].powerheight)
 		self.Power = power
+		
+		local debuffs = CreateFrame("Frame", nil, self)
+		debuffs:SetHeight(BOSS_HEIGHT)
+		debuffs:SetWidth(BOSS_WIDTH)
+		debuffs:Point("TOPRIGHT", self, "BOTTOMRIGHT", -1, -2)
+		debuffs.spacing = 6
+		debuffs["growth-x"] = "LEFT"
+		debuffs["growth-y"] = "DOWN"
+		debuffs.size = PLAYER_HEIGHT - 2
+		debuffs.initialAnchor = "TOPRIGHT"
+		debuffs.num = 7
+		debuffs.PostCreateIcon = R.PostCreateIcon
+		debuffs.PostUpdateIcon = R.PostUpdateIcon
+		debuffs.onlyShowPlayer = true
+		self.Debuffs = debuffs
+		
+		-- CastBar
+		local castbar = R.ConstructCastBar(self)
+		castbar:ClearAllPoints()
+		castbar:SetAllPoints(self)
+		castbar.Time:ClearAllPoints()
+		castbar.Time:Point("RIGHT", self.Health, "RIGHT", -2, 0)
+		castbar.Text:ClearAllPoints()
+		castbar.Text:Point("LEFT", self.Health, "LEFT", 2, 0)
+		castbar.Iconbg:ClearAllPoints()
+		castbar.Iconbg:Point("RIGHT", self, "LEFT", -2, 0)
+		castbar.shadow:Hide()
+		castbar.bg:Hide()
+		self.Castbar = castbar
 	end
 
+	if (unit and unit:find("arena%d") and C["uf"].showArenaFrames == true) then
+		local trinkets = CreateFrame("Frame", nil, self)
+		trinkets:SetHeight(BOSS_HEIGHT)
+		trinkets:SetWidth(BOSS_HEIGHT)
+		trinkets:SetPoint("LEFT", self, "RIGHT", 5, 0)
+		trinkets:CreateShadow("Default", 2)
+		trinkets.shadow:SetFrameStrata("BACKGROUND")
+		trinkets.trinketUseAnnounce = true
+		trinkets.trinketUpAnnounce = true
+		self.Trinket = trinkets
+	end
+	
     local leader = health:CreateTexture(nil, "OVERLAY")
     leader:SetSize(16, 16)
     leader:Point("TOPLEFT", health, "TOPLEFT", 5, 10)

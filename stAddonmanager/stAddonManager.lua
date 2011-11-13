@@ -28,6 +28,15 @@ function stAddonManager:UpdateAddonList(queryString)
 			addons[i].title = title
 			addons[i].notes = notes
 			addons[i].enabled = enabled
+			if GetAddOnMetadata(i, "version") then
+				addons[i].version = GetAddOnMetadata(i, "version")
+			end
+			if GetAddOnDependencies(i) then
+				addons[i].dependencies = {GetAddOnDependencies(i)}
+			end
+			if GetAddOnOptionalDependencies(i) then
+				addons[i].optionaldependencies = {GetAddOnOptionalDependencies(i)}
+			end
 		end
 	end
 	return addons
@@ -50,7 +59,7 @@ local function LoadProfileWindow()
 	
 	local window = CreateFrame("Frame", "stAddonManager_ProfileWindow", self)
 	window:SetPoint("TOPLEFT", self, "TOPRIGHT", 5, 0)
-	window:SetSize(200, 300)
+	window:SetSize(200, 350)
 	R.CreateBD(window)
 		
 	local header = CreateFrame("Frame", "stAddonmanager_ProfileWindow_Header", window)
@@ -61,7 +70,7 @@ local function LoadProfileWindow()
 	local hTitle = header:CreateFontString(nil, "OVERLAY")
 	hTitle:SetFont(unpack(font))
 	hTitle:SetPoint("CENTER")
-	hTitle:SetText("Profiles")
+	hTitle:SetText("檔案")
 	header.title = hTitle
 	window.header = header
 	
@@ -85,10 +94,10 @@ local function LoadProfileWindow()
 	EnableAll:SetPoint("TOPLEFT", header, "BOTTOMLEFT", 5, -5)
 	EnableAll.text = EnableAll:CreateFontString(nil, "OVERLAY")
 	EnableAll.text:SetFont(unpack(font))
-	EnableAll.text:SetText("Enable All")
+	EnableAll.text:SetText("全部啓用")
 	EnableAll.text:SetPoint("CENTER")
-	EnableAll:SetScript("OnEnter", function(self) self.text:SetTextColor(0/255, 170/255, 255/255) end)
-	EnableAll:SetScript("OnLeave", function(self) self.text:SetTextColor(255/255, 255/255, 255/255) end)
+	EnableAll:SetScript("OnEnter", function(self) self.text:SetTextColor(0/255, 170/255, 255/255) self:SetBackdropColor(.2, .2, .2, .6) end)
+	EnableAll:SetScript("OnLeave", function(self) self.text:SetTextColor(255/255, 255/255, 255/255) R.CreateBD(self) end)
 	EnableAll:SetScript("OnClick", function(self)
 		for i, addon in pairs(stAddonManager.AllAddons) do
 			EnableAddOn(addon.name)
@@ -103,10 +112,10 @@ local function LoadProfileWindow()
 	DisableAll:SetPoint("TOPRIGHT", header, "BOTTOMRIGHT", -5, -5)
 	DisableAll.text = DisableAll:CreateFontString(nil, "OVERLAY")
 	DisableAll.text:SetFont(unpack(font))
-	DisableAll.text:SetText("Disable All")
+	DisableAll.text:SetText("全部禁用")
 	DisableAll.text:SetPoint("CENTER")
-	DisableAll:SetScript("OnEnter", function(self) self.text:SetTextColor(0/255, 170/255, 255/255) end)
-	DisableAll:SetScript("OnLeave", function(self) self.text:SetTextColor(255/255, 255/255, 255/255) end)
+	DisableAll:SetScript("OnEnter", function(self) self.text:SetTextColor(0/255, 170/255, 255/255) self:SetBackdropColor(.2, .2, .2, .6) end)
+	DisableAll:SetScript("OnLeave", function(self) self.text:SetTextColor(255/255, 255/255, 255/255) R.CreateBD(self) end)
 	DisableAll:SetScript("OnClick", function(self)
 		for i, addon in pairs(stAddonManager.AllAddons) do
 			if addon.name ~= addonName then			
@@ -128,10 +137,10 @@ local function LoadProfileWindow()
 	SaveProfile:SetPoint("TOPRIGHT", DisableAll, "BOTTOMRIGHT", 0, -5)
 	SaveProfile.text = SaveProfile:CreateFontString(nil, "OVERLAY")
 	SaveProfile.text:SetFont(unpack(font))
-	SaveProfile.text:SetText("New Profile")
+	SaveProfile.text:SetText("新檔案")
 	SaveProfile.text:SetPoint("CENTER")
-	SaveProfile:SetScript("OnEnter", function(self) self.text:SetTextColor(0/255, 170/255, 255/255) end)
-	SaveProfile:SetScript("OnLeave", function(self) self.text:SetTextColor(255/255, 255/255, 255/255) end)
+	SaveProfile:SetScript("OnEnter", function(self) self.text:SetTextColor(0/255, 170/255, 255/255) self:SetBackdropColor(.2, .2, .2, .6) end)
+	SaveProfile:SetScript("OnLeave", function(self) self.text:SetTextColor(255/255, 255/255, 255/255) R.CreateBD(self) end)
 	SaveProfile:SetScript("OnClick", function(self)
 		if not self.editbox then
 			local ebox = CreateFrame("EditBox", nil, self)
@@ -182,8 +191,8 @@ local function LoadProfileWindow()
 		button.text:SetPoint("CENTER")
 		if text then button.text:SetText(text) end
 		
-		button:SetScript("OnEnter", function(self) self.text:SetTextColor(0/255, 170/255, 255/255) end)
-		button:SetScript("OnLeave", function(self) self.text:SetTextColor(255/255, 255/255, 255/255) end)	
+		button:SetScript("OnEnter", function(self) self.text:SetTextColor(0/255, 170/255, 255/255) self:SetBackdropColor(.2, .2, .2, .6) end)
+		button:SetScript("OnLeave", function(self) self.text:SetTextColor(255/255, 255/255, 255/255) R.CreateBD(self) end)	
 		
 		return button
 	end
@@ -340,8 +349,8 @@ local function LoadWindow()
 	close.text:SetFont(unpack(font))
 	close.text:SetText("x")
 	close.text:SetPoint("CENTER", close, "CENTER", 0, 0)
-	close:SetScript("OnEnter", function(self) self.text:SetTextColor(0/255, 170/255, 255/255) end)
-	close:SetScript("OnLeave", function(self) self.text:SetTextColor(255/255, 255/255, 255/255) end)
+	close:SetScript("OnEnter", function(self) self.text:SetTextColor(0/255, 170/255, 255/255) self:SetBackdropColor(.2, .2, .2, .6) end)
+	close:SetScript("OnLeave", function(self) self.text:SetTextColor(255/255, 255/255, 255/255) R.CreateBD(self) end)
 	close:SetScript("OnClick", function() window:Hide() end)
 	header.close = close
 	
@@ -404,7 +413,16 @@ local function LoadWindow()
 		button.text:SetText(addon.title)
 		
 		button:SetScript("OnEnter", function(self)
-		--tooltip stuff
+			GameTooltip:SetOwner(self, "ANCHOR_BOTTOMLEFT", -3, self:GetHeight())
+			GameTooltip:ClearLines()
+			
+			if addon.version then GameTooltip:AddDoubleLine(addon.title, addon.version)
+			else GameTooltip:AddLine(addon.title) end
+			if addon.notes then	GameTooltip:AddLine(addon.notes, nil, nil, nil, true) end
+			if addon.dependencies then GameTooltip:AddLine("Dependencies: "..unpack(addon.dependencies), 1, .5, 0, true) end
+			if addon.optionaldependencies then GameTooltip:AddLine("Optional Dependencies: "..unpack(addon.optionaldependencies), 1, .5, 0, true) end
+			
+			GameTooltip:Show()
 		end)
 		
 		button:SetScript("OnMouseDown", function(self)
@@ -461,7 +479,7 @@ local function LoadWindow()
 	searchBar:SetHeight(20)
 	R.CreateBD(searchBar)
 	searchBar:SetFont(unpack(font))
-	searchBar:SetText("Search")
+	searchBar:SetText("搜索")
 	searchBar:SetAutoFocus(false)
 	searchBar:SetTextInsets(3, 0, 0 ,0)
 	searchBar:SetScript("OnEnterPressed", function(self) self:ClearFocus() end)
@@ -496,8 +514,8 @@ local function LoadWindow()
 	profileButton.text:SetFont(unpack(font))
 	profileButton.text:SetText(">")
 	profileButton.text:SetPoint("CENTER", profileButton, "CENTER", 0, 0)
-	profileButton:SetScript("OnEnter", function(self) self.text:SetTextColor(0/255, 170/255, 255/255) end)
-	profileButton:SetScript("OnLeave", function(self) self.text:SetTextColor(255/255, 255/255, 255/255) end)
+	profileButton:SetScript("OnEnter", function(self) self.text:SetTextColor(0/255, 170/255, 255/255) self:SetBackdropColor(.2, .2, .2, .6) end)
+	profileButton:SetScript("OnLeave", function(self) self.text:SetTextColor(255/255, 255/255, 255/255) R.CreateBD(self) end)
 	profileButton:SetScript("OnClick", function(self)
 		LoadProfileWindow()
 		if stAddonManager.ProfileWindow:IsShown() then
@@ -515,9 +533,9 @@ local function LoadWindow()
 	reloadButton.text = reloadButton:CreateFontString(nil, "OVERLAY")
 	reloadButton.text:SetPoint("CENTER")
 	reloadButton.text:SetFont(unpack(font))
-	reloadButton.text:SetText("ReloadUI")
-	reloadButton:SetScript("OnEnter", function(self) self.text:SetTextColor(0/255, 170/255, 255/255) end)
-	reloadButton:SetScript("OnLeave", function(self) self.text:SetTextColor(255/255, 255/255, 255/255) end)
+	reloadButton.text:SetText("重載")
+	reloadButton:SetScript("OnEnter", function(self) self.text:SetTextColor(0/255, 170/255, 255/255) self:SetBackdropColor(.2, .2, .2, .6) end)
+	reloadButton:SetScript("OnLeave", function(self) self.text:SetTextColor(255/255, 255/255, 255/255) R.CreateBD(self) end)
 	reloadButton:SetScript("OnClick", function(self)
 		if InCombatLockdown() then return end
 		ReloadUI()

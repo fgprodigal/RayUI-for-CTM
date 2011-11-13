@@ -2267,7 +2267,9 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 		BidBidButton:SetPoint("RIGHT", BidBuyoutButton, "LEFT", -1, 0)
 		AuctionsCancelAuctionButton:ClearAllPoints()
 		AuctionsCancelAuctionButton:SetPoint("RIGHT", AuctionsCloseButton, "LEFT", -1, 0)
-
+		BrowseSearchButton:ClearAllPoints()
+		BrowseSearchButton:SetPoint("TOPRIGHT", AuctionFrameBrowse, "TOPRIGHT", 25, -30)
+		
 		-- Blizz needs to be more consistent
 
 		BrowseBidPriceSilver:SetPoint("LEFT", BrowseBidPriceGold, "RIGHT", 1, 0)

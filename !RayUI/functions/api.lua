@@ -3,6 +3,10 @@
 -----------------------------------------------------
 local R, C, L, DB = unpack(select(2, ...))
 
+R.resolution = GetCVar('gxResolution')
+R.screenheight = tonumber(string.match(R.resolution, "%d+x(%d+)"))
+R.screenwidth = tonumber(string.match(R.resolution, "(%d+)x+%d"))
+
 local classcolors = {
 	["HUNTER"] = { r = 0.58, g = 0.86, b = 0.49 },
 	["WARLOCK"] = { r = 0.6, g = 0.47, b = 0.85 },
@@ -60,6 +64,49 @@ RoleUpdater:RegisterEvent("UPDATE_BONUS_ACTIONBAR")
 RoleUpdater:SetScript("OnEvent", CheckRole)
 CheckRole()
 
+function R.UIScale()
+	R.lowversion = false
+
+	if R.screenwidth < 1600 then
+			R.lowversion = true
+	elseif R.screenwidth >= 3840 or (UIParent:GetWidth() + 1 > R.screenwidth) then
+		local width = R.screenwidth
+		local height = R.screenheight
+	
+		-- because some user enable bezel compensation, we need to find the real width of a single monitor.
+		-- I don't know how it really work, but i'm assuming they add pixel to width to compensate the bezel. :P
+
+		-- HQ resolution
+		if width >= 9840 then width = 3280 end                   	                -- WQSXGA
+		if width >= 7680 and width < 9840 then width = 2560 end                     -- WQXGA
+		if width >= 5760 and width < 7680 then width = 1920 end 	                -- WUXGA & HDTV
+		if width >= 5040 and width < 5760 then width = 1680 end 	                -- WSXGA+
+
+		-- adding height condition here to be sure it work with bezel compensation because WSXGA+ and UXGA/HD+ got approx same width
+		if width >= 4800 and width < 5760 and height == 900 then width = 1600 end   -- UXGA & HD+
+
+		-- low resolution screen
+		if width >= 4320 and width < 4800 then width = 1440 end 	                -- WSXGA
+		if width >= 4080 and width < 4320 then width = 1360 end 	                -- WXGA
+		if width >= 3840 and width < 4080 then width = 1224 end 	                -- SXGA & SXGA (UVGA) & WXGA & HDTV
+		
+		-- yep, now set Elvui to lower reso if screen #1 width < 1600
+		if width < 1600 then
+			R.lowversion = true
+		end
+		
+		-- register a constant, we will need it later for launch.lua
+		R.eyefinity = width
+	end
+
+	if R.lowversion == true then
+		R.ResScale = 0.9
+	else
+		R.ResScale = 1
+	end
+end
+R.UIScale()
+
 local mult = 768/string.match(GetCVar("gxResolution"), "%d+x(%d+)")/C["general"].uiscale
 local function scale(x)
 	return mult*math.floor(x/mult+.5)
@@ -110,11 +157,11 @@ local function CreateShadow(f, t, offset, thickness, texture)
 	end
 	if offset and type(offset) == "number" then
 		offset = scale(offset)
-		shadow:Point("TOPLEFT", -3 - offset, 3 + offset)
-		shadow:Point("BOTTOMRIGHT", 3 + offset, -3 - offset)
+		shadow:Point("TOPLEFT", -3*R.ResScale - offset, 3*R.ResScale + offset)
+		shadow:Point("BOTTOMRIGHT", 3*R.ResScale + offset, -3*R.ResScale - offset)
 	else
-		shadow:Point("TOPLEFT", -3, 3)
-		shadow:Point("BOTTOMRIGHT", 3, -3)
+		shadow:Point("TOPLEFT", -3*R.ResScale, 3*R.ResScale)
+		shadow:Point("BOTTOMRIGHT", 3*R.ResScale, -3*R.ResScale)
 	end
 	local thick = 4
 	if type(thickness) == "number" then
@@ -166,7 +213,7 @@ local function StyleButton(b, c)
 	local normaltexture   = _G[name.."NormalTexture"]
 	local icontexture     = _G[name.."IconTexture"]
 
-	local hover = b:CreateTexture("frame", nil, self) -- hover
+	local hover = b:CreateTexture(nil, "OVERLAY") -- hover
 	hover:SetTexture(1,1,1,0.3)
 	hover:SetHeight(button:GetHeight())
 	hover:SetWidth(button:GetWidth())
@@ -174,7 +221,7 @@ local function StyleButton(b, c)
 	hover:Point("BOTTOMRIGHT",button, -2, 2)
 	button:SetHighlightTexture(hover)
 
-	local pushed = b:CreateTexture("frame", nil, self) -- pushed
+	local pushed = b:CreateTexture(nil, "OVERLAY") -- pushed
 	pushed:SetTexture(0.9,0.8,0.1,0.3)
 	pushed:SetHeight(button:GetHeight())
 	pushed:SetWidth(button:GetWidth())
@@ -189,13 +236,12 @@ local function StyleButton(b, c)
 	end
 
 	if c then
-		local checked = b:CreateTexture("frame", nil, self) -- checked
-		checked:SetTexture(23/255,132/255,209/255,0.3)
+		local checked = b:CreateTexture(nil, "OVERLAY") -- checked
+		checked:SetTexture(23/255,132/255,209/255,0.5)
 		checked:SetHeight(button:GetHeight())
 		checked:SetWidth(button:GetWidth())
 		checked:Point("TOPLEFT",button,2,-2)
 		checked:Point("BOTTOMRIGHT",button,-2,2)
-		checked:SetAlpha(0.3)
 		button:SetCheckedTexture(checked)
 	end
 end

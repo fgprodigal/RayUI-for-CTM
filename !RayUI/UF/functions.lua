@@ -158,7 +158,11 @@ local function PostCastStart(self, unit, name, rank, castid)
 		r, g, b = unpack(oUF.colors.reaction[5])
 	end
 	self:SetBackdropColor(r * 1, g * 1, b * 1)
-	self:SetStatusBarColor(r * 1, g * 1, b * 1)
+	if unit:find("arena%d") or unit:find("boss%d") then
+		self:SetStatusBarColor(r * 1, g * 1, b * 1, .2)
+	else
+		self:SetStatusBarColor(r * 1, g * 1, b * 1)
+	end
 
 	if self.SafeZone and self.casting then
 		self:GetStatusBarTexture():SetDrawLayer("BORDER")
@@ -232,7 +236,7 @@ function R.ConstructCastBar(self)
 	spark:Point("TOPLEFT", castbar:GetStatusBarTexture(), "TOPRIGHT", -10, 13)
 	spark:Point("BOTTOMRIGHT", castbar:GetStatusBarTexture(), "BOTTOMRIGHT", 10, -13)
 			
-	R.CreateBackdrop(castbar, castbar)
+	castbar.shadow = R.CreateBackdrop(castbar, castbar)
 	castbar.bg = castbar:CreateTexture(nil, "BACKGROUND")
 	castbar.bg:SetTexture(C["media"].normal)
 	castbar.bg:SetAllPoints(true)
@@ -523,7 +527,8 @@ function R.PostCreateIcon(auras, button)
     button.border:Point("BOTTOMRIGHT", 1, -1)
 	button.border:CreateBorder()
     button.border:SetFrameLevel(1)
-    button.bg = R.CreateBackdrop(button, button)
+    button:CreateShadow("Default", 2)
+    button.shadow:SetFrameLevel(0)
 	button.overlay:Hide()
 
 	button.remaining = button:CreateFontString(nil, "OVERLAY")
@@ -540,11 +545,23 @@ function R.CustomFilter(icons, unit, icon, name, rank, texture, count, dtype, du
 		isPlayer = true
 	end
 
-	if((icons.onlyShowPlayer and isPlayer) or (not icons.onlyShowPlayer and name)) then
+	if name then
 		icon.isPlayer = isPlayer
 		icon.owner = caster
-		return true
 	end
+	
+	if UnitCanAttack(unit, "player") and UnitLevel(unit) == -1 then
+		if (R.Role == "Melee" and name and R.PvEMeleeBossDebuffs[name]) or 
+			(R.Role == "Caster" and name and R.PvECasterBossDebuffs[name]) or
+			(R.Role == "Tank" and name and R.PvETankBossDebuffs[name]) or
+			isPlayer then
+			return true
+		else
+			return false
+		end
+	end
+	
+	return true
 end
 
 function R.FocusText(self)

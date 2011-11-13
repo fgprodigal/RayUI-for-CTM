@@ -1,3 +1,4 @@
+local R, C = unpack(RayUI)
 local f = CreateFrame("Frame")
 f:RegisterEvent("ADDON_LOADED")
 f:SetScript("OnEvent", function(_, _, name)
@@ -10,6 +11,11 @@ local function addLine(self,id,isItem)
 	if isItem then
 		if select(8, GetItemInfo(id)) and select(8, GetItemInfo(id)) >1 then
 			self:AddDoubleLine("|cFFCA3C3C堆叠数:|r","|cffffffff"..select(8, GetItemInfo(id)))
+		end
+		if GetItemCount(id, true) and GetItemCount(id, true) - GetItemCount(id) > 0 then
+			self:AddDoubleLine("|cFFCA3C3C已拥有(|r"..R.RGBToHex(50/255, 217/255, 1).."银行|r".."|cFFCA3C3C):|r","|cffffffff"..GetItemCount(id, true).."(|r"..R.RGBToHex(50/255, 217/255, 1)..GetItemCount(id, true) - GetItemCount(id).."|r|cffffffff)|r")
+		elseif GetItemCount(id) > 0 then
+			self:AddDoubleLine("|cFFCA3C3C已拥有:|r","|cffffffff"..GetItemCount(id))
 		end
 		self:AddDoubleLine("|cFFCA3C3C物品ID:|r","|cffffffff"..id)
 	else

@@ -33,6 +33,7 @@ DB["uf"]={
 	healthColorClass = false,
 	smooth = true,
 	smoothColor = true,
+	powerheight = 0.13,
 	showParty = true,
 	showBossFrames = true,
 	showArenaFrames = true,

@@ -68,7 +68,7 @@ function TradeTabs:Initialize()
 		local tab = self:CreateTab(spell,spellid,parent)
 		local point,relPoint,x,y = "TOPLEFT","BOTTOMLEFT",0,-17
 		if not prev then
-				prev,relPoint,x,y = parent,"TOPRIGHT",2,-44
+				prev,relPoint,x,y = parent,"TOPRIGHT",13,-44
 			if (parent == SkilletFrame) or Skinner then x = 0 end -- Special case. ew
 			end
 			tab:SetPoint(point,prev,relPoint,x,y)
@@ -110,7 +110,6 @@ local function createClickStopper(button)
     f:Hide()
 end
 
-
 function TradeTabs:CreateTab(spell,spellID,parent)
     local button = CreateFrame("CheckButton",nil,parent,"SpellBookSkillLineTabTemplate,SecureActionButtonTemplate")
     button.tooltip = spell
@@ -118,12 +117,12 @@ function TradeTabs:CreateTab(spell,spellID,parent)
     button:SetAttribute("type","spell")
     button:SetAttribute("spell",spell)
     button.spellID = spellID
-	button:StripTextures()
-	R.Reskin(button)
+    button:GetRegions():Hide()
+	button:SetCheckedTexture(C.Aurora.checked)
+	R.CreateBG(button)
+	R.CreateSD(button, 5, 0, 0, 0, 1, 1)
 	button:SetNormalTexture(GetSpellTexture(spellID, "spell"))
-	button:GetNormalTexture():SetTexCoord(.08, .92, .08, .92)
-	button:GetNormalTexture():SetPoint("TOPLEFT", button, 2, -2)
-	button:GetNormalTexture():SetPoint("BOTTOMRIGHT", button, -2, 2)
+	select(4, button:GetRegions()):SetTexCoord(.08, .92, .08, .92)
 	button:SetScript("OnEvent",updateSelection)
 	button:RegisterEvent("TRADE_SKILL_SHOW")
 	button:RegisterEvent("TRADE_SKILL_CLOSE")
