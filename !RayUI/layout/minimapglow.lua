@@ -28,3 +28,8 @@ checkmail:SetScript("OnEvent", function(self, event, addon)
 		Minimap.shadow:SetBackdropBorderColor(unpack(C["media"].bordercolor))
 	end
 end)
+
+-- GM
+HelpOpenTicketButton:SetParent(Minimap)
+HelpOpenTicketButton:ClearAllPoints()
+HelpOpenTicketButton:SetPoint("TOPLEFT", Minimap, "TOPLEFT")
