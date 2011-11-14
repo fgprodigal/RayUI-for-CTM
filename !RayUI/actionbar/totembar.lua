@@ -1,30 +1,18 @@
 local R, C, L, DB = unpack(select(2, ...))
   
-  if R.myclass == "SHAMAN" then
+if R.myclass ~= "SHAMAN" then return end
 
-    local bar = _G['MultiCastActionBarFrame']
+if MultiCastActionBarFrame then
+	MultiCastActionBarFrame:SetScript("OnUpdate", nil)
+	MultiCastActionBarFrame:SetScript("OnShow", nil)
+	MultiCastActionBarFrame:SetScript("OnHide", nil)
+	MultiCastActionBarFrame:SetParent(rABS_StanceBar)
+	MultiCastActionBarFrame:ClearAllPoints()
+	MultiCastActionBarFrame:SetPoint("BOTTOMLEFT", rABS_StanceBar, "BOTTOMLEFT", -2, -2)
 
-    if bar then
-
-      local holder = CreateFrame("Frame","rABS_TotemBar",UIParent, "SecureHandlerStateTemplate")
-      holder:SetWidth(bar:GetWidth())
-      holder:SetHeight(bar:GetHeight())
-	            
-      bar:SetParent(holder)
-      bar:SetAllPoints(holder)
-      bar:EnableMouse(false)
-      
-      bar.SetPoint = function() end
-      
-      local function moveTotem(self,a1,af,a2,x,y,...)
-        if InCombatLockdown() then return end
-      end
-            
-      --hooksecurefunc(bar, "SetPoint", moveTotem)  
-      holder:SetPoint("BOTTOMLEFT", "UIParent", "BOTTOMLEFT", 15, 202)
-      holder:SetScale(C["actionbar"].barscale)
-	  
-	  R.CreateMover(holder, "TotemBarMover", L["图腾条锚点"], true)
-    end
-  
-  end --disable
+	hooksecurefunc("MultiCastActionButton_Update",function(actionbutton) if not InCombatLockdown() then actionbutton:SetAllPoints(actionbutton.slotButton) end end)
+	
+	MultiCastActionBarFrame.SetParent = R.dummy
+	MultiCastActionBarFrame.SetPoint = R.dummy
+	MultiCastRecallSpellButton.SetPoint = R.dummy -- bug fix, see http://www.tukui.org/v2/forums/topic.php?id=2405
+end

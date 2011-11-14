@@ -11,7 +11,7 @@ bar:SetHitRectInsets(-C["actionbar"].barinset, -C["actionbar"].barinset, -C["act
 
 bar:SetScale(C["actionbar"].barscale)
 
-R.CreateMover(bar, "StanceBarMover", L["姿态条锚点"], true)  
+R.CreateMover(bar, "StanceBarMover", L["职业条锚点"], true)  
 
 ShapeshiftBarFrame:SetParent(bar)
 ShapeshiftBarFrame:EnableMouse(false)
