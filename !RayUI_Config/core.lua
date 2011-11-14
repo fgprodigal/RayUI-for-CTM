@@ -660,7 +660,7 @@ function RayUIConfig.GenerateOptionsInternal()
 					},
 					showgrid = {
 						order = 8,
-						name = L["总是显示动作条"],
+						name = L["显示空按键"],
 						type = "toggle",
 					},
 					Bar1Group = {
