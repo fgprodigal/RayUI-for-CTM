@@ -513,7 +513,7 @@ local function SkinObjects(frame)
 	
 	frame:HookScript('OnHide', OnHide)
 	frames[frame] = true
-	frame.ElvUIPlate = true
+	frame.RayUIPlate = true
 end
 
 local function UpdateThreat(frame, elapsed)

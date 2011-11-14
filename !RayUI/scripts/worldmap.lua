@@ -1,4 +1,4 @@
-﻿local R, C = unpack(RayUI)
+﻿local R, C, L, DB = unpack(select(2, ...))
 if not C["modules"].worldmap then return end
 local mpos = {"CENTER",UIParent,"CENTER",0,65}		-- set position for locked map
 local EJbuttonWidth, EJbuttonHeight, EJbuttonImageWidth, EJbuttonImageHeigth

@@ -71,7 +71,6 @@ AceGUI.RegisterAsWidget = function(self, widget)
 
 		button:ClearAllPoints()
 		button:Point("RIGHT", frame, "RIGHT", -20, 0)
-		R.Reskin(button)
 	
 		button:SetDisabledTexture(C.Aurora.backdrop)
 		local dis = button:GetDisabledTexture()
@@ -93,7 +92,12 @@ AceGUI.RegisterAsWidget = function(self, widget)
 			frame.backdrop = CreateFrame("Frame", nil, frame)
 			frame.backdrop:Point("TOPLEFT", -3, 3)
 			frame.backdrop:Point("BOTTOMRIGHT", 3, -3)
-			frame.backdrop:CreateShadow("Background")
+			local tex = frame.backdrop:CreateTexture(nil, "BACKGROUND")
+			tex:SetPoint("TOPLEFT")
+			tex:SetPoint("BOTTOMRIGHT")
+			tex:SetTexture(C.Aurora.backdrop)
+			tex:SetGradientAlpha("VERTICAL", 0, 0, 0, .3, .35, .35, .35, .35)
+			R.CreateBD(frame.backdrop)
 			if frame:GetFrameLevel() - 1 >= 0 then
 				frame.backdrop:SetFrameLevel(frame:GetFrameLevel() - 1)
 			else

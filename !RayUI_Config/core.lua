@@ -1,5 +1,6 @@
 local RayUIConfig = LibStub("AceAddon-3.0"):NewAddon("RayUIConfig", "AceConsole-3.0", "AceEvent-3.0")
 local L = LibStub("AceLocale-3.0"):GetLocale("RayUIConfig", false)
+local LSM = LibStub("LibSharedMedia-3.0")
 local R, C, DB
 local db = {}
 local defaults
@@ -126,8 +127,96 @@ function RayUIConfig.GenerateOptionsInternal()
 					},
 				},
 			},
-			modules = {
+			media = {
 				order = 5,
+				type = "group",
+				name = L["字体材质"],
+				get = function(info) return db.media[ info[#info] ] end,
+				set = function(info, value) db.media[ info[#info] ] = value; StaticPopup_Show("CFG_RELOAD") end,
+				args = {
+					fontGroup = {
+						order = 1,
+						type = "group",
+						name = L["字体"],
+						guiInline = true,
+						args = {
+							font = {
+								type = "select", dialogControl = 'LSM30_Font',
+								order = 1,
+								name = L["一般字体"],
+								values = AceGUIWidgetLSMlists.font,	
+							},
+							fontsize = {
+								type = "range",
+								order = 2,
+								name = L["字体大小"],
+								type = "range",
+								min = 9, max = 15, step = 1,
+							},
+							dmgfont = {
+								type = "select", dialogControl = 'LSM30_Font',
+								order = 3,
+								name = L["伤害字体"],
+								values = AceGUIWidgetLSMlists.font,	
+							},
+							pxfont = {
+								type = "select", dialogControl = 'LSM30_Font',
+								order = 4,
+								name = L["像素字体"],
+								values = AceGUIWidgetLSMlists.font,	
+							},
+							cdfont = {
+								type = "select", dialogControl = 'LSM30_Font',
+								order = 5,
+								name = L["冷却字体"],
+								values = AceGUIWidgetLSMlists.font,	
+							},
+						},
+					},
+					textureGroup = {
+						order = 2,
+						type = "group",
+						name = L["材质"],
+						guiInline = true,
+						args = {
+							normal = {
+								type = "select", dialogControl = 'LSM30_Statusbar',
+								order = 1,
+								name = L["一般材质"],
+								values = AceGUIWidgetLSMlists.statusbar,								
+							},
+							blank = {
+								type = "select", dialogControl = 'LSM30_Statusbar',
+								order = 2,
+								name = L["空白材质"],
+								values = AceGUIWidgetLSMlists.statusbar,								
+							},		
+							glow = {
+								type = "select", dialogControl = 'LSM30_Border',
+								order = 3,
+								name = L["阴影边框"],
+								values = AceGUIWidgetLSMlists.border,								
+							},
+						},
+					},
+					soundGroup = {
+						order = 3,
+						type = "group",
+						name = L["声音"],
+						guiInline = true,
+						args = {
+							warning = {
+								type = "select", dialogControl = 'LSM30_Sound',
+								order = 1,
+								name = L["报警声音"],
+								values = AceGUIWidgetLSMlists.sound,							
+							},
+						},						
+					},
+				},
+			},
+			modules = {
+				order = 6,
 				type = "group",
 				name = L["功能"],
 				get = function(info) return db.modules[ info[#info] ] end,
@@ -178,7 +267,7 @@ function RayUIConfig.GenerateOptionsInternal()
 				},
 			},
 			uf = {
-				order = 6,
+				order = 7,
 				type = "group",
 				name = L["头像"],
 				get = function(info) return db.uf[ info[#info] ] end,
@@ -258,7 +347,7 @@ function RayUIConfig.GenerateOptionsInternal()
 				},
 			},
 			raid = {
-				order = 7,
+				order = 8,
 				type = "group",
 				name = L["团队"],
 				get = function(info) return db.raid[ info[#info] ] end,
@@ -522,7 +611,7 @@ function RayUIConfig.GenerateOptionsInternal()
 				},
 			},
 			actionbar = {
-				order = 8,
+				order = 9,
 				type = "group",
 				name = L["动作条"],
 				get = function(info) return db.actionbar[ info[#info] ] end,
@@ -705,7 +794,7 @@ function RayUIConfig.GenerateOptionsInternal()
 				},
 			},
 			chat = {
-				order = 9,
+				order = 10,
 				type = "group",
 				name = L["聊天"],
 				get = function(info) return db.chat[ info[#info] ] end,
@@ -734,7 +823,7 @@ function RayUIConfig.GenerateOptionsInternal()
 				},
 			},
 			misc = {
-				order = 10,
+				order = 11,
 				type = "group",
 				name = L["小玩意儿"],
 				get = function(info) return db.misc[ info[#info] ] end,
@@ -874,7 +963,7 @@ function RayUIConfig.GenerateOptionsInternal()
 				},
 			},
 			skins = {
-				order = 11,
+				order = 12,
 				type = "group",
 				name = L["插件美化"],
 				get = function(info) return db.skins[ info[#info] ] end,

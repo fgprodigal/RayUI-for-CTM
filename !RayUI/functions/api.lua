@@ -89,8 +89,7 @@ function R.UIScale()
 		if width >= 4320 and width < 4800 then width = 1440 end 	                -- WSXGA
 		if width >= 4080 and width < 4320 then width = 1360 end 	                -- WXGA
 		if width >= 3840 and width < 4080 then width = 1224 end 	                -- SXGA & SXGA (UVGA) & WXGA & HDTV
-		
-		-- yep, now set Elvui to lower reso if screen #1 width < 1600
+
 		if width < 1600 then
 			R.lowversion = true
 		end
