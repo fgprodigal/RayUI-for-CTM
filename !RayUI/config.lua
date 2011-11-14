@@ -89,6 +89,7 @@ DB["actionbar"]={
 	macroname = false,
 	itemcount = true,
 	hotkeys = true,
+	showgrid = true,
 	
 	bar1fade = true,
 	

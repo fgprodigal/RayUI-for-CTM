@@ -478,3 +478,38 @@ local function StyleTotemSpellButton(button, index)
 end
 hooksecurefunc("MultiCastSummonSpellButton_Update", function(self) StyleTotemSpellButton(self,0) end)
 hooksecurefunc("MultiCastRecallSpellButton_Update", function(self) StyleTotemSpellButton(self,5) end)
+
+local RayUIOnLogon = CreateFrame("Frame")
+RayUIOnLogon:RegisterEvent("PLAYER_ENTERING_WORLD")
+RayUIOnLogon:SetScript("OnEvent", function(self, event)
+	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
+	SetCVar("alwaysShowActionBars", 0)	
+	if C["actionbar"].showgrid == true then
+		ActionButton_HideGrid = R.dummy
+		for i = 1, 12 do
+			local button = _G[format("ActionButton%d", i)]
+			button:SetAttribute("showgrid", 1)
+			ActionButton_ShowGrid(button)
+
+			button = _G[format("BonusActionButton%d", i)]
+			button:SetAttribute("showgrid", 1)
+			ActionButton_ShowGrid(button)
+			
+			button = _G[format("MultiBarRightButton%d", i)]
+			button:SetAttribute("showgrid", 1)
+			ActionButton_ShowGrid(button)
+
+			button = _G[format("MultiBarBottomRightButton%d", i)]
+			button:SetAttribute("showgrid", 1)
+			ActionButton_ShowGrid(button)
+			
+			button = _G[format("MultiBarLeftButton%d", i)]
+			button:SetAttribute("showgrid", 1)
+			ActionButton_ShowGrid(button)
+			
+			button = _G[format("MultiBarBottomLeftButton%d", i)]
+			button:SetAttribute("showgrid", 1)
+			ActionButton_ShowGrid(button)
+		end
+	end
+end)

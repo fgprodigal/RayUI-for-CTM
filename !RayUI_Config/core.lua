@@ -658,11 +658,10 @@ function RayUIConfig.GenerateOptionsInternal()
 						name = L["显示快捷键"],
 						type = "toggle",
 					},
-					spacer = {
-						type = 'description',
-						name = '',
-						desc = '',
+					showgrid = {
 						order = 8,
+						name = L["总是显示动作条"],
+						type = "toggle",
 					},
 					Bar1Group = {
 						order = 11,
