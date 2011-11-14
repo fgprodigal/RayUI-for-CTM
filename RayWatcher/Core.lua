@@ -4,6 +4,7 @@ local _, ns = ...
 local _, myclass = UnitClass("player")
 local colors = RAID_CLASS_COLORS
 ns.modules = {}
+abc = ns.modules
 local testing = false
 
 local watcherPrototype = {}
@@ -11,25 +12,6 @@ local _G = _G
 local UnitBuff = UnitBuff
 local UnitDebuff = UnitDebuff
 local CooldownFrame_SetTimer = CooldownFrame_SetTimer
-local function CreateShadow(f)
-	if f.shadow then return end
-	
-	local shadow = CreateFrame("Frame", nil, f)
-	shadow:SetFrameLevel(1)
-	shadow:SetFrameStrata(f:GetFrameStrata())
-	shadow:SetPoint("TOPLEFT", -3, 3)
-	shadow:SetPoint("BOTTOMRIGHT", 3, -3)
-	shadow:SetBackdrop({
-	bgFile = [[Interface\ChatFrame\ChatFrameBackground.blp]], 
-	edgeFile = [[Interface\AddOns\RayWatcher\media\glowTex.tga]], 
-	edgeSize = 5,
-	insets = { left = 4, right = 4, top = 4, bottom = 4 }
-	})
-	shadow:SetBackdropColor(.05,.05,.05, .6)
-	shadow:SetBackdropBorderColor(0, 0, 0, 1)
-	f.shadow = shadow
-	f.glow = shadow
-end
 
 function watcherPrototype:OnEnable()
 		if self.parent then
@@ -40,7 +22,6 @@ function watcherPrototype:OnEnable()
 end
 	
 function watcherPrototype:OnDisable()
-	print("|cff7aa6d6Ray|r|cffff0000W|r|cff7aa6d6atcher|r: "..self.name.."已禁用")
 	if self.parent then
 		self.parent:Hide()
 	end
@@ -48,7 +29,7 @@ end
 
 function watcherPrototype:CreateButton(mode)
 	local button=CreateFrame("Frame", nil, self.parent)
-	CreateShadow(button)
+	button:CreateShadow("Background")
 	button:SetSize(self.size, self.size)
 	self.parent:SetSize(self.size, self.size)
 	button.icon = button:CreateTexture(nil, "ARTWORK")
@@ -79,7 +60,7 @@ function watcherPrototype:CreateButton(mode)
 		local shadow = CreateFrame("Frame", nil, button.statusbar)
 		shadow:SetPoint("TOPLEFT", -2, 2)
 		shadow:SetPoint("BOTTOMRIGHT", 2, -2)
-		CreateShadow(shadow)
+		shadow:CreateShadow("Background")
 		button.statusbar:SetWidth(self.barwidth - 6)
 		button.statusbar:SetHeight(5)
 		button.statusbar:SetStatusBarTexture([[Interface\AddOns\RayWatcher\media\statusbar.tga]])
@@ -321,7 +302,7 @@ function watcherPrototype:ApplyStyle()
 				local shadow = CreateFrame("Frame", nil, button.statusbar)
 				shadow:SetPoint("TOPLEFT", -2, 2)
 				shadow:SetPoint("BOTTOMRIGHT", 2, -2)
-				CreateShadow(shadow)
+				shadow:CreateShadow("Background")
 				button.statusbar:SetWidth(self.barwidth - 6)
 				button.statusbar:SetHeight(5)
 				button.statusbar:SetStatusBarTexture([[Interface\AddOns\RayWatcher\media\statusbar.tga]])
@@ -444,6 +425,7 @@ function watcherPrototype:PLAYER_ENTERING_WORLD()
 	local _, parent = self.parent:GetPoint()
 	if parent then self.parent:SetParent(parent) end
 	self:Update()
+	if self.disabled then self:Disable() end
 end
 
 function RayUIWatcher:OnInitialize()
@@ -469,21 +451,29 @@ function RayUIWatcher:OnInitialize()
 					ns.modules[group][option] = value
 				end
 			end
-			for id, value in pairs(options.BUFF or {}) do
-				ns.modules[group]["BUFF"] = ns.modules[group]["BUFF"] or {}
-				ns.modules[group]["BUFF"][id] = value
+			if type(options.BUFF) == "table" then
+				for id, value in pairs(options.BUFF) do
+					ns.modules[group]["BUFF"] = ns.modules[group]["BUFF"] or {}
+					ns.modules[group]["BUFF"][id] = value
+				end
 			end
-			for id, value in pairs(options.DEBUFF or {}) do
-				ns.modules[group]["DEBUFF"] = ns.modules[group]["DEBUFF"] or {}
-				ns.modules[group]["DEBUFF"][id] = value
+			if type(options.DEBUFF) == "table" then
+				for id, value in pairs(options.DEBUFF or {}) do
+					ns.modules[group]["DEBUFF"] = ns.modules[group]["DEBUFF"] or {}
+					ns.modules[group]["DEBUFF"][id] = value
+				end
 			end
-			for id, value in pairs(options.CD or {}) do
-				ns.modules[group]["CD"] = ns.modules[group]["CD"] or {}
-				ns.modules[group]["CD"][id] = value
+			if type(options.CD) == "table" then
+				for id, value in pairs(options.CD or {}) do
+					ns.modules[group]["CD"] = ns.modules[group]["CD"] or {}
+					ns.modules[group]["CD"][id] = value
+				end
 			end
-			for id, value in pairs(options.itemCD or {}) do
-				ns.modules[group]["itemCD"] = ns.modules[group]["itemCD"] or {}
-				ns.modules[group]["itemCD"][id] = value
+			if type(options.itemCD) == "table" then
+				for id, value in pairs(options.itemCD or {}) do
+					ns.modules[group]["itemCD"] = ns.modules[group]["itemCD"] or {}
+					ns.modules[group]["itemCD"][id] = value
+				end
 			end
 		end
 	end
@@ -498,7 +488,7 @@ end
 
 function RayUIWatcher:ADDON_LOADED(event, addon)
 	if addon == "RayWatcher" then
-		print("|cff7aa6d6Ray|r|cffff0000W|r|cff7aa6d6atcher|r已加载, 输入/rw打开设置界面.")
+		print("|cff7aa6d6Ray|r|cffff0000W|r|cff7aa6d6atcher|r已加载, 输入/rw2打开设置界面.")
 		self:UnregisterEvent("ADDON_LOADED")
 	end
 end

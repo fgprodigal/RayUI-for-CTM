@@ -52,11 +52,12 @@ local function maxChanged(self, event, unit)
 	end
 	
 	local health = UnitHealthMax("player")
-	local _, stamina = UnitStat("player", 3)
+	local stat, _, posBuff = UnitStat("player", 3)
 	
-	if not health or not stamina then return end
-	
-	bar.max = 0.1 * (health - 15 * stamina) + stamina
+	if not health or not stat then return end
+
+	local basehealth = health - (posBuff*UnitHPPerStamina("player"))
+	bar.max = basehealth/10 + stat
 	bar:SetMinMaxValues(0, bar.max)
 	valueChanged(self, event, unit)
 end

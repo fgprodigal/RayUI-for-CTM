@@ -1,6 +1,6 @@
 ﻿## Interface: 40200
 ## Title: BugSack
-## Version: 4.0
+## Version: 5.0-alpha
 ## Notes: Toss those bugs inna sack.
 ## Notes-zhCN: 错误信息收集器。
 ## Notes-esES: Mete esos errores en un saco.
@@ -15,7 +15,7 @@
 ## X-License: GPL v2 or later.
 ## X-Email: rabbit.magtheridon@gmail.com
 ## X-BugGrabber-Display: BugSack
-## X-Curse-Packaged-Version: r245
+## X-Curse-Packaged-Version: r253
 ## X-Curse-Project-Name: BugSack
 ## X-Curse-Project-ID: bugsack
 ## X-Curse-Repository-ID: wow/bugsack/mainline

@@ -1,6 +1,6 @@
 --[[
 Name: DBIcon-1.0
-Revision: $Rev: 18 $
+Revision: $Rev: 19 $
 Author(s): Rabbit (rabbit.magtheridon@gmail.com)
 Description: Allows addons to register to recieve a lightweight minimap icon as an alternative to more heavy LDB displays.
 Dependencies: LibStub
@@ -33,7 +33,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 --
 
 local DBICON10 = "LibDBIcon-1.0"
-local DBICON10_MINOR = tonumber(("$Rev: 18 $"):match("(%d+)"))
+local DBICON10_MINOR = tonumber(("$Rev: 19 $"):match("(%d+)"))
 if not LibStub then error(DBICON10 .. " requires LibStub.") end
 local ldb = LibStub("LibDataBroker-1.1", true)
 if not ldb then error(DBICON10 .. " requires LibDataBroker-1.1.") end
@@ -88,18 +88,18 @@ end
 local minimapShapes = {
 	["ROUND"] = {true, true, true, true},
 	["SQUARE"] = {false, false, false, false},
-	["CORNER-TOPLEFT"] = {true, false, false, false},
+	["CORNER-TOPLEFT"] = {false, false, false, true},
 	["CORNER-TOPRIGHT"] = {false, false, true, false},
 	["CORNER-BOTTOMLEFT"] = {false, true, false, false},
-	["CORNER-BOTTOMRIGHT"] = {false, false, false, true},
+	["CORNER-BOTTOMRIGHT"] = {true, false, false, false},
 	["SIDE-LEFT"] = {true, true, false, false},
 	["SIDE-RIGHT"] = {false, false, true, true},
 	["SIDE-TOP"] = {true, false, true, false},
 	["SIDE-BOTTOM"] = {false, true, false, true},
-	["TRICORNER-TOPLEFT"] = {true, true, true, false},
+	["TRICORNER-TOPLEFT"] = {false, true, true, true},
 	["TRICORNER-TOPRIGHT"] = {true, false, true, true},
 	["TRICORNER-BOTTOMLEFT"] = {true, true, false, true},
-	["TRICORNER-BOTTOMRIGHT"] = {false, true, true, true},
+	["TRICORNER-BOTTOMRIGHT"] = {true, true, true, false},
 }
 
 local function updatePosition(button)

@@ -78,7 +78,7 @@ do
 			lastError = GetTime()
 		end
 		-- If the frame is shown, we need to update it.
-		if addon.db.auto or BugSackFrame and BugSackFrame:IsShown() then
+		if (addon.db.auto and not InCombatLockdown()) or (BugSackFrame and BugSackFrame:IsShown()) then
 			addon:OpenSack(errorObject)
 		end
 		addon:UpdateDisplay()
@@ -142,7 +142,6 @@ function eventFrame:ADDON_LOADED(loadedAddon)
 	if type(sv.mute) ~= "boolean" then sv.mute = false end
 	if type(sv.auto) ~= "boolean" then sv.auto = false end
 	if type(sv.chatframe) ~= "boolean" then sv.chatframe = false end
-	if type(sv.filterAddonMistakes) ~= "boolean" then sv.filterAddonMistakes = true end
 	if type(sv.soundMedia) ~= "string" then sv.soundMedia = "BugSack: Fatality" end
 	if type(sv.fontSize) ~= "string" then sv.fontSize = "GameFontHighlight" end
 	addon.db = sv
@@ -165,14 +164,7 @@ function eventFrame:PLAYER_LOGIN()
 
 	-- Set up our error event handler
 	BugGrabber.RegisterCallback(addon, "BugGrabber_BugGrabbed", onError)
-	BugGrabber.RegisterCallback(addon, "BugGrabber_EventGrabbed", onError)
 
-	if not addon:GetFilter() then
-		BugGrabber:RegisterAddonActionEvents()
-	else
-		BugGrabber:UnregisterAddonActionEvents()
-	end
-	
 	SlashCmdList.BugSack = function() InterfaceOptionsFrame_OpenToCategory(addonName) end
 	SLASH_BugSack1 = "/bugsack"
 
@@ -207,51 +199,38 @@ do
 	end
 end
 
-function addon:GetFilter()
-	return self.db.filterAddonMistakes
-end
-
-function addon:ToggleFilter()
-	self.db.filterAddonMistakes = not self.db.filterAddonMistakes
-	if not self.db.filterAddonMistakes then
-		BugGrabber:RegisterAddonActionEvents()
-	else
-		BugGrabber:UnregisterAddonActionEvents()
-	end
-end
-
 do
-	local errorFormat = [[|cff999999%dx|r %s]]
-	function addon:FormatError(err)
-		local m = err.message
-		if type(m) == "table" then
-			m = table.concat(m, "")
-		end
-		return errorFormat:format(err.counter or -1, self:ColorError(m))
+	local function colorStack(ret)
+		ret = tostring(ret) or ""	-- yes, it gets called with nonstring from somewhere /mikk
+		ret = ret:gsub("|([^chHr])", "||%1"):gsub("|$", "||") -- Pipes
+		ret = ret:gsub("<(.-)>", "|cffffea00<%1>|r") -- Things wrapped in <>
+		ret = ret:gsub("([\"`'])(.-)([\"`'])", "|cff8888ff%1%2%3|r") -- Quotes
+		ret = ret:gsub(":(%d+)([%S\n])", ":|cff00ff00%1|r%2") -- Line numbers
+		ret = ret:gsub("([^\\]+%.lua)", "|cffffffff%1|r") -- Lua files
+		return ret
 	end
-end
+	addon.ColorStack = colorStack
 
-function addon:ColorError(err)
-	local ret = err
-	ret = ret:gsub("|([^chHr])", "||%1") -- pipe char
-	ret = ret:gsub("|$", "||") -- pipe char
-	ret = ret:gsub("\nLocals:\n", "\n|cFFFFFFFFLocals:|r\n")
-	ret = ret:gsub("[Ii][Nn][Tt][Ee][Rr][Ff][Aa][Cc][Ee]\\[Aa][Dd][Dd][Oo][Nn][Ss]\\", "")
-	ret = ret:gsub("%{\n +%}", "{}") -- locals: empty table spanning lines
-	ret = ret:gsub("([ ]-)([%a_][%a_%d]+) = ", "%1|cffffff80%2|r = ") -- local
-	ret = ret:gsub("= (%d+)\n", "= |cffff7fff%1|r\n") -- locals: number
-	ret = ret:gsub("<function>", "|cffffea00<function>|r") -- locals: function
-	ret = ret:gsub("<table>", "|cffffea00<table>|r") -- locals: table
-	ret = ret:gsub("= nil\n", "= |cffff7f7fnil|r\n") -- locals: nil
-	ret = ret:gsub("= true\n", "= |cffff9100true|r\n") -- locals: true
-	ret = ret:gsub("= false\n", "= |cffff9100false|r\n") -- locals: false
-	ret = ret:gsub("= \"([^\n]+)\"\n", "= |cff8888ff\"%1\"|r\n") -- locals: string
-	ret = ret:gsub("defined %@(.-):(%d+)", "@ |cffeda55f%1|r:|cff00ff00%2|r:") -- Files/Line Numbers of locals
-	ret = ret:gsub("\n(.-):(%d+):", "\n|cffeda55f%1|r:|cff00ff00%2|r:") -- Files/Line Numbers
-	ret = ret:gsub("%-%d+%p+.-%\\", "|cffffff00%1|cffeda55f") -- Version numbers
-	ret = ret:gsub("%(.-%)", "|cff999999%1|r") -- Parantheses
-	ret = ret:gsub("([`'])(.-)([`'])", "|cff8888ff%1%2%3|r") -- Other quotes
-	return ret
+	local function colorLocals(ret)
+		ret = tostring(ret) or ""   -- yes, it gets called with nonstring from somewhere /mikk
+		ret = ret:gsub("|(%a)", "||%1"):gsub("|$", "||") -- Pipes
+		ret = ret:gsub("> %@(.-):(%d+)", "> @|cffeda55f%1|r:|cff00ff00%2|r") -- Files/Line Numbers of locals
+		ret = ret:gsub("(%s-)([%a_%(][%a_%d%*%)]+) = ", "%1|cffffff80%2|r = ") -- Table keys
+		ret = ret:gsub("= (%-?[%d%p]+)\n", "= |cffff7fff%1|r\n") -- locals: number
+		ret = ret:gsub("= nil\n", "= |cffff7f7fnil|r\n") -- locals: nil
+		ret = ret:gsub("= true\n", "= |cffff9100true|r\n") -- locals: true
+		ret = ret:gsub("= false\n", "= |cffff9100false|r\n") -- locals: false
+		ret = ret:gsub("= <(.-)>", "= |cffffea00<%1>|r") -- Things wrapped in <>
+		return ret
+	end
+	addon.ColorLocals = colorLocals
+
+	local errorFormat = "%dx %s\n\nLocals:\n%s"
+	function addon:FormatError(err)
+		local s = colorStack(tostring(err.message) .. "\n" .. tostring(err.stack))
+		local l = colorLocals(tostring(err.locals))
+		return errorFormat:format(err.counter or -1, s, l)
+	end
 end
 
 function addon:Reset()
@@ -297,4 +276,71 @@ function addon:OnBugComm(prefix, message, distribution, sender)
 	wipe(deSz)
 	deSz = nil
 end
+
+--[[
+
+do
+	local commFormat = "1#%s#%s"
+	local function transmit(command, target, argument)
+		SendAddonMessage("BugGrabber", commFormat:format(command, argument), "WHISPER", target)
+	end
+
+	local retrievedErrors = {}
+	function addon:GetErrorByPlayerAndID(player, id)
+		if player == playerName then return self:GetErrorByID(id) end
+		-- This error was linked by someone else, we need to retrieve it from them
+		-- using the addon communication channel.
+		if retrievedErrors[id] then return retrievedErrors[id] end
+		transmit("FETCH", player, id)
+		print(L.ERROR_INCOMING:format(id, player))
+	end
+
+	local fakeAddon, comm, serializer = nil, nil, nil
+	local function commBugCatcher(prefix, message, distribution, sender)
+		local good, deSz = fakeAddon:Deserialize(message)
+		if not good then
+			print("damnit")
+			return
+		end
+		retrievedErrors[deSz.originalId] = deSz
+		
+	end
+	local function hasTransmitFacilities()
+		if fakeAddon then return true end
+		if not serializer then serializer = LibStub("AceSerializer-3.0", true) end
+		if not comm then comm = LibStub("AceComm-3.0", true) end
+		if comm and serializer then
+			fakeAddon = {}
+			comm:Embed(fakeAddon)
+			serializer:Embed(fakeAddon)
+			fakeAddon:RegisterComm("BGBug", commBugCatcher)
+			return true
+		end
+	end
+
+	function frame:CHAT_MSG_ADDON(event, prefix, message, distribution, sender)
+		if prefix ~= "BugGrabber" then return end
+		local version, command, argument = strsplit("#", message)
+		if tonumber(version) ~= 1 or not command then return end
+		if command == "FETCH" then
+			local errorObject = addon:GetErrorByID(argument)
+			if errorObject then
+				if hasTransmitFacilities() then
+					errorObject.originalId = argument
+					local sz = fakeAddon:Serialize(errorObject)
+					fakeAddon:SendCommMessage("BGBug", sz, "WHISPER", sender, "BULK")
+				else
+					-- We can only transmit a gimped and sanitized message
+					transmit("BUG", sender, errorObject.message:sub(1, 240):gsub("#", ""))
+				end
+			else
+				transmit("FAIL", sender, argument)
+			end
+		elseif command == "FAIL" then
+			print(L.ERROR_FAILED_FETCH:format(argument, sender))
+		elseif command == "BUG" then
+			print(L.CRIPPLED_ERROR:format(sender, argument))
+		end
+	end
+end]]
 

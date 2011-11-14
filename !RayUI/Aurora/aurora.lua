@@ -1,10 +1,8 @@
 local R, C, L, DB = unpack(select(2, ...))
 local ADDON_NAME = ...
-local map = true -- yay map
 
 local alpha = .5 -- controls the backdrop opacity (0 = invisible, 1 = solid)
 
--- [[ FreeUI functions ]]
 local classcolours = {
 	["HUNTER"] = { r = 0.58, g = 0.86, b = 0.49 },
 	["WARLOCK"] = { r = 0.6, g = 0.47, b = 0.85 },
@@ -2460,10 +2458,8 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 			end
 		end)
 
-		AchievementFrameHeader:ClearAllPoints()
-		AchievementFrameHeader:SetPoint("TOP", AchievementFrame, "TOP", 0, 36)
-		AchievementFrameFilterDropDown:ClearAllPoints()
-		AchievementFrameFilterDropDown:SetPoint("RIGHT", AchievementFrameHeader, "RIGHT", -120, 2)
+		AchievementFrameHeaderPoints:SetPoint("TOP", AchievementFrame, "TOP", 0, -6)
+		AchievementFrameFilterDropDown:SetPoint("TOPRIGHT", AchievementFrame, "TOPRIGHT", -98, 1)
 		AchievementFrameFilterDropDownText:ClearAllPoints()
 		AchievementFrameFilterDropDownText:SetPoint("CENTER", -10, 1)
 
@@ -3625,20 +3621,12 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 		R.Reskin(RaidFrameRaidBrowserButton)
 		R.Reskin(RaidFrameReadyCheckButton)
 	elseif addon == "Blizzard_ReforgingUI" then
+		ReforgingFrameTopInset:StripTextures()
+		ReforgingFrameInset:StripTextures()
+		ReforgingFrameBottomInset:StripTextures()
+		
+		ReforgingFrame:StripTextures()
 		R.SetBD(ReforgingFrame)
-		ReforgingFrame:DisableDrawLayer("BORDER")
-		ReforgingFrameInset:DisableDrawLayer("BORDER")
-		ReforgingFrameBottomInset:DisableDrawLayer("BORDER")
-		ReforgingFrameTopInset:DisableDrawLayer("BACKGROUND")
-		ReforgingFrameTopInset:DisableDrawLayer("BORDER")
-		ReforgingFramePortrait:Hide()
-		ReforgingFrameBg:Hide()
-		ReforgingFrameTitleBg:Hide()
-		ReforgingFrameInsetBg:Hide()
-		ReforgingFrameBottomInsetBg:Hide()
-		ReforgingFramePortraitFrame:Hide()
-		ReforgingFrameTopBorder:Hide()
-		ReforgingFrameTopRightCorner:Hide()
 		ReforgingFrameRestoreButton_LeftSeparator:Hide()
 		ReforgingFrameReforgeButton_LeftSeparator:Hide()
 		R.Reskin(ReforgingFrameRestoreButton)
@@ -3646,6 +3634,22 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 		R.ReskinDropDown(ReforgingFrameFilterOldStat)
 		R.ReskinDropDown(ReforgingFrameFilterNewStat)
 		R.ReskinClose(ReforgingFrameCloseButton)
+		
+		ReforgingFrameItemButton:StripTextures()
+		ReforgingFrameItemButton:CreateShadow("Background")
+		ReforgingFrameItemButton:StyleButton()
+		ReforgingFrameItemButtonIconTexture:ClearAllPoints()
+		ReforgingFrameItemButtonIconTexture:Point("TOPLEFT", 2, -2)
+		ReforgingFrameItemButtonIconTexture:Point("BOTTOMRIGHT", -2, 2)
+		
+		hooksecurefunc("ReforgingFrame_Update", function(self)
+			local currentReforge, icon, name, quality, bound, cost = GetReforgeItemInfo()
+			if icon then
+				ReforgingFrameItemButtonIconTexture:SetTexCoord(.08, .92, .08, .92)
+			else
+				ReforgingFrameItemButtonIconTexture:SetTexture(nil)
+			end
+		end)
 	elseif addon == "Blizzard_TalentUI" then
 		R.SetBD(PlayerTalentFrame)
 		R.Reskin(PlayerTalentFrameToggleSummariesButton)

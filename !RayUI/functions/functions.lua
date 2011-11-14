@@ -1,5 +1,8 @@
 local R, C, L, DB = unpack(select(2, ...))
 
+SlashCmdList['RELOAD'] = function() ReloadUI() end
+SLASH_RELOAD1 = '/rl'
+
 local tmp={}
 function R.debug(...)
 	local n=0

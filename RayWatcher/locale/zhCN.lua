@@ -7,6 +7,7 @@ L["改变参数需重载应用设置"] = true
 L["解锁锚点"] = true
 L["选项"] = true
 L["选择一个分组"] = true
+	L["启用该组"] = true
 L["模式"] = true
 	L["图标"] = true
 	L["计时条"] = true

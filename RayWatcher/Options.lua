@@ -26,8 +26,7 @@ function RayWatcherConfig:LoadDefaults()
 end	
 
 function RayWatcherConfig:OnInitialize()	
-	RayWatcherConfig:RegisterChatCommand("rw", "ShowConfig")
-	
+	RayWatcherConfig:RegisterChatCommand("rw2", "ShowConfig")
 	self.OnInitialize = nil
 end
 
@@ -182,14 +181,31 @@ function RayWatcherConfig.GenerateOptionsInternal()
 						end,
 						values = groupname,						
 					},
+					disabled = {
+						type = 'toggle',
+						name = L["启用该组"],
+						order = 2,
+						set = function(info, value)
+							db[db.RayWatcher.GroupSelect].disabled = not value
+							if db[db.RayWatcher.GroupSelect].disabled then
+								ns.modules[db.RayWatcher.GroupSelect]:Disable()
+								print("|cff7aa6d6Ray|r|cffff0000W|r|cff7aa6d6atcher|r: "..db.RayWatcher.GroupSelect.."已禁用")
+							else
+								ns.modules[db.RayWatcher.GroupSelect]:Enable()
+								print("|cff7aa6d6Ray|r|cffff0000W|r|cff7aa6d6atcher|r: "..db.RayWatcher.GroupSelect.."已启用")
+							end
+						end,
+						get = function() return not db[db.RayWatcher.GroupSelect].disabled end,
+						disabled = function(info) return not db.RayWatcher.GroupSelect end,
+					},
 					spacer = {
 						type = 'description',
 						name = '',
 						desc = '',
-						order = 2,
+						order = 3,
 					},
 					mode = {
-						order = 3,
+						order = 4,
 						name = L["模式"],
 						set = function(info, value)
 							db[db.RayWatcher.GroupSelect].mode = value
@@ -199,7 +215,7 @@ function RayWatcherConfig.GenerateOptionsInternal()
 							db[db.RayWatcher.GroupSelect].barwidth = ns.modules[db.RayWatcher.GroupSelect].barwidth
 						end,
 						get = function() return (db[db.RayWatcher.GroupSelect].mode or "ICON") end,
-						disabled = function(info) return not db.RayWatcher.GroupSelect end,
+						disabled = function(info) return not db.RayWatcher.GroupSelect or db[db.RayWatcher.GroupSelect].disabled end,
 						type = "select",
 						width = "half",
 						values = {
@@ -212,10 +228,10 @@ function RayWatcherConfig.GenerateOptionsInternal()
 						name = '',
 						desc = '',
 						width = "half",
-						order = 4,
+						order = 5,
 					},
 					direction = {
-						order = 5,
+						order = 6,
 						name = L["增长方向"],
 						set = function(info, value)
 							db[db.RayWatcher.GroupSelect].direction = value
@@ -223,7 +239,7 @@ function RayWatcherConfig.GenerateOptionsInternal()
 							ns.modules[db.RayWatcher.GroupSelect]:ApplyStyle()
 						end,
 						get = function() return db[db.RayWatcher.GroupSelect].direction end,
-						disabled = function(info) return not db.RayWatcher.GroupSelect end,
+						disabled = function(info) return not db.RayWatcher.GroupSelect or db[db.RayWatcher.GroupSelect].disabled end,
 						width = "half",
 						type = "select",
 						values = function()
@@ -246,10 +262,10 @@ function RayWatcherConfig.GenerateOptionsInternal()
 						type = 'description',
 						name = '',
 						desc = '',
-						order = 6,
+						order = 7,
 					},					
 					size = {
-						order = 7,
+						order = 8,
 						name = L["图标大小"],
 						set = function(info, value)
 							db[db.RayWatcher.GroupSelect].size = value
@@ -257,12 +273,12 @@ function RayWatcherConfig.GenerateOptionsInternal()
 							ns.modules[db.RayWatcher.GroupSelect]:ApplyStyle()
 						end,
 						get = function() return db[db.RayWatcher.GroupSelect].size end,
-						disabled = function(info) return not db.RayWatcher.GroupSelect end,
+						disabled = function(info) return not db.RayWatcher.GroupSelect or db[db.RayWatcher.GroupSelect].disabled end,
 						type = "range",
 						min = 20, max = 80, step = 1,
 					},
 					barWidth = {
-						order = 8,
+						order = 9,
 						name = L["计时条长度"],
 						set = function(info, value)
 							db[db.RayWatcher.GroupSelect].barwidth = value
@@ -275,7 +291,7 @@ function RayWatcherConfig.GenerateOptionsInternal()
 						min = 50, max = 300, step = 1,
 					},
 					iconSide = {
-						order = 9,
+						order = 10,
 						name = L["图标位置"],
 						set = function(info, value)
 							db[db.RayWatcher.GroupSelect].iconside = value
@@ -295,34 +311,38 @@ function RayWatcherConfig.GenerateOptionsInternal()
 						type = 'description',
 						name = '',
 						desc = '',
-						order = 10,
+						order = 11,
 					},
 					buffs = {
-						order = 11,
+						order = 12,
 						type = "select",
 						name = L["已有增益监视"],
 						set = function(info, value) UpdateInput(value, "BUFF") end,
+						disabled = function(info) return not db.RayWatcher.GroupSelect or db[db.RayWatcher.GroupSelect].disabled end,
 						values = {},
 					},
 					debuffs = {
-						order = 12,
+						order = 13,
 						type = "select",
 						name = L["已有减益监视"],
 						set = function(info, value) UpdateInput(value, "DEBUFF") end,
+						disabled = function(info) return not db.RayWatcher.GroupSelect or db[db.RayWatcher.GroupSelect].disabled end,
 						values = {},
 					},
 					cooldowns = {
-						order = 13,
+						order = 14,
 						type = "select",
 						name = L["已有冷却监视"],
 						set = function(info, value) UpdateInput(value, "CD") end,
+						disabled = function(info) return not db.RayWatcher.GroupSelect or db[db.RayWatcher.GroupSelect].disabled end,
 						values = {},
 					},
 					itemcooldowns = {
-						order = 14,
+						order = 15,
 						type = "select",
 						name = L["已有物品冷却监视"],
 						set = function(info, value) UpdateInput(value, "itemCD") end,
+						disabled = function(info) return not db.RayWatcher.GroupSelect or db[db.RayWatcher.GroupSelect].disabled end,
 						values = {},
 					},
 					spacer5 = {
@@ -330,22 +350,22 @@ function RayWatcherConfig.GenerateOptionsInternal()
 						name = '',
 						desc = '',
 						width = "full",
-						order = 15,
+						order = 16,
 					},
 					idinput = {
-						order = 16,
+						order = 17,
 						type = "input",
 						name = L["ID"],
 						get = function(info, value) return db.RayWatcher[ info[#info] ] end,
 						set = function(info, value) db.RayWatcher[ info[#info] ] = value end,
-						hidden = function(info) return not db.RayWatcher.GroupSelect end,
+						disabled = function(info) return not db.RayWatcher.GroupSelect or db[db.RayWatcher.GroupSelect].disabled end,
 					},
 					filterinput = {
-						order = 17,
+						order = 18,
 						name = L["类型"],
 						get = function(info, value) return db.RayWatcher[ info[#info] ] end,
 						set = function(info, value) db.RayWatcher[ info[#info] ] = value end,
-						hidden = function(info) return not db.RayWatcher.GroupSelect end,
+						disabled = function(info) return not db.RayWatcher.GroupSelect or db[db.RayWatcher.GroupSelect].disabled end,
 						width = "half",
 						type = "select",
 						values = {
@@ -361,7 +381,7 @@ function RayWatcherConfig.GenerateOptionsInternal()
 						name = L["监视对象"],
 						get = function(info, value) return db.RayWatcher[ info[#info] ] end,
 						set = function(info, value) db.RayWatcher[ info[#info] ] = value end,
-						hidden = function(info) return(db.RayWatcher.filterinput~="BUFF" and db.RayWatcher.filterinput~="DEBUFF") end,
+						disabled = function(info) return(db.RayWatcher.filterinput~="BUFF" and db.RayWatcher.filterinput~="DEBUFF") or db[db.RayWatcher.GroupSelect].disabled end,
 						width = "half",
 						values = {
 							["player"] = L["玩家"],
@@ -376,7 +396,7 @@ function RayWatcherConfig.GenerateOptionsInternal()
 						name = L["施法者"],
 						get = function(info, value) return db.RayWatcher[ info[#info] ] end,
 						set = function(info, value) db.RayWatcher[ info[#info] ] = value end,
-						hidden = function(info) return(db.RayWatcher.filterinput~="BUFF" and db.RayWatcher.filterinput~="DEBUFF") end,
+						hidden = function(info) return(db.RayWatcher.filterinput~="BUFF" and db.RayWatcher.filterinput~="DEBUFF") or db[db.RayWatcher.GroupSelect].disabled end,
 						width = "half",
 						values = {
 							["player"] = L["玩家"],
@@ -399,7 +419,7 @@ function RayWatcherConfig.GenerateOptionsInternal()
 						name = L["添加"],
 						desc = L["添加到当前分组"],
 						width = "half",
-						disabled = function(info) return (not db.RayWatcher.filterinput or not db.RayWatcher.idinput) end,
+						disabled = function(info) return (not db.RayWatcher.filterinput or not db.RayWatcher.idinput) or db[db.RayWatcher.GroupSelect].disabled end,
 						func = function()
 							db[db.RayWatcher.GroupSelect][db.RayWatcher.filterinput] = db[db.RayWatcher.GroupSelect][db.RayWatcher.filterinput] or {}
 							db[db.RayWatcher.GroupSelect][db.RayWatcher.filterinput][tonumber(db.RayWatcher.idinput)] = {
@@ -423,7 +443,7 @@ function RayWatcherConfig.GenerateOptionsInternal()
 						name = L["删除"],
 						desc = L["从当前分组删除"],
 						width = "half",
-						disabled = function(info) return (not db.RayWatcher.idinput or not db.RayWatcher.filterinput or not ns.modules[db.RayWatcher.GroupSelect][db.RayWatcher.filterinput] or not ns.modules[db.RayWatcher.GroupSelect][db.RayWatcher.filterinput][tonumber(db.RayWatcher.idinput)]) end,
+						disabled = function(info) return (not db.RayWatcher.idinput or not db.RayWatcher.filterinput or not ns.modules[db.RayWatcher.GroupSelect][db.RayWatcher.filterinput] or not ns.modules[db.RayWatcher.GroupSelect][db.RayWatcher.filterinput][tonumber(db.RayWatcher.idinput)]) or db[db.RayWatcher.GroupSelect].disabled end,
 						func = function()
 							db[db.RayWatcher.GroupSelect][db.RayWatcher.filterinput] = db[db.RayWatcher.GroupSelect][db.RayWatcher.filterinput] or {}
 							db[db.RayWatcher.GroupSelect][db.RayWatcher.filterinput][tonumber(db.RayWatcher.idinput)] = false
