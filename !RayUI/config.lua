@@ -20,12 +20,46 @@ DB["general"]={
 	logo = true,
 }
 
-DB["modules"]={
-	worldmap = true,
-	worldmaplock = false,
-	worldmapscale = 0.8,
+DB["worldmap"]={
+	enable = true,
+	lock = false,
+	scale = 0.8,
 	ejbuttonscale = 0.6,
-	partymemberscale = 25,
+	partymembersize = 25,
+}
+
+DB["minimap"]={
+	enable = true,
+}
+
+DB["nameplates"]={
+	enable = true,
+}
+
+DB["bag"]={
+	enable = true,
+}
+
+DB["chat"]={
+	enable = true,
+	height = 140,
+	width = 400,
+	autohide = true,
+	autoshow = true,
+	autohidetime = 10,
+}
+
+DB["tooltip"]={
+	enable = true,
+	cursor = true,
+}
+
+DB["buff"]={
+	enable = true,
+}
+
+DB["cooldownflash"]={
+	enable = true,
 }
 
 DB["uf"]={
@@ -72,12 +106,6 @@ DB["raid"]={
     dispel = true,
     tooltip = true,
     hidemenu = false,
-}
-
-DB["chat"]={
-	autohide = true,
-	autoshow = true,
-	autohidetime = 10,
 }
 
 DB["actionbar"]={

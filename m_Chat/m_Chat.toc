@@ -1,9 +1,0 @@
-﻿## Interface: 40200
-## Author: Monolit
-## X-Credits: Funkydude (BasicChatMods), Rabbit, Ammo (SCM), Adys (LinkHover), Orukxu (SpamThrottle)
-## Notes: A compilation of useful chat modification based on Funkydude's "Basic Chat Mods".
-## Version: 2.2
-## Title: mono|cffffffffChat|r
-## OptionalDeps: Blizzard_CombatLog
-
-m_Chat.lua

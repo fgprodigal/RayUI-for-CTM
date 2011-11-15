@@ -25,7 +25,7 @@ layout\layout.xml
 datatexts\datatexts.xml
 
 misc\misc.xml
-scripts\scripts.xml
+modules\modules.xml
 
 addonskin\addonskin.xml
 

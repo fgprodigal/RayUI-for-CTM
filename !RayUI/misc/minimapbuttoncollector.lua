@@ -13,6 +13,7 @@ local BlackList = {
 	["GameTimeFrame"] = true,
 	["TimeManagerClockButton"] = true,
 	["FeedbackUIButton"] = true,
+	["HelpOpenTicketButton"] = true,
 }
 
 local buttons = {}

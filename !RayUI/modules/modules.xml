@@ -1,0 +1,9 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+	<Include file="bags\bags.xml"/>
+	<Include file="buff\buff.xml"/>
+	<Include file="chat\chat.xml"/>
+	<Include file="cooldownflash\cooldownflash.xml"/>
+	<Include file="map\map.xml"/>
+	<Include file="nameplates\nameplates.xml"/>
+	<Include file="tooltip\tooltip.xml"/>
+</Ui>

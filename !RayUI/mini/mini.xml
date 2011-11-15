@@ -12,5 +12,4 @@
 	<Script file='TradeTabs\TradeTabs.lua'/>
 	<Script file='HatTrick.lua'/>
 	<Script file='tekKompare.lua'/>
-	<Script file='easyChannel.lua'/>
 </Ui>
