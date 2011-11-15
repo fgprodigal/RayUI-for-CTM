@@ -102,7 +102,10 @@ end)
 local eventcount = 0
 local RayUIInGame = CreateFrame("Frame")
 RayUIInGame:RegisterAllEvents()
-RayUIInGame:SetScript("OnEvent", function(self, event)
+RayUIInGame:SetScript("OnEvent", function(self, event, addon)
+	if event == "PLAYER_ENTERING_WORLD" then
+		DEFAULT_CHAT_FRAME:AddMessage("欢迎使用|cff7aa6d6Ray|r|cffff0000U|r|cff7aa6d6I|r(v"..R.version..")，插件发布网址: |cff8A9DDE[|Hurl:http://fgprodigal.com|hhttp://fgprodigal.com|h]|r")
+	end
 	eventcount = eventcount + 1
 	if QuestDifficultyColors["trivial"].r ~= 0.50 then
 		QuestDifficultyColors["trivial"] = { r = 0.50, g = 0.50, b = 0.50, font = QuestDifficulty_Trivial }
