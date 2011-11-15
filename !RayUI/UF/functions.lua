@@ -140,86 +140,6 @@ function R.ConstructPowerBar(self, bg, text)
 	return power
 end
 
-local function OnCastSent(self, event, unit, spell, rank)
-	if unit and not self.Castbar.SafeZone then return end
-	self.Castbar.SafeZone.sendTime = GetTime()
-end
-
-local function PostCastStart(self, unit, name, rank, castid)
-	if unit == "vehicle" then unit = "player" end
-	local r, g, b
-	if UnitIsPlayer(unit) and UnitIsFriend(unit, "player") and R.myname == "夏可" then
-		r, g, b = 95/255, 182/255, 255/255
-	elseif UnitIsPlayer(unit) and UnitIsFriend(unit, "player") then
-		r, g, b = unpack(oUF.colors.class[select(2, UnitClass(unit))])
-	elseif self.interrupt then
-		r, g, b = unpack(oUF.colors.reaction[1])
-	else
-		r, g, b = unpack(oUF.colors.reaction[5])
-	end
-	self:SetBackdropColor(r * 1, g * 1, b * 1)
-	if unit:find("arena%d") or unit:find("boss%d") then
-		self:SetStatusBarColor(r * 1, g * 1, b * 1, .2)
-	else
-		self:SetStatusBarColor(r * 1, g * 1, b * 1)
-	end
-
-	if self.SafeZone and self.casting then
-		self:GetStatusBarTexture():SetDrawLayer("BORDER")
-		self.SafeZone:SetDrawLayer("ARTWORK")
-		self.SafeZone:ClearAllPoints()
-		self.SafeZone:SetPoint("TOPRIGHT", self)
-		self.SafeZone:SetPoint("BOTTOMRIGHT", self)
-		self.SafeZone.timeDiff = GetTime() - self.SafeZone.sendTime
-		self.SafeZone.timeDiff = self.SafeZone.timeDiff > self.max and self.max or self.SafeZone.timeDiff
-		self.SafeZone:SetWidth(self:GetWidth() * self.SafeZone.timeDiff / self.max)
-	end
-	
-	if self.SafeZone and self.channeling then
-		self:GetStatusBarTexture():SetDrawLayer("BORDER")
-		self.SafeZone:SetDrawLayer("ARTWORK")
-		self.SafeZone:ClearAllPoints()
-		self.SafeZone:SetPoint("TOPLEFT", self)
-		self.SafeZone:SetPoint("BOTTOMLEFT", self)
-		self.SafeZone.timeDiff = GetTime() - self.SafeZone.sendTime
-		self.SafeZone.timeDiff = self.SafeZone.timeDiff > self.max and self.max or self.SafeZone.timeDiff
-		self.SafeZone:SetWidth(self:GetWidth() * self.SafeZone.timeDiff / self.max)
-	end
-end
-
-local function OnCastbarUpdate(self, elapsed)
-	local currentTime = GetTime()
-	if self.casting or self.channeling then
-		local parent = self:GetParent()
-		local duration = self.casting and self.duration + elapsed or self.duration - elapsed
-		if (self.casting and duration >= self.max) or (self.channeling and duration <= 0) then
-			self.casting = nil
-			self.channeling = nil
-			return
-		end
-		if parent.unit == 'player' then
-			if self.delay ~= 0 then
-				self.Time:SetFormattedText('%.1f | |cffff0000%.1f|r', duration, self.casting and self.max + self.delay or self.max - self.delay)
-			else
-				self.Time:SetFormattedText('%.1f | %.1f', duration, self.max)
-			end
-		else
-			self.Time:SetFormattedText('%.1f | %.1f', duration, self.casting and self.max + self.delay or self.max - self.delay)
-		end
-		self.duration = duration
-		self:SetValue(duration)
-		self:SetAlpha(1)
-	else
-		local alpha = self:GetAlpha() - 0.02
-		if alpha > 0 then
-			self:SetAlpha(alpha)
-		else
-			self.fadeOut = nil
-			self:Hide()
-		end
-	end
-end
-
 function R.ConstructCastBar(self)
 	local castbar = CreateFrame("StatusBar", nil, self)
 	castbar:SetStatusBarTexture(C["media"].normal)
@@ -247,7 +167,7 @@ function R.ConstructCastBar(self)
 	castbar.Time = castbar:CreateFontString(nil, "OVERLAY")
 	castbar.Time:SetFont(C.media.font, 12, "THINOUTLINE")
 	castbar.Time:SetJustifyH("RIGHT")
-	castbar.Time:SetPoint("BOTTOMRIGHT", castbar, "TOPRIGHT", -5, -2)	
+	castbar.Time:SetPoint("BOTTOMRIGHT", castbar, "TOPRIGHT", -5, -2)
 	castbar.Iconbg = CreateFrame("Frame", nil ,castbar)
 	castbar.Iconbg:SetPoint("BOTTOMRIGHT", castbar, "BOTTOMLEFT", -5, 0)
 	castbar.Iconbg:SetSize(21, 21)
@@ -255,18 +175,84 @@ function R.ConstructCastBar(self)
 	castbar.Icon = castbar:CreateTexture(nil, "OVERLAY")
 	castbar.Icon:SetAllPoints(castbar.Iconbg)
 	castbar.Icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
-	self:RegisterEvent("UNIT_SPELLCAST_SENT", OnCastSent)
 	if self.unit == "player" then
-		castbar.SafeZone = castbar:CreateTexture(nil, "BORDER")
+		castbar.SafeZone = castbar:CreateTexture(nil, "OVERLAY")
 		castbar.SafeZone:SetTexture(C["media"].normal)
-		castbar.SafeZone:SetVertexColor(255/255, 0/255, 0/255, 0.75)
-		castbar.bg:SetVertexColor(.2,.2,.2)
+		castbar.SafeZone:SetVertexColor(1, 0, 0, 0.75)
 	end
-	castbar.PostCastStart = PostCastStart
+	castbar.PostCastStart = R.PostCastStart
 	castbar.PostChannelStart = PostCastStart
-	castbar.OnUpdate = OnCastbarUpdate
+	castbar.CustomTimeText = R.CustomCastTimeText
+	castbar.CustomDelayText = R.CustomCastDelayText
+	castbar.PostCastInterruptible = R.PostCastInterruptible
+	castbar.PostCastNotInterruptible = R.PostCastNotInterruptible
 	
 	return castbar
+end
+
+function R.PostCastStart(self, unit, name, rank, castid)
+	if unit == "vehicle" then unit = "player" end
+	local r, g, b
+	if UnitIsPlayer(unit) and UnitIsFriend(unit, "player") and R.myname == "夏可" then
+		r, g, b = 95/255, 182/255, 255/255
+	elseif UnitIsPlayer(unit) and UnitIsFriend(unit, "player") then
+		r, g, b = unpack(oUF.colors.class[select(2, UnitClass(unit))])
+	elseif self.interrupt then
+		r, g, b = unpack(oUF.colors.reaction[1])
+	else
+		r, g, b = unpack(oUF.colors.reaction[5])
+	end
+	self:SetBackdropColor(r * 1, g * 1, b * 1)
+	if unit:find("arena%d") or unit:find("boss%d") then
+		self:SetStatusBarColor(r * 1, g * 1, b * 1, .2)
+	else
+		self:SetStatusBarColor(r * 1, g * 1, b * 1)
+	end
+end
+
+function R.CustomCastTimeText(self, duration)
+	self.Time:SetText(("%.1f | %.1f"):format(self.channeling and duration or self.max - duration, self.max))
+end
+
+function R.CustomCastDelayText(self, duration)
+	self.Time:SetText(("%.1f |cffff0000%s %.1f|r"):format(self.channeling and duration or self.max - duration, self.channeling and "- " or "+", self.delay))
+end
+
+function R.PostCastInterruptible(self, unit)
+	if unit == "vehicle" then unit = "player" end
+	if unit ~= "player" then
+		local r, g, b
+		if UnitIsPlayer(unit) and UnitIsFriend(unit, "player") and R.myname == "夏可" then
+			r, g, b = 95/255, 182/255, 255/255
+		elseif UnitIsPlayer(unit) and UnitIsFriend(unit, "player") then
+			r, g, b = unpack(oUF.colors.class[select(2, UnitClass(unit))])
+		else
+			r, g, b = unpack(oUF.colors.reaction[1])
+		end
+		self:SetBackdropColor(r * 1, g * 1, b * 1)
+		if unit:find("arena%d") or unit:find("boss%d") then
+			self:SetStatusBarColor(r * 1, g * 1, b * 1, .2)
+		else
+			self:SetStatusBarColor(r * 1, g * 1, b * 1)
+		end
+	end
+end
+
+function R.PostCastNotInterruptible(self, unit)
+	local r, g, b
+	if UnitIsPlayer(unit) and UnitIsFriend(unit, "player") and R.myname == "夏可" then
+		r, g, b = 95/255, 182/255, 255/255
+	elseif UnitIsPlayer(unit) and UnitIsFriend(unit, "player") then
+		r, g, b = unpack(oUF.colors.class[select(2, UnitClass(unit))])
+	else
+		r, g, b = unpack(oUF.colors.reaction[5])
+	end
+	self:SetBackdropColor(r * 1, g * 1, b * 1)
+	if unit:find("arena%d") or unit:find("boss%d") then
+		self:SetStatusBarColor(r * 1, g * 1, b * 1, .2)
+	else
+		self:SetStatusBarColor(r * 1, g * 1, b * 1)
+	end
 end
 
 function R.PostUpdateHealth(self, unit, cur, max)
