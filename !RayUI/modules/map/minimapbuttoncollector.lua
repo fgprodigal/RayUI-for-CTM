@@ -1,4 +1,5 @@
 local R, C, L, DB = unpack(select(2, ...))
+if not C["minimap"].enable then return end
 
 local BlackList = { 
 	["MiniMapTracking"] = true,
