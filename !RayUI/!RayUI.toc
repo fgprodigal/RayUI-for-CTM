@@ -29,9 +29,4 @@ modules\modules.xml
 
 addonskin\addonskin.xml
 
-actionbar\actionbar.xml
-uf\uf.xml
-freebgrid\freebgrid.xml
-uf\plugins\Movable.lua
-
 mini\mini.xml

@@ -4,7 +4,7 @@ if not C["raid"].enable then return end
 
 local _, ns = ...
 local oUF = RayUF or ns.oUF or oUF
-assert(oUF, "oUF_Freebgrid was unable to locate oUF install.")
+assert(oUF, "unable to locate oUF install.")
 
 local spellcache = setmetatable({}, {__index=function(t,v) local a = {GetSpellInfo(v)} if GetSpellInfo(v) then t[v] = a end return a end})
 local function GetSpellInfo(a)

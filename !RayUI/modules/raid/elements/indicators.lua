@@ -4,7 +4,7 @@ if not C["raid"].enable then return end
 
 local _, ns = ...
 local oUF = RayUF or ns.oUF or oUF
-assert(oUF, "oUF_Freebgrid was unable to locate oUF install.")
+assert(oUF, "unable to locate oUF install.")
 
 local _, class = UnitClass("player")
 local indicator = "Interface\\AddOns\\!RayUI\\media\\squares.ttf"

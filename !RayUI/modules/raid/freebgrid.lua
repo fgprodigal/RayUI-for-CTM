@@ -4,7 +4,7 @@ if not C["raid"].enable then return end
 
 local ADDON_NAME, ns = ...
 local oUF = RayUF or ns.oUF or oUF
-assert(oUF, "oUF_Freebgrid was unable to locate oUF install.")
+assert(oUF, "unable to locate oUF install.")
 
 ns._Objects = {}
 ns._Headers = {}

@@ -511,5 +511,7 @@ RayUIOnLogon:SetScript("OnEvent", function(self, event)
 			button:SetAttribute("showgrid", 1)
 			ActionButton_ShowGrid(button)
 		end
+	else
+		InterfaceOptionsActionBarsPanelAlwaysShowActionBars:Kill()
 	end
 end)

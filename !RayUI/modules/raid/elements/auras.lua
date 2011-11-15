@@ -4,11 +4,11 @@ if not C["raid"].enable then return end
 
 local _, ns = ...
 local oUF = RayUF or ns.oUF or oUF
-assert(oUF, "oUF_Freebgrid was unable to locate oUF install.")
+assert(oUF, "unable to locate oUF install.")
 
 local glowBorder = {
     bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
-    edgeFile = [=[Interface\AddOns\oUF_Freebgrid\media\glowTex.tga]=], edgeSize = 5,
+    edgeFile = [=[Interface\AddOns\!RayUI\media\glowTex.tga]=], edgeSize = 5,
     insets = {left = 3, right = 3, top = 3, bottom = 3}
 }
 
