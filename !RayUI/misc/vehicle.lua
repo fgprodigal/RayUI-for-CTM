@@ -7,11 +7,10 @@ hooksecurefunc(VehicleSeatIndicator,"SetPoint",function(_,_,parent) -- vehicle s
     if (parent == "MinimapCluster") or (parent == _G["MinimapCluster"]) then
 		VehicleSeatIndicator:ClearAllPoints()
 		if VehicleSeatMover then
-			VehicleSeatIndicator:Point("BOTTOMRIGHT", VehicleSeatMover, "BOTTOMRIGHT", 0, 0)
+			VehicleSeatIndicator:Point("LEFT", VehicleSeatMover, "LEFT", 0, 0)
 		else
-			VehicleSeatIndicator:Point("BOTTOMRIGHT", Minimap, "TOPRIGHT", 0, 10)
+			VehicleSeatIndicator:Point("LEFT", UIParent, "LEFT", 40, 120)
 			R.CreateMover(VehicleSeatIndicator, "VehicleSeatMover", L["载具指示锚点"])	
 		end
-		VehicleSeatIndicator:Point("BOTTOMRIGHT", Minimap, "TOPRIGHT", 0, 10)
     end
 end)
