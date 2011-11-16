@@ -21,7 +21,7 @@ function Needy:INSPECT_ACHIEVEMENT_READY()
         local stats, text = {}, ''
 
         stats.TotalAchievemen = tonumber(GetComparisonAchievementPoints()) or 0
-            text = text .. '|cFFF1C502成就点数:  |cFFFFFFFF' .. stats.TotalAchievemen
+            text = text .. ACHIEVEMENT_POINTS..': |cFFFFFFFF' .. stats.TotalAchievemen
 
         if text ~= '' then
 			self.line:SetFont(GameTooltipTextLeft3:GetFont())
@@ -72,7 +72,7 @@ function Needy:UPDATE_MOUSEOVER_UNIT(refresh)
 
     self.unit = UnitName('mouseover')
 
-    local text = '\n正在查询成就..'
+    local text = ACHIEVEMENT_POINTS..": |cFFFFFFFFLoading..."
 
     if refresh then
 		self.line:SetFont(GameTooltipTextLeft3:GetFont())

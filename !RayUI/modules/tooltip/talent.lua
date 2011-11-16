@@ -5,8 +5,8 @@ local gtt = GameTooltip;
 local GetTalentTabInfo = GetTalentTabInfo;
 
 -- Constants
-local TALENTS_PREFIX = "主天赋:|cffffffff ";
-local TALENTS_PREFIX2 = "副天赋:|cffffffff ";
+local TALENTS_PREFIX = TALENT_SPEC_PRIMARY..":|cffffffff ";
+local TALENTS_PREFIX2 = TALENT_SPEC_SECONDARY..":|cffffffff ";
 local CACHE_SIZE = 25;		-- Change cache size here (Default 25)
 local INSPECT_DELAY = 0.2;
 local INSPECT_FREQ = 2;
@@ -65,12 +65,12 @@ local function GatherTalents(isInspect)
 	-- Customise output. Use TipTac setting if it exists, otherwise just use formatting style one.
 	local talentFormat = 1;
 	if (current[primaryTree] == 0) then
-		current.format = "无天赋";
+		current.format = NONE..TALENTS;
 	elseif (talentFormat == 1) then
 		current.format = current.tree.." ("..current[1].."/"..current[2].."/"..current[3]..")";
 	end
 	if (sec[secTree] == 0) then
-		sec.format = "无天赋";
+		sec.format = NONE..TALENTS;
 	elseif (talentFormat == 1) then
 		sec.format = sec.tree.." ("..sec[1].."/"..sec[2].."/"..sec[3]..")";
 	end	
