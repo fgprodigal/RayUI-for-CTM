@@ -1,4 +1,4 @@
-local R, C, L, DB = unpack(select(2, ...))
+﻿local R, C, L, DB = unpack(select(2, ...))
 
 SlashCmdList['RELOAD'] = function() ReloadUI() end
 SLASH_RELOAD1 = '/rl'
@@ -103,9 +103,6 @@ local eventcount = 0
 local RayUIInGame = CreateFrame("Frame")
 RayUIInGame:RegisterAllEvents()
 RayUIInGame:SetScript("OnEvent", function(self, event, addon)
-	if event == "PLAYER_ENTERING_WORLD" then
-		DEFAULT_CHAT_FRAME:AddMessage("欢迎使用|cff7aa6d6Ray|r|cffff0000U|r|cff7aa6d6I|r(v"..R.version..")，插件发布网址: |cff8A9DDE[|Hurl:http://fgprodigal.com|hhttp://fgprodigal.com|h]|r")
-	end
 	eventcount = eventcount + 1
 	if QuestDifficultyColors["trivial"].r ~= 0.50 then
 		QuestDifficultyColors["trivial"] = { r = 0.50, g = 0.50, b = 0.50, font = QuestDifficulty_Trivial }
@@ -116,4 +113,11 @@ RayUIInGame:SetScript("OnEvent", function(self, event, addon)
 		collectgarbage("collect")
 		eventcount = 0
 	end
+end)
+
+local RayUILaunch = CreateFrame("Frame")
+RayUILaunch:RegisterEvent("PLAYER_ENTERING_WORLD")
+RayUILaunch:SetScript("OnEvent", function(self, event)
+	DEFAULT_CHAT_FRAME:AddMessage("欢迎使用|cff7aa6d6Ray|r|cffff0000U|r|cff7aa6d6I|r(v"..R.version..")，插件发布网址: |cff8A9DDE[|Hurl:http://fgprodigal.com|hhttp://fgprodigal.com|h]|r")
+	self:UnregisterEvent("PLAYER_ENTERING_WORLD" )
 end)

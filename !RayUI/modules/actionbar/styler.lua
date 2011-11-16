@@ -1,193 +1,212 @@
 ﻿local R, C, L, DB = unpack(select(2, ...))
-  
-  local _G = _G
 
-  local nomoreplay = function() return end
-  
-  local function UpdateHotkey(self, actionButtonType)
-		local hotkey = _G[self:GetName() .. 'HotKey']
-		local text = hotkey:GetText()
-		
-		text = string.gsub(text, '(s%-)', 'S')
-		text = string.gsub(text, '(a%-)', 'A')
-		text = string.gsub(text, '(c%-)', 'C')
-		text = string.gsub(text, '(Mouse Button )', 'M')
-		text = string.gsub(text, '(滑鼠按鍵)', 'M')
-		text = string.gsub(text, '(鼠标按键)', 'M')
-		text = string.gsub(text, KEY_BUTTON3, 'M3')
-		text = string.gsub(text, '(Num Pad )', 'N')
-		text = string.gsub(text, KEY_PAGEUP, 'PU')
-		text = string.gsub(text, KEY_PAGEDOWN, 'PD')
-		text = string.gsub(text, KEY_SPACE, 'SpB')
-		text = string.gsub(text, KEY_INSERT, 'Ins')
-		text = string.gsub(text, KEY_HOME, 'Hm')
-		text = string.gsub(text, KEY_DELETE, 'Del')
-		text = string.gsub(text, KEY_MOUSEWHEELUP, 'MwU')
-		text = string.gsub(text, KEY_MOUSEWHEELDOWN, 'MwD')
-		
-		if hotkey:GetText() == _G['RANGE_INDICATOR'] then
-			hotkey:SetText('')
-		else
-			hotkey:SetText(text)
-		end
-  end
-  --initial style func
-  local function rActionButtonStyler_AB_style(self, totem, flyout)
-  
-    local name = self:GetName()
+local _G = _G
+local securehandler = CreateFrame("Frame", nil, nil, "SecureHandlerBaseTemplate")
+
+local function UpdateHotkey(self, actionButtonType)
+	local hotkey = _G[self:GetName() .. 'HotKey']
+	local text = hotkey:GetText()
+
+	text = string.gsub(text, '(s%-)', 'S')
+	text = string.gsub(text, '(a%-)', 'A')
+	text = string.gsub(text, '(c%-)', 'C')
+	text = string.gsub(text, '(Mouse Button )', 'M')
+	text = string.gsub(text, '(滑鼠按鍵)', 'M')
+	text = string.gsub(text, '(鼠标按键)', 'M')
+	text = string.gsub(text, KEY_BUTTON3, 'M3')
+	text = string.gsub(text, '(Num Pad )', 'N')
+	text = string.gsub(text, KEY_PAGEUP, 'PU')
+	text = string.gsub(text, KEY_PAGEDOWN, 'PD')
+	text = string.gsub(text, KEY_SPACE, 'SpB')
+	text = string.gsub(text, KEY_INSERT, 'Ins')
+	text = string.gsub(text, KEY_HOME, 'Hm')
+	text = string.gsub(text, KEY_DELETE, 'Del')
+	text = string.gsub(text, KEY_MOUSEWHEELUP, 'MwU')
+	text = string.gsub(text, KEY_MOUSEWHEELDOWN, 'MwD')
+
+	if hotkey:GetText() == _G['RANGE_INDICATOR'] then
+		hotkey:SetText('')
+	else
+		hotkey:SetText(text)
+	end
+end
+
+function Style(self, totem, flyout)
+	local name = self:GetName()
 	
 	if name:match("MultiCast") then return end 
-      
-      local action = self.action
-      local name = self:GetName()
-      local bu  = _G[name]
-      local ic  = _G[name.."Icon"]
-      local co  = _G[name.."Count"]
-      local bo  = _G[name.."Border"]
-      local ho  = _G[name.."HotKey"]
-      local cd  = _G[name.."Cooldown"]
-      local na  = _G[name.."Name"]
-      local fl  = _G[name.."Flash"]
-      local nt  = _G[name.."NormalTexture"]
-      
-      if fl then
-		fl:SetTexture("")
-	  end
-	  
-	  if bo then
-		  bo:Hide()
-		  bo.Show = nomoreplay
-	  end
-	  
-	  if nt then
-		nt:SetTexture(nil)
-      end
-	  
-	  if self.rABS_Styled then return end	
-	  
-      if C["actionbar"].hotkeys then
-        ho:SetFont(C["media"].pxfont, 11, "OUTLINE,MONOCHROME")
-		ho:SetShadowColor(0, 0, 0)
-		ho:SetShadowOffset(R.mult, -R.mult)
-        ho:ClearAllPoints()
-        ho:SetPoint("TOPRIGHT", 0, 0)
-        ho:SetPoint("TOPLEFT", 0, 0)
-      else
-        ho:Hide()
-        ho.Show = nomoreplay
-      end
-      
-      if C["actionbar"].macroname then
-        na:SetFont(C["media"].font, 12, "OUTLINE")
-        na:ClearAllPoints()
-        na:SetPoint("BOTTOMLEFT", bu, 0, 0)
-        na:SetPoint("BOTTOMRIGHT", bu, 0, 0)
-      else
-        na:Hide()
-      end
+	
+	local action = self.action
+	local Button = self
+	local Icon = _G[name.."Icon"]
+	local Count = _G[name.."Count"]
+	local Flash	 = _G[name.."Flash"]
+	local HotKey = _G[name.."HotKey"]
+	local Border  = _G[name.."Border"]
+	local Btname = _G[name.."Name"]
+	local normal  = _G[name.."NormalTexture"]
+	
+	if Flash then
+		Flash:SetTexture("")
+	end
+	
+	
+	if Border then
+		Border:Kill()
+	end
+	
+	if Count then
+		Count:ClearAllPoints()
+		Count:SetPoint("BOTTOMRIGHT", 0, R.Scale(2))
+		Count:SetFont(C["media"].pxfont, R.Scale(10), "OUTLINE,MONOCHROME")
+	end
+	
+	if normal then
+		normal:SetTexture(nil)
+	end
+		
+	if self.styled then return end	
+	
+	if Btname then
+		if C["actionbar"].macroname ~= true then
+			Btname:SetText("")
+			Btname:Hide()
+			Btname.Show = R.dummy
+		end
+	end
+	
+	if not self.shadow then
+		if not totem then
+			if not flyout then
+				self:SetWidth(C["actionbar"].buttonsize)
+				self:SetHeight(C["actionbar"].buttonsize)
+			end
+ 
+			self:CreateShadow("Background")
+		end
+		
+		if Icon then
+			Icon:SetTexCoord(.08, .92, .08, .92)
+			Icon:Point("TOPLEFT", Button, 2, -2)
+			Icon:Point("BOTTOMRIGHT", Button, -2, 2)
+		end
+	end
+	
+	if HotKey then
+		HotKey:ClearAllPoints()
+		HotKey:SetPoint("TOPRIGHT", 0, R.Scale(-3))
+		HotKey:SetFont(C["media"].pxfont, R.Scale(10), "OUTLINE,MONOCHROME")
+		HotKey:SetShadowColor(0, 0, 0, 0.3)
+		HotKey.ClearAllPoints = R.dummy
+		HotKey.SetPoint = R.dummy
+		if not C["actionbar"].hotkeys == true then
+			HotKey:SetText("")
+			HotKey:Hide()
+			HotKey.Show = R.dummy
+		end
+	end
+	
+	if normal then
+		normal:ClearAllPoints()
+		normal:SetPoint("TOPLEFT")
+		normal:SetPoint("BOTTOMRIGHT")
+	end
+	
+	self.styled = true
+end
 
-      if C["actionbar"].itemcount then
-        co:SetFont(C["media"].pxfont, 11, "OUTLINE,MONOCHROME")
-		co:SetShadowColor(0, 0, 0)
-		co:SetShadowOffset(R.mult, -R.mult)
-        co:ClearAllPoints()
-        co:SetPoint("BOTTOMRIGHT", bu, 0, 0)        
-      else
-        co:Hide()
-      end
-	  
-	  if nt then
-		nt:ClearAllPoints()
-		nt:SetPoint("TOPLEFT")
-		nt:SetPoint("BOTTOMRIGHT")
-	  end
-    
-      --applying the textures
+local function Stylesmallbutton(normal, button, icon, name, pet)
+	local Flash	 = _G[name.."Flash"]
+	button:SetNormalTexture("")
 
-	  bu:CreateShadow("Background")
-	  
+	button.SetNormalTexture = R.dummy
+	
+	Flash:SetTexture(1, 1, 1, 0.3)
+	
+	if not _G[name.."Panel"] then
+		button:SetWidth(C["actionbar"].buttonsize)
+		button:SetHeight(C["actionbar"].buttonsize)
+		
+		local panel = CreateFrame("Frame", name.."Panel", button)
+		panel:CreatePanel("Default", C["actionbar"].buttonsize, C["actionbar"].buttonsize, "CENTER", button, "CENTER", 0, 0)
 
-      --cut the default border of the icons and make them shiny
-      ic:SetTexCoord(0.1,0.9,0.1,0.9)
-      ic:SetPoint("TOPLEFT", bu, "TOPLEFT", 2, -2)
-      ic:SetPoint("BOTTOMRIGHT", bu, "BOTTOMRIGHT", -2, 2)
-  
-      --adjust the cooldown frame
-      cd:SetPoint("TOPLEFT", bu, "TOPLEFT", 0, -0)
-      cd:SetPoint("BOTTOMRIGHT", bu, "BOTTOMRIGHT", -0, 0)
-    
-      self.rABS_Styled = true
-  end
-  
-  --style pet buttons
-  local function rActionButtonStyler_AB_stylepet()
-    
-    for i=1, NUM_PET_ACTION_SLOTS do
-      local name = "PetActionButton"..i
-      local bu  = _G[name]
-      local ic  = _G[name.."Icon"]
-      local fl  = _G[name.."Flash"]
-      local nt  = _G[name.."NormalTexture2"]
-	  local shine = _G[name.."Shine"]
-	  local autocast = _G[name.."AutoCastable"]
-      if fl then
-		fl:SetTexture("")
-	  end
+		icon:SetTexCoord(.08, .92, .08, .92)
+		icon:ClearAllPoints()
+		if pet then			
+			if C["actionbar"].buttonsize < 30 then
+				local autocast = _G[name.."AutoCastable"]
+				autocast:SetAlpha(0)
+			end
+			local shine = _G[name.."Shine"]
+			shine:Size(C["actionbar"].buttonsize, C["actionbar"].buttonsize)
+			shine:ClearAllPoints()
+			shine:SetPoint("CENTER", button, 0, 0)
+			icon:Point("TOPLEFT", button, 2, -2)
+			icon:Point("BOTTOMRIGHT", button, -2, 2)
+		else
+			icon:Point("TOPLEFT", button, 2, -2)
+			icon:Point("BOTTOMRIGHT", button, -2, 2)
+		end
+	end
+	
+	if normal then
+		normal:ClearAllPoints()
+		normal:SetPoint("TOPLEFT")
+		normal:SetPoint("BOTTOMRIGHT")
+	end
+end
 
-	  if nt then
-		nt:SetTexture(nil)
-      end
-      nt:SetAllPoints(bu)
-      
-      bu:CreateShadow("Background")
-      --cut the default border of the icons and make them shiny
-      ic:SetTexCoord(0.1,0.9,0.1,0.9)
-      ic:SetPoint("TOPLEFT", bu, "TOPLEFT", 2, -2)
-      ic:SetPoint("BOTTOMRIGHT", bu, "BOTTOMRIGHT", -2, 2)
-	  
-	  shine:SetSize(bu:GetHeight()-5, bu:GetWidth()-5)
-	  shine:ClearAllPoints()
-	  shine:SetPoint("CENTER", bu, 0, 0)
-	  
-	  autocast:SetAlpha(0)
-    end  
-  end
-  
-  --style shapeshift buttons
-  local function rActionButtonStyler_AB_styleshapeshift()    
-    for i=1, NUM_SHAPESHIFT_SLOTS do
-      local name = "ShapeshiftButton"..i
-      local bu  = _G[name]
-      local ic  = _G[name.."Icon"]
-      local fl  = _G[name.."Flash"]
-      local nt  = _G[name.."NormalTexture2"]
-  
-      if fl then
-		fl:SetTexture("")
-	  end
+function R.StyleShift()
+	for i=1, NUM_SHAPESHIFT_SLOTS do
+		local name = "ShapeshiftButton"..i
+		local button  = _G[name]
+		local icon  = _G[name.."Icon"]
+		local normal  = _G[name.."NormalTexture"]
+		Stylesmallbutton(normal, button, icon, name)
+	end
+end
 
-	  if nt then
-		nt:SetTexture(nil)
-      end
-      nt:SetAllPoints(bu)
-      
-      bu:CreateShadow("Background")
+function R.StylePet()
+	for i=1, NUM_PET_ACTION_SLOTS do
+		local name = "PetActionButton"..i
+		local button  = _G[name]
+		local icon  = _G[name.."Icon"]
+		local normal  = _G[name.."NormalTexture2"]
+		Stylesmallbutton(normal, button, icon, name, true)
+	end
+end
 
-      --cut the default border of the icons and make them shiny
-      ic:SetTexCoord(0.1,0.9,0.1,0.9)
-      ic:SetPoint("TOPLEFT", bu, "TOPLEFT", 2, -2)
-      ic:SetPoint("BOTTOMRIGHT", bu, "BOTTOMRIGHT", -2, 2)
-      
-    end    
-  end
-  
-  local buttons = 0
+-- rescale cooldown spiral to fix texture.
+local buttonNames = { "ActionButton",  "MultiBarBottomLeftButton", "MultiBarBottomRightButton", "MultiBarLeftButton", "MultiBarRightButton", "ShapeshiftButton", "PetActionButton"}
+for _, name in ipairs( buttonNames ) do
+	for index = 1, 12 do
+		local buttonName = name .. tostring(index)
+		local button = _G[buttonName]
+		local cooldown = _G[buttonName .. "Cooldown"]
+ 
+		if ( button == nil or cooldown == nil ) then
+			break
+		end
+		
+		cooldown:ClearAllPoints()
+		cooldown:Point("TOPLEFT", button, "TOPLEFT", 2, -2)
+		cooldown:Point("BOTTOMRIGHT", button, "BOTTOMRIGHT", -2, 2)
+	end
+end
+
+local buttons = 0
 local function SetupFlyoutButton()
 	for i=1, buttons do
 		--prevent error if you don't have max ammount of buttons
-		if _G["SpellFlyoutButton"..i] and not _G["SpellFlyoutButton"..i].rABS_Styled then
-			rActionButtonStyler_AB_style(_G["SpellFlyoutButton"..i], nil, true)
+		if _G["SpellFlyoutButton"..i] and not _G["SpellFlyoutButton"..i].styled then
+			Style(_G["SpellFlyoutButton"..i], nil, true)
 			_G["SpellFlyoutButton"..i]:StyleButton(true)
+			if C["actionbar"].rightbarmouseover == true then
+				SpellFlyout:HookScript("OnEnter", function(self) RightBarMouseOver(1) end)
+				SpellFlyout:HookScript("OnLeave", function(self) RightBarMouseOver(0) end)
+				_G["SpellFlyoutButton"..i]:HookScript("OnEnter", function(self) RightBarMouseOver(1) end)
+				_G["SpellFlyoutButton"..i]:HookScript("OnLeave", function(self) RightBarMouseOver(0) end)
+			end
 		end
 	end
 end
@@ -195,7 +214,7 @@ SpellFlyout:HookScript("OnShow", SetupFlyoutButton)
 
  
 --Hide the Mouseover texture and attempt to find the ammount of buttons to be skinned
-local function ActionButtonStyler_AB_styleflyout(self)
+local function StyleFlyout(self)
 	self.FlyoutBorder:SetAlpha(0)
 	self.FlyoutBorderShadow:SetAlpha(0)
 	
@@ -257,20 +276,13 @@ do
 	
 	for i=1, 6 do
 		_G["VehicleMenuBarActionButton"..i]:StyleButton(true)
-		rActionButtonStyler_AB_style(_G["VehicleMenuBarActionButton"..i])
+		Style(_G["VehicleMenuBarActionButton"..i])
 	end
 end
-  
-  ---------------------------------------
-  -- CALLS // HOOKS
-  ---------------------------------------
-  
-  hooksecurefunc("ActionButton_Update",         rActionButtonStyler_AB_style)
-  hooksecurefunc("ShapeshiftBar_Update",        rActionButtonStyler_AB_styleshapeshift)
-  hooksecurefunc("ShapeshiftBar_UpdateState",   rActionButtonStyler_AB_styleshapeshift)
-  hooksecurefunc("PetActionBar_Update",         rActionButtonStyler_AB_stylepet)
-  hooksecurefunc("ActionButton_UpdateFlyout", ActionButtonStyler_AB_styleflyout)
-  hooksecurefunc("ActionButton_UpdateHotkeys", UpdateHotkey)
+
+hooksecurefunc("ActionButton_Update", Style)
+hooksecurefunc("ActionButton_UpdateHotkeys", UpdateHotkey)
+hooksecurefunc("ActionButton_UpdateFlyout", StyleFlyout)
   
 ---------------------------------------------------------------
 -- Totem Style, they need a lot more work than "normal" buttons
@@ -279,7 +291,7 @@ end
 ---------------------------------------------------------------
 
 -- don't continue executing code in this file is not playing a shaman.
-if not UnitClass("player") == "SHAMAN" then return end
+if not R.myclass == "SHAMAN" then return end
 
 -- Tex Coords for empty buttons
 SLOT_EMPTY_TCOORDS = {
@@ -319,25 +331,20 @@ local function StyleTotemFlyout(flyout)
 	local last = nil
 	
 	for _,button in ipairs(flyout.buttons) do
-		button:CreateShadow()
+		button:CreateShadow("Background", 1)
 		local icon = select(1,button:GetRegions())
 		icon:SetTexCoord(.09,.91,.09,.91)
 		icon:SetDrawLayer("ARTWORK")
-		icon:Point("TOPLEFT",button,"TOPLEFT",2,-2)
-		icon:Point("BOTTOMRIGHT",button,"BOTTOMRIGHT",-2,2)		
+		icon:Point("TOPLEFT",button,"TOPLEFT",1,-1)
+		icon:Point("BOTTOMRIGHT",button,"BOTTOMRIGHT",-1,1)		
 		if not InCombatLockdown() then
 			button:Size(C["actionbar"].buttonsize)
 			button:ClearAllPoints()
 			button:Point("BOTTOM",last,"TOP",0,4)
 		end
 		if button:IsVisible() then last = button end
-		button:SetBackdropBorderColor(flyout.parent:GetBackdropBorderColor())
+		button:CreateBorder(flyout.parent:GetBackdropBorderColor())
 		button:StyleButton()
-		
-		-- if C["actionbar"].shapeshiftmouseover == true then
-			-- button:HookScript("OnEnter", function() MultiCastActionBarFrame:SetAlpha(1) end)
-			-- button:HookScript("OnLeave", function() MultiCastActionBarFrame:SetAlpha(0) end)
-		-- end			
 	end
 	
 	flyout.buttons[1]:SetPoint("BOTTOM",flyout,"BOTTOM")
@@ -356,26 +363,18 @@ local function StyleTotemFlyout(flyout)
 	close:GetNormalTexture():SetTexture(nil)
 	close:ClearAllPoints()
 	close:Point("BOTTOMLEFT",last,"TOPLEFT",0,4)
-	close:Point("BOTTOMRIGHT",last,"TOPRIGHT",0,4)	
-	close:SetBackdropBorderColor(last:GetBackdropBorderColor())
+	close:Point("BOTTOMRIGHT",last,"TOPRIGHT",0,4)
+	close:CreateBorder(last:GetBackdropBorderColor())
 	close:Height(8)
 	
 	flyout:ClearAllPoints()
 	flyout:Point("BOTTOM",flyout.parent,"TOP",0,4)
-	
-	-- if C["actionbar"].shapeshiftmouseover == true then
-		-- flyout:HookScript("OnEnter", function() MultiCastActionBarFrame:SetAlpha(1) end)
-		-- flyout:HookScript("OnLeave", function() MultiCastActionBarFrame:SetAlpha(0) end)
-		-- close:HookScript("OnEnter", function() MultiCastActionBarFrame:SetAlpha(1) end)
-		-- close:HookScript("OnLeave", function() MultiCastActionBarFrame:SetAlpha(0) end)
-	-- end
 end
 hooksecurefunc("MultiCastFlyoutFrame_ToggleFlyout",function(self) StyleTotemFlyout(self) end)
 	
 local function StyleTotemOpenButton(button, parent)
 	button:GetHighlightTexture():SetAlpha(0)
 	button:GetNormalTexture():SetAlpha(0)
-
 	button:Height(20)
 	button:ClearAllPoints()
 	button:Point("BOTTOMLEFT", parent, "TOPLEFT", 0, -3)
@@ -390,13 +389,8 @@ local function StyleTotemOpenButton(button, parent)
 		button.visibleBut.highlight:Point("TOPLEFT",button.visibleBut,"TOPLEFT",1,-1)
 		button.visibleBut.highlight:Point("BOTTOMRIGHT",button.visibleBut,"BOTTOMRIGHT",-1,1)
 		button.visibleBut:CreateShadow("Background")
-	end	
-	
-	-- if C["actionbar"].shapeshiftmouseover == true then
-		-- button:HookScript("OnEnter", function() MultiCastActionBarFrame:SetAlpha(1) end)
-		-- button:HookScript("OnLeave", function() MultiCastActionBarFrame:SetAlpha(0) end)
-	-- end	
-	button.visibleBut:SetBackdropBorderColor(parent:GetBackdropBorderColor())
+	end
+	button.visibleBut:CreateBorder(parent:GetBackdropBorderColor())
 end
 hooksecurefunc("MultiCastFlyoutFrameOpenButton_Show",function(button,_, parent) StyleTotemOpenButton(button, parent) end)
 
@@ -409,19 +403,15 @@ local bordercolors = {
 }
 
 local function StyleTotemSlotButton(button, index)
-	button:CreateShadow()
+	button:CreateShadow("Background", 1)
 	button.overlayTex:SetTexture(nil)
 	button.background:SetDrawLayer("ARTWORK")
 	button.background:ClearAllPoints()
 	button.background:Point("TOPLEFT",button,"TOPLEFT",2, -2)
 	button.background:Point("BOTTOMRIGHT",button,"BOTTOMRIGHT",-2, 2)
 	if not InCombatLockdown() then button:Size(C["actionbar"].buttonsize) end
-	button:SetBackdropBorderColor(unpack(bordercolors[((index-1) % 4) + 1]))
+	button:CreateBorder(unpack(bordercolors[((index-1) % 4) + 1]))
 	button:StyleButton()
-	-- if C["actionbar"].shapeshiftmouseover == true then
-		-- button:HookScript("OnEnter", function() MultiCastActionBarFrame:SetAlpha(1) end)
-		-- button:HookScript("OnLeave", function() MultiCastActionBarFrame:SetAlpha(0) end)
-	-- end	
 end
 hooksecurefunc("MultiCastSlotButton_Update",function(self, slot) StyleTotemSlotButton(self,tonumber( string.match(self:GetName(),"MultiCastSlotButton(%d)"))) end)
 
@@ -430,8 +420,8 @@ local function StyleTotemActionButton(button, index)
 	local icon = select(1,button:GetRegions())
 	icon:SetTexCoord(.09,.91,.09,.91)
 	icon:SetDrawLayer("ARTWORK")
-	icon:Point("TOPLEFT",button,"TOPLEFT",2,-2)
-	icon:Point("BOTTOMRIGHT",button,"BOTTOMRIGHT",-2,2)
+	icon:Point("TOPLEFT",button,"TOPLEFT",1,-1)
+	icon:Point("BOTTOMRIGHT",button,"BOTTOMRIGHT",-1,1)
 	button.overlayTex:SetTexture(nil)
 	button.overlayTex:Hide()
 	button:GetNormalTexture():SetAlpha(0)
@@ -440,13 +430,9 @@ local function StyleTotemActionButton(button, index)
 		button:SetAllPoints(button.slotButton)
 		button:SetFrameLevel(button.slotButton:GetFrameLevel()+1)
 	end
-	button:SetBackdropBorderColor(unpack(bordercolors[((index-1) % 4) + 1]))
+	button:CreateBorder(unpack(bordercolors[((index-1) % 4) + 1]))
 	button:SetBackdropColor(0,0,0,0)
 	button:StyleButton(true)
-	-- if C["actionbar"].shapeshiftmouseover == true then
-		-- button:HookScript("OnEnter", function() MultiCastActionBarFrame:SetAlpha(1) end)
-		-- button:HookScript("OnLeave", function() MultiCastActionBarFrame:SetAlpha(0) end)
-	-- end	
 end
 hooksecurefunc("MultiCastActionButton_Update",function(actionButton, actionId, actionIndex, slot) StyleTotemActionButton(actionButton,actionIndex) end)
 
@@ -463,18 +449,14 @@ local function StyleTotemSpellButton(button, index)
 	local icon = select(1,button:GetRegions())
 	icon:SetTexCoord(.09,.91,.09,.91)
 	icon:SetDrawLayer("ARTWORK")
-	icon:Point("TOPLEFT",button,"TOPLEFT",2,-2)
-	icon:Point("BOTTOMRIGHT",button,"BOTTOMRIGHT",-2,2)
-	button:CreateShadow()
+	icon:Point("TOPLEFT",button,"TOPLEFT",1,-1)
+	icon:Point("BOTTOMRIGHT",button,"BOTTOMRIGHT",-1,1)
+	button:CreateShadow("Background", 1)
 	button:GetNormalTexture():SetTexture(nil)
 	if not InCombatLockdown() then button:Size(C["actionbar"].buttonsize) end
 	_G[button:GetName().."Highlight"]:SetTexture(nil)
 	_G[button:GetName().."NormalTexture"]:SetTexture(nil)
 	button:StyleButton()
-	-- if C["actionbar"].shapeshiftmouseover == true then
-		-- button:HookScript("OnEnter", function() MultiCastActionBarFrame:SetAlpha(1) end)
-		-- button:HookScript("OnLeave", function() MultiCastActionBarFrame:SetAlpha(0) end)
-	-- end	
 end
 hooksecurefunc("MultiCastSummonSpellButton_Update", function(self) StyleTotemSpellButton(self,0) end)
 hooksecurefunc("MultiCastRecallSpellButton_Update", function(self) StyleTotemSpellButton(self,5) end)

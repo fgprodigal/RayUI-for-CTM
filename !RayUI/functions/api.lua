@@ -155,12 +155,11 @@ local function CreateShadow(f, t, offset, thickness, texture)
 		shadow:SetFrameLevel(0)
 	end
 	if offset and type(offset) == "number" then
-		offset = scale(offset)
-		shadow:Point("TOPLEFT", -3*R.ResScale - offset, 3*R.ResScale + offset)
-		shadow:Point("BOTTOMRIGHT", 3*R.ResScale + offset, -3*R.ResScale - offset)
+		shadow:Point("TOPLEFT", -3 - offset, 3 + offset)
+		shadow:Point("BOTTOMRIGHT", 3 + offset, -3 - offset)
 	else
-		shadow:Point("TOPLEFT", -3*R.ResScale, 3*R.ResScale)
-		shadow:Point("BOTTOMRIGHT", 3*R.ResScale, -3*R.ResScale)
+		shadow:Point("TOPLEFT", -3, 3)
+		shadow:Point("BOTTOMRIGHT", 3, -3)
 	end
 	local thick = 4
 	if type(thickness) == "number" then
@@ -216,22 +215,22 @@ local function StyleButton(b, c)
 	hover:SetTexture(1,1,1,0.3)
 	hover:SetHeight(button:GetHeight())
 	hover:SetWidth(button:GetWidth())
-	hover:SetPoint("TOPLEFT",button, 2 , -2)
-	hover:SetPoint("BOTTOMRIGHT",button, -2, 2)
+	hover:Point("TOPLEFT",button, 2 , -2)
+	hover:Point("BOTTOMRIGHT",button, -2, 2)
 	button:SetHighlightTexture(hover)
 
 	local pushed = b:CreateTexture(nil, "OVERLAY") -- pushed
 	pushed:SetTexture(0.9,0.8,0.1,0.3)
 	pushed:SetHeight(button:GetHeight())
 	pushed:SetWidth(button:GetWidth())
-	pushed:SetPoint("TOPLEFT",button,2,-2)
-	pushed:SetPoint("BOTTOMRIGHT",button,-2,2)
+	pushed:Point("TOPLEFT",button,2,-2)
+	pushed:Point("BOTTOMRIGHT",button,-2,2)
 	button:SetPushedTexture(pushed)
 
 	if cooldown then
 		cooldown:ClearAllPoints()
-		cooldown:SetPoint("TOPLEFT",button,2,-2)
-		cooldown:SetPoint("BOTTOMRIGHT",button,-2,2)
+		cooldown:Point("TOPLEFT",button,2,-2)
+		cooldown:Point("BOTTOMRIGHT",button,-2,2)
 	end
 
 	if c then
@@ -239,8 +238,8 @@ local function StyleButton(b, c)
 		checked:SetTexture(23/255,132/255,209/255,0.5)
 		checked:SetHeight(button:GetHeight())
 		checked:SetWidth(button:GetWidth())
-		checked:SetPoint("TOPLEFT",button,2,-2)
-		checked:SetPoint("BOTTOMRIGHT",button,-2,2)
+		checked:Point("TOPLEFT",button,2,-2)
+		checked:Point("BOTTOMRIGHT",button,-2,2)
 		button:SetCheckedTexture(checked)
 	end
 end

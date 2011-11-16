@@ -4,7 +4,6 @@ local _, ns = ...
 local _, myclass = UnitClass("player")
 local colors = RAID_CLASS_COLORS
 ns.modules = {}
-abc = ns.modules
 local testing = false
 
 local watcherPrototype = {}
@@ -35,12 +34,9 @@ function watcherPrototype:CreateButton(mode)
 	button.icon = button:CreateTexture(nil, "ARTWORK")
 	button.icon:SetPoint("TOPLEFT", button , 2, -2)
 	button.icon:SetPoint("BOTTOMRIGHT", button , -2, 2)
-	local countframe = CreateFrame("Frame", nil, button)
-	countframe:SetAllPoints(button)
-	countframe:SetFrameLevel(button:GetFrameLevel() + 1)
-	button.count = countframe:CreateFontString(nil, "OVERLAY")
-	button.count:SetFont(ns.font, ns.fontsize + 2, ns.fontflag)
-	button.count:SetPoint("BOTTOMRIGHT", button , "BOTTOMRIGHT", 2, -2)
+	button.count = button:CreateFontString(nil, "OVERLAY")
+	button.count:SetFont(ns.font, ns.fontsize, ns.fontflag)
+	button.count:SetPoint("BOTTOMRIGHT", button , "BOTTOMRIGHT", 0, 0)
 	button:SetScript("OnEnter", function(self)
 			GameTooltip:SetOwner(self, "ANCHOR_TOP")
 			if self.filter == "BUFF" then

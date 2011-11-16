@@ -110,7 +110,7 @@ DB["raid"]={
 
 DB["actionbar"]={
 	barinset = 4,	
-	buttonsize   = 26,
+	buttonsize   = 29,
 	buttonspacing   = 5,
 	barscale = 1,
 	petbarscale = 0.9,

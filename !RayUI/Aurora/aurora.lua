@@ -1,4 +1,4 @@
-local R, C, L, DB = unpack(select(2, ...))
+﻿local R, C, L, DB = unpack(select(2, ...))
 local ADDON_NAME = ...
 
 local alpha = .5 -- controls the backdrop opacity (0 = invisible, 1 = solid)
@@ -4073,47 +4073,6 @@ local Delay = CreateFrame("Frame")
 Delay:RegisterEvent("PLAYER_ENTERING_WORLD")
 Delay:SetScript("OnEvent", function()
 	Delay:UnregisterEvent("PLAYER_ENTERING_WORLD")
-
-	if not(IsAddOnLoaded("CowTip") or IsAddOnLoaded("TipTac") or IsAddOnLoaded("FreebTip") or IsAddOnLoaded("lolTip") or IsAddOnLoaded("StarTip") or IsAddOnLoaded("alTooltip")) then
-		local tooltips = {
-			"GameTooltip",
-			"ItemRefTooltip",
-			"ShoppingTooltip1",
-			"ShoppingTooltip2",
-			"ShoppingTooltip3",
-			"WorldMapTooltip",
-			"ChatMenu",
-			"EmoteMenu",
-			"LanguageMenu",
-			"VoiceMacroMenu",
-		}
-
-		for i = 1, #tooltips do
-			local t = _G[tooltips[i]]
-			t:SetBackdrop(nil)
-			local bg = CreateFrame("Frame", nil, t)
-			bg:SetPoint("TOPLEFT")
-			bg:SetPoint("BOTTOMRIGHT")
-			bg:SetFrameLevel(t:GetFrameLevel()-1)
-			R.CreateBD(bg, .6)
-		end
-
-		local sb = _G["GameTooltipStatusBar"]
-		sb:SetHeight(3)
-		sb:ClearAllPoints()
-		sb:SetPoint("BOTTOMLEFT", GameTooltip, "BOTTOMLEFT", 1, 1)
-		sb:SetPoint("BOTTOMRIGHT", GameTooltip, "BOTTOMRIGHT", -1, 1)
-		sb:SetStatusBarTexture(C.Aurora.backdrop)
-
-		local sep = GameTooltipStatusBar:CreateTexture(nil, "ARTWORK")
-		sep:SetHeight(1)
-		sep:SetPoint("BOTTOMLEFT", 0, 3)
-		sep:SetPoint("BOTTOMRIGHT", 0, 3)
-		sep:SetTexture(C.Aurora.backdrop)
-		sep:SetVertexColor(0, 0, 0)
-
-		R.CreateBD(FriendsTooltip)
-	end
 
 	if not(IsAddOnLoaded("Butsu") or IsAddOnLoaded("LovelyLoot") or IsAddOnLoaded("XLoot")) then
 		LootFramePortraitOverlay:Hide()
