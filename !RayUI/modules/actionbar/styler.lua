@@ -465,7 +465,8 @@ local RayUIOnLogon = CreateFrame("Frame")
 RayUIOnLogon:RegisterEvent("PLAYER_ENTERING_WORLD")
 RayUIOnLogon:SetScript("OnEvent", function(self, event)
 	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
-	SetCVar("alwaysShowActionBars", 0)	
+	SetCVar("alwaysShowActionBars", 0)
+	InterfaceOptionsActionBarsPanelAlwaysShowActionBars:Kill()
 	if C["actionbar"].showgrid == true then
 		ActionButton_HideGrid = R.dummy
 		for i = 1, 12 do
@@ -493,7 +494,5 @@ RayUIOnLogon:SetScript("OnEvent", function(self, event)
 			button:SetAttribute("showgrid", 1)
 			ActionButton_ShowGrid(button)
 		end
-	else
-		InterfaceOptionsActionBarsPanelAlwaysShowActionBars:Kill()
 	end
 end)

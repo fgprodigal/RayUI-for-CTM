@@ -117,18 +117,25 @@ local function UpdateDebuff(buttonName, index)
     StyleBuffs(buttonName, index, 2, debuffholder)
 end
 
+local  function formatTime(s)
+	local day, hour, minute = 86400, 3600, 60
+	if s >= day then
+		return format("%dd", floor(s/day + 0.5)), s % day
+	elseif s >= hour then
+		return format("%dh", floor(s/hour + 0.5)), s % hour
+	elseif s >= minute then
+		return format("%dm", floor(s/minute + 0.5)), s % minute
+	elseif s >= minute / 12 then
+		return floor(s + 0.5), (s * 100 - floor(s * 100))/100
+	end
+	return format("%d", s), (s * 100 - floor(s * 100))/100
+end
+
 local function updateTime(button, timeLeft)
 	local duration = _G[button:GetName().."Duration"]
 	if SHOW_BUFF_DURATIONS == "1" and timeLeft then
-		local d, h, m, s = ChatFrame_TimeBreakDown(timeLeft);
-		if d > 0 then
-			duration:SetFormattedText("%1dd", d)
-		elseif h > 0 then
-			duration:SetFormattedText("%1dh", h)
-		elseif m > 0 then
-			duration:SetFormattedText("%1dm", m)
-		else
-			duration:SetFormattedText("%1ds", s)
+		duration:SetText(formatTime(timeLeft))
+		if timeLeft<60 then
 			duration:SetTextColor(0.8, 0, 0)
 		end
 	end
