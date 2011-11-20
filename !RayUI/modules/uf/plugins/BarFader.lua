@@ -40,7 +40,17 @@ local function enable(self, unit)
 		self:RegisterEvent('UNIT_RAGE', update)
 		self:RegisterEvent('UNIT_MANA', update)
 		self:RegisterEvent('UNIT_RUNIC_POWER', update)
-		
+		self:HookScript("OnEnter", function(self)
+			if not InCombatLockdown() then
+				UIFrameFadeIn(self, 0.8, self:GetAlpha(), self.BarFaderMaxAlpha or 1)
+			else
+				self:SetAlpha(self.BarFaderMaxAlpha or 1)
+			end
+		end)
+		self:HookScript("OnLeave", function(self)
+			UIFrameFadeOut(self, 1.5, self:GetAlpha(), self.BarFaderMinAlpha or 0.25)
+		end)
+
 		if(self.Castbar) then
 			self:RegisterEvent('UNIT_SPELLCAST_START', update)
 			self:RegisterEvent('UNIT_SPELLCAST_FAILED', update)

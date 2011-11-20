@@ -197,50 +197,39 @@ local function CreateBorder(f, r, g, b, a)
 	f:SetBackdropBorderColor(r or C["media"]["bordercolor"][1], g or C["media"]["bordercolor"][2], b or C["media"]["bordercolor"][3], a or C["media"]["bordercolor"][4])
 end
 
-local function StyleButton(b, c) 
-	local name = b:GetName()
-
-	local button          = _G[name]
-	local icon            = _G[name.."Icon"]
-	local count           = _G[name.."Count"]
-	local border          = _G[name.."Border"]
-	local hotkey          = _G[name.."HotKey"]
-	local cooldown        = _G[name.."Cooldown"]
-	local nametext        = _G[name.."Name"]
-	local flash           = _G[name.."Flash"]
-	local normaltexture   = _G[name.."NormalTexture"]
-	local icontexture     = _G[name.."IconTexture"]
-
-	local hover = b:CreateTexture(nil, "OVERLAY") -- hover
-	hover:SetTexture(1,1,1,0.3)
-	hover:SetHeight(button:GetHeight())
-	hover:SetWidth(button:GetWidth())
-	hover:Point("TOPLEFT",button, 2 , -2)
-	hover:Point("BOTTOMRIGHT",button, -2, 2)
-	button:SetHighlightTexture(hover)
-
-	local pushed = b:CreateTexture(nil, "OVERLAY") -- pushed
-	pushed:SetTexture(0.9,0.8,0.1,0.3)
-	pushed:SetHeight(button:GetHeight())
-	pushed:SetWidth(button:GetWidth())
-	pushed:Point("TOPLEFT",button,2,-2)
-	pushed:Point("BOTTOMRIGHT",button,-2,2)
-	button:SetPushedTexture(pushed)
-
+local function StyleButton(button)
+	if button.SetHighlightTexture and not button.hover then
+		local hover = button:CreateTexture("frame", nil, self)
+		hover:SetTexture(1, 1, 1, 0.3)
+		hover:Point('TOPLEFT', 2, -2)
+		hover:Point('BOTTOMRIGHT', -2, 2)
+		button.hover = hover
+		button:SetHighlightTexture(hover)
+	end
+	
+	if button.SetPushedTexture and not button.pushed then
+		local pushed = button:CreateTexture("frame", nil, self)
+		pushed:SetTexture(0.9, 0.8, 0.1, 0.3)
+		pushed:Point('TOPLEFT', 2, -2)
+		pushed:Point('BOTTOMRIGHT', -2, 2)
+		button.pushed = pushed
+		button:SetPushedTexture(pushed)
+	end
+	
+	if button.SetCheckedTexture and not button.checked then
+		local checked = button:CreateTexture("frame", nil, self)
+		checked:SetTexture(23/255,132/255,209/255,0.5)
+		checked:Point('TOPLEFT', 2, -2)
+		checked:Point('BOTTOMRIGHT', -2, 2)
+		button.checked = checked
+		button:SetCheckedTexture(checked)
+	end
+	
+	local cooldown = _G[button:GetName().."Cooldown"]
 	if cooldown then
 		cooldown:ClearAllPoints()
-		cooldown:Point("TOPLEFT",button,2,-2)
-		cooldown:Point("BOTTOMRIGHT",button,-2,2)
-	end
-
-	if c then
-		local checked = b:CreateTexture(nil, "OVERLAY") -- checked
-		checked:SetTexture(23/255,132/255,209/255,0.5)
-		checked:SetHeight(button:GetHeight())
-		checked:SetWidth(button:GetWidth())
-		checked:Point("TOPLEFT",button,2,-2)
-		checked:Point("BOTTOMRIGHT",button,-2,2)
-		button:SetCheckedTexture(checked)
+		cooldown:Point('TOPLEFT', 2, -2)
+		cooldown:Point('BOTTOMRIGHT', -2, 2)
 	end
 end
 

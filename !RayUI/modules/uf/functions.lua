@@ -181,7 +181,7 @@ function R.ConstructCastBar(self)
 		castbar.SafeZone:SetVertexColor(1, 0, 0, 0.75)
 	end
 	castbar.PostCastStart = R.PostCastStart
-	castbar.PostChannelStart = PostCastStart
+	castbar.PostChannelStart = R.PostCastStart
 	castbar.CustomTimeText = R.CustomCastTimeText
 	castbar.CustomDelayText = R.CustomCastDelayText
 	castbar.PostCastInterruptible = R.PostCastInterruptible
@@ -472,16 +472,28 @@ function R.PostUpdateIcon(icons, unit, icon, index, offset)
 		if icon.owner == "player" or icon.owner == "pet" or icon.owner == "vehicle" or UnitIsFriend('player', unit) then
 			local color = DebuffTypeColor[dtype] or DebuffTypeColor.none
 			icon.border:SetBackdropBorderColor(color.r * 0.6, color.g * 0.6, color.b * 0.6)
+			icon.border:Show()
+			texture:Point("TOPLEFT", icon, 1, -1)
+			texture:Point("BOTTOMRIGHT", icon, -1, 1)
 			texture:SetDesaturated(false)
 		else
-			icon.border:SetBackdropBorderColor(unpack(C["media"].bordercolor))		
+			icon.border:SetBackdropBorderColor(unpack(C["media"].bordercolor))
+			icon.border:Hide()
+			texture:Point("TOPLEFT", icon)
+			texture:Point("BOTTOMRIGHT", icon)
 			texture:SetDesaturated(true)
 		end
 	else
 		if (isStealable or ((R.myclass == "PRIEST" or R.myclass == "SHAMAN" or R.myclass == "MAGE") and dtype == "Magic")) and not UnitIsFriend("player", unit) then
 			icon.border:SetBackdropBorderColor(237/255, 234/255, 142/255)
+			icon.border:Show()
+			texture:Point("TOPLEFT", icon, 1, -1)
+			texture:Point("BOTTOMRIGHT", icon, -1, 1)
 		else
 			icon.border:SetBackdropBorderColor(unpack(C["media"].bordercolor))
+			icon.border:Hide()
+			texture:Point("TOPLEFT", icon)
+			texture:Point("BOTTOMRIGHT", icon)
 		end
 	end
 
@@ -498,30 +510,30 @@ end
 
 function R.PostCreateIcon(auras, button)
 	button:SetFrameStrata("BACKGROUND")
-    local count = button.count
-    count:ClearAllPoints()
-    count:Point("CENTER", button, "BOTTOMRIGHT", 0, 5)
-    count:SetFontObject(nil)
-    count:SetFont(C["media"].font, 13, "THINOUTLINE")
-    count:SetTextColor(.8, .8, .8)
-	
-    auras.disableCooldown = true
+	local count = button.count
+	count:ClearAllPoints()
+	count:Point("CENTER", button, "BOTTOMRIGHT", 0, 5)
+	count:SetFontObject(nil)
+	count:SetFont(C["media"].font, 13, "THINOUTLINE")
+	count:SetTextColor(.8, .8, .8)
 
-    button.icon:SetTexCoord(.1, .9, .1, .9)
-    button.border = CreateFrame("Frame", nil, button)
-    button.border:Point("TOPLEFT", -1, 1)
-    button.border:Point("BOTTOMRIGHT", 1, -1)
+	auras.disableCooldown = true
+	button.icon:SetTexCoord(.1, .9, .1, .9)
+	button.border = CreateFrame("Frame", nil, button)
+	button.border:Point("TOPLEFT", -1, 1)
+	button.border:Point("BOTTOMRIGHT", 1, -1)
 	button.border:CreateBorder()
-    button.border:SetFrameLevel(1)
-    button:CreateShadow("Default", 2)
-    button.shadow:SetFrameLevel(0)
+	button.border:SetFrameLevel(1)
+	button:CreateShadow("Default", 2)
+	button.shadow:SetFrameLevel(0)
+	button.shadow:SetBackdropColor(0, 0, 0)
 	button.overlay:Hide()
 
 	button.remaining = button:CreateFontString(nil, "OVERLAY")
 	button.remaining:SetFont(C["media"].font, 13, C["media"].fontflag)
 	button.remaining:SetJustifyH("LEFT")
 	button.remaining:SetTextColor(0.99, 0.99, 0.99)
-    button.remaining:Point("CENTER", 0, 0)
+	button.remaining:Point("CENTER", 0, 0)
 end
 
 function R.CustomFilter(icons, unit, icon, name, rank, texture, count, dtype, duration, timeLeft, caster)

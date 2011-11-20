@@ -11,9 +11,7 @@ local function init()
 	RayUIWatchFrame:UnregisterEvent("PLAYER_ENTERING_WORLD")
 	RayUIWatchFrame:RegisterEvent("CVAR_UPDATE")
 	RayUIWatchFrame:SetScript("OnEvent", function(_,_,cvar,value)
-		SetCVar("watchFrameWidth", 1)
 		RayUIWatchFrame:SetWidth(250)
-		InterfaceOptionsObjectivesPanelWatchFrameWidth:Hide()
 	end)
 	RayUIWatchFrame:ClearAllPoints()
 	RayUIWatchFrame:SetPoint("TOP", RayUIWatchFrameHolder, "TOP", 0, 5)
@@ -54,6 +52,8 @@ end)
 
 RayUIWatchFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 RayUIWatchFrame:SetScript("OnEvent", function()
+	SetCVar("watchFrameWidth", 0)
+	InterfaceOptionsObjectivesPanelWatchFrameWidth:Kill()
 	init()
 	f:Show()
 end)
@@ -70,4 +70,29 @@ autocollapse:SetScript("OnEvent", function(self)
       WatchFrame.userCollapsed = nil
       WatchFrame_Expand(WatchFrame)
    end
+end)
+
+hooksecurefunc("WatchFrameItem_OnLoad", function(self)
+	local icon = _G[self:GetName().."IconTexture"]
+	local hotkey = _G[self:GetName().."HotKey"]
+	_G[self:GetName().."NormalTexture"]:SetTexture(nil)
+	icon:SetTexCoord(.08, .92, .08, .92)
+	icon:Point("TOPLEFT", self, 2, -2)
+	icon:Point("BOTTOMRIGHT", self, -2, 2)
+	self:CreateShadow("Background", -1, 3)
+	self:StyleButton()
+	if hotkey:GetText() == _G['RANGE_INDICATOR'] then
+		hotkey:SetText('')
+	end
+end)
+
+hooksecurefunc("WatchFrameItem_OnUpdate", function(self)
+	local hotkey = _G[self:GetName().."HotKey"]
+	local icon = _G[self:GetName().."IconTexture"]
+	local valid = IsQuestLogSpecialItemInRange(self:GetID());
+	if ( valid == 0 ) then
+		icon:SetVertexColor(1.0, 0.1, 0.1)
+	else
+		icon:SetVertexColor(1, 1, 1)
+	end
 end)

@@ -246,11 +246,17 @@ a:SetScript("OnEvent", function (self,event)
 	if (UnitIsDead("player")) then return end
 	if event == "PLAYER_REGEN_ENABLED" and(COMBAT_TEXT_SHOW_COMBAT_STATE=="1") then
 		-- allertrun("LEAVING COMBAT",0.1,1,0.1)
-		allertrun(L["脱离战斗！"],0.1,1,0.1)
+		allertrun(LEAVING_COMBAT.." !",0.1,1,0.1)
 	elseif event == "PLAYER_REGEN_DISABLED" and(COMBAT_TEXT_SHOW_COMBAT_STATE=="1") then
 		-- allertrun("ENTERING COMBAT",1,0.1,0.1)
-		allertrun(L["进入战斗！"],1,0.1,0.1)
+		allertrun(ENTERING_COMBAT.." !",1,0.1,0.1)
 	elseif event == "PLAYER_ENTERING_WORLD" then
 		self:UnregisterEvent("PLAYER_ENTERING_WORLD")
 	end
+end)
+
+local tradeSkillAnnouce = CreateFrame("Frame")
+tradeSkillAnnouce:RegisterEvent("CHAT_MSG_SKILL")
+tradeSkillAnnouce:SetScript("OnEvent", function(self, event, message)
+	UIErrorsFrame:AddMessage(message, ChatTypeInfo["SKILL"].r, ChatTypeInfo["SKILL"].g, ChatTypeInfo["SKILL"].b)
 end)

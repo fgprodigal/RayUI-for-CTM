@@ -156,7 +156,7 @@ local function Stylesmallbutton(normal, button, icon, name, pet)
 	end
 end
 
-function R.StyleShift()
+local function StyleShift()
 	for i=1, NUM_SHAPESHIFT_SLOTS do
 		local name = "ShapeshiftButton"..i
 		local button  = _G[name]
@@ -166,7 +166,7 @@ function R.StyleShift()
 	end
 end
 
-function R.StylePet()
+local function StylePet()
 	for i=1, NUM_PET_ACTION_SLOTS do
 		local name = "PetActionButton"..i
 		local button  = _G[name]
@@ -200,7 +200,7 @@ local function SetupFlyoutButton()
 		--prevent error if you don't have max ammount of buttons
 		if _G["SpellFlyoutButton"..i] and not _G["SpellFlyoutButton"..i].styled then
 			Style(_G["SpellFlyoutButton"..i], nil, true)
-			_G["SpellFlyoutButton"..i]:StyleButton(true)
+			_G["SpellFlyoutButton"..i]:StyleButton()
 			if C["actionbar"].rightbarmouseover == true then
 				SpellFlyout:HookScript("OnEnter", function(self) RightBarMouseOver(1) end)
 				SpellFlyout:HookScript("OnLeave", function(self) RightBarMouseOver(0) end)
@@ -262,20 +262,20 @@ end
 
 do	
 	for i = 1, 12 do
-		_G["MultiBarLeftButton"..i]:StyleButton(true)
-		_G["MultiBarRightButton"..i]:StyleButton(true)
-		_G["MultiBarBottomRightButton"..i]:StyleButton(true)
-		_G["MultiBarBottomLeftButton"..i]:StyleButton(true)
-		_G["ActionButton"..i]:StyleButton(true)
+		_G["MultiBarLeftButton"..i]:StyleButton()
+		_G["MultiBarRightButton"..i]:StyleButton()
+		_G["MultiBarBottomRightButton"..i]:StyleButton()
+		_G["MultiBarBottomLeftButton"..i]:StyleButton()
+		_G["ActionButton"..i]:StyleButton()
 	end
 	 
 	for i=1, 10 do
-		_G["ShapeshiftButton"..i]:StyleButton(true)
-		_G["PetActionButton"..i]:StyleButton(true)
+		_G["ShapeshiftButton"..i]:StyleButton()
+		_G["PetActionButton"..i]:StyleButton()
 	end
 	
 	for i=1, 6 do
-		_G["VehicleMenuBarActionButton"..i]:StyleButton(true)
+		_G["VehicleMenuBarActionButton"..i]:StyleButton()
 		Style(_G["VehicleMenuBarActionButton"..i])
 	end
 end
@@ -283,6 +283,10 @@ end
 hooksecurefunc("ActionButton_Update", Style)
 hooksecurefunc("ActionButton_UpdateHotkeys", UpdateHotkey)
 hooksecurefunc("ActionButton_UpdateFlyout", StyleFlyout)
+
+hooksecurefunc("ShapeshiftBar_Update", StyleShift)
+hooksecurefunc("ShapeshiftBar_UpdateState", StyleShift)
+hooksecurefunc("PetActionBar_Update", StylePet)
   
 ---------------------------------------------------------------
 -- Totem Style, they need a lot more work than "normal" buttons
@@ -332,11 +336,12 @@ local function StyleTotemFlyout(flyout)
 	
 	for _,button in ipairs(flyout.buttons) do
 		button:CreateShadow("Background", 1)
+		button.shadow:SetBackdropColor(0, 0, 0)
 		local icon = select(1,button:GetRegions())
 		icon:SetTexCoord(.09,.91,.09,.91)
 		icon:SetDrawLayer("ARTWORK")
-		icon:Point("TOPLEFT",button,"TOPLEFT",1,-1)
-		icon:Point("BOTTOMRIGHT",button,"BOTTOMRIGHT",-1,1)		
+		icon:Point("TOPLEFT",button,"TOPLEFT", 2, -2)
+		icon:Point("BOTTOMRIGHT",button,"BOTTOMRIGHT",-2, 2)		
 		if not InCombatLockdown() then
 			button:Size(C["actionbar"].buttonsize)
 			button:ClearAllPoints()
@@ -404,6 +409,7 @@ local bordercolors = {
 
 local function StyleTotemSlotButton(button, index)
 	button:CreateShadow("Background", 1)
+	button.shadow:SetBackdropColor(0, 0, 0)
 	button.overlayTex:SetTexture(nil)
 	button.background:SetDrawLayer("ARTWORK")
 	button.background:ClearAllPoints()
@@ -420,8 +426,8 @@ local function StyleTotemActionButton(button, index)
 	local icon = select(1,button:GetRegions())
 	icon:SetTexCoord(.09,.91,.09,.91)
 	icon:SetDrawLayer("ARTWORK")
-	icon:Point("TOPLEFT",button,"TOPLEFT",1,-1)
-	icon:Point("BOTTOMRIGHT",button,"BOTTOMRIGHT",-1,1)
+	icon:Point("TOPLEFT",button,"TOPLEFT",2,-2)
+	icon:Point("BOTTOMRIGHT",button,"BOTTOMRIGHT",-2,2)
 	button.overlayTex:SetTexture(nil)
 	button.overlayTex:Hide()
 	button:GetNormalTexture():SetAlpha(0)
@@ -432,7 +438,7 @@ local function StyleTotemActionButton(button, index)
 	end
 	button:CreateBorder(unpack(bordercolors[((index-1) % 4) + 1]))
 	button:SetBackdropColor(0,0,0,0)
-	button:StyleButton(true)
+	button:StyleButton()
 end
 hooksecurefunc("MultiCastActionButton_Update",function(actionButton, actionId, actionIndex, slot) StyleTotemActionButton(actionButton,actionIndex) end)
 
@@ -449,9 +455,10 @@ local function StyleTotemSpellButton(button, index)
 	local icon = select(1,button:GetRegions())
 	icon:SetTexCoord(.09,.91,.09,.91)
 	icon:SetDrawLayer("ARTWORK")
-	icon:Point("TOPLEFT",button,"TOPLEFT",1,-1)
-	icon:Point("BOTTOMRIGHT",button,"BOTTOMRIGHT",-1,1)
+	icon:Point("TOPLEFT",button,"TOPLEFT",2,-2)
+	icon:Point("BOTTOMRIGHT",button,"BOTTOMRIGHT",-2,2)
 	button:CreateShadow("Background", 1)
+	button.shadow:SetBackdropColor(0, 0, 0)
 	button:GetNormalTexture():SetTexture(nil)
 	if not InCombatLockdown() then button:Size(C["actionbar"].buttonsize) end
 	_G[button:GetName().."Highlight"]:SetTexture(nil)

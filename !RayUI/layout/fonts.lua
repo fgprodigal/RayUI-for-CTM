@@ -37,6 +37,10 @@ RayUIFonts:SetScript("OnEvent", function(self, event, addon)
 	SetFont(NumberFont_Shadow_Med,              NORMAL, C["media"].fontsize) --chat editbox uses this
 	SetFont(NumberFont_Shadow_Small,            NORMAL, C["media"].fontsize)
 	SetFont(QuestFont,                          NORMAL, C["media"].fontsize)
+	SetFont(ErrorFont,                          NORMAL, 15, "THINOUTLINE") -- Quest Progress & Errors
+	SetFont(SubZoneTextFont,                          NORMAL, 26, "THINOUTLINE", nil, nil, nil, 0, 0, 0, R.mult, -R.mult)
+	SetFont(ZoneTextFont,                          NORMAL, 112, "THINOUTLINE", nil, nil, nil, 0, 0, 0, R.mult, -R.mult)
+	SetFont(PVPInfoTextFont,                          NORMAL, 20, "THINOUTLINE", nil, nil, nil, 0, 0, 0, R.mult, -R.mult)
 	SetFont(QuestFont_Large,                    NORMAL, 14)
 	SetFont(SystemFont_Large,                   NORMAL, 15)
 	SetFont(SystemFont_Shadow_Huge1,			NORMAL, 20, "THINOUTLINE") -- Raid Warning, Boss emote frame too

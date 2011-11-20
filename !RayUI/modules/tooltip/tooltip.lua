@@ -45,6 +45,8 @@ for _, v in pairs(tooltips) do
 			if quality and quality > 1 then
 				local r, g, b = GetItemQualityColor(quality)
 				self:SetBackdropBorderColor(r, g, b)
+			else
+				self:SetBackdropBorderColor(0, 0, 0)
 			end
 		else
 			self:SetBackdropBorderColor(0, 0, 0)
@@ -122,7 +124,7 @@ GameTooltip:HookScript("OnTooltipSetUnit", function(self)
 		if unitLevel < 0 then unitLevel = '??' end
 		if UnitIsPlayer(unit) then
 			local unitRace = UnitRace(unit)
-			local _, unitClass = UnitClass(unit)
+			local unitClass = UnitClass(unit)
 			local guild, rank = GetGuildInfo(unit)
 			local playerGuild = GetGuildInfo("player")
 			GameTooltipStatusBar:SetStatusBarColor(unpack({GameTooltip_UnitColor(unit)}))
@@ -136,7 +138,7 @@ GameTooltip:HookScript("OnTooltipSetUnit", function(self)
 			end
 			for i=2, GameTooltip:NumLines() do
 				if _G["GameTooltipTextLeft" .. i]:GetText():find(PLAYER) then
-					_G["GameTooltipTextLeft" .. i]:SetText(string.format(hex(diffColor.r, diffColor.g, diffColor.b).."%s|r ", unitLevel) .. unitRace)
+					_G["GameTooltipTextLeft" .. i]:SetText(string.format(hex(diffColor.r, diffColor.g, diffColor.b).."%s|r ", unitLevel) .. unitRace .. " ".. unitClass)
 					break
 				end
 			end

@@ -10,7 +10,7 @@ Text:SetFont(C["media"].font, C["media"].fontsize, C["media"].fontflag)
 Text:SetShadowOffset(1.25, -1.25)
 Text:SetShadowColor(0, 0, 0, 0.4)
 Text:SetPoint("BOTTOMLEFT", BottomInfoBar, "TOPLEFT", 10, -3)
-Text:SetText(L["无天赋"])
+Text:SetText(NONE..TALENTS)
 Stat:SetParent(Text:GetParent())
 
 local talent = {}

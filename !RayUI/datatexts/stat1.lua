@@ -30,11 +30,11 @@ local function ShowTooltip(self)
 	
 	if R.Role == "Tank" then
 		if targetlv > 1 then
-			GameTooltip:AddDoubleLine(L["免伤分析"], string.join("", " (", L["等级"], " ", targetlv, ")"))
+			GameTooltip:AddDoubleLine(L["免伤分析"], string.join("", " (", LEVEL, " ", targetlv, ")"))
 		elseif targetlv == -1 then
-			GameTooltip:AddDoubleLine(L["免伤分析"], string.join("", " (", L["首领"], ")"))
+			GameTooltip:AddDoubleLine(L["免伤分析"], string.join("", " (", BOSS, ")"))
 		else
-			GameTooltip:AddDoubleLine(L["免伤分析"], string.join("", " (", L["等级"], " ", playerlv, ")"))
+			GameTooltip:AddDoubleLine(L["免伤分析"], string.join("", " (", LEVEL, " ", playerlv, ")"))
 		end
 		GameTooltip:AddLine' '
 		GameTooltip:AddDoubleLine(DODGE_CHANCE, format(chanceString, dodge),1,1,1)
@@ -153,7 +153,7 @@ local function UpdateCaster(self)
 		spellpwr = GetSpellBonusDamage(7)
 	end
 	
-	Text:SetFormattedText(displayNumberString, L["法伤"]..": ", spellpwr)
+	Text:SetFormattedText(displayNumberString, STAT_SPELLPOWER..": ", spellpwr)
 	--Setup Tooltip
 	self:SetAllPoints(Text)
 end
@@ -170,7 +170,7 @@ local function UpdateMelee(self)
 		pwr = effective
 	end
 	
-	Text:SetFormattedText(displayNumberString, L["攻强"]..": ", pwr)      
+	Text:SetFormattedText(displayNumberString, STAT_ATTACK_POWER..": ", pwr)      
 	--Setup Tooltip
 	self:SetAllPoints(Text)
 end

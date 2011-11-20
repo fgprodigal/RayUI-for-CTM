@@ -704,7 +704,7 @@ local function Shared(self, unit)
 		castbar.Text:ClearAllPoints()
 		castbar.Text:Point("LEFT", self.Health, "LEFT", 2, 0)
 		castbar.Iconbg:ClearAllPoints()
-		castbar.Iconbg:Point("RIGHT", self, "LEFT", -2, 0)
+		castbar.Iconbg:Point("RIGHT", self, "LEFT", -2, 1)
 		castbar.shadow:Hide()
 		castbar.bg:Hide()
 		self.Castbar = castbar
@@ -803,7 +803,7 @@ local function LoadDPSLayout()
 
 	-- Player's Pet
 	local pet = oUF:Spawn('pet', "RayUF_pet")
-	pet:Point("BOTTOM", UIParent, "BOTTOM", 0, 220)
+	pet:Point("BOTTOM", rABS_PetBar, "TOP", 0, 3)
 	pet:Size(SMALL_WIDTH, SMALL_HEIGHT)
 	pet:SetParent(player)
 

@@ -178,6 +178,7 @@ ns.watchers ={
 			{ spellID = 34490, unitId = "target", caster = "all", filter = "DEBUFF" },
 			-- Serpent Sting / Schlangengift
 			{ spellID = 1978, unitId = "target", caster = "player", filter = "DEBUFF" },
+			{ spellID = 88453, unitId = "target", caster = "player", filter = "DEBUFF" },
 			-- Widow Venom / Witwentoxin
 			{ spellID = 82654, unitId = "target", caster = "all", filter = "DEBUFF" },
 			-- Black Arrow / Schwarzer Pfeil

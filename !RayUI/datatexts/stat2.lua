@@ -87,7 +87,7 @@ end
 local function UpdateCaster(self)
 	local spellcrit = GetSpellCritChance(1)
 
-	Text:SetFormattedText(displayFloatString, L["致命"]..": ", spellcrit)
+	Text:SetFormattedText(displayFloatString, SPELL_CRIT_CHANCE..": ", spellcrit)
 	--Setup Tooltip
 	self:SetAllPoints(Text)
 end
@@ -103,7 +103,7 @@ local function UpdateMelee(self)
 		critChance = meleecrit
 	end
 	
-	Text:SetFormattedText(displayFloatString, L["致命"]..": ", critChance)
+	Text:SetFormattedText(displayFloatString, MELEE_CRIT_CHANCE..": ", critChance)
 	--Setup Tooltip
 	self:SetAllPoints(Text)
 end

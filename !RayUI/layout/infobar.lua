@@ -370,7 +370,7 @@ toggle:ClearAllPoints()
 toggle:SetAllPoints(topinfo[8])
 toggle:EnableMouse(true)
 
-topinfo[8].Text:SetText(L["货币"])
+topinfo[8].Text:SetText(CURRENCY)
 topinfo[8].Status:SetValue(0)
 toggle:SetScript("OnMouseDown", function(self)
 	for _, frame in pairs(CurrencyData) do
@@ -398,7 +398,7 @@ GuildChallengeAlertFrame:Kill()
 --实名好友弹窗位置
 BNToastFrame:HookScript("OnShow", function(self)
 	self:ClearAllPoints()
-	self:SetPoint("BOTTOMLEFT", ChatFrame1Tab, "TOPLEFT", 0, 0)
+	self:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", 15, 240)
 end)
 
 if C["general"].logo then

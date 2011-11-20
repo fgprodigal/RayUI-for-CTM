@@ -4,7 +4,7 @@ local bar = CreateFrame("Frame","rABS_MainMenuBar",UIParent, "SecureHandlerState
 bar:SetWidth(C["actionbar"].buttonsize*12+C["actionbar"].buttonspacing*11)
 bar:SetHeight(C["actionbar"].buttonsize)
 
-bar:SetPoint("BOTTOM", "UIParent", "BOTTOM", -3 * C["actionbar"].buttonsize -3 * C["actionbar"].buttonspacing, 240)
+bar:SetPoint("BOTTOM", "UIParent", "BOTTOM", -3 * C["actionbar"].buttonsize -3 * C["actionbar"].buttonspacing, 235)
 bar:SetHitRectInsets(-C["actionbar"].barinset, -C["actionbar"].barinset, -C["actionbar"].barinset, -C["actionbar"].barinset)
 
 bar:SetScale(C["actionbar"].barscale)
