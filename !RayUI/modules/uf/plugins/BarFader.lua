@@ -48,7 +48,9 @@ local function enable(self, unit)
 			end
 		end)
 		self:HookScript("OnLeave", function(self)
-			UIFrameFadeOut(self, 1.5, self:GetAlpha(), self.BarFaderMinAlpha or 0.25)
+			if(not pending(self, self.unit)) then
+				UIFrameFadeOut(self, 1.5, self:GetAlpha(), self.BarFaderMinAlpha or 0.25)
+			end
 		end)
 
 		if(self.Castbar) then

@@ -155,7 +155,8 @@ function R.ConstructCastBar(self)
 	spark:SetAlpha(.8)
 	spark:Point("TOPLEFT", castbar:GetStatusBarTexture(), "TOPRIGHT", -10, 13)
 	spark:Point("BOTTOMRIGHT", castbar:GetStatusBarTexture(), "BOTTOMRIGHT", 10, -13)
-			
+	castbar.Spark = spark
+
 	castbar.shadow = R.CreateBackdrop(castbar, castbar)
 	castbar.bg = castbar:CreateTexture(nil, "BACKGROUND")
 	castbar.bg:SetTexture(C["media"].normal)
@@ -186,7 +187,11 @@ function R.ConstructCastBar(self)
 	castbar.CustomDelayText = R.CustomCastDelayText
 	castbar.PostCastInterruptible = R.PostCastInterruptible
 	castbar.PostCastNotInterruptible = R.PostCastNotInterruptible
-	
+	castbar.PostCastFailed = R.PostCastFailed
+    castbar.PostCastInterrupted = R.PostCastFailed
+
+	castbar.OnUpdate = R.OnCastbarUpdate
+
 	return castbar
 end
 
@@ -252,6 +257,119 @@ function R.PostCastNotInterruptible(self, unit)
 		self:SetStatusBarColor(r * 1, g * 1, b * 1, .2)
 	else
 		self:SetStatusBarColor(r * 1, g * 1, b * 1)
+	end
+end
+
+function R.PostCastFailed(self, event, unit, name, rank, castid)
+	self:SetStatusBarColor(unpack(oUF.colors.reaction[1]))
+	self:SetValue(self.max)
+	self:Show()
+end
+
+function R.OnCastbarUpdate(self, elapsed)
+	if(self.casting) then
+		self.Spark:Show()
+		self:SetAlpha(1)
+		local duration = self.duration + elapsed
+		if(duration >= self.max) then
+			self.casting = nil
+			self:Hide()
+
+			if(self.PostCastStop) then self:PostCastStop(self.__owner.unit) end
+			return
+		end
+
+		if(self.SafeZone) then
+			local width = self:GetWidth()
+			local _, _, _, ms = GetNetStats()
+			local safeZonePercent = (width / self.max) * (ms / 1e5)
+			if(safeZonePercent > 1) then safeZonePercent = 1 end
+			self.SafeZone:SetWidth(width * safeZonePercent)
+			self.SafeZone:Show()
+		end
+
+		if(self.Time) then
+			if(self.delay ~= 0) then
+				if(self.CustomDelayText) then
+					self:CustomDelayText(duration)
+				else
+					self.Time:SetFormattedText("%.1f|cffff0000-%.1f|r", duration, self.delay)
+				end
+			else
+				if(self.CustomTimeText) then
+					self:CustomTimeText(duration)
+				else
+					self.Time:SetFormattedText("%.1f", duration)
+				end
+			end
+		end
+
+		self.duration = duration
+		self:SetValue(duration)
+
+		if(self.Spark) then
+			self.Spark:SetPoint("CENTER", self, "LEFT", (duration / self.max) * self:GetWidth(), 0)
+			self.Spark:Show()
+		end
+	elseif(self.channeling) then
+		self:SetAlpha(1)
+		local duration = self.duration - elapsed
+
+		if(duration <= 0) then
+			self.channeling = nil
+			self:Hide()
+
+			if(self.PostChannelStop) then self:PostChannelStop(self.__owner.unit) end
+			return
+		end
+
+		if(self.SafeZone) then
+			local width = self:GetWidth()
+			local _, _, _, ms = GetNetStats()
+			local safeZonePercent = (width / self.max) * (ms / 1e5)
+			if(safeZonePercent > 1) then safeZonePercent = 1 end
+			self.SafeZone:SetWidth(width * safeZonePercent)
+			self.SafeZone:Show()
+		end
+
+		if(self.Time) then
+			if(self.delay ~= 0) then
+				if(self.CustomDelayText) then
+					self:CustomDelayText(duration)
+				else
+					self.Time:SetFormattedText("%.1f|cffff0000-%.1f|r", duration, self.delay)
+				end
+			else
+				if(self.CustomTimeText) then
+					self:CustomTimeText(duration)
+				else
+					self.Time:SetFormattedText("%.1f", duration)
+				end
+			end
+		end
+
+		self.duration = duration
+		self:SetValue(duration)
+		if(self.Spark) then
+			self.Spark:Show()
+			self.Spark:SetPoint("CENTER", self, "LEFT", (duration / self.max) * self:GetWidth(), 0)
+		end	
+	else
+		if(self.SafeZone) then
+			self.SafeZone:Hide()
+		end
+		if(self.Spark) then
+			self.Spark:Hide()
+		end
+		local alpha = self:GetAlpha() - 0.02
+		if alpha > 0 then
+			self:SetAlpha(alpha)
+		else
+			self:Hide()
+		end
+		if(self.Time) then
+			self.Time:SetText(INTERRUPT)
+		end
 	end
 end
 

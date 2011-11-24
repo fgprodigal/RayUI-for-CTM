@@ -155,6 +155,7 @@ local function CreateShadow(f, t, offset, thickness, texture)
 		shadow:SetFrameLevel(0)
 	end
 	if offset and type(offset) == "number" then
+		offset = scale(offset)
 		shadow:Point("TOPLEFT", -3 - offset, 3 + offset)
 		shadow:Point("BOTTOMRIGHT", 3 + offset, -3 - offset)
 	else
