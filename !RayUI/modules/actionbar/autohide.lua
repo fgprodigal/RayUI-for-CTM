@@ -21,6 +21,37 @@ autohide:RegisterEvent("PLAYER_ENTERING_WORLD")
 autohide:RegisterEvent("UNIT_ENTERED_VEHICLE")
 autohide:RegisterEvent("UNIT_EXITED_VEHICLE")
 
+local function pending()
+	if UnitAffectingCombat("player") then return true end
+	if UnitExists("target") then return true end
+	if UnitInVehicle("player") then return true end
+	if SpellBookFrame:IsShown() then return true end
+	if IsAddOnLoaded("Blizzard_MacroUI") and MacroFrame:IsShown() then return true end
+end
+
+local function FadeOutActionButton()
+	for _, v in ipairs(rabs) do 
+		if _G[v]:GetAlpha()>0 then
+			local fadeInfo = {};
+			fadeInfo.mode = "OUT";
+			fadeInfo.timeToFade = 0.5;
+			fadeInfo.finishedFunc = function() _G[v]:Hide() end
+			fadeInfo.startAlpha = _G[v]:GetAlpha()
+			fadeInfo.endAlpha = 0
+			UIFrameFade(_G[v], fadeInfo)
+		end 
+	end
+end
+
+local function FadeInActionButton()
+	for _, v in ipairs(rabs) do
+		if _G[v]:GetAlpha()<1 then
+			_G[v]:Show()
+			UIFrameFadeIn(_G[v], 0.5, _G[v]:GetAlpha(), 1)
+		end
+	end
+end
+
 local buttons = 0
 local function UpdateButtonNumber()
 	for i=1, GetNumFlyouts() do
@@ -59,73 +90,23 @@ end
 SpellFlyout:HookScript("OnShow", SetUpFlyout)
 	
 autohide:SetScript("OnEvent", function(self, event, arg1, ...)
-	if event == "PLAYER_ENTERING_WORLD" and not UnitInVehicle("player") and not InCombatLockdown() then
+	if event == "PLAYER_ENTERING_WORLD" then
 		self:UnregisterEvent("PLAYER_ENTERING_WORLD")
-		for _, v in ipairs(rabs) do 
-			if _G[v]:GetAlpha()>0 then
-				local fadeInfo = {};
-				fadeInfo.mode = "OUT";
-				fadeInfo.timeToFade = 0.5;
-				fadeInfo.finishedFunc = function() _G[v]:Hide() end
-				fadeInfo.startAlpha = _G[v]:GetAlpha()
-				fadeInfo.endAlpha = 0
-				UIFrameFade(_G[v], fadeInfo)
-			end 
-		end
-	elseif event == "PLAYER_ENTERING_WORLD" and (UnitInVehicle("player") or InCombatLockdown()) then
-		for _, v in ipairs(rabs) do _G[v]:Show() _G[v]:SetAlpha(1) end
-	elseif event == "PLAYER_REGEN_ENABLED" and not UnitInVehicle("player") then
-		if not UnitExists("target") or UnitIsDead("target") then
-			for _, v in ipairs(rabs) do 
-				if _G[v]:GetAlpha()>0 then
-					local fadeInfo = {};
-					fadeInfo.mode = "OUT";
-					fadeInfo.timeToFade = 0.5;
-					fadeInfo.finishedFunc = function() _G[v]:Hide() end
-					fadeInfo.startAlpha = _G[v]:GetAlpha()
-					fadeInfo.endAlpha = 0
-					UIFrameFade(_G[v], fadeInfo)
-				end
-			end
-		end
-	elseif event == "PLAYER_REGEN_DISABLED" or (event == "UNIT_ENTERED_VEHICLE" and arg1 == "player") then
-		for _, v in ipairs(rabs) do if _G[v]:GetAlpha()<1 then _G[v]:Show() UIFrameFadeIn(_G[v], 0.5, _G[v]:GetAlpha(), 1) end end
-	elseif (event == "PLAYER_TARGET_CHANGED" and not InCombatLockdown() and not UnitInVehicle("player")) or (event == "UNIT_EXITED_VEHICLE" and arg1 == "player") then
-		if UnitExists("target") or UnitInVehicle("player") then
-			for _, v in ipairs(rabs) do if _G[v]:GetAlpha()<1 then _G[v]:Show() UIFrameFadeIn(_G[v], 0.5, _G[v]:GetAlpha(), 1) end end
-		else
-			for _, v in ipairs(rabs) do 
-				if _G[v]:GetAlpha()>0 then
-					local fadeInfo = {};
-					fadeInfo.mode = "OUT";
-					fadeInfo.timeToFade = 0.5;
-					fadeInfo.finishedFunc = function() _G[v]:Hide() end
-					fadeInfo.startAlpha = _G[v]:GetAlpha()
-					fadeInfo.endAlpha = 0
-					UIFrameFade(_G[v], fadeInfo)
-				end 
-			end
-		end
+	end
+	if pending() then
+		FadeInActionButton()
+	else
+		FadeOutActionButton()
 	end
 end)
 
 SpellBookFrame:HookScript("OnShow", function(self, event)
-	for _, v in ipairs(rabs) do if _G[v]:GetAlpha()<1 then _G[v]:Show() UIFrameFadeIn(_G[v], 0.5, _G[v]:GetAlpha(), 1) end end
+	FadeInActionButton()
 end)
 
 SpellBookFrame:HookScript("OnHide", function(self, event)
-	if not InCombatLockdown() and not UnitExists("target") and not UnitInVehicle("player") then
-		for _, v in ipairs(rabs) do 
-			if _G[v]:GetAlpha()>0 then
-				local fadeInfo = {};
-				fadeInfo.mode = "OUT";
-				fadeInfo.timeToFade = 0.5;
-				fadeInfo.finishedFunc = function() _G[v]:Hide() end
-				fadeInfo.startAlpha = _G[v]:GetAlpha()
-				fadeInfo.endAlpha = 0
-				UIFrameFade(_G[v], fadeInfo)
-			end 
-		end
+	if not pending() then
+		FadeOutActionButton()
 	end
 end)
 
@@ -135,21 +116,11 @@ a:SetScript("OnEvent", function(self, event, addon)
 	if addon == "Blizzard_MacroUI" then
 		self:UnregisterEvent("ADDON_LOADED")
 		MacroFrame:HookScript("OnShow", function(self, event)
-			for _, v in ipairs(rabs) do if _G[v]:GetAlpha()<1 then _G[v]:Show() UIFrameFadeIn(_G[v], 0.5, _G[v]:GetAlpha(), 1) end end
+			FadeInActionButton()
 		end)
 		MacroFrame:HookScript("OnHide", function(self, event)
-			if not InCombatLockdown() and not UnitExists("target") and not UnitInVehicle("player") then
-				for _, v in ipairs(rabs) do 
-					if _G[v]:GetAlpha()>0 then
-						local fadeInfo = {};
-						fadeInfo.mode = "OUT";
-						fadeInfo.timeToFade = 0.5;
-						fadeInfo.finishedFunc = function() _G[v]:Hide() end
-						fadeInfo.startAlpha = _G[v]:GetAlpha()
-						fadeInfo.endAlpha = 0
-						UIFrameFade(_G[v], fadeInfo)
-					end 
-				end
+			if not pending() then
+				FadeOutActionButton()
 			end
 		end)
 	end

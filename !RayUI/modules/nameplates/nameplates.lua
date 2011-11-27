@@ -157,7 +157,7 @@ local function CreateVirtualFrame(parent, point)
 	parent.backdrop = CreateFrame("Frame", nil ,parent)
 	parent.backdrop:SetPoint("TOPLEFT", -noscalemult*1, noscalemult*1)
 	parent.backdrop:SetPoint("BOTTOMRIGHT", noscalemult*1, -noscalemult*1)
-	parent.backdrop:CreateShadow()
+	parent.backdrop:CreateShadow("Default", -1, 2)
 
 	parent.backdrop2 = parent:CreateTexture(nil, "BORDER")
 	parent.backdrop2:SetDrawLayer("BORDER", -7)

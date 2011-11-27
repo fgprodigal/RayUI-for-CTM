@@ -117,36 +117,34 @@ end
 
 local function Stylesmallbutton(normal, button, icon, name, pet)
 	local Flash	 = _G[name.."Flash"]
-	button:SetNormalTexture("")
+	button:SetWidth(C["actionbar"].buttonsize)
+	button:SetHeight(C["actionbar"].buttonsize)
 
+	button:SetNormalTexture("")
 	button.SetNormalTexture = R.dummy
 	
 	Flash:SetTexture(1, 1, 1, 0.3)
 	
-	if not _G[name.."Panel"] then
-		button:SetWidth(C["actionbar"].buttonsize)
-		button:SetHeight(C["actionbar"].buttonsize)
-		
-		local panel = CreateFrame("Frame", name.."Panel", button)
-		panel:CreatePanel("Default", C["actionbar"].buttonsize, C["actionbar"].buttonsize, "CENTER", button, "CENTER", 0, 0)
+	if not button.shadow then
+		button:CreateShadow("Background")
+	end
 
-		icon:SetTexCoord(.08, .92, .08, .92)
-		icon:ClearAllPoints()
-		if pet then			
-			if C["actionbar"].buttonsize < 30 then
-				local autocast = _G[name.."AutoCastable"]
-				autocast:SetAlpha(0)
-			end
-			local shine = _G[name.."Shine"]
-			shine:Size(C["actionbar"].buttonsize, C["actionbar"].buttonsize)
-			shine:ClearAllPoints()
-			shine:SetPoint("CENTER", button, 0, 0)
-			icon:Point("TOPLEFT", button, 2, -2)
-			icon:Point("BOTTOMRIGHT", button, -2, 2)
-		else
-			icon:Point("TOPLEFT", button, 2, -2)
-			icon:Point("BOTTOMRIGHT", button, -2, 2)
+	icon:SetTexCoord(.08, .92, .08, .92)
+	icon:ClearAllPoints()
+	if pet then			
+		if C["actionbar"].buttonsize < 30 then
+			local autocast = _G[name.."AutoCastable"]
+			autocast:SetAlpha(0)
 		end
+		local shine = _G[name.."Shine"]
+		shine:Size(C["actionbar"].buttonsize, C["actionbar"].buttonsize)
+		shine:ClearAllPoints()
+		shine:SetPoint("CENTER", button, 0, 0)
+		icon:Point("TOPLEFT", button, 2, -2)
+		icon:Point("BOTTOMRIGHT", button, -2, 2)
+	else
+		icon:Point("TOPLEFT", button, 2, -2)
+		icon:Point("BOTTOMRIGHT", button, -2, 2)
 	end
 	
 	if normal then

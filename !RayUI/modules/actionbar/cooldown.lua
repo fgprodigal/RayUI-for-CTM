@@ -161,3 +161,45 @@ hooksecurefunc(getmetatable(ActionButton1Cooldown).__index, 'SetCooldown', funct
 		end
 	end
 end)
+
+if not C["actionbar"].cooldownalpha then return end
+
+local function CDStop(frame)
+	frame:SetScript("OnUpdate", nil)
+	frame:SetAlpha(C["actionbar"].readyalpha)
+end
+
+local function CDUpdate(frame)
+	if frame.StopTime < GetTime() then
+		CDStop(frame)
+	else
+		frame:SetAlpha(C["actionbar"].cdalpha)
+	end
+end
+
+local function UpdateCD(self)
+	local start, duration, enable = GetActionCooldown(self.action)
+	if start>0 and duration > 1.5 then
+		self.StopTime = start + duration
+		self:SetScript("OnUpdate", CDUpdate)
+	else
+		CDStop(self)
+	end
+end
+
+local function UpdateShapeshiftCD()
+	for i=1, NUM_SHAPESHIFT_SLOTS do
+		button = _G["ShapeshiftButton"..i]
+		local start, duration, enable = GetShapeshiftFormCooldown(i)
+		if start>0 and duration > 1.5 then
+			button.StopTime = start + duration
+			button:SetScript("OnUpdate", CDUpdate)
+		else
+			CDStop(button)
+		end
+	end
+end
+
+hooksecurefunc("ActionButton_UpdateState", UpdateCD)
+hooksecurefunc("ActionButton_UpdateAction", UpdateCD)
+hooksecurefunc("ShapeshiftBar_UpdateState", UpdateShapeshiftCD)

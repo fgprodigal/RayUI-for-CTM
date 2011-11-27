@@ -822,8 +822,41 @@ function RayUIConfig.GenerateOptionsInternal()
 						name = L["显示空按键"],
 						type = "toggle",
 					},
-					Bar1Group = {
+					CooldownAlphaGroup = {
 						order = 11,
+						type = "group",
+						name = L["根据CD淡出"],
+						guiInline = true,
+						args = {
+							cooldownalpha = {
+								type = "toggle",
+								name = L["启用"],
+								order = 1,								
+							},
+							spacer = {
+								type = 'description',
+								name = '',
+								desc = '',
+								order = 2,
+							},
+							cdalpha = {
+								order = 3,
+								name = L["CD时透明度"],
+								type = "range",
+								min = 0, max = 1, step = 0.05,
+								disabled = function() return not db.actionbar.cooldownalpha end,
+							},
+							readyalpha = {
+								order = 4,
+								name = L["就绪时透明度"],
+								type = "range",
+								min = 0, max = 1, step = 0.05,
+								disabled = function() return not db.actionbar.cooldownalpha end,
+							},
+						},
+					},
+					Bar1Group = {
+						order = 12,
 						type = "group",
 						name = L["动作条1"],
 						guiInline = true,
@@ -842,7 +875,7 @@ function RayUIConfig.GenerateOptionsInternal()
 						},
 					},
 					Bar2Group = {
-						order = 12,
+						order = 13,
 						type = "group",
 						guiInline = true,
 						name = L["动作条2"],
@@ -860,7 +893,7 @@ function RayUIConfig.GenerateOptionsInternal()
 						},
 					},
 					Bar3Group = {
-						order = 13,
+						order = 14,
 						type = "group",
 						guiInline = true,
 						name = L["动作条3"],
@@ -878,7 +911,7 @@ function RayUIConfig.GenerateOptionsInternal()
 						},
 					},
 					Bar4Group = {
-						order = 14,
+						order = 15,
 						type = "group",
 						guiInline = true,
 						name = L["动作条4"],
@@ -896,7 +929,7 @@ function RayUIConfig.GenerateOptionsInternal()
 						},
 					},
 					Bar5Group = {
-						order = 15,
+						order = 16,
 						type = "group",
 						guiInline = true,
 						name = L["动作条5"],
@@ -914,7 +947,7 @@ function RayUIConfig.GenerateOptionsInternal()
 						},
 					},
 					PetGroup = {
-						order = 16,
+						order = 17,
 						type = "group",
 						guiInline = true,
 						name = L["宠物条"],
@@ -932,7 +965,7 @@ function RayUIConfig.GenerateOptionsInternal()
 						},
 					},
 					StanceGroup = {
-						order = 17,
+						order = 18,
 						type = "group",
 						guiInline = true,
 						name = L["姿态"],

@@ -138,6 +138,10 @@ DB["actionbar"]={
 	
 	petbarmouseover = false,
 	petbarfade = true,
+	
+	cooldownalpha = true,
+	cdalpha = 1,
+	readyalpha = 0.3,
 }
 
 DB["misc"]={
