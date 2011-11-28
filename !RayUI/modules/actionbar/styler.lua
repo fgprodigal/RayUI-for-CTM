@@ -45,15 +45,12 @@ function Style(self, totem, flyout)
 	local Border  = _G[name.."Border"]
 	local Btname = _G[name.."Name"]
 	local normal  = _G[name.."NormalTexture"]
+	local normal2 = self:GetNormalTexture()
 	
-	if Flash then
-		Flash:SetTexture("")
-	end
-	
-	
-	if Border then
-		Border:Kill()
-	end
+	if Flash then Flash:SetTexture(nil) end
+	if normal then normal:SetTexture(nil) end
+	if normal2 then normal2:SetTexture(nil) end
+	if Border then Border:Kill() end
 	
 	if Count then
 		Count:ClearAllPoints()
@@ -61,10 +58,10 @@ function Style(self, totem, flyout)
 		Count:SetFont(C["media"].pxfont, R.Scale(10), "OUTLINE,MONOCHROME")
 	end
 	
-	if normal then
-		normal:SetTexture(nil)
+	if R.NewVersion and _G[name..'FloatingBG'] then
+		_G[name..'FloatingBG']:Kill()
 	end
-		
+
 	if self.styled then return end	
 	
 	if Btname then
@@ -301,19 +298,19 @@ SLOT_EMPTY_TCOORDS = {
 		left	= 66 / 128,
 		right	= 96 / 128,
 		top		= 3 / 256,
-		bottom	= 33 / 256,
+		bottom	= 32 / 256,
 	},
 	[FIRE_TOTEM_SLOT] = {
-		left	= 67 / 128,
+		left	= 68 / 128,
 		right	= 97 / 128,
 		top		= 100 / 256,
-		bottom	= 130 / 256,
+		bottom	= 129 / 256,
 	},
 	[WATER_TOTEM_SLOT] = {
 		left	= 39 / 128,
 		right	= 69 / 128,
 		top		= 209 / 256,
-		bottom	= 239 / 256,
+		bottom	= 238 / 256,
 	},
 	[AIR_TOTEM_SLOT] = {
 		left	= 66 / 128,
@@ -372,6 +369,7 @@ local function StyleTotemFlyout(flyout)
 	
 	flyout:ClearAllPoints()
 	flyout:Point("BOTTOM",flyout.parent,"TOP",0,4)
+	flyout:SetParent(flyout.parent)
 end
 hooksecurefunc("MultiCastFlyoutFrame_ToggleFlyout",function(self) StyleTotemFlyout(self) end)
 	
@@ -399,10 +397,10 @@ hooksecurefunc("MultiCastFlyoutFrameOpenButton_Show",function(button,_, parent) 
 
 -- the color we use for border
 local bordercolors = {
-	{.23,.45,.13},   -- Earth
-	{.58,.23,.10},   -- Fire
-	{.19,.48,.60},   -- Water
-	{.42,.18,.74},   -- Air
+	{0.741,0.580,0.04},   -- Earth
+	{0.752,0.172,0.02},   -- Fire
+	{0,0.443,0.631},   -- Water
+	{0.6,1,0.945},   -- Air
 }
 
 local function StyleTotemSlotButton(button, index)

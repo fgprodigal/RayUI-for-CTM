@@ -142,6 +142,7 @@ DB["actionbar"]={
 	cooldownalpha = true,
 	cdalpha = 1,
 	readyalpha = 0.3,
+	stancealpha = false,
 }
 
 DB["misc"]={

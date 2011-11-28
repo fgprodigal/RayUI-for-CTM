@@ -133,7 +133,10 @@ AceGUI.RegisterAsWidget = function(self, widget)
 	elseif TYPE == "EditBox" then
 		local frame = widget.editbox
 		local button = widget.button
-		frame:StripTextures()		
+		-- frame:StripTextures()
+		_G[frame:GetName()..'Left']:Kill()
+		_G[frame:GetName()..'Middle']:Kill()
+		_G[frame:GetName()..'Right']:Kill()
 		R.ReskinInput(frame)
 		button:ClearAllPoints()
 		button:SetPoint("RIGHT", frame, "RIGHT", -7, 0)
@@ -223,6 +226,5 @@ AceGUI.RegisterAsContainer = function(self, widget)
 			end
 		end
 	end
-
 	return oldRegisterAsContainer(self, widget)
 end

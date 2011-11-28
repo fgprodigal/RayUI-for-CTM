@@ -167,6 +167,10 @@ if not C["actionbar"].cooldownalpha then return end
 local function CDStop(frame)
 	frame:SetScript("OnUpdate", nil)
 	frame:SetAlpha(C["actionbar"].readyalpha)
+	local index = frame:GetName():match("MultiCastActionButton(%d)")
+	if index then
+		_G["MultiCastSlotButton"..index]:SetAlpha(C["actionbar"].readyalpha)
+	end
 end
 
 local function CDUpdate(frame)
@@ -174,10 +178,15 @@ local function CDUpdate(frame)
 		CDStop(frame)
 	else
 		frame:SetAlpha(C["actionbar"].cdalpha)
+		local index = frame:GetName():match("MultiCastActionButton(%d)")
+		if index then
+			_G["MultiCastSlotButton"..index]:SetAlpha(C["actionbar"].cdalpha)
+		end
 	end
 end
 
 local function UpdateCD(self)
+	if not C["actionbar"].stancealpha and self:GetName():find("MultiCast") then return end
 	local start, duration, enable = GetActionCooldown(self.action)
 	if start>0 and duration > 1.5 then
 		self.StopTime = start + duration
@@ -202,4 +211,6 @@ end
 
 hooksecurefunc("ActionButton_UpdateState", UpdateCD)
 hooksecurefunc("ActionButton_UpdateAction", UpdateCD)
-hooksecurefunc("ShapeshiftBar_UpdateState", UpdateShapeshiftCD)
+if C["actionbar"].stancealpha then
+	hooksecurefunc("ShapeshiftBar_UpdateState", UpdateShapeshiftCD)
+end

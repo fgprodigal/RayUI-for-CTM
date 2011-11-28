@@ -831,7 +831,7 @@ function RayUIConfig.GenerateOptionsInternal()
 							cooldownalpha = {
 								type = "toggle",
 								name = L["启用"],
-								order = 1,								
+								order = 1,
 							},
 							spacer = {
 								type = 'description',
@@ -851,6 +851,12 @@ function RayUIConfig.GenerateOptionsInternal()
 								name = L["就绪时透明度"],
 								type = "range",
 								min = 0, max = 1, step = 0.05,
+								disabled = function() return not db.actionbar.cooldownalpha end,
+							},
+							stancealpha = {
+								type = "toggle",
+								name = L["姿态条"],
+								order = 5,
 								disabled = function() return not db.actionbar.cooldownalpha end,
 							},
 						},
@@ -968,7 +974,7 @@ function RayUIConfig.GenerateOptionsInternal()
 						order = 18,
 						type = "group",
 						guiInline = true,
-						name = L["姿态"],
+						name = L["姿态条"],
 						args = {
 							stancebarfade = {
 								type = "toggle",

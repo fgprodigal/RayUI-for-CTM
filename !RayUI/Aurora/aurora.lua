@@ -408,16 +408,16 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 
 		-- [[ Simple backdrops ]]
 
-		local bds = {"AutoCompleteBox", "BNToastFrame", "TicketStatusFrameButton", 
-		-- "DropDownList1Backdrop", 
-		-- "DropDownList2Backdrop", 
-		"LFDSearchStatus", 
-		-- "DropDownList1MenuBackdrop", 
-		-- "DropDownList2MenuBackdrop", 
-		"GearManagerDialogPopup", "TokenFramePopup", "ReputationDetailFrame", "RaidInfoFrame"}
+		local bds = {"AutoCompleteBox", "BNToastFrame", "TicketStatusFrameButton", "GearManagerDialogPopup", "TokenFramePopup", "ReputationDetailFrame", "RaidInfoFrame"}
 
 		for i = 1, #bds do
 			R.CreateBD(_G[bds[i]])
+		end
+		
+		if not R.NewVersion then
+			R.CreateBD(LFDSearchStatus)
+		else
+			R.CreateBD(LFGSearchStatus)
 		end
 		
 		-- Skin all DropDownList[i]
@@ -2177,6 +2177,7 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 	elseif addon == "Blizzard_AuctionUI" then
 		R.SetBD(AuctionFrame, 2, -10, 0, 10)
 		R.CreateBD(AuctionProgressFrame)
+
 		AuctionDressUpFrame:ClearAllPoints()
 		AuctionDressUpFrame:SetPoint("LEFT", AuctionFrame, "RIGHT", -3, 0)
 

@@ -32,9 +32,9 @@ local delay = 0.01
 -- In the order, fire, earth, water, air
 local colors = {
 	[1] = {0.752,0.172,0.02},
-	[2] = {0.741,0.580,0.04},		
+	[2] = {0.741,0.580,0.04},
 	[3] = {0,0.443,0.631},
-	[4] = {0.6,1,0.945},	
+	[4] = {0.6,1,0.945},
 }
 
 local GetTotemInfo, SetValue, GetTime = GetTotemInfo, SetValue, GetTime
@@ -67,7 +67,6 @@ local function InitDestroy(self)
 end			
 local function UpdateSlot(self, slot)
 	local totem = self.TotemBar
-
 
 	haveTotem, name, startTime, duration, totemIcon = GetTotemInfo(slot)
 	

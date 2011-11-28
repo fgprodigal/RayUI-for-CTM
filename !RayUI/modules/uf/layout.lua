@@ -308,11 +308,6 @@ local function Shared(self, unit)
 				self.TotemBar[i]:SetHeight(5)
 				self.TotemBar[i]:GetStatusBarTexture():SetHorizTile(false)
 
-                if (i == 1) then
-                    self.TotemBar[i]:SetPoint("BOTTOM", self, "TOP", 75,0)
-                else
-                    self.TotemBar[i]:SetPoint("RIGHT", self.TotemBar[i-1], "LEFT", -5, 0)
-                end
                 self.TotemBar[i]:SetBackdrop({bgFile = C["media"].blank})
                 self.TotemBar[i]:SetBackdropColor(0.5, 0.5, 0.5)
                 self.TotemBar[i]:SetMinMaxValues(0, 1)
@@ -324,6 +319,10 @@ local function Shared(self, unit)
 
                 self.TotemBar[i].bd = R.CreateBackdrop(self.TotemBar[i], self.TotemBar[i])
             end
+			self.TotemBar[2]:SetPoint("BOTTOM", self, "TOP", -75,0)
+			self.TotemBar[1]:SetPoint("LEFT", self.TotemBar[2], "RIGHT", 5, 0)
+			self.TotemBar[3]:SetPoint("LEFT", self.TotemBar[1], "RIGHT", 5, 0)
+			self.TotemBar[4]:SetPoint("LEFT", self.TotemBar[3], "RIGHT", 5, 0)
         end
 		
 		-- Experienc & Reputation

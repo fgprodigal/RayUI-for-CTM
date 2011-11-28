@@ -142,8 +142,8 @@ local menuList = {
     func = function() ToggleFrame(EncounterJournal) end},
     {text = LFG_TITLE,
     func = function() ToggleFrame(LFDParentFrame) end},
-    {text = LOOKING_FOR_RAID,
-    func = function() ToggleFrame(LFRParentFrame) end},
+    {text = R.NewVersion and RAID_FINDER or LOOKING_FOR_RAID,
+    func = function() if R.NewVersion then RaidMicroButton:Click() else ToggleFrame(LFRParentFrame) end end},
     {text = HELP_BUTTON,
     func = function() ToggleHelpFrame() end},
     {text = CALENDAR,
@@ -213,7 +213,13 @@ Minimap:HookScript("OnLeave", function(self)
 end)
 
 DropDownList1:SetClampedToScreen(true)
-LFDSearchStatus:SetClampedToScreen(true)
+if not R.NewVersion then
+	LFDSearchStatus:SetClampedToScreen(true)
+	LFDDungeonReadyStatus:SetClampedToScreen(true)
+else
+	LFGSearchStatus:SetClampedToScreen(true)
+	LFGDungeonReadyStatus:SetClampedToScreen(true)	
+end
 
 -----------------------------------------------------
 -- MinimapBackground
