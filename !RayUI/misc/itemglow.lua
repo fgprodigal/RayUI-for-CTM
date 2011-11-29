@@ -103,3 +103,49 @@ g:SetScript("OnEvent", function(self, event, addon)
 		g:UnregisterEvent("ADDON_LOADED")
 	end
 end)
+
+hooksecurefunc("TradeFrame_UpdatePlayerItem", function(id)
+	local name, texture, numItems, quality = GetTradePlayerItemInfo(id)
+	local button = _G["TradePlayerItem"..id.."ItemButton"]
+	local glow = button.glow
+	if(not glow) then
+		button.glow = glow
+		glow = CreateFrame("Frame", nil, button)
+		glow:Point("TOPLEFT", -1, 1)
+		glow:Point("BOTTOMRIGHT", 1, -1)
+		glow:CreateBorder()
+		button.glow = glow
+	end
+	if(texture) then
+		local r, g, b
+		r, g, b = GetItemQualityColor(quality)
+		if (quality <=1 ) then r, g, b = 0, 0, 0 end
+		glow:SetBackdropBorderColor(r, g, b)
+		glow:Show()
+	else
+		glow:Hide()
+	end
+end)
+
+hooksecurefunc("TradeFrame_UpdateTargetItem", function(id)
+	local name, texture, numItems, quality = GetTradePlayerItemInfo(id)
+	local button = _G["TradeRecipientItem"..id.."ItemButton"]
+	local glow = button.glow
+	if(not glow) then
+		button.glow = glow
+		glow = CreateFrame("Frame", nil, button)
+		glow:Point("TOPLEFT", -1, 1)
+		glow:Point("BOTTOMRIGHT", 1, -1)
+		glow:CreateBorder()
+		button.glow = glow
+	end
+	if(texture) then
+		local r, g, b
+		r, g, b = GetItemQualityColor(quality)
+		if (quality <=1 ) then r, g, b = 0, 0, 0 end
+		glow:SetBackdropBorderColor(r, g, b)
+		glow:Show()
+	else
+		glow:Hide()
+	end
+end)
