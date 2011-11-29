@@ -2024,9 +2024,20 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 		for i = 1,MAX_TRADE_ITEMS do
 			for _, j in pairs({"TradePlayerItem", "TradeRecipientItem"}) do
 				local tradeItemButton = _G[j..i.."ItemButton"]			
-				_G[j..i.."ItemButtonIconTexture"]:SetTexCoord(0.08, 0.92, 0.08, 0.92)
-				_G[j..i.."NameFrame"]:SetTexture(nil)
 				if not tradeItemButton.reskinned then
+					_G[j..i.."ItemButtonIconTexture"]:SetTexCoord(0.08, 0.92, 0.08, 0.92)
+					_G[j..i.."NameFrame"]:SetTexture(nil)
+
+					if not tradeItemButton.nameframe then
+						local nameframe = CreateFrame("Frame", nil, _G[j..i])
+						nameframe:Point("TOPLEFT", _G[j..i.."NameFrame"], 11, -14)
+						nameframe:Point("BOTTOMRIGHT", _G[j..i.."NameFrame"], -10, 14)
+						nameframe:SetFrameLevel(_G[j..i]:GetFrameLevel())
+						nameframe:SetFrameStrata(_G[j..i]:GetFrameStrata())
+						R.CreateBD(nameframe)
+						tradeItemButton.nameframe = nameframe
+					end
+
 					if tradeItemButton.SetHighlightTexture and not tradeItemButton.hover then
 						local hover = tradeItemButton:CreateTexture("frame", nil, self)
 						hover:SetTexture(1, 1, 1, 0.3)
