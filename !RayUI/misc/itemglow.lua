@@ -1,12 +1,59 @@
 -- Based on oGlow by Haste
 
 local R, C, L, DB = unpack(select(2, ...))
+local Unusable
+
+if R.myclass == 'DEATHKNIGHT' then
+	Unusable = {{3, 4, 10, 11, 13, 14, 15, 16}, {6}}
+elseif R.myclass == 'DRUID' then
+	Unusable = {{1, 2, 3, 4, 8, 9, 14, 15, 16}, {4, 5, 6}, true}
+elseif R.myclass == 'HUNTER' then
+	Unusable = {{5, 6, 16}, {5, 6, 7}}
+elseif R.myclass == 'MAGE' then
+	Unusable = {{1, 2, 3, 4, 5, 6, 7, 9, 11, 14, 15}, {3, 4, 5, 6, 7}, true}
+elseif R.myclass == 'PALADIN' then
+	Unusable = {{3, 4, 10, 11, 13, 14, 15, 16}, {}, true}
+elseif R.myclass == 'PRIEST' then
+	Unusable = {{1, 2, 3, 4, 6, 7, 8, 9, 11, 14, 15}, {3, 4, 5, 6, 7}, true}
+elseif R.myclass == 'ROGUE' then
+	Unusable = {{2, 6, 7, 9, 10, 16}, {4, 5, 6, 7}}
+elseif R.myclass == 'SHAMAN' then
+	Unusable = {{3, 4, 7, 8, 9, 14, 15, 16}, {5}}
+elseif R.myclass == 'WARLOCK' then
+	Unusable = {{1, 2, 3, 4, 5, 6, 7, 9, 11, 14, 15}, {3, 4, 5, 6, 7}, true}
+elseif R.myclass == 'WARRIOR' then
+	Unusable = {{16}, {7}}
+end
+
+for class = 1, 2 do
+	local subs = {GetAuctionItemSubClasses(class)}
+	for i, subclass in ipairs(Unusable[class]) do
+		Unusable[subs[subclass]] = true
+	end
+		
+	Unusable[class] = nil
+	subs = nil
+end
+
+local function IsClassUnusable(subclass, slot)
+	if subclass then
+		return Unusable[subclass] or slot == 'INVTYPE_WEAPONOFFHAND' and Unusable[3]
+	end
+end
+
+local function IsItemUnusable(...)
+	if ... then
+		local subclass, _, slot = select(7, GetItemInfo(...))
+		return IsClassUnusable(subclass, slot)
+	end
+end
 
 local function UpdateGlow(button, id)
-	local quality, texture, _
+	local quality, texture, link, _
 	local quest = _G[button:GetName().."IconQuestTexture"]
+	local icontexture = _G[button:GetName().."IconTexture"]
 	if(id) then
-		quality, _, _, _, _, _, _, texture = select(3, GetItemInfo(id))
+		_, link, quality, _, _, _, _, _, _, texture = GetItemInfo(id)
 	end
 
 	local glow = button.glow
@@ -21,6 +68,11 @@ local function UpdateGlow(button, id)
 
 	if(texture) then
 		local r, g, b
+		if IsItemUnusable(link) then
+			icontexture:SetVertexColor(RED_FONT_COLOR.r, RED_FONT_COLOR.g, RED_FONT_COLOR.b)
+		else
+			icontexture:SetVertexColor(1, 1, 1)
+		end	
 		if quest and quest:IsShown() then
 			r, g, b = 1, 0, 0
 		else
@@ -105,8 +157,10 @@ g:SetScript("OnEvent", function(self, event, addon)
 end)
 
 hooksecurefunc("TradeFrame_UpdatePlayerItem", function(id)
-	local name, texture, numItems, quality = GetTradePlayerItemInfo(id)
+	local link = GetTradePlayerItemLink(id)
+	local _, _, quality, _, _, _, _, _, _, texture = GetItemInfo(link)
 	local button = _G["TradePlayerItem"..id.."ItemButton"]
+	local icontexture = _G["TradePlayerItem"..id.."ItemButtonIconTexture"]
 	local glow = button.glow
 	if(not glow) then
 		button.glow = glow
@@ -118,6 +172,11 @@ hooksecurefunc("TradeFrame_UpdatePlayerItem", function(id)
 	end
 	if(texture) then
 		local r, g, b
+		if IsItemUnusable(link) then
+			icontexture:SetVertexColor(RED_FONT_COLOR.r, RED_FONT_COLOR.g, RED_FONT_COLOR.b)
+		else
+			icontexture:SetVertexColor(1, 1, 1)
+		end		
 		r, g, b = GetItemQualityColor(quality)
 		if (quality <=1 ) then r, g, b = 0, 0, 0 end
 		glow:SetBackdropBorderColor(r, g, b)
@@ -128,8 +187,10 @@ hooksecurefunc("TradeFrame_UpdatePlayerItem", function(id)
 end)
 
 hooksecurefunc("TradeFrame_UpdateTargetItem", function(id)
-	local name, texture, numItems, quality = GetTradePlayerItemInfo(id)
+	local link = GetTradePlayerItemLink(id)
+	local _, _, quality, _, _, _, _, _, _, texture = GetItemInfo(link)
 	local button = _G["TradeRecipientItem"..id.."ItemButton"]
+	local icontexture = _G["TradeRecipientItem"..id.."ItemButtonIconTexture"]
 	local glow = button.glow
 	if(not glow) then
 		button.glow = glow
@@ -141,6 +202,11 @@ hooksecurefunc("TradeFrame_UpdateTargetItem", function(id)
 	end
 	if(texture) then
 		local r, g, b
+		if IsItemUnusable(link) then
+			icontexture:SetVertexColor(RED_FONT_COLOR.r, RED_FONT_COLOR.g, RED_FONT_COLOR.b)
+		else
+			icontexture:SetVertexColor(1, 1, 1)
+		end		
 		r, g, b = GetItemQualityColor(quality)
 		if (quality <=1 ) then r, g, b = 0, 0, 0 end
 		glow:SetBackdropBorderColor(r, g, b)
