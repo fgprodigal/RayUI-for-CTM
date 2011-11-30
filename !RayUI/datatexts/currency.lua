@@ -75,17 +75,7 @@ local function OnEvent(self, event)
 		if total > 0 then
 			TopInfoBar7.Status:SetMinMaxValues(0, total)
 			TopInfoBar7.Status:SetValue(money)
-			-- if money/total < 0.2 then
-				-- TopInfoBar7.Status:SetStatusBarColor(unpack(R.InfoBarStatusColor[3]))
-			-- elseif money/total < 0.6 then
-				-- TopInfoBar7.Status:SetStatusBarColor(unpack(R.InfoBarStatusColor[2]))
-			-- else
-				-- TopInfoBar7.Status:SetStatusBarColor(unpack(R.InfoBarStatusColor[1]))
-			-- end
-			local r, g, b = R.ColorGradient(money/total, R.InfoBarStatusColor[1][1], R.InfoBarStatusColor[1][2], R.InfoBarStatusColor[1][3], 
-																	R.InfoBarStatusColor[2][1], R.InfoBarStatusColor[2][2], R.InfoBarStatusColor[2][3],
-																	R.InfoBarStatusColor[3][1], R.InfoBarStatusColor[3][2], R.InfoBarStatusColor[3][3])
-			TopInfoBar7.Status:SetStatusBarColor(r, g, b)
+			TopInfoBar7.Status:SetStatusBarColor(unpack(R.InfoBarStatusColor[3]))
 		end
 	end
 end
@@ -189,6 +179,7 @@ Stat:SetScript("OnMouseDown", function(self)
 			fadeInfo.endAlpha = 0
 			UIFrameFade(frame, fadeInfo)
 		else
+			frame:Show()
 			UIFrameFadeIn(frame, 0.5, frame:GetAlpha(), 1)
 		end
 	end
