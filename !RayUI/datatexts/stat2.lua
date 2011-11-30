@@ -44,7 +44,7 @@ local function AddTooltipHeader(description)
 end
 
 local function ShowTooltip(self)
-	GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", xoff, yoff)
+	GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT")
 	GameTooltip:ClearLines()
 	
 	if R.Role == "Tank" then

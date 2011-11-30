@@ -55,7 +55,6 @@ for class = 1, 2 do
 	for i, subclass in ipairs(Unusable[class]) do
 		Unusable[subs[subclass]] = true
 	end
-		
 	Unusable[class] = nil
 	subs = nil
 end

@@ -46,7 +46,6 @@ end
 local function FadeInActionButton()
 	for _, v in ipairs(rabs) do
 		if _G[v]:GetAlpha()<1 then
-			_G[v]:Show()
 			UIFrameFadeIn(_G[v], 0.5, _G[v]:GetAlpha(), 1)
 		end
 	end

@@ -184,7 +184,7 @@ Stat:SetScript("OnEnter", function(self)
 	local guildName, guildRank = GetGuildInfo('player')
 	local guildLevel = GetGuildLevel()
 
-	GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT", xoff, yoff)
+	GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT")
 	
 	GameTooltip:ClearLines()
 	GameTooltip:AddDoubleLine(format(guildInfoString, guildName, guildLevel), format(guildInfoString2, online, total),tthead.r,tthead.g,tthead.b,tthead.r,tthead.g,tthead.b)

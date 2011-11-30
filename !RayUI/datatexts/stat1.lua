@@ -24,7 +24,7 @@ local spellpwr, avoidance, pwr
 local haste, hasteBonus
 
 local function ShowTooltip(self)
-	GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", xoff, yoff)
+	GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT")
 	GameTooltip:ClearLines()
 	GameTooltip:AddLine(STATS_LABEL)
 	

@@ -649,3 +649,47 @@ MainMenuBarBackpackButton:HookScript("OnLeave", function(self)
 end)
 TradeFrame:HookScript("OnShow", function() OpenBags() end)
 TradeFrame:HookScript("OnHide", function() CloseBags() end)
+
+-- [[ Money ]]
+local function FormatMoney(money)
+	local gold = floor(math.abs(money) / 10000)
+	local silver = mod(floor(math.abs(money) / 100), 100)
+	local copper = mod(floor(math.abs(money)), 100)
+	if gold ~= 0 then
+		return format(GOLD_AMOUNT_TEXTURE.." "..SILVER_AMOUNT_TEXTURE.." "..COPPER_AMOUNT_TEXTURE, gold, 0, 0, silver, 0, 0, copper, 0, 0)
+	elseif silver ~= 0 then
+		return format(SILVER_AMOUNT_TEXTURE.." "..COPPER_AMOUNT_TEXTURE, silver, 0, 0, copper, 0, 0)
+	else
+		return format(COPPER_AMOUNT_TEXTURE, copper, 0, 0)
+	end
+end
+
+local function ShowMoney()
+	GameTooltip:SetOwner(ContainerFrame1MoneyFrameGoldButton, "ANCHOR_NONE")
+	GameTooltip:SetPoint("BOTTOMRIGHT", BagsHolder, "BOTTOMLEFT", -1, 0)
+
+	local total = 0
+	local realmlist = RayConfig.Gold[R.myrealm]
+
+	for k, v in pairs(realmlist) do
+		total = total + v
+	end
+
+	GameTooltip:AddDoubleLine(R.myrealm, FormatMoney(total), r, g, b, 1, 1, 1)
+	GameTooltip:AddLine(" ")
+	for k, v in pairs(realmlist) do
+		local class = RayConfig.Class[R.myrealm][k]
+		if v >= 10000 then
+			GameTooltip:AddDoubleLine(k, FormatMoney(v), RAID_CLASS_COLORS[class].r, RAID_CLASS_COLORS[class].g, RAID_CLASS_COLORS[class].b, 1, 1, 1)
+		end
+	end
+
+	GameTooltip:Show()
+end
+
+ContainerFrame1MoneyFrameGoldButton:HookScript("OnEnter", ShowMoney)
+ContainerFrame1MoneyFrameSilverButton:HookScript("OnEnter", ShowMoney)
+ContainerFrame1MoneyFrameCopperButton:HookScript("OnEnter", ShowMoney)
+ContainerFrame1MoneyFrameGoldButton:HookScript("OnLeave", GameTooltip_Hide)
+ContainerFrame1MoneyFrameSilverButton:HookScript("OnLeave", GameTooltip_Hide)
+ContainerFrame1MoneyFrameCopperButton:HookScript("OnLeave", GameTooltip_Hide)

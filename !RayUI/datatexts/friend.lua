@@ -208,7 +208,7 @@ Stat:SetScript("OnEnter", function(self)
 	local totalfriends = numberOfFriends + totalBNet
 	local zonec, classc, levelc, realmc, info
 
-	GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT", xoff, yoff)
+	GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT")
 	GameTooltip:ClearLines()
 	GameTooltip:AddDoubleLine(FRIENDS_LIST..":", format(totalOnlineString, totalonline, totalfriends),tthead.r,tthead.g,tthead.b,tthead.r,tthead.g,tthead.b)
 	if onlineFriends > 0 then
