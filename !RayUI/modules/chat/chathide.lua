@@ -7,6 +7,7 @@ if not C["chat"].enable then return end
 local hasNew = false
 local whentoshow={
 		"say", "emote", "text_emote", "yell", 
+		"monster_emote", "monster_party", "monster_say", "monster_whisper", "monster_yell",
 		"party", "party_leader", "party_guide",
 		"whisper", "system", "channel",
 		"guild", "officer",
