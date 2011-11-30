@@ -624,7 +624,7 @@ for i=1,NUM_CHAT_WINDOWS do
 			end
 		end)
 end
-		
+
 local ChatPosUpdate = CreateFrame("Frame")
 ChatPosUpdate:SetScript("OnUpdate", function(self, elapsed)
 	if(self.elapsed and self.elapsed > 1) then
@@ -639,6 +639,7 @@ ChatPosUpdate:SetScript("OnUpdate", function(self, elapsed)
 				_G["ChatFrame"..i]:SetPoint("BOTTOMRIGHT", ChatBG, "BOTTOMRIGHT", -2, 4)
 			end
 		end
+		self.elapsed = 0
 	else
 		self.elapsed = (self.elapsed or 0) + elapsed
 	end
