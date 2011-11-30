@@ -37,8 +37,8 @@ local MoveButtons = function(table, frame, columns)
 		end
 	end
 
-	frame:SetHeight((row + (col==0 and 0 or 1)) * (37 + Spacing) + 19)
-	frame:SetWidth(columns * 37 + Spacing * (columns - 1) + 6)
+	frame:Height((row + (col==0 and 0 or 1)) * (37 + Spacing) + 19)
+	frame:Width(columns * 37 + Spacing * (columns - 1) + 6)
 	col, row = 0, 0
 end
 
