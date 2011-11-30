@@ -10,6 +10,7 @@
 	<Script file="petbar.lua"/>
 	<Script file="totembar.lua"/>
 	<Script file="vehicleexit.lua"/>
+	<Script file="extra.lua"/>
 	<!--<Script file="bags.lua"/>
 	<Script file="micromenu.lua"/>-->
 	

@@ -1,4 +1,7 @@
 local R, C, L, DB = unpack(select(2, ...))
+
+local Cooldown = CreateFrame("Frame")
+local hooked, active = {}, {}
 --constants!
 local function Round(v, decimals)
 	if not decimals then decimals = 0 end
@@ -143,7 +146,7 @@ end
 --hook the SetCooldown method of all cooldown frames
 --ActionButton1Cooldown is used here since its likely to always exist
 --and I'd rather not create my own cooldown frame to preserve a tiny bit of memory
-hooksecurefunc(getmetatable(ActionButton1Cooldown).__index, 'SetCooldown', function(self, start, duration)
+local function OnSetCooldown(self, start, duration)
 	if self.noOCC then return end
 	--start timer
 	if start > 0 and duration > MIN_DURATION then
@@ -160,7 +163,41 @@ hooksecurefunc(getmetatable(ActionButton1Cooldown).__index, 'SetCooldown', funct
 			Timer_Stop(timer)
 		end
 	end
-end)
+end
+
+local function UpdateCooldown(cd)
+	local button = cd:GetParent()
+	local start, duration, enable = GetActionCooldown(button.action)
+
+	OnSetCooldown(cd, start, duration)
+end
+
+local function CooldownOnEvent()		
+	for cooldown in pairs(active) do
+		UpdateCooldown(cooldown)
+	end
+end
+
+function RegisterCooldown(frame)
+	if not hooked[frame.cooldown] then
+		frame.cooldown:HookScript("OnShow", function(cd) active[cd] = true end)
+		frame.cooldown:HookScript("OnHide", function(cd) active[cd] = nil end)
+		hooked[frame.cooldown] = true
+	end
+end
+
+if R.NewVersion then
+	Cooldown:RegisterEvent("ACTIONBAR_UPDATE_COOLDOWN")
+	Cooldown:SetScript("OnEvent", CooldownOnEvent)
+	
+	if ActionBarButtonEventsFrame.frames then
+		for i, frame in pairs(ActionBarButtonEventsFrame.frames) do
+			RegisterCooldown(frame)
+		end
+	end	
+else
+	hooksecurefunc(getmetatable(ActionButton1Cooldown).__index, 'SetCooldown', OnSetCooldown)
+end
 
 if not C["actionbar"].cooldownalpha then return end
 
