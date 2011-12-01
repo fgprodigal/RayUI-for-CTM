@@ -479,89 +479,152 @@ end
 
 -- [[ Search ]]
 
-editbox = CreateFrame("EditBox", nil, holder)
-editbox:SetHeight(13)
-editbox:SetPoint("TOPLEFT", holder, "BOTTOMLEFT", 0, -5)
-editbox:SetPoint("TOPRIGHT", holder, "BOTTOMRIGHT", 0, -5)
-editbox:SetAutoFocus(false)
-editbox:SetFont(C.media.font, C.media.fontsize, C.media.fontflag)
-editbox:SetText(L["点击查找..."])
-editbox:SetJustifyH("CENTER")
-R.CreateBD(editbox, .6)
-R.CreateSD(editbox)
-editbox:SetAlpha(0)
+if R.HoT then
+	BankItemSearchBox:Hide()
+	BankItemSearchBox.Show = R.dummy
 
-local SearchUpdate = function(str, table)
-	str = string.lower(str)
+	BagItemSearchBoxLeft:Hide()
+	BagItemSearchBoxMiddle:Hide()
+	BagItemSearchBoxRight:Hide()
 
-	for _, b in ipairs(table) do
-		if b:GetParent() == BankFrame then
-			b.id = GetContainerItemID(-1, b:GetID())
-		else
-			b.id = GetContainerItemID(b:GetParent():GetID(), b:GetID())
+	BagItemSearchBox:SetHeight(18)
+	BagItemSearchBox:ClearAllPoints()
+	BagItemSearchBox:SetPoint("TOPLEFT", holder, "BOTTOMLEFT", 0, 0)
+	BagItemSearchBox:SetPoint("TOPRIGHT", holder, "BOTTOMRIGHT", 0, 0)
+	BagItemSearchBox.SetPoint = R.dummy
+	BagItemSearchBox:SetFont(C.media.font, C.media.fontsize, C.media.fontflag)
+	BagItemSearchBox:SetShadowColor(0, 0, 0, 0)
+	BagItemSearchBox:SetJustifyH("CENTER")
+	BagItemSearchBox:SetAlpha(0)
+	R.CreateBD(BagItemSearchBox, .6)
+
+	BagItemSearchBoxSearchIcon:SetPoint("LEFT", BagItemSearchBox, "LEFT", 4, -2)
+
+	local HideSearch = function()
+		BagItemSearchBox:SetAlpha(0)
+	end
+
+	BagItemSearchBox:HookScript("OnEditFocusGained", function(self)
+		self:SetScript("OnLeave", nil)
+		self:SetTextColor(1, 1, 1)
+		BagItemSearchBoxSearchIcon:SetVertexColor(1, 1, 1)
+	end)
+
+	BagItemSearchBox:HookScript("OnEditFocusLost", function(self)
+		self:SetScript("OnLeave", HideSearch)
+		self.clearButton:Click()
+		HideSearch()
+		self:SetText(SEARCH)
+		self:SetTextColor(.5, .5, .5)
+		BagItemSearchBoxSearchIcon:SetVertexColor(.6, .6, .6)
+	end)
+
+	BagItemSearchBox:HookScript("OnEnter", function(self)
+		self:SetAlpha(1)
+	end)
+	BagItemSearchBox:HookScript("OnLeave", HideSearch)
+
+	hooksecurefunc("ContainerFrame_UpdateSearchResults", function(frame)
+		local id = frame:GetID();
+		local name = frame:GetName().."Item";
+		local itemButton;
+		local _, isFiltered;
+
+		for i=1, frame.size, 1 do
+			itemButton = _G[name..i];
+			_, _, _, _, _, _, _, isFiltered = GetContainerItemInfo(id, itemButton:GetID());	
+			if ( isFiltered ) then
+				itemButton.glow:SetAlpha(0);
+			else
+				itemButton.glow:SetAlpha(1);
+			end
 		end
-		if b.id then
-			 b.name, _, _, _, _, _, _, _, b.slot = GetItemInfo(b.id)
-			if b.slot then b.slot = _G[b.slot] end
+	end)
+else
+	editbox = CreateFrame("EditBox", nil, holder)
+	editbox:SetHeight(13)
+	editbox:SetPoint("TOPLEFT", holder, "BOTTOMLEFT", 0, -5)
+	editbox:SetPoint("TOPRIGHT", holder, "BOTTOMRIGHT", 0, -5)
+	editbox:SetAutoFocus(false)
+	editbox:SetFont(C.media.font, C.media.fontsize, C.media.fontflag)
+	editbox:SetText(L["点击查找..."])
+	editbox:SetJustifyH("CENTER")
+	R.CreateBD(editbox, .6)
+	R.CreateSD(editbox)
+	editbox:SetAlpha(0)
+
+	local SearchUpdate = function(str, table)
+		str = string.lower(str)
+
+		for _, b in ipairs(table) do
+			if b:GetParent() == BankFrame then
+				b.id = GetContainerItemID(-1, b:GetID())
+			else
+				b.id = GetContainerItemID(b:GetParent():GetID(), b:GetID())
+			end
+			if b.id then
+				 b.name, _, _, _, _, _, _, _, b.slot = GetItemInfo(b.id)
+				if b.slot then b.slot = _G[b.slot] end
+			end
+			if not b.name then
+				b:SetAlpha(.2)
+				b.glow:SetAlpha(0)
+			elseif not string.find(string.lower(b.name), str, 1, true) and not (b.slot and string.find(string.lower(b.slot), str)) then
+				SetItemButtonDesaturated(b, 1, 1, 1, 1)
+				b:SetAlpha(.2)
+				b.glow:SetAlpha(0)
+			else
+				SetItemButtonDesaturated(b, 0, 1, 1, 1)
+				b:SetAlpha(1)
+				b.glow:SetAlpha(1)
+			end
 		end
-		if not b.name then
-			b:SetAlpha(.2)
-			b.glow:SetAlpha(0)
-		elseif not string.find(string.lower(b.name), str, 1, true) and not (b.slot and string.find(string.lower(b.slot), str)) then
-			SetItemButtonDesaturated(b, 1, 1, 1, 1)
-			b:SetAlpha(.2)
-			b.glow:SetAlpha(0)
-		else
-			SetItemButtonDesaturated(b, 0, 1, 1, 1)
+	end
+
+	local HideSearch = function()
+		editbox:SetAlpha(0)
+	end
+
+	local Reset = function(self)
+		self:ClearFocus()
+		for _, b in ipairs(buttons) do
 			b:SetAlpha(1)
 			b.glow:SetAlpha(1)
+			SetItemButtonDesaturated(b, 0, 1, 1, 1)
+		end
+		for _, b in ipairs(bankbuttons) do
+			b:SetAlpha(1)
+			b.glow:SetAlpha(1)
+			SetItemButtonDesaturated(b, 0, 1, 1, 1)
+		end
+		self:SetAlpha(0)
+		self:SetScript("OnLeave", HideSearch)
+		self:SetText(L["点击查找..."])
+	end
+
+	local text
+
+	local UpdateSearch = function(self, t)
+		if t == true then
+			text = self:GetText()
+			SearchUpdate(text, buttons)
+			if BankFrame:IsShown() then SearchUpdate(text, bankbuttons) end
 		end
 	end
+
+	editbox:SetScript("OnEscapePressed", Reset)
+	editbox:SetScript("OnEnterPressed", Reset)
+	editbox:SetScript("OnTextChanged", UpdateSearch)
+	editbox:SetScript("OnEditFocusGained", function(self)
+		self:HighlightText()
+		self:SetScript("OnLeave", nil)
+	end)
+
+	editbox:SetScript("OnEnter", function(self)
+		self:SetAlpha(1)
+	end)
+	editbox:SetScript("OnLeave", HideSearch)
 end
-
-local HideSearch = function()
-	editbox:SetAlpha(0)
-end
-
-local Reset = function(self)
-	self:ClearFocus()
-	for _, b in ipairs(buttons) do
-		b:SetAlpha(1)
-		b.glow:SetAlpha(1)
-		SetItemButtonDesaturated(b, 0, 1, 1, 1)
-	end
-	for _, b in ipairs(bankbuttons) do
-		b:SetAlpha(1)
-		b.glow:SetAlpha(1)
-		SetItemButtonDesaturated(b, 0, 1, 1, 1)
-	end
-	self:SetAlpha(0)
-	self:SetScript("OnLeave", HideSearch)
-	self:SetText(L["点击查找..."])
-end
-
-local text
-
-local UpdateSearch = function(self, t)
-	if t == true then
-		text = self:GetText()
-		SearchUpdate(text, buttons)
-		if BankFrame:IsShown() then SearchUpdate(text, bankbuttons) end
-	end
-end
-
-editbox:SetScript("OnEscapePressed", Reset)
-editbox:SetScript("OnEnterPressed", Reset)
-editbox:SetScript("OnTextChanged", UpdateSearch)
-editbox:SetScript("OnEditFocusGained", function(self)
-	self:HighlightText()
-	self:SetScript("OnLeave", nil)
-end)
-
-editbox:SetScript("OnEnter", function(self)
-	self:SetAlpha(1)
-end)
-editbox:SetScript("OnLeave", HideSearch)
 
 -- Jpack Button --
 local JpackButton = CreateFrame("Button", nil, holder)

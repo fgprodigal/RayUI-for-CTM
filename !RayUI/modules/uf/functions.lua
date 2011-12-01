@@ -149,7 +149,7 @@ function R.ConstructCastBar(self)
 	castbar:SetFrameStrata("HIGH")
 	castbar:SetHeight(4)
 	
-	local spark = castbar:CreateTexture(nil, "OVERLAY")
+	local spark = castbar:CreateTexture(nil, "OVERLAY", 7)
 	spark:SetTexture[[Interface\CastingBar\UI-CastingBar-Spark]]
 	spark:SetBlendMode("ADD")
 	spark:SetAlpha(.8)
