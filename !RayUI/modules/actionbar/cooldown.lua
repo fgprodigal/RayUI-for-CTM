@@ -261,3 +261,19 @@ hooksecurefunc("ActionButton_UpdateAction", UpdateCD)
 if C["actionbar"].stancealpha then
 	hooksecurefunc("ShapeshiftBar_UpdateState", UpdateShapeshiftCD)
 end
+
+if R.HoT then
+	local function UpdateButtonsCD()
+		for cooldown in pairs(actions) do
+			UpdateCD(cooldown:GetParent())
+		end
+	end
+
+	local cdalpha = CreateFrame("Frame")
+	cdalpha:Hide()
+	cdalpha:SetScript('OnEvent', function(self, event, ...)
+		UpdateButtonsCD()
+	end)
+
+	cdalpha:RegisterEvent("ACTIONBAR_UPDATE_COOLDOWN")
+end
