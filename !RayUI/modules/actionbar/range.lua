@@ -329,11 +329,11 @@ function tullaRange:GetColor(index)
 end
 
 function tullaRange:SetHolyPowerThreshold(value)
-	self.sets.holyPowerThreshold = value
+	self.colors.holyPowerThreshold = value
 end
 
 function tullaRange:GetHolyPowerThreshold()
-	return self.sets.holyPowerThreshold
+	return self.colors.holyPowerThreshold
 end
 --[[ Load The Thing ]]--
 

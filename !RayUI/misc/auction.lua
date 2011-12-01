@@ -17,7 +17,12 @@ auction:SetScript("OnEvent", function(self, event, addon)
 			f:HookScript("OnClick", function(self, button)
 				if button == "RightButton" and IsShiftKeyDown() then
 					local index = self:GetID() + FauxScrollFrame_GetOffset(BrowseScrollFrame)
-					local name, _, _, _, _, _, _, _, buyoutPrice = GetAuctionItemInfo("list", index)
+					local name
+					if R.HoT then
+						name, _, _, _, _, _, _, _, _, buyoutPrice = GetAuctionItemInfo("list", index)
+					else
+						name, _, _, _, _, _, _, _, buyoutPrice = GetAuctionItemInfo("list", index)
+					end
 					if name then
 						if buyoutPrice < MAX_BUYOUT_PRICE then
 							PlaceAuctionBid("list", index, buyoutPrice)

@@ -156,28 +156,32 @@ w:RegisterEvent("PLAYER_REGEN_ENABLED")
 WorldMapFrame.backdrop = CreateFrame("Frame", nil, WorldMapFrame)
 WorldMapFrame.backdrop:Point("TOPLEFT", -2, 2)
 WorldMapFrame.backdrop:Point("BOTTOMRIGHT", 2, -2)
-R.CreateBD(WorldMapFrame.backdrop)
-R.CreateSD(WorldMapFrame.backdrop)
+R.SetBD(WorldMapFrame.backdrop)
 WorldMapFrame.backdrop:SetFrameLevel(0)
 
 WorldMapDetailFrame.backdrop = CreateFrame("Frame", nil, WorldMapDetailFrame)
-R.CreateBD(WorldMapDetailFrame.backdrop)
-R.CreateSD(WorldMapDetailFrame.backdrop)
+R.SetBD(WorldMapDetailFrame.backdrop)
 WorldMapDetailFrame.backdrop:Point("TOPLEFT", -2, 2)
 WorldMapDetailFrame.backdrop:Point("BOTTOMRIGHT", 2, -2)
 WorldMapDetailFrame.backdrop:SetFrameLevel(WorldMapDetailFrame:GetFrameLevel() - 2)
-
+	
 R.ReskinDropDown(WorldMapZoneMinimapDropDown)
 R.ReskinDropDown(WorldMapContinentDropDown)
 R.ReskinDropDown(WorldMapZoneDropDown)
 
+if R.HoT then
+	R.ReskinDropDown(WorldMapShowDropDown)	
+	WorldMapShowDropDown:ClearAllPoints()
+	WorldMapShowDropDown:SetPoint("TOPRIGHT", WorldMapButton, "BOTTOMRIGHT", 18, 2)
+end
+
+R.ReskinCheck(WorldMapQuestShowObjectives)
 R.Reskin(WorldMapZoomOutButton)
 WorldMapZoomOutButton:Point("LEFT", WorldMapZoneDropDown, "RIGHT", 0, 4)
 WorldMapLevelUpButton:Point("TOPLEFT", WorldMapLevelDropDown, "TOPRIGHT", -2, 8)
 WorldMapLevelDownButton:Point("BOTTOMLEFT", WorldMapLevelDropDown, "BOTTOMRIGHT", -2, 2)
 
 R.ReskinCheck(WorldMapTrackQuest)
-R.ReskinCheck(WorldMapQuestShowObjectives)
 R.ReskinCheck(WorldMapShowDigSites)
 WorldMapFrameSizeUpButton:SetFrameStrata("HIGH")
 WorldMapFrameSizeUpButton.SetFrameStrata = R.dummy
@@ -261,7 +265,9 @@ local function LargeSkin()
 	WorldMapShowDigSites:SetScale(1)
 	WorldMapLevelDownButton:SetScale(1)
 	WorldMapLevelUpButton:SetScale(1)
-	WorldMapLevelDropDown.Show = WorldMapLevelDropDown:Show()
+	if not R.HoT then
+		WorldMapLevelDropDown.Show = WorldMapLevelDropDown:Show()
+	end
 	WorldMapFrame:EnableKeyboard(nil)
 	WorldMapFrame:EnableMouse(nil)
 	UIPanelWindows["WorldMapFrame"].area = "center"
