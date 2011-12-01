@@ -22,7 +22,6 @@ C.Aurora = {
 }
 
 R.CreateBD = function(f, a)
-	if not f then R.debug(f.." not found") return end
 	f:SetBackdrop({
 		bgFile = C.Aurora.backdrop, 
 		edgeFile = C.Aurora.backdrop, 
@@ -33,7 +32,6 @@ R.CreateBD = function(f, a)
 end
 
 R.CreateBG = function(frame)
-	if not frame then R.debug(frame.." not found") return end
 	local f = frame
 	if frame:GetObjectType() == "Texture" then f = frame:GetParent() end
 
@@ -47,7 +45,6 @@ R.CreateBG = function(frame)
 end
 
 R.CreateSD = function(parent, size, r, g, b, alpha, offset)
-	if not parent then R.debug(parent.." not found") return end
 	local sd = CreateFrame("Frame", nil, parent)
 	sd.size = size or 5
 	sd.offset = offset or 0
@@ -62,7 +59,6 @@ R.CreateSD = function(parent, size, r, g, b, alpha, offset)
 end
 
 R.CreatePulse = function(frame, speed, mult, alpha)
-	if not frame then R.debug(frame.." not found") return end
 	frame.speed = speed or .05
 	frame.mult = mult or 1
 	frame.alpha = alpha or 1
@@ -106,7 +102,6 @@ local function StopGlow(f)
 	f.glow:SetAlpha(0)
 end
 R.Reskin = function(f)
-	if not f then R.debug(f.." not found") return end
 	f:SetNormalTexture("")
 	f:SetHighlightTexture("")
 	f:SetPushedTexture("")
@@ -146,8 +141,7 @@ R.Reskin = function(f)
  	f:HookScript("OnLeave", StopGlow)
 end
 
-R.CreateTab = function(f)
-	if not f then R.debug(f.." not found") return end
+R.CreateTab = function(f)	
 	f:DisableDrawLayer("BACKGROUND")
 
 	local bg = CreateFrame("Frame", nil, f)
@@ -163,8 +157,7 @@ R.CreateTab = function(f)
 	hl:SetVertexColor(r, g, b, .25)
 end
 
-R.ReskinScroll = function(f)
-	if not f then R.debug(f.." not found") return end
+R.ReskinScroll = function(f)	
 	local frame = f:GetName()
 
 	if _G[frame.."Track"] then _G[frame.."Track"]:Hide() end
@@ -220,8 +213,7 @@ R.ReskinScroll = function(f)
 	downtex:SetVertexColor(1, 1, 1)
 end
 
-R.ReskinDropDown = function(f)
-	if not f then R.debug(f.." not found") return end
+R.ReskinDropDown = function(f)	
 	local frame = f:GetName()
 
 	local left = _G[frame.."Left"]
@@ -264,8 +256,7 @@ R.ReskinDropDown = function(f)
 	tex:SetGradientAlpha("VERTICAL", 0, 0, 0, .3, .35, .35, .35, .35)
 end
 
-R.ReskinClose = function(f, a1, p, a2, x, y)
-	if not f then R.debug(f.." not found") return end
+R.ReskinClose = function(f, a1, p, a2, x, y)	
 	f:Size(17, 17)
 
 	if not a1 then
@@ -297,8 +288,7 @@ R.ReskinClose = function(f, a1, p, a2, x, y)
  	f:HookScript("OnLeave", function(self) text:SetTextColor(1, 1, 1) end)
 end
 
-R.ReskinInput = function(f, height, width)
-	if not f then R.debug(f.." not found") return end
+R.ReskinInput = function(f, height, width)	
 	local frame = f:GetName()
 	_G[frame.."Left"]:Hide()
 	if _G[frame.."Middle"] then _G[frame.."Middle"]:Hide() end
@@ -316,8 +306,7 @@ R.ReskinInput = function(f, height, width)
 	if width then f:Width(width) end
 end
 
-R.ReskinArrow = function(f, direction)
-	if not f then R.debug(f.." not found") return end
+R.ReskinArrow = function(f, direction)	
 	f:Size(18, 18)
 	R.Reskin(f)
 	
@@ -337,8 +326,7 @@ R.ReskinArrow = function(f, direction)
 	end
 end
 
-R.ReskinCheck = function(f)
-	if not f then R.debug(f.." not found") return end
+R.ReskinCheck = function(f)	
 	f:SetNormalTexture("")
 	f:SetPushedTexture("")
 	f:SetHighlightTexture(C.Aurora.backdrop)
@@ -360,8 +348,7 @@ R.ReskinCheck = function(f)
 	tex:SetGradientAlpha("VERTICAL", 0, 0, 0, .3, .35, .35, .35, .35)
 end
 
-R.ReskinSlider = function(f)
-	if not f then R.debug(f.." not found") return end
+R.ReskinSlider = function(f)	
 	f:SetBackdrop(nil)
 	f.SetBackdrop = R.dummy
 
@@ -383,8 +370,7 @@ R.ReskinSlider = function(f)
 	slider:SetBlendMode("ADD")
 end
 
-R.SetBD = function(f, x, y, x2, y2)
-	if not f then R.debug(f.." not found") return end
+R.SetBD = function(f, x, y, x2, y2)	
 	local bg = CreateFrame("Frame", nil, f)
 	if not x then
 		bg:SetPoint("TOPLEFT")
@@ -1246,10 +1232,8 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 			for i = 1, #slots do
 				local ic = _G["Character"..slots[i].."SlotIconTexture"]
 
-				if GetInventoryItemLink("player", i) then
-					ic:SetAlpha(1)
-				else
-					ic:SetAlpha(0)
+				if not GetInventoryItemLink("player", i) then
+					ic:SetTexture(nil)
 				end
 			end
 		end)
@@ -2063,6 +2047,7 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 			PendingListFrameTop:Hide()
 			PendingListFrameMiddle:Hide()
 			PendingListFrameBottom:Hide()
+			R.SetBD(RaidFinderFrame)
 		end
 
 		ReadyCheckFrame:HookScript("OnShow", function(self) if UnitIsUnit("player", self.initiator) then self:Hide() end end)
@@ -3903,8 +3888,10 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 				select(j, _G["InspectTalentFrameTab"..i]:GetRegions()).Show = R.dummy
 			end
 		end
-		InspectModelFrameRotateLeftButton:Hide()
-		InspectModelFrameRotateRightButton:Hide()
+		if not R.HoT then
+			InspectModelFrameRotateLeftButton:Hide()
+			InspectModelFrameRotateRightButton:Hide()
+		end
 		InspectFramePortraitFrame:Hide()
 		InspectFrameTopBorder:Hide()
 		InspectFrameTopRightCorner:Hide()
@@ -3926,19 +3913,23 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 			slot:SetNormalTexture("")
 			slot:SetPushedTexture("")
 			_G["Inspect"..slots[i].."SlotIconTexture"]:SetTexCoord(.08, .92, .08, .92)
+
 		end
-		select(8, InspectMainHandSlot:GetRegions()):Hide()
-		select(8, InspectRangedSlot:GetRegions()):Hide()
+		if R.HoT then
+			select(9, InspectMainHandSlot:GetRegions()):Hide()
+			select(9, InspectRangedSlot:GetRegions()):Hide()
+		else
+			select(8, InspectMainHandSlot:GetRegions()):Hide()
+			select(8, InspectRangedSlot:GetRegions()):Hide()
+		end
 		
 		hooksecurefunc("InspectPaperDollItemSlotButton_Update", function()
 			if InspectFrame:IsShown() and UnitExists(InspectFrame.unit) then
 				for i = 1, #slots do
-					local ic = _G["Character"..slots[i].."SlotIconTexture"]
+					local ic = _G["Inspect"..slots[i].."SlotIconTexture"]
 
-					if GetInventoryItemLink(InspectFrame.unit, i) then
-						ic:SetAlpha(1)
-					else
-						ic:SetAlpha(0)
+					if not GetInventoryItemLink(InspectFrame.unit, i) then
+						ic:SetTexture(nil)
 					end
 				end
 			end

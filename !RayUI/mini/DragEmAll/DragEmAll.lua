@@ -59,7 +59,9 @@ local frames = {
   --["TicketStatusFrame"] = false,
   ["StaticPopup1"] = false,
   --["GhostFrame"] = false,
-  ["EncounterJournal"] = false,
+  ["EncounterJournal"] = false, -- only in 4.2
+  ["RaidParentFrame"] = false,
+  ["TutorialFrame"] = false,
 
   -- AddOns
   ["LudwigFrame"] = false,
@@ -87,9 +89,12 @@ local lodFrames = {
   Blizzard_BarbershopUI = { ["BarberShopFrame"] = false },
   Blizzard_Calendar = { ["CalendarFrame"] = false, ["CalendarCreateEventFrame"] = true },
   Blizzard_GuildUI = { ["GuildFrame"] = false, ["GuildRosterFrame"] = true },
-  Blizzard_ReforgingUI = { ["ReforgingFrame"] = false },
+  Blizzard_ReforgingUI = { ["ReforgingFrame"] = false, ["ReforgingFrameInvisibleButton"] = true },
   Blizzard_ArchaeologyUI = { ["ArchaeologyFrame"] = false },
   Blizzard_LookingForGuildUI = { ["LookingForGuildFrame"] = false },
+  Blizzard_VoidStorageUI = { ["VoidStorageFrame"] = false, ["VoidStorageBorderFrameMouseBlockFrame"] = "VoidStorageFrame" },
+  Blizzard_ItemAlterationUI = { ["TransmogrifyFrame"] = false },
+  Blizzard_EncounterJournal = { ["EncounterJournal"] = false }, -- as of 4.3
 }
 
 local parentFrame = {}
@@ -178,9 +183,8 @@ addon:RegisterEvent("PLAYER_LOGIN")
 addon:RegisterEvent("ADDON_LOADED")
 
 -- Hook bag frames
--- hooksecurefunc("ContainerFrame_GenerateFrame", function(frame, size, id)
-  -- if id <= NUM_BAG_FRAMES or id == KEYRING_CONTAINER then
-    -- addon:HookFrame(frame:GetName())
-  -- end
--- end)
-
+hooksecurefunc("ContainerFrame_GenerateFrame", function(frame, size, id)
+  if id <= NUM_BAG_FRAMES or id == KEYRING_CONTAINER then
+    addon:HookFrame(frame:GetName())
+  end
+end)
