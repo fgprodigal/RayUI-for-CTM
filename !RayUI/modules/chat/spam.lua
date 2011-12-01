@@ -181,13 +181,23 @@ local function TRADE_FILTER(self, event, arg1, arg2)
 	if (SpamList and SpamList[1]) then
 		for i, SpamList in pairs(SpamList) do
 			if arg2 == UnitName("player") then return end
-			if (strfind(arg1, SpamList)) then
+			if (arg1:find(SpamList)) then
 				return true
 			end
 		end
 	end
 end
 ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL", TRADE_FILTER)
+
+----------------------------------------------------------------------------------
+-- 插件导致界面行为失效
+----------------------------------------------------------------------------------
+local function INTERFACE_ACTION_BLOCKED_FILTER(self, event, msg)
+	if (msg:find(INTERFACE_ACTION_BLOCKED)) then
+		return true
+	end
+end
+ChatFrame_AddMessageEventFilter("CHAT_MSG_SYSTEM", INTERFACE_ACTION_BLOCKED_FILTER) 
 ----------------------------------------------------------------------------------
 -- 高亮显示自己名字
 ----------------------------------------------------------------------------------

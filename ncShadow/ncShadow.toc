@@ -1,4 +1,4 @@
-﻿## Interface: 40200
+﻿## Interface: 40300
 ## Title: ncShadow
 ## Author: Nightcracker (Maintained by Ferous)
 ## Version: 1.0.1

@@ -58,7 +58,7 @@ function Style(self, totem, flyout)
 		Count:SetFont(C["media"].pxfont, R.Scale(10), "OUTLINE,MONOCHROME")
 	end
 	
-	if R.NewVersion and _G[name..'FloatingBG'] then
+	if R.HoT and _G[name..'FloatingBG'] then
 		_G[name..'FloatingBG']:Kill()
 	end
 
@@ -114,8 +114,8 @@ end
 
 local function Stylesmallbutton(normal, button, icon, name, pet)
 	local Flash	 = _G[name.."Flash"]
-	button:SetWidth(C["actionbar"].buttonsize)
-	button:SetHeight(C["actionbar"].buttonsize)
+	-- button:SetWidth(C["actionbar"].buttonsize)
+	-- button:SetHeight(C["actionbar"].buttonsize)
 
 	button:SetNormalTexture("")
 	button.SetNormalTexture = R.dummy
@@ -210,6 +210,7 @@ SpellFlyout:HookScript("OnShow", SetupFlyoutButton)
  
 --Hide the Mouseover texture and attempt to find the ammount of buttons to be skinned
 local function StyleFlyout(self)
+	if not self.FlyoutBorder then return end
 	self.FlyoutBorder:SetAlpha(0)
 	self.FlyoutBorderShadow:SetAlpha(0)
 	

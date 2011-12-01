@@ -186,7 +186,7 @@ function RegisterCooldown(frame)
 	end
 end
 
-if R.NewVersion then
+if R.HoT then
 	Cooldown:RegisterEvent("ACTIONBAR_UPDATE_COOLDOWN")
 	Cooldown:SetScript("OnEvent", CooldownOnEvent)
 	

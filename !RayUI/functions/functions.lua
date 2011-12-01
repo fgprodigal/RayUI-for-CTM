@@ -133,5 +133,5 @@ end)
 
 local _, _, _, uiVersion = GetBuildInfo()
 if uiVersion > 40200 then
-	R.NewVersion = true
+	R.HoT = true
 end

@@ -71,7 +71,7 @@ local function OnUpdate(player, cursor)
 	end
 end
 local function UpdateCoords(self, elapsed)
-	self.elapsed = self.elapsed - elapsed
+	self.elapsed = (self.elapsed or 0.1) - elapsed
 	if self.elapsed <= 0 then
 		self.elapsed = 0.1
 		OnUpdate(player, cursor)
@@ -89,7 +89,9 @@ local w = CreateFrame"Frame"
 w:SetScript("OnEvent", function(self, event, ...)
 	if event == "PLAYER_ENTERING_WORLD" then
 		SetCVar("questPOI", 1)
-		SetCVar("advancedWorldMap",1)
+		if not R.HoT then
+			SetCVar("advancedWorldMap",1)
+		end
 		SetCVar("lockedWorldMap", 0)
 		gen_coords(self)
 		local cond = false
@@ -127,16 +129,6 @@ w:SetScript("OnEvent", function(self, event, ...)
 	elseif event == "PLAYER_REGEN_ENABLED" then
 		WorldMapFrameSizeUpButton:Enable()
 	elseif event == "WORLD_MAP_UPDATE" then
-		-- making sure that coordinates are not calculated when map is hidden
-		if not WorldMapFrame:IsVisible() and cond then
-			self.elapsed = nil
-			self:SetScript('OnUpdate', nil)
-			cond = false
-		else
-			self.elapsed = 0.1
-			self:SetScript('OnUpdate', UpdateCoords)
-			cond = true
-		end
 		if (GetNumDungeonMapLevels() == 0) then
 			WorldMapLevelUpButton:Hide()
 			WorldMapLevelDownButton:Hide()
@@ -276,7 +268,7 @@ local function LargeSkin()
 	WorldMapFrame:SetAttribute("UIPanelLayout-defined", nil)
 	WorldMapBossButtonFrame:Show()
 end
-R.CreateSD(WorldMapFrame.bg)
+R.CreateSD(WorldMapFrame.backdrop)
 
 
 local function QuestSkin()
@@ -354,6 +346,10 @@ hooksecurefunc("WorldMap_ToggleSizeUp", LargeSkin)
 hooksecurefunc("WorldMap_ToggleSizeDown", SmallSkin)
 
 WorldMapFrame:HookScript("OnUpdate", function(self, elapsed)
+	if self:IsShown() then
+		UpdateCoords(self, elapsed)
+	end
+
 	if InCombatLockdown() then
 		WorldMapFrameSizeDownButton:Disable()
 		WorldMapFrameSizeUpButton:Disable()

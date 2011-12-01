@@ -1,6 +1,6 @@
 local R, C, L, DB = unpack(select(2, ...))
 
-if not R.NewVersion then return end
+if not R.HoT then return end
 
 local holder = CreateFrame('Frame', nil, UIParent)
 holder:Point('TOP', UIParent, 'TOP', 0, -150)

@@ -1,4 +1,4 @@
-## Interface: 40200
+## Interface: 40300
 ## Author: Safturento
 ## Version: v1.1-9733692
 ## Title: |cff00aaffst|rAddonManager

@@ -120,7 +120,5 @@ function Buffet:Edit(name, substring, food, pot, stone, shift)
 
 	if pot and stone then body = body .. "\n/castsequence [combat,nomod] reset="..(stone == 22044 and "120/" or "").."combat item:"..stone..", item:"..pot end
 
-	EditMacro(macroid, name, 1, substring:gsub("%%MACRO%%", body), 1)
+	EditMacro(macroid, name, "INV_MISC_QUESTIONMARK", substring:gsub("%%MACRO%%", body), 1)
 end
-
-
