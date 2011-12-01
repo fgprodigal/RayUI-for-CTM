@@ -236,7 +236,7 @@ function tullaRange.UpdateButtonUsable(button)
 		if IsActionInRange(action) == 0 then
 			tullaRange.SetButtonColor(button, 'oor')
 		--a holy power abilty, and we're less than 3 Holy Power
-		elseif PLAYER_IS_PALADIN and isHolyPowerAbility(action) and not(UnitPower('player', SPELL_POWER_HOLY_POWER) == 3 or UnitBuff('player', HAND_OF_LIGHT)) then
+		elseif PLAYER_IS_PALADIN and isHolyPowerAbility(action) and not(UnitPower('player', SPELL_POWER_HOLY_POWER) >= tullaRange:GetHolyPowerThreshold() or UnitBuff('player', HAND_OF_LIGHT)) then
 			tullaRange.SetButtonColor(button, 'ooh')
 		--in range
 		else
@@ -244,7 +244,12 @@ function tullaRange.UpdateButtonUsable(button)
 		end
 	--out of mana
 	elseif notEnoughMana then
-		tullaRange.SetButtonColor(button, 'oom')
+		--a holy power abilty, and we're less than 3 Holy Power
+		if PLAYER_IS_PALADIN and isHolyPowerAbility(action) and not(UnitPower('player', SPELL_POWER_HOLY_POWER) >= tullaRange:GetHolyPowerThreshold() or UnitBuff('player', HAND_OF_LIGHT)) then
+			tullaRange.SetButtonColor(button, 'ooh')
+		else
+			tullaRange.SetButtonColor(button, 'oom')
+		end
 	--unusable
 	else
 		button.tullaRangeColor = 'unusuable'
@@ -259,9 +264,10 @@ function tullaRange.SetButtonColor(button, colorType)
 
 		local icon =  _G[button:GetName() .. 'Icon']
 		icon:SetVertexColor(r, g, b)
-
-		local nt = button:GetNormalTexture()
-		nt:SetVertexColor(r, g, b)
+		if not R.HoT then
+			local nt = button:GetNormalTexture()
+			nt:SetVertexColor(r, g, b)
+		end
 	end
 end
 
@@ -294,9 +300,10 @@ end
 function tullaRange:GetDefaults()
 	return {
 		normal = {1, 1, 1},
-		oor = {1, 0.1, 0.1},
+		oor = {1, 0.3, 0.1},
 		oom = {0.1, 0.3, 1},
 		ooh = {0.45, 0.45, 1},
+		holyPowerThreshold = 3
 	}
 end
 
@@ -321,6 +328,13 @@ function tullaRange:GetColor(index)
 	return color[1], color[2], color[3]
 end
 
+function tullaRange:SetHolyPowerThreshold(value)
+	self.sets.holyPowerThreshold = value
+end
+
+function tullaRange:GetHolyPowerThreshold()
+	return self.sets.holyPowerThreshold
+end
 --[[ Load The Thing ]]--
 
 tullaRange:Load()

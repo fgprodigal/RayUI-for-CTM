@@ -1,7 +1,5 @@
 local R, C, L, DB = unpack(select(2, ...))
 
-local Cooldown = CreateFrame("Frame")
-local hooked, active = {}, {}
 --constants!
 local function Round(v, decimals)
 	if not decimals then decimals = 0 end
@@ -16,6 +14,7 @@ local function RGBToHex(r, g, b)
 end
 
 OmniCC = true --hack to work around detection from other addons for OmniCC
+local AddOnName = ...
 local ICON_SIZE = 36 --the normal size for an icon (don't change this)
 local DAY, HOUR, MINUTE = 86400, 3600, 60 --used for formatting text
 local DAYISH, HOURISH, MINUTEISH = 3600 * 23.5, 60 * 59.5, 59.5 --used for formatting text at transition points
@@ -143,9 +142,6 @@ local function Timer_Create(self)
 	return timer
 end
 
---hook the SetCooldown method of all cooldown frames
---ActionButton1Cooldown is used here since its likely to always exist
---and I'd rather not create my own cooldown frame to preserve a tiny bit of memory
 local function OnSetCooldown(self, start, duration)
 	if self.noOCC then return end
 	--start timer
@@ -165,39 +161,53 @@ local function OnSetCooldown(self, start, duration)
 	end
 end
 
-local function UpdateCooldown(cd)
-	local button = cd:GetParent()
-	local start, duration, enable = GetActionCooldown(button.action)
+--[[ ActionUI Button ]]--
 
-	OnSetCooldown(cd, start, duration)
+local actions, hooked = {}, {}
+local function action_OnShow(self)
+	actions[self] = true
 end
 
-local function CooldownOnEvent()		
-	for cooldown in pairs(active) do
-		UpdateCooldown(cooldown)
+local function action_OnHide(self)
+	actions[self] = nil
+end
+
+local function action_Add(button, action, cooldown)
+	if not hooked[cooldown] then
+		cooldown:HookScript('OnShow', action_OnShow)
+		cooldown:HookScript('OnHide', action_OnHide)
 	end
+	hooked[cooldown] = action
 end
 
-function RegisterCooldown(frame)
-	if not hooked[frame.cooldown] then
-		frame.cooldown:HookScript("OnShow", function(cd) active[cd] = true end)
-		frame.cooldown:HookScript("OnHide", function(cd) active[cd] = nil end)
-		hooked[frame.cooldown] = true
-	end
+local function actions_Update()
+	for cooldown in pairs(actions) do
+        local start, duration = GetActionCooldown(hooked[cooldown])
+        OnSetCooldown(cooldown, start, duration)
+    end
 end
 
-if R.HoT then
-	Cooldown:RegisterEvent("ACTIONBAR_UPDATE_COOLDOWN")
-	Cooldown:SetScript("OnEvent", CooldownOnEvent)
-	
-	if ActionBarButtonEventsFrame.frames then
-		for i, frame in pairs(ActionBarButtonEventsFrame.frames) do
-			RegisterCooldown(frame)
+local f = CreateFrame("Frame")
+f:Hide()
+f:SetScript('OnEvent', function(self, event, ...)
+	if event == 'ACTIONBAR_UPDATE_COOLDOWN' then
+		actions_Update()
+	else
+		if ... == AddOnName then
+			hooksecurefunc(getmetatable(ActionButton1Cooldown).__index, 'SetCooldown', OnSetCooldown)
+			if R.HoT then
+				hooksecurefunc('SetActionUIButton', action_Add)		
+				for i, button in pairs(ActionBarButtonEventsFrame.frames) do
+					action_Add(button, button.action, button.cooldown)
+				end
+			end
+			self:UnregisterEvent('ADDON_LOADED')
 		end
-	end	
-else
-	hooksecurefunc(getmetatable(ActionButton1Cooldown).__index, 'SetCooldown', OnSetCooldown)
-end
+	end
+end)
+
+f:RegisterEvent("ACTIONBAR_UPDATE_COOLDOWN")
+f:RegisterEvent("ADDON_LOADED")
 
 if not C["actionbar"].cooldownalpha then return end
 

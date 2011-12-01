@@ -150,6 +150,7 @@ function R.ConstructCastBar(self)
 	castbar:SetHeight(4)
 	
 	local spark = castbar:CreateTexture(nil, "OVERLAY")
+	spark:SetDrawLayer("OVERLAY", 7)
 	spark:SetTexture[[Interface\CastingBar\UI-CastingBar-Spark]]
 	spark:SetBlendMode("ADD")
 	spark:SetAlpha(.8)
@@ -178,6 +179,7 @@ function R.ConstructCastBar(self)
 	castbar.Icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
 	if self.unit == "player" then
 		castbar.SafeZone = castbar:CreateTexture(nil, "OVERLAY")
+		castbar.SafeZone:SetDrawLayer("OVERLAY", 5)
 		castbar.SafeZone:SetTexture(C["media"].normal)
 		castbar.SafeZone:SetVertexColor(1, 0, 0, 0.75)
 	end
