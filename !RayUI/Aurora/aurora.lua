@@ -1572,8 +1572,8 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 		local bg = CreateFrame("Frame", nil, DungeonCompletionAlertFrame1)
 		bg:SetPoint("TOPLEFT", 6, -14)
 		bg:SetPoint("BOTTOMRIGHT", -6, 6)
-		bg:SetFrameLevel(DungeonCompletionAlertFrame1:GetFrameLevel()-1)
-		R.CreateBD(bg)
+		-- bg:SetFrameLevel(DungeonCompletionAlertFrame1:GetFrameLevel()-1)
+		R.SetBD(bg)
 
 		DungeonCompletionAlertFrame1DungeonTexture:SetDrawLayer("ARTWORK")
 		DungeonCompletionAlertFrame1DungeonTexture:SetTexCoord(.02, .98, .02, .98)
@@ -1946,6 +1946,9 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 			select(i, DressUpFrame:GetRegions()):Hide()
 			select(i, PetitionFrame:GetRegions()):Hide()
 			select(i, DungeonCompletionAlertFrame1:GetRegions()):Hide()
+		end
+		if R.HoT then
+			select(6, DungeonCompletionAlertFrame1:GetRegions()):Hide()
 		end
 		ItemTextScrollFrameTop:Hide()
 		ItemTextScrollFrameBottom:Hide()
@@ -2789,6 +2792,13 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 		local inputs = {"BrowseMinLevel", "BrowseMaxLevel", "BrowseBidPriceGold", "BrowseBidPriceSilver", "BrowseBidPriceCopper", "BidBidPriceGold", "BidBidPriceSilver", "BidBidPriceCopper", "StartPriceGold", "StartPriceSilver", "StartPriceCopper", "BuyoutPriceGold", "BuyoutPriceSilver", "BuyoutPriceCopper", "AuctionsStackSizeEntry", "AuctionsNumStacksEntry"}
 		for i = 1, #inputs do
 			R.ReskinInput(_G[inputs[i]])
+		end
+		
+		if R.HoT then
+			BrowseMinLevel:SetPoint("TOPLEFT", BrowseLevelText, "BOTTOMLEFT", -7, -1)
+			BrowseDropDown:SetPoint("TOPLEFT", BrowseLevelText, "BOTTOMRIGHT", 2, 4)
+			BrowseNameText:ClearAllPoints()
+			BrowseNameText:SetPoint("TOPLEFT", AuctionFrameBrowse, "TOPLEFT", 75, -44)
 		end
 	elseif addon == "Blizzard_AchievementUI" then
 		R.CreateBD(AchievementFrame)

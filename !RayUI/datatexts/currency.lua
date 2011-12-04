@@ -105,6 +105,7 @@ local tokens = {
 	{396, 4000}, -- Valor Points
 	{402, 10},	 -- Chef's Award 
 	{416, 300}, -- Mark of the World Tree
+	{515, 2000}, --Darkmoon Prize Ticket
 }
 
 local function updateCurrency()

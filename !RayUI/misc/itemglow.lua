@@ -28,50 +28,6 @@ local function TooltipCanUse(tooltip)
 	return true
 end
 
-if R.myclass == 'DEATHKNIGHT' then
-	Unusable = {{3, 4, 10, 11, 13, 14, 15, 16}, {6}}
-elseif R.myclass == 'DRUID' then
-	Unusable = {{1, 2, 3, 4, 8, 9, 14, 15, 16}, {4, 5, 6}, true}
-elseif R.myclass == 'HUNTER' then
-	Unusable = {{5, 6, 16}, {5, 6, 7}}
-elseif R.myclass == 'MAGE' then
-	Unusable = {{1, 2, 3, 4, 5, 6, 7, 9, 11, 14, 15}, {3, 4, 5, 6, 7}, true}
-elseif R.myclass == 'PALADIN' then
-	Unusable = {{3, 4, 10, 11, 13, 14, 15, 16}, {}, true}
-elseif R.myclass == 'PRIEST' then
-	Unusable = {{1, 2, 3, 4, 6, 7, 8, 9, 11, 14, 15}, {3, 4, 5, 6, 7}, true}
-elseif R.myclass == 'ROGUE' then
-	Unusable = {{2, 6, 7, 9, 10, 16}, {4, 5, 6, 7}}
-elseif R.myclass == 'SHAMAN' then
-	Unusable = {{3, 4, 7, 8, 9, 14, 15, 16}, {5}}
-elseif R.myclass == 'WARLOCK' then
-	Unusable = {{1, 2, 3, 4, 5, 6, 7, 9, 11, 14, 15}, {3, 4, 5, 6, 7}, true}
-elseif R.myclass == 'WARRIOR' then
-	Unusable = {{16}, {7}}
-end
-
-for class = 1, 2 do
-	local subs = {GetAuctionItemSubClasses(class)}
-	for i, subclass in ipairs(Unusable[class]) do
-		Unusable[subs[subclass]] = true
-	end
-	Unusable[class] = nil
-	subs = nil
-end
-
-local function IsClassUnusable(subclass, slot)
-	if subclass then
-		return Unusable[subclass] or slot == 'INVTYPE_WEAPONOFFHAND' and Unusable[3]
-	end
-end
-
-local function IsItemUnusable(...)
-	if ... then
-		local subclass, _, slot = select(7, GetItemInfo(...))
-		return IsClassUnusable(subclass, slot)
-	end
-end
-
 local function UpdateGlow(button, id)
 	local quality, texture, link, _
 	local quest = _G[button:GetName().."IconQuestTexture"]
@@ -118,7 +74,23 @@ hooksecurefunc("BankFrameItemButton_Update", function(self)
 	UpdateGlow(self, GetInventoryItemID("player", self:GetInventorySlot()))
 end)
 
+hooksecurefunc("BankFrame_UpdateCooldown", function(_, self)
+	UpdateGlow(self, GetInventoryItemID("player", self:GetInventorySlot()))
+end)
+
+
 hooksecurefunc("ContainerFrame_Update", function(self)
+	local name = self:GetName()
+	local id = self:GetID()
+
+	for i=1, self.size do
+		local button = _G[name.."Item"..i]
+		local itemID = GetContainerItemID(id, button:GetID())
+		UpdateGlow(button, itemID)
+	end
+end)
+
+hooksecurefunc("ContainerFrame_UpdateCooldowns", function(self)
 	local name = self:GetName()
 	local id = self:GetID()
 
@@ -167,16 +139,12 @@ local g = CreateFrame("Frame")
 g:RegisterEvent("ADDON_LOADED")
 g:SetScript("OnEvent", function(self, event, addon)
 	if addon == "Blizzard_InspectUI" then
+		g:RegisterEvent("PLAYER_TARGET_CHANGED")
+		g:RegisterEvent("INSPECT_READY")
+		g:SetScript("OnEvent", updateinspect)
+		hooksecurefunc("InspectPaperDollItemSlotButton_Update", updateinspect)
 		InspectFrame:HookScript("OnShow", function()
-			g:RegisterEvent("PLAYER_TARGET_CHANGED")
-			g:RegisterEvent("INSPECT_READY")
-			g:SetScript("OnEvent", updateinspect)
 			updateinspect()
-		end)
-		InspectFrame:HookScript("OnHide", function()
-			g:UnregisterEvent("PLAYER_TARGET_CHANGED")
-			g:UnregisterEvent("INSPECT_READY")
-			g:SetScript("OnEvent", nil)
 		end)
 		g:UnregisterEvent("ADDON_LOADED")
 	end

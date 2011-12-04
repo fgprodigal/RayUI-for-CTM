@@ -125,6 +125,8 @@ local ReanchorButtons = function()
 			end
 			tinsert(buttons, bu)
 		end
+		
+		bag:EnableMouse(false)
 	end
 	MoveButtons(buttons, holder, CheckSlots() + 4)
 	holder:Show()
@@ -246,6 +248,8 @@ local ReanchorBankButtons = function()
 			end
 			tinsert(bankbuttons, bu)
 		end
+		
+		bag:EnableMouse(false)
 	end
 	MoveButtons(bankbuttons, bankholder, CheckSlots() + 8)
 	bankholder:Show()

@@ -627,16 +627,18 @@ end
 
 local ChatPosUpdate = CreateFrame("Frame")
 ChatPosUpdate:SetScript("OnUpdate", function(self, elapsed)
+	if InCombatLockdown() then return end
 	if(self.elapsed and self.elapsed > 1) then
 		for i=1,NUM_CHAT_WINDOWS do
 			if _G["ChatFrame"..i] == COMBATLOG then
-				_G["ChatFrame"..i]:ClearAllPoints(ChatBG)
+				_G["ChatFrame"..i]:ClearAllPoints()
 				_G["ChatFrame"..i]:SetPoint("TOPLEFT", ChatBG, "TOPLEFT", 2, -2 - CombatLogQuickButtonFrame_Custom:GetHeight())
 				_G["ChatFrame"..i]:SetPoint("BOTTOMRIGHT", ChatBG, "BOTTOMRIGHT", -2, 4)
 			else				
-				_G["ChatFrame"..i]:ClearAllPoints(ChatBG)
+				_G["ChatFrame"..i]:ClearAllPoints()
 				_G["ChatFrame"..i]:SetPoint("TOPLEFT", ChatBG, "TOPLEFT", 2, -2)
 				_G["ChatFrame"..i]:SetPoint("BOTTOMRIGHT", ChatBG, "BOTTOMRIGHT", -2, 4)
+				FCF_SavePositionAndDimensions(_G["ChatFrame"..i])
 			end
 		end
 		self.elapsed = 0
