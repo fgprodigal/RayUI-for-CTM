@@ -236,6 +236,7 @@ R.ReskinDropDown = function(f)
 	local dis = down:GetDisabledTexture()
 	dis:SetVertexColor(0, 0, 0, .3)
 	dis:SetDrawLayer("OVERLAY")
+	dis:SetAllPoints(down)
 
 	local downtex = down:CreateTexture(nil, "ARTWORK")
 	downtex:SetTexture("Interface\\AddOns\\!RayUI\\Aurora\\arrow-down-active")
@@ -591,6 +592,15 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 		R.SetBD(PVPBannerFrame)
 		R.SetBD(PetStableFrame)		
 		R.SetBD(WorldStateScoreFrame)
+		hooksecurefunc("GossipFrameUpdate", function()
+			for i=1, NUMGOSSIPBUTTONS do
+				local text = _G["GossipTitleButton" .. i]:GetText()
+				if text then
+					text = string.gsub(text,"|cFF0008E8","|cFF0080FF")
+					_G["GossipTitleButton" .. i]:SetText(text)
+				end
+			end
+		end)
 
 		local FrameBDs
 		if R.HoT then

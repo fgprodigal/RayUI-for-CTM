@@ -343,7 +343,8 @@ local reset
 function window:ShowResetWindow()
 	if not reset then
 		reset = CreateFrame("Frame", nil, window)
-		reset:CreateShadow("Background")
+		-- reset:CreateShadow("Background")
+		R.SetBD(reset)
 		reset:SetWidth(200)
 		reset:SetHeight(45)
 		reset:SetPoint("CENTER", UIParent, "CENTER", 0, 200)
@@ -380,7 +381,8 @@ local whisper
 function window:ShowWhisperWindow()
 	if not whisper then
 		whisper = CreateFrame("Frame", nil, window)
-		whisper:CreateShadow("Background")
+		-- whisper:CreateShadow("Background")
+		R.SetBD(whisper)
 		whisper:SetWidth(200)
 		whisper:SetHeight(45)
 		whisper:SetPoint("CENTER", UIParent, "CENTER", 0, 200)

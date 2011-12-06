@@ -24,7 +24,8 @@ local function ApplyMyStyle(self)
 	end
 	if self.secAnchor then
 		self.secAnchor:ClearAllPoints()
-		self.secAnchor:SetPoint("TOP", UIParent, "TOP", buttonsize/2 + buttonsize/8, -250)
+		-- self.secAnchor:SetPoint("TOP", UIParent, "TOP", buttonsize/2 + buttonsize/8, -250)
+		self.secAnchor:SetPoint("BOTTOM", UIParent, "BOTTOM", - self.options.Width/2 - buttonsize/2 - buttonsize/8 - 64, 600)
 	end
 end
 
