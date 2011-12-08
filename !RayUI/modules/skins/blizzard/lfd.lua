@@ -1,0 +1,158 @@
+local R, C, L, DB = unpack(select(2, ...))
+local AddOnName = ...
+
+local function LoadSkin()
+	R.SetBD(LFDParentFrame)	
+	R.Reskin(LFDQueueFrameFindGroupButton)
+	R.Reskin(LFDQueueFrameCancelButton)
+	R.Reskin(LFDRoleCheckPopupAcceptButton)
+	R.Reskin(LFDRoleCheckPopupDeclineButton)
+	R.Reskin(LFDQueueFramePartyBackfillBackfillButton)
+	R.Reskin(LFDQueueFramePartyBackfillNoBackfillButton)
+	R.ReskinClose(LFDParentFrameCloseButton)
+	if R.HoT then
+		R.ReskinClose(LFGDungeonReadyStatusCloseButton)
+	end
+	R.ReskinCheck(LFDQueueFrameRoleButtonTank:GetChildren())
+	R.ReskinCheck(LFDQueueFrameRoleButtonHealer:GetChildren())
+	R.ReskinCheck(LFDQueueFrameRoleButtonDPS:GetChildren())
+	R.ReskinCheck(LFDQueueFrameRoleButtonLeader:GetChildren())
+	R.ReskinCheck(LFDRoleCheckPopupRoleButtonTank:GetChildren())
+	R.ReskinCheck(LFDRoleCheckPopupRoleButtonHealer:GetChildren())
+	R.ReskinCheck(LFDRoleCheckPopupRoleButtonDPS:GetChildren())
+	R.ReskinScroll(LFDQueueFrameSpecificListScrollFrameScrollBar)
+	R.ReskinScroll(LFDQueueFrameRandomScrollFrameScrollBar)
+	R.ReskinDropDown(LFDQueueFrameTypeDropDown)
+
+	LFDParentFrame:DisableDrawLayer("BACKGROUND")
+	LFDParentFrame:DisableDrawLayer("BORDER")
+	LFDParentFrame:DisableDrawLayer("OVERLAY")
+	LFDParentFrameInset:DisableDrawLayer("BACKGROUND")
+	LFDParentFrameInset:DisableDrawLayer("BORDER")
+	LFDParentFrameEyeFrame:Hide()
+	LFDQueueFrameCapBarShadow:Hide()
+	LFDQueueFrameBackground:Hide()
+	LFDQueueFrameCooldownFrameBlackFilter:SetAlpha(.6)
+	LFDQueueFrameRandomScrollFrameScrollBackground:Hide()
+	LFDQueueFramePartyBackfill:SetAlpha(.6)
+	LFDQueueFrameCancelButton_LeftSeparator:Hide()
+	LFDQueueFrameFindGroupButton_RightSeparator:Hide()
+	LFDQueueFrameSpecificListScrollFrameScrollBackgroundTopLeft:Hide()
+	LFDQueueFrameSpecificListScrollFrameScrollBackgroundBottomRight:Hide()
+	LFDQueueFrameSpecificListScrollFrameScrollBarScrollDownButton:SetPoint("TOP", LFDQueueFrameSpecificListScrollFrameScrollBar, "BOTTOM", 0, 2)
+	LFDQueueFrameRandomScrollFrameScrollBarScrollDownButton:SetPoint("TOP", LFDQueueFrameRandomScrollFrameScrollBar, "BOTTOM", 0, 2)
+
+	LFDQueueFrameCapBarProgress:SetTexture(C.Aurora.backdrop)
+	LFDQueueFrameCapBarCap1:SetTexture(C.Aurora.backdrop)
+	LFDQueueFrameCapBarCap2:SetTexture(C.Aurora.backdrop)
+
+	LFDQueueFrameCapBarLeft:Hide()
+	LFDQueueFrameCapBarMiddle:Hide()
+	LFDQueueFrameCapBarRight:Hide()
+	LFDQueueFrameCapBarBG:SetTexture(nil)
+
+	LFDQueueFrameCapBar.backdrop = CreateFrame("Frame", nil, LFDQueueFrameCapBar)
+	LFDQueueFrameCapBar.backdrop:SetPoint("TOPLEFT", LFDQueueFrameCapBar, "TOPLEFT", -1, -2)
+	LFDQueueFrameCapBar.backdrop:SetPoint("BOTTOMRIGHT", LFDQueueFrameCapBar, "BOTTOMRIGHT", 1, 2)
+	LFDQueueFrameCapBar.backdrop:SetFrameLevel(0)
+	R.CreateBD(LFDQueueFrameCapBar.backdrop)
+	
+	for i = 1, 4 do
+		_G["LFDQueueFrameCapBarDivider"..i]:Hide()
+	end
+
+	for i = 1, 2 do
+		local bu = _G["LFDQueueFrameCapBarCap"..i.."Marker"]
+		_G["LFDQueueFrameCapBarCap"..i.."MarkerTexture"]:Hide()
+
+		local cap = bu:CreateTexture(nil, "OVERLAY")
+		cap:SetSize(1, 14)
+		cap:SetPoint("CENTER")
+		cap:SetTexture(C.Aurora.backdrop)
+		cap:SetVertexColor(0, 0, 0)
+	end
+
+	LFDQueueFrameRandomScrollFrame:SetWidth(304)
+
+	local function ReskinRewards()
+		for i = 1, LFD_MAX_REWARDS do
+			local button = _G["LFDQueueFrameRandomScrollFrameChildFrameItem"..i]
+			local icon = _G["LFDQueueFrameRandomScrollFrameChildFrameItem"..i.."IconTexture"]
+
+			if button then
+				icon:SetTexCoord(.08, .92, .08, .92)
+				if not button.reskinned then
+					local cta = _G["LFDQueueFrameRandomScrollFrameChildFrameItem"..i.."ShortageBorder"]
+					local count = _G["LFDQueueFrameRandomScrollFrameChildFrameItem"..i.."Count"]
+					local na = _G["LFDQueueFrameRandomScrollFrameChildFrameItem"..i.."NameFrame"]
+
+					R.CreateBG(icon)
+					icon:SetDrawLayer("OVERLAY")
+					count:SetDrawLayer("OVERLAY")
+					na:SetTexture(0, 0, 0, .25)
+					na:SetSize(118, 39)
+					cta:SetAlpha(0)
+
+					button.bg2 = CreateFrame("Frame", nil, button)
+					button.bg2:SetPoint("TOPLEFT", na, "TOPLEFT", 10, 0)
+					button.bg2:SetPoint("BOTTOMRIGHT", na, "BOTTOMRIGHT")
+					R.CreateBD(button.bg2, 0)
+
+					button.reskinned = true
+				end
+			end
+		end
+	end
+
+	hooksecurefunc("LFDQueueFrameRandom_UpdateFrame", ReskinRewards)
+
+	local bg = CreateFrame("Frame", nil, DungeonCompletionAlertFrame1)
+	bg:SetPoint("TOPLEFT", 6, -14)
+	bg:SetPoint("BOTTOMRIGHT", -6, 6)
+	-- bg:SetFrameLevel(DungeonCompletionAlertFrame1:GetFrameLevel()-1)
+	R.SetBD(bg)
+
+	DungeonCompletionAlertFrame1DungeonTexture:SetDrawLayer("ARTWORK")
+	DungeonCompletionAlertFrame1DungeonTexture:SetTexCoord(.02, .98, .02, .98)
+	R.CreateBG(DungeonCompletionAlertFrame1DungeonTexture)
+
+	hooksecurefunc("DungeonCompletionAlertFrame_ShowAlert", function()
+		for i = 1, 3 do
+			local bu = _G["DungeonCompletionAlertFrame1Reward"..i]
+			if bu and not bu.reskinned then
+				local ic = _G["DungeonCompletionAlertFrame1Reward"..i.."Texture"]
+				_G["DungeonCompletionAlertFrame1Reward"..i.."Border"]:Hide()
+
+				ic:SetTexCoord(.08, .92, .08, .92)
+				R.CreateBG(ic)
+
+				bu.rekinned = true
+			end
+		end
+	end)
+	for i = 2, 5 do
+		select(i, DungeonCompletionAlertFrame1:GetRegions()):Hide()
+	end
+
+	if R.HoT then
+		select(6, DungeonCompletionAlertFrame1:GetRegions()):Hide()
+		LFGDungeonReadyDialog.SetBackdrop = R.dummy
+		LFGDungeonReadyDialogBackground:Hide()
+		LFGDungeonReadyDialogBottomArt:Hide()
+		LFGDungeonReadyDialogFiligree:Hide()
+		R.Reskin(LFGDungeonReadyDialogEnterDungeonButton)
+		R.Reskin(LFGDungeonReadyDialogLeaveQueueButton)
+		R.Reskin(LFDQueueFrameNoLFDWhileLFRLeaveQueueButton)
+		hooksecurefunc("DungeonCompletionAlertFrame_FixAnchors", function()
+			for i = 2, 6 do
+				select(i, DungeonCompletionAlertFrame1:GetRegions()):Hide()
+			end
+		end)
+	else
+		LFDDungeonReadyDialogBackground:Hide()
+		LFDDungeonReadyDialogBottomArt:Hide()
+		LFDDungeonReadyDialogFiligree:Hide()
+	end
+end
+
+tinsert(R.SkinFuncs[AddOnName], LoadSkin)

@@ -1,0 +1,7 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file='core.lua'/>	
+	<Include file='blizzard\blizzard.xml'/>
+	<Include file='addons\addons.xml'/>
+
+	<Script file='timemanager.lua'/>
+</Ui>

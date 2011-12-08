@@ -58,14 +58,6 @@ hooksecurefunc("DungeonCompletionAlertFrame_FixAnchors", function()
 	end
 end)
 
-if R.HoT then
-	hooksecurefunc("DungeonCompletionAlertFrame_FixAnchors", function()
-		for i = 2, 6 do
-			select(i, DungeonCompletionAlertFrame1:GetRegions()):Hide()
-		end
-	end)
-end
-
 local achieveframe = CreateFrame("Frame")
 achieveframe:RegisterEvent("ACHIEVEMENT_EARNED")
 achieveframe:SetScript("OnEvent", function(self, event, ...) AchievementMove(self, event, ...) end)

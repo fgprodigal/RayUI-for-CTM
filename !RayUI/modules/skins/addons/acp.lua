@@ -27,7 +27,7 @@ local function ReskinDropDown(f)
 	dis:SetDrawLayer("OVERLAY")
 
 	local downtex = down:CreateTexture(nil, "ARTWORK")
-	downtex:SetTexture("Interface\\AddOns\\!RayUI\\Aurora\\arrow-down-active")
+	downtex:SetTexture("Interface\\AddOns\\!RayUI\\media\\arrow-down-active")
 	downtex:Size(8, 8)
 	downtex:SetPoint("CENTER")
 	downtex:SetVertexColor(1, 1, 1)

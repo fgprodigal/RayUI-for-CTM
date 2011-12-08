@@ -8,6 +8,11 @@ R.myrealm = GetRealmName()
 R.version = GetAddOnMetadata(ADDON_NAME, "Version")
 BINDING_HEADER_RAYUI = GetAddOnMetadata(ADDON_NAME, "Title")
 
+local _, _, _, uiVersion = GetBuildInfo()
+if uiVersion > 40200 then
+	R.HoT = true
+end
+
 R.colors = {
 	tapped = {0.55, 0.57, 0.61},
 	disconnected = {0.84, 0.75, 0.65},
