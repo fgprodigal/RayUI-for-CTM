@@ -668,7 +668,7 @@ function R.CustomFilter(icons, unit, icon, name, rank, texture, count, dtype, du
 		icon.owner = caster
 	end
 	
-	if UnitCanAttack(unit, "player") and UnitLevel(unit) == -1 then
+	if UnitIsEnemy(unit, "player") and UnitLevel(unit) == -1 then
 		if (R.Role == "Melee" and name and R.PvEMeleeBossDebuffs[name]) or 
 			(R.Role == "Caster" and name and R.PvECasterBossDebuffs[name]) or
 			(R.Role == "Tank" and name and R.PvETankBossDebuffs[name]) or

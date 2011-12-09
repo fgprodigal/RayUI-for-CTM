@@ -655,8 +655,26 @@ local function Shared(self, unit)
 		debuffs.num = 5
 		debuffs.PostCreateIcon = R.PostCreateIcon
 		debuffs.PostUpdateIcon = R.PostUpdateIcon
-		
+		debuffs.CustomFilter = function(_, unit) if UnitIsEnemy(unit, "player") then return false end return true end
+
 		self.Debuffs = debuffs
+		
+		-- Buffs
+		local buffs = CreateFrame("Frame", nil, self)
+		buffs:SetHeight(PLAYER_HEIGHT)
+		buffs:SetWidth(SMALL_WIDTH)
+		buffs:Point("TOPLEFT", self, "BOTTOMLEFT", 1, -6)
+		buffs.spacing = 5
+		buffs["growth-x"] = "RIGHT"
+		buffs["growth-y"] = "DOWN"
+		buffs.size = PLAYER_HEIGHT
+		buffs.initialAnchor = "TOPLEFT"
+		buffs.num = 5
+		buffs.PostCreateIcon = R.PostCreateIcon
+		buffs.PostUpdateIcon = R.PostUpdateIcon
+		buffs.CustomFilter = function(_, unit) if UnitIsFriend(unit, "player") then return false end return true end
+
+		self.Buffs = buffs
 	end
 	
 	if (unit and unit:find("arena%d") and C["uf"].showArenaFrames == true) or (unit and unit:find("boss%d") and C["uf"].showBossFrames == true) then
