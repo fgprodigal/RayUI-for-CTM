@@ -9,5 +9,4 @@
 	<Include file="tooltip\tooltip.xml"/>
 	<Include file="uf\uf.xml"/>
 	<Include file="raid\raid.xml"/>
-	<Script file="uf\plugins\Movable.lua"/>
 </Ui>
