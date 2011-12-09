@@ -86,6 +86,145 @@ local function LoadSkin()
 	R.ReskinInput(TradePlayerInputMoneyFrameCopper)
 	TradePlayerInputMoneyFrameCopper:ClearAllPoints()
 	TradePlayerInputMoneyFrameCopper:Point("LEFT", TradePlayerInputMoneyFrameSilver, "RIGHT", 1, 0)
+	
+	-- item glow
+	if not ItemGlowTooltip then
+		local tooltip = CreateFrame("GameTooltip", "ItemGlowTooltip", UIParent, "GameTooltipTemplate")
+		tooltip:SetOwner( UIParent, "ANCHOR_NONE" )
+	end
+
+	local function TooltipCanUse(tooltip)
+		local l = { "TextLeft", "TextRight" }
+		local n = tooltip:NumLines()
+		if n > 5 then n = 5 end
+		for i = 2, n do
+			for _, v in pairs( l ) do
+				local obj = _G[string.format( "%s%s%s", tooltip:GetName( ), v, i )]
+				if obj and obj:IsShown( ) then
+					local txt = obj:GetText( )
+					local r, g, b = obj:GetTextColor( )
+					local c = string.format( "%02x%02x%02x", r * 255, g * 255, b * 255 )
+					if c == "fe1f1f" then
+						if txt ~= ITEM_DISENCHANT_NOT_DISENCHANTABLE then
+							return false
+						end
+					end
+				end
+			end
+		end
+
+		return true
+	end
+
+	local function UpdateGlow(button, id)
+		local quality, texture, link, _
+		local quest = _G[button:GetName().."IconQuestTexture"]
+		local icontexture = _G[button:GetName().."IconTexture"]
+		if(id) then
+			_, link, quality, _, _, _, _, _, _, texture = GetItemInfo(id)
+		end
+
+		local glow = button.glow
+		if(not glow) then
+			button.glow = glow
+			glow = CreateFrame("Frame", nil, button)
+			glow:Point("TOPLEFT", -1, 1)
+			glow:Point("BOTTOMRIGHT", 1, -1)
+			glow:CreateBorder()
+			button.glow = glow
+		end
+
+		if(texture) then
+			local r, g, b
+			ItemGlowTooltip:ClearLines()
+			ItemGlowTooltip:SetHyperlink(link)
+			
+			-- if IsItemUnusable(link) then
+			if not TooltipCanUse(ItemGlowTooltip) and not button:GetName():find("Inspect") then
+				icontexture:SetVertexColor(RED_FONT_COLOR.r, RED_FONT_COLOR.g, RED_FONT_COLOR.b)
+			else
+				icontexture:SetVertexColor(1, 1, 1)
+			end	
+			if quest and quest:IsShown() then
+				r, g, b = 1, 0, 0
+			else
+				r, g, b = GetItemQualityColor(quality)
+				if (quality <=1 ) then r, g, b = 0, 0, 0 end
+			end
+			glow:SetBackdropBorderColor(r, g, b)
+			glow:Show()
+		else
+			glow:Hide()
+		end
+	end
+
+	hooksecurefunc("TradeFrame_UpdatePlayerItem", function(id)
+		local link = GetTradePlayerItemLink(id)
+		local button = _G["TradePlayerItem"..id.."ItemButton"]
+		local icontexture = _G["TradePlayerItem"..id.."ItemButtonIconTexture"]
+		local glow = button.glow
+		if(not glow) then
+			button.glow = glow
+			glow = CreateFrame("Frame", nil, button)
+			glow:Point("TOPLEFT", -1, 1)
+			glow:Point("BOTTOMRIGHT", 1, -1)
+			glow:CreateBorder()
+			button.glow = glow
+		end
+		if(link) then
+			local r, g, b
+			local _, _, quality, _, _, _, _, _, _, texture = GetItemInfo(link)
+			ItemGlowTooltip:ClearLines()
+			ItemGlowTooltip:SetHyperlink(link)
+			
+			-- if IsItemUnusable(link) then
+			if not TooltipCanUse(ItemGlowTooltip) then
+				icontexture:SetVertexColor(RED_FONT_COLOR.r, RED_FONT_COLOR.g, RED_FONT_COLOR.b)
+			else
+				icontexture:SetVertexColor(1, 1, 1)
+			end		
+			r, g, b = GetItemQualityColor(quality)
+			if (quality <=1 ) then r, g, b = 0, 0, 0 end
+			glow:SetBackdropBorderColor(r, g, b)
+			glow:Show()
+		else
+			glow:Hide()
+		end
+	end)
+
+	hooksecurefunc("TradeFrame_UpdateTargetItem", function(id)
+		local link = GetTradeTargetItemLink(id)
+		local button = _G["TradeRecipientItem"..id.."ItemButton"]
+		local icontexture = _G["TradeRecipientItem"..id.."ItemButtonIconTexture"]
+		local glow = button.glow
+		if(not glow) then
+			button.glow = glow
+			glow = CreateFrame("Frame", nil, button)
+			glow:Point("TOPLEFT", -1, 1)
+			glow:Point("BOTTOMRIGHT", 1, -1)
+			glow:CreateBorder()
+			button.glow = glow
+		end
+		if(link) then
+			local r, g, b
+			local _, _, quality, _, _, _, _, _, _, texture = GetItemInfo(link)
+			ItemGlowTooltip:ClearLines()
+			ItemGlowTooltip:SetHyperlink(link)
+			
+			-- if IsItemUnusable(link) then
+			if not TooltipCanUse(ItemGlowTooltip) then
+				icontexture:SetVertexColor(RED_FONT_COLOR.r, RED_FONT_COLOR.g, RED_FONT_COLOR.b)
+			else
+				icontexture:SetVertexColor(1, 1, 1)
+			end		
+			r, g, b = GetItemQualityColor(quality)
+			if (quality <=1 ) then r, g, b = 0, 0, 0 end
+			glow:SetBackdropBorderColor(r, g, b)
+			glow:Show()
+		else
+			glow:Hide()
+		end
+	end)
 end
 
 tinsert(R.SkinFuncs[AddOnName], LoadSkin)

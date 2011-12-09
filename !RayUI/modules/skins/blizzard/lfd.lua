@@ -12,6 +12,11 @@ local function LoadSkin()
 	R.ReskinClose(LFDParentFrameCloseButton)
 	if R.HoT then
 		R.ReskinClose(LFGDungeonReadyStatusCloseButton)
+		R.ReskinCheck(LFGInvitePopupRoleButtonTank:GetChildren())
+		R.ReskinCheck(LFGInvitePopupRoleButtonHealer:GetChildren())
+		R.ReskinCheck(LFGInvitePopupRoleButtonDPS:GetChildren())
+		R.CreateBD(LFGInvitePopup)
+		R.CreateSD(LFGInvitePopup)
 	end
 	R.ReskinCheck(LFDQueueFrameRoleButtonTank:GetChildren())
 	R.ReskinCheck(LFDQueueFrameRoleButtonHealer:GetChildren())
@@ -105,37 +110,8 @@ local function LoadSkin()
 	end
 
 	hooksecurefunc("LFDQueueFrameRandom_UpdateFrame", ReskinRewards)
-
-	local bg = CreateFrame("Frame", nil, DungeonCompletionAlertFrame1)
-	bg:SetPoint("TOPLEFT", 6, -14)
-	bg:SetPoint("BOTTOMRIGHT", -6, 6)
-	-- bg:SetFrameLevel(DungeonCompletionAlertFrame1:GetFrameLevel()-1)
-	R.SetBD(bg)
-
-	DungeonCompletionAlertFrame1DungeonTexture:SetDrawLayer("ARTWORK")
-	DungeonCompletionAlertFrame1DungeonTexture:SetTexCoord(.02, .98, .02, .98)
-	R.CreateBG(DungeonCompletionAlertFrame1DungeonTexture)
-
-	hooksecurefunc("DungeonCompletionAlertFrame_ShowAlert", function()
-		for i = 1, 3 do
-			local bu = _G["DungeonCompletionAlertFrame1Reward"..i]
-			if bu and not bu.reskinned then
-				local ic = _G["DungeonCompletionAlertFrame1Reward"..i.."Texture"]
-				_G["DungeonCompletionAlertFrame1Reward"..i.."Border"]:Hide()
-
-				ic:SetTexCoord(.08, .92, .08, .92)
-				R.CreateBG(ic)
-
-				bu.rekinned = true
-			end
-		end
-	end)
-	for i = 2, 5 do
-		select(i, DungeonCompletionAlertFrame1:GetRegions()):Hide()
-	end
-
+	
 	if R.HoT then
-		select(6, DungeonCompletionAlertFrame1:GetRegions()):Hide()
 		LFGDungeonReadyDialog.SetBackdrop = R.dummy
 		LFGDungeonReadyDialogBackground:Hide()
 		LFGDungeonReadyDialogBottomArt:Hide()
@@ -143,11 +119,6 @@ local function LoadSkin()
 		R.Reskin(LFGDungeonReadyDialogEnterDungeonButton)
 		R.Reskin(LFGDungeonReadyDialogLeaveQueueButton)
 		R.Reskin(LFDQueueFrameNoLFDWhileLFRLeaveQueueButton)
-		hooksecurefunc("DungeonCompletionAlertFrame_FixAnchors", function()
-			for i = 2, 6 do
-				select(i, DungeonCompletionAlertFrame1:GetRegions()):Hide()
-			end
-		end)
 	else
 		LFDDungeonReadyDialogBackground:Hide()
 		LFDDungeonReadyDialogBottomArt:Hide()

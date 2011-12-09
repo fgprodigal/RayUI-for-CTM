@@ -22,8 +22,6 @@ functions\movers.lua
 
 layout\layout.xml
 
-datatexts\datatexts.xml
-
 misc\misc.xml
 modules\modules.xml
 

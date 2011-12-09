@@ -2,9 +2,6 @@
 if not C["minimap"].enable then return end
 -- Config
 local Scale = 1				-- Minimap scale
-local ClassColorBorder = false	-- Should border around minimap be classcolored? Enabling it disables color settings below
-local r, g, b, a = 0, 0, 0, .7	-- Border colors and alhpa. More info: http://www.wowwiki.com/API_Frame_SetBackdropColor
-local BGThickness = 2           -- Border thickness in pixels
 --local MapPosition = {"TOPRIGHT", "UIParent", "TOPRIGHT", -10, -20}
 local MapPosition = {"TOPLEFT", "UIParent", "TOPLEFT", 10, -40}
 local zoneTextYOffset = 10		-- Zone text position
@@ -231,10 +228,11 @@ local checkmail = CreateFrame("Frame")
 checkmail:RegisterEvent("ADDON_LOADED")
 checkmail:RegisterEvent("CALENDAR_UPDATE_PENDING_INVITES")
 checkmail:RegisterEvent("UPDATE_PENDING_MAIL")
+checkmail:RegisterEvent("MAIL_CLOSED")
 checkmail:RegisterEvent("PLAYER_ENTERING_WORLD")
 checkmail:SetScript("OnEvent", function(self, event, addon)
 	local inv = CalendarGetNumPendingInvites()
-	local mail = HasNewMail()
+	local mail = MiniMapMailFrame:IsShown() and true or false
 	if inv > 0 and mail then -- New invites and mail
 		Minimap.shadow:SetBackdropBorderColor(1, .5, 0)
 		Minimap:StartGlow()

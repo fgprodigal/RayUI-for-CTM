@@ -1,6 +1,7 @@
 ﻿<Ui xmlns="http://www.blizzard.com/wow/ui/">
 	<Script file='misc.lua'/>
 	<Script file='achievement.lua'/>
+	<Script file='achievement_popup.lua'/>
 	<Script file='alteration.lua'/>
 	<Script file='archaeology.lua'/>
 	<Script file='auction.lua'/>
@@ -42,12 +43,11 @@
 	<Script file='tabard.lua'/>
 	<Script file='talent.lua'/>
 	<Script file='taxi.lua'/>
+	<Script file='timemanager.lua'/>
 	<Script file='trade.lua'/>
 	<Script file='tradeskill.lua'/>
 	<Script file='trainer.lua'/>
 	<Script file='voidstorage.lua'/>
 
 	<Include file='addons\addons.xml'/>
-
-	<Script file='timemanager.lua'/>	
 </Ui>

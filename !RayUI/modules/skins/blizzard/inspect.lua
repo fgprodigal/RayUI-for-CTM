@@ -44,18 +44,41 @@ local function LoadSkin()
 	InspectTalentFramePointsBarBorderRight:Hide()
 
 	local slots = {
-		"Head", "Neck", "Shoulder", "Shirt", "Chest", "Waist", "Legs", "Feet", "Wrist",
-		"Hands", "Finger0", "Finger1", "Trinket0", "Trinket1", "Back", "MainHand",
-		"SecondaryHand", "Ranged", "Tabard",
+		"Head",
+		"Neck",
+		"Shoulder",
+		"Shirt",
+		"Chest",
+		"Waist",
+		"Legs",
+		"Feet",
+		"Wrist",
+		"Hands",
+		"Finger0",
+		"Finger1",
+		"Trinket0",
+		"Trinket1",
+		"Back",
+		"MainHand",
+		"SecondaryHand",
+		"Ranged",
+		"Tabard"
 	}
 
 	for i = 1, #slots do
 		local slot = _G["Inspect"..slots[i].."Slot"]
 		_G["Inspect"..slots[i].."SlotFrame"]:Hide()
 		slot:SetNormalTexture("")
-		slot:SetPushedTexture("")
+		slot.backgroundTextureName = ""
+		slot.checkRelic = nil
+		slot:SetNormalTexture("")
+		slot:StripTextures()
+		slot:StyleButton()
+		slot:GetHighlightTexture():Point("TOPLEFT", -1, 1)
+		slot:GetHighlightTexture():Point("BOTTOMRIGHT", 1, -1)
+		slot:GetPushedTexture():Point("TOPLEFT", -1, 1)
+		slot:GetPushedTexture():Point("BOTTOMRIGHT", 1, -1)
 		_G["Inspect"..slots[i].."SlotIconTexture"]:SetTexCoord(.08, .92, .08, .92)
-
 	end
 	if R.HoT then
 		select(9, InspectMainHandSlot:GetRegions()):Hide()
@@ -64,20 +87,63 @@ local function LoadSkin()
 		select(8, InspectMainHandSlot:GetRegions()):Hide()
 		select(8, InspectRangedSlot:GetRegions()):Hide()
 	end
-	
-	hooksecurefunc("InspectPaperDollItemSlotButton_Update", function()
-		if InspectFrame:IsShown() and UnitExists(InspectFrame.unit) then
-			for i = 1, #slots do
-				local ic = _G["Inspect"..slots[i].."SlotIconTexture"]
-
-				if not GetInventoryItemLink(InspectFrame.unit, i) then
-					ic:SetTexture(nil)
-				end
-			end
-		end
-	end)
 
 	R.ReskinClose(InspectFrameCloseButton)
+	
+	local CheckItemBorderColor = CreateFrame("Frame")
+	local function ScanSlots()
+		local unit = InspectFrame.unit
+		if not (InspectFrame:IsShown() and UnitExists(unit) and UnitIsPlayer(unit)) then return end
+		local notFound
+		for i = 1, #slots do
+			-- Colour the equipment slots by rarity
+			local target = _G["Inspect"..slots[i].."Slot"]
+			local slotId, _, _ = GetInventorySlotInfo(slots[i].."Slot")
+			local itemId = GetInventoryItemID("target", slotId)
+			
+			local glow = target.glow
+			if(not glow) then
+				target.glow = glow
+				glow = CreateFrame("Frame", nil, target)
+				glow:Point("TOPLEFT", -1, 1)
+				glow:Point("BOTTOMRIGHT", 1, -1)
+				glow:CreateBorder()
+				target.glow = glow
+			end
+
+			if itemId then
+				local _, _, rarity, _, _, _, _, _, _, _, _ = GetItemInfo(itemId)
+				if not rarity then notFound = true end
+				if rarity and rarity > 1 then
+					glow:SetBackdropBorderColor(GetItemQualityColor(rarity))
+				else
+					glow:SetBackdropBorderColor(0, 0, 0, 0)
+				end
+			else
+				glow:SetBackdropBorderColor(0, 0, 0, 0)
+			end
+		end	
+		
+		if notFound == true then
+			return false
+		else
+			CheckItemBorderColor:SetScript('OnUpdate', nil) --Stop updating
+			return true
+		end		
+	end
+	
+	local function ColorItemBorder(self)
+		if self and not ScanSlots() then
+			self:SetScript("OnUpdate", ScanSlots) --Run function until all items borders are colored, sometimes when you have never seen an item before GetItemInfo will return nil, when this happens we have to wait for the server to send information.
+		end 
+	end
+
+	CheckItemBorderColor:RegisterEvent("PLAYER_TARGET_CHANGED")
+	CheckItemBorderColor:RegisterEvent("UNIT_PORTRAIT_UPDATE")
+	CheckItemBorderColor:RegisterEvent("PARTY_MEMBERS_CHANGED")
+	CheckItemBorderColor:SetScript("OnEvent", ColorItemBorder)	
+	InspectFrame:HookScript("OnShow", ColorItemBorder)
+	ColorItemBorder(CheckItemBorderColor)
 end
 
 R.SkinFuncs["Blizzard_InspectUI"] = LoadSkin

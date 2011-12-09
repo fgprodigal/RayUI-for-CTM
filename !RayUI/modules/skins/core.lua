@@ -5,6 +5,7 @@ local AddOnName = ...
 
 R.SkinFuncs = {}
 R.SkinFuncs[AddOnName] = {}
+R.SkinFuncs["Delay"] = {}
 
 local alpha = .5 -- controls the backdrop opacity (0 = invisible, 1 = solid)
 
@@ -382,31 +383,44 @@ R.SetBD = function(f, x, y, x2, y2)
 		bg:Point("TOPLEFT", x, y)
 		bg:Point("BOTTOMRIGHT", x2, y2)
 	end
-	bg:SetFrameLevel(f:GetFrameLevel()-1)
+	bg:SetFrameLevel(0)
 	R.CreateBD(bg)
 	R.CreateSD(bg)
+	f:HookScript("OnShow", function()
+		bg:SetFrameLevel(0)
+	end)
 end
 
 local RayUISkin = CreateFrame("Frame")
 RayUISkin:RegisterEvent("ADDON_LOADED")
+RayUISkin:RegisterEvent("PLAYER_ENTERING_WORLD")
 RayUISkin:SetScript("OnEvent", function(self, event, addon)
 	if IsAddOnLoaded("Skinner") or IsAddOnLoaded("Aurora") then return end
-	for _addon, skinfunc in pairs(R.SkinFuncs) do
-		if type(skinfunc) == "function" then
-			if _addon == addon then
-				if skinfunc then
-					skinfunc()
-					R.SkinFuncs[_addon] = nil
-				end
-			end
-		elseif type(skinfunc) == "table" then
-			if _addon == addon then
-				for t, skinfunc in pairs(R.SkinFuncs[_addon]) do
+	if event == "ADDON_LOADED" then
+		for _addon, skinfunc in pairs(R.SkinFuncs) do
+			if type(skinfunc) == "function" then
+				if _addon == addon then
 					if skinfunc then
 						skinfunc()
-						R.SkinFuncs[_addon][t] = nil
+						R.SkinFuncs[_addon] = nil
 					end
 				end
+			elseif type(skinfunc) == "table" then
+				if _addon == addon then
+					for t, skinfunc in pairs(R.SkinFuncs[_addon]) do
+						if skinfunc then
+							skinfunc()
+							R.SkinFuncs[_addon][t] = nil
+						end
+					end
+				end
+			end
+		end
+	elseif event == "PLAYER_ENTERING_WORLD" then
+		for t, skinfunc in pairs(R.SkinFuncs["Delay"]) do
+			if skinfunc then
+				skinfunc()
+				R.SkinFuncs["Delay"][t] = nil
 			end
 		end
 	end

@@ -1,5 +1,5 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
 	<Script file="infobar.lua"/>
 	<Script file="fonts.lua"/>
-	<Script file="achievementalert.lua"/>
+	<Include file="datatexts\datatexts.xml"/>
 </Ui>

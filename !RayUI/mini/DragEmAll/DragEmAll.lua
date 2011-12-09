@@ -62,6 +62,7 @@ local frames = {
   ["EncounterJournal"] = false, -- only in 4.2
   ["RaidParentFrame"] = false,
   ["TutorialFrame"] = false,
+  ["TimeManagerFrame"] = false,
 
   -- AddOns
   ["LudwigFrame"] = false,

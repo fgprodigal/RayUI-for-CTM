@@ -121,9 +121,25 @@ local function LoadSkin()
 	end
 
 	local slots = {
-		"Head", "Neck", "Shoulder", "Shirt", "Chest", "Waist", "Legs", "Feet", "Wrist",
-		"Hands", "Finger0", "Finger1", "Trinket0", "Trinket1", "Back", "MainHand",
-		"SecondaryHand", "Ranged", "Tabard",
+		"Head",
+		"Neck",
+		"Shoulder",
+		"Shirt",
+		"Chest",
+		"Waist",
+		"Legs",
+		"Feet",
+		"Wrist",
+		"Hands",
+		"Finger0",
+		"Finger1",
+		"Trinket0",
+		"Trinket1",
+		"Back",
+		"MainHand",
+		"SecondaryHand",
+		"Ranged",
+		"Tabard"
 	}
 
 	for i = 1, #slots do
@@ -131,52 +147,105 @@ local function LoadSkin()
 		local ic = _G["Character"..slots[i].."SlotIconTexture"]
 		_G["Character"..slots[i].."SlotFrame"]:Hide()
 
+		slot.backgroundTextureName = ""
+		slot.checkRelic = nil
 		slot:SetNormalTexture("")
-		slot:SetPushedTexture("")
+		slot:StripTextures()
+		slot:StyleButton()
+		slot:GetHighlightTexture():Point("TOPLEFT", -1, 1)
+		slot:GetHighlightTexture():Point("BOTTOMRIGHT", 1, -1)
+		slot:GetPushedTexture():Point("TOPLEFT", -1, 1)
+		slot:GetPushedTexture():Point("BOTTOMRIGHT", 1, -1)
 		ic:SetTexCoord(.08, .92, .08, .92)
 	end
 
 	if R.HoT then
 		select(10, CharacterMainHandSlot:GetRegions()):Hide()
 		select(10, CharacterRangedSlot:GetRegions()):Hide()
-		EquipmentFlyoutFrameButtons:HookScript("OnShow", function(self)
+		local function SkinItemFlyouts()
 			for i = 1, 10 do
 				local bu = _G["EquipmentFlyoutFrameButton"..i]
 				if bu and not bu.reskinned then
 					bu:SetNormalTexture("")
-					bu:SetPushedTexture("")
-					R.CreateBG(bu)
+					bu:StyleButton()
+					bu:GetHighlightTexture():Point("TOPLEFT", -1, 1)
+					bu:GetHighlightTexture():Point("BOTTOMRIGHT", 1, -1)
+					bu:GetPushedTexture():Point("TOPLEFT", -1, 1)
+					bu:GetPushedTexture():Point("BOTTOMRIGHT", 1, -1)
 					_G["EquipmentFlyoutFrameButton"..i.."IconTexture"]:SetTexCoord(.08, .92, .08, .92)
 					bu.reskinned = true
 				end
 			end
-		end)
+		end
+		EquipmentFlyoutFrameButtons:HookScript("OnShow", SkinItemFlyouts)
+		hooksecurefunc("EquipmentFlyout_Show", SkinItemFlyouts)
 	else
 		select(9, CharacterMainHandSlot:GetRegions()):Hide()
 		select(9, CharacterRangedSlot:GetRegions()):Hide()
-		PaperDollFrameItemFlyoutButtons:HookScript("OnShow", function(self)
+		local function SkinItemFlyouts()
 			for i = 1, PDFITEMFLYOUT_MAXITEMS do
 				local bu = _G["PaperDollFrameItemFlyoutButtons"..i]
 				if bu and not bu.reskinned then
 					bu:SetNormalTexture("")
-					bu:SetPushedTexture("")
-					R.CreateBG(bu)
+					bu:StyleButton()
+					bu:GetHighlightTexture():Point("TOPLEFT", -1, 1)
+					bu:GetHighlightTexture():Point("BOTTOMRIGHT", 1, -1)
+					bu:GetPushedTexture():Point("TOPLEFT", -1, 1)
+					bu:GetPushedTexture():Point("BOTTOMRIGHT", 1, -1)
 					_G["PaperDollFrameItemFlyoutButtons"..i.."IconTexture"]:SetTexCoord(.08, .92, .08, .92)
 					bu.reskinned = true
 				end
 			end
-		end)
+		end
+		PaperDollFrameItemFlyoutButtons:HookScript("OnShow", SkinItemFlyouts)
+		hooksecurefunc("PaperDollItemSlotButton_UpdateFlyout", SkinItemFlyouts)
 	end
 
 	hooksecurefunc("PaperDollItemSlotButton_Update", function()
-		for i = 1, #slots do
-			local ic = _G["Character"..slots[i].."SlotIconTexture"]
+		-- for i = 1, #slots do
+			-- local ic = _G["Character"..slots[i].."SlotIconTexture"]
 
-			if not GetInventoryItemLink("player", i) then
-				ic:SetTexture(nil)
+			-- if not GetInventoryItemLink("player", i) then
+				-- ic:SetTexture(nil)
+			-- end
+		-- end
+	end)
+	
+	local function ColorItemBorder()
+		for i = 1, #slots do
+			-- Colour the equipment slots by rarity
+			local target = _G["Character"..slots[i].."Slot"]
+			local slotId, _, _ = GetInventorySlotInfo(slots[i].."Slot")
+			local itemId = GetInventoryItemID("player", slotId)
+			
+			local glow = target.glow
+			if(not glow) then
+				target.glow = glow
+				glow = CreateFrame("Frame", nil, target)
+				glow:Point("TOPLEFT", -1, 1)
+				glow:Point("BOTTOMRIGHT", 1, -1)
+				glow:CreateBorder()
+				target.glow = glow
+			end
+
+			if itemId then
+				local _, _, rarity, _, _, _, _, _, _, _, _ = GetItemInfo(itemId)
+				if rarity and rarity > 1 then
+					glow:SetBackdropBorderColor(GetItemQualityColor(rarity))
+				else
+					glow:SetBackdropBorderColor(0, 0, 0, 0)
+				end
+			else
+				glow:SetBackdropBorderColor(0, 0, 0, 0)
 			end
 		end
-	end)
+	end
+
+	local CheckItemBorderColor = CreateFrame("Frame")
+	CheckItemBorderColor:RegisterEvent("PLAYER_EQUIPMENT_CHANGED")
+	CheckItemBorderColor:SetScript("OnEvent", ColorItemBorder)	
+	CharacterFrame:HookScript("OnShow", ColorItemBorder)
+	ColorItemBorder()
 
 	for i = 1, #PAPERDOLL_SIDEBARS do
 		local tab = _G["PaperDollSidebarTab"..i]
