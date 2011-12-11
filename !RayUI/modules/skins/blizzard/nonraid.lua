@@ -1,14 +1,15 @@
 local R, C, L, DB = unpack(select(2, ...))
+local AddOnName = ...
 
 local function LoadSkin()
 	if not R.HoT then
 		R.Reskin(RaidFrameNotInRaidRaidBrowserButton)
 	end
-	R.Reskin(RaidInfoCloseButton)
 	R.Reskin(RaidFrameRaidInfoButton)
 	R.Reskin(RaidFrameConvertToRaidButton)
 	R.Reskin(RaidInfoExtendButton)
 	R.Reskin(RaidInfoCancelButton)
+	R.ReskinClose(RaidInfoCloseButton)
 	R.ReskinScroll(RaidInfoScrollFrameScrollBar)
 	RaidFrameConvertToRaidButton:ClearAllPoints()
 	RaidFrameConvertToRaidButton:SetPoint("TOPLEFT", RaidFrame, "TOPLEFT", 38, -35)	
@@ -26,4 +27,4 @@ local function LoadSkin()
 	end
 end
 
-R.SkinFuncs["Blizzard_RaidUI"] = LoadSkin
+tinsert(R.SkinFuncs[AddOnName], LoadSkin)

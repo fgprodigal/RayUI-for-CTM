@@ -72,40 +72,11 @@ local ReanchorButtons = function()
 		for i = GetContainerNumSlots(f-1), 1, -1  do
 			bu = _G[con.."Item"..i]
 			if not bu.reskinned then
-				if bu.SetHighlightTexture and not bu.hover then
-					local hover = bu:CreateTexture(nil, "OVERLAY")
-					hover:SetTexture(1, 1, 1, 0.3)
-					hover:Point('TOPLEFT', 0, -0)
-					hover:Point('BOTTOMRIGHT', -0, 0)
-					bu.hover = hover
-					bu:SetHighlightTexture(hover)
-				end
-				
-				if bu.SetPushedTexture and not bu.pushed then
-					local pushed = bu:CreateTexture(nil, "OVERLAY")
-					pushed:SetTexture(0.9, 0.8, 0.1, 0.3)
-					pushed:Point('TOPLEFT', 0, -0)
-					pushed:Point('BOTTOMRIGHT', -0, 0)
-					bu.pushed = pushed
-					bu:SetPushedTexture(pushed)
-				end
-				
-				if bu.SetCheckedTexture and not bu.checked then
-					local checked = bu:CreateTexture(nil, "OVERLAY")
-					checked:SetTexture(23/255,132/255,209/255,0.5)
-					checked:Point('TOPLEFT', 0, -0)
-					checked:Point('BOTTOMRIGHT', -0, 0)
-					bu.checked = checked
-					bu:SetCheckedTexture(checked)
-				end
-				
-				local cooldown = _G[bu:GetName().."Cooldown"]
-				if cooldown then
-					cooldown:ClearAllPoints()
-					cooldown:Point('TOPLEFT', 0, -0)
-					cooldown:Point('BOTTOMRIGHT', -0, 0)
-				end
-				
+				bu:StyleButton()
+				bu:GetHighlightTexture():Point("TOPLEFT", -1, 1)
+				bu:GetHighlightTexture():Point("BOTTOMRIGHT", 1, -1)
+				bu:GetPushedTexture():Point("TOPLEFT", -1, 1)
+				bu:GetPushedTexture():Point("BOTTOMRIGHT", 1, -1)
 				if not bu.border then
 					local border = CreateFrame("Frame", nil, bu)
 					border:Point("TOPLEFT", -1, 1)
@@ -152,40 +123,11 @@ local ReanchorBankButtons = function()
 	for i = 1, 28 do
 		bu = _G["BankFrameItem"..i]
 		if not bu.reskinned then
-			if bu.SetHighlightTexture and not bu.hover then
-				local hover = bu:CreateTexture(nil, "OVERLAY")
-				hover:SetTexture(1, 1, 1, 0.3)
-				hover:Point('TOPLEFT', 0, -0)
-				hover:Point('BOTTOMRIGHT', -0, 0)
-				bu.hover = hover
-				bu:SetHighlightTexture(hover)
-			end
-			
-			if bu.SetPushedTexture and not bu.pushed then
-				local pushed = bu:CreateTexture(nil, "OVERLAY")
-				pushed:SetTexture(0.9, 0.8, 0.1, 0.3)
-				pushed:Point('TOPLEFT', 0, -0)
-				pushed:Point('BOTTOMRIGHT', -0, 0)
-				bu.pushed = pushed
-				bu:SetPushedTexture(pushed)
-			end
-			
-			if bu.SetCheckedTexture and not bu.checked then
-				local checked = bu:CreateTexture(nil, "OVERLAY")
-				checked:SetTexture(23/255,132/255,209/255,0.5)
-				checked:Point('TOPLEFT', 0, -0)
-				checked:Point('BOTTOMRIGHT', -0, 0)
-				bu.checked = checked
-				bu:SetCheckedTexture(checked)
-			end
-			
-			local cooldown = _G[bu:GetName().."Cooldown"]
-			if cooldown then
-				cooldown:ClearAllPoints()
-				cooldown:Point('TOPLEFT', 0, -0)
-				cooldown:Point('BOTTOMRIGHT', -0, 0)
-			end
-			
+			bu:StyleButton()
+			bu:GetHighlightTexture():Point("TOPLEFT", -1, 1)
+			bu:GetHighlightTexture():Point("BOTTOMRIGHT", 1, -1)
+			bu:GetPushedTexture():Point("TOPLEFT", -1, 1)
+			bu:GetPushedTexture():Point("BOTTOMRIGHT", 1, -1)
 			if not bu.border then
 				local border = CreateFrame("Frame", nil, bu)
 				border:Point("TOPLEFT", -1, 1)
@@ -237,8 +179,21 @@ local ReanchorBankButtons = function()
 		for i = GetContainerNumSlots(f-1), 1, -1  do
 			bu = _G[con.."Item"..i]
 			if not bu.reskinned then
+				bu:StyleButton()
+				bu:GetHighlightTexture():Point("TOPLEFT", -1, 1)
+				bu:GetHighlightTexture():Point("BOTTOMRIGHT", 1, -1)
+				bu:GetPushedTexture():Point("TOPLEFT", -1, 1)
+				bu:GetPushedTexture():Point("BOTTOMRIGHT", 1, -1)
+				if not bu.border then
+					local border = CreateFrame("Frame", nil, bu)
+					border:Point("TOPLEFT", -1, 1)
+					border:Point("BOTTOMRIGHT", 1, -1)
+					border:SetFrameStrata("BACKGROUND")
+					border:SetFrameLevel(0)
+					bu.border = border
+					bu.border:CreateBorder()
+				end
 				bu:SetNormalTexture("")
-				bu:SetPushedTexture("")
 				bu:SetFrameStrata("HIGH")
 				_G[con.."Item"..i.."Count"]:SetFont(C.media.font, C.media.fontsize, C.media.fontflag)
 				_G[con.."Item"..i.."Count"]:ClearAllPoints()

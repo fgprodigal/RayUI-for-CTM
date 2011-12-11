@@ -262,7 +262,7 @@ local function LoadSkin()
 	R.Reskin(BrowseDropDownButton)
 
 	local downtex = BrowseDropDownButton:CreateTexture(nil, "OVERLAY")
-	downtex:SetTexture("Interface\\AddOns\\FreeUI\\media\\arrow-down-active")
+	downtex:SetTexture("Interface\\AddOns\\!RayUI\\media\\arrow-down-active")
 	downtex:SetSize(8, 8)
 	downtex:SetPoint("CENTER")
 	downtex:SetVertexColor(1, 1, 1)

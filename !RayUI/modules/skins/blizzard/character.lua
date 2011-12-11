@@ -150,7 +150,6 @@ local function LoadSkin()
 		slot.backgroundTextureName = ""
 		slot.checkRelic = nil
 		slot:SetNormalTexture("")
-		slot:StripTextures()
 		slot:StyleButton()
 		slot:GetHighlightTexture():Point("TOPLEFT", -1, 1)
 		slot:GetHighlightTexture():Point("BOTTOMRIGHT", 1, -1)
@@ -159,9 +158,11 @@ local function LoadSkin()
 		ic:SetTexCoord(.08, .92, .08, .92)
 	end
 
+	select(8, CharacterMainHandSlot:GetRegions()):Kill()
+	select(8, CharacterRangedSlot:GetRegions()):Kill()
 	if R.HoT then
-		select(10, CharacterMainHandSlot:GetRegions()):Hide()
-		select(10, CharacterRangedSlot:GetRegions()):Hide()
+		select(10, CharacterMainHandSlot:GetRegions()):Kill()
+		select(10, CharacterRangedSlot:GetRegions()):Kill()
 		local function SkinItemFlyouts()
 			for i = 1, 10 do
 				local bu = _G["EquipmentFlyoutFrameButton"..i]
@@ -180,8 +181,8 @@ local function LoadSkin()
 		EquipmentFlyoutFrameButtons:HookScript("OnShow", SkinItemFlyouts)
 		hooksecurefunc("EquipmentFlyout_Show", SkinItemFlyouts)
 	else
-		select(9, CharacterMainHandSlot:GetRegions()):Hide()
-		select(9, CharacterRangedSlot:GetRegions()):Hide()
+		select(9, CharacterMainHandSlot:GetRegions()):Kill()
+		select(9, CharacterRangedSlot:GetRegions()):Kill()
 		local function SkinItemFlyouts()
 			for i = 1, PDFITEMFLYOUT_MAXITEMS do
 				local bu = _G["PaperDollFrameItemFlyoutButtons"..i]

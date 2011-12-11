@@ -636,8 +636,8 @@ local function Shared(self, unit)
 		end
 		if unit == "pet" then
 			--Dummy Cast Bar, so we don't see an extra castbar while in vehicle
-			local castbar = CreateFrame("StatusBar", nil, self)
-			self.Castbar = castbar
+		--	local castbar = CreateFrame("StatusBar", nil, self)
+		--	self.Castbar = castbar
 		end
 	end
 	

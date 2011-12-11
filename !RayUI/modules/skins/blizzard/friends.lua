@@ -23,6 +23,7 @@ local function LoadSkin()
 	R.ReskinInput(ChannelFrameDaughterFrameChannelName)
 	R.ReskinInput(ChannelFrameDaughterFrameChannelPassword)
 	R.ReskinClose(ChannelFrameDaughterFrameDetailCloseButton)
+	R.ReskinClose(FriendsFrameCloseButton)
 
 	local buttons = {
 		"WhoFrameAddFriendButton",
@@ -72,9 +73,7 @@ local function LoadSkin()
 		}
 		for i = 1, #borderlayers do
 			_G[borderlayers[i]]:DisableDrawLayer("BORDER")
-		end		
-	else
-		R.ReskinClose(FriendsFrameCloseButton)
+		end
 	end
 	
 	local lightbds = {

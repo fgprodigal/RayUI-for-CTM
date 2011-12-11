@@ -2,6 +2,7 @@ local R, C, L, DB = unpack(select(2, ...))
 
 local function LoadSkin()
 	R.SetBD(VoidStorageFrame, 20, 0, 0, 20)
+	VoidStorageBorderFrame:DisableDrawLayer("BACKGROUND")
 	VoidStorageBorderFrame:DisableDrawLayer("BORDER")
 	VoidStorageDepositFrame:DisableDrawLayer("BACKGROUND")
 	VoidStorageDepositFrame:DisableDrawLayer("BORDER")
@@ -37,17 +38,39 @@ local function LoadSkin()
 		_G["VoidStorageDepositButton"..i.."IconTexture"]:SetTexCoord(.08, .92, .08, .92)
 		_G["VoidStorageWithdrawButton"..i.."IconTexture"]:SetTexCoord(.08, .92, .08, .92)
 
-		local bg1 = CreateFrame("Frame", nil, bu1)
-		bg1:SetPoint("TOPLEFT", -1, 1)
-		bg1:SetPoint("BOTTOMRIGHT", 1, -1)
-		bg1:SetFrameLevel(bu1:GetFrameLevel()-1)
-		R.CreateBD(bg1, .25)
+		bu1:StyleButton()
+		bu1:GetHighlightTexture():Point("TOPLEFT", -1, 1)
+		bu1:GetHighlightTexture():Point("BOTTOMRIGHT", 1, -1)
+		bu1:GetPushedTexture():Point("TOPLEFT", -1, 1)
+		bu1:GetPushedTexture():Point("BOTTOMRIGHT", 1, -1)
+		if not bu1.border then
+			local border = CreateFrame("Frame", nil, bu1)
+			border:Point("TOPLEFT", -1, 1)
+			border:Point("BOTTOMRIGHT", 1, -1)
+			border:SetFrameStrata("BACKGROUND")
+			border:SetFrameLevel(0)
+			bu1.border = border
+			bu1.border:CreateBorder()
+		end
+		bu1:SetNormalTexture("")
+		bu1:SetFrameStrata("HIGH")
 
-		local bg2 = CreateFrame("Frame", nil, bu2)
-		bg2:SetPoint("TOPLEFT", -1, 1)
-		bg2:SetPoint("BOTTOMRIGHT", 1, -1)
-		bg2:SetFrameLevel(bu2:GetFrameLevel()-1)
-		R.CreateBD(bg2, .25)
+		bu2:StyleButton()
+		bu2:GetHighlightTexture():Point("TOPLEFT", -1, 1)
+		bu2:GetHighlightTexture():Point("BOTTOMRIGHT", 1, -1)
+		bu2:GetPushedTexture():Point("TOPLEFT", -1, 1)
+		bu2:GetPushedTexture():Point("BOTTOMRIGHT", 1, -1)
+		if not bu2.border then
+			local border = CreateFrame("Frame", nil, bu2)
+			border:Point("TOPLEFT", -1, 1)
+			border:Point("BOTTOMRIGHT", 1, -1)
+			border:SetFrameStrata("BACKGROUND")
+			border:SetFrameLevel(0)
+			bu2.border = border
+			bu2.border:CreateBorder()
+		end
+		bu2:SetNormalTexture("")
+		bu2:SetFrameStrata("HIGH")
 	end
 
 	for i = 1, 80 do
@@ -55,12 +78,23 @@ local function LoadSkin()
 
 		_G["VoidStorageStorageButton"..i.."Bg"]:Hide()
 		_G["VoidStorageStorageButton"..i.."IconTexture"]:SetTexCoord(.08, .92, .08, .92)
-
-		local bg = CreateFrame("Frame", nil, bu)
-		bg:SetPoint("TOPLEFT", -1, 1)
-		bg:SetPoint("BOTTOMRIGHT", 1, -1)
-		bg:SetFrameLevel(bu:GetFrameLevel()-1)
-		R.CreateBD(bg, .25)
+		
+		bu:StyleButton()
+		bu:GetHighlightTexture():Point("TOPLEFT", -1, 1)
+		bu:GetHighlightTexture():Point("BOTTOMRIGHT", 1, -1)
+		bu:GetPushedTexture():Point("TOPLEFT", -1, 1)
+		bu:GetPushedTexture():Point("BOTTOMRIGHT", 1, -1)
+		if not bu.border then
+			local border = CreateFrame("Frame", nil, bu)
+			border:Point("TOPLEFT", -1, 1)
+			border:Point("BOTTOMRIGHT", 1, -1)
+			border:SetFrameStrata("BACKGROUND")
+			border:SetFrameLevel(0)
+			bu.border = border
+			bu.border:CreateBorder()
+		end
+		bu:SetNormalTexture("")
+		bu:SetFrameStrata("HIGH")
 	end
 
 	R.Reskin(VoidStoragePurchaseButton)

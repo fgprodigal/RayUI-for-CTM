@@ -72,7 +72,6 @@ local function LoadSkin()
 		slot.backgroundTextureName = ""
 		slot.checkRelic = nil
 		slot:SetNormalTexture("")
-		slot:StripTextures()
 		slot:StyleButton()
 		slot:GetHighlightTexture():Point("TOPLEFT", -1, 1)
 		slot:GetHighlightTexture():Point("BOTTOMRIGHT", 1, -1)
@@ -80,12 +79,14 @@ local function LoadSkin()
 		slot:GetPushedTexture():Point("BOTTOMRIGHT", 1, -1)
 		_G["Inspect"..slots[i].."SlotIconTexture"]:SetTexCoord(.08, .92, .08, .92)
 	end
+	select(7, InspectMainHandSlot:GetRegions()):Kill()
+	select(7, InspectRangedSlot:GetRegions()):Kill()
 	if R.HoT then
-		select(9, InspectMainHandSlot:GetRegions()):Hide()
-		select(9, InspectRangedSlot:GetRegions()):Hide()
+		select(9, InspectMainHandSlot:GetRegions()):Kill()
+		select(9, InspectRangedSlot:GetRegions()):Kill()
 	else
-		select(8, InspectMainHandSlot:GetRegions()):Hide()
-		select(8, InspectRangedSlot:GetRegions()):Hide()
+		select(8, InspectMainHandSlot:GetRegions()):Kill()
+		select(8, InspectRangedSlot:GetRegions()):Kill()
 	end
 
 	R.ReskinClose(InspectFrameCloseButton)

@@ -450,6 +450,10 @@ ns.watchers ={
 			{ spellID = 60062, unitId = "player", caster = "player", filter = "BUFF" },
 			-- Divine Illumination / Göttliche Gunst
 			{ spellID = 31842, unitId = "player", caster = "player", filter = "BUFF" },
+			-- 異端審問
+			{ spellID = 84963, unitId = "player", caster = "player", filter = "BUFF" },
+			-- 狂熱精神
+			{ spellID = 85696, unitId = "player", caster = "player", filter = "BUFF" },
 
 		},
 		{
@@ -731,6 +735,8 @@ ns.watchers ={
 			{ spellID = 3409, unitId = "target", caster = "player", filter = "DEBUFF" },
 			-- Wound Poison / Wundgift
 			{ spellID = 13218, unitId = "target", caster = "player", filter = "DEBUFF" },
+			-- 出血
+			{ spellID = 16511, unitId = "target", caster = "player", filter = "DEBUFF" },
 
 		},
 		{
