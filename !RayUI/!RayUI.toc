@@ -15,8 +15,8 @@ functions\configui.lua
 media\sharedmedia.lua
 
 functions\api.lua
-modules\skins\skins.xml
 functions\functions.lua
+modules\skins\skins.xml
 functions\movers.lua
 
 layout\layout.xml

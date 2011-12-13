@@ -80,7 +80,7 @@ end
 
 function f:CHAT_MSG_ADDON(prefix, msg, channel, sender)
 	if not (prefix == "RAYUI" and msg) then return end
-	R.debug(sender..": "..msg, channel)
+	-- R.debug(sender..": "..msg, channel)
 	if msg:find("Version:") then
 		local version = msg:match("Version:(%d+)")
 		if version > latestver then

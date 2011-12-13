@@ -87,35 +87,6 @@ local function LoadSkin()
 	TradePlayerInputMoneyFrameCopper:ClearAllPoints()
 	TradePlayerInputMoneyFrameCopper:Point("LEFT", TradePlayerInputMoneyFrameSilver, "RIGHT", 1, 0)
 	
-	-- item glow
-	if not ItemGlowTooltip then
-		local tooltip = CreateFrame("GameTooltip", "ItemGlowTooltip", UIParent, "GameTooltipTemplate")
-		tooltip:SetOwner( UIParent, "ANCHOR_NONE" )
-	end
-
-	local function TooltipCanUse(tooltip)
-		local l = { "TextLeft", "TextRight" }
-		local n = tooltip:NumLines()
-		if n > 5 then n = 5 end
-		for i = 2, n do
-			for _, v in pairs( l ) do
-				local obj = _G[string.format( "%s%s%s", tooltip:GetName( ), v, i )]
-				if obj and obj:IsShown( ) then
-					local txt = obj:GetText( )
-					local r, g, b = obj:GetTextColor( )
-					local c = string.format( "%02x%02x%02x", r * 255, g * 255, b * 255 )
-					if c == "fe1f1f" then
-						if txt ~= ITEM_DISENCHANT_NOT_DISENCHANTABLE then
-							return false
-						end
-					end
-				end
-			end
-		end
-
-		return true
-	end
-
 	local function UpdateGlow(button, id)
 		local quality, texture, link, _
 		local quest = _G[button:GetName().."IconQuestTexture"]
@@ -140,7 +111,7 @@ local function LoadSkin()
 			ItemGlowTooltip:SetHyperlink(link)
 			
 			-- if IsItemUnusable(link) then
-			if not TooltipCanUse(ItemGlowTooltip) and not button:GetName():find("Inspect") then
+			if R.IsItemUnusable(clink) then
 				icontexture:SetVertexColor(RED_FONT_COLOR.r, RED_FONT_COLOR.g, RED_FONT_COLOR.b)
 			else
 				icontexture:SetVertexColor(1, 1, 1)

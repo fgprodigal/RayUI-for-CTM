@@ -9,5 +9,7 @@ ExtraActionBarFrame:SetPoint('CENTER', holder, 'CENTER')
 UIPARENT_MANAGED_FRAME_POSITIONS.ExtraActionBarFrame = nil
 UIPARENT_MANAGED_FRAME_POSITIONS.PlayerPowerBarAlt.extraActionBarFrame = nil
 UIPARENT_MANAGED_FRAME_POSITIONS.CastingBarFrame.extraActionBarFrame = nil
+ExtraActionButton1Cooldown:Point("TOPLEFT", 1, -1)
+ExtraActionButton1Cooldown:Point("BOTTOMRIGHT", -1, 1)
 
 R.CreateMover(holder, 'BossButton', 'BossButton', true)

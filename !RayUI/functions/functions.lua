@@ -89,6 +89,52 @@ function R.TableIsEmpty(t)
 	end
 end
 
+local Unusable
+
+if R.myclass == 'DEATHKNIGHT' then
+	Unusable = {{3, 4, 10, 11, 13, 14, 15, 16}, {6}}
+elseif R.myclass == 'DRUID' then
+	Unusable = {{1, 2, 3, 4, 8, 9, 14, 15, 16}, {4, 5, 6}, true}
+elseif R.myclass == 'HUNTER' then
+	Unusable = {{5, 6, 16}, {5, 6, 7}}
+elseif R.myclass == 'MAGE' then
+	Unusable = {{1, 2, 3, 4, 5, 6, 7, 9, 11, 14, 15}, {3, 4, 5, 6, 7}, true}
+elseif R.myclass == 'PALADIN' then
+	Unusable = {{3, 4, 10, 11, 13, 14, 15, 16}, {}, true}
+elseif R.myclass == 'PRIEST' then
+	Unusable = {{1, 2, 3, 4, 6, 7, 8, 9, 11, 14, 15}, {3, 4, 5, 6, 7}, true}
+elseif R.myclass == 'ROGUE' then
+	Unusable = {{2, 6, 7, 9, 10, 16}, {4, 5, 6, 7}}
+elseif R.myclass == 'SHAMAN' then
+	Unusable = {{3, 4, 7, 8, 9, 14, 15, 16}, {5}}
+elseif R.myclass == 'WARLOCK' then
+	Unusable = {{1, 2, 3, 4, 5, 6, 7, 9, 11, 14, 15}, {3, 4, 5, 6, 7}, true}
+elseif R.myclass == 'WARRIOR' then
+	Unusable = {{16}, {7}}
+end
+
+for class = 1, 2 do
+	local subs = {GetAuctionItemSubClasses(class)}
+	for i, subclass in ipairs(Unusable[class]) do
+		Unusable[subs[subclass]] = true
+	end
+	Unusable[class] = nil
+	subs = nil
+end
+
+function R.IsClassUnusable(subclass, slot)
+	if subclass then
+		return Unusable[subclass] or slot == 'INVTYPE_WEAPONOFFHAND' and Unusable[3]
+	end
+end
+
+function R.IsItemUnusable(...)
+	if ... then
+		local subclass, _, slot = select(7, GetItemInfo(...))
+		return R.IsClassUnusable(subclass, slot)
+	end
+end
+
 local SetUIScale = CreateFrame("Frame")
 SetUIScale:RegisterEvent("PLAYER_ENTERING_WORLD")
 SetUIScale:SetScript("OnEvent", function(self, event)

@@ -13,8 +13,9 @@ local BAGS_BANK = {-1, 5, 6, 7, 8, 9, 10, 11}
 local trashParent = CreateFrame("Frame", nil, UIParent)
 local trashButton, trashBag = {}, {}
 
-Bag.buttons = {};
-Bag.bags = {};
+Bag.buttons = {}
+Bag.bags = {}
+Bag.CanUse = {}
 
 local function ResetAndClear(self)
 	if not self then return end
@@ -25,34 +26,6 @@ local function ResetAndClear(self)
 		
 	self:ClearFocus()
 	Bag:SearchReset()
-end
-
-if not ItemGlowTooltip then
-	local tooltip = CreateFrame("GameTooltip", "ItemGlowTooltip", UIParent, "GameTooltipTemplate")
-	tooltip:SetOwner( UIParent, "ANCHOR_NONE" )
-end
-
-local function TooltipCanUse(tooltip)
-	local l = { "TextLeft", "TextRight" }
-	local n = tooltip:NumLines()
-	if n > 5 then n = 5 end
-	for i = 2, n do
-		for _, v in pairs( l ) do
-			local obj = _G[string.format( "%s%s%s", tooltip:GetName( ), v, i )]
-			if obj and obj:IsShown( ) then
-				local txt = obj:GetText( )
-				local r, g, b = obj:GetTextColor( )
-				local c = string.format( "%02x%02x%02x", r * 255, g * 255, b * 255 )
-				if c == "fe1f1f" then
-					if txt ~= ITEM_DISENCHANT_NOT_DISENCHANTABLE and txt ~= ITEM_PROSPECTABLE and txt ~= ITEM_MILLABLE then
-						return false
-					end
-				end
-			end
-		end
-	end
-
-	return true
 end
 
 --This one isn't for the actual bag buttons its for the buttons you can use to swap bags.
@@ -189,10 +162,8 @@ function Bag:SlotUpdate(b)
 	if(clink) then
 		local iType
 		b.name, _, b.rarity, _, _, iType = GetItemInfo(clink)
-		ItemGlowTooltip:ClearLines()
-		ItemGlowTooltip:SetHyperlink(clink)
 		
-		if not TooltipCanUse(ItemGlowTooltip) then
+		if R.IsItemUnusable(clink) then
 			_G[b.frame:GetName().."IconTexture"]:SetVertexColor(RED_FONT_COLOR.r, RED_FONT_COLOR.g, RED_FONT_COLOR.b)
 		else
 			_G[b.frame:GetName().."IconTexture"]:SetVertexColor(1, 1, 1)
@@ -1222,8 +1193,8 @@ Bag:RegisterEvent("BANKFRAME_OPENED")
 Bag:RegisterEvent("BANKFRAME_CLOSED")
 Bag:RegisterEvent("PLAYERBANKSLOTS_CHANGED")
 Bag:RegisterEvent("BAG_CLOSED")	
-Bag:RegisterEvent('BAG_UPDATE_COOLDOWN')
-Bag:RegisterEvent('GUILDBANKBAGSLOTS_CHANGED')
+Bag:RegisterEvent("BAG_UPDATE_COOLDOWN")
+Bag:RegisterEvent("GUILDBANKBAGSLOTS_CHANGED")
 Bag:SetScript("OnEvent", function(self, event, ...)
 	if type(self[event]) == "function" then
 		self[event](self, event, ...)
