@@ -106,7 +106,7 @@ function addon:SPELL_UPDATE_COOLDOWN()
 		elseif starttime ~= 0 then
 			local timeleft = starttime + duration - now
 		
-			if enabled == 1 and timeleft > 1.5 then
+			if enabled == 1 and timeleft > 3 then
 				if not watched[id] or watched[id].start ~= starttime then
 					start(id, starttime, timeleft, "spell")
 				end
