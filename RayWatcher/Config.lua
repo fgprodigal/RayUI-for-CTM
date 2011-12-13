@@ -418,7 +418,8 @@ ns.watchers ={
 			
 			-- Beacon of Light / Flamme des Glaubens
 			{ spellID = 53563, unitId = "player", caster = "player", filter = "BUFF" },
-
+			-- 純潔審判
+			{ spellID = 53657, unitId = "player", caster = "player", filter = "BUFF" },
 		},
 		{
 			name = "目标buff",
@@ -428,7 +429,6 @@ ns.watchers ={
 			
 			-- Beacon of Light / Flamme des Glaubens
 			{ spellID = 53563, unitId = "target", caster = "player", filter = "BUFF" },
-
 		},
 		{
 			name = "玩家重要buff",
@@ -454,7 +454,10 @@ ns.watchers ={
 			{ spellID = 84963, unitId = "player", caster = "player", filter = "BUFF" },
 			-- 狂熱精神
 			{ spellID = 85696, unitId = "player", caster = "player", filter = "BUFF" },
-
+			-- 破曉之光
+			{ spellID = 88819, unitId = "player", caster = "player", filter = "BUFF" },
+			-- 聖光灌注
+			{ spellID = 54149, unitId = "player", caster = "player", filter = "BUFF" },
 		},
 		{
 			name = "目标debuff",
