@@ -2,6 +2,8 @@ local R, C, L, DB = unpack(select(2, ...))
 
 local function LoadSkin()
 	R.SetBD(VoidStorageFrame, 20, 0, 0, 20)
+	VoidStorageBorderFrame:SetFrameStrata("HIGH")
+	VoidStorageBorderFrame:SetFrameLevel(10)
 	VoidStorageBorderFrame:DisableDrawLayer("BACKGROUND")
 	VoidStorageBorderFrame:DisableDrawLayer("BORDER")
 	VoidStorageDepositFrame:DisableDrawLayer("BACKGROUND")
