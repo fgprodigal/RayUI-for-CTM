@@ -12,9 +12,7 @@ local function LoadSkin()
 		LootFrame.bg:SetPoint("BOTTOMRIGHT", LootFrame, "BOTTOMRIGHT", -66, 12)
 
 		R.CreateBD(LootFrame.bg)
-		if R.HoT then
-			R.CreateBD(MissingLootFrame)
-		end
+		R.CreateBD(MissingLootFrame)
 
 		select(3, LootFrame:GetRegions()):SetPoint("TOP", LootFrame.bg, "TOP", 0, -8)
 

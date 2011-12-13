@@ -14,6 +14,44 @@ local function CheckSlots()
 	return 1
 end
 
+local function StyleButton(button)
+	if not button.reskinned then
+		button:StyleButton()
+		button:GetHighlightTexture():Point("TOPLEFT", -1, 1)
+		button:GetHighlightTexture():Point("BOTTOMRIGHT", 1, -1)
+		button:GetPushedTexture():Point("TOPLEFT", -1, 1)
+		button:GetPushedTexture():Point("BOTTOMRIGHT", 1, -1)
+		local cooldown = _G[button:GetName().."Cooldown"]
+		if cooldown then
+			cooldown:Point('TOPLEFT', -1, 1)
+			cooldown:Point('BOTTOMRIGHT', 1, -1)
+		end
+		if not button.border then
+			local border = CreateFrame("Frame", nil, button)
+			border:Point("TOPLEFT", -1, 1)
+			border:Point("BOTTOMRIGHT", 1, -1)
+			border:SetFrameStrata("BACKGROUND")
+			border:SetFrameLevel(0)
+			button.border = border
+			button.border:CreateBorder()
+		end
+		button:SetNormalTexture("")
+		button:SetFrameStrata("HIGH")
+		if _G[button:GetName().."Count"] then
+			_G[button:GetName().."Count"]:SetFont(C.media.font, C.media.fontsize, C.media.fontflag)
+			_G[button:GetName().."Count"]:ClearAllPoints()
+			_G[button:GetName().."Count"]:SetPoint("BOTTOMRIGHT", button, 0, 0)
+		end
+		if _G[button:GetName().."IconTexture"] then
+			_G[button:GetName().."IconTexture"]:SetTexCoord(.08, .92, .08, .92)
+		end
+		if _G[button:GetName().."IconQuestTexture"] then
+			_G[button:GetName().."IconQuestTexture"]:SetAlpha(0)
+		end
+		button.reskinned = true
+	end
+end
+
 -- [[ Local stuff ]]
 
 local Spacing = 4
@@ -71,30 +109,7 @@ local ReanchorButtons = function()
 
 		for i = GetContainerNumSlots(f-1), 1, -1  do
 			bu = _G[con.."Item"..i]
-			if not bu.reskinned then
-				bu:StyleButton()
-				bu:GetHighlightTexture():Point("TOPLEFT", -1, 1)
-				bu:GetHighlightTexture():Point("BOTTOMRIGHT", 1, -1)
-				bu:GetPushedTexture():Point("TOPLEFT", -1, 1)
-				bu:GetPushedTexture():Point("BOTTOMRIGHT", 1, -1)
-				if not bu.border then
-					local border = CreateFrame("Frame", nil, bu)
-					border:Point("TOPLEFT", -1, 1)
-					border:Point("BOTTOMRIGHT", 1, -1)
-					border:SetFrameStrata("BACKGROUND")
-					border:SetFrameLevel(0)
-					bu.border = border
-					bu.border:CreateBorder()
-				end
-				bu:SetNormalTexture("")
-				bu:SetFrameStrata("HIGH")
-				_G[con.."Item"..i.."Count"]:SetFont(C.media.font, C.media.fontsize, C.media.fontflag)
-				_G[con.."Item"..i.."Count"]:ClearAllPoints()
-				_G[con.."Item"..i.."Count"]:SetPoint("BOTTOMRIGHT", bu, 0, 0)
-				_G[con.."Item"..i.."IconTexture"]:SetTexCoord(.08, .92, .08, .92)
-				_G[con.."Item"..i.."IconQuestTexture"]:SetAlpha(0)
-				bu.reskinned = true
-			end
+			StyleButton(bu)
 			tinsert(buttons, bu)
 		end
 		
@@ -122,30 +137,7 @@ local ReanchorBankButtons = function()
 	table.wipe(bankbuttons)
 	for i = 1, 28 do
 		bu = _G["BankFrameItem"..i]
-		if not bu.reskinned then
-			bu:StyleButton()
-			bu:GetHighlightTexture():Point("TOPLEFT", -1, 1)
-			bu:GetHighlightTexture():Point("BOTTOMRIGHT", 1, -1)
-			bu:GetPushedTexture():Point("TOPLEFT", -1, 1)
-			bu:GetPushedTexture():Point("BOTTOMRIGHT", 1, -1)
-			if not bu.border then
-				local border = CreateFrame("Frame", nil, bu)
-				border:Point("TOPLEFT", -1, 1)
-				border:Point("BOTTOMRIGHT", 1, -1)
-				border:SetFrameStrata("BACKGROUND")
-				border:SetFrameLevel(0)
-				bu.border = border
-				bu.border:CreateBorder()
-			end
-			bu:SetNormalTexture("")
-			bu:SetFrameStrata("HIGH")
-			_G["BankFrameItem"..i.."IconTexture"]:SetTexCoord(.08, .92, .08, .92)
-			_G["BankFrameItem"..i.."Count"]:SetFont(C.media.font, C.media.fontsize, C.media.fontflag)
-			_G["BankFrameItem"..i.."Count"]:ClearAllPoints()
-			_G["BankFrameItem"..i.."Count"]:SetPoint("BOTTOMRIGHT", bu, 0, 0)
-			_G["BankFrameItem"..i.."IconQuestTexture"]:SetAlpha(0)
-			bu.reskinned = true
-		end
+		StyleButton(bu)
 		tinsert(bankbuttons, bu)
 	end
 
@@ -178,30 +170,7 @@ local ReanchorBankButtons = function()
 
 		for i = GetContainerNumSlots(f-1), 1, -1  do
 			bu = _G[con.."Item"..i]
-			if not bu.reskinned then
-				bu:StyleButton()
-				bu:GetHighlightTexture():Point("TOPLEFT", -1, 1)
-				bu:GetHighlightTexture():Point("BOTTOMRIGHT", 1, -1)
-				bu:GetPushedTexture():Point("TOPLEFT", -1, 1)
-				bu:GetPushedTexture():Point("BOTTOMRIGHT", 1, -1)
-				if not bu.border then
-					local border = CreateFrame("Frame", nil, bu)
-					border:Point("TOPLEFT", -1, 1)
-					border:Point("BOTTOMRIGHT", 1, -1)
-					border:SetFrameStrata("BACKGROUND")
-					border:SetFrameLevel(0)
-					bu.border = border
-					bu.border:CreateBorder()
-				end
-				bu:SetNormalTexture("")
-				bu:SetFrameStrata("HIGH")
-				_G[con.."Item"..i.."Count"]:SetFont(C.media.font, C.media.fontsize, C.media.fontflag)
-				_G[con.."Item"..i.."Count"]:ClearAllPoints()
-				_G[con.."Item"..i.."Count"]:SetPoint("BOTTOMRIGHT", bu, 0, 0)
-				_G[con.."Item"..i.."IconTexture"]:SetTexCoord(.08, .92, .08, .92)
-				_G[con.."Item"..i.."IconQuestTexture"]:SetAlpha(0)
-				bu.reskinned = true
-			end
+			StyleButton(bu)
 			tinsert(bankbuttons, bu)
 		end
 		
@@ -415,10 +384,13 @@ hooksecurefunc(BankFrame, "Show", function()
 end)
 hooksecurefunc(BankFrame, "Hide", CloseBags)
 
+ToggleBag = ToggleBags
+ToggleAllBags = ToggleBags
 ToggleBackpack = ToggleBags
 OpenAllBags = OpenBags
 OpenBackpack = OpenBags
 CloseAllBags = CloseBags
+CloseBackpack = CloseBags
 
 -- [[ Currency ]]
 
@@ -439,152 +411,66 @@ end
 
 -- [[ Search ]]
 
-if R.HoT then
-	BankItemSearchBox:Hide()
-	BankItemSearchBox.Show = R.dummy
+BankItemSearchBox:Hide()
+BankItemSearchBox.Show = R.dummy
 
-	BagItemSearchBoxLeft:Hide()
-	BagItemSearchBoxMiddle:Hide()
-	BagItemSearchBoxRight:Hide()
+BagItemSearchBoxLeft:Hide()
+BagItemSearchBoxMiddle:Hide()
+BagItemSearchBoxRight:Hide()
 
-	BagItemSearchBox:SetHeight(18)
-	BagItemSearchBox:ClearAllPoints()
-	BagItemSearchBox:SetPoint("TOPLEFT", holder, "BOTTOMLEFT", 0, 0)
-	BagItemSearchBox:SetPoint("TOPRIGHT", holder, "BOTTOMRIGHT", 0, 0)
-	BagItemSearchBox.SetPoint = R.dummy
-	BagItemSearchBox:SetFont(C.media.font, C.media.fontsize, C.media.fontflag)
-	BagItemSearchBox:SetShadowColor(0, 0, 0, 0)
-	BagItemSearchBox:SetJustifyH("CENTER")
+BagItemSearchBox:SetHeight(18)
+BagItemSearchBox:ClearAllPoints()
+BagItemSearchBox:SetPoint("TOPLEFT", holder, "BOTTOMLEFT", 0, 0)
+BagItemSearchBox:SetPoint("TOPRIGHT", holder, "BOTTOMRIGHT", 0, 0)
+BagItemSearchBox.SetPoint = R.dummy
+BagItemSearchBox:SetFont(C.media.font, C.media.fontsize, C.media.fontflag)
+BagItemSearchBox:SetShadowColor(0, 0, 0, 0)
+BagItemSearchBox:SetJustifyH("CENTER")
+BagItemSearchBox:SetAlpha(0)
+R.CreateBD(BagItemSearchBox, .6)
+
+BagItemSearchBoxSearchIcon:SetPoint("LEFT", BagItemSearchBox, "LEFT", 4, -2)
+
+local HideSearch = function()
 	BagItemSearchBox:SetAlpha(0)
-	R.CreateBD(BagItemSearchBox, .6)
-
-	BagItemSearchBoxSearchIcon:SetPoint("LEFT", BagItemSearchBox, "LEFT", 4, -2)
-
-	local HideSearch = function()
-		BagItemSearchBox:SetAlpha(0)
-	end
-
-	BagItemSearchBox:HookScript("OnEditFocusGained", function(self)
-		self:SetScript("OnLeave", nil)
-		self:SetTextColor(1, 1, 1)
-		BagItemSearchBoxSearchIcon:SetVertexColor(1, 1, 1)
-	end)
-
-	BagItemSearchBox:HookScript("OnEditFocusLost", function(self)
-		self:SetScript("OnLeave", HideSearch)
-		self.clearButton:Click()
-		HideSearch()
-		self:SetText(SEARCH)
-		self:SetTextColor(.5, .5, .5)
-		BagItemSearchBoxSearchIcon:SetVertexColor(.6, .6, .6)
-	end)
-
-	BagItemSearchBox:HookScript("OnEnter", function(self)
-		self:SetAlpha(1)
-	end)
-	BagItemSearchBox:HookScript("OnLeave", HideSearch)
-
-	hooksecurefunc("ContainerFrame_UpdateSearchResults", function(frame)
-		local id = frame:GetID();
-		local name = frame:GetName().."Item";
-		local itemButton;
-		local _, isFiltered;
-
-		for i=1, frame.size, 1 do
-			itemButton = _G[name..i];
-			_, _, _, _, _, _, _, isFiltered = GetContainerItemInfo(id, itemButton:GetID());	
-			if ( isFiltered ) then
-				itemButton.glow:SetAlpha(0);
-			else
-				itemButton.glow:SetAlpha(1);
-			end
-		end
-	end)
-else
-	editbox = CreateFrame("EditBox", nil, holder)
-	editbox:SetHeight(13)
-	editbox:SetPoint("TOPLEFT", holder, "BOTTOMLEFT", 0, -5)
-	editbox:SetPoint("TOPRIGHT", holder, "BOTTOMRIGHT", 0, -5)
-	editbox:SetAutoFocus(false)
-	editbox:SetFont(C.media.font, C.media.fontsize, C.media.fontflag)
-	editbox:SetText(L["点击查找..."])
-	editbox:SetJustifyH("CENTER")
-	R.CreateBD(editbox, .6)
-	R.CreateSD(editbox)
-	editbox:SetAlpha(0)
-
-	local SearchUpdate = function(str, table)
-		str = string.lower(str)
-
-		for _, b in ipairs(table) do
-			if b:GetParent() == BankFrame then
-				b.id = GetContainerItemID(-1, b:GetID())
-			else
-				b.id = GetContainerItemID(b:GetParent():GetID(), b:GetID())
-			end
-			if b.id then
-				 b.name, _, _, _, _, _, _, _, b.slot = GetItemInfo(b.id)
-				if b.slot then b.slot = _G[b.slot] end
-			end
-			if not b.name then
-				b:SetAlpha(.2)
-				b.glow:SetAlpha(0)
-			elseif not string.find(string.lower(b.name), str, 1, true) and not (b.slot and string.find(string.lower(b.slot), str)) then
-				SetItemButtonDesaturated(b, 1, 1, 1, 1)
-				b:SetAlpha(.2)
-				b.glow:SetAlpha(0)
-			else
-				SetItemButtonDesaturated(b, 0, 1, 1, 1)
-				b:SetAlpha(1)
-				b.glow:SetAlpha(1)
-			end
-		end
-	end
-
-	local HideSearch = function()
-		editbox:SetAlpha(0)
-	end
-
-	local Reset = function(self)
-		self:ClearFocus()
-		for _, b in ipairs(buttons) do
-			b:SetAlpha(1)
-			b.glow:SetAlpha(1)
-			SetItemButtonDesaturated(b, 0, 1, 1, 1)
-		end
-		for _, b in ipairs(bankbuttons) do
-			b:SetAlpha(1)
-			b.glow:SetAlpha(1)
-			SetItemButtonDesaturated(b, 0, 1, 1, 1)
-		end
-		self:SetAlpha(0)
-		self:SetScript("OnLeave", HideSearch)
-		self:SetText(L["点击查找..."])
-	end
-
-	local text
-
-	local UpdateSearch = function(self, t)
-		if t == true then
-			text = self:GetText()
-			SearchUpdate(text, buttons)
-			if BankFrame:IsShown() then SearchUpdate(text, bankbuttons) end
-		end
-	end
-
-	editbox:SetScript("OnEscapePressed", Reset)
-	editbox:SetScript("OnEnterPressed", Reset)
-	editbox:SetScript("OnTextChanged", UpdateSearch)
-	editbox:SetScript("OnEditFocusGained", function(self)
-		self:HighlightText()
-		self:SetScript("OnLeave", nil)
-	end)
-
-	editbox:SetScript("OnEnter", function(self)
-		self:SetAlpha(1)
-	end)
-	editbox:SetScript("OnLeave", HideSearch)
 end
+
+BagItemSearchBox:HookScript("OnEditFocusGained", function(self)
+	self:SetScript("OnLeave", nil)
+	self:SetTextColor(1, 1, 1)
+	BagItemSearchBoxSearchIcon:SetVertexColor(1, 1, 1)
+end)
+
+BagItemSearchBox:HookScript("OnEditFocusLost", function(self)
+	self:SetScript("OnLeave", HideSearch)
+	self.clearButton:Click()
+	HideSearch()
+	self:SetText(SEARCH)
+	self:SetTextColor(.5, .5, .5)
+	BagItemSearchBoxSearchIcon:SetVertexColor(.6, .6, .6)
+end)
+
+BagItemSearchBox:HookScript("OnEnter", function(self)
+	self:SetAlpha(1)
+end)
+BagItemSearchBox:HookScript("OnLeave", HideSearch)
+
+hooksecurefunc("ContainerFrame_UpdateSearchResults", function(frame)
+	local id = frame:GetID();
+	local name = frame:GetName().."Item";
+	local itemButton;
+	local _, isFiltered;
+
+	for i=1, frame.size, 1 do
+		itemButton = _G[name..i];
+		_, _, _, _, _, _, _, isFiltered = GetContainerItemInfo(id, itemButton:GetID());	
+		if ( isFiltered ) then
+			itemButton.glow:SetAlpha(0);
+		else
+			itemButton.glow:SetAlpha(1);
+		end
+	end
+end)
 
 -- Jpack Button --
 local JpackButton = CreateFrame("Button", nil, holder)
@@ -618,7 +504,13 @@ holder:SetMovable(true)
 holder:RegisterForDrag("LeftButton")
 holder:SetScript("OnDragStart", function(self) self:StartMoving() end)
 holder:SetScript("OnDragStop", function(self) self:StopMovingOrSizing() end)
-		
+
+MainMenuBarBackpackButton:StyleButton()
+MainMenuBarBackpackButton:GetHighlightTexture():Point("TOPLEFT", 1, -1)
+MainMenuBarBackpackButton:GetHighlightTexture():Point("BOTTOMRIGHT", -1, 1)
+MainMenuBarBackpackButton:GetPushedTexture():Point("TOPLEFT", 1, -1)
+MainMenuBarBackpackButton:GetPushedTexture():Point("BOTTOMRIGHT", -1, 1)
+MainMenuBarBackpackButton:SetCheckedTexture(nil)
 for i = 0, 3 do
 	_G["CharacterBag"..i.."Slot"]:HookScript("OnEnter", function(self)
 		for _, b in ipairs(buttons) do
@@ -640,16 +532,22 @@ for i = 0, 3 do
 			b.glow:SetAlpha(1)
 		end
 	end)
-	_G["CharacterBag"..i.."Slot"]:SetScript("OnClick", nil)
+	_G["CharacterBag"..i.."Slot"]:StyleButton()
+	_G["CharacterBag"..i.."Slot"]:GetHighlightTexture():Point("TOPLEFT", 1, -1)
+	_G["CharacterBag"..i.."Slot"]:GetHighlightTexture():Point("BOTTOMRIGHT", -1, 1)
+	_G["CharacterBag"..i.."Slot"]:GetPushedTexture():Point("TOPLEFT", 1, -1)
+	_G["CharacterBag"..i.."Slot"]:GetPushedTexture():Point("BOTTOMRIGHT", -1, 1)
+	_G["CharacterBag"..i.."Slot"]:SetCheckedTexture(nil)
 end
 for i = 1, 7 do
-	_G["BankFrameBag"..i]:SetScript("OnClick", function()
-		local slot, full = GetNumBankSlots()
-		if (slot + 1) <= i then
-			StaticPopup_Show("CONFIRM_BUY_BANK_SLOT")
-		end
-	end)
+	StyleButton(_G["BankFrameBag"..i])
 end
+R.Reskin(BankFramePurchaseButton)
+BankFramePurchaseButton:SetParent(bankholder)
+BankFramePurchaseButton:ClearAllPoints()
+BankFramePurchaseButton:Point("BOTTOMLEFT", bankholder, "BOTTOMLEFT", 3, 2)
+BankFramePurchaseButton:SetSize(70, 15)
+
 MainMenuBarBackpackButton:HookScript("OnEnter", function(self)
 	for _, b in ipairs(buttons) do
 		if b:GetParent():GetID() == 4 then

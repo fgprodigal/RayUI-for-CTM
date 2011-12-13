@@ -136,11 +136,11 @@ local menuList = {
     {text = PLAYER_V_PLAYER,
     func = function() ToggleFrame(PVPFrame) end},
 	{text = ENCOUNTER_JOURNAL,
-    func = function() if not IsAddOnLoaded('Blizzard_EncounterJournal') and R.HoT then LoadAddOn('Blizzard_EncounterJournal') end ToggleFrame(EncounterJournal) end},
+    func = function() if not IsAddOnLoaded('Blizzard_EncounterJournal') then LoadAddOn('Blizzard_EncounterJournal') end ToggleFrame(EncounterJournal) end},
     {text = LFG_TITLE,
     func = function() ToggleFrame(LFDParentFrame) end},
-    {text = R.HoT and RAID_FINDER or LOOKING_FOR_RAID,
-    func = function() if R.HoT then RaidMicroButton:Click() else ToggleFrame(LFRParentFrame) end end},
+    {text = RAID_FINDER,
+    func = function() RaidMicroButton:Click() end},
     {text = HELP_BUTTON,
     func = function() ToggleHelpFrame() end},
     {text = CALENDAR,
@@ -210,13 +210,8 @@ Minimap:HookScript("OnLeave", function(self)
 end)
 
 DropDownList1:SetClampedToScreen(true)
-if not R.HoT then
-	LFDSearchStatus:SetClampedToScreen(true)
-	LFDDungeonReadyStatus:SetClampedToScreen(true)
-else
-	LFGSearchStatus:SetClampedToScreen(true)
-	LFGDungeonReadyStatus:SetClampedToScreen(true)	
-end
+LFGSearchStatus:SetClampedToScreen(true)
+LFGDungeonReadyStatus:SetClampedToScreen(true)	
 
 -----------------------------------------------------
 -- MinimapBackground
@@ -224,13 +219,7 @@ end
 Minimap:CreateShadow("Background", 2)
 
 --New Mail Check
-local checkmail = CreateFrame("Frame")
-checkmail:RegisterEvent("ADDON_LOADED")
-checkmail:RegisterEvent("CALENDAR_UPDATE_PENDING_INVITES")
-checkmail:RegisterEvent("UPDATE_PENDING_MAIL")
-checkmail:RegisterEvent("MAIL_CLOSED")
-checkmail:RegisterEvent("PLAYER_ENTERING_WORLD")
-checkmail:SetScript("OnEvent", function(self, event, addon)
+local function CheckMail()
 	local inv = CalendarGetNumPendingInvites()
 	local mail = MiniMapMailFrame:IsShown() and true or false
 	if inv > 0 and mail then -- New invites and mail
@@ -247,7 +236,15 @@ checkmail:SetScript("OnEvent", function(self, event, addon)
 		Minimap.shadow:SetAlpha(1)
 		Minimap.shadow:SetBackdropBorderColor(unpack(C["media"].bordercolor))
 	end
-end)
+end
+local checkmail = CreateFrame("Frame")
+checkmail:RegisterEvent("ADDON_LOADED")
+checkmail:RegisterEvent("CALENDAR_UPDATE_PENDING_INVITES")
+checkmail:RegisterEvent("UPDATE_PENDING_MAIL")
+checkmail:RegisterEvent("PLAYER_ENTERING_WORLD")
+checkmail:SetScript("OnEvent", CheckMail)
+MiniMapMailFrame:HookScript("OnHide", CheckMail)
+MiniMapMailFrame:HookScript("OnShow", CheckMail)
 
 -- GM
 HelpOpenTicketButton:SetParent(Minimap)

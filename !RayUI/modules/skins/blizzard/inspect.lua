@@ -30,10 +30,6 @@ local function LoadSkin()
 			select(j, _G["InspectTalentFrameTab"..i]:GetRegions()).Show = R.dummy
 		end
 	end
-	if not R.HoT then
-		InspectModelFrameRotateLeftButton:Hide()
-		InspectModelFrameRotateRightButton:Hide()
-	end
 	InspectFramePortraitFrame:Hide()
 	InspectFrameTopBorder:Hide()
 	InspectFrameTopRightCorner:Hide()
@@ -81,13 +77,8 @@ local function LoadSkin()
 	end
 	select(7, InspectMainHandSlot:GetRegions()):Kill()
 	select(7, InspectRangedSlot:GetRegions()):Kill()
-	if R.HoT then
-		select(9, InspectMainHandSlot:GetRegions()):Kill()
-		select(9, InspectRangedSlot:GetRegions()):Kill()
-	else
-		select(8, InspectMainHandSlot:GetRegions()):Kill()
-		select(8, InspectRangedSlot:GetRegions()):Kill()
-	end
+	select(9, InspectMainHandSlot:GetRegions()):Kill()
+	select(9, InspectRangedSlot:GetRegions()):Kill()
 
 	R.ReskinClose(InspectFrameCloseButton)
 	

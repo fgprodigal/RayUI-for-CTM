@@ -195,11 +195,9 @@ f:SetScript('OnEvent', function(self, event, ...)
 	else
 		if ... == AddOnName then
 			hooksecurefunc(getmetatable(ActionButton1Cooldown).__index, 'SetCooldown', OnSetCooldown)
-			if R.HoT then
-				hooksecurefunc('SetActionUIButton', action_Add)		
-				for i, button in pairs(ActionBarButtonEventsFrame.frames) do
-					action_Add(button, button.action, button.cooldown)
-				end
+			hooksecurefunc('SetActionUIButton', action_Add)		
+			for i, button in pairs(ActionBarButtonEventsFrame.frames) do
+				action_Add(button, button.action, button.cooldown)
 			end
 			self:UnregisterEvent('ADDON_LOADED')
 		end
@@ -262,18 +260,16 @@ if C["actionbar"].stancealpha then
 	hooksecurefunc("ShapeshiftBar_UpdateState", UpdateShapeshiftCD)
 end
 
-if R.HoT then
-	local function UpdateButtonsCD()
-		for cooldown in pairs(actions) do
-			UpdateCD(cooldown:GetParent())
-		end
+local function UpdateButtonsCD()
+	for cooldown in pairs(actions) do
+		UpdateCD(cooldown:GetParent())
 	end
-
-	local cdalpha = CreateFrame("Frame")
-	cdalpha:Hide()
-	cdalpha:SetScript('OnEvent', function(self, event, ...)
-		UpdateButtonsCD()
-	end)
-
-	cdalpha:RegisterEvent("ACTIONBAR_UPDATE_COOLDOWN")
 end
+
+local cdalpha = CreateFrame("Frame")
+cdalpha:Hide()
+cdalpha:SetScript('OnEvent', function(self, event, ...)
+	UpdateButtonsCD()
+end)
+
+cdalpha:RegisterEvent("ACTIONBAR_UPDATE_COOLDOWN")

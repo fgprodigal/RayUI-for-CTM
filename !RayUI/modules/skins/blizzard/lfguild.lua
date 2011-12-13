@@ -56,16 +56,14 @@ local function LoadSkin()
 	R.ReskinCheck(LookingForGuildTankButton:GetChildren())
 	R.ReskinCheck(LookingForGuildHealerButton:GetChildren())
 	R.ReskinCheck(LookingForGuildDamagerButton:GetChildren())
-	if R.HoT then
-		R.CreateBD(GuildFinderRequestMembershipFrame)
-		R.CreateSD(GuildFinderRequestMembershipFrame)
-		for i = 1, 6 do
-			select(i, GuildFinderRequestMembershipFrameInputFrame:GetRegions()):Hide()
-		end
-		R.Reskin(GuildFinderRequestMembershipFrameAcceptButton)
-		R.Reskin(GuildFinderRequestMembershipFrameCancelButton)
-		R.ReskinInput(GuildFinderRequestMembershipFrameInputFrame)
+	R.CreateBD(GuildFinderRequestMembershipFrame)
+	R.CreateSD(GuildFinderRequestMembershipFrame)
+	for i = 1, 6 do
+		select(i, GuildFinderRequestMembershipFrameInputFrame:GetRegions()):Hide()
 	end
+	R.Reskin(GuildFinderRequestMembershipFrameAcceptButton)
+	R.Reskin(GuildFinderRequestMembershipFrameCancelButton)
+	R.ReskinInput(GuildFinderRequestMembershipFrameInputFrame)
 end
 
 R.SkinFuncs["Blizzard_LookingForGuildUI"] = LoadSkin

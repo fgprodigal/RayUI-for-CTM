@@ -110,15 +110,8 @@ local function LoadSkin()
 		end
 	end
 
-	if R.HoT then
-		EquipmentFlyoutFrameButtons:DisableDrawLayer("BACKGROUND")
-		EquipmentFlyoutFrameButtons:DisableDrawLayer("ARTWORK")
-	else
-		CharacterModelFrameRotateLeftButton:Hide()
-		CharacterModelFrameRotateRightButton:Hide()
-		PaperDollFrameItemFlyoutButtons:DisableDrawLayer("BACKGROUND")
-		PaperDollFrameItemFlyoutButtons:DisableDrawLayer("ARTWORK")
-	end
+	EquipmentFlyoutFrameButtons:DisableDrawLayer("BACKGROUND")
+	EquipmentFlyoutFrameButtons:DisableDrawLayer("ARTWORK")
 
 	local slots = {
 		"Head",
@@ -155,52 +148,35 @@ local function LoadSkin()
 		slot:GetHighlightTexture():Point("BOTTOMRIGHT", 1, -1)
 		slot:GetPushedTexture():Point("TOPLEFT", -1, 1)
 		slot:GetPushedTexture():Point("BOTTOMRIGHT", 1, -1)
+		local cooldown = _G[slot:GetName().."Cooldown"]
+		if cooldown then
+			cooldown:Point('TOPLEFT', -1, 1)
+			cooldown:Point('BOTTOMRIGHT', 1, -1)
+		end
 		ic:SetTexCoord(.08, .92, .08, .92)
 	end
 
 	select(8, CharacterMainHandSlot:GetRegions()):Kill()
 	select(8, CharacterRangedSlot:GetRegions()):Kill()
-	if R.HoT then
-		select(10, CharacterMainHandSlot:GetRegions()):Kill()
-		select(10, CharacterRangedSlot:GetRegions()):Kill()
-		local function SkinItemFlyouts()
-			for i = 1, 10 do
-				local bu = _G["EquipmentFlyoutFrameButton"..i]
-				if bu and not bu.reskinned then
-					bu:SetNormalTexture("")
-					bu:StyleButton()
-					bu:GetHighlightTexture():Point("TOPLEFT", -1, 1)
-					bu:GetHighlightTexture():Point("BOTTOMRIGHT", 1, -1)
-					bu:GetPushedTexture():Point("TOPLEFT", -1, 1)
-					bu:GetPushedTexture():Point("BOTTOMRIGHT", 1, -1)
-					_G["EquipmentFlyoutFrameButton"..i.."IconTexture"]:SetTexCoord(.08, .92, .08, .92)
-					bu.reskinned = true
-				end
+	select(10, CharacterMainHandSlot:GetRegions()):Kill()
+	select(10, CharacterRangedSlot:GetRegions()):Kill()
+	local function SkinItemFlyouts()
+		for i = 1, 10 do
+			local bu = _G["EquipmentFlyoutFrameButton"..i]
+			if bu and not bu.reskinned then
+				bu:SetNormalTexture("")
+				bu:StyleButton()
+				bu:GetHighlightTexture():Point("TOPLEFT", -1, 1)
+				bu:GetHighlightTexture():Point("BOTTOMRIGHT", 1, -1)
+				bu:GetPushedTexture():Point("TOPLEFT", -1, 1)
+				bu:GetPushedTexture():Point("BOTTOMRIGHT", 1, -1)
+				_G["EquipmentFlyoutFrameButton"..i.."IconTexture"]:SetTexCoord(.08, .92, .08, .92)
+				bu.reskinned = true
 			end
 		end
-		EquipmentFlyoutFrameButtons:HookScript("OnShow", SkinItemFlyouts)
-		hooksecurefunc("EquipmentFlyout_Show", SkinItemFlyouts)
-	else
-		select(9, CharacterMainHandSlot:GetRegions()):Kill()
-		select(9, CharacterRangedSlot:GetRegions()):Kill()
-		local function SkinItemFlyouts()
-			for i = 1, PDFITEMFLYOUT_MAXITEMS do
-				local bu = _G["PaperDollFrameItemFlyoutButtons"..i]
-				if bu and not bu.reskinned then
-					bu:SetNormalTexture("")
-					bu:StyleButton()
-					bu:GetHighlightTexture():Point("TOPLEFT", -1, 1)
-					bu:GetHighlightTexture():Point("BOTTOMRIGHT", 1, -1)
-					bu:GetPushedTexture():Point("TOPLEFT", -1, 1)
-					bu:GetPushedTexture():Point("BOTTOMRIGHT", 1, -1)
-					_G["PaperDollFrameItemFlyoutButtons"..i.."IconTexture"]:SetTexCoord(.08, .92, .08, .92)
-					bu.reskinned = true
-				end
-			end
-		end
-		PaperDollFrameItemFlyoutButtons:HookScript("OnShow", SkinItemFlyouts)
-		hooksecurefunc("PaperDollItemSlotButton_UpdateFlyout", SkinItemFlyouts)
 	end
+	EquipmentFlyoutFrameButtons:HookScript("OnShow", SkinItemFlyouts)
+	hooksecurefunc("EquipmentFlyout_Show", SkinItemFlyouts)
 
 	hooksecurefunc("PaperDollItemSlotButton_Update", function()
 		-- for i = 1, #slots do

@@ -61,19 +61,17 @@ local function LoadSkin()
 		_G[bglayers[i]]:DisableDrawLayer("BACKGROUND")
 	end
 	
-	if R.HoT then
-		local borderlayers = {
-			"FriendsFrame",
-			"FriendsFrameInset",
-			"WhoFrameListInset",
-			"WhoFrameEditBoxInset",
-			"WhoFrameColumnHeader4",
-			"ChannelFrameLeftInset",
-			"ChannelFrameRightInset"
-		}
-		for i = 1, #borderlayers do
-			_G[borderlayers[i]]:DisableDrawLayer("BORDER")
-		end
+	local borderlayers = {
+		"FriendsFrame",
+		"FriendsFrameInset",
+		"WhoFrameListInset",
+		"WhoFrameEditBoxInset",
+		"WhoFrameColumnHeader4",
+		"ChannelFrameLeftInset",
+		"ChannelFrameRightInset"
+	}
+	for i = 1, #borderlayers do
+		_G[borderlayers[i]]:DisableDrawLayer("BORDER")
 	end
 	
 	local lightbds = {
@@ -85,38 +83,29 @@ local function LoadSkin()
 		R.CreateBD(_G[lightbds[i]], .25)
 	end
 
-	if R.HoT then
-		FriendsFrameStatusDropDown:SetPoint("TOPLEFT", FriendsFrame, "TOPLEFT", 10, -32)
-		FriendsFrameTitleText:SetPoint("TOP", FriendsFrame, "TOP", 0, -8)
-		R.SetBD(FriendsFrame)
-		FriendsFrameTopRightCorner:Hide()
-		FriendsFrameTopLeftCorner:Hide()
-		FriendsFrameTopBorder:Hide()
-		FriendsFramePortraitFrame:Hide()
-		FriendsFrameIcon:Hide()
-		FriendsFrameInsetBg:Hide()
-		FriendsFrameFriendsScrollFrameTop:Hide()
-		FriendsFrameFriendsScrollFrameMiddle:Hide()
-		FriendsFrameFriendsScrollFrameBottom:Hide()
-		WhoFrameListInsetBg:Hide()
-		WhoFrameEditBoxInsetBg:Hide()
-		ChannelFrameLeftInsetBg:Hide()
-		ChannelFrameRightInsetBg:Hide()
-		IgnoreListFrameTop:Hide()
-		IgnoreListFrameMiddle:Hide()
-		IgnoreListFrameBottom:Hide()
-		PendingListFrameTop:Hide()
-		PendingListFrameMiddle:Hide()
-		PendingListFrameBottom:Hide()
-	else
-		ChannelFrameVerticalBar:Hide()
-		FriendsFrameStatusDropDown:SetPoint("TOPLEFT", FriendsFrame, "TOPLEFT", 10, -40)
-		FriendsFrameTitleText:SetPoint("TOP", FriendsFrame, "TOP", 0, -16)
-		R.SetBD(FriendsFrame, 10, -4, -34, 76)
-		FriendsFrame:DisableDrawLayer("LOW")
-		R.ReskinClose(FriendsFrameCloseButton, "TOPRIGHT", FriendsFrame, "TOPRIGHT", -42, -12)
-	end
-	
+	FriendsFrameStatusDropDown:SetPoint("TOPLEFT", FriendsFrame, "TOPLEFT", 10, -32)
+	FriendsFrameTitleText:SetPoint("TOP", FriendsFrame, "TOP", 0, -8)
+	R.SetBD(FriendsFrame)
+	FriendsFrameTopRightCorner:Hide()
+	FriendsFrameTopLeftCorner:Hide()
+	FriendsFrameTopBorder:Hide()
+	FriendsFramePortraitFrame:Hide()
+	FriendsFrameIcon:Hide()
+	FriendsFrameInsetBg:Hide()
+	FriendsFrameFriendsScrollFrameTop:Hide()
+	FriendsFrameFriendsScrollFrameMiddle:Hide()
+	FriendsFrameFriendsScrollFrameBottom:Hide()
+	WhoFrameListInsetBg:Hide()
+	WhoFrameEditBoxInsetBg:Hide()
+	ChannelFrameLeftInsetBg:Hide()
+	ChannelFrameRightInsetBg:Hide()
+	IgnoreListFrameTop:Hide()
+	IgnoreListFrameMiddle:Hide()
+	IgnoreListFrameBottom:Hide()
+	PendingListFrameTop:Hide()
+	PendingListFrameMiddle:Hide()
+	PendingListFrameBottom:Hide()
+
 	for i = 1, 6 do
 		for j = 1, 3 do
 			select(i, _G["FriendsTabHeaderTab"..j]:GetRegions()):Hide()
@@ -180,19 +169,17 @@ local function LoadSkin()
 	friendshandler:SetScript("OnEvent", UpdateScroll)
 	FriendsFrameFriendsScrollFrame:HookScript("OnVerticalScroll", UpdateScroll)
 
-	if R.HoT then
-		local whobg = CreateFrame("Frame", nil, WhoFrameEditBoxInset)
-		whobg:SetPoint("TOPLEFT")
-		whobg:Point("BOTTOMRIGHT", -1, 1)
-		whobg:SetFrameLevel(WhoFrameEditBoxInset:GetFrameLevel()-1)
-		R.CreateBD(whobg, .25)
+	local whobg = CreateFrame("Frame", nil, WhoFrameEditBoxInset)
+	whobg:SetPoint("TOPLEFT")
+	whobg:Point("BOTTOMRIGHT", -1, 1)
+	whobg:SetFrameLevel(WhoFrameEditBoxInset:GetFrameLevel()-1)
+	R.CreateBD(whobg, .25)
 
-		FriendsTabHeaderSoRButtonIcon:SetTexCoord(.08, .92, .08, .92)
-		local sorbg = CreateFrame("Frame", nil, FriendsTabHeaderSoRButton)
-		sorbg:Point("TOPLEFT", -1, 1)
-		sorbg:Point("BOTTOMRIGHT", 1, -1)
-		R.CreateBD(sorbg, 0)
-	end
+	FriendsTabHeaderSoRButtonIcon:SetTexCoord(.08, .92, .08, .92)
+	local sorbg = CreateFrame("Frame", nil, FriendsTabHeaderSoRButton)
+	sorbg:Point("TOPLEFT", -1, 1)
+	sorbg:Point("BOTTOMRIGHT", 1, -1)
+	R.CreateBD(sorbg, 0)
 end
 
 tinsert(R.SkinFuncs[AddOnName], LoadSkin)

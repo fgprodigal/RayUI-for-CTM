@@ -58,9 +58,9 @@ function Style(self, totem, flyout)
 		Count:SetFont(C["media"].pxfont, R.Scale(10), "OUTLINE,MONOCHROME")
 	end
 	
-	if R.HoT and _G[name..'FloatingBG'] then
+	if _G[name..'FloatingBG'] then
 		_G[name..'FloatingBG']:Kill()
-	end
+	end	
 
 	if self.styled then return end	
 	

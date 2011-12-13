@@ -88,10 +88,8 @@ local function LoadSkin()
 	for i = 1, #layers do
 		_G[layers[i]]:DisableDrawLayer("BACKGROUND")
 	end
-	if R.HoT then
-		QuestFrameDetailPanel:DisableDrawLayer("BORDER")
-		QuestFrameRewardPanel:DisableDrawLayer("BORDER")
-	end
+	QuestFrameDetailPanel:DisableDrawLayer("BORDER")
+	QuestFrameRewardPanel:DisableDrawLayer("BORDER")
 	QuestLogDetailFrame:DisableDrawLayer("BORDER")
 	QuestLogDetailFrame:DisableDrawLayer("ARTWORK")
 	QuestLogDetailFrame:GetRegions():Hide()

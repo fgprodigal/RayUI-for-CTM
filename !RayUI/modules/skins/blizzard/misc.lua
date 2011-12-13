@@ -45,12 +45,10 @@ local function LoadSkin()
 		"StaticPopup1MoneyInputFrameCopper",
 		"StaticPopup2MoneyInputFrameGold",
 		"StaticPopup2MoneyInputFrameSilver",
-		"StaticPopup2MoneyInputFrameCopper"
+		"StaticPopup2MoneyInputFrameCopper",
+		"BagItemSearchBox",
+		"BankItemSearchBox"
 	}
-	if R.HoT then
-		tinsert(inputs, "BagItemSearchBox")
-		tinsert(inputs, "BankItemSearchBox")
-	end
 	for i = 1, #inputs do
 		input = _G[inputs[i]]
 		R.ReskinInput(input)
@@ -120,14 +118,9 @@ local function LoadSkin()
 			"GuildInviteFrame",
 			"ChannelFrameDaughterFrame",
 			"LFDRoleCheckPopup",
+			"LFGDungeonReadyStatus",
+			"LFGDungeonReadyDialog"
 		}
-	if R.HoT then
-		tinsert(FrameBDs, "LFGDungeonReadyStatus")
-		tinsert(FrameBDs, "LFGDungeonReadyDialog")
-	else
-		tinsert(FrameBDs, "LFDDungeonReadyStatus")
-		tinsert(FrameBDs, "LFDDungeonReadyDialog")
-	end
 	for i = 1, #FrameBDs do
 		FrameBD = _G[FrameBDs[i]]
 		R.CreateBD(FrameBD)
@@ -155,38 +148,19 @@ local function LoadSkin()
 	end
 	
 	-- [[ Simple backdrops ]]
-	local bds
-	if R.HoT then
-		bds = {
-			"AutoCompleteBox",
-			"BNToastFrame",
-			"LFGSearchStatus",
-			"TicketStatusFrameButton",
-			"GearManagerDialogPopup",
-			"TokenFramePopup",
-			"ReputationDetailFrame",
-			"RaidInfoFrame"
-		}
-	else
-		bds = {
-			"AutoCompleteBox",
-			"BNToastFrame",
-			"TicketStatusFrameButton",
-			"GearManagerDialogPopup",
-			"TokenFramePopup",
-			"ReputationDetailFrame",
-			"RaidInfoFrame"
-		}
-	end
+	local bds = {
+		"AutoCompleteBox",
+		"BNToastFrame",
+		"LFGSearchStatus",
+		"TicketStatusFrameButton",
+		"GearManagerDialogPopup",
+		"TokenFramePopup",
+		"ReputationDetailFrame",
+		"RaidInfoFrame"
+	}
 
 	for i = 1, #bds do
 		R.CreateBD(_G[bds[i]])
-	end
-	
-	if not R.HoT then
-		R.CreateBD(LFDSearchStatus)
-	else
-		R.CreateBD(LFGSearchStatus)
 	end
 	
 	-- Skin all DropDownList[i]

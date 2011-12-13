@@ -11,10 +11,6 @@ local function LoadSkin()
 	for i = 2, 5 do
 		select(i, DressUpFrame:GetRegions()):Hide()
 	end
-	if not R.HoT then
-		DressUpModelRotateLeftButton:Hide()
-		DressUpModelRotateRightButton:Hide()
-	end	
 	DressUpFrameResetButton:SetPoint("RIGHT", DressUpFrameCancelButton, "LEFT", -1, 0)
 	R.Reskin(DressUpFrameCancelButton)
 	R.Reskin(DressUpFrameResetButton)

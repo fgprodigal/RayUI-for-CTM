@@ -89,9 +89,6 @@ local w = CreateFrame"Frame"
 w:SetScript("OnEvent", function(self, event, ...)
 	if event == "PLAYER_ENTERING_WORLD" then
 		SetCVar("questPOI", 1)
-		if not R.HoT then
-			SetCVar("advancedWorldMap",1)
-		end
 		SetCVar("lockedWorldMap", 0)
 		gen_coords(self)
 		local cond = false
@@ -169,11 +166,9 @@ R.ReskinDropDown(WorldMapZoneMinimapDropDown)
 R.ReskinDropDown(WorldMapContinentDropDown)
 R.ReskinDropDown(WorldMapZoneDropDown)
 
-if R.HoT then
-	R.ReskinDropDown(WorldMapShowDropDown)	
-	WorldMapShowDropDown:ClearAllPoints()
-	WorldMapShowDropDown:SetPoint("TOPRIGHT", WorldMapButton, "BOTTOMRIGHT", 18, 2)
-end
+R.ReskinDropDown(WorldMapShowDropDown)	
+WorldMapShowDropDown:ClearAllPoints()
+WorldMapShowDropDown:SetPoint("TOPRIGHT", WorldMapButton, "BOTTOMRIGHT", 18, 2)
 
 R.ReskinCheck(WorldMapQuestShowObjectives)
 R.Reskin(WorldMapZoomOutButton)
@@ -265,9 +260,6 @@ local function LargeSkin()
 	WorldMapShowDigSites:SetScale(1)
 	WorldMapLevelDownButton:SetScale(1)
 	WorldMapLevelUpButton:SetScale(1)
-	if not R.HoT then
-		WorldMapLevelDropDown.Show = WorldMapLevelDropDown:Show()
-	end
 	WorldMapFrame:EnableKeyboard(nil)
 	WorldMapFrame:EnableMouse(nil)
 	UIPanelWindows["WorldMapFrame"].area = "center"

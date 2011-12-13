@@ -8,16 +8,16 @@ local function LoadSkin()
 	R.Reskin(LFDRoleCheckPopupAcceptButton)
 	R.Reskin(LFDRoleCheckPopupDeclineButton)
 	R.Reskin(LFDQueueFramePartyBackfillBackfillButton)
+	R.Reskin(RaidFinderQueueFramePartyBackfillBackfillButton)
 	R.Reskin(LFDQueueFramePartyBackfillNoBackfillButton)
+	R.Reskin(RaidFinderQueueFramePartyBackfillNoBackfillButton)
 	R.ReskinClose(LFDParentFrameCloseButton)
-	if R.HoT then
-		R.ReskinClose(LFGDungeonReadyStatusCloseButton)
-		R.ReskinCheck(LFGInvitePopupRoleButtonTank:GetChildren())
-		R.ReskinCheck(LFGInvitePopupRoleButtonHealer:GetChildren())
-		R.ReskinCheck(LFGInvitePopupRoleButtonDPS:GetChildren())
-		R.CreateBD(LFGInvitePopup)
-		R.CreateSD(LFGInvitePopup)
-	end
+	R.ReskinClose(LFGDungeonReadyStatusCloseButton)
+	R.ReskinCheck(LFGInvitePopupRoleButtonTank:GetChildren())
+	R.ReskinCheck(LFGInvitePopupRoleButtonHealer:GetChildren())
+	R.ReskinCheck(LFGInvitePopupRoleButtonDPS:GetChildren())
+	R.CreateBD(LFGInvitePopup)
+	R.CreateSD(LFGInvitePopup)
 	R.ReskinCheck(LFDQueueFrameRoleButtonTank:GetChildren())
 	R.ReskinCheck(LFDQueueFrameRoleButtonHealer:GetChildren())
 	R.ReskinCheck(LFDQueueFrameRoleButtonDPS:GetChildren())
@@ -110,20 +110,14 @@ local function LoadSkin()
 	end
 
 	hooksecurefunc("LFDQueueFrameRandom_UpdateFrame", ReskinRewards)
-	
-	if R.HoT then
-		LFGDungeonReadyDialog.SetBackdrop = R.dummy
-		LFGDungeonReadyDialogBackground:Hide()
-		LFGDungeonReadyDialogBottomArt:Hide()
-		LFGDungeonReadyDialogFiligree:Hide()
-		R.Reskin(LFGDungeonReadyDialogEnterDungeonButton)
-		R.Reskin(LFGDungeonReadyDialogLeaveQueueButton)
-		R.Reskin(LFDQueueFrameNoLFDWhileLFRLeaveQueueButton)
-	else
-		LFDDungeonReadyDialogBackground:Hide()
-		LFDDungeonReadyDialogBottomArt:Hide()
-		LFDDungeonReadyDialogFiligree:Hide()
-	end
+
+	LFGDungeonReadyDialog.SetBackdrop = R.dummy
+	LFGDungeonReadyDialogBackground:Hide()
+	LFGDungeonReadyDialogBottomArt:Hide()
+	LFGDungeonReadyDialogFiligree:Hide()
+	R.Reskin(LFGDungeonReadyDialogEnterDungeonButton)
+	R.Reskin(LFGDungeonReadyDialogLeaveQueueButton)
+	R.Reskin(LFDQueueFrameNoLFDWhileLFRLeaveQueueButton)
 end
 
 tinsert(R.SkinFuncs[AddOnName], LoadSkin)

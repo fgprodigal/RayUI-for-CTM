@@ -1,7 +1,5 @@
 local R, C, L, DB = unpack(select(2, ...))
 
-if not R.HoT then return end
-
 local holder = CreateFrame('Frame', nil, UIParent)
 holder:Point('TOP', UIParent, 'TOP', 0, -150)
 holder:Size(ExtraActionBarFrame:GetSize())

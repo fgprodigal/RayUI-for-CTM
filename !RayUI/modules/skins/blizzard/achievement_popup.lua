@@ -50,12 +50,8 @@ local function LoadSkin()
 	DungeonCompletionAlertFrame1DungeonTexture:SetTexCoord(.02, .98, .02, .98)
 	R.CreateBG(DungeonCompletionAlertFrame1DungeonTexture)
 
-	for i = 2, 5 do
+	for i = 2, 6 do
 		select(i, DungeonCompletionAlertFrame1:GetRegions()):Hide()
-	end
-	
-	if R.HoT then
-		select(6, DungeonCompletionAlertFrame1:GetRegions()):Hide()
 	end
 
 	hooksecurefunc("DungeonCompletionAlertFrame_ShowAlert", function()
@@ -71,10 +67,8 @@ local function LoadSkin()
 				bu.rekinned = true
 			end
 		end
-		if R.HoT then
-			for i = 2, 6 do
-				select(i, DungeonCompletionAlertFrame1:GetRegions()):Hide()
-			end
+		for i = 2, 6 do
+			select(i, DungeonCompletionAlertFrame1:GetRegions()):Hide()
 		end
 	end)
 end

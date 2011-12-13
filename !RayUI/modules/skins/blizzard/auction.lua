@@ -5,29 +5,18 @@ local function LoadSkin()
 	R.SetBD(AuctionFrame, 2, -10, 0, 10)
 	R.CreateBD(AuctionProgressFrame)
 
-	if R.HoT then	
-		SideDressUpModel:HookScript("OnShow", function(self)
-			self:ClearAllPoints()
-			self:SetPoint("LEFT", self:GetParent():GetParent(), "RIGHT", 1, 0)
-		end)
-		SideDressUpModel.bg = CreateFrame("Frame", nil, SideDressUpModel)
-		SideDressUpModel.bg:SetPoint("TOPLEFT", 0, 1)
-		SideDressUpModel.bg:SetPoint("BOTTOMRIGHT", 1, -1)
-		SideDressUpModel.bg:SetFrameLevel(SideDressUpModel:GetFrameLevel()-1)
-		R.CreateBD(SideDressUpModel.bg)
-		R.Reskin(SideDressUpModelResetButton)
-		R.ReskinClose(SideDressUpModelCloseButton)
-		select(5, SideDressUpModelCloseButton:GetRegions()):Hide()
-	else
-		AuctionDressUpFrame:ClearAllPoints()
-		AuctionDressUpFrame:SetPoint("LEFT", AuctionFrame, "RIGHT", -3, 0)
-
-		AuctionDressUpModel.bg = CreateFrame("Frame", nil, AuctionDressUpModel)
-		AuctionDressUpModel.bg:SetPoint("TOPLEFT", 0, 1)
-		AuctionDressUpModel.bg:SetPoint("BOTTOMRIGHT", 1, -1)
-		AuctionDressUpModel.bg:SetFrameLevel(AuctionDressUpModel:GetFrameLevel()-1)
-		R.CreateBD(AuctionDressUpModel.bg)
-	end
+	SideDressUpModel:HookScript("OnShow", function(self)
+		self:ClearAllPoints()
+		self:SetPoint("LEFT", self:GetParent():GetParent(), "RIGHT", 1, 0)
+	end)
+	SideDressUpModel.bg = CreateFrame("Frame", nil, SideDressUpModel)
+	SideDressUpModel.bg:SetPoint("TOPLEFT", 0, 1)
+	SideDressUpModel.bg:SetPoint("BOTTOMRIGHT", 1, -1)
+	SideDressUpModel.bg:SetFrameLevel(SideDressUpModel:GetFrameLevel()-1)
+	R.CreateBD(SideDressUpModel.bg)
+	R.Reskin(SideDressUpModelResetButton)
+	R.ReskinClose(SideDressUpModelCloseButton)
+	select(5, SideDressUpModelCloseButton:GetRegions()):Hide()
 
 	AuctionProgressBar:SetStatusBarTexture(C.Aurora.backdrop)
 	local ABBD = CreateFrame("Frame", nil, AuctionProgressBar)
@@ -51,11 +40,7 @@ local function LoadSkin()
 	end
 	AuctionProgressBarBorder:Hide()
 	for i = 1, 4 do
-		if R.HoT then
-			select(i, SideDressUpFrame:GetRegions()):Hide()
-		else
-			select(i, AuctionDressUpFrame:GetRegions()):Hide()
-		end
+		select(i, SideDressUpFrame:GetRegions()):Hide()
 	end
 	BrowseFilterScrollFrame:GetRegions():Hide()
 	select(2, BrowseFilterScrollFrame:GetRegions()):Hide()
@@ -65,11 +50,6 @@ local function LoadSkin()
 	select(2, BidScrollFrame:GetRegions()):Hide()
 	AuctionsScrollFrame:GetRegions():Hide()
 	select(2, AuctionsScrollFrame:GetRegions()):Hide()
-	if not R.HoT then
-		select(5, AuctionDressUpFrameCloseButton:GetRegions()):Hide()
-		AuctionDressUpModelRotateLeftButton:Hide()
-		AuctionDressUpModelRotateRightButton:Hide()
-	end
 	BrowseQualitySort:DisableDrawLayer("BACKGROUND")
 	BrowseLevelSort:DisableDrawLayer("BACKGROUND")
 	BrowseDurationSort:DisableDrawLayer("BACKGROUND")
@@ -94,12 +74,22 @@ local function LoadSkin()
 		R.CreateTab(_G["AuctionFrameTab"..i])
 	end
 
-	local abuttons
-	if R.HoT then
-		abuttons = {"BrowseBidButton", "BrowseBuyoutButton", "BrowseCloseButton", "BrowseSearchButton", "BrowseResetButton", "BidBidButton", "BidBuyoutButton", "BidCloseButton", "AuctionsCloseButton", "SideDressUpModelResetButton", "AuctionsCancelAuctionButton", "AuctionsCreateAuctionButton", "AuctionsNumStacksMaxButton", "AuctionsStackSizeMaxButton"}
-	else
-		abuttons = {"BrowseBidButton", "BrowseBuyoutButton", "BrowseCloseButton", "BrowseSearchButton", "BrowseResetButton", "BidBidButton", "BidBuyoutButton", "BidCloseButton", "AuctionsCloseButton", "AuctionDressUpFrameResetButton", "AuctionsCancelAuctionButton", "AuctionsCreateAuctionButton", "AuctionsNumStacksMaxButton", "AuctionsStackSizeMaxButton"}
-	end
+	local abuttons = {
+		"BrowseBidButton",
+		"BrowseBuyoutButton",
+		"BrowseCloseButton",
+		"BrowseSearchButton",
+		"BrowseResetButton",
+		"BidBidButton",
+		"BidBuyoutButton",
+		"BidCloseButton",
+		"AuctionsCloseButton",
+		"SideDressUpModelResetButton",
+		"AuctionsCancelAuctionButton",
+		"AuctionsCreateAuctionButton",
+		"AuctionsNumStacksMaxButton",
+		"AuctionsStackSizeMaxButton"
+	}
 	for i = 1, #abuttons do
 		local reskinbutton = _G[abuttons[i]]
 		if reskinbutton then
@@ -235,9 +225,6 @@ local function LoadSkin()
 	AuctionsItemButtonNameFrame:Hide()
 
 	R.ReskinClose(AuctionFrameCloseButton, "TOPRIGHT", AuctionFrame, "TOPRIGHT", -4, -14)
-	if not R.HoT then
-		R.ReskinClose(AuctionDressUpFrameCloseButton, "TOPRIGHT", AuctionDressUpModel, "TOPRIGHT", -4, -4)
-	end
 	R.ReskinScroll(BrowseScrollFrameScrollBar)
 	R.ReskinScroll(AuctionsScrollFrameScrollBar)
 	R.ReskinScroll(BrowseFilterScrollFrameScrollBar)
@@ -279,17 +266,32 @@ local function LoadSkin()
 	tex:SetTexture(C.Aurora.backdrop)
 	tex:SetGradientAlpha("VERTICAL", 0, 0, 0, .3, .35, .35, .35, .35)
 
-	local inputs = {"BrowseMinLevel", "BrowseMaxLevel", "BrowseBidPriceGold", "BrowseBidPriceSilver", "BrowseBidPriceCopper", "BidBidPriceGold", "BidBidPriceSilver", "BidBidPriceCopper", "StartPriceGold", "StartPriceSilver", "StartPriceCopper", "BuyoutPriceGold", "BuyoutPriceSilver", "BuyoutPriceCopper", "AuctionsStackSizeEntry", "AuctionsNumStacksEntry"}
+	local inputs = {
+		"BrowseMinLevel",
+		"BrowseMaxLevel",
+		"BrowseBidPriceGold",
+		"BrowseBidPriceSilver",
+		"BrowseBidPriceCopper",
+		"BidBidPriceGold",
+		"BidBidPriceSilver",
+		"BidBidPriceCopper",
+		"StartPriceGold",
+		"StartPriceSilver",
+		"StartPriceCopper",
+		"BuyoutPriceGold",
+		"BuyoutPriceSilver",
+		"BuyoutPriceCopper",
+		"AuctionsStackSizeEntry",
+		"AuctionsNumStacksEntry"
+	}
 	for i = 1, #inputs do
 		R.ReskinInput(_G[inputs[i]])
 	end
 	
-	if R.HoT then
-		BrowseMinLevel:SetPoint("TOPLEFT", BrowseLevelText, "BOTTOMLEFT", -7, -1)
-		BrowseDropDown:SetPoint("TOPLEFT", BrowseLevelText, "BOTTOMRIGHT", 2, 4)
-		BrowseNameText:ClearAllPoints()
-		BrowseNameText:SetPoint("TOPLEFT", AuctionFrameBrowse, "TOPLEFT", 75, -44)
-	end
+	BrowseMinLevel:SetPoint("TOPLEFT", BrowseLevelText, "BOTTOMLEFT", -7, -1)
+	BrowseDropDown:SetPoint("TOPLEFT", BrowseLevelText, "BOTTOMRIGHT", 2, 4)
+	BrowseNameText:ClearAllPoints()
+	BrowseNameText:SetPoint("TOPLEFT", AuctionFrameBrowse, "TOPLEFT", 75, -44)
 end
 
 R.SkinFuncs["Blizzard_AuctionUI"] = LoadSkin
