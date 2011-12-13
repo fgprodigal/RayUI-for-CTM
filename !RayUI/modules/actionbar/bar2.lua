@@ -1,7 +1,7 @@
 local R, C, L, DB = unpack(select(2, ...))
 
   
-local bar = CreateFrame("Frame","rABS_MultiBarBottomLeft",UIParent, "SecureHandlerStateTemplate")
+local bar = CreateFrame("Frame","RayUIActionBar2",UIParent, "SecureHandlerStateTemplate")
 bar:SetWidth(C["actionbar"].buttonsize*6+C["actionbar"].buttonspacing*5)
 bar:SetHeight(C["actionbar"].buttonsize*2+C["actionbar"].buttonspacing)
 

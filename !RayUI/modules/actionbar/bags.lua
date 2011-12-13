@@ -5,7 +5,7 @@ local R, C, L, DB = unpack(select(2, ...))
   
   if not barcfg.disable then
   
-    local bar = CreateFrame("Frame","rABS_Bags",UIParent, "SecureHandlerStateTemplate")
+    local bar = CreateFrame("Frame","RayUIBags",UIParent, "SecureHandlerStateTemplate")
     bar:SetWidth(200)
     bar:SetHeight(40)
     bar:SetPoint(barcfg.pos.a1,barcfg.pos.af,barcfg.pos.a2,barcfg.pos.x,barcfg.pos.y)

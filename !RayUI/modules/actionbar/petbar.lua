@@ -2,7 +2,7 @@ local R, C, L, DB = unpack(select(2, ...))
   
 local num = NUM_PET_ACTION_SLOTS
 
-local bar = CreateFrame("Frame","rABS_PetBar",UIParent, "SecureHandlerStateTemplate")
+local bar = CreateFrame("Frame","RayUIPetBar",UIParent, "SecureHandlerStateTemplate")
 bar:SetWidth(C["actionbar"].buttonsize*num+C["actionbar"].buttonspacing*(num-1))
 bar:SetHeight(C["actionbar"].buttonsize)
 bar:SetPoint("BOTTOM", "UIParent", "BOTTOM", 0, 205)
@@ -128,7 +128,7 @@ end)
       local cd = _G["PetActionButton"..i.."Cooldown"]
       button:SetSize(C["actionbar"].buttonsize, C["actionbar"].buttonsize)
       button:ClearAllPoints()
-	  button:SetParent(rABS_PetBar)
+	  button:SetParent(RayUIPetBar)
       if i == 1 then
         button:SetPoint("BOTTOMLEFT", bar, 0,0)
       else

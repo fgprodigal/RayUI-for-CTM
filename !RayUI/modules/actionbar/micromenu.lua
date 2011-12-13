@@ -7,7 +7,7 @@ local R, C, L, DB = unpack(select(2, ...))
 
   if not barcfg.disable then
 
-    local bar = CreateFrame("Frame","rABS_MicroMenu",UIParent, "SecureHandlerStateTemplate")
+    local bar = CreateFrame("Frame","RayUIMicroMenu",UIParent, "SecureHandlerStateTemplate")
     bar:SetWidth(NUM_MICRO*25.2+20)
     bar:SetHeight(50)
     bar:SetPoint(barcfg.pos.a1,barcfg.pos.af,barcfg.pos.a2,barcfg.pos.x,barcfg.pos.y)
@@ -70,14 +70,14 @@ local R, C, L, DB = unpack(select(2, ...))
       bar:RegisterEvent("PLAYER_ENTERING_WORLD")
 
       --fix for the talent button display while micromenu onmouseover
-      local function rABS_TalentButtonAlphaFunc(self,alpha)
+      local function RayUITalentButtonAlphaFunc(self,alpha)
         if switcher ~= alpha then
           switcher = 0
           self:SetAlpha(0)
         end
       end
 
-      hooksecurefunc(TalentMicroButton, "SetAlpha", rABS_TalentButtonAlphaFunc)
+      hooksecurefunc(TalentMicroButton, "SetAlpha", RayUITalentButtonAlphaFunc)
 
     end
 

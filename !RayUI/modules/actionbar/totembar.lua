@@ -6,9 +6,9 @@ if MultiCastActionBarFrame then
 	MultiCastActionBarFrame:SetScript("OnUpdate", nil)
 	MultiCastActionBarFrame:SetScript("OnShow", nil)
 	MultiCastActionBarFrame:SetScript("OnHide", nil)
-	MultiCastActionBarFrame:SetParent(rABS_StanceBar)
+	MultiCastActionBarFrame:SetParent(RayUIStanceBar)
 	MultiCastActionBarFrame:ClearAllPoints()
-	MultiCastActionBarFrame:SetPoint("BOTTOMLEFT", rABS_StanceBar, "BOTTOMLEFT", -2, -2)
+	MultiCastActionBarFrame:SetPoint("BOTTOMLEFT", RayUIStanceBar, "BOTTOMLEFT", -2, -2)
 
 	hooksecurefunc("MultiCastActionButton_Update",function(actionbutton) if not InCombatLockdown() then actionbutton:SetAllPoints(actionbutton.slotButton) end end)
 	

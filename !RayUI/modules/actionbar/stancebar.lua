@@ -3,7 +3,7 @@ local R, C, L, DB = unpack(select(2, ...))
   
 local num = NUM_SHAPESHIFT_SLOTS
 
-local bar = CreateFrame("Frame","rABS_StanceBar",UIParent, "SecureHandlerStateTemplate")
+local bar = CreateFrame("Frame","RayUIStanceBar",UIParent, "SecureHandlerStateTemplate")
 bar:SetWidth(C["actionbar"].buttonsize*num+C["actionbar"].buttonspacing*(num-1))
 bar:SetHeight(C["actionbar"].buttonsize)
 bar:SetPoint("BOTTOMLEFT", "UIParent", "BOTTOMLEFT", 15, 202)
@@ -28,10 +28,10 @@ for i=1, num do
 	end
 end
     
-local function rABS_MoveShapeshift()
+local function RayUIMoveShapeshift()
 	ShapeshiftButton1:SetPoint("BOTTOMLEFT", bar, 0,0)
 end
-hooksecurefunc("ShapeshiftBar_Update", rABS_MoveShapeshift);
+hooksecurefunc("ShapeshiftBar_Update", RayUIMoveShapeshift);
     
     
 if C["actionbar"].stancebarmouseover then    

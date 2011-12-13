@@ -133,7 +133,7 @@ ns.watchers ={
 			mode = "BAR",
 			size = 32,
 			barWidth = 170,
-			setpoint = { "TOPLEFT", "rABS_MultiBarBottomLeft", "TOPRIGHT", 10, 0 },
+			setpoint = { "TOPLEFT", "RayUIActionBar2", "TOPRIGHT", 10, 0 },
 
 			-- Swiftmend / Rasche Heilung
 			{ spellID = 18562, filter = "CD" },

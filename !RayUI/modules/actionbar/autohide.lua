@@ -4,13 +4,13 @@ local autohide = CreateFrame("Frame")
 
 local rabs = {}
 
-if rABS_StanceBar and C["actionbar"].stancebarfade then table.insert(rabs, "rABS_StanceBar") end
-if rABS_PetBar and C["actionbar"].petbarfade then table.insert(rabs, "rABS_PetBar") end
-if rABS_MainMenuBar and C["actionbar"].bar1fade then table.insert(rabs, "rABS_MainMenuBar") end
-if rABS_MultiBarBottomLeft and C["actionbar"].bar2fade then table.insert(rabs, "rABS_MultiBarBottomLeft") end
-if rABS_MultiBarBottomRight and C["actionbar"].bar3fade then table.insert(rabs, "rABS_MultiBarBottomRight") end
-if rABS_MultiBarRight and C["actionbar"].bar4fade then table.insert(rabs, "rABS_MultiBarRight") end
-if rABS_MultiBarLeft and C["actionbar"].bar5fade then table.insert(rabs, "rABS_MultiBarLeft") end
+if RayUIStanceBar and C["actionbar"].stancebarfade then table.insert(rabs, "RayUIStanceBar") end
+if RayUIPetBar and C["actionbar"].petbarfade then table.insert(rabs, "RayUIPetBar") end
+if RayUIActionBar1 and C["actionbar"].bar1fade then table.insert(rabs, "RayUIActionBar1") end
+if RayUIActionBar2 and C["actionbar"].bar2fade then table.insert(rabs, "RayUIActionBar2") end
+if RayUIActionBar3 and C["actionbar"].bar3fade then table.insert(rabs, "RayUIActionBar3") end
+if RayUIActionBar4 and C["actionbar"].bar4fade then table.insert(rabs, "RayUIActionBar4") end
+if RayUIActionBar5 and C["actionbar"].bar5fade then table.insert(rabs, "RayUIActionBar5") end
 
 if #rabs == 0 then return end
 
@@ -69,20 +69,20 @@ local function SetUpFlyout()
 		local button = _G["SpellFlyoutButton"..i]
 		if button then
 			if button:GetParent():GetParent():GetParent() == MultiBarLeft and C["actionbar"].bar5mouseover then
-				button:SetScript("OnEnter", function(self) UIFrameFadeIn(rABS_MultiBarLeft,0.5,rABS_MultiBarLeft:GetAlpha(),1) end)
-				button:SetScript("OnLeave", function(self) UIFrameFadeOut(rABS_MultiBarLeft,0.5,rABS_MultiBarLeft:GetAlpha(),0) end)
+				button:SetScript("OnEnter", function(self) UIFrameFadeIn(RayUIActionBar5,0.5,RayUIActionBar5:GetAlpha(),1) end)
+				button:SetScript("OnLeave", function(self) UIFrameFadeOut(RayUIActionBar5,0.5,RayUIActionBar5:GetAlpha(),0) end)
 			end
 			if button:GetParent():GetParent():GetParent() == MultiBarRight and C["actionbar"].bar4mouseover then
-				button:SetScript("OnEnter", function(self) UIFrameFadeIn(rABS_MultiBarRight,0.5,rABS_MultiBarRight:GetAlpha(),1) end)
-				button:SetScript("OnLeave", function(self) UIFrameFadeOut(rABS_MultiBarRight,0.5,rABS_MultiBarRight:GetAlpha(),0) end)
+				button:SetScript("OnEnter", function(self) UIFrameFadeIn(RayUIActionBar4,0.5,RayUIActionBar4:GetAlpha(),1) end)
+				button:SetScript("OnLeave", function(self) UIFrameFadeOut(RayUIActionBar4,0.5,RayUIActionBar4:GetAlpha(),0) end)
 			end
 			if button:GetParent():GetParent():GetParent() == MultiBarBottomRight and C["actionbar"].bar3mouseover then
-				button:SetScript("OnEnter", function(self) UIFrameFadeIn(rABS_MultiBarBottomRight,0.5,rABS_MultiBarBottomRight:GetAlpha(),1) end)
-				button:SetScript("OnLeave", function(self) UIFrameFadeOut(rABS_MultiBarBottomRight,0.5,rABS_MultiBarBottomRight:GetAlpha(),0) end)
+				button:SetScript("OnEnter", function(self) UIFrameFadeIn(RayUIActionBar3,0.5,RayUIActionBar3:GetAlpha(),1) end)
+				button:SetScript("OnLeave", function(self) UIFrameFadeOut(RayUIActionBar3,0.5,RayUIActionBar3:GetAlpha(),0) end)
 			end
 			if button:GetParent():GetParent():GetParent() == MultiBarBottomLeft and C["actionbar"].bar2mouseover then
-				button:SetScript("OnEnter", function(self) UIFrameFadeIn(rABS_MultiBarBottomLeft,0.5,rABS_MultiBarBottomLeft:GetAlpha(),1) end)
-				button:SetScript("OnLeave", function(self) UIFrameFadeOut(rABS_MultiBarBottomLeft,0.5,rABS_MultiBarBottomLeft:GetAlpha(),0) end)
+				button:SetScript("OnEnter", function(self) UIFrameFadeIn(RayUIActionBar2,0.5,RayUIActionBar2:GetAlpha(),1) end)
+				button:SetScript("OnLeave", function(self) UIFrameFadeOut(RayUIActionBar2,0.5,RayUIActionBar2:GetAlpha(),0) end)
 			end
 		end
 	end
