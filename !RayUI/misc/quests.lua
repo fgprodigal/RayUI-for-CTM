@@ -86,6 +86,24 @@ hooksecurefunc("QuestLog_Update", function(self)
 	end
 end)
 
+--自动选最贵奖励
+local GreedyQuester = CreateFrame("FRAME", nil, UIParent)
+GreedyQuester:RegisterEvent("QUEST_COMPLETE")
+GreedyQuester:SetScript("OnEvent", function() 
+  local max, max_index = 0, 0
+  for x=1,GetNumQuestChoices() do 
+    local item = GetQuestItemLink("choice", x)
+    if item then
+      local price = select(11, GetItemInfo(item))
+      if price > max then
+        max, max_index = price, x
+      end
+    end
+  end
+  local button = _G["QuestInfoItem"..max_index]
+  if button then button:Click() end
+end)
+
 if not C["misc"].automation then return end
 --自动交接任务, Shift点npc不自动交接
 local idQuestAutomation = CreateFrame('Frame')
