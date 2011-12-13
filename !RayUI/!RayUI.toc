@@ -14,9 +14,8 @@ locale\locale.xml
 functions\configui.lua
 media\sharedmedia.lua
 
-modules\skins\skins.xml
-
 functions\api.lua
+modules\skins\skins.xml
 functions\functions.lua
 functions\movers.lua
 
