@@ -172,15 +172,14 @@ function Bag:SlotUpdate(b)
 		-- color slot according to item quality
 		if not b.frame.lock and b.rarity and b.rarity > 1 then
 			b.frame.border:SetBackdropBorderColor(GetItemQualityColor(b.rarity))
-			_G[b.frame:GetName().."IconTexture"]:Point("TOPLEFT", 3, -3)
-			_G[b.frame:GetName().."IconTexture"]:Point("BOTTOMRIGHT", -3, 3)
+			_G[b.frame:GetName().."IconTexture"]:Point("TOPLEFT", 1, -1)
+			_G[b.frame:GetName().."IconTexture"]:Point("BOTTOMRIGHT", -1, 1)
 		elseif GetContainerItemQuestInfo(b.bag, b.slot) then
 			b.frame.border:SetBackdropBorderColor(1, 0, 0)
-			_G[b.frame:GetName().."IconTexture"]:Point("TOPLEFT", 3, -3)
-			_G[b.frame:GetName().."IconTexture"]:Point("BOTTOMRIGHT", -3, 3)
+			_G[b.frame:GetName().."IconTexture"]:Point("TOPLEFT", 1, -1)
+			_G[b.frame:GetName().."IconTexture"]:Point("BOTTOMRIGHT", -1, 1)
 		else
-			_G[b.frame:GetName().."IconTexture"]:Point("TOPLEFT", 2, -2)
-			_G[b.frame:GetName().."IconTexture"]:Point("BOTTOMRIGHT", -2, 2)
+			_G[b.frame:GetName().."IconTexture"]:SetAllPoints()
 		end
 	else
 		b.name, b.rarity = nil, nil
@@ -232,10 +231,13 @@ function Bag:SlotNew(bag, slot)
 	if not ret.frame then
 		ret.frame = CreateFrame("CheckButton", "RayUINormBag" .. bag .. "_" .. slot, self.bags[bag], tpl)
 		ret.frame:StyleButton()
+		ret.frame:GetHighlightTexture():SetAllPoints()
+		ret.frame:GetPushedTexture():SetAllPoints()
+		ret.frame:GetCheckedTexture():SetAllPoints()
 		if not ret.frame.border then
 			local border = CreateFrame("Frame", nil, ret.frame)
-			border:Point("TOPLEFT", 1, -1)
-			border:Point("BOTTOMRIGHT", -1, 1)
+			border:Point("TOPLEFT", -1, 1)
+			border:Point("BOTTOMRIGHT", 1, -1)
 			border:SetFrameLevel(0)
 			ret.frame.border = border
 			ret.frame.border:CreateBorder()
@@ -243,7 +245,7 @@ function Bag:SlotNew(bag, slot)
 
 		ret.frame:SetBackdrop({
 			bgFile = C["media"].blank, 
-			insets = { left = R.mult * 2, right = R.mult * 2, top = R.mult * 2, bottom = R.mult * 2 }
+			insets = { left = 0, right = 0, top = 0, bottom = 0 }
 		})
 
 		local t = _G[ret.frame:GetName().."IconTexture"]
@@ -251,8 +253,9 @@ function Bag:SlotNew(bag, slot)
 		ret.frame:SetCheckedTexture(nil)
 		
 		t:SetTexCoord(.08, .92, .08, .92)
-		t:Point("TOPLEFT", ret.frame, 2, -2)
-		t:Point("BOTTOMRIGHT", ret.frame, -2, 2)		
+		-- t:Point("TOPLEFT", ret.frame, 2, -2)
+		-- t:Point("BOTTOMRIGHT", ret.frame, -2, 2)
+		t:SetAllPoints()
 	end
 
 	ret.bag = bag
@@ -272,21 +275,22 @@ function Bag:Layout(isBank)
 	local rows = 0
 	local offset = 26
 	local cols, f, bs, bSize, BagWidth
+	local spacing = 3
 
 	if not isBank then
-		BagWidth = 420
+		BagWidth = 440
 		bs = BAGS_BACKPACK
 		f = bagFrame	
 		bSize = 42
 		-- cols = (floor((BagWidth - 10)/370 * 10))
-		cols = floor((BagWidth - 10 - 2.5)/((bSize + 1) - 2.5))
+		cols = floor((BagWidth - 10 + spacing)/((bSize + 1) + spacing))
 	else
 		BagWidth = 600
 		bs = BAGS_BANK
 		f = bankFrame
 		bSize = 42	
 		-- cols = (floor((BagWidth - 10)/370 * 10))
-		cols = floor((BagWidth - 10 - 2.5)/((bSize + 1) - 2.5))
+		cols = floor((BagWidth - 10 + spacing)/((bSize + 1) + spacing))
 	end
 	
 	if not f then return end
@@ -343,9 +347,9 @@ function Bag:Layout(isBank)
 	end	
 
 	f:Width(BagWidth)
-	f:Height(rows * (bSize + 1) - (rows - 1) * 2.5 + offset + 24)
+	f:Height(rows * (bSize + 1) + (rows - 1) * spacing + offset + 24)
 	
-	f.HolderFrame:SetWidth(((bSize + 1) - 2.5) * cols + 2.5)
+	f.HolderFrame:SetWidth(((bSize + 1) + spacing) * cols - spacing)
 	f.HolderFrame:SetHeight(f:GetHeight() - 3)
 	f.HolderFrame:SetPoint("BOTTOM", f, "BOTTOM")
 	
@@ -370,9 +374,9 @@ function Bag:Layout(isBank)
 					table.insert(self.buttons, idx + 1, b)
 				end
 
-				xOff = (x * (bSize + 1)) - (x * 2.5)
+				xOff = (x * (bSize + 1)) + (x * spacing)
 
-				yOff = offset + 12 + (y * (bSize + 1)) - ((y - 1) * 2.5)
+				yOff = offset + 12 + (y * (bSize + 1)) + ((y - 1) * spacing)
 				yOff = yOff * -1
 
 				b.frame:ClearAllPoints()
