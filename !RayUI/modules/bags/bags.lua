@@ -280,7 +280,7 @@ function Bag:Layout(isBank)
 	if not isBank then
 		BagWidth = 440
 		bs = BAGS_BACKPACK
-		f = bagFrame	
+		f = bagFrame
 		bSize = 42
 		-- cols = (floor((BagWidth - 10)/370 * 10))
 		cols = floor((BagWidth - 10 + spacing)/((bSize + 1) + spacing))
@@ -288,7 +288,7 @@ function Bag:Layout(isBank)
 		BagWidth = 600
 		bs = BAGS_BANK
 		f = bankFrame
-		bSize = 42	
+		bSize = 42
 		-- cols = (floor((BagWidth - 10)/370 * 10))
 		cols = floor((BagWidth - 10 + spacing)/((bSize + 1) + spacing))
 	end
@@ -380,7 +380,7 @@ function Bag:Layout(isBank)
 				yOff = yOff * -1
 
 				b.frame:ClearAllPoints()
-				b.frame:Point("TOPLEFT", f.HolderFrame, "TOPLEFT", xOff, yOff)
+				b.frame:SetPoint("TOPLEFT", f.HolderFrame, "TOPLEFT", xOff, yOff)
 				b.frame:Size(bSize)
 				
 				local clink = GetContainerItemLink
@@ -534,8 +534,8 @@ function Bag:CreateBagFrame(type)
 	f.editBox:Hide()
 	f.editBox:SetFrameLevel(f.editBox:GetFrameLevel() + 2)
 	f.editBox:Height(15)
-	f.editBox:Point('BOTTOMLEFT', f.HolderFrame, 'TOPLEFT', 2, -35)
-	f.editBox:Point('BOTTOMRIGHT', f.HolderFrame, 'TOPRIGHT', -123, -35)
+	f.editBox:Point('BOTTOMLEFT', f.HolderFrame, 'TOPLEFT', 2, -31)
+	f.editBox:Point('BOTTOMRIGHT', f.HolderFrame, 'TOPRIGHT', -123, -31)
 	f.editBox:SetAutoFocus(true)	
 	f.editBox:SetScript("OnEscapePressed", ResetAndClear)
 	f.editBox:SetScript("OnEnterPressed", ResetAndClear)
@@ -546,11 +546,14 @@ function Bag:CreateBagFrame(type)
 	f.editBox:SetFont(C.media.font, C.media.fontsize)
 	f.editBox:SetShadowColor(0, 0, 0)
 	f.editBox:SetShadowOffset(R.mult, -R.mult)
-	R.CreateBD(f.editBox, 0)
+	f.editBox.border = CreateFrame("Frame", nil, f.editBox)
+	f.editBox.border:Point("TOPLEFT", -3, 0)
+	f.editBox.border:Point("BOTTOMRIGHT", 0, 0)
+	R.CreateBD(f.editBox.border, 0)
 
 	local tex = f.editBox:CreateTexture(nil, "BACKGROUND")
-	tex:SetPoint("TOPLEFT")
-	tex:SetPoint("BOTTOMRIGHT")
+	tex:Point("TOPLEFT", -3, 0)
+	tex:Point("BOTTOMRIGHT", 0, 0)
 	tex:SetTexture(C.Aurora.backdrop)
 	tex:SetGradientAlpha("VERTICAL", 0, 0, 0, .3, .35, .35, .35, .35)
 
