@@ -144,32 +144,31 @@ local function LoadSkin()
 		slot.checkRelic = nil
 		slot:SetNormalTexture("")
 		slot:StyleButton()
-		slot:GetHighlightTexture():Point("TOPLEFT", -1, 1)
-		slot:GetHighlightTexture():Point("BOTTOMRIGHT", 1, -1)
-		slot:GetPushedTexture():Point("TOPLEFT", -1, 1)
-		slot:GetPushedTexture():Point("BOTTOMRIGHT", 1, -1)
+		slot:GetHighlightTexture():SetAllPoints()
+		slot:GetPushedTexture():SetAllPoints()
 		local cooldown = _G[slot:GetName().."Cooldown"]
 		if cooldown then
-			cooldown:Point('TOPLEFT', -1, 1)
-			cooldown:Point('BOTTOMRIGHT', 1, -1)
+			cooldown:SetAllPoints()
 		end
 		ic:SetTexCoord(.08, .92, .08, .92)
+		slot:SetBackdrop({
+					bgFile = C["media"].blank, 
+					insets = { left = -R.mult, right = -R.mult, top = -R.mult, bottom = -R.mult }
+				})
 	end
 
 	select(8, CharacterMainHandSlot:GetRegions()):Kill()
 	select(8, CharacterRangedSlot:GetRegions()):Kill()
-	select(10, CharacterMainHandSlot:GetRegions()):Kill()
-	select(10, CharacterRangedSlot:GetRegions()):Kill()
+	-- select(10, CharacterMainHandSlot:GetRegions()):Kill()
+	-- select(10, CharacterRangedSlot:GetRegions()):Kill()
 	local function SkinItemFlyouts()
 		for i = 1, 10 do
 			local bu = _G["EquipmentFlyoutFrameButton"..i]
 			if bu and not bu.reskinned then
 				bu:SetNormalTexture("")
 				bu:StyleButton()
-				bu:GetHighlightTexture():Point("TOPLEFT", -1, 1)
-				bu:GetHighlightTexture():Point("BOTTOMRIGHT", 1, -1)
-				bu:GetPushedTexture():Point("TOPLEFT", -1, 1)
-				bu:GetPushedTexture():Point("BOTTOMRIGHT", 1, -1)
+				bu:GetHighlightTexture():SetAllPoints()
+				bu:GetPushedTexture():SetAllPoints()
 				_G["EquipmentFlyoutFrameButton"..i.."IconTexture"]:SetTexCoord(.08, .92, .08, .92)
 				bu.reskinned = true
 			end
@@ -177,21 +176,12 @@ local function LoadSkin()
 	end
 	EquipmentFlyoutFrameButtons:HookScript("OnShow", SkinItemFlyouts)
 	hooksecurefunc("EquipmentFlyout_Show", SkinItemFlyouts)
-
-	hooksecurefunc("PaperDollItemSlotButton_Update", function()
-		-- for i = 1, #slots do
-			-- local ic = _G["Character"..slots[i].."SlotIconTexture"]
-
-			-- if not GetInventoryItemLink("player", i) then
-				-- ic:SetTexture(nil)
-			-- end
-		-- end
-	end)
 	
 	local function ColorItemBorder()
 		for i = 1, #slots do
 			-- Colour the equipment slots by rarity
 			local target = _G["Character"..slots[i].."Slot"]
+			local icon = _G["Character"..slots[i].."SlotIconTexture"]
 			local slotId, _, _ = GetInventorySlotInfo(slots[i].."Slot")
 			local itemId = GetInventoryItemID("player", slotId)
 			
@@ -209,11 +199,17 @@ local function LoadSkin()
 				local _, _, rarity, _, _, _, _, _, _, _, _ = GetItemInfo(itemId)
 				if rarity and rarity > 1 then
 					glow:SetBackdropBorderColor(GetItemQualityColor(rarity))
+					icon:Point("TOPLEFT", 1, -1)
+					icon:Point("BOTTOMRIGHT", -1, 1)
+					target:SetBackdropColor(0, 0, 0)
 				else
 					glow:SetBackdropBorderColor(0, 0, 0, 0)
+					icon:SetAllPoints()
+					target:SetBackdropColor(0, 0, 0, 0)
 				end
 			else
 				glow:SetBackdropBorderColor(0, 0, 0, 0)
+				target:SetBackdropColor(0, 0, 0, 0)
 			end
 		end
 	end

@@ -15,6 +15,11 @@ local function LoadSkin()
 	ItemSocketingSocketButton:SetPoint("BOTTOMRIGHT", ItemSocketingFrame, "BOTTOMRIGHT", -10, 28)
 	R.ReskinClose(ItemSocketingCloseButton, "TOPRIGHT", ItemSocketingFrame, "TOPRIGHT", -6, -12)
 	R.ReskinScroll(ItemSocketingScrollFrameScrollBar)
+	
+	for i = 1, MAX_NUM_SOCKETS  do
+		local button = _G["ItemSocketingSocket"..i]
+		button:StyleButton()
+	end
 end
 
 R.SkinFuncs["Blizzard_ItemSocketingUI"] = LoadSkin

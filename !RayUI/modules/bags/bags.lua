@@ -168,15 +168,23 @@ function Bag:SlotUpdate(b)
 		else
 			_G[b.frame:GetName().."IconTexture"]:SetVertexColor(1, 1, 1)
 		end	
-		
+		b.frame:SetBackdropColor(0, 0, 0)
 		-- color slot according to item quality
 		if not b.frame.lock and b.rarity and b.rarity > 1 then
 			b.frame.border:SetBackdropBorderColor(GetItemQualityColor(b.rarity))
+			_G[b.frame:GetName().."IconTexture"]:Point("TOPLEFT", 3, -3)
+			_G[b.frame:GetName().."IconTexture"]:Point("BOTTOMRIGHT", -3, 3)
 		elseif GetContainerItemQuestInfo(b.bag, b.slot) then
 			b.frame.border:SetBackdropBorderColor(1, 0, 0)
+			_G[b.frame:GetName().."IconTexture"]:Point("TOPLEFT", 3, -3)
+			_G[b.frame:GetName().."IconTexture"]:Point("BOTTOMRIGHT", -3, 3)
+		else
+			_G[b.frame:GetName().."IconTexture"]:Point("TOPLEFT", 2, -2)
+			_G[b.frame:GetName().."IconTexture"]:Point("BOTTOMRIGHT", -2, 2)
 		end
 	else
 		b.name, b.rarity = nil, nil
+		b.frame:SetBackdropColor(0, 0, 0, 0)
 	end
 
 	SetItemButtonTexture(b.frame, texture)
@@ -232,9 +240,12 @@ function Bag:SlotNew(bag, slot)
 			ret.frame.border = border
 			ret.frame.border:CreateBorder()
 		end
-		-- ret.frame:CreateBackdrop('Default', true)
-		-- ret.frame.backdrop:SetAllPoints()
-		
+
+		ret.frame:SetBackdrop({
+			bgFile = C["media"].blank, 
+			insets = { left = R.mult * 2, right = R.mult * 2, top = R.mult * 2, bottom = R.mult * 2 }
+		})
+
 		local t = _G[ret.frame:GetName().."IconTexture"]
 		ret.frame:SetNormalTexture(nil)
 		ret.frame:SetCheckedTexture(nil)
@@ -643,25 +654,6 @@ function Bag:InitBags()
 		end	
 	end)
 	R.Reskin(f.bagsButton)
-	
-	-- BackpackTokenFrame:GetRegions():Hide()
-	-- BackpackTokenFrameToken3:ClearAllPoints()
-	-- BackpackTokenFrameToken3:SetPoint("TOPRIGHT", f, "TOPRIGHT", -30, -6)
-	-- for i = 3, 1, -1 do
-		-- local bu = _G["BackpackTokenFrameToken"..i]
-		-- local ic = _G["BackpackTokenFrameToken"..i.."Icon"]
-		-- _G["BackpackTokenFrameToken"..i.."Count"]:SetShadowOffset(0, 0)
-
-		-- bu:SetFrameStrata("DIALOG")
-		-- ic:SetDrawLayer("OVERLAY")
-		-- ic:SetTexCoord(.08, .92, .08, .92)
-		-- if i ~= 3 then
-			-- bu:ClearAllPoints()
-			-- bu:SetPoint("RIGHT", _G["BackpackTokenFrameToken"..i+1], "LEFT", -3, 0)
-		-- end
-
-		-- R.CreateBG(ic)
-	-- end
 	
 	tinsert(UISpecialFrames, f:GetName())
 	
@@ -1210,7 +1202,11 @@ OpenBackpack = Bag.OpenBags
 CloseAllBags = Bag.CloseBags
 CloseBackpack = Bag.CloseBags
 
+TradeFrame:HookScript("OnShow", function() Bag:OpenBags() end)
+TradeFrame:HookScript("OnHide", function() Bag:CloseBags() end)
+
 --Stop Blizzard bank bags from functioning.
 BankFrame:UnregisterAllEvents()
 
 StackSplitFrame:SetFrameStrata('DIALOG')
+LootFrame:SetFrameStrata('DIALOG')

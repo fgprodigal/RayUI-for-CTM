@@ -29,40 +29,10 @@ local function LoadSkin()
 					R.CreateBD(nameframe)
 					tradeItemButton.nameframe = nameframe
 				end
-
-				if tradeItemButton.SetHighlightTexture and not tradeItemButton.hover then
-					local hover = tradeItemButton:CreateTexture("frame", nil, self)
-					hover:SetTexture(1, 1, 1, 0.3)
-					hover:Point('TOPLEFT', 0, -0)
-					hover:Point('BOTTOMRIGHT', -0, 0)
-					tradeItemButton.hover = hover
-					tradeItemButton:SetHighlightTexture(hover)
-				end
 				
-				if tradeItemButton.SetPushedTexture and not tradeItemButton.pushed then
-					local pushed = tradeItemButton:CreateTexture("frame", nil, self)
-					pushed:SetTexture(0.9, 0.8, 0.1, 0.3)
-					pushed:Point('TOPLEFT', 0, -0)
-					pushed:Point('BOTTOMRIGHT', -0, 0)
-					tradeItemButton.pushed = pushed
-					tradeItemButton:SetPushedTexture(pushed)
-				end
-				
-				if tradeItemButton.SetCheckedTexture and not tradeItemButton.checked then
-					local checked = tradeItemButton:CreateTexture("frame", nil, self)
-					checked:SetTexture(23/255,132/255,209/255,0.5)
-					checked:Point('TOPLEFT', 0, -0)
-					checked:Point('BOTTOMRIGHT', -0, 0)
-					tradeItemButton.checked = checked
-					tradeItemButton:SetCheckedTexture(checked)
-				end
-				
-				local cooldown = _G[tradeItemButton:GetName().."Cooldown"]
-				if cooldown then
-					cooldown:ClearAllPoints()
-					cooldown:Point('TOPLEFT', 0, -0)
-					cooldown:Point('BOTTOMRIGHT', -0, 0)
-				end
+				tradeItemButton:StyleButton()
+				tradeItemButton:GetHighlightTexture():SetAllPoints()
+				tradeItemButton:GetPushedTexture():SetAllPoints()
 				
 				if not tradeItemButton.border then
 					local border = CreateFrame("Frame", nil, tradeItemButton)
@@ -75,6 +45,10 @@ local function LoadSkin()
 				end
 				tradeItemButton:SetNormalTexture("")
 				tradeItemButton:SetFrameStrata("HIGH")
+				tradeItemButton:SetBackdrop({
+					bgFile = C["media"].blank, 
+					insets = { left = -R.mult, right = -R.mult, top = -R.mult, bottom = -R.mult }
+				})
 				tradeItemButton.reskinned = true
 			end
 		end
@@ -87,48 +61,6 @@ local function LoadSkin()
 	TradePlayerInputMoneyFrameCopper:ClearAllPoints()
 	TradePlayerInputMoneyFrameCopper:Point("LEFT", TradePlayerInputMoneyFrameSilver, "RIGHT", 1, 0)
 	
-	local function UpdateGlow(button, id)
-		local quality, texture, link, _
-		local quest = _G[button:GetName().."IconQuestTexture"]
-		local icontexture = _G[button:GetName().."IconTexture"]
-		if(id) then
-			_, link, quality, _, _, _, _, _, _, texture = GetItemInfo(id)
-		end
-
-		local glow = button.glow
-		if(not glow) then
-			button.glow = glow
-			glow = CreateFrame("Frame", nil, button)
-			glow:Point("TOPLEFT", -1, 1)
-			glow:Point("BOTTOMRIGHT", 1, -1)
-			glow:CreateBorder()
-			button.glow = glow
-		end
-
-		if(texture) then
-			local r, g, b
-			ItemGlowTooltip:ClearLines()
-			ItemGlowTooltip:SetHyperlink(link)
-			
-			-- if IsItemUnusable(link) then
-			if R.IsItemUnusable(clink) then
-				icontexture:SetVertexColor(RED_FONT_COLOR.r, RED_FONT_COLOR.g, RED_FONT_COLOR.b)
-			else
-				icontexture:SetVertexColor(1, 1, 1)
-			end	
-			if quest and quest:IsShown() then
-				r, g, b = 1, 0, 0
-			else
-				r, g, b = GetItemQualityColor(quality)
-				if (quality <=1 ) then r, g, b = 0, 0, 0 end
-			end
-			glow:SetBackdropBorderColor(r, g, b)
-			glow:Show()
-		else
-			glow:Hide()
-		end
-	end
-
 	hooksecurefunc("TradeFrame_UpdatePlayerItem", function(id)
 		local link = GetTradePlayerItemLink(id)
 		local button = _G["TradePlayerItem"..id.."ItemButton"]
@@ -142,20 +74,30 @@ local function LoadSkin()
 			glow:CreateBorder()
 			button.glow = glow
 		end
+		button:SetBackdropColor(0, 0, 0, 0)
 		if(link) then
 			local r, g, b
 			local _, _, quality, _, _, _, _, _, _, texture = GetItemInfo(link)
-			ItemGlowTooltip:ClearLines()
-			ItemGlowTooltip:SetHyperlink(link)
-			
-			-- if IsItemUnusable(link) then
-			if not TooltipCanUse(ItemGlowTooltip) then
+
+			if R.IsItemUnusable(link) then
 				icontexture:SetVertexColor(RED_FONT_COLOR.r, RED_FONT_COLOR.g, RED_FONT_COLOR.b)
 			else
 				icontexture:SetVertexColor(1, 1, 1)
-			end		
+			end
 			r, g, b = GetItemQualityColor(quality)
-			if (quality <=1 ) then r, g, b = 0, 0, 0 end
+			if (quality <=1 ) then
+				r, g, b = 0, 0, 0
+				icontexture:SetAllPoints()
+				button:SetBackdropColor(0, 0, 0, 0)
+			else
+				icontexture:Point("TOPLEFT", 1, -1)
+				icontexture:Point("BOTTOMRIGHT", -1, 1)
+				button:SetBackdrop({
+					bgFile = C["media"].blank, 
+					insets = { left = -R.mult, right = -R.mult, top = -R.mult, bottom = -R.mult }
+				})
+				button:SetBackdropColor(0, 0, 0)
+			end
 			glow:SetBackdropBorderColor(r, g, b)
 			glow:Show()
 		else
@@ -176,20 +118,29 @@ local function LoadSkin()
 			glow:CreateBorder()
 			button.glow = glow
 		end
+		button:SetBackdropColor(0, 0, 0, 0)
 		if(link) then
 			local r, g, b
 			local _, _, quality, _, _, _, _, _, _, texture = GetItemInfo(link)
-			ItemGlowTooltip:ClearLines()
-			ItemGlowTooltip:SetHyperlink(link)
-			
-			-- if IsItemUnusable(link) then
-			if not TooltipCanUse(ItemGlowTooltip) then
+
+			if R.IsItemUnusable(link) then
 				icontexture:SetVertexColor(RED_FONT_COLOR.r, RED_FONT_COLOR.g, RED_FONT_COLOR.b)
 			else
 				icontexture:SetVertexColor(1, 1, 1)
 			end		
 			r, g, b = GetItemQualityColor(quality)
-			if (quality <=1 ) then r, g, b = 0, 0, 0 end
+			if (quality <=1 ) then
+				r, g, b = 0, 0, 0
+				icontexture:SetAllPoints()
+			else
+				icontexture:Point("TOPLEFT", 1, -1)
+				icontexture:Point("BOTTOMRIGHT", -1, 1)
+				button:SetBackdrop({
+					bgFile = C["media"].blank, 
+					insets = { left = -R.mult, right = -R.mult, top = -R.mult, bottom = -R.mult }
+				})
+				button:SetBackdropColor(0, 0, 0)
+			end
 			glow:SetBackdropBorderColor(r, g, b)
 			glow:Show()
 		else

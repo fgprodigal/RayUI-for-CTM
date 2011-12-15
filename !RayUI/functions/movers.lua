@@ -1,7 +1,7 @@
 --Create a Mover frame by Elv
-
 local R, C, L, DB = unpack(select(2, ...))
 local ADDON_NAME = ...
+local ACD = LibStub("AceConfigDialog-3.0")
 
 R.CreatedMovers = {}
 
@@ -132,6 +132,12 @@ end
 function R.ToggleMovers()
 	if InCombatLockdown() then print(ERR_NOT_IN_COMBAT) return end
 	
+	if RayUIMoverPopupWindow:IsShown() then
+		RayUIMoverPopupWindow:Hide()
+	else
+		RayUIMoverPopupWindow:Show()
+	end
+	
 	if RayUF or oUF then
 		R.MoveoUF()
 	end
@@ -187,6 +193,59 @@ function R.ResetMovers(arg)
 	end
 end
 
+local function CreatePopup()
+	local f = CreateFrame("Frame", "RayUIMoverPopupWindow", UIParent)
+	f:SetFrameStrata("DIALOG")
+	f:SetToplevel(true)
+	f:EnableMouse(true)
+	f:SetClampedToScreen(true)
+	f:SetWidth(360)
+	f:SetHeight(110)
+	f:SetPoint("TOP", 0, -50)
+	f:Hide()
+	f:SetMovable(true)
+	f:RegisterForDrag("LeftButton")
+	f:SetScript("OnDragStart", function(self) self:StartMoving() self:SetUserPlaced(false) end)
+	f:SetScript("OnDragStop", function(self) self:StopMovingOrSizing() end)
+	f:SetScript("OnShow", function() PlaySound("igMainMenuOption") end)
+	f:SetScript("OnHide", function() PlaySound("gsTitleOptionExit") end)
+	R.SetBD(f)
+
+	local title = f:CreateFontString("OVERLAY")
+	title:SetFontObject(GameFontNormal)
+	title:SetShadowOffset(R.mult, -R.mult)
+	title:SetShadowColor(0, 0, 0)
+	title:SetPoint("TOP", f, "TOP", 0, -10)
+	title:SetJustifyH("CENTER")
+	title:SetText("RayUI")
+		
+	local desc = f:CreateFontString("ARTWORK")
+	desc:SetFontObject("GameFontHighlight")
+	desc:SetJustifyV("TOP")
+	desc:SetJustifyH("LEFT")
+	desc:SetPoint("TOPLEFT", 18, -32)
+	desc:SetPoint("BOTTOMRIGHT", -18, 48)
+	desc:SetText(L["锚点已解锁，拖动锚点移动位置，完成后点击锁定按钮。"])
+
+	local lock = CreateFrame("Button", "RayUILock", f, "OptionsButtonTemplate")
+	_G[lock:GetName() .. "Text"]:SetText(L["锁定"])
+
+	lock:SetScript("OnClick", function(self)
+		R.ToggleMovers()
+		ACD["Open"](ACD,"RayUIConfig") 
+	end)
+	
+	lock:SetPoint("BOTTOMRIGHT", -14, 14)
+	R.Reskin(lock)
+	
+	f:RegisterEvent('PLAYER_REGEN_DISABLED')
+	f:SetScript('OnEvent', function(self)
+		if self:IsShown() then
+			self:Hide()
+		end
+	end)
+end
+
 local loadmovers = CreateFrame("Frame")
 loadmovers:RegisterEvent("ADDON_LOADED")
 loadmovers:RegisterEvent("PLAYER_REGEN_DISABLED")
@@ -209,6 +268,7 @@ loadmovers:SetScript("OnEvent", function(self, event, addon)
 			end
 			CreateMover(p, n, t, o, pd)
 		end
+		CreatePopup()
 		self:UnregisterEvent("ADDON_LOADED")
 	else
 		local err = false

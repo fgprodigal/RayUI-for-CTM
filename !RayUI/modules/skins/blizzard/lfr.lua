@@ -26,14 +26,7 @@ local function LoadSkin()
 	LFRQueueFrameCommentInset:DisableDrawLayer("BORDER")
 	LFRQueueFrameRoleInsetBg:Hide()
 	LFRQueueFrameListInsetBg:Hide()
-	LFRQueueFrameCommentInsetBg:Hide()
-	local a1, p, a2, x, y = LFRParentFrameSideTab1:GetPoint()
-	LFRParentFrameSideTab1:SetPoint(a1, p, a2, x + 11, y)
-	LFRParentFrameSideTab1:GetRegions():Hide()
-	LFRParentFrameSideTab1:SetCheckedTexture(C.Aurora.checked)
-	select(2, LFRParentFrameSideTab1:GetRegions()):SetTexCoord(.08, .92, .08, .92)
-	LFRParentFrameSideTab2:SetCheckedTexture(C.Aurora.checked)
-	select(2, LFRParentFrameSideTab2:GetRegions()):SetTexCoord(.08, .92, .08, .92)
+	LFRQueueFrameCommentInsetBg:Hide()	
 	RaidFinderQueueFrameBackground:Hide()
 	RaidParentFrameInsetBg:Hide()
 	RaidFinderFrameRoleInsetBg:Hide()
@@ -48,10 +41,24 @@ local function LoadSkin()
 	for i = 1, 3 do
 		R.CreateTab(_G["RaidParentFrameTab"..i])
 	end
-	R.CreateBG(LFRParentFrameSideTab1)
-	R.CreateBG(LFRParentFrameSideTab2)
-	R.CreateSD(LFRParentFrameSideTab1, 5, 0, 0, 0, 1, 1)
-	R.CreateSD(LFRParentFrameSideTab2, 5, 0, 0, 0, 1, 1)
+
+	for i = 1, 2 do
+		local tab = _G["LFRParentFrameSideTab"..i]
+		tab:GetRegions():Hide()
+		R.CreateBG(tab)
+		R.CreateSD(tab, 5, 0, 0, 0, 1, 1)
+		select(2, tab:GetRegions()):SetTexCoord(.08, .92, .08, .92)
+		
+		if i == 1 then
+			local a1, p, a2, x, y = tab:GetPoint()
+			tab:SetPoint(a1, p, a2, x + 11, y)			
+		end
+		
+		tab:StyleButton()
+		tab:SetPushedTexture(nil)
+		tab:GetHighlightTexture():SetAllPoints()
+		tab:GetCheckedTexture():SetAllPoints()
+	end
 	R.Reskin(RaidFinderFrameFindRaidButton)
 	R.Reskin(RaidFinderFrameCancelButton)
 	R.Reskin(RaidFinderQueueFrameIneligibleFrameLeaveQueueButton)

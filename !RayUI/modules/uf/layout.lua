@@ -820,7 +820,7 @@ local function LoadDPSLayout()
 
 	-- Player's Pet
 	local pet = oUF:Spawn('pet', "RayUF_pet")
-	pet:Point("BOTTOM", rABS_PetBar, "TOP", 0, 3)
+	pet:Point("BOTTOM", RayUIPetBar, "TOP", 0, 3)
 	pet:Size(SMALL_WIDTH, SMALL_HEIGHT)
 	pet:SetParent(player)
 

@@ -139,6 +139,12 @@ local function LoadSkin()
 	bg:SetPoint("BOTTOMRIGHT", -3, 0)
 	bg:Lower()
 	R.CreateBD(bg, .25)
+	
+	QuestInfoSkillPointFrame:StyleButton()
+	QuestInfoSkillPointFrame:GetPushedTexture():Point("TOPLEFT", 1, -1)
+	QuestInfoSkillPointFrame:GetPushedTexture():Point("BOTTOMRIGHT", -1, 1)
+	QuestInfoSkillPointFrame:GetHighlightTexture():Point("TOPLEFT", 1, -1)
+	QuestInfoSkillPointFrame:GetHighlightTexture():Point("BOTTOMRIGHT", -1, 1)
 
 	R.CreateBD(QuestLogCount, .25)
 	QuestInfoSkillPointFrameNameFrame:Hide()
@@ -189,6 +195,12 @@ local function LoadSkin()
 		line:SetSize(1, 40)
 		line:SetPoint("RIGHT", ic, 1, 0)
 		R.CreateBD(line)
+		
+		bu:StyleButton()
+		bu:GetPushedTexture():Point("TOPLEFT", 1, -1)
+		bu:GetPushedTexture():Point("BOTTOMRIGHT", -1, 1)
+		bu:GetHighlightTexture():Point("TOPLEFT", 1, -1)
+		bu:GetHighlightTexture():Point("BOTTOMRIGHT", -1, 1)
 	end
 
 	for i = 1, MAX_NUM_ITEMS do
@@ -211,6 +223,12 @@ local function LoadSkin()
 		line:SetSize(1, 40)
 		line:SetPoint("RIGHT", ic, 1, 0)
 		R.CreateBD(line)
+		
+		bu:StyleButton()
+		bu:GetPushedTexture():Point("TOPLEFT", 1, -1)
+		bu:GetPushedTexture():Point("BOTTOMRIGHT", -1, 1)
+		bu:GetHighlightTexture():Point("TOPLEFT", 1, -1)
+		bu:GetHighlightTexture():Point("BOTTOMRIGHT", -1, 1)
 	end
 	
 	QuestLogFramePushQuestButton:ClearAllPoints()

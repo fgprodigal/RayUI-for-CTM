@@ -69,16 +69,18 @@ local function LoadSkin()
 		slot.checkRelic = nil
 		slot:SetNormalTexture("")
 		slot:StyleButton()
-		slot:GetHighlightTexture():Point("TOPLEFT", -1, 1)
-		slot:GetHighlightTexture():Point("BOTTOMRIGHT", 1, -1)
-		slot:GetPushedTexture():Point("TOPLEFT", -1, 1)
-		slot:GetPushedTexture():Point("BOTTOMRIGHT", 1, -1)
+		slot:GetHighlightTexture():SetAllPoints()
+		slot:GetPushedTexture():SetAllPoints()
 		_G["Inspect"..slots[i].."SlotIconTexture"]:SetTexCoord(.08, .92, .08, .92)
+		slot:SetBackdrop({
+					bgFile = C["media"].blank, 
+					insets = { left = -R.mult, right = -R.mult, top = -R.mult, bottom = -R.mult }
+				})
 	end
 	select(7, InspectMainHandSlot:GetRegions()):Kill()
 	select(7, InspectRangedSlot:GetRegions()):Kill()
-	select(9, InspectMainHandSlot:GetRegions()):Kill()
-	select(9, InspectRangedSlot:GetRegions()):Kill()
+	-- select(9, InspectMainHandSlot:GetRegions()):Kill()
+	-- select(9, InspectRangedSlot:GetRegions()):Kill()
 
 	R.ReskinClose(InspectFrameCloseButton)
 	
@@ -90,6 +92,7 @@ local function LoadSkin()
 		for i = 1, #slots do
 			-- Colour the equipment slots by rarity
 			local target = _G["Inspect"..slots[i].."Slot"]
+			local icon = _G["Inspect"..slots[i].."SlotIconTexture"]
 			local slotId, _, _ = GetInventorySlotInfo(slots[i].."Slot")
 			local itemId = GetInventoryItemID("target", slotId)
 			
@@ -108,11 +111,21 @@ local function LoadSkin()
 				if not rarity then notFound = true end
 				if rarity and rarity > 1 then
 					glow:SetBackdropBorderColor(GetItemQualityColor(rarity))
+					icon:Point("TOPLEFT", 1, -1)
+					icon:Point("BOTTOMRIGHT", -1, 1)
+					target:SetBackdrop({
+						bgFile = C["media"].blank, 
+						insets = { left = -R.mult, right = -R.mult, top = -R.mult, bottom = -R.mult }
+					})
+					target:SetBackdropColor(0, 0, 0)
 				else
 					glow:SetBackdropBorderColor(0, 0, 0, 0)
+					icon:SetAllPoints()
+					target:SetBackdropColor(0, 0, 0, 0)
 				end
 			else
 				glow:SetBackdropBorderColor(0, 0, 0, 0)
+				target:SetBackdropColor(0, 0, 0, 0)
 			end
 		end	
 		

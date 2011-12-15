@@ -1,16 +1,71 @@
 local RayUIWatcher = LibStub("AceAddon-3.0"):NewAddon("RayWatcher", "AceEvent-3.0")
 
+local R, C, L = unpack(RayUI)
 local _, ns = ...
 local _, myclass = UnitClass("player")
 local colors = RAID_CLASS_COLORS
 ns.modules = {}
 local testing = false
+local ACD = LibStub("AceConfigDialog-3.0")
 
 local watcherPrototype = {}
 local _G = _G
 local UnitBuff = UnitBuff
 local UnitDebuff = UnitDebuff
 local CooldownFrame_SetTimer = CooldownFrame_SetTimer
+
+local function CreatePopup()
+	local f = CreateFrame("Frame", "RayUIWatcherMoverPopupWindow", UIParent)
+	f:SetFrameStrata("DIALOG")
+	f:SetToplevel(true)
+	f:EnableMouse(true)
+	f:SetClampedToScreen(true)
+	f:SetWidth(360)
+	f:SetHeight(110)
+	f:SetPoint("TOP", 0, -50)
+	f:Hide()
+	f:SetMovable(true)
+	f:RegisterForDrag("LeftButton")
+	f:SetScript("OnDragStart", function(self) self:StartMoving() self:SetUserPlaced(false) end)
+	f:SetScript("OnDragStop", function(self) self:StopMovingOrSizing() end)
+	f:SetScript("OnShow", function() PlaySound("igMainMenuOption") end)
+	f:SetScript("OnHide", function() PlaySound("gsTitleOptionExit") end)
+	R.SetBD(f)
+
+	local title = f:CreateFontString("OVERLAY")
+	title:SetFontObject(GameFontNormal)
+	title:SetShadowOffset(R.mult, -R.mult)
+	title:SetShadowColor(0, 0, 0)
+	title:SetPoint("TOP", f, "TOP", 0, -10)
+	title:SetJustifyH("CENTER")
+	title:SetText("RayUIWatcher")
+		
+	local desc = f:CreateFontString("ARTWORK")
+	desc:SetFontObject("GameFontHighlight")
+	desc:SetJustifyV("TOP")
+	desc:SetJustifyH("LEFT")
+	desc:SetPoint("TOPLEFT", 18, -32)
+	desc:SetPoint("BOTTOMRIGHT", -18, 48)
+	desc:SetText(L["锚点已解锁，拖动锚点移动位置，完成后点击锁定按钮。"])
+
+	local lock = CreateFrame("Button", "RayUIWatcherLock", f, "OptionsButtonTemplate")
+	_G[lock:GetName() .. "Text"]:SetText(L["锁定"])
+
+	lock:SetScript("OnClick", function(self)
+		ns.TestMode()
+		ACD["Open"](ACD,"RayWatcherConfig") 
+	end)
+	
+	lock:SetPoint("BOTTOMRIGHT", -14, 14)
+	R.Reskin(lock)
+	
+	f:RegisterEvent('PLAYER_REGEN_DISABLED')
+	f:SetScript('OnEvent', function(self)
+		if self:IsShown() then
+			self:Hide()
+		end
+	end)
+end
 
 function watcherPrototype:OnEnable()
 		if self.parent then
@@ -27,8 +82,10 @@ function watcherPrototype:OnDisable()
 end
 
 function watcherPrototype:CreateButton(mode)
-	local button=CreateFrame("Frame", nil, self.parent)
+	local button=CreateFrame("Button", nil, self.parent)
 	button:CreateShadow("Background")
+	button:StyleButton()
+	button:SetPushedTexture(nil)
 	button:SetSize(self.size, self.size)
 	self.parent:SetSize(self.size, self.size)
 	button.icon = button:CreateTexture(nil, "ARTWORK")
@@ -39,20 +96,22 @@ function watcherPrototype:CreateButton(mode)
 	button.count:SetPoint("BOTTOMRIGHT", button , "BOTTOMRIGHT", 0, 0)
 	button:SetScript("OnEnter", function(self)
 			GameTooltip:SetOwner(self, "ANCHOR_TOP")
-			if self.filter == "BUFF" then
-				GameTooltip:SetUnitAura(self.unitID, self.index, "HELPFUL")
-			elseif self.filter == "DEBUFF" then
-				GameTooltip:SetUnitAura(self.unitID, self.index, "HARMFUL")
-			elseif self.filter == "itemCD" then
-				GameTooltip:SetHyperlink(select(2,GetItemInfo(self.spellID)))
+			if not testing then
+				if self.filter == "BUFF" then
+					GameTooltip:SetUnitAura(self.unitID, self.index, "HELPFUL")
+				elseif self.filter == "DEBUFF" then
+					GameTooltip:SetUnitAura(self.unitID, self.index, "HARMFUL")
+				elseif self.filter == "itemCD" then
+					GameTooltip:SetHyperlink(select(2,GetItemInfo(self.spellID)))
+				else
+					GameTooltip:SetSpellByID(self.spellID)
+				end
 			else
 				GameTooltip:SetSpellByID(self.spellID)
 			end
 			GameTooltip:Show()
 		end)
-	button:SetScript("OnLeave", function(self) 
-			GameTooltip:Hide() 
-		end)
+	button:SetScript("OnLeave", GameTooltip_Hide)
 	if mode=="BAR" then
 		button.statusbar = CreateFrame("StatusBar", nil, button)
 		button.statusbar:SetFrameStrata("BACKGROUND")
@@ -489,6 +548,7 @@ function RayUIWatcher:ADDON_LOADED(event, addon)
 	if addon == "RayWatcher" then
 		print("|cff7aa6d6Ray|r|cffff0000W|r|cff7aa6d6atcher|r已加载, 输入/rw2打开设置界面.")
 		self:UnregisterEvent("ADDON_LOADED")
+		CreatePopup()
 	end
 end
 
@@ -602,6 +662,11 @@ function RayUIWatcher:NewWatcher(data)
 end
 
 function ns.TestMode()
+	if not testing then
+		RayUIWatcherMoverPopupWindow:Show()
+	else
+		RayUIWatcherMoverPopupWindow:Hide()
+	end
 	testing = not testing
 	for _, v in pairs(ns.modules) do		
 		v:TestMode(testing)

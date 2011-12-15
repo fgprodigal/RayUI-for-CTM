@@ -161,6 +161,8 @@ function RayWatcherConfig.GenerateOptionsInternal()
 				name = L["解锁锚点"],
 				func = function()
 					ns.TestMode()
+					ACD["Close"](ACD,"RayWatcherConfig") 
+					GameTooltip_Hide()
 					testing = not testing
 				end,
 			},

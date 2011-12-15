@@ -20,10 +20,12 @@ local function LoadSkin()
 			local bu = _G["LootButton"..i]
 			local ic = _G["LootButton"..i.."IconTexture"]
 			_G["LootButton"..i.."IconQuestTexture"]:SetAlpha(0)
-			local _, _, _, _, _, _, _, bg = bu:GetRegions()
+			local _, _, _, _, _, _, _, _, bg = bu:GetRegions()
 
 			bu:SetNormalTexture("")
-			bu:SetPushedTexture("")
+			bu:StyleButton()
+			bu:GetHighlightTexture():SetAllPoints()
+			bu:GetPushedTexture():SetAllPoints()
 
 			local bd = CreateFrame("Frame", nil, bu)
 			bd:SetPoint("TOPLEFT")
@@ -34,7 +36,7 @@ local function LoadSkin()
 			ic:SetTexCoord(.08, .92, .08, .92)
 			ic.bg = R.CreateBG(ic)
 
-			bg:Hide()
+			bg:Kill()
 		end
 
 		hooksecurefunc("LootFrame_UpdateButton", function(index)

@@ -4,7 +4,7 @@ local R, C, L, DB = unpack(select(2, ...))
 local bar = CreateFrame("Frame","RayUIActionBar5",UIParent, "SecureHandlerStateTemplate")
 bar:SetHeight(C["actionbar"].buttonsize*12+C["actionbar"].buttonspacing*11)
 bar:SetWidth(C["actionbar"].buttonsize)
-bar:SetPoint("LEFT", "UIParent", "LEFT", 10, 0)
+bar:Point("LEFT", "UIParent", "LEFT", 10, 0)
 bar:SetHitRectInsets(-C["actionbar"].barinset, -C["actionbar"].barinset, -C["actionbar"].barinset, -C["actionbar"].barinset)
 
 bar:SetScale(C["actionbar"].barscale)

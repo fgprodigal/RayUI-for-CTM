@@ -32,8 +32,13 @@ local function LoadSkin()
 		local bu = _G["MacroButton"..i]
 		local ic = _G["MacroButton"..i.."Icon"]
 
-		bu:SetCheckedTexture(C.Aurora.checked)
 		select(2, bu:GetRegions()):Hide()
+		bu:StyleButton()
+		bu:SetPushedTexture(nil)
+		bu:GetHighlightTexture():Point("TOPLEFT", 1, -1)
+		bu:GetHighlightTexture():Point("BOTTOMRIGHT", -1, 1)
+		bu:GetCheckedTexture():Point("TOPLEFT", 1, -1)
+		bu:GetCheckedTexture():Point("BOTTOMRIGHT", -1, 1)
 
 		ic:SetPoint("TOPLEFT", 1, -1)
 		ic:SetPoint("BOTTOMRIGHT", -1, 1)
@@ -46,8 +51,13 @@ local function LoadSkin()
 		local bu = _G["MacroPopupButton"..i]
 		local ic = _G["MacroPopupButton"..i.."Icon"]
 
-		bu:SetCheckedTexture(C.Aurora.checked)
 		select(2, bu:GetRegions()):Hide()
+		bu:StyleButton()
+		bu:SetPushedTexture(nil)
+		bu:GetHighlightTexture():Point("TOPLEFT", 1, -1)
+		bu:GetHighlightTexture():Point("BOTTOMRIGHT", -1, 1)
+		bu:GetCheckedTexture():Point("TOPLEFT", 1, -1)
+		bu:GetCheckedTexture():Point("BOTTOMRIGHT", -1, 1)
 
 		ic:SetPoint("TOPLEFT", 1, -1)
 		ic:SetPoint("BOTTOMRIGHT", -1, 1)

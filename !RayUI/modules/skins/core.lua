@@ -229,7 +229,7 @@ R.ReskinDropDown = function(f)
 
 	local down = _G[frame.."Button"]
 
-	down:Size(20, 20)
+	down:Size(19, 19)
 	down:ClearAllPoints()
 	down:Point("RIGHT", -18, 2)
 

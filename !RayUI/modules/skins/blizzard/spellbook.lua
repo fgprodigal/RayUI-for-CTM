@@ -80,17 +80,28 @@ local function LoadSkin()
 
 	for i = 1, 5 do
 		local tab = _G["SpellBookSkillLineTab"..i]
-		tab:GetRegions():Hide()
-		tab:SetCheckedTexture(C.Aurora.checked)
+		tab:StripTextures()
 		local a1, p, a2, x, y = tab:GetPoint()
 		tab:SetPoint(a1, p, a2, x + 11, y)
 		R.CreateBG(tab)
 		R.CreateSD(tab, 5, 0, 0, 0, 1, 1)
 		_G["SpellBookSkillLineTab"..i.."TabardIconFrame"]:SetTexCoord(.08, .92, .08, .92)
 		select(4, tab:GetRegions()):SetTexCoord(.08, .92, .08, .92)
+		
+		tab:StyleButton()
+		tab:GetHighlightTexture():SetAllPoints()
+		tab:GetCheckedTexture():SetAllPoints()
+		tab:SetPushedTexture(nil)
 	end
 
-	local professions = {"PrimaryProfession1", "PrimaryProfession2", "SecondaryProfession1", "SecondaryProfession2", "SecondaryProfession3", "SecondaryProfession4"}
+	local professions = {
+		"PrimaryProfession1",
+		"PrimaryProfession2",
+		"SecondaryProfession1",
+		"SecondaryProfession2",
+		"SecondaryProfession3",
+		"SecondaryProfession4"
+	}
 
 	for _, button in pairs(professions) do
 		local bu = _G[button]
@@ -119,15 +130,28 @@ local function LoadSkin()
 		R.CreateBD(bg, .25)
 	end
 
-	local professionbuttons = {"PrimaryProfession1SpellButtonTop", "PrimaryProfession1SpellButtonBottom", "PrimaryProfession2SpellButtonTop", "PrimaryProfession2SpellButtonBottom", "SecondaryProfession1SpellButtonLeft", "SecondaryProfession1SpellButtonRight", "SecondaryProfession2SpellButtonLeft", "SecondaryProfession2SpellButtonRight", "SecondaryProfession3SpellButtonLeft", "SecondaryProfession3SpellButtonRight", "SecondaryProfession4SpellButtonLeft", "SecondaryProfession4SpellButtonRight"}
+	local professionbuttons = {
+		"PrimaryProfession1SpellButtonTop",
+		"PrimaryProfession1SpellButtonBottom",
+		"PrimaryProfession2SpellButtonTop",
+		"PrimaryProfession2SpellButtonBottom",
+		"SecondaryProfession1SpellButtonLeft",
+		"SecondaryProfession1SpellButtonRight",
+		"SecondaryProfession2SpellButtonLeft",
+		"SecondaryProfession2SpellButtonRight",
+		"SecondaryProfession3SpellButtonLeft",
+		"SecondaryProfession3SpellButtonRight",
+		"SecondaryProfession4SpellButtonLeft",
+		"SecondaryProfession4SpellButtonRight"
+	}
 
 	for _, button in pairs(professionbuttons) do
 		local icon = _G[button.."IconTexture"]
 		local bu = _G[button]
 		_G[button.."NameFrame"]:SetAlpha(0)
 
+		bu:StripTextures()
 		bu:SetPushedTexture("")
-		bu:SetCheckedTexture(C.Aurora.checked)
 		bu:GetHighlightTexture():Hide()
 
 		if icon then

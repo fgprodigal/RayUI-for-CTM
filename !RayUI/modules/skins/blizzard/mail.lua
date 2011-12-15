@@ -7,9 +7,14 @@ local function LoadSkin()
 	
 	MailTextFontNormal:SetTextColor(1, 1, 1)
 
-	OpenMailLetterButton:SetNormalTexture("")
-	OpenMailLetterButton:SetPushedTexture("")
+	OpenMailLetterButton:StyleButton()
+	OpenMailLetterButton:GetPushedTexture():SetAllPoints()
+	OpenMailLetterButton:GetHighlightTexture():SetAllPoints()
 	OpenMailLetterButtonIconTexture:SetTexCoord(.08, .92, .08, .92)
+	OpenMailMoneyButton:StyleButton()
+	OpenMailMoneyButton:GetPushedTexture():SetAllPoints()
+	OpenMailMoneyButton:GetHighlightTexture():SetAllPoints()
+	OpenMailMoneyButtonIconTexture:SetTexCoord(.08, .92, .08, .92)
 	OpenMailFrameIcon:Hide()
 	OpenMailHorizontalBarLeft:Hide()
 	select(13, OpenMailFrame:GetRegions()):Hide()
@@ -91,7 +96,10 @@ local function LoadSkin()
 		a:Hide()
 		b:Hide()
 
-		bu:SetCheckedTexture(C.Aurora.checked)
+		bu:StyleButton()
+		bu:SetPushedTexture(nil)
+		bu:GetHighlightTexture():SetAllPoints()
+		bu:GetCheckedTexture():SetAllPoints()
 
 		st:Hide()
 		line:Hide()
@@ -119,8 +127,10 @@ local function LoadSkin()
 		local bu = _G["OpenMailAttachmentButton"..i]
 		local ic = _G["OpenMailAttachmentButton"..i.."IconTexture"]
 
-		bu:SetNormalTexture("")
-		bu:SetPushedTexture("")
+		bu:StyleButton()
+		-- bu:SetPushedTexture(nil)
+		bu:GetPushedTexture():SetAllPoints()
+		bu:GetHighlightTexture():SetAllPoints()
 		ic:SetTexCoord(.08, .92, .08, .92)
 
 		local bg = CreateFrame("Frame", nil, bu)
@@ -136,6 +146,10 @@ local function LoadSkin()
 			if button:GetNormalTexture() then
 				button:GetNormalTexture():SetTexCoord(.08, .92, .08, .92)
 			end
+			button:StyleButton()
+			-- button:SetPushedTexture(nil)
+			button:GetPushedTexture():SetAllPoints()
+			button:GetHighlightTexture():SetAllPoints()
 		end
 	end)
 end

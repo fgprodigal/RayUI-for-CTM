@@ -1,4 +1,5 @@
 local R, C, L, DB = unpack(select(2, ...))
+local AddOnName = ...
 
 local function LoadSkin()
 	R.SetBD(WorldStateScoreFrame)
@@ -21,4 +22,4 @@ local function LoadSkin()
 	R.ReskinClose(WorldStateScoreFrameCloseButton)
 end
 
-R.SkinFuncs["Blizzard_RaidUI"] = LoadSkin
+tinsert(R.SkinFuncs[AddOnName], LoadSkin)

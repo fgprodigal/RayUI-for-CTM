@@ -29,7 +29,7 @@ local function LoadSkin()
 
 		_G["GlyphFrameScrollFrameButton"..i.."Name"]:SetParent(bg)
 		_G["GlyphFrameScrollFrameButton"..i.."TypeName"]:SetParent(bg)
-		bu:SetHighlightTexture("")
+		bu:StyleButton()
 		select(3, bu:GetRegions()):SetAlpha(0)
 		select(4, bu:GetRegions()):SetAlpha(0)
 

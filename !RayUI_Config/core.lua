@@ -108,7 +108,11 @@ function RayUIConfig.GenerateOptionsInternal()
 				type = "execute",
 				name = L["解锁锚点"],
 				desc = L["解锁并移动头像和动作条"],
-				func = function() R.ToggleMovers() end,
+				func = function()
+					ACD["Close"](ACD,"RayUIConfig")
+					R.ToggleMovers()
+					GameTooltip_Hide()
+				end,
 			},
 			general = {
 				order = 4,

@@ -4,7 +4,7 @@ local bar = CreateFrame("Frame","RayUIActionBar3",UIParent, "SecureHandlerStateT
 bar:SetWidth(C["actionbar"].buttonsize*12+C["actionbar"].buttonspacing*11)
 bar:SetHeight(C["actionbar"].buttonsize)
 
-bar:SetPoint("BOTTOM", ActionBar1Mover, "TOP", 0, C["actionbar"].buttonspacing)
+bar:Point("BOTTOM", ActionBar1Mover, "TOP", 0, C["actionbar"].buttonspacing)
 bar:SetHitRectInsets(-C["actionbar"].barinset, -C["actionbar"].barinset, -C["actionbar"].barinset, -C["actionbar"].barinset)
 
 bar:SetScale(C["actionbar"].barscale)

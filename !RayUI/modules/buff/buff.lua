@@ -61,6 +61,9 @@ local function StyleBuffs(button, index, framekind, anchor)
     _G[buff.."Icon"]:SetDrawLayer("OVERLAY")
     _G[buff]:ClearAllPoints()
     _G[buff]:CreateShadow("Default", 2, 4)
+	_G[buff]:StyleButton()
+	_G[buff]:GetHighlightTexture():SetAllPoints()
+	_G[buff]:GetPushedTexture():SetAllPoints()
     
 	_G[buff.."Count"]:ClearAllPoints()
 	_G[buff.."Count"]:Point("TOPRIGHT", 2, 2)
@@ -113,6 +116,7 @@ local function UpdateBuff()
         StyleBuffs("TempEnchant", i, 3, enchantholder)
     end
 end
+
 local function UpdateDebuff(buttonName, index)
     StyleBuffs(buttonName, index, 2, debuffholder)
 end
