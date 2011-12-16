@@ -47,7 +47,7 @@ local function ShowMoney(self)
 	for k, v in pairs(realmlist) do
 		total = total + v
 	end
-	GameTooltip:AddDoubleLine(R.myrealm, formatMoney(total, true), r, g, b, 1, 1, 1)
+	GameTooltip:AddDoubleLine(R.myrealm, formatMoney(total, true), nil, nil, nil, 1, 1, 1)
 	GameTooltip:AddLine(" ")
 	for k, v in pairs(realmlist) do
 		local class = RayConfig.Class[R.myrealm][k]

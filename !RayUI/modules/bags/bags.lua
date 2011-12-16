@@ -256,6 +256,10 @@ function Bag:SlotNew(bag, slot)
 		-- t:Point("TOPLEFT", ret.frame, 2, -2)
 		-- t:Point("BOTTOMRIGHT", ret.frame, -2, 2)
 		t:SetAllPoints()
+		
+		local count = _G[ret.frame:GetName().."Count"]
+		count:ClearAllPoints()
+		count:SetPoint("BOTTOMRIGHT", ret.frame, "BOTTOMRIGHT", 0, 0)
 	end
 
 	ret.bag = bag
@@ -275,20 +279,20 @@ function Bag:Layout(isBank)
 	local rows = 0
 	local offset = 26
 	local cols, f, bs, bSize, BagWidth
-	local spacing = 3
+	local spacing = 5
 
 	if not isBank then
-		BagWidth = 440
+		BagWidth = 370
 		bs = BAGS_BACKPACK
 		f = bagFrame
-		bSize = 42
+		bSize = 32
 		-- cols = (floor((BagWidth - 10)/370 * 10))
 		cols = floor((BagWidth - 10 + spacing)/((bSize + 1) + spacing))
 	else
 		BagWidth = 600
 		bs = BAGS_BANK
 		f = bankFrame
-		bSize = 42
+		bSize = 32
 		-- cols = (floor((BagWidth - 10)/370 * 10))
 		cols = floor((BagWidth - 10 + spacing)/((bSize + 1) + spacing))
 	end

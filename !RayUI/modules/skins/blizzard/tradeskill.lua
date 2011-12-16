@@ -92,6 +92,10 @@ local function LoadSkin()
 	hooksecurefunc("TradeSkillFrame_SetSelection", function()
 		if not reskinned == true then
 			local ic = select(2, TradeSkillSkillIcon:GetRegions())
+			TradeSkillSkillIcon:StyleButton()
+			TradeSkillSkillIcon:SetPushedTexture(nil)
+			TradeSkillSkillIcon:GetHighlightTexture():Point("TOPLEFT", 1, -1)
+			TradeSkillSkillIcon:GetHighlightTexture():Point("BOTTOMRIGHT", -1, 1)
 			if ic then
 				ic:SetTexCoord(.08, .92, .08, .92)
 				ic:SetPoint("TOPLEFT", 1, -1)

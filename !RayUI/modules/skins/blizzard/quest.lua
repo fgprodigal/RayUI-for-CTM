@@ -142,9 +142,9 @@ local function LoadSkin()
 	
 	QuestInfoSkillPointFrame:StyleButton()
 	QuestInfoSkillPointFrame:GetPushedTexture():Point("TOPLEFT", 1, -1)
-	QuestInfoSkillPointFrame:GetPushedTexture():Point("BOTTOMRIGHT", -1, 1)
+	QuestInfoSkillPointFrame:GetPushedTexture():Point("BOTTOMRIGHT", -3, 1)
 	QuestInfoSkillPointFrame:GetHighlightTexture():Point("TOPLEFT", 1, -1)
-	QuestInfoSkillPointFrame:GetHighlightTexture():Point("BOTTOMRIGHT", -1, 1)
+	QuestInfoSkillPointFrame:GetHighlightTexture():Point("BOTTOMRIGHT", -3, 1)
 
 	R.CreateBD(QuestLogCount, .25)
 	QuestInfoSkillPointFrameNameFrame:Hide()

@@ -38,8 +38,6 @@ local function LoadSkin()
 	AchievementFrameFilterDropDownText:ClearAllPoints()
 	AchievementFrameFilterDropDownText:SetPoint("CENTER", -10, 1)
 
-	AchievementFrameSummaryCategoriesStatusBar:SetStatusBarTexture(C.Aurora.backdrop)
-
 	for i = 1, 3 do
 		local tab = _G["AchievementFrameTab"..i]
 		if tab then
@@ -166,6 +164,18 @@ local function LoadSkin()
 				bu.reskinned = true
 			end
 		end
+	end)
+	
+	AchievementFrame:HookScript("OnShow", function()
+		for i=1, 20 do
+			local frame = _G["AchievementFrameCategoriesContainerButton"..i]
+
+			frame:StyleButton()
+			frame:GetHighlightTexture():Point("TOPLEFT", 0, -4)
+			frame:GetHighlightTexture():Point("BOTTOMRiGHT", 0, -3)
+			frame:GetPushedTexture():Point("TOPLEFT", 0, -4)
+			frame:GetPushedTexture():Point("BOTTOMRiGHT", 0, -3)
+		end	
 	end)
 
 	for i = 1, 8 do

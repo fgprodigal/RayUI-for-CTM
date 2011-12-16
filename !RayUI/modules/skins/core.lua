@@ -104,7 +104,8 @@ local function StopGlow(f)
 	f.glow:SetScript("OnUpdate", nil)
 	f.glow:SetAlpha(0)
 end
-R.Reskin = function(f)
+
+R.Reskin = function(f, noGlow)
 	f:SetNormalTexture("")
 	f:SetHighlightTexture("")
 	f:SetPushedTexture("")
@@ -130,18 +131,20 @@ R.Reskin = function(f)
 	tex:SetTexture(C.Aurora.backdrop)
 	tex:SetGradientAlpha("VERTICAL", 0, 0, 0, .3, .35, .35, .35, .35)
 
-	f.glow = CreateFrame("Frame", nil, f)
-	f.glow:SetBackdrop({
-		edgeFile = C["media"].glow,
-		edgeSize = R.Scale(5),
-	})
-	f.glow:Point("TOPLEFT", -6, 6)
-	f.glow:Point("BOTTOMRIGHT", 6, -6)
-	f.glow:SetBackdropBorderColor(r, g, b)
-	f.glow:SetAlpha(0)
+	if not noGlow then
+		f.glow = CreateFrame("Frame", nil, f)
+		f.glow:SetBackdrop({
+			edgeFile = C["media"].glow,
+			edgeSize = R.Scale(5),
+		})
+		f.glow:Point("TOPLEFT", -6, 6)
+		f.glow:Point("BOTTOMRIGHT", 6, -6)
+		f.glow:SetBackdropBorderColor(r, g, b)
+		f.glow:SetAlpha(0)
 
-	f:HookScript("OnEnter", StartGlow)
- 	f:HookScript("OnLeave", StopGlow)
+		f:HookScript("OnEnter", StartGlow)
+		f:HookScript("OnLeave", StopGlow)
+	end
 end
 
 R.CreateTab = function(f)	
