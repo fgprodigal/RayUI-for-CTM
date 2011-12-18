@@ -73,8 +73,6 @@ function Bag:BagFrameSlotNew(frame, slot)
 	
 	ret.frame:SetScript('OnClick', nil)
 
-	-- ret.frame:CreateBackdrop('Default', true)
-	-- ret.frame.backdrop:SetAllPoints()
 	ret.frame:StyleButton()
 	ret.frame:SetFrameLevel(ret.frame:GetFrameLevel() + 1)
 	if not ret.frame.border then
@@ -230,10 +228,8 @@ function Bag:SlotNew(bag, slot)
 
 	if not ret.frame then
 		ret.frame = CreateFrame("CheckButton", "RayUINormBag" .. bag .. "_" .. slot, self.bags[bag], tpl)
-		ret.frame:StyleButton()
-		ret.frame:GetHighlightTexture():SetAllPoints()
-		ret.frame:GetPushedTexture():SetAllPoints()
-		ret.frame:GetCheckedTexture():SetAllPoints()
+		ret.frame:StyleButton(true)
+
 		if not ret.frame.border then
 			local border = CreateFrame("Frame", nil, ret.frame)
 			border:Point("TOPLEFT", -1, 1)
@@ -253,13 +249,11 @@ function Bag:SlotNew(bag, slot)
 		ret.frame:SetCheckedTexture(nil)
 		
 		t:SetTexCoord(.08, .92, .08, .92)
-		-- t:Point("TOPLEFT", ret.frame, 2, -2)
-		-- t:Point("BOTTOMRIGHT", ret.frame, -2, 2)
 		t:SetAllPoints()
 		
 		local count = _G[ret.frame:GetName().."Count"]
 		count:ClearAllPoints()
-		count:SetPoint("BOTTOMRIGHT", ret.frame, "BOTTOMRIGHT", 0, 0)
+		count:Point("BOTTOMRIGHT", ret.frame, "BOTTOMRIGHT", 1, 0)
 	end
 
 	ret.bag = bag
@@ -678,15 +672,14 @@ function Bag:InitBank()
 	
 	--Gold Text
 	f.purchaseBagButton = CreateFrame('Button', nil, f)
-	f.purchaseBagButton:Height(17)
-	f.purchaseBagButton:Point('BOTTOMLEFT', f.detail, 'BOTTOMRIGHT', 18, -1)
-	f.purchaseBagButton:Point('BOTTOMRIGHT', BankFrameHolderFrame, 'TOPRIGHT', -2, 0)
+	f.purchaseBagButton:Size(100, 17)
+	f.purchaseBagButton:Point('TOPRIGHT', f, 'TOPRIGHT', -25, -4)
 	f.purchaseBagButton:SetFrameLevel(f.purchaseBagButton:GetFrameLevel() + 2)
 	f.purchaseBagButton.text = f.purchaseBagButton:CreateFontString(nil, 'OVERLAY')
 	f.purchaseBagButton.text:SetFont(C.media.font, C.media.fontsize)
 	f.purchaseBagButton.text:SetShadowColor(0, 0, 0)
 	f.purchaseBagButton.text:SetShadowOffset(R.mult, -R.mult)
-	f.purchaseBagButton.text:SetPoint('CENTER')
+	f.purchaseBagButton.text:SetPoint('CENTER', 0, 1)
 	f.purchaseBagButton.text:SetJustifyH('CENTER')
 	f.purchaseBagButton.text:SetText(BankFramePurchaseButton:GetText())
 	f.purchaseBagButton:SetScript("OnEnter", Tooltip_Show)

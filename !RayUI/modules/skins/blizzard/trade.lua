@@ -30,9 +30,7 @@ local function LoadSkin()
 					tradeItemButton.nameframe = nameframe
 				end
 				
-				tradeItemButton:StyleButton()
-				tradeItemButton:GetHighlightTexture():SetAllPoints()
-				tradeItemButton:GetPushedTexture():SetAllPoints()
+				tradeItemButton:StyleButton(true)
 				
 				if not tradeItemButton.border then
 					local border = CreateFrame("Frame", nil, tradeItemButton)

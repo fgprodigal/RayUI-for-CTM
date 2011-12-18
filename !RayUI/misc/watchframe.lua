@@ -77,10 +77,8 @@ hooksecurefunc("WatchFrameItem_OnLoad", function(self)
 	local hotkey = _G[self:GetName().."HotKey"]
 	_G[self:GetName().."NormalTexture"]:SetTexture(nil)
 	icon:SetTexCoord(.08, .92, .08, .92)
-	icon:Point("TOPLEFT", self, 2, -2)
-	icon:Point("BOTTOMRIGHT", self, -2, 2)
-	self:CreateShadow("Background", -1, 3)
-	self:StyleButton()
+	self:CreateShadow("Background")
+	self:StyleButton(true)
 	if hotkey:GetText() == _G['RANGE_INDICATOR'] then
 		hotkey:SetText('')
 	end

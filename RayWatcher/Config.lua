@@ -1,6 +1,6 @@
 -----------------------------------------------------------------------------------------------------
 -- name = "目标debuff",
--- setpoint = { "BOTTOMLEFT", "RayUF_target", "TOPLEFT", -2, 33 },
+-- setpoint = { "BOTTOMLEFT", "RayUF_target", "TOPLEFT", 0, 33 },
 -- direction = "UP",
 -- iconSide = "LEFT",
 -- mode = "BAR", 
@@ -22,8 +22,8 @@ ns.watchers ={
 		{
 			name = "玩家buff",
 			direction = "LEFT",
-			setpoint = { "BOTTOMRIGHT", "RayUF_player", "TOPRIGHT", 2, 80 },
-			size = 32,
+			setpoint = { "BOTTOMRIGHT", "RayUF_player", "TOPRIGHT", 0, 80 },
+			size = 27,
 
 			-- 生命之花
 			{ spellID = 33763, unitId = "player", caster = "player", filter = "BUFF" },
@@ -37,8 +37,8 @@ ns.watchers ={
 		{
 			name = "目标buff",
 			direction = "RIGHT",
-			setpoint = { "BOTTOMLEFT", "RayUF_target", "TOPLEFT", -2, 80 },
-			size = 32,
+			setpoint = { "BOTTOMLEFT", "RayUF_target", "TOPLEFT", 0, 80 },
+			size = 27,
 
 			-- 生命之花
 			{ spellID = 33763, unitId = "target", caster = "player", filter = "BUFF" },
@@ -53,8 +53,8 @@ ns.watchers ={
 		{
 			name = "玩家重要buff",
 			direction = "LEFT",
-			setpoint = { "BOTTOMRIGHT", "RayUF_player", "TOPRIGHT", 2, 33 },
-			size = 42,
+			setpoint = { "BOTTOMRIGHT", "RayUF_player", "TOPRIGHT", 0, 33 },
+			size = 38,
 			
 			-- 蝕星蔽月(月蝕)
 			{ spellID = 48518, unitId = "player", caster = "player", filter = "BUFF" },
@@ -83,8 +83,8 @@ ns.watchers ={
 		{
 			name = "目标debuff",
 			direction = "RIGHT",
-			setpoint = { "BOTTOMLEFT", "RayUF_target", "TOPLEFT", -2, 33 },
-			size = 42,
+			setpoint = { "BOTTOMLEFT", "RayUF_target", "TOPLEFT", 0, 33 },
+			size = 38,
 			
 			-- 休眠
 			{ spellID = 2637, unitId = "target", caster = "all", filter = "DEBUFF" },
@@ -120,7 +120,7 @@ ns.watchers ={
 			name = "焦点debuff",
 			direction = "UP",
 			setpoint = { "BOTTOMLEFT", "RayUF_focus", "TOPLEFT", 0, 10 },
-			size = 32, 
+			size = 24,
 			mode = "BAR",
 			iconSide = "LEFT",
 			barWidth = 170,
@@ -137,9 +137,9 @@ ns.watchers ={
 			direction = "DOWN",
 			iconSide = "LEFT",
 			mode = "BAR",
-			size = 32,
+			size = 27,
 			barWidth = 170,
-			setpoint = { "BOTTOMLEFT", RayUIActionBar2, "BOTTOMRIGHT", 5, 0 },
+			setpoint = { "BOTTOMLEFT", RayUIActionBar2, "BOTTOMRIGHT", 6, 0 },
 
 			--狂暴
 			{ spellID = 50334, filter = "CD" },
@@ -161,8 +161,8 @@ ns.watchers ={
 		{
 			name = "玩家重要buff",
 			direction = "LEFT",
-			setpoint = { "BOTTOMRIGHT", "RayUF_player", "TOPRIGHT", 2, 33 },
-			size = 42,
+			setpoint = { "BOTTOMRIGHT", "RayUF_player", "TOPRIGHT", 0, 33 },
+			size = 38,
 			
 			-- 蓄勢待發
 			{ spellID = 56342, unitId = "player", caster = "player", filter = "BUFF" },
@@ -183,8 +183,8 @@ ns.watchers ={
 		{
 			name = "目标debuff",
 			direction = "RIGHT",
-			setpoint = { "BOTTOMLEFT", "RayUF_target", "TOPLEFT", -2, 33 },
-			size = 42,
+			setpoint = { "BOTTOMLEFT", "RayUF_target", "TOPLEFT", 0, 33 },
+			size = 38,
 			
 			-- 翼龍釘刺
 			{ spellID = 19386, unitId = "target", caster = "all", filter = "DEBUFF" },
@@ -207,7 +207,7 @@ ns.watchers ={
 			name = "焦点debuff",
 			direction = "UP",
 			setpoint = { "BOTTOMLEFT", "RayUF_focus", "TOPLEFT", 0, 10 },
-			size = 32, 
+			size = 24,
 			mode = "BAR",
 			iconSide = "LEFT",
 			barWidth = 170,
@@ -222,8 +222,8 @@ ns.watchers ={
 		{
 			name = "玩家重要buff&debuff",
 			direction = "LEFT",
-			setpoint = { "BOTTOMRIGHT", "RayUF_player", "TOPRIGHT", 2, 33 },
-			size = 42,
+			setpoint = { "BOTTOMRIGHT", "RayUF_player", "TOPRIGHT", 0, 33 },
+			size = 38,
 			
 			-- 冰霜之指
 			{ spellID = 44544, unitId = "player", caster = "player", filter = "BUFF" },
@@ -258,8 +258,8 @@ ns.watchers ={
 		{
 			name = "目标debuff",
 			direction = "RIGHT",
-			setpoint = { "BOTTOMLEFT", "RayUF_target", "TOPLEFT", -2, 33 },
-			size = 42,
+			setpoint = { "BOTTOMLEFT", "RayUF_target", "TOPLEFT", 0, 33 },
+			size = 38,
 			
 			-- 變形術
 			{ spellID = 118, unitId = "target", caster = "all", filter = "DEBUFF" },
@@ -287,7 +287,7 @@ ns.watchers ={
 			name = "焦点debuff",
 			direction = "UP",
 			setpoint = { "BOTTOMLEFT", "RayUF_focus", "TOPLEFT", 0, 10 },
-			size = 32, 
+			size = 24,
 			mode = "BAR",
 			iconSide = "LEFT",
 			barWidth = 170,
@@ -302,9 +302,9 @@ ns.watchers ={
 			direction = "DOWN",
 			iconSide = "LEFT",
 			mode = "BAR",
-			size = 32,
+			size = 27,
 			barWidth = 170,
-			setpoint = { "BOTTOMLEFT", RayUIActionBar2, "BOTTOMRIGHT", 5, 0 },
+			setpoint = { "BOTTOMLEFT", RayUIActionBar2, "BOTTOMRIGHT", 6, 0 },
 			
 			-- 镜像术
 			{ spellID = 55342, unitId = "player", caster = "player", filter = "CD" },
@@ -332,8 +332,8 @@ ns.watchers ={
 		{
 			name = "玩家重要buff",
 			direction = "LEFT",
-			setpoint = { "BOTTOMRIGHT", "RayUF_player", "TOPRIGHT", 2, 33 },
-			size = 42,
+			setpoint = { "BOTTOMRIGHT", "RayUF_player", "TOPRIGHT", 0, 33 },
+			size = 38,
 			
 			-- Sudden Death / Plötzlicher Tod
 			{ spellID = 52437, unitId = "player", caster = "player", filter = "BUFF" },
@@ -358,8 +358,8 @@ ns.watchers ={
 		{
 			name = "目标debuff",
 			direction = "RIGHT",
-			setpoint = { "BOTTOMLEFT", "RayUF_target", "TOPLEFT", -2, 33 },
-			size = 42,
+			setpoint = { "BOTTOMLEFT", "RayUF_target", "TOPLEFT", 0, 33 },
+			size = 38,
 			
 			-- Charge Stun / Sturmangriffsbetäubung
 			{ spellID = 7922, unitId = "target", caster = "all", filter = "DEBUFF" },
@@ -392,8 +392,8 @@ ns.watchers ={
 		{
 			name = "玩家buff",
 			direction = "LEFT",
-			setpoint = { "BOTTOMRIGHT", "RayUF_player", "TOPRIGHT", 2, 80 },
-			size = 32,
+			setpoint = { "BOTTOMRIGHT", "RayUF_player", "TOPRIGHT", 0, 80 },
+			size = 27,
 			
 			-- Earth Shield / Erdschild
 			{ spellID = 974, unitId = "player", caster = "player", filter = "BUFF" },
@@ -408,8 +408,8 @@ ns.watchers ={
 		{
 			name = "目标buff",
 			direction = "RIGHT",
-			setpoint = { "BOTTOMLEFT", "RayUF_target", "TOPLEFT", -2, 80 },
-			size = 32,
+			setpoint = { "BOTTOMLEFT", "RayUF_target", "TOPLEFT", 0, 80 },
+			size = 27,
 			
 			-- Earth Shield / Erdschild
 			{ spellID = 974, unitId = "target", caster = "player", filter = "BUFF" },
@@ -420,8 +420,8 @@ ns.watchers ={
 		{
 			name = "玩家重要buff",
 			direction = "LEFT",
-			setpoint = { "BOTTOMRIGHT", "RayUF_player", "TOPRIGHT", 2, 33 },
-			size = 42,
+			setpoint = { "BOTTOMRIGHT", "RayUF_player", "TOPRIGHT", 0, 33 },
+			size = 38,
 			
 			-- Maelstorm Weapon / Waffe des Mahlstroms
 			{ spellID = 53817, unitId = "player", caster = "player", filter = "BUFF" },
@@ -438,8 +438,8 @@ ns.watchers ={
 		{
 			name = "目标debuff",
 			direction = "RIGHT",
-			setpoint = { "BOTTOMLEFT", "RayUF_target", "TOPLEFT", -2, 33 },
-			size = 42,
+			setpoint = { "BOTTOMLEFT", "RayUF_target", "TOPLEFT", 0, 33 },
+			size = 38,
 			
 			-- Hex / Verhexen
 			{ spellID = 51514, unitId = "target", caster = "all", filter = "DEBUFF" },
@@ -459,7 +459,7 @@ ns.watchers ={
 			name = "焦点debuff",
 			direction = "UP",
 			setpoint = { "BOTTOMLEFT", "RayUF_focus", "TOPLEFT", 0, 10 },
-			size = 32, 
+			size = 24,
 			mode = "BAR",
 			iconSide = "LEFT",
 			barWidth = 170,
@@ -475,8 +475,8 @@ ns.watchers ={
 		{
 			name = "玩家buff",
 			direction = "LEFT",
-			setpoint = { "BOTTOMRIGHT", "RayUF_player", "TOPRIGHT", 2, 80 },
-			size = 32,
+			setpoint = { "BOTTOMRIGHT", "RayUF_player", "TOPRIGHT", 0, 80 },
+			size = 27,
 			
 			-- 聖光信標
 			{ spellID = 53563, unitId = "player", caster = "player", filter = "BUFF" },
@@ -486,8 +486,8 @@ ns.watchers ={
 		{
 			name = "目标buff",
 			direction = "RIGHT",
-			setpoint = { "BOTTOMLEFT", "RayUF_target", "TOPLEFT", -2, 80 },
-			size = 32,
+			setpoint = { "BOTTOMLEFT", "RayUF_target", "TOPLEFT", 0, 80 },
+			size = 27,
 			
 			-- 聖光信標
 			{ spellID = 53563, unitId = "target", caster = "player", filter = "BUFF" },
@@ -495,8 +495,8 @@ ns.watchers ={
 		{
 			name = "玩家重要buff",
 			direction = "LEFT",
-			setpoint = { "BOTTOMRIGHT", "RayUF_player", "TOPRIGHT", 2, 33 },
-			size = 42,
+			setpoint = { "BOTTOMRIGHT", "RayUF_player", "TOPRIGHT", 0, 33 },
+			size = 38,
 
 			-- 神聖之盾
 			{ spellID = 20925, unitId = "player", caster = "player", filter = "BUFF" },
@@ -516,8 +516,8 @@ ns.watchers ={
 		{
 			name = "目标debuff",
 			direction = "RIGHT",
-			setpoint = { "BOTTOMLEFT", "RayUF_target", "TOPLEFT", -2, 33 },
-			size = 42,
+			setpoint = { "BOTTOMLEFT", "RayUF_target", "TOPLEFT", 0, 33 },
+			size = 38,
 			
 			-- 制裁之錘
 			{ spellID = 853, unitId = "target", caster = "all", filter = "DEBUFF" },
@@ -529,7 +529,7 @@ ns.watchers ={
 			name = "焦点debuff",
 			direction = "UP",
 			setpoint = { "BOTTOMLEFT", "RayUF_focus", "TOPLEFT", 0, 10 },
-			size = 32, 
+			size = 24,
 			mode = "BAR",
 			iconSide = "LEFT",
 			barWidth = 170,
@@ -543,9 +543,9 @@ ns.watchers ={
 			direction = "DOWN",
 			iconSide = "LEFT",
 			mode = "BAR",
-			size = 32,
+			size = 27,
 			barWidth = 170,
-			setpoint = { "BOTTOMLEFT", RayUIActionBar2, "BOTTOMRIGHT", 5, 0 },
+			setpoint = { "BOTTOMLEFT", RayUIActionBar2, "BOTTOMRIGHT", 6, 0 },
 
 			--神恩術
 			{ spellID = 31842, filter = "CD" },
@@ -567,8 +567,8 @@ ns.watchers ={
 		{
 			name = "玩家buff&debuff",
 			direction = "LEFT",
-			setpoint = { "BOTTOMRIGHT", "RayUF_player", "TOPRIGHT", 2, 80 },
-			size = 32,
+			setpoint = { "BOTTOMRIGHT", "RayUF_player", "TOPRIGHT", 0, 80 },
+			size = 27,
 			
 			-- 真言術：盾
 			{ spellID = 17, unitId = "player", caster = "all", filter = "BUFF" },
@@ -590,8 +590,8 @@ ns.watchers ={
 		{
 			name = "目标buff",
 			direction = "RIGHT",
-			setpoint = { "BOTTOMLEFT", "RayUF_target", "TOPLEFT", -2, 80 },
-			size = 32,
+			setpoint = { "BOTTOMLEFT", "RayUF_target", "TOPLEFT", 0, 80 },
+			size = 27,
 			
 			-- 愈合祷言
 			{ spellID = 41635, unitId = "target", caster = "player", filter = "BUFF" },
@@ -612,8 +612,8 @@ ns.watchers ={
 		{
 			name = "玩家重要buff",
 			direction = "LEFT",
-			setpoint = { "BOTTOMRIGHT", "RayUF_player", "TOPRIGHT", 2, 33 },
-			size = 42,
+			setpoint = { "BOTTOMRIGHT", "RayUF_player", "TOPRIGHT", 0, 33 },
+			size = 38,
 			
 			-- 光之澎湃
 			{ spellID = 88688, unitId = "player", caster = "all", filter = "BUFF" },
@@ -638,8 +638,8 @@ ns.watchers ={
 		{
 			name = "目标debuff",
 			direction = "RIGHT",
-			setpoint = { "BOTTOMLEFT", "RayUF_target", "TOPLEFT", -2, 33 },
-			size = 42,
+			setpoint = { "BOTTOMLEFT", "RayUF_target", "TOPLEFT", 0, 33 },
+			size = 38,
 			
 			-- 束縛不死生物
 			{ spellID = 9484, unitId = "target", caster = "all", filter = "DEBUFF" },
@@ -667,7 +667,7 @@ ns.watchers ={
 			name = "焦点debuff",
 			direction = "UP",
 			setpoint = { "BOTTOMLEFT", "RayUF_focus", "TOPLEFT", 0, 10 },
-			size = 32, 
+			size = 24,
 			mode = "BAR",
 			iconSide = "LEFT",
 			barWidth = 170,
@@ -683,9 +683,9 @@ ns.watchers ={
 			direction = "DOWN",
 			iconSide = "LEFT",
 			mode = "BAR",
-			size = 32,
+			size = 27,
 			barWidth = 170,
-			setpoint = { "BOTTOMLEFT", RayUIActionBar2, "BOTTOMRIGHT", 5, 0 },
+			setpoint = { "BOTTOMLEFT", RayUIActionBar2, "BOTTOMRIGHT", 6, 0 },
 			
 			--大天使
 			{ spellID = 87151, unitId = "player", caster = "player", filter = "CD" },
@@ -702,10 +702,10 @@ ns.watchers ={
 	["WARLOCK"]={
 		{
 			name = "目标debuff",
-			setpoint = { "BOTTOMLEFT", "RayUF_target", "TOPLEFT", -2, 33 },
+			setpoint = { "BOTTOMLEFT", "RayUF_target", "TOPLEFT", 0, 33 },
 			direction = "RIGHT",
 			mode = "ICON",
-			size = 42,
+			size = 38,
 	
 			{spellID = 8050, unitId = "target", caster = "target", filter = "DEBUFF"},
 			-- Fear / Furcht
@@ -745,9 +745,9 @@ ns.watchers ={
 		},
 		{
 			name = "玩家重要buff",
-			setpoint = { "BOTTOMRIGHT", "RayUF_player", "TOPRIGHT", 2, 33 },
+			setpoint = { "BOTTOMRIGHT", "RayUF_player", "TOPRIGHT", 0, 33 },
 			direction = "LEFT",
-			size = 42,
+			size = 38,
 			-- Improved Soul Fire / Verbessertes Seelenfeuer
 			{ spellID = 85383, unitId = "player", caster = "player", filter = "BUFF" },
 			-- Molten Core / Geschmolzener Kern
@@ -770,8 +770,8 @@ ns.watchers ={
 		{
 			name = "玩家重要buff",
 			direction = "LEFT",
-			setpoint = { "BOTTOMRIGHT", "RayUF_player", "TOPRIGHT", 2, 33 },
-			size = 42,
+			setpoint = { "BOTTOMRIGHT", "RayUF_player", "TOPRIGHT", 0, 33 },
+			size = 38,
 			
 			-- 疾跑
 			{ spellID = 2983, unitId = "player", caster = "player", filter = "BUFF" },
@@ -808,8 +808,8 @@ ns.watchers ={
 		{
 			name = "目标debuff",
 			direction = "RIGHT",
-			setpoint = { "BOTTOMLEFT", "RayUF_target", "TOPLEFT", -2, 33 },
-			size = 42,
+			setpoint = { "BOTTOMLEFT", "RayUF_target", "TOPLEFT", 0, 33 },
+			size = 38,
 			
 			-- 偷襲
 			{ spellID = 1833, unitId = "target", caster = "all", filter = "DEBUFF" },
@@ -845,7 +845,7 @@ ns.watchers ={
 			name = "焦点debuff",
 			direction = "UP",
 			setpoint = { "BOTTOMLEFT", "RayUF_focus", "TOPLEFT", 0, 10 },
-			size = 32, 
+			size = 24,
 			mode = "BAR",
 			iconSide = "LEFT",
 			barWidth = 170,
@@ -861,9 +861,9 @@ ns.watchers ={
 			direction = "DOWN",
 			iconSide = "LEFT",
 			mode = "BAR",
-			size = 32,
+			size = 27,
 			barWidth = 170,
-			setpoint = { "BOTTOMLEFT", RayUIActionBar2, "BOTTOMRIGHT", 5, 0 },
+			setpoint = { "BOTTOMLEFT", RayUIActionBar2, "BOTTOMRIGHT", 6, 0 },
 
 			--暗影步
 			{ spellID = 36554, filter = "CD" },
@@ -903,8 +903,8 @@ ns.watchers ={
 		{
 			name = "玩家重要buff",
 			direction = "LEFT",
-			setpoint = { "BOTTOMRIGHT", "RayUF_player", "TOPRIGHT", 2, 33 },
-			size = 42,
+			setpoint = { "BOTTOMRIGHT", "RayUF_player", "TOPRIGHT", 0, 33 },
+			size = 38,
 			
 			-- Blood Shield / Blutschild
 			{ spellID = 77513, unitId = "player", caster = "player", filter = "BUFF" },
@@ -931,8 +931,8 @@ ns.watchers ={
 		{
 			name = "目标debuff",
 			direction = "RIGHT",
-			setpoint = { "BOTTOMLEFT", "RayUF_target", "TOPLEFT", -2, 33 },
-			size = 42,
+			setpoint = { "BOTTOMLEFT", "RayUF_target", "TOPLEFT", 0, 33 },
+			size = 38,
 			
 			-- Strangulate / Strangulieren
 			{ spellID = 47476, unitId = "target", caster = "player", filter = "DEBUFF" },
@@ -953,8 +953,8 @@ ns.watchers ={
 		{
 			name = "玩家特殊buff",
 			direction = "LEFT",
-			setpoint = { "TOPRIGHT", "RayUF_player", "BOTTOMRIGHT", 2, -5 },
-			size = 45,
+			setpoint = { "TOPRIGHT", "RayUF_player", "BOTTOMRIGHT", 0, -9 },
+			size = 41,
 
 		-- 飾品
 			-- 伊格納修斯之心
@@ -1038,7 +1038,7 @@ ns.watchers ={
 			name = "PVE/PVP玩家debuff",
 			direction = "UP",
 			setpoint = { "BOTTOM", UIParent, "BOTTOM", -35, 350 },
-			size = 55,
+			size = 51,
 			
 		
 			
@@ -1360,13 +1360,15 @@ ns.watchers ={
 			-- 死亡之翼的脊椎
 			-- 熾熱之握
 			{ spellID = 105490, unitId = "player", caster = "all", filter = "DEBUFF" },
+			-- 纏繞觸鬚
+			{ spellID = 109454, unitId = "player", caster = "all", filter = "DEBUFF" },
 
 		},
 		{
 			name = "PVP目标buff",
 			direction = "UP",
 			setpoint = { "BOTTOM", UIParent, "BOTTOM", 35, 350 },
-			size = 55,
+			size = 51,
 			
 			
 			-- 豹群

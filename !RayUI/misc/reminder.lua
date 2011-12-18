@@ -393,8 +393,8 @@ for groupName, _ in pairs(tab) do
 	frame.icon = frame:CreateTexture(nil, "OVERLAY")
 	frame.icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 	frame.icon:SetPoint("CENTER")
-	frame.icon:Width(36)
-	frame.icon:Height(36)
+	frame.icon:Width(40)
+	frame.icon:Height(40)
 	frame:Hide()
 
 	frame:RegisterEvent("UNIT_AURA")

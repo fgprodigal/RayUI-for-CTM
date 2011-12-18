@@ -3,10 +3,7 @@ local R, C, L, DB = unpack(select(2, ...))
 local bar = CreateFrame("Frame","RayUIActionBar1",UIParent, "SecureHandlerStateTemplate")
 bar:SetWidth(C["actionbar"].buttonsize*12+C["actionbar"].buttonspacing*11)
 bar:SetHeight(C["actionbar"].buttonsize)
-
 bar:Point("BOTTOM", "UIParent", "BOTTOM", -3 * C["actionbar"].buttonsize -3 * C["actionbar"].buttonspacing, 235)
-bar:SetHitRectInsets(-C["actionbar"].barinset, -C["actionbar"].barinset, -C["actionbar"].barinset, -C["actionbar"].barinset)
-
 bar:SetScale(C["actionbar"].barscale)
 
 R.CreateMover(bar, "ActionBar1Mover", L["动作条1锚点"], true)

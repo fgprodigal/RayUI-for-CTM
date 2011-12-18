@@ -23,9 +23,7 @@ local function LoadSkin()
 			local _, _, _, _, _, _, _, _, bg = bu:GetRegions()
 
 			bu:SetNormalTexture("")
-			bu:StyleButton()
-			bu:GetHighlightTexture():SetAllPoints()
-			bu:GetPushedTexture():SetAllPoints()
+			bu:StyleButton(true)
 
 			local bd = CreateFrame("Frame", nil, bu)
 			bd:SetPoint("TOPLEFT")

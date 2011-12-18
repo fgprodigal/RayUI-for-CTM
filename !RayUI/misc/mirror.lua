@@ -81,8 +81,7 @@ do
 		bg:SetVertexColor(r * .2, g * .2, b * .2)
 		
 		local border = CreateFrame("Frame", nil, frame)
-		border:SetPoint("TOPLEFT", frame, R.Scale(-2), R.Scale(2))
-		border:SetPoint("BOTTOMRIGHT", frame, R.Scale(2), R.Scale(-2))
+		border:SetAllPoints()
 		border:CreateShadow("Background")
 		border:SetFrameLevel(0)
 	

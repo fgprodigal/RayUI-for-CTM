@@ -545,7 +545,7 @@ for i=1,numf do
 	f:SetClampRectInsets(0,0,ct.fontsize,0)
 	if(i==1)then
 		f:SetJustifyH(ct.justify_1)
-		f:SetPoint("BOTTOMRIGHT",UIParent, "BOTTOM", -310, 430)
+		f:SetPoint("BOTTOMRIGHT",UIParent, "BOTTOM", -310, 440)
 		f:SetHeight(260)
 		f:SetWidth(128)
 		local a,_,c=f:GetFont()
@@ -558,7 +558,7 @@ for i=1,numf do
 		end
 	elseif(i==2)then
 		f:SetJustifyH(ct.justify_2)
-		f:SetPoint("BOTTOMRIGHT",UIParent, "BOTTOM", -200, 430)
+		f:SetPoint("BOTTOMRIGHT",UIParent, "BOTTOM", -200, 440)
 		f:SetHeight(260)
 		f:SetWidth(128)
 		local a,_,c=f:GetFont()
@@ -577,7 +577,7 @@ for i=1,numf do
 		f:SetWidth(256)
 	else
 		f:SetJustifyH(ct.justify_4)
-		f:SetPoint("BOTTOMRIGHT",UIParent, "BOTTOM", 460, 430)
+		f:SetPoint("BOTTOMRIGHT",UIParent, "BOTTOM", 450, 440)
 		f:SetHeight(260)
 		f:SetWidth(128)
 		local a,_,c=f:GetFont()
@@ -843,11 +843,11 @@ SlashCmdList["XCT"]=function(input)
 		end
 	elseif(input=="mypos")then
 		xCT1:ClearAllPoints()
-		xCT1:SetPoint("BOTTOMRIGHT",UIParent, "BOTTOM", -310, 430)
+		xCT1:SetPoint("BOTTOMRIGHT",UIParent, "BOTTOM", -310, 440)
 		xCT1:SetHeight(260)
 		xCT1:SetWidth(128)
 		xCT2:ClearAllPoints()
-		xCT2:SetPoint("BOTTOMRIGHT",UIParent, "BOTTOM", -200, 430)
+		xCT2:SetPoint("BOTTOMRIGHT",UIParent, "BOTTOM", -200, 440)
 		xCT2:SetHeight(260)
 		xCT2:SetWidth(128)
 		xCT3:ClearAllPoints()
@@ -855,7 +855,7 @@ SlashCmdList["XCT"]=function(input)
 		xCT3:SetHeight(128)
 		xCT3:SetWidth(256)
 		xCT4:ClearAllPoints()
-		xCT4:SetPoint("BOTTOMRIGHT",UIParent, "BOTTOM", 460, 430)
+		xCT4:SetPoint("BOTTOMRIGHT",UIParent, "BOTTOM", 450, 440)
 		xCT4:SetHeight(260)
 		xCT4:SetWidth(128)
 	else

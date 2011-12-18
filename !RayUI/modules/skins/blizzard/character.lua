@@ -143,13 +143,7 @@ local function LoadSkin()
 		slot.backgroundTextureName = ""
 		slot.checkRelic = nil
 		slot:SetNormalTexture("")
-		slot:StyleButton()
-		slot:GetHighlightTexture():SetAllPoints()
-		slot:GetPushedTexture():SetAllPoints()
-		local cooldown = _G[slot:GetName().."Cooldown"]
-		if cooldown then
-			cooldown:SetAllPoints()
-		end
+		slot:StyleButton(true)
 		ic:SetTexCoord(.08, .92, .08, .92)
 		slot:SetBackdrop({
 					bgFile = C["media"].blank, 
@@ -166,9 +160,7 @@ local function LoadSkin()
 			local bu = _G["EquipmentFlyoutFrameButton"..i]
 			if bu and not bu.reskinned then
 				bu:SetNormalTexture("")
-				bu:StyleButton()
-				bu:GetHighlightTexture():SetAllPoints()
-				bu:GetPushedTexture():SetAllPoints()
+				bu:StyleButton(true)
 				_G["EquipmentFlyoutFrameButton"..i.."IconTexture"]:SetTexCoord(.08, .92, .08, .92)
 				bu.reskinned = true
 			end

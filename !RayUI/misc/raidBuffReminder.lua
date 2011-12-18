@@ -266,7 +266,7 @@ local function OnAuraChange(self, event, arg1, unit)
 	end	
 end
 
-local bsize = ((Minimap:GetWidth() - 5) / 6)
+local bsize = ((Minimap:GetWidth() - 6) / 6) - 4
 
 --Create the Main bar
 local raidbuff_reminder = CreateFrame("Frame", "RaidBuffReminder", Minimap)
@@ -290,18 +290,17 @@ raidbuff_reminder:SetScript("OnEvent", OnAuraChange)
 local function CreateButton(name, relativeTo, firstbutton)
 	local button = CreateFrame("Frame", name, RaidBuffReminder)
 	button:SetSize(bsize, bsize)
-	button:CreateShadow("Background", -2, 2)
+	button:CreateShadow("Background")
 	if firstbutton == true then
-		button:SetPoint("TOPLEFT", relativeTo, "BOTTOMLEFT", -2, -3)
+		button:SetPoint("TOPLEFT", relativeTo, "BOTTOMLEFT", 0, -5)
 	else
-		button:SetPoint("LEFT", relativeTo, "RIGHT", 2, 0)
+		button:SetPoint("LEFT", relativeTo, "RIGHT", 6, 0)
 	end
 	button:SetFrameLevel(RaidBuffReminder:GetFrameLevel() + 2)
 	
 	button.t = button:CreateTexture(name..".t", "OVERLAY")
 	button.t:SetTexCoord(0.1, 0.9, 0.1, 0.9)
-	button.t:Point("TOPLEFT", 2, -2)
-	button.t:Point("BOTTOMRIGHT", -2, 2)
+	button.t:SetAllPoints()
 	
 	button:SetScript("OnEnter", function(self)
 		GameTooltip:SetOwner(RaidBuffReminder, 'ANCHOR_BOTTOM', 0, -10)

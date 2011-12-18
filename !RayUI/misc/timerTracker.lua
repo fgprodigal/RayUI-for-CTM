@@ -24,7 +24,7 @@ local function SkinIt(bar)
 	spark:Point("TOPLEFT", bar:GetStatusBarTexture(), "TOPRIGHT", -10, 13)
 	spark:Point("BOTTOMRIGHT", bar:GetStatusBarTexture(), "BOTTOMRIGHT", 10, -13)
 	
-	bar:CreateShadow("Background", 2)
+	bar:CreateShadow("Background")
 end
 
 local function SkinBlizzTimer()	

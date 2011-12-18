@@ -9,7 +9,6 @@ local chat_width = 400
 local fontsize = 15
 local fontFlag = "THINOUTLINE"
 --other variables
-local eb_point = {"BOTTOMLEFT", 10, 165}		-- Editbox position
 local eb_width = chat_width						-- Editbox width
 local tscol = "64C2F5"						-- Timestamp coloring
 local TimeStampsCopy = true
@@ -127,7 +126,7 @@ do
 		eb:ClearAllPoints()
 		eb:SetPoint("BOTTOMLEFT", cf, "TOPLEFT",  0, 3)
 		-- eb:SetPoint("BOTTOMLEFT", UIParent, eb_point[1], eb_point[2], eb_point[3])
-		eb:SetPoint("TOPRIGHT", cf, "TOPRIGHT", 0, 35)
+		eb:SetPoint("TOPRIGHT", cf, "TOPRIGHT", 0, 31)
 		-- eb:SetPoint("BOTTOMRIGHT", UIParent, eb_point[1], eb_point[2]+eb_width, eb_point[3])
 		eb:EnableMouse(false)
 	
@@ -605,8 +604,7 @@ for i=1,NUM_CHAT_WINDOWS do
 	chatebbg:SetPoint("BOTTOMRIGHT", 2, 4)
 	chatebbg:CreateShadow("Background")
 	chatebbg.bd = CreateFrame("Frame",nil , chatebbg)
-	chatebbg.bd:SetPoint("TOPLEFT", 2, -2)
-	chatebbg.bd:SetPoint("BOTTOMRIGHT", -2, 2)
+	chatebbg.bd:SetAllPoints()
 	chatebbg.bd:CreateBorder()
 	_G["ChatFrame"..i.."EditBoxLanguage"]:Kill()
 	

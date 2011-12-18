@@ -54,10 +54,8 @@ local function LoadSkin()
 			tab:SetPoint(a1, p, a2, x + 11, y)			
 		end
 		
-		tab:StyleButton()
+		tab:StyleButton(true)
 		tab:SetPushedTexture(nil)
-		tab:GetHighlightTexture():SetAllPoints()
-		tab:GetCheckedTexture():SetAllPoints()
 	end
 	R.Reskin(RaidFinderFrameFindRaidButton)
 	R.Reskin(RaidFinderFrameCancelButton)

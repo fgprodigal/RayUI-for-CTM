@@ -9,13 +9,13 @@ local LastUpdate = 1
 for i = 1,8 do
 	if i == 1 then
 		topinfo[i] = CreateFrame("Frame", "BottomInfoBar", UIParent)
-		topinfo[i]:CreatePanel("Default", 400, 10, "BOTTOM", UIParent, "BOTTOM", 0, 5)
+		topinfo[i]:CreatePanel("Default", 400, 6, "BOTTOM", UIParent, "BOTTOM", 0, 5)
 	elseif i == 2 then
 		topinfo[i] = CreateFrame("Frame", "TopInfoBar"..i-1, UIParent)
-		topinfo[i]:CreatePanel("Default", 80, 10, "TOPLEFT", UIParent, "TOPLEFT", 10, -10)
+		topinfo[i]:CreatePanel("Default", 80, 6, "TOPLEFT", UIParent, "TOPLEFT", 10, -10)
 	else
 		topinfo[i] = CreateFrame("Frame", "TopInfoBar"..i-1, UIParent)
-		topinfo[i]:CreatePanel("Default", 80, 10, "LEFT", topinfo[i-1], "RIGHT", 5, 0)
+		topinfo[i]:CreatePanel("Default", 80, 6, "LEFT", topinfo[i-1], "RIGHT", 9, 0)
 	end
 	
 	if i~= 1 then
@@ -24,8 +24,7 @@ for i = 1,8 do
 		topinfo[i].Status:SetStatusBarTexture(C["media"].normal)
 		topinfo[i].Status:SetMinMaxValues(0, 100)
 		topinfo[i].Status:SetStatusBarColor(unpack(R.InfoBarStatusColor[3]))
-		topinfo[i].Status:Point("TOPLEFT", topinfo[i], "TOPLEFT", 2, -2)
-		topinfo[i].Status:Point("BOTTOMRIGHT", topinfo[i], "BOTTOMRIGHT", -2, 2)
+		topinfo[i].Status:SetAllPoints()
 		topinfo[i].Status:SetValue(100)
 		
 		topinfo[i].Text = topinfo[i].Status:CreateFontString(nil, "OVERLAY")

@@ -9,7 +9,7 @@ hooksecurefunc(VehicleSeatIndicator,"SetPoint",function(_,_,parent) -- vehicle s
 		if VehicleSeatMover then
 			VehicleSeatIndicator:Point("LEFT", VehicleSeatMover, "LEFT", 0, 0)
 		else
-			VehicleSeatIndicator:Point("LEFT", UIParent, "LEFT", 40, 120)
+			VehicleSeatIndicator:Point("LEFT", UIParent, "LEFT", 45, 120)
 			R.CreateMover(VehicleSeatIndicator, "VehicleSeatMover", L["载具指示锚点"])	
 		end
     end

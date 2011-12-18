@@ -60,10 +60,8 @@ local function StyleBuffs(button, index, framekind, anchor)
     _G[buff.."Icon"]:SetTexCoord(.1, .9, .1, .9)
     _G[buff.."Icon"]:SetDrawLayer("OVERLAY")
     _G[buff]:ClearAllPoints()
-    _G[buff]:CreateShadow("Default", 2, 4)
-	_G[buff]:StyleButton()
-	_G[buff]:GetHighlightTexture():SetAllPoints()
-	_G[buff]:GetPushedTexture():SetAllPoints()
+    _G[buff]:CreateShadow()
+	_G[buff]:StyleButton(true)
     
 	_G[buff.."Count"]:ClearAllPoints()
 	_G[buff.."Count"]:Point("TOPRIGHT", 2, 2)
@@ -86,11 +84,7 @@ local function StyleBuffs(button, index, framekind, anchor)
 	end
 	
 	if _G[buff.."Border"] then 
-		_G[buff.."Border"]:SetTexture("Interface\\AddOns\\!RayUI\\media\\iconborder")
-		_G[buff.."Border"]:SetTexCoord(0.03, 0.97, 0.03, 0.97)
-		_G[buff.."Border"]:Point("TOPLEFT", -1, 1)
-		_G[buff.."Border"]:Point("BOTTOMRIGHT", 1, -1)
-		if framekind == 3 then _G[buff.."Border"]:Hide() end
+		_G[buff.."Border"]:Kill()
 	end
     if framekind == 2 then
 		local dtype = select(5, UnitDebuff("player",index))
@@ -99,7 +93,10 @@ local function StyleBuffs(button, index, framekind, anchor)
 		else
 			color = DebuffTypeColor["none"]
 		end
-		_G[buff.."Border"]:SetVertexColor(color.r * 0.6, color.g * 0.6, color.b * 0.6, 1)
+		_G[buff.."Icon"]:Point("TOPLEFT", 1, -1)
+		_G[buff.."Icon"]:Point("BOTTOMRIGHT", -1, 1)
+		_G[buff].shadow:SetBackdropColor(0, 0, 0)
+		_G[buff].border:SetBackdropBorderColor(color.r, color.g, color.b, 1)
 	end
     
     if index == 1 then _G[buff]:Point("CENTER", anchor, "CENTER", 0, 0) end

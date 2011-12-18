@@ -11,7 +11,6 @@ local R, C, L, DB = unpack(select(2, ...))
     bar:SetWidth(NUM_MICRO*25.2+20)
     bar:SetHeight(50)
     bar:SetPoint(barcfg.pos.a1,barcfg.pos.af,barcfg.pos.a2,barcfg.pos.x,barcfg.pos.y)
-    bar:SetHitRectInsets(-C["actionbar"].barinset, -C["actionbar"].barinset, -C["actionbar"].barinset, -C["actionbar"].barinset)
 
     if barcfg.testmode then
       bar:SetBackdrop(cfg.backdrop)

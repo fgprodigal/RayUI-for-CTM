@@ -133,8 +133,7 @@ local function updateCurrency()
 			frame.Status:SetMinMaxValues(0, max)
 			frame.Status:SetValue(amount)
 			frame.Status:SetStatusBarColor(0, 0.4, 1)
-			frame.Status:Point("TOPLEFT", frame, "TOPLEFT", 2, -2)
-			frame.Status:Point("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -2, 2)
+			frame.Status:SetAllPoints()
 
 			frame.Text = frame.Status:CreateFontString(nil, "OVERLAY")
 			frame.Text:SetFont(C["media"].font, C["media"].fontsize, C["media"].fontflag)
@@ -145,10 +144,10 @@ local function updateCurrency()
 			frame.Text:SetText(format("%s / %s", amount, max))
 				
 			frame.IconBG = CreateFrame("Frame", "CurrencyDataIconBG"..id, frame)
-			frame.IconBG:CreatePanel(nil, 20, 20, "RIGHT", frame, "LEFT", -3, 0)
+			frame.IconBG:CreatePanel(nil, 20, 20, "RIGHT", frame, "LEFT", -7, 0)
 			frame.Icon = frame.IconBG:CreateTexture(nil, "ARTWORK")
-			frame.Icon:Point("TOPLEFT", frame.IconBG, "TOPLEFT", 2, -2)
-			frame.Icon:Point("BOTTOMRIGHT", frame.IconBG, "BOTTOMRIGHT", -2, 2)
+			frame.Icon:Point("TOPLEFT", frame.IconBG, "TOPLEFT", 0, 0)
+			frame.Icon:Point("BOTTOMRIGHT", frame.IconBG, "BOTTOMRIGHT", 0, 0)
 			frame.Icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
 			frame.Icon:SetTexture("Interface\\Icons\\"..icon)
 
@@ -164,7 +163,7 @@ local function updateCurrency()
 		if key == 1 then
 			frame:Point("TOP", TopInfoBar7, "BOTTOM", 0, -13)
 		else
-			frame:Point("TOP", CurrencyData[key-1], "BOTTOM", 0, -5)
+			frame:Point("TOP", CurrencyData[key-1], "BOTTOM", 0, -9)
 		end
 	end
 end

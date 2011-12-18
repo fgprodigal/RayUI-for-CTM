@@ -53,14 +53,17 @@ end
 R.CreateSD = function(parent, size, r, g, b, alpha, offset)
 	local sd = CreateFrame("Frame", nil, parent)
 	sd.size = size or 5
+	sd.size = sd.size - 5
 	sd.offset = offset or 0
-	sd:SetBackdrop({
-		edgeFile = C["media"].glow,
-		edgeSize = R.Scale(sd.size),
-	})
+--	sd:SetBackdrop({
+--		edgeFile = C["media"].glow,
+--		edgeSize = R.Scale(sd.size),
+--	})
 	sd:Point("TOPLEFT", parent, -sd.size - 1 - sd.offset, sd.size + 1 + sd.offset)
 	sd:Point("BOTTOMRIGHT", parent, sd.size + 1 + sd.offset, -sd.size - 1 - sd.offset)
-	sd:SetBackdropBorderColor(r or 0, g or 0, b or 0)
+	sd:CreateShadow()
+	sd.shadow:SetBackdropBorderColor(r or 0, g or 0, b or 0)
+	sd.border:SetBackdropBorderColor(r or 0, g or 0, b or 0)
 	sd:SetAlpha(alpha or 1)
 end
 

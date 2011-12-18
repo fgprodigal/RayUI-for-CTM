@@ -84,14 +84,13 @@ function Style(self, totem, flyout)
 		
 		if Icon then
 			Icon:SetTexCoord(.08, .92, .08, .92)
-			Icon:Point("TOPLEFT", Button, 2, -2)
-			Icon:Point("BOTTOMRIGHT", Button, -2, 2)
+			Icon:SetAllPoints()
 		end
 	end
 	
 	if HotKey then
 		HotKey:ClearAllPoints()
-		HotKey:SetPoint("TOPRIGHT", 0, R.Scale(-3))
+		HotKey:SetPoint("TOPRIGHT", 0, 0)
 		HotKey:SetFont(C["media"].pxfont, R.Scale(10), "OUTLINE,MONOCHROME")
 		HotKey:SetShadowColor(0, 0, 0, 0.3)
 		HotKey.ClearAllPoints = R.dummy
@@ -137,11 +136,9 @@ local function Stylesmallbutton(normal, button, icon, name, pet)
 		shine:Size(C["actionbar"].buttonsize, C["actionbar"].buttonsize)
 		shine:ClearAllPoints()
 		shine:SetPoint("CENTER", button, 0, 0)
-		icon:Point("TOPLEFT", button, 2, -2)
-		icon:Point("BOTTOMRIGHT", button, -2, 2)
+		icon:SetAllPoints()
 	else
-		icon:Point("TOPLEFT", button, 2, -2)
-		icon:Point("BOTTOMRIGHT", button, -2, 2)
+		icon:SetAllPoints()
 	end
 	
 	if normal then
@@ -195,7 +192,7 @@ local function SetupFlyoutButton()
 		--prevent error if you don't have max ammount of buttons
 		if _G["SpellFlyoutButton"..i] and not _G["SpellFlyoutButton"..i].styled then
 			Style(_G["SpellFlyoutButton"..i], nil, true)
-			_G["SpellFlyoutButton"..i]:StyleButton()
+			_G["SpellFlyoutButton"..i]:StyleButton(true)
 			if C["actionbar"].rightbarmouseover == true then
 				SpellFlyout:HookScript("OnEnter", function(self) RightBarMouseOver(1) end)
 				SpellFlyout:HookScript("OnLeave", function(self) RightBarMouseOver(0) end)
@@ -258,23 +255,36 @@ end
 
 do	
 	for i = 1, 12 do
-		_G["MultiBarLeftButton"..i]:StyleButton()
-		_G["MultiBarRightButton"..i]:StyleButton()
-		_G["MultiBarBottomRightButton"..i]:StyleButton()
-		_G["MultiBarBottomLeftButton"..i]:StyleButton()
-		_G["ActionButton"..i]:StyleButton()
+		_G["MultiBarLeftButton"..i]:StyleButton(true)
+		_G["MultiBarRightButton"..i]:StyleButton(true)
+		_G["MultiBarBottomRightButton"..i]:StyleButton(true)
+		_G["MultiBarBottomLeftButton"..i]:StyleButton(true)
+		_G["ActionButton"..i]:StyleButton(true)
 	end
 	 
 	for i=1, 10 do
-		_G["ShapeshiftButton"..i]:StyleButton()
-		_G["PetActionButton"..i]:StyleButton()
+		_G["ShapeshiftButton"..i]:StyleButton(true)
+		_G["PetActionButton"..i]:StyleButton(true)
 	end
 	
 	for i=1, 6 do
-		_G["VehicleMenuBarActionButton"..i]:StyleButton()
+		_G["VehicleMenuBarActionButton"..i]:StyleButton(true)
 		Style(_G["VehicleMenuBarActionButton"..i])
 	end
 end
+
+local function UpdateOverlayGlow(self)
+	if self.overlay then
+		local frameWidth, frameHeight = self.border:GetSize();
+		self.overlay:SetParent(self)
+		self.overlay:ClearAllPoints()
+		self.overlay:SetSize(frameWidth * 1.6, frameHeight * 1.6)
+		self.overlay:SetPoint("TOPLEFT", self.border, "TOPLEFT", -frameWidth * 0.3, frameHeight * 0.3)
+		self.overlay:SetPoint("BOTTOMRIGHT", self.border, "BOTTOMRIGHT", frameWidth * 0.3, -frameHeight * 0.3)
+	end
+end
+
+hooksecurefunc("ActionButton_ShowOverlayGlow", UpdateOverlayGlow)
 
 hooksecurefunc("ActionButton_Update", Style)
 hooksecurefunc("ActionButton_UpdateHotkeys", UpdateHotkey)
@@ -331,13 +341,12 @@ local function StyleTotemFlyout(flyout)
 	local last = nil
 	
 	for _,button in ipairs(flyout.buttons) do
-		button:CreateShadow("Background", 1)
+		button:CreateShadow("Background")
 		button.shadow:SetBackdropColor(0, 0, 0)
 		local icon = select(1,button:GetRegions())
 		icon:SetTexCoord(.09,.91,.09,.91)
 		icon:SetDrawLayer("ARTWORK")
-		icon:Point("TOPLEFT",button,"TOPLEFT", 2, -2)
-		icon:Point("BOTTOMRIGHT",button,"BOTTOMRIGHT",-2, 2)		
+		icon:SetAllPoints()		
 		if not InCombatLockdown() then
 			button:Size(C["actionbar"].buttonsize)
 			button:ClearAllPoints()
@@ -345,7 +354,7 @@ local function StyleTotemFlyout(flyout)
 		end
 		if button:IsVisible() then last = button end
 		button:CreateBorder(flyout.parent:GetBackdropBorderColor())
-		button:StyleButton()
+		button:StyleButton(true)
 	end
 	
 	flyout.buttons[1]:SetPoint("BOTTOM",flyout,"BOTTOM")
@@ -405,16 +414,15 @@ local bordercolors = {
 }
 
 local function StyleTotemSlotButton(button, index)
-	button:CreateShadow("Background", 1)
+	button:CreateShadow("Background")
 	button.shadow:SetBackdropColor(0, 0, 0)
 	button.overlayTex:SetTexture(nil)
 	button.background:SetDrawLayer("ARTWORK")
 	button.background:ClearAllPoints()
-	button.background:Point("TOPLEFT",button,"TOPLEFT",2, -2)
-	button.background:Point("BOTTOMRIGHT",button,"BOTTOMRIGHT",-2, 2)
+	button.background:SetAllPoints()
 	if not InCombatLockdown() then button:Size(C["actionbar"].buttonsize) end
 	button:CreateBorder(unpack(bordercolors[((index-1) % 4) + 1]))
-	button:StyleButton()
+	button:StyleButton(true)
 end
 hooksecurefunc("MultiCastSlotButton_Update",function(self, slot) StyleTotemSlotButton(self,tonumber( string.match(self:GetName(),"MultiCastSlotButton(%d)"))) end)
 
@@ -435,7 +443,7 @@ local function StyleTotemActionButton(button, index)
 	end
 	button:CreateBorder(unpack(bordercolors[((index-1) % 4) + 1]))
 	button:SetBackdropColor(0,0,0,0)
-	button:StyleButton()
+	button:StyleButton(true)
 end
 hooksecurefunc("MultiCastActionButton_Update",function(actionButton, actionId, actionIndex, slot) StyleTotemActionButton(actionButton,actionIndex) end)
 
@@ -452,15 +460,14 @@ local function StyleTotemSpellButton(button, index)
 	local icon = select(1,button:GetRegions())
 	icon:SetTexCoord(.09,.91,.09,.91)
 	icon:SetDrawLayer("ARTWORK")
-	icon:Point("TOPLEFT",button,"TOPLEFT",2,-2)
-	icon:Point("BOTTOMRIGHT",button,"BOTTOMRIGHT",-2,2)
-	button:CreateShadow("Background", 1)
+	icon:SetAllPoints()
+	button:CreateShadow("Background")
 	button.shadow:SetBackdropColor(0, 0, 0)
 	button:GetNormalTexture():SetTexture(nil)
 	if not InCombatLockdown() then button:Size(C["actionbar"].buttonsize) end
 	_G[button:GetName().."Highlight"]:SetTexture(nil)
 	_G[button:GetName().."NormalTexture"]:SetTexture(nil)
-	button:StyleButton()
+	button:StyleButton(true)
 end
 hooksecurefunc("MultiCastSummonSpellButton_Update", function(self) StyleTotemSpellButton(self,0) end)
 hooksecurefunc("MultiCastRecallSpellButton_Update", function(self) StyleTotemSpellButton(self,5) end)

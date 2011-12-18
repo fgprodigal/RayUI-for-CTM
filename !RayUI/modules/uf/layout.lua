@@ -2,16 +2,16 @@ local R, C, L, DB = unpack(select(2, ...))
 local _, ns = ...
 local oUF = RayUF or ns.oUF or oUF
 
-local PLAYER_WIDTH = 240
-local PLAYER_HEIGHT = 22
-local TARGET_WIDTH = 240
-local TARGET_HEIGHT = 22
+local PLAYER_WIDTH = 220
+local PLAYER_HEIGHT = 32
+local TARGET_WIDTH = 220
+local TARGET_HEIGHT = 32
 local SMALL_WIDTH = 140
 local SMALL_HEIGHT = 8
 local BOSS_WIDTH = 190
 local BOSS_HEIGHT = 22
-local PARTY_WIDTH = 190
-local PARTY_HEIGHT = 22
+local PARTY_WIDTH = 170
+local PARTY_HEIGHT = 32
 local ENERGY_WIDTH = 200
 local ENERGY_HEIGHT = 3
 
@@ -36,7 +36,7 @@ local UnitFrame_OnLeave = function(self)
 end
 
 local function Shared(self, unit)
-	self.FrameBackdrop = R.CreateBackdrop(self, self)
+--	self.FrameBackdrop = R.CreateBackdrop(self, self)
 	
 	-- Register Frames for Click
 	self:RegisterForClicks("AnyUp")
@@ -53,7 +53,8 @@ local function Shared(self, unit)
 	local health = R.ContructHealthBar(self, true, true)
 	health:SetPoint("LEFT")
 	health:SetPoint("RIGHT")
-	health:SetPoint("TOP") 
+	health:SetPoint("TOP")
+	health:CreateShadow("Background")
 	self.Health = health
 	
 	-- Name
@@ -88,10 +89,10 @@ local function Shared(self, unit)
 		  outsideAlpha = 0.3}
 
 	if unit == "player" then
-		health:SetSize(PLAYER_WIDTH, PLAYER_HEIGHT * (1 - C["uf"].powerheight))
-		health.value:Point("LEFT", self, "LEFT", 5, 0)
-		name:Point("BOTTOM", health, 0, -13)
-		name:Point("LEFT", health, -3, 0)
+		health:SetSize(PLAYER_WIDTH, PLAYER_HEIGHT * (1 - C["uf"].powerheight) - 10)
+		health.value:Point("LEFT", health, "LEFT", 5, 0)
+		name:Point("TOPLEFT", health, "BOTTOMLEFT", 0, 3)
+		name:Point("TOPRIGHT", health, "BOTTOMRIGHT", 0, 3)
 		name:SetJustifyH("LEFT")
 		
 		if C["uf"].healthColorClass then
@@ -110,7 +111,7 @@ local function Shared(self, unit)
 			EnergyBar:SetStatusBarColor(unpack(C["uf"].powerColorClass and oUF.colors.class[R.myclass] or oUF.colors.power['ENERGY']))
 			EnergyBar:SetPoint("BOTTOM", 0, 3)
 			EnergyBar:SetSize(ENERGY_WIDTH, ENERGY_HEIGHT)
-			EnergyBar:CreateShadow("Background", 1, 3, true)
+			EnergyBar:CreateShadow("Background")
 			EnergyBar.shadow:SetBackdropColor(.12, .12, .12, 1)
 			EnergyBar.text = EnergyBar:CreateFontString(nil, "OVERLAY")
 			EnergyBar.text:SetPoint("CENTER")
@@ -126,11 +127,14 @@ local function Shared(self, unit)
 			power:SetPoint("LEFT")
 			power:SetPoint("RIGHT")
 			power:SetPoint("BOTTOM") 
-			power.value:Point("RIGHT", self, "RIGHT", -5, 0)
+			power.value:Point("RIGHT", health, "RIGHT", -5, 0)
 			power:SetWidth(PLAYER_WIDTH)
 			power:SetHeight(PLAYER_HEIGHT * C["uf"].powerheight)
+			power:CreateShadow("Background")
 			self.Power = power
 		end
+		
+		self.Portrait = R.ConstructPortrait(self)
 		
 		-- Vengeance Bar
 		if C["uf"].vengeance then
@@ -142,7 +146,7 @@ local function Shared(self, unit)
 			VengeanceBar:SetStatusBarColor(unpack(C["uf"].powerColorClass and oUF.colors.class[R.myclass] or oUF.colors.power['RAGE']))
 			VengeanceBar:SetPoint("CENTER")
 			VengeanceBar:SetSize(ENERGY_WIDTH, ENERGY_HEIGHT)
-			VengeanceBar:CreateShadow("Background", 1, 3, true)
+			VengeanceBar:CreateShadow("Background")
 			VengeanceBar.shadow:SetBackdropColor(.12, .12, .12, 1)
 			VengeanceBar.Text = VengeanceBar:CreateFontString(nil, "OVERLAY")
 			VengeanceBar.Text:SetPoint("CENTER")
@@ -187,13 +191,13 @@ local function Shared(self, unit)
 		
 		-- Debuffs
 		local debuffs = CreateFrame("Frame", nil, self)
-		debuffs:SetHeight(PLAYER_HEIGHT)
+		debuffs:SetHeight(PLAYER_HEIGHT - 10)
 		debuffs:SetWidth(PLAYER_WIDTH)
-		debuffs:Point("BOTTOMRIGHT", self, "TOPRIGHT", -1, 7)
-		debuffs.spacing = 5
+		debuffs:Point("BOTTOMRIGHT", self, "TOPRIGHT", 0, 7)
+		debuffs.spacing = 3.8
 		debuffs["growth-x"] = "LEFT"
 		debuffs["growth-y"] = "UP"
-		debuffs.size = PLAYER_HEIGHT
+		debuffs.size = PLAYER_HEIGHT - 11
 		debuffs.initialAnchor = "BOTTOMRIGHT"
 		debuffs.num = 9
 		debuffs.PostCreateIcon = R.PostCreateIcon
@@ -217,9 +221,9 @@ local function Shared(self, unit)
             local bars = CreateFrame("Frame", nil, self)
 			bars:SetSize(200/count - 5, 5)
 			if count == 3 then
-				bars:Point("BOTTOMRIGHT", self, "TOP", bars:GetWidth()*1.5 + 5,0)
+				bars:Point("BOTTOMRIGHT", self, "TOP", bars:GetWidth()*1.5 + 5, 1)
 			else
-				bars:Point("BOTTOMRIGHT", self, "TOP", bars:GetWidth()*3 + 12.5,0)
+				bars:Point("BOTTOMRIGHT", self, "TOP", bars:GetWidth()*3 + 12.5, 1)
 			end
 
             local i = count
@@ -249,7 +253,8 @@ local function Shared(self, unit)
                 bars[i].bg:SetTexture(C["media"].normal)
                 bars[i].bg.multiplier = .2
 
-                bars[i].bd = R.CreateBackdrop(bars[i], bars[i])
+				bars[i]:CreateShadow("Background")
+            --    bars[i].bd = R.CreateBackdrop(bars[i], bars[i])
                 i=i-1
             end
 
@@ -265,9 +270,9 @@ local function Shared(self, unit)
 		
 		if R.myclass == "DRUID" then
             local ebar = CreateFrame("Frame", nil, self)
-            ebar:Point("BOTTOM", self, "TOP", 0, 0)
+            ebar:Point("BOTTOM", self, "TOP", 0, 1)
             ebar:SetSize(200, 5)
-            ebar.bd = R.CreateBackdrop(ebar, ebar)
+            ebar:CreateShadow("Background")
 
 			local lbar = CreateFrame("StatusBar", nil, ebar)
 			lbar:SetStatusBarTexture(C["media"].normal)
@@ -317,9 +322,9 @@ local function Shared(self, unit)
                 self.TotemBar[i].bg:SetTexture(C["media"].normal)
                 self.TotemBar[i].bg.multiplier = 0.3
 
-                self.TotemBar[i].bd = R.CreateBackdrop(self.TotemBar[i], self.TotemBar[i])
+                self.TotemBar[i]:CreateShadow("Background")
             end
-			self.TotemBar[2]:SetPoint("BOTTOM", self, "TOP", -75,0)
+			self.TotemBar[2]:SetPoint("BOTTOM", self, "TOP", -75,1)
 			self.TotemBar[1]:SetPoint("LEFT", self.TotemBar[2], "RIGHT", 5, 0)
 			self.TotemBar[3]:SetPoint("LEFT", self.TotemBar[1], "RIGHT", 5, 0)
 			self.TotemBar[4]:SetPoint("LEFT", self.TotemBar[3], "RIGHT", 5, 0)
@@ -331,8 +336,8 @@ local function Shared(self, unit)
 		experience:SetStatusBarColor(0.58, 0.0, 0.55)
 		experience:GetStatusBarTexture():SetHorizTile(false)
 		
-		experience:Point('TOPLEFT', BottomInfoBar, 'TOPLEFT', 2, -2)
-		experience:Point('BOTTOMRIGHT', BottomInfoBar, 'BOTTOMRIGHT', -2, 2)
+		experience:Point('TOPLEFT', BottomInfoBar, 'TOPLEFT', 0, 0)
+		experience:Point('BOTTOMRIGHT', BottomInfoBar, 'BOTTOMRIGHT', 0, 0)
 		experience:SetParent(BottomInfoBar)
 		experience:SetFrameStrata("BACKGROUND")
 		experience:SetFrameLevel(2)
@@ -352,8 +357,8 @@ local function Shared(self, unit)
 		reputation:SetStatusBarColor(0, .7, 1)
 		reputation:GetStatusBarTexture():SetHorizTile(false)
 		
-		reputation:Point('TOPLEFT', BottomInfoBar, 'TOPLEFT', 2, -2)
-		reputation:Point('BOTTOMRIGHT', BottomInfoBar, 'BOTTOMRIGHT', -2, 2)
+		reputation:Point('TOPLEFT', BottomInfoBar, 'TOPLEFT', 0, 0)
+		reputation:Point('BOTTOMRIGHT', BottomInfoBar, 'BOTTOMRIGHT', 0, 0)
 		reputation:SetParent(BottomInfoBar)
 		reputation:SetFrameStrata("BACKGROUND")
 		reputation:SetFrameLevel(1)
@@ -418,10 +423,10 @@ local function Shared(self, unit)
 	end
 	
 	if unit == "target" then
-		health:SetSize(TARGET_WIDTH, TARGET_HEIGHT * (1 - C["uf"].powerheight))
-		health.value:Point("LEFT", self, "LEFT", 5, 0)
-		name:Point("BOTTOM", health,  0, -13)
-		name:Point("RIGHT", health, 3, 0)
+		health:SetSize(TARGET_WIDTH, TARGET_HEIGHT * (1 - C["uf"].powerheight) - 10)
+		health.value:Point("LEFT", health, "LEFT", 5, 0)
+		name:Point("TOPLEFT", health, "BOTTOMLEFT", 0, 3)
+		name:Point("TOPRIGHT", health, "BOTTOMRIGHT", 0, 3)
 		name:SetJustifyH("RIGHT")		
 		if C["uf"].healthColorClass then
 			self:Tag(name, '[RayUF:name] [RayUF:info]')
@@ -433,14 +438,17 @@ local function Shared(self, unit)
 		power:SetPoint("LEFT")
 		power:SetPoint("RIGHT")
 		power:SetPoint("BOTTOM") 
-		power.value:Point("RIGHT", self, "RIGHT", -5, 0)
+		power.value:Point("RIGHT", health, "RIGHT", -5, 0)
 		power:SetWidth(PLAYER_WIDTH)
 		power:SetHeight(PLAYER_HEIGHT * C["uf"].powerheight)
+		power:CreateShadow("Background")
 		self.Power = power
+		
+		self.Portrait = R.ConstructPortrait(self)
 		
 		local castbar = R.ConstructCastBar(self)
 		castbar:ClearAllPoints()
-		castbar:Point("TOPRIGHT", self, "TOPRIGHT", 0, -55)
+		castbar:Point("TOPRIGHT", self, "TOPRIGHT", 0, -65)
 		castbar:Width(health:GetWidth()-27)
 		castbar:Height(20)
 		castbar.Text:ClearAllPoints()
@@ -451,26 +459,26 @@ local function Shared(self, unit)
 		
 		-- Auras
 		local buffs = CreateFrame("Frame", nil, self)
-		buffs:SetHeight(PLAYER_HEIGHT)
+		buffs:SetHeight(PLAYER_HEIGHT - 10)
 		buffs:SetWidth(PLAYER_WIDTH)
-		buffs:Point("TOPLEFT", self, "BOTTOMLEFT", 1, -5)
-		buffs.spacing = 5
+		buffs:Point("TOPLEFT", self, "BOTTOMLEFT", 0, -5)
+		buffs.spacing = 3.8
 		buffs["growth-x"] = "RIGHT"
 		buffs["growth-y"] = "DOWN"
-		buffs.size = PLAYER_HEIGHT
+		buffs.size = PLAYER_HEIGHT - 11
 		buffs.initialAnchor = "TOPLEFT"
 		buffs.num = 9
 		buffs.PostCreateIcon = R.PostCreateIcon
 		buffs.PostUpdateIcon = R.PostUpdateIcon
 		
 		local debuffs = CreateFrame("Frame", nil, self)
-		debuffs:SetHeight(PLAYER_HEIGHT)
+		debuffs:SetHeight(PLAYER_HEIGHT - 10)
 		debuffs:SetWidth(PLAYER_WIDTH)
-		debuffs:Point("BOTTOMLEFT", self, "TOPLEFT", 1, 7)
-		debuffs.spacing = 5
+		debuffs:Point("BOTTOMLEFT", self, "TOPLEFT", 0, 7)
+		debuffs.spacing = 3.8
 		debuffs["growth-x"] = "RIGHT"
 		debuffs["growth-y"] = "UP"
-		debuffs.size = PLAYER_HEIGHT
+		debuffs.size = PLAYER_HEIGHT - 11
 		debuffs.initialAnchor = "BOTTOMLEFT"
 		debuffs.num = 9
 		debuffs.PostCreateIcon = R.PostCreateIcon
@@ -484,7 +492,7 @@ local function Shared(self, unit)
 		local bars = CreateFrame("Frame", nil, self)
 		bars:SetWidth(35)
 		bars:SetHeight(5)
-		bars:Point("BOTTOMLEFT", self, "TOP", - bars:GetWidth()*2.5 - 10,0)
+		bars:Point("BOTTOMLEFT", self, "TOP", - bars:GetWidth()*2.5 - 10, 1)
 		
 		bars:SetBackdropBorderColor(0,0,0,0)
 		bars:SetBackdropColor(0,0,0,0)
@@ -507,7 +515,7 @@ local function Shared(self, unit)
 			bars[i].bg:SetTexture(C["media"].normal)
 			bars[i].bg.multiplier = .2
 
-			bars[i].bd = R.CreateBackdrop(bars[i], bars[i])
+			bars[i]:CreateShadow("Background")
 		end
 			
 		bars[1]:SetStatusBarColor(255/255, 0/255, 0)		
@@ -557,10 +565,10 @@ local function Shared(self, unit)
 	end
 	
 	if unit == "party" or unit == "focus" then
-		health:SetSize(PARTY_WIDTH, PARTY_HEIGHT * (1 - C["uf"].powerheight))
-		health.value:Point("LEFT", self, "LEFT", 5, 0)
-		name:Point("BOTTOM", health, -6, -15)
-		name:Point("LEFT", health, 0, 0)
+		health:SetSize(PARTY_WIDTH, PARTY_HEIGHT * (1 - C["uf"].powerheight) - 10)
+		health.value:Point("LEFT", health, "LEFT", 5, 0)
+		name:Point("TOPLEFT", health, "BOTTOMLEFT", 0, 3)
+		name:Point("TOPRIGHT", health, "BOTTOMRIGHT", 0, 3)
 		name:SetJustifyH("LEFT")
 		if C["uf"].healthColorClass then
 			self:Tag(name, '[RayUF:name] [RayUF:info]')
@@ -571,10 +579,13 @@ local function Shared(self, unit)
 		power:SetPoint("LEFT")
 		power:SetPoint("RIGHT")
 		power:SetPoint("BOTTOM") 
-		power.value:Point("RIGHT", self, "RIGHT", -5, 0)
+		power.value:Point("RIGHT", health, "RIGHT", -5, 0)
 		power:SetWidth(PLAYER_WIDTH)
 		power:SetHeight(PLAYER_HEIGHT * C["uf"].powerheight)
+		power:CreateShadow("Background")
 		self.Power = power
+		
+		self.Portrait = R.ConstructPortrait(self)
 	end
 	
 	if unit == "party" then
@@ -622,6 +633,23 @@ local function Shared(self, unit)
 		self.Castbar = castbar
 		
 		R.ClearFocusText(self)
+		
+		-- Debuffs
+		local debuffs = CreateFrame("Frame", nil, self)
+		debuffs:SetHeight(PARTY_HEIGHT - 10)
+		debuffs:SetWidth(PARTY_WIDTH)
+		debuffs:Point("BOTTOMRIGHT", self, "TOPRIGHT", 0, 7)
+		debuffs.spacing = 3.8
+		debuffs["growth-x"] = "LEFT"
+		debuffs["growth-y"] = "UP"
+		debuffs.size = PARTY_HEIGHT - 11
+		debuffs.initialAnchor = "BOTTOMRIGHT"
+		debuffs.num = 7
+		debuffs.PostCreateIcon = R.PostCreateIcon
+		debuffs.PostUpdateIcon = R.PostUpdateIcon
+		debuffs.onlyShowPlayer = true
+		
+		self.Debuffs = debuffs
 	end
 	
 	if unit == "targettarget" or unit == "pet" or unit == "pettarget" or unit == "focustarget" then
@@ -644,13 +672,13 @@ local function Shared(self, unit)
 	if unit == "targettarget" then
 		-- Debuffs
 		local debuffs = CreateFrame("Frame", nil, self)
-		debuffs:SetHeight(PLAYER_HEIGHT)
+		debuffs:SetHeight(PLAYER_HEIGHT - 10)
 		debuffs:SetWidth(SMALL_WIDTH)
 		debuffs:Point("TOPLEFT", self, "BOTTOMLEFT", 1, -6)
 		debuffs.spacing = 5
 		debuffs["growth-x"] = "RIGHT"
 		debuffs["growth-y"] = "DOWN"
-		debuffs.size = PLAYER_HEIGHT
+		debuffs.size = PLAYER_HEIGHT - 10
 		debuffs.initialAnchor = "TOPLEFT"
 		debuffs.num = 5
 		debuffs.PostCreateIcon = R.PostCreateIcon
@@ -661,13 +689,13 @@ local function Shared(self, unit)
 		
 		-- Buffs
 		local buffs = CreateFrame("Frame", nil, self)
-		buffs:SetHeight(PLAYER_HEIGHT)
+		buffs:SetHeight(PLAYER_HEIGHT - 10)
 		buffs:SetWidth(SMALL_WIDTH)
 		buffs:Point("TOPLEFT", self, "BOTTOMLEFT", 1, -6)
 		buffs.spacing = 5
 		buffs["growth-x"] = "RIGHT"
 		buffs["growth-y"] = "DOWN"
-		buffs.size = PLAYER_HEIGHT
+		buffs.size = PLAYER_HEIGHT - 10
 		buffs.initialAnchor = "TOPLEFT"
 		buffs.num = 5
 		buffs.PostCreateIcon = R.PostCreateIcon
@@ -678,7 +706,7 @@ local function Shared(self, unit)
 	end
 	
 	if (unit and unit:find("arena%d") and C["uf"].showArenaFrames == true) or (unit and unit:find("boss%d") and C["uf"].showBossFrames == true) then
-		health:SetSize(BOSS_WIDTH, BOSS_HEIGHT * (1 - C["uf"].powerheight))
+		health:SetSize(BOSS_WIDTH, BOSS_HEIGHT * (1 - C["uf"].powerheight)-2)
 		health.value:Point("LEFT", self, "LEFT", 5, 0)
 		name:Point("BOTTOM", health, -6, -15)
 		name:Point("LEFT", health, 0, 0)
@@ -695,7 +723,10 @@ local function Shared(self, unit)
 		power.value:Point("RIGHT", self, "RIGHT", -5, 0)
 		power:SetWidth(PLAYER_WIDTH)
 		power:SetHeight(PLAYER_HEIGHT * C["uf"].powerheight)
+		power:CreateShadow("Background")
 		self.Power = power
+		
+		self.Portrait = R.ConstructPortrait(self)
 		
 		local debuffs = CreateFrame("Frame", nil, self)
 		debuffs:SetHeight(BOSS_HEIGHT)
@@ -704,7 +735,7 @@ local function Shared(self, unit)
 		debuffs.spacing = 6
 		debuffs["growth-x"] = "LEFT"
 		debuffs["growth-y"] = "DOWN"
-		debuffs.size = PLAYER_HEIGHT - 2
+		debuffs.size = PLAYER_HEIGHT - 12
 		debuffs.initialAnchor = "TOPRIGHT"
 		debuffs.num = 7
 		debuffs.PostCreateIcon = R.PostCreateIcon
@@ -732,7 +763,7 @@ local function Shared(self, unit)
 		trinkets:SetHeight(BOSS_HEIGHT)
 		trinkets:SetWidth(BOSS_HEIGHT)
 		trinkets:SetPoint("LEFT", self, "RIGHT", 5, 0)
-		trinkets:CreateShadow("Default", 2)
+		trinkets:CreateShadow("Background")
 		trinkets.shadow:SetFrameStrata("BACKGROUND")
 		trinkets.trinketUseAnnounce = true
 		trinkets.trinketUpAnnounce = true
@@ -800,17 +831,17 @@ local function LoadDPSLayout()
 
 	-- Player
 	local player = oUF:Spawn('player', "RayUF_player")
-	player:Point("BOTTOMRIGHT", UIParent, "BOTTOM", -70, 380)
+	player:Point("BOTTOMRIGHT", UIParent, "BOTTOM", -80, 390)
 	player:Size(PLAYER_WIDTH, PLAYER_HEIGHT)
 
 	-- Target
 	local target = oUF:Spawn('target', "RayUF_target")
-	target:Point("BOTTOMLEFT", UIParent, "BOTTOM", 70, 380)
+	target:Point("BOTTOMLEFT", UIParent, "BOTTOM", 80, 390)
 	target:Size(TARGET_WIDTH, TARGET_HEIGHT)
 
 	-- Focus
 	local focus = oUF:Spawn('focus', "RayUF_focus")
-	focus:Point("BOTTOMRIGHT", RayUF_player, "TOPLEFT", -20, 37)
+	focus:Point("BOTTOMRIGHT", RayUF_player, "TOPLEFT", -20, 20)
 	focus:Size(PARTY_WIDTH, PARTY_HEIGHT)
 
 	-- Target's Target
@@ -870,7 +901,7 @@ local function LoadDPSLayout()
 			]],
 		'initial-width', PARTY_WIDTH,
 		'initial-height', PARTY_HEIGHT,
-		"yOffset", -36.5,
+		"yOffset", - 20,
 		"groupBy", "CLASS",
 		"groupingOrder", "WARRIOR,PALADIN,DEATHKNIGHT,DRUID,SHAMAN,PRIEST,MAGE,WARLOCK,ROGUE,HUNTER"	-- Trying to put classes that can tank first
 		)

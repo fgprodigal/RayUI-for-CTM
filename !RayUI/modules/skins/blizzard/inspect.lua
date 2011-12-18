@@ -68,9 +68,7 @@ local function LoadSkin()
 		slot.backgroundTextureName = ""
 		slot.checkRelic = nil
 		slot:SetNormalTexture("")
-		slot:StyleButton()
-		slot:GetHighlightTexture():SetAllPoints()
-		slot:GetPushedTexture():SetAllPoints()
+		slot:StyleButton(true)
 		_G["Inspect"..slots[i].."SlotIconTexture"]:SetTexCoord(.08, .92, .08, .92)
 		slot:SetBackdrop({
 					bgFile = C["media"].blank, 

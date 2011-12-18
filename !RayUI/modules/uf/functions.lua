@@ -140,6 +140,21 @@ function R.ConstructPowerBar(self, bg, text)
 	return power
 end
 
+function R.ConstructPortrait(self)
+	local portrait = CreateFrame("PlayerModel", nil, self)
+	portrait:SetFrameStrata('LOW')
+	portrait:SetPoint("TOPLEFT", self.Health, "TOPLEFT", 0, 0)
+	portrait:SetPoint("BOTTOMRIGHT", self.Health, "BOTTOMRIGHT", 0, 0)
+	portrait.PostUpdate = function(self)
+		self:SetAlpha(.15)
+		if self:GetModel() and self:GetModel().find and self:GetModel():find("worgenmale") then
+			self:SetCamera(1)
+		end
+	end
+	
+	return portrait
+end
+
 function R.ConstructCastBar(self)
 	local castbar = CreateFrame("StatusBar", nil, self)
 	castbar:SetStatusBarTexture(C["media"].normal)
@@ -592,13 +607,11 @@ function R.PostUpdateIcon(icons, unit, icon, index, offset)
 		if icon.owner == "player" or icon.owner == "pet" or icon.owner == "vehicle" or UnitIsFriend('player', unit) then
 			local color = DebuffTypeColor[dtype] or DebuffTypeColor.none
 			icon.border:SetBackdropBorderColor(color.r * 0.6, color.g * 0.6, color.b * 0.6)
-			icon.border:Show()
 			texture:Point("TOPLEFT", icon, 1, -1)
 			texture:Point("BOTTOMRIGHT", icon, -1, 1)
 			texture:SetDesaturated(false)
 		else
 			icon.border:SetBackdropBorderColor(unpack(C["media"].bordercolor))
-			icon.border:Hide()
 			texture:Point("TOPLEFT", icon)
 			texture:Point("BOTTOMRIGHT", icon)
 			texture:SetDesaturated(true)
@@ -606,12 +619,10 @@ function R.PostUpdateIcon(icons, unit, icon, index, offset)
 	else
 		if (isStealable or ((R.myclass == "PRIEST" or R.myclass == "SHAMAN" or R.myclass == "MAGE") and dtype == "Magic")) and not UnitIsFriend("player", unit) then
 			icon.border:SetBackdropBorderColor(237/255, 234/255, 142/255)
-			icon.border:Show()
 			texture:Point("TOPLEFT", icon, 1, -1)
 			texture:Point("BOTTOMRIGHT", icon, -1, 1)
 		else
 			icon.border:SetBackdropBorderColor(unpack(C["media"].bordercolor))
-			icon.border:Hide()
 			texture:Point("TOPLEFT", icon)
 			texture:Point("BOTTOMRIGHT", icon)
 		end
@@ -639,13 +650,7 @@ function R.PostCreateIcon(auras, button)
 
 	auras.disableCooldown = true
 	button.icon:SetTexCoord(.1, .9, .1, .9)
-	button.border = CreateFrame("Frame", nil, button)
-	button.border:Point("TOPLEFT", -1, 1)
-	button.border:Point("BOTTOMRIGHT", 1, -1)
-	button.border:CreateBorder()
-	button.border:SetFrameLevel(1)
-	button:CreateShadow("Default", 2)
-	button.shadow:SetFrameLevel(0)
+	button:CreateShadow()
 	button.shadow:SetBackdropColor(0, 0, 0)
 	button.overlay:Hide()
 
@@ -655,9 +660,8 @@ function R.PostCreateIcon(auras, button)
 	button.remaining:SetTextColor(0.99, 0.99, 0.99)
 	button.remaining:Point("CENTER", 0, 0)
 	
-	button:StyleButton()
+	button:StyleButton(true)
 	button:SetPushedTexture(nil)
-	button:GetHighlightTexture():SetAllPoints()
 end
 
 function R.CustomFilter(icons, unit, icon, name, rank, texture, count, dtype, duration, timeLeft, caster)
@@ -691,7 +695,7 @@ function R.FocusText(self)
 	focusdummy:SetFrameStrata("HIGH")
 	focusdummy:SetWidth(25)
 	focusdummy:SetHeight(25)
-	focusdummy:Point("TOP", self,0,0)
+	focusdummy:Point("CENTER", self.Health, 0, 0)
 	focusdummy:EnableMouse(true)
 	focusdummy:RegisterForClicks("AnyUp")
 	focusdummy:SetAttribute("type", "macro")
@@ -711,7 +715,7 @@ function R.FocusText(self)
 	focusdummy:SetBackdropBorderColor(0,0,0,0)
 
 	focusdummytext = focusdummy:CreateFontString(self,"OVERLAY")
-	focusdummytext:Point("CENTER", self,0,0)
+	focusdummytext:Point("CENTER", self.Health, 0, 0)
 	focusdummytext:SetFont(C["media"].font, C["media"].fontsize, C["media"].fontflag)
 	focusdummytext:SetText(L["焦点"])
 	focusdummytext:SetVertexColor(1,0.2,0.1,0)
@@ -770,7 +774,9 @@ local function TestUF(msg)
 		RayUFBoss4:Show(); RayUFBoss4.Hide = function() end; RayUFBoss4.unit = "player"
 	elseif msg == "buffs" then
 		if RayUF_player.Buffs then RayUF_player.Buffs.CustomFilter = nil end
-		if RayUF_target.Auras then RayUF_target.Auras.CustomFilter = nil end
+		if RayUF_player.Debuffs then RayUF_player.Debuffs.CustomFilter = nil end
+		if RayUF_target.Buffs then RayUF_target.Buffs.CustomFilter = nil end
+		if RayUF_target.Debuffs then RayUF_target.Debuffs.CustomFilter = nil end
 		testuf()
 		UnitAura = function()
 			return 'penancelol', 'Rank 2', 'Interface\\Icons\\Spell_Holy_Penance', random(5), 'Magic', 0, 0, "player"

@@ -62,9 +62,7 @@ local function LoadSkin()
 		_G["GuildBankColumn"..i]:GetRegions():Hide()
 		for j = 1, NUM_SLOTS_PER_GUILDBANK_GROUP do
 			local bu = _G["GuildBankColumn"..i.."Button"..j]
-			bu:StyleButton()
-			bu:GetHighlightTexture():SetAllPoints()
-			bu:GetPushedTexture():SetAllPoints()
+			bu:StyleButton(true)
 
 			_G["GuildBankColumn"..i.."Button"..j.."IconTexture"]:SetTexCoord(.08, .92, .08, .92)
 			_G["GuildBankColumn"..i.."Button"..j.."NormalTexture"]:SetAlpha(0)
@@ -95,10 +93,7 @@ local function LoadSkin()
 
 		_G["GuildBankTab"..i]:StripTextures()
 
-		bu:StyleButton()
-		bu:GetHighlightTexture():SetAllPoints()
-		bu:GetPushedTexture():SetAllPoints()
-		bu:GetCheckedTexture():SetAllPoints()
+		bu:StyleButton(true)
 	end
 
 	local GuildBankClose = select(14, GuildBankFrame:GetChildren())

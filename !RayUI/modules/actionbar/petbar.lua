@@ -6,8 +6,6 @@ local bar = CreateFrame("Frame","RayUIPetBar",UIParent, "SecureHandlerStateTempl
 bar:SetWidth(C["actionbar"].buttonsize*num+C["actionbar"].buttonspacing*(num-1))
 bar:SetHeight(C["actionbar"].buttonsize)
 bar:Point("BOTTOM", "UIParent", "BOTTOM", 0, 205)
-bar:SetHitRectInsets(-C["actionbar"].barinset, -C["actionbar"].barinset, -C["actionbar"].barinset, -C["actionbar"].barinset)
-
 bar:SetScale(C["actionbar"].petbarscale)
 
 R.CreateMover(bar, "PetBarMover", L["宠物动作条锚点"], true)  

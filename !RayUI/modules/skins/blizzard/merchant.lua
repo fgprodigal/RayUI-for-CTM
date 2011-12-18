@@ -78,21 +78,15 @@ local function LoadSkin()
 
 	R.CreateBG(MerchantGuildBankRepairButton)
 	MerchantGuildBankRepairButtonIcon:SetTexCoord(0.61, 0.82, 0.1, 0.52)
-	MerchantGuildBankRepairButton:StyleButton()
-	MerchantGuildBankRepairButton:GetHighlightTexture():SetAllPoints()
-	MerchantGuildBankRepairButton:GetPushedTexture():SetAllPoints()
+	MerchantGuildBankRepairButton:StyleButton(true)
 
 	R.CreateBG(MerchantRepairAllButton)
 	MerchantRepairAllIcon:SetTexCoord(0.34, 0.1, 0.34, 0.535, 0.535, 0.1, 0.535, 0.535)
-	MerchantRepairAllButton:StyleButton()
-	MerchantRepairAllButton:GetHighlightTexture():SetAllPoints()
-	MerchantRepairAllButton:GetPushedTexture():SetAllPoints()
+	MerchantRepairAllButton:StyleButton(true)
 
 	R.CreateBG(MerchantRepairItemButton)
 	MerchantRepairItemButton:GetRegions():SetTexCoord(0.04, 0.24, 0.06, 0.5)
-	MerchantRepairItemButton:StyleButton()
-	MerchantRepairItemButton:GetHighlightTexture():SetAllPoints()
-	MerchantRepairItemButton:GetPushedTexture():SetAllPoints()
+	MerchantRepairItemButton:StyleButton(true)
 
 	hooksecurefunc("MerchantFrame_UpdateCurrencies", function()
 		for i = 1, MAX_MERCHANT_CURRENCIES do

@@ -7,8 +7,6 @@ local bar = CreateFrame("Frame","RayUIStanceBar",UIParent, "SecureHandlerStateTe
 bar:SetWidth(C["actionbar"].buttonsize*num+C["actionbar"].buttonspacing*(num-1))
 bar:SetHeight(C["actionbar"].buttonsize)
 bar:SetPoint("BOTTOMLEFT", "UIParent", "BOTTOMLEFT", 15, 202)
-bar:SetHitRectInsets(-C["actionbar"].barinset, -C["actionbar"].barinset, -C["actionbar"].barinset, -C["actionbar"].barinset)
-
 bar:SetScale(C["actionbar"].barscale)
 
 R.CreateMover(bar, "StanceBarMover", L["职业条锚点"], true)  

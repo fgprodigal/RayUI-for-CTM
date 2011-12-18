@@ -4,14 +4,12 @@ local R, C, L, DB = unpack(select(2, ...))
 local bar = CreateFrame("Frame","RayUIActionBar4",UIParent, "SecureHandlerStateTemplate")
 bar:SetHeight(C["actionbar"].buttonsize*12+C["actionbar"].buttonspacing*11)
 bar:SetWidth(C["actionbar"].buttonsize)
-bar:Point("RIGHT", "UIParent", "RIGHT", -10, 0)
-bar:SetHitRectInsets(-C["actionbar"].barinset, -C["actionbar"].barinset, -C["actionbar"].barinset, -C["actionbar"].barinset)
-  
+bar:Point("RIGHT", "UIParent", "RIGHT", -15, 0)
 bar:SetScale(C["actionbar"].barscale)
 
 R.CreateMover(bar, "ActionBar4Mover", L["动作条4锚点"], true)  
 
-  MultiBarRight:SetParent(bar)
+MultiBarRight:SetParent(bar)
   
   for i=1, 12 do
     local button = _G["MultiBarRightButton"..i]

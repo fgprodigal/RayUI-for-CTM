@@ -108,7 +108,7 @@ R.UIScale()
 
 local mult = 768/string.match(GetCVar("gxResolution"), "%d+x(%d+)")/C["general"].uiscale
 local function scale(x)
-	return mult*math.floor(x/mult+.5)
+	return (mult*math.floor(x/mult+.5))
 end
 R.mult = mult
 R.Scale = scale
@@ -164,29 +164,26 @@ local function CreateShadow(f, t, offset, thickness, texture)
 		backdropa = 0
 	end
 	
-	local shadow = CreateFrame("Frame", nil, f)
-	if f:GetFrameLevel() - 1 >= 0 then
-		shadow:SetFrameLevel(f:GetFrameLevel() - 1)
-	else
-		shadow:SetFrameLevel(0)
-	end
-	if offset and type(offset) == "number" then
-		offset = scale(offset)
-		shadow:Point("TOPLEFT", -3 - offset, 3 + offset)
-		shadow:Point("BOTTOMRIGHT", 3 + offset, -3 - offset)
-	else
-		shadow:Point("TOPLEFT", -3, 3)
-		shadow:Point("BOTTOMRIGHT", 3, -3)
-	end
-	local thick = 4
-	if type(thickness) == "number" then
-		thick = thickness
-	end
-	shadow:SetBackdrop({
-	bgFile = texture and C["media"].normal or C["media"].blank, 
-	edgeFile = C["media"].glow, 
-	edgeSize = scale(thick + 1),
-	insets = { left = scale(thick), right = scale(thick), top = scale(thick), bottom = scale(thick) }
+	local border = CreateFrame("Frame", nil, f)
+	border:SetFrameLevel(1)
+	border:Point("TOPLEFT", -1, 1)
+	border:Point("TOPRIGHT", 1, 1)
+	border:Point("BOTTOMRIGHT", 1, -1)
+	border:Point("BOTTOMLEFT", -1, -1)
+	border:CreateBorder()
+	f.border = border
+	
+	local shadow = CreateFrame("Frame", nil, border)
+	shadow:SetFrameLevel(0)
+	shadow:Point("TOPLEFT", -3, 3)
+	shadow:Point("TOPRIGHT", 3, 3)
+	shadow:Point("BOTTOMRIGHT", 3, -3)
+	shadow:Point("BOTTOMLEFT", -3, -3)
+	shadow:SetBackdrop( { 
+		edgeFile = C.media.glow,
+		bgFile = C.media.blank,
+		edgeSize = R.Scale(4),
+		insets = {left = R.Scale(4), right = R.Scale(4), top = R.Scale(4), bottom = R.Scale(4)},
 	})
 	shadow:SetBackdropColor( backdropr, backdropg, backdropb, backdropa )
 	shadow:SetBackdropBorderColor( borderr, borderg, borderb, bordera )
@@ -214,12 +211,16 @@ local function CreateBorder(f, r, g, b, a)
 	f:SetBackdropBorderColor(r or C["media"]["bordercolor"][1], g or C["media"]["bordercolor"][2], b or C["media"]["bordercolor"][3], a or C["media"]["bordercolor"][4])
 end
 
-local function StyleButton(button)
+local function StyleButton(button, setallpoints)
 	if button.SetHighlightTexture and not button.hover then
 		local hover = button:CreateTexture(nil, "OVERLAY")
 		hover:SetTexture(1, 1, 1, 0.3)
-		hover:Point('TOPLEFT', 2, -2)
-		hover:Point('BOTTOMRIGHT', -2, 2)
+		if setallpoints then
+			hover:SetAllPoints()
+		else
+			hover:Point('TOPLEFT', 2, -2)
+			hover:Point('BOTTOMRIGHT', -2, 2)
+		end
 		button.hover = hover
 		button:SetHighlightTexture(hover)
 	end
@@ -227,8 +228,12 @@ local function StyleButton(button)
 	if button.SetPushedTexture and not button.pushed then
 		local pushed = button:CreateTexture(nil, "OVERLAY")
 		pushed:SetTexture(0.9, 0.8, 0.1, 0.3)
-		pushed:Point('TOPLEFT', 2, -2)
-		pushed:Point('BOTTOMRIGHT', -2, 2)
+		if setallpoints then
+			pushed:SetAllPoints()
+		else
+			pushed:Point('TOPLEFT', 2, -2)
+			pushed:Point('BOTTOMRIGHT', -2, 2)
+		end
 		button.pushed = pushed
 		button:SetPushedTexture(pushed)
 	end
@@ -236,8 +241,12 @@ local function StyleButton(button)
 	if button.SetCheckedTexture and not button.checked then
 		local checked = button:CreateTexture(nil, "OVERLAY")
 		checked:SetTexture(23/255,132/255,209/255,0.5)
-		checked:Point('TOPLEFT', 2, -2)
-		checked:Point('BOTTOMRIGHT', -2, 2)
+		if setallpoints then
+			checked:SetAllPoints()
+		else
+			checked:Point('TOPLEFT', 2, -2)
+			checked:Point('BOTTOMRIGHT', -2, 2)
+		end
 		button.checked = checked
 		button:SetCheckedTexture(checked)
 	end
@@ -245,8 +254,12 @@ local function StyleButton(button)
 	if button:GetName() and _G[button:GetName().."Cooldown"] then
 		local cooldown = _G[button:GetName().."Cooldown"]
 		cooldown:ClearAllPoints()
-		cooldown:Point('TOPLEFT', 2, -2)
-		cooldown:Point('BOTTOMRIGHT', -2, 2)
+		if setallpoints then
+			cooldown:SetAllPoints()
+		else
+			cooldown:Point('TOPLEFT', 2, -2)
+			cooldown:Point('BOTTOMRIGHT', -2, 2)
+		end
 	end
 end
 

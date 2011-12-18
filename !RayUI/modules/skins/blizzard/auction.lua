@@ -151,9 +151,7 @@ local function LoadSkin()
 			hl:SetPoint("TOPLEFT", 0, -1)
 			hl:SetPoint("BOTTOMRIGHT", -1, 6)
 
-			it:StyleButton()
-			it:GetHighlightTexture():SetAllPoints()
-			it:GetPushedTexture():SetAllPoints()
+			it:StyleButton(true)
 		end
 	end
 
@@ -184,9 +182,7 @@ local function LoadSkin()
 		hl:SetPoint("TOPLEFT", 0, -1)
 		hl:SetPoint("BOTTOMRIGHT", -1, 6)
 
-		it:StyleButton()
-		it:GetHighlightTexture():SetAllPoints()
-		it:GetPushedTexture():SetAllPoints()
+		it:StyleButton(true)
 	end
 
 	for i = 1, NUM_AUCTIONS_TO_DISPLAY do
@@ -216,9 +212,7 @@ local function LoadSkin()
 		hl:SetPoint("TOPLEFT", 0, -1)
 		hl:SetPoint("BOTTOMRIGHT", -1, 6)
 
-		it:StyleButton()
-		it:GetHighlightTexture():SetAllPoints()
-		it:GetPushedTexture():SetAllPoints()
+		it:StyleButton(true)
 	end
 
 	local auctionhandler = CreateFrame("Frame")

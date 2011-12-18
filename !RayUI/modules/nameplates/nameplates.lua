@@ -155,9 +155,8 @@ local function CreateVirtualFrame(parent, point)
 	if point.backdrop or parent.backdrop then return end
 	
 	parent.backdrop = CreateFrame("Frame", nil ,parent)
-	parent.backdrop:SetPoint("TOPLEFT", -noscalemult*1, noscalemult*1)
-	parent.backdrop:SetPoint("BOTTOMRIGHT", noscalemult*1, -noscalemult*1)
-	parent.backdrop:CreateShadow("Default", -1, 2)
+	parent.backdrop:SetAllPoints()
+	parent.backdrop:CreateShadow("Default")
 
 	parent.backdrop2 = parent:CreateTexture(nil, "BORDER")
 	parent.backdrop2:SetDrawLayer("BORDER", -7)
@@ -174,8 +173,19 @@ local function CreateAuraIcon(parent)
 	local button = CreateFrame("Frame",nil,parent)
 	button:SetWidth(20)
 	button:SetHeight(20)
-	
-	button:CreateShadow()
+
+	button.shadow = CreateFrame("Frame", nil, button)
+	button.shadow:SetFrameLevel(0)
+	button.shadow:Point("TOPLEFT", -2*noscalemult, 2*noscalemult)
+	button.shadow:Point("BOTTOMRIGHT", 2*noscalemult, -2*noscalemult)
+	button.shadow:SetBackdrop( { 
+		edgeFile = C.media.glow,
+		bgFile = C.media.blank,
+		edgeSize = R.Scale(4),
+		insets = {left = R.Scale(4), right = R.Scale(4), top = R.Scale(4), bottom = R.Scale(4)},
+	})
+	button.shadow:SetBackdropColor( 0, 0, 0 )
+	button.shadow:SetBackdropBorderColor( 0, 0, 0 )
 	
 	button.bord = button:CreateTexture(nil, "BORDER")
 	button.bord:SetTexture(0, 0, 0, 1)

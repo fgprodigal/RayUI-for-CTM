@@ -109,9 +109,8 @@ DB["raid"]={
 }
 
 DB["actionbar"]={
-	barinset = 4,	
-	buttonsize   = 29,
-	buttonspacing   = 5,
+	buttonsize   = 28,
+	buttonspacing   = 6,
 	barscale = 1,
 	petbarscale = 0.9,
 	macroname = false,
@@ -127,8 +126,8 @@ DB["actionbar"]={
 	bar3mouseover = false,
 	bar3fade = true,
 	
-	bar4mouseover = true,
-	bar4fade = true,
+	bar4mouseover = false,
+	bar4fade = false,
 	
 	bar5mouseover = true,
 	bar5fade = true,

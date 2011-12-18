@@ -13,7 +13,10 @@ local backdrop = {
 
 local tooltips = {
 	GameTooltip, 
-	ItemRefTooltip, 
+	ItemRefTooltip,
+	ItemRefShoppingTooltip1,
+	ItemRefShoppingTooltip2,
+	ItemRefShoppingTooltip3,
 	ShoppingTooltip1, 
 	ShoppingTooltip2, 
 	ShoppingTooltip3, 
@@ -210,39 +213,6 @@ GameTooltipStatusBar:HookScript("OnValueChanged", function(self, value)
 		if self.text then
 			self.text:Hide()
 		end
-	end
-end)
-
-
-local iconFrame = CreateFrame("Frame", nil, ItemRefTooltip)
-iconFrame:SetWidth(30)
-iconFrame:SetHeight(30)
-iconFrame:SetPoint("TOPRIGHT", ItemRefTooltip, "TOPLEFT", -3, 0)
-iconFrame:SetBackdrop(backdrop)
-iconFrame:SetBackdropColor(0, 0, 0, 0.5)
-iconFrame:SetBackdropBorderColor(0, 0, 0, 1)
-iconFrame2 = CreateFrame("Frame", nil, iconFrame)
-iconFrame2:SetAllPoints(iconFrame)
-iconFrame2:SetFrameLevel(iconFrame:GetFrameLevel()+1)
-iconFrame.icon = iconFrame2:CreateTexture(nil, "BACKGROUND")
-iconFrame.icon:SetPoint("TOPLEFT", 1, -1)
-iconFrame.icon:SetPoint("BOTTOMRIGHT", -1, 1)
-iconFrame.icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
-
-hooksecurefunc("SetItemRef", function(link, text, button)
-	if iconFrame:IsShown() then
-		iconFrame:Hide()
-	end
-	local type, id = string.match(link, "(%l+):(%d+)") 
-	if type == "item" then
-		iconFrame.icon:SetTexture(select(10, GetItemInfo(id)))
-		iconFrame:Show()
-	elseif type == "spell" then
-		iconFrame.icon:SetTexture(select(3, GetSpellInfo(id)))
-		iconFrame:Show()
-	elseif type == "achievement" then
-		iconFrame.icon:SetTexture(select(10, GetAchievementInfo(id)))
-		iconFrame:Show()
 	end
 end)
 

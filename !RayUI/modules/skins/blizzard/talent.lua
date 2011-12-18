@@ -153,9 +153,7 @@ local function LoadSkin()
 	for i = 1, 2 do
 		_G["PlayerSpecTab"..i.."Background"]:Hide()
 		local tab = _G["PlayerSpecTab"..i]
-		tab:StyleButton()
-		tab:GetHighlightTexture():SetAllPoints()
-		tab:GetCheckedTexture():SetAllPoints()
+		tab:StyleButton(true)
 		tab:SetPushedTexture(nil)
 		local a1, p, a2, x, y = PlayerSpecTab1:GetPoint()
 		local bg = CreateFrame("Frame", nil, tab)

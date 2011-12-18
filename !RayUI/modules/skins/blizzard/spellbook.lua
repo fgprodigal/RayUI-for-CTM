@@ -88,9 +88,7 @@ local function LoadSkin()
 		_G["SpellBookSkillLineTab"..i.."TabardIconFrame"]:SetTexCoord(.08, .92, .08, .92)
 		select(4, tab:GetRegions()):SetTexCoord(.08, .92, .08, .92)
 		
-		tab:StyleButton()
-		tab:GetHighlightTexture():SetAllPoints()
-		tab:GetCheckedTexture():SetAllPoints()
+		tab:StyleButton(true)
 		tab:SetPushedTexture(nil)
 	end
 

@@ -216,7 +216,7 @@ LFGDungeonReadyStatus:SetClampedToScreen(true)
 -----------------------------------------------------
 -- MinimapBackground
 -----------------------------------------------------
-Minimap:CreateShadow("Background", 2)
+Minimap:CreateShadow("Background")
 
 --New Mail Check
 local function CheckMail()
