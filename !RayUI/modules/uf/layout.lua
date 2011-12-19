@@ -49,6 +49,10 @@ local function Shared(self, unit)
 	-- Frame Level
 	self:SetFrameLevel(5)
 	
+	self.textframe = CreateFrame("Frame", nil, self)
+	self.textframe:SetAllPoints()
+	self.textframe:SetFrameLevel(self:GetFrameLevel()+5)
+
 	-- Health
 	local health = R.ContructHealthBar(self, true, true)
 	health:SetPoint("LEFT")
@@ -58,7 +62,7 @@ local function Shared(self, unit)
 	self.Health = health
 	
 	-- Name
-	local name = health:CreateFontString(nil, "OVERLAY")
+	local name = self.textframe:CreateFontString(nil, "OVERLAY")
 	name:SetFont(C["media"].font, 15, C["media"].fontflag)
 	self.Name = name
 	
@@ -340,7 +344,7 @@ local function Shared(self, unit)
 		experience:Point('BOTTOMRIGHT', BottomInfoBar, 'BOTTOMRIGHT', 0, 0)
 		experience:SetParent(BottomInfoBar)
 		experience:SetFrameStrata("BACKGROUND")
-		experience:SetFrameLevel(2)
+		experience:SetFrameLevel(1)
 		
 		experience.Rested = CreateFrame("StatusBar", nil, experience)
 		experience.Rested:SetStatusBarTexture(C["media"].normal)

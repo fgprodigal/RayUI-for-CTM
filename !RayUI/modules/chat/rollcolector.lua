@@ -90,7 +90,7 @@ f:SetScript("OnEvent", function(self, event, addon)
 			player = player == YOU and UnitName("player") or player
 			for i,roll in ipairs(rolls) do
 				if roll._link == link and roll[player] and not roll._printed then
-					local rolltype = roll._type == NEED and NEED or GREED
+					local rolltype = roll._type == NEED and NEED or GREED and GREED or ROLL_DISENCHANT and ROLL_DISENCHANT
 					roll._printed = true
 					roll._winner = player
 					local msg = string.format(L["%s|HRayUILootCollector:%d|h[%s roll]|h|r %s won %s "], rollcolors[rolltype], i, rolltype, player, link)
@@ -122,7 +122,7 @@ function SetItemRef(link, text, button)
 		if not ItemRefTooltip:IsShown() then ItemRefTooltip:SetOwner(UIParent, "ANCHOR_PRESERVE") end
 
 		local roll = rolls[tonumber(id)]
-		local rolltype = roll._type == NEED and coloredwords[NEED] or coloredwords[GREED]
+		local rolltype = roll._type == NEED and coloredwords[NEED] or GREED and coloredwords[GREED] or ROLL_DISENCHANT and coloredwords[ROLL_DISENCHANT]
 		ItemRefTooltip:ClearLines()
 		ItemRefTooltip:AddLine(rolltype.."|r - "..roll._link)
 		ItemRefTooltip:AddDoubleLine(L["Winner:"], "|cffffffff"..roll._winner)

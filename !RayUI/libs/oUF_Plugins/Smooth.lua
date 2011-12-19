@@ -1,8 +1,7 @@
 local R, C, L, DB = unpack(select(2, ...))
 
 local _, ns = ...
-local oUF = RayUF or ns.oUF or oUF
-
+local oUF = ns.oUF or oUF
 if not oUF then return end
 
 local smoothing = {}
@@ -14,49 +13,54 @@ local function Smooth(self, value)
 	end
 end
 
-local function SmoothBar(self, bar)
-	bar.SetValue_ = bar.SetValue
-	bar.SetValue = Smooth
+local function SmoothBar(bar)
+	if not bar.SetValue_ then
+		bar.SetValue_ = bar.SetValue;
+		bar.SetValue = Smooth;
+	end
+end
+
+local function ResetBar(bar)
+	if bar.SetValue_ then
+		bar.SetValue = bar.SetValue_;
+		bar.SetValue_ = nil;
+	end
 end
 
 local function hook(frame)
-	frame.SmoothBar = SmoothBar
-	if frame.Health and frame.Health.Smooth then
-		frame:SmoothBar(frame.Health)
+	if frame.Health then
+		SmoothBar(frame.Health)
 	end
-	if frame.Power and frame.Power.Smooth then
-		frame:SmoothBar(frame.Power)
+	if frame.Power then
+		SmoothBar(frame.Power)
+	end
+	if frame.AltPowerBar then
+		SmoothBar(frame.AltPowerBar)
 	end
 end
-
 
 for i, frame in ipairs(oUF.objects) do hook(frame) end
 oUF:RegisterInitCallback(hook)
 
+local f, min, max = CreateFrame('Frame'), math.min, math.max
+f:SetScript('OnUpdate', function()
+	local rate = GetFramerate()
+	local limit = 30/rate
 
-local f, min, max = CreateFrame("Frame"), math.min, math.max
-f:SetScript("OnUpdate", function()
-	local limit = 30/GetFramerate()
 	for bar, value in pairs(smoothing) do
 		local cur = bar:GetValue()
-		local barmin, barmax = bar:GetMinMaxValues()
-		local new = cur + min((value-cur)/20, max(value-cur, limit))
+		local new = cur + min((value-cur)/12, max(value-cur, limit))
 		if new ~= new then
+			-- Mad hax to prevent QNAN.
 			new = value
 		end
 		bar:SetValue_(new)
-    if bar.Filling then
-      if barmax == 0 then
-        bar.Filling:SetHeight(0)
-        bar.Filling:SetTexCoord(0,1,1,1)
-      else
-        bar.Filling:SetHeight((new / barmax) * bar:GetWidth())
-        bar.Filling:SetTexCoord(0,1,  math.abs(new / barmax - 1),1)
-      end
-    end
-		if cur == value or abs(cur - value) < 2 then
+		if (cur == value or abs(new - value) < 2) and bar.Smooth then
 			bar:SetValue_(value)
 			smoothing[bar] = nil
+		elseif not bar.Smooth then
+			bar:SetValue_(value)
+			smoothing[bar] = nil		
 		end
 	end
 end)

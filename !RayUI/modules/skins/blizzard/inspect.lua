@@ -77,15 +77,13 @@ local function LoadSkin()
 	end
 	select(7, InspectMainHandSlot:GetRegions()):Kill()
 	select(7, InspectRangedSlot:GetRegions()):Kill()
-	-- select(9, InspectMainHandSlot:GetRegions()):Kill()
-	-- select(9, InspectRangedSlot:GetRegions()):Kill()
 
 	R.ReskinClose(InspectFrameCloseButton)
 	
 	local CheckItemBorderColor = CreateFrame("Frame")
 	local function ScanSlots()
 		local unit = InspectFrame.unit
-		if not (InspectFrame:IsShown() and UnitExists(unit) and UnitIsPlayer(unit)) then return end
+		if not InspectFrame:IsShown() then return end
 		local notFound
 		for i = 1, #slots do
 			-- Colour the equipment slots by rarity
@@ -147,6 +145,31 @@ local function LoadSkin()
 	CheckItemBorderColor:SetScript("OnEvent", ColorItemBorder)	
 	InspectFrame:HookScript("OnShow", ColorItemBorder)
 	ColorItemBorder(CheckItemBorderColor)
+	hooksecurefunc("InspectPaperDollItemSlotButton_Update", function(button) print(button:GetID()) end)
+	
+	for i = 1, MAX_NUM_TALENTS do
+		local bu = _G["InspectTalentFrameTalent"..i]
+		local ic = _G["InspectTalentFrameTalent"..i.."IconTexture"]
+		if bu then
+			bu:StyleButton()
+			bu:GetHighlightTexture():Point("TOPLEFT", 1, -1)
+			bu:GetHighlightTexture():Point("BOTTOMRIGHT", -1, 1)
+			bu:GetPushedTexture():Point("TOPLEFT", 1, -1)
+			bu:GetPushedTexture():Point("BOTTOMRIGHT", -1, 1)
+			bu.SetHighlightTexture = R.dummy
+			bu.SetPushedTexture = R.dummy
+			
+			_G["InspectTalentFrameTalent"..i.."Slot"]:SetAlpha(0)
+			_G["InspectTalentFrameTalent"..i.."SlotShadow"]:SetAlpha(0)
+			_G["InspectTalentFrameTalent"..i.."GoldBorder"]:SetAlpha(0)
+
+			ic:SetTexCoord(.08, .92, .08, .92)
+			ic:SetPoint("TOPLEFT", 1, -1)
+			ic:SetPoint("BOTTOMRIGHT", -1, 1)
+			
+			R.CreateBD(bu)
+		end
+	end
 end
 
 R.SkinFuncs["Blizzard_InspectUI"] = LoadSkin

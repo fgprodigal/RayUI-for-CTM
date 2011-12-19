@@ -153,8 +153,7 @@ local function LoadSkin()
 
 	select(8, CharacterMainHandSlot:GetRegions()):Kill()
 	select(8, CharacterRangedSlot:GetRegions()):Kill()
-	-- select(10, CharacterMainHandSlot:GetRegions()):Kill()
-	-- select(10, CharacterRangedSlot:GetRegions()):Kill()
+
 	local function SkinItemFlyouts()
 		for i = 1, 10 do
 			local bu = _G["EquipmentFlyoutFrameButton"..i]

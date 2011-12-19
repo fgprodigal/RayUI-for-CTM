@@ -84,10 +84,10 @@ function R.ContructHealthBar(self, bg, text)
 	end
 	
 	if text then
-		health.value = health:CreateFontString(nil, "OVERLAY")
+		health.value = self.textframe:CreateFontString(nil, "OVERLAY")
 		health.value:SetFont(C["media"].font, C["media"].fontsize, C["media"].fontflag)
 		health.value:SetJustifyH("LEFT")
-		health.value:SetParent(health)
+		health.value:SetParent(self.textframe)
 	end
 	
 	if C["uf"].healthColorClass ~= true then
@@ -121,10 +121,10 @@ function R.ConstructPowerBar(self, bg, text)
 	end
 	
 	if text then
-		power.value = power:CreateFontString(nil, "OVERLAY")
+		power.value = self.textframe:CreateFontString(nil, "OVERLAY")
 		power.value:SetFont(C["media"].font, C["media"].fontsize, C["media"].fontflag)
 		power.value:SetJustifyH("LEFT")
-		power.value:SetParent(power)
+		power.value:SetParent(self.textframe)
 	end
 	
 	if C["uf"].powerColorClass == true then
@@ -143,6 +143,7 @@ end
 function R.ConstructPortrait(self)
 	local portrait = CreateFrame("PlayerModel", nil, self)
 	portrait:SetFrameStrata('LOW')
+	portrait:SetFrameLevel(self.Health:GetFrameLevel() + 1)
 	portrait:SetPoint("TOPLEFT", self.Health, "TOPLEFT", 0, 0)
 	portrait:SetPoint("BOTTOMRIGHT", self.Health, "BOTTOMRIGHT", 0, 0)
 	portrait.PostUpdate = function(self)
@@ -150,7 +151,17 @@ function R.ConstructPortrait(self)
 		if self:GetModel() and self:GetModel().find and self:GetModel():find("worgenmale") then
 			self:SetCamera(1)
 		end
+		self:SetCamDistanceScale(1 - 0.01) --Blizzard bug fix
+		self:SetCamDistanceScale(1)
 	end
+	
+	portrait.overlay = CreateFrame("Frame", nil, self)
+	portrait.overlay:SetFrameLevel(self:GetFrameLevel() - 5)
+	
+	self.Health.bg:ClearAllPoints()
+	self.Health.bg:Point('BOTTOMLEFT', self.Health:GetStatusBarTexture(), 'BOTTOMRIGHT')
+	self.Health.bg:Point('TOPRIGHT', self.Health)
+	self.Health.bg:SetParent(portrait.overlay)
 	
 	return portrait
 end
@@ -526,14 +537,14 @@ end
 
 function R.UpdateEclipse(element, unit)
     if element.hasSolarEclipse then
-        element.bd:SetBackdropBorderColor(1, .6, 0)
-        element.bd:SetBackdropColor(1, .6, 0)
+        element.border:SetBackdropBorderColor(1, .6, 0)
+        element.shadow:SetBackdropBorderColor(1, .6, 0)
     elseif element.hasLunarEclipse then
-        element.bd:SetBackdropBorderColor(0, .4, 1)
-        element.bd:SetBackdropColor(0, .4, 1)
+        element.border:SetBackdropBorderColor(0, .4, 1)
+        element.shadow:SetBackdropBorderColor(0, .4, 1)
     else
-        element.bd:SetBackdropBorderColor(0, 0, 0)
-        element.bd:SetBackdropColor(0, 0, 0)
+        element.border:SetBackdropBorderColor(0, 0, 0)
+        element.shadow:SetBackdropBorderColor(0, 0, 0)
     end
 end
 
@@ -750,7 +761,7 @@ function R.ClearFocusText(self)
 	clearfocus:SetBackdropBorderColor(0,0,0,0)
 
 	clearfocustext = clearfocus:CreateFontString(self,"OVERLAY")
-	clearfocustext:Point("CENTER", self,0,0)
+	clearfocustext:Point("CENTER", self.Health, 0, 0)
 	clearfocustext:SetFont(C["media"].font, C["media"].fontsize, C["media"].fontflag)
 	clearfocustext:SetText(L["取消焦点"])
 	clearfocustext:SetVertexColor(1,0.2,0.1,0)
