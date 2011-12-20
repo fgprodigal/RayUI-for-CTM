@@ -9,6 +9,5 @@
 ## X-Curse-Project-ID: BlizzBugFix
 ## X-Curse-Repository-ID: wow/BlizzBugFix/mainline
 
-InspectFix.lua
 GuildRosterSelectedFix.lua
 BlizzBugsSuck.lua

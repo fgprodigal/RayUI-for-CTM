@@ -67,6 +67,11 @@ local function CreatePopup()
 	end)
 end
 
+local function Round(v, decimals)
+	if not decimals then decimals = 0 end
+    return (("%%.%df"):format(decimals)):format(v)
+end
+
 function watcherPrototype:OnEnable()
 		if self.parent then
 			self.parent:Show()
@@ -91,8 +96,8 @@ function watcherPrototype:CreateButton(mode)
 	button.icon = button:CreateTexture(nil, "ARTWORK")
 	button.icon:SetAllPoints()
 	button.count = button:CreateFontString(nil, "OVERLAY")
-	button.count:SetFont(ns.font, ns.fontsize + 2, ns.fontflag)
-	button.count:SetPoint("BOTTOMRIGHT", button , "BOTTOMRIGHT", 4, 0)
+	button.count:SetFont(ns.font, ns.fontsize * (Round(self.size) / 30), ns.fontflag)
+	button.count:SetPoint("BOTTOMRIGHT", button , "BOTTOMRIGHT", 4, -4)
 	button.count:SetJustifyH("RIGHT")
 	button:SetScript("OnEnter", function(self)
 			GameTooltip:SetOwner(self, "ANCHOR_TOP")

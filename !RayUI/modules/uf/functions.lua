@@ -121,10 +121,15 @@ function R.ConstructPowerBar(self, bg, text)
 	end
 	
 	if text then
-		power.value = self.textframe:CreateFontString(nil, "OVERLAY")
+		local textframe = CreateFrame("Frame", nil, power)
+		textframe:SetAllPoints(self)
+		textframe:SetFrameStrata(self:GetFrameStrata())
+		textframe:SetFrameLevel(self:GetFrameLevel()+5)
+
+		power.value = textframe:CreateFontString(nil, "OVERLAY")
 		power.value:SetFont(C["media"].font, C["media"].fontsize, C["media"].fontflag)
 		power.value:SetJustifyH("LEFT")
-		power.value:SetParent(self.textframe)
+		power.value:SetParent(textframe)
 	end
 	
 	if C["uf"].powerColorClass == true then

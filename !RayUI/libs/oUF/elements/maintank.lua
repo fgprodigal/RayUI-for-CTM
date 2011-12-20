@@ -1,5 +1,5 @@
 local parent, ns = ...
-local oUF = RayUF or ns.oUF or oUF
+local oUF = ns.oUF
 
 local Update = function(self, event)
 	local raidID = UnitInRaid(self.unit)

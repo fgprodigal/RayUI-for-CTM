@@ -22,7 +22,7 @@ local fontstrings = setmetatable({}, {
 		assert(gslot, "Character"..i.."Slot does not exist")
 
 		local fstr = gslot:CreateFontString(nil, "OVERLAY")
-        fstr:SetFont(C["media"].pxfont, 11, "OUTLINE,MONOCHROME")
+        fstr:SetFont(C["media"].pxfont, 768/(R.screenheight * C.general.uiscale)*10, "OUTLINE,MONOCHROME")
 		fstr:SetShadowColor(0, 0, 0)
 		fstr:SetShadowOffset(R.mult, -R.mult)
 		fstr:SetPoint("CENTER", gslot, "BOTTOM", 1, 8)

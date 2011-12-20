@@ -1,10 +1,7 @@
 local R, C = unpack(RayUI)
 local addon = select(2, ...)
 local window = CreateFrame("Frame", "NumerationFrame", UIParent)
-window.bg = CreateFrame("Frame", nil, window)
-window.bg:Point("TOPLEFT", -1, 1)
-window.bg:Point("BOTTOMRIGHT", 1, -1)
-window.bg:CreateShadow("Background")
+window:CreateShadow("Background")
 addon.window = window
 
 local lines = {}
@@ -343,7 +340,6 @@ local reset
 function window:ShowResetWindow()
 	if not reset then
 		reset = CreateFrame("Frame", nil, window)
-		-- reset:CreateShadow("Background")
 		R.SetBD(reset)
 		reset:SetWidth(200)
 		reset:SetHeight(45)
@@ -381,7 +377,6 @@ local whisper
 function window:ShowWhisperWindow()
 	if not whisper then
 		whisper = CreateFrame("Frame", nil, window)
-		-- whisper:CreateShadow("Background")
 		R.SetBD(whisper)
 		whisper:SetWidth(200)
 		whisper:SetHeight(45)

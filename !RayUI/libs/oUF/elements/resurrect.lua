@@ -1,9 +1,6 @@
 local parent, ns = ...
 local oUF = ns.oUF
 
-local WoW42 = select(4, GetBuildInfo()) == 40200
-if(not WoW42) then return end
-
 local Update = function(self, event)
 	local incomingResurrect = UnitHasIncomingResurrection(self.unit)
 	local resurrect = self.ResurrectIcon

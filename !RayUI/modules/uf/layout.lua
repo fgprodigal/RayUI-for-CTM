@@ -258,7 +258,8 @@ local function Shared(self, unit)
                 bars[i].bg.multiplier = .2
 
 				bars[i]:CreateShadow("Background")
-            --    bars[i].bd = R.CreateBackdrop(bars[i], bars[i])
+				bars[i].shadow:SetFrameStrata("BACKGROUND")
+				bars[i].shadow:SetFrameLevel(0)
                 i=i-1
             end
 
@@ -277,6 +278,8 @@ local function Shared(self, unit)
             ebar:Point("BOTTOM", self, "TOP", 0, 1)
             ebar:SetSize(200, 5)
             ebar:CreateShadow("Background")
+			ebar.shadow:SetFrameStrata("BACKGROUND")
+			ebar.shadow:SetFrameLevel(0)
 
 			local lbar = CreateFrame("StatusBar", nil, ebar)
 			lbar:SetStatusBarTexture(C["media"].normal)
@@ -327,6 +330,8 @@ local function Shared(self, unit)
                 self.TotemBar[i].bg.multiplier = 0.3
 
                 self.TotemBar[i]:CreateShadow("Background")
+				self.TotemBar[i].shadow:SetFrameStrata("BACKGROUND")
+				self.TotemBar[i].shadow:SetFrameLevel(0)
             end
 			self.TotemBar[2]:SetPoint("BOTTOM", self, "TOP", -75,1)
 			self.TotemBar[1]:SetPoint("LEFT", self.TotemBar[2], "RIGHT", 5, 0)
@@ -478,7 +483,7 @@ local function Shared(self, unit)
 		local debuffs = CreateFrame("Frame", nil, self)
 		debuffs:SetHeight(PLAYER_HEIGHT - 10)
 		debuffs:SetWidth(PLAYER_WIDTH)
-		debuffs:Point("BOTTOMLEFT", self, "TOPLEFT", 0, 7)
+		debuffs:Point("BOTTOMLEFT", self, "TOPLEFT", 0, 8)
 		debuffs.spacing = 3.8
 		debuffs["growth-x"] = "RIGHT"
 		debuffs["growth-y"] = "UP"
@@ -520,6 +525,8 @@ local function Shared(self, unit)
 			bars[i].bg.multiplier = .2
 
 			bars[i]:CreateShadow("Background")
+			bars[i].shadow:SetFrameStrata("BACKGROUND")
+			bars[i].shadow:SetFrameLevel(0)
 		end
 			
 		bars[1]:SetStatusBarColor(255/255, 0/255, 0)		

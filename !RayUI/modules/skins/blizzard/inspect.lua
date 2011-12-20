@@ -145,7 +145,6 @@ local function LoadSkin()
 	CheckItemBorderColor:SetScript("OnEvent", ColorItemBorder)	
 	InspectFrame:HookScript("OnShow", ColorItemBorder)
 	ColorItemBorder(CheckItemBorderColor)
-	hooksecurefunc("InspectPaperDollItemSlotButton_Update", function(button) print(button:GetID()) end)
 	
 	for i = 1, MAX_NUM_TALENTS do
 		local bu = _G["InspectTalentFrameTalent"..i]

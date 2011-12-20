@@ -50,8 +50,8 @@ local function SkinBars(self)
 					
 					local backdroptex = icon1.overlay:CreateTexture(nil, "BORDER")
 					backdroptex:SetTexture([=[Interface\Icons\Spell_Nature_WispSplode]=])
-					backdroptex:Point("TOPLEFT", icon1.overlay, "TOPLEFT", 2, -2)
-					backdroptex:Point("BOTTOMRIGHT", icon1.overlay, "BOTTOMRIGHT", -2, 2)
+					backdroptex:Point("TOPLEFT", icon1.overlay, "TOPLEFT", 0, 0)
+					backdroptex:Point("BOTTOMRIGHT", icon1.overlay, "BOTTOMRIGHT", 0, 0)
 					backdroptex:SetTexCoord(0.08, 0.92, 0.08, 0.92)
 				end
 
@@ -61,8 +61,8 @@ local function SkinBars(self)
 					
 					local backdroptex = icon2.overlay:CreateTexture(nil, "BORDER")
 					backdroptex:SetTexture([=[Interface\Icons\Spell_Nature_WispSplode]=])
-					backdroptex:Point("TOPLEFT", icon2.overlay, "TOPLEFT", 2, -2)
-					backdroptex:Point("BOTTOMRIGHT", icon2.overlay, "BOTTOMRIGHT", -2, 2)
+					backdroptex:Point("TOPLEFT", icon2.overlay, "TOPLEFT", 0, 0)
+					backdroptex:Point("BOTTOMRIGHT", icon2.overlay, "BOTTOMRIGHT", 0, 0)
 					backdroptex:SetTexCoord(0.08, 0.92, 0.08, 0.92)					
 				end
 

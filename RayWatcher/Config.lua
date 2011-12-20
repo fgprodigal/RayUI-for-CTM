@@ -23,7 +23,7 @@ ns.watchers ={
 			name = "玩家buff",
 			direction = "LEFT",
 			setpoint = { "BOTTOMRIGHT", "RayUF_player", "TOPRIGHT", 0, 80 },
-			size = 27,
+			size = 28,
 
 			-- 生命之花
 			{ spellID = 33763, unitId = "player", caster = "player", filter = "BUFF" },
@@ -38,7 +38,7 @@ ns.watchers ={
 			name = "目标buff",
 			direction = "RIGHT",
 			setpoint = { "BOTTOMLEFT", "RayUF_target", "TOPLEFT", 0, 80 },
-			size = 27,
+			size = 28,
 
 			-- 生命之花
 			{ spellID = 33763, unitId = "target", caster = "player", filter = "BUFF" },
@@ -137,7 +137,7 @@ ns.watchers ={
 			direction = "DOWN",
 			iconSide = "LEFT",
 			mode = "BAR",
-			size = 27,
+			size = 28,
 			barWidth = 170,
 			setpoint = { "BOTTOMLEFT", RayUIActionBar2, "BOTTOMRIGHT", 6, 0 },
 
@@ -302,7 +302,7 @@ ns.watchers ={
 			direction = "DOWN",
 			iconSide = "LEFT",
 			mode = "BAR",
-			size = 27,
+			size = 28,
 			barWidth = 170,
 			setpoint = { "BOTTOMLEFT", RayUIActionBar2, "BOTTOMRIGHT", 6, 0 },
 			
@@ -393,7 +393,7 @@ ns.watchers ={
 			name = "玩家buff",
 			direction = "LEFT",
 			setpoint = { "BOTTOMRIGHT", "RayUF_player", "TOPRIGHT", 0, 80 },
-			size = 27,
+			size = 28,
 			
 			-- Earth Shield / Erdschild
 			{ spellID = 974, unitId = "player", caster = "player", filter = "BUFF" },
@@ -409,7 +409,7 @@ ns.watchers ={
 			name = "目标buff",
 			direction = "RIGHT",
 			setpoint = { "BOTTOMLEFT", "RayUF_target", "TOPLEFT", 0, 80 },
-			size = 27,
+			size = 28,
 			
 			-- Earth Shield / Erdschild
 			{ spellID = 974, unitId = "target", caster = "player", filter = "BUFF" },
@@ -476,7 +476,7 @@ ns.watchers ={
 			name = "玩家buff",
 			direction = "LEFT",
 			setpoint = { "BOTTOMRIGHT", "RayUF_player", "TOPRIGHT", 0, 80 },
-			size = 27,
+			size = 28,
 			
 			-- 聖光信標
 			{ spellID = 53563, unitId = "player", caster = "player", filter = "BUFF" },
@@ -487,7 +487,7 @@ ns.watchers ={
 			name = "目标buff",
 			direction = "RIGHT",
 			setpoint = { "BOTTOMLEFT", "RayUF_target", "TOPLEFT", 0, 80 },
-			size = 27,
+			size = 28,
 			
 			-- 聖光信標
 			{ spellID = 53563, unitId = "target", caster = "player", filter = "BUFF" },
@@ -512,6 +512,8 @@ ns.watchers ={
 			{ spellID = 88819, unitId = "player", caster = "player", filter = "BUFF" },
 			-- 聖光灌注
 			{ spellID = 54149, unitId = "player", caster = "player", filter = "BUFF" },
+			-- 精通光環
+			{ spellID = 31821, unitId = "player", caster = "player", filter = "BUFF" },
 		},
 		{
 			name = "目标debuff",
@@ -543,7 +545,7 @@ ns.watchers ={
 			direction = "DOWN",
 			iconSide = "LEFT",
 			mode = "BAR",
-			size = 27,
+			size = 28,
 			barWidth = 170,
 			setpoint = { "BOTTOMLEFT", RayUIActionBar2, "BOTTOMRIGHT", 6, 0 },
 
@@ -568,7 +570,7 @@ ns.watchers ={
 			name = "玩家buff&debuff",
 			direction = "LEFT",
 			setpoint = { "BOTTOMRIGHT", "RayUF_player", "TOPRIGHT", 0, 80 },
-			size = 27,
+			size = 28,
 			
 			-- 真言術：盾
 			{ spellID = 17, unitId = "player", caster = "all", filter = "BUFF" },
@@ -591,7 +593,7 @@ ns.watchers ={
 			name = "目标buff",
 			direction = "RIGHT",
 			setpoint = { "BOTTOMLEFT", "RayUF_target", "TOPLEFT", 0, 80 },
-			size = 27,
+			size = 28,
 			
 			-- 愈合祷言
 			{ spellID = 41635, unitId = "target", caster = "player", filter = "BUFF" },
@@ -683,7 +685,7 @@ ns.watchers ={
 			direction = "DOWN",
 			iconSide = "LEFT",
 			mode = "BAR",
-			size = 27,
+			size = 28,
 			barWidth = 170,
 			setpoint = { "BOTTOMLEFT", RayUIActionBar2, "BOTTOMRIGHT", 6, 0 },
 			
@@ -861,7 +863,7 @@ ns.watchers ={
 			direction = "DOWN",
 			iconSide = "LEFT",
 			mode = "BAR",
-			size = 27,
+			size = 28,
 			barWidth = 170,
 			setpoint = { "BOTTOMLEFT", RayUIActionBar2, "BOTTOMRIGHT", 6, 0 },
 

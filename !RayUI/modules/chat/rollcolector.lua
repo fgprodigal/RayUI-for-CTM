@@ -74,8 +74,9 @@ f:SetScript("OnEvent", function(self, event, addon)
 		
 		if player then
 			local roll = FindRoll(link, player, true)
-			roll[player] = rollcolors[rolltype]..rollval
-			roll._type = rolltype
+			-- roll[player] = rollcolors[rolltype]..rollval
+			-- roll._type = rolltype
+			roll[player] = {rolltype, rollcolors[rolltype]..rollval}
 			return
 		end
 		local player, selection, link = msg:match(L["(.*) has?v?e? selected (.+) for: (.+)"])
@@ -90,9 +91,10 @@ f:SetScript("OnEvent", function(self, event, addon)
 			player = player == YOU and UnitName("player") or player
 			for i, roll in ipairs(rolls) do
 				if roll._link == link and roll[player] and not roll._printed then
-					local rolltype = roll._type == NEED and NEED or roll._type == GREED and GREED or roll._type == ROLL_DISENCHANT and ROLL_DISENCHANT
+					-- local rolltype = roll._type == NEED and NEED or roll._type == GREED and GREED or roll._type == ROLL_DISENCHANT and ROLL_DISENCHANT
 					roll._printed = true
 					roll._winner = player
+					local rolltype = roll[roll._winner][1]
 					local msg = string.format(L["%s|HRayUILootCollector:%d|h[%s roll]|h|r %s won %s "], rollcolors[rolltype], i, rolltype, player, link)
 						for cf in pairs(frames) do
 							_G[cf]:AddMessage(msg)
@@ -122,11 +124,14 @@ function SetItemRef(link, text, button)
 		if not ItemRefTooltip:IsShown() then ItemRefTooltip:SetOwner(UIParent, "ANCHOR_PRESERVE") end
 
 		local roll = rolls[tonumber(id)]
-		local rolltype = roll._type == NEED and coloredwords[NEED] or roll._type == GREED and coloredwords[GREED] or roll._type == ROLL_DISENCHANT and coloredwords[ROLL_DISENCHANT]
+		-- local rolltype = roll._type == NEED and coloredwords[NEED] or roll._type == GREED and coloredwords[GREED] or roll._type == ROLL_DISENCHANT and coloredwords[ROLL_DISENCHANT]
+		local rolltype = roll[roll._winner][1]
 		ItemRefTooltip:ClearLines()
 		ItemRefTooltip:AddLine(rolltype.."|r - "..roll._link)
 		ItemRefTooltip:AddDoubleLine(L["Winner:"], "|cffffffff"..roll._winner)
-		for i,v in pairs(roll) do if string.sub(i, 1, 1) ~= "_" then ItemRefTooltip:AddDoubleLine(i, v) end end
+		for i,v in pairs(roll) do if string.sub(i, 1, 1) ~= "_" then ItemRefTooltip:AddDoubleLine(i, v[2]) end end
 		ItemRefTooltip:Show()
-	else return orig2(link, text, button) end
+	else
+		return orig2(link, text, button)
+	end
 end
