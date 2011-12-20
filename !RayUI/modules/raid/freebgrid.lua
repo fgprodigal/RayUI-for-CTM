@@ -274,8 +274,8 @@ local function PostPower(power, unit)
     local _, ptype = UnitPowerType(unit)
     local _, class = UnitClass(unit)
 
-	power:SetHeight(C["raid"].height*C["raid"].powerbarsize)
-	self.Health:SetHeight((0.98 - C["raid"].powerbarsize)*C["raid"].height-1)
+	power:Height(C["raid"].height*C["raid"].powerbarsize)
+	self.Health:Height((0.98 - C["raid"].powerbarsize)*C["raid"].height-1)
 
     local perc = oUF.Tags['perpp'](unit)
     -- This kinda conflicts with the threat module, but I don't really care
@@ -343,6 +343,8 @@ end
 local style = function(self)
     self.menu = menu
 
+	self:Height(C["raid"].height)
+	self:Width(C["raid"].width)
     -- Backdrop
     self.BG = CreateFrame("Frame", nil, self)
     self.BG:SetPoint("TOPLEFT", self, "TOPLEFT")
@@ -558,7 +560,7 @@ local function freebHeader(name, group, temp, pet, MT)
 
     local template = temp or nil
     local header = oUF:SpawnHeader(name, template, 'raid,party,solo',
-    'oUF-initialConfigFunction', (initconfig):format(C["raid"].width, C["raid"].height),
+    -- 'oUF-initialConfigFunction', (initconfig):format(C["raid"].width, C["raid"].height),
     'showPlayer', C["raid"].showplayerinparty,
     'showSolo', C["raid"].showwhensolo,
     'showParty', C["raid"].showgridwhenparty,
@@ -595,9 +597,9 @@ oUF:Factory(function(self)
 		local group = freebHeader("Raid_Freebgrid"..i, i)
 		if i == 1 then
 			-- group:SetPoint("TOPLEFT", UIParent, "BOTTOMRIGHT", - C["raid"].width*5 -  C["raid"].spacing*4 - 50, C["raid"].height*5 +  C["raid"].spacing*4 + 230)
-			group:SetPoint("TOPLEFT", UIParent, "BOTTOMRIGHT", - C["raid"].width*5 -  C["raid"].spacing*4 - 50, 422)
+			group:Point("TOPLEFT", UIParent, "BOTTOMRIGHT", - C["raid"].width*5 -  C["raid"].spacing*4 - 50, 422)
 		else
-			group:SetPoint(pos, raid[i-1], posRel, colX or 0, colY or 0)
+			group:Point(pos, raid[i-1], posRel, colX or 0, colY or 0)
 		end
 		raid[i] = group
 		ns._Headers[group:GetName()] = group
