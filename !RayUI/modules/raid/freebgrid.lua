@@ -594,7 +594,8 @@ oUF:Factory(function(self)
 	for i=1, C["raid"].numCol do
 		local group = freebHeader("Raid_Freebgrid"..i, i)
 		if i == 1 then
-			group:SetPoint("TOPLEFT", UIParent, "BOTTOMRIGHT", - C["raid"].width*5 -  C["raid"].spacing*4 - 50, C["raid"].height*5 +  C["raid"].spacing*4 + 260)
+			-- group:SetPoint("TOPLEFT", UIParent, "BOTTOMRIGHT", - C["raid"].width*5 -  C["raid"].spacing*4 - 50, C["raid"].height*5 +  C["raid"].spacing*4 + 230)
+			group:SetPoint("TOPLEFT", UIParent, "BOTTOMRIGHT", - C["raid"].width*5 -  C["raid"].spacing*4 - 50, 422)
 		else
 			group:SetPoint(pos, raid[i-1], posRel, colX or 0, colY or 0)
 		end

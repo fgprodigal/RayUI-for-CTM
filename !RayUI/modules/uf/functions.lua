@@ -793,6 +793,8 @@ local function TestUF(msg)
 		if RayUF_player.Debuffs then RayUF_player.Debuffs.CustomFilter = nil end
 		if RayUF_target.Buffs then RayUF_target.Buffs.CustomFilter = nil end
 		if RayUF_target.Debuffs then RayUF_target.Debuffs.CustomFilter = nil end
+		if RayUF_targettarget.Debuffs then RayUF_targettarget.Debuffs.CustomFilter = nil end
+		if RayUF_targettarget.Buffs then RayUF_targettarget.Buffs.CustomFilter = nil end
 		testuf()
 		UnitAura = function()
 			return 'penancelol', 'Rank 2', 'Interface\\Icons\\Spell_Holy_Penance', random(5), 'Magic', 0, 0, "player"

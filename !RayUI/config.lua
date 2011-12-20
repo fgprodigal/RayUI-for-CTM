@@ -16,7 +16,7 @@ DB["media"]={
 }
 
 DB["general"]={
-	uiscale = 0.80,
+	uiscale = 0.75,
 	logo = true,
 }
 
@@ -77,8 +77,8 @@ DB["uf"]={
 
 DB["raid"]={
 	enable = true,
-    width = 60,
-    height = 22,
+    width = 65,
+    height = 30,
     spacing = 8,
     numCol = 5,
     showwhensolo = false,

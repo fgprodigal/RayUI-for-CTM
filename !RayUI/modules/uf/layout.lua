@@ -195,7 +195,7 @@ local function Shared(self, unit)
 		
 		-- Debuffs
 		local debuffs = CreateFrame("Frame", nil, self)
-		debuffs:SetHeight(PLAYER_HEIGHT - 10)
+		debuffs:SetHeight(PLAYER_HEIGHT - 11)
 		debuffs:SetWidth(PLAYER_WIDTH)
 		debuffs:Point("BOTTOMRIGHT", self, "TOPRIGHT", 0, 7)
 		debuffs.spacing = 3.8
@@ -468,7 +468,7 @@ local function Shared(self, unit)
 		
 		-- Auras
 		local buffs = CreateFrame("Frame", nil, self)
-		buffs:SetHeight(PLAYER_HEIGHT - 10)
+		buffs:SetHeight(PLAYER_HEIGHT - 11)
 		buffs:SetWidth(PLAYER_WIDTH)
 		buffs:Point("TOPLEFT", self, "BOTTOMLEFT", 0, -5)
 		buffs.spacing = 3.8
@@ -481,7 +481,7 @@ local function Shared(self, unit)
 		buffs.PostUpdateIcon = R.PostUpdateIcon
 		
 		local debuffs = CreateFrame("Frame", nil, self)
-		debuffs:SetHeight(PLAYER_HEIGHT - 10)
+		debuffs:SetHeight(PLAYER_HEIGHT - 11)
 		debuffs:SetWidth(PLAYER_WIDTH)
 		debuffs:Point("BOTTOMLEFT", self, "TOPLEFT", 0, 8)
 		debuffs.spacing = 3.8
@@ -683,13 +683,13 @@ local function Shared(self, unit)
 	if unit == "targettarget" then
 		-- Debuffs
 		local debuffs = CreateFrame("Frame", nil, self)
-		debuffs:SetHeight(PLAYER_HEIGHT - 10)
+		debuffs:SetHeight(PLAYER_HEIGHT - 11)
 		debuffs:SetWidth(SMALL_WIDTH)
-		debuffs:Point("TOPLEFT", self, "BOTTOMLEFT", 1, -6)
+		debuffs:Point("TOPLEFT", self, "BOTTOMLEFT", 1, -5)
 		debuffs.spacing = 5
 		debuffs["growth-x"] = "RIGHT"
 		debuffs["growth-y"] = "DOWN"
-		debuffs.size = PLAYER_HEIGHT - 10
+		debuffs.size = PLAYER_HEIGHT - 11
 		debuffs.initialAnchor = "TOPLEFT"
 		debuffs.num = 5
 		debuffs.PostCreateIcon = R.PostCreateIcon
@@ -700,13 +700,13 @@ local function Shared(self, unit)
 		
 		-- Buffs
 		local buffs = CreateFrame("Frame", nil, self)
-		buffs:SetHeight(PLAYER_HEIGHT - 10)
+		buffs:SetHeight(PLAYER_HEIGHT - 11)
 		buffs:SetWidth(SMALL_WIDTH)
-		buffs:Point("TOPLEFT", self, "BOTTOMLEFT", 1, -6)
+		buffs:Point("TOPLEFT", self, "BOTTOMLEFT", 1, -5)
 		buffs.spacing = 5
 		buffs["growth-x"] = "RIGHT"
 		buffs["growth-y"] = "DOWN"
-		buffs.size = PLAYER_HEIGHT - 10
+		buffs.size = PLAYER_HEIGHT - 11
 		buffs.initialAnchor = "TOPLEFT"
 		buffs.num = 5
 		buffs.PostCreateIcon = R.PostCreateIcon
@@ -857,7 +857,7 @@ local function LoadDPSLayout()
 
 	-- Target's Target
 	local tot = oUF:Spawn('targettarget', "RayUF_targettarget")
-	tot:Point("BOTTOMLEFT", RayUF_target, "TOPRIGHT", 10, 6)
+	tot:Point("BOTTOMLEFT", RayUF_target, "TOPRIGHT", 5, 30)
 	tot:Size(SMALL_WIDTH, SMALL_HEIGHT)
 
 	-- Player's Pet
