@@ -89,6 +89,39 @@ function R.TableIsEmpty(t)
 	end
 end
 
+function R.GetScreenQuadrant(frame)
+	local x, y = frame:GetCenter()
+	local screenWidth = GetScreenWidth()
+	local screenHeight = GetScreenHeight()
+	local point
+	
+	if not frame:GetCenter() then
+		return "UNKNOWN", frame:GetName()
+	end
+	
+	if (x > (screenWidth / 4) and x < (screenWidth / 4)*3) and y > (screenHeight / 4)*3 then
+		point = "TOP"
+	elseif x < (screenWidth / 4) and y > (screenHeight / 4)*3 then
+		point = "TOPLEFT"
+	elseif x > (screenWidth / 4)*3 and y > (screenHeight / 4)*3 then
+		point = "TOPRIGHT"
+	elseif (x > (screenWidth / 4) and x < (screenWidth / 4)*3) and y < (screenHeight / 4) then
+		point = "BOTTOM"
+	elseif x < (screenWidth / 4) and y < (screenHeight / 4) then
+		point = "BOTTOMLEFT"
+	elseif x > (screenWidth / 4)*3 and y < (screenHeight / 4) then
+		point = "BOTTOMRIGHT"
+	elseif x < (screenWidth / 4) and (y > (screenHeight / 4) and y < (screenHeight / 4)*3) then
+		point = "LEFT"
+	elseif x > (screenWidth / 4)*3 and y < (screenHeight / 4)*3 and y > (screenHeight / 4) then
+		point = "RIGHT"
+	else
+		point = "CENTER"
+	end
+
+	return point
+end
+
 local Unusable
 
 if R.myclass == 'DEATHKNIGHT' then

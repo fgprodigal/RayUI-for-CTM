@@ -250,3 +250,30 @@ MiniMapMailFrame:HookScript("OnShow", CheckMail)
 HelpOpenTicketButton:SetParent(Minimap)
 HelpOpenTicketButton:ClearAllPoints()
 HelpOpenTicketButton:SetPoint("TOPLEFT", Minimap, "TOPLEFT")
+
+for _, data in pairs(UIPanelWindows) do
+	if data.area ==  "left" or data.area ==  "doublewide" then
+		data.yoffset = -100
+		if data.xoffset and data.xoffset < 0 then
+			data.xoffset = 0
+		end
+	end
+end
+
+if R.GetScreenQuadrant(Minimap) == "TOPLEFT" then
+	local f = CreateFrame("Frame")
+	f:RegisterEvent("ADDON_LOADED")
+	f:RegisterEvent("PLAYER_ENTERING_WORLD")
+	f:SetScript("OnEvent", function(self, event, addon)
+		if event=="PLAYER_ENTERING_WORLD" then
+			self:UnregisterEvent("PLAYER_ENTERING_WORLD")
+		end
+		if event=="PLAYER_ENTERING_WORLD" or addon:find("Blizzard_") then
+			for _, data in pairs(UIPanelWindows) do
+				if data.area ==  "left" or data.area ==  "doublewide" then
+					data.yoffset = -100
+				end
+			end
+		end
+	end)
+end
