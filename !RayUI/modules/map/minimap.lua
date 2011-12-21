@@ -251,15 +251,6 @@ HelpOpenTicketButton:SetParent(Minimap)
 HelpOpenTicketButton:ClearAllPoints()
 HelpOpenTicketButton:SetPoint("TOPLEFT", Minimap, "TOPLEFT")
 
-for _, data in pairs(UIPanelWindows) do
-	if data.area ==  "left" or data.area ==  "doublewide" then
-		data.yoffset = -100
-		if data.xoffset and data.xoffset < 0 then
-			data.xoffset = 0
-		end
-	end
-end
-
 if R.GetScreenQuadrant(Minimap) == "TOPLEFT" then
 	local f = CreateFrame("Frame")
 	f:RegisterEvent("ADDON_LOADED")
@@ -272,6 +263,9 @@ if R.GetScreenQuadrant(Minimap) == "TOPLEFT" then
 			for _, data in pairs(UIPanelWindows) do
 				if data.area ==  "left" or data.area ==  "doublewide" then
 					data.yoffset = -100
+					if data.xoffset and data.xoffset < 0 then
+						data.xoffset = 0
+					end
 				end
 			end
 		end
