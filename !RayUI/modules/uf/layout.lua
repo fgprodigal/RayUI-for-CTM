@@ -224,6 +224,7 @@ local function Shared(self, unit)
 
             local bars = CreateFrame("Frame", nil, self)
 			bars:SetSize(200/count - 5, 5)
+			bars:SetFrameLevel(5)
 			if count == 3 then
 				bars:Point("BOTTOMRIGHT", self, "TOP", bars:GetWidth()*1.5 + 5, 1)
 			else
@@ -278,6 +279,7 @@ local function Shared(self, unit)
             ebar:Point("BOTTOM", self, "TOP", 0, 1)
             ebar:SetSize(200, 5)
             ebar:CreateShadow("Background")
+			ebar:SetFrameLevel(5)
 			ebar.shadow:SetFrameStrata("BACKGROUND")
 			ebar.shadow:SetFrameLevel(0)
 
@@ -286,6 +288,7 @@ local function Shared(self, unit)
 			lbar:SetStatusBarColor(0, .4, 1)
 			lbar:SetWidth(200)
 			lbar:SetHeight(5)
+			lbar:SetFrameLevel(5)
 			lbar:GetStatusBarTexture():SetHorizTile(false)
             lbar:SetPoint("LEFT", ebar, "LEFT")
             ebar.LunarBar = lbar
@@ -295,6 +298,7 @@ local function Shared(self, unit)
 			sbar:SetStatusBarColor(1, .6, 0)
 			sbar:SetWidth(200)
 			sbar:SetHeight(5)
+			sbar:SetFrameLevel(5)
 			sbar:GetStatusBarTexture():SetHorizTile(false)
             sbar:SetPoint("LEFT", lbar:GetStatusBarTexture(), "RIGHT")
             ebar.SolarBar = sbar
@@ -319,6 +323,7 @@ local function Shared(self, unit)
 				self.TotemBar[i]:SetWidth(200/4-5)
 				self.TotemBar[i]:SetHeight(5)
 				self.TotemBar[i]:GetStatusBarTexture():SetHorizTile(false)
+				self.TotemBar[i]:SetFrameLevel(5)
 
                 self.TotemBar[i]:SetBackdrop({bgFile = C["media"].blank})
                 self.TotemBar[i]:SetBackdropColor(0.5, 0.5, 0.5)
@@ -429,6 +434,21 @@ local function Shared(self, unit)
 				if self.otherBar:GetValue() == 0 then self.otherBar:SetAlpha(0) else self.otherBar:SetAlpha(1) end
 			end
 		}
+		
+		local Combat = self:CreateTexture(nil, 'OVERLAY')
+		Combat:SetSize(20, 20)
+		Combat:ClearAllPoints()
+		Combat:Point("LEFT", health, "LEFT", -10, -5)
+		self.Combat = Combat
+		self.Combat:SetTexture("Interface\\AddOns\\!RayUI\\media\\combat")
+		self.Combat:SetVertexColor(0.6, 0, 0)
+
+		local Resting = self:CreateTexture(nil, 'OVERLAY')
+		Resting:SetSize(20, 20)
+		Resting:Point("BOTTOM", Combat, "BOTTOM", 0, 25)
+		self.Resting = Resting
+		self.Resting:SetTexture("Interface\\AddOns\\!RayUI\\media\\rested")
+		self.Resting:SetVertexColor(0.8, 0.8, 0.8)
 	end
 	
 	if unit == "target" then
@@ -781,49 +801,51 @@ local function Shared(self, unit)
 		self.Trinket = trinkets
 	end
 	
-    local leader = health:CreateTexture(nil, "OVERLAY")
+    local leader = self:CreateTexture(nil, "OVERLAY")
     leader:SetSize(16, 16)
-    leader:Point("TOPLEFT", health, "TOPLEFT", 5, 10)
+    leader:Point("TOPLEFT", self, "TOPLEFT", 7, 10)
     self.Leader = leader
+	
+	-- Assistant Icon
+	local assistant = self:CreateTexture(nil, "OVERLAY")
+    assistant:Point("TOPLEFT", self, "TOPLEFT", 7, 10)
+    assistant:SetSize(16, 16)
+    self.Assistant = assistant
 
-    local masterlooter = health:CreateTexture(nil, 'OVERLAY')
+    local masterlooter = self:CreateTexture(nil, 'OVERLAY')
     masterlooter:SetSize(16, 16)
-    masterlooter:Point("TOPLEFT", health, "TOPLEFT", 25, 10)
+    masterlooter:Point("TOPLEFT", self, "TOPLEFT", 20, 10)
     self.MasterLooter = masterlooter
+	self.MasterLooter:SetTexture("Interface\\AddOns\\!RayUI\\media\\looter")
+	self.MasterLooter:SetVertexColor(0.8, 0.8, 0.8)
 
-    local LFDRole = health:CreateTexture(nil, 'OVERLAY')
+    local LFDRole = self:CreateTexture(nil, 'OVERLAY')
     LFDRole:SetSize(16, 16)
-    LFDRole:Point("TOPLEFT", health, -10, 10)
+    LFDRole:Point("TOPLEFT", self, -10, 10)
 	self.LFDRole = LFDRole
 	self.LFDRole:SetTexture("Interface\\AddOns\\!RayUI\\media\\lfd_role")
 	
-    local PvP = health:CreateTexture(nil, 'OVERLAY')
-    PvP:SetSize(20, 20)
-    PvP:Point('TOPRIGHT', health, 12, 8)
+    local PvP = self:CreateTexture(nil, 'OVERLAY')
+    PvP:SetSize(25, 25)
+    PvP:Point('TOPRIGHT', self, 12, 8)
     self.PvP = PvP
 
-    local Combat = health:CreateTexture(nil, 'OVERLAY')
-    Combat:SetSize(20, 20)
-    Combat:Point('BOTTOMLEFT', health, -10, -10)
-    self.Combat = Combat
-
-    local Resting = health:CreateTexture(nil, 'OVERLAY')
-    Resting:SetSize(20, 20)
-    Resting:Point('BOTTOM', Combat, 'BOTTOM', -9, 20)
-    self.Resting = Resting
-
-    local QuestIcon = health:CreateTexture(nil, 'OVERLAY')
+    local QuestIcon = self:CreateTexture(nil, 'OVERLAY')
     QuestIcon:SetSize(24, 24)
-    QuestIcon:Point('BOTTOMRIGHT', health, 15, -20)
+    QuestIcon:Point('BOTTOMRIGHT', self, 15, -20)
     self.QuestIcon = QuestIcon
+	self.QuestIcon:SetTexture("Interface\\AddOns\\!RayUI\\media\\quest")
+	self.QuestIcon:SetVertexColor(0.8, 0.8, 0.8)
 
-    local PhaseIcon = health:CreateTexture(nil, 'OVERLAY')
+    local PhaseIcon = self:CreateTexture(nil, 'OVERLAY')
     PhaseIcon:SetSize(24, 24)
     PhaseIcon:SetPoint('RIGHT', QuestIcon, 'LEFT')
     self.PhaseIcon = PhaseIcon
+	self.PhaseIcon:SetTexture("Interface\\AddOns\\!RayUI\\media\\phase")
+	self.PhaseIcon:SetVertexColor(0.8, 0.8, 0.8)
 	
-    local ricon = health:CreateTexture(nil, 'OVERLAY')
-    ricon:Point("BOTTOM", health, "TOP", 0, -7)
+    local ricon = self:CreateTexture(nil, 'OVERLAY')
+    ricon:Point("BOTTOM", self, "TOP", 0, -7)
     ricon:SetSize(16,16)
     self.RaidIcon = ricon
 	

@@ -9,7 +9,7 @@ if not C["skins"].dbm or not IsAddOnLoaded("DBM-Core") then return end
 
 local croprwicons = true			-- crops blizz shitty borders from icons in RaidWarning messages
 local rwiconsize = 18			-- RaidWarning icon size, because 12 is small for me. Works only if croprwicons=true
-local buttonsize = 24
+local buttonsize = 20
 
 local function ApplyMyStyle(self)
 	if not C["skins"].dbmposition then return end
@@ -20,12 +20,12 @@ local function ApplyMyStyle(self)
 	self.options.ExpandUpwards = false
 	if self.mainAnchor then
 		self.mainAnchor:ClearAllPoints()
-		self.mainAnchor:SetPoint("TOPLEFT", Minimap, "TOPRIGHT", self.options.Width/2 + 10 + buttonsize + buttonsize/4, self.options.BarYOffset)
+		self.mainAnchor:SetPoint("TOPLEFT", Minimap, "TOPRIGHT", self.options.Width/2 + 10 + buttonsize, self.options.BarYOffset)
 	end
 	if self.secAnchor then
 		self.secAnchor:ClearAllPoints()
 		-- self.secAnchor:SetPoint("TOP", UIParent, "TOP", buttonsize/2 + buttonsize/8, -250)
-		self.secAnchor:SetPoint("BOTTOM", UIParent, "BOTTOM", - self.options.Width/2 - buttonsize/2 - buttonsize/8 - 64, 600)
+		self.secAnchor:SetPoint("BOTTOM", UIParent, "BOTTOM", - self.options.HugeWidth/2 - 80, 650)
 	end
 --	RaidWarningFrame:SetPoint("CENTER", UIParent, "CENTER", 0, 70)
 end
@@ -46,7 +46,7 @@ local function SkinBars(self)
 				
 				if not (icon1.overlay) then
 					icon1.overlay = CreateFrame("Frame", "$parentIcon1Overlay", tbar)
-					icon1.overlay:CreatePanel(template, buttonsize, buttonsize, "RIGHT", tbar, "LEFT", -buttonsize/4 - 4, 0)
+					icon1.overlay:CreatePanel(template, buttonsize, buttonsize, "RIGHT", tbar, "LEFT", - 4, 0)
 					
 					local backdroptex = icon1.overlay:CreateTexture(nil, "BORDER")
 					backdroptex:SetTexture([=[Interface\Icons\Spell_Nature_WispSplode]=])
@@ -57,7 +57,7 @@ local function SkinBars(self)
 
 				if not (icon2.overlay) then
 					icon2.overlay = CreateFrame("Frame", "$parentIcon2Overlay", tbar)
-					icon2.overlay:CreatePanel(template, buttonsize, buttonsize, "LEFT", tbar, "RIGHT", buttonsize/4 + 4, 0)
+					icon2.overlay:CreatePanel(template, buttonsize, buttonsize, "LEFT", tbar, "RIGHT", 4, 0)
 					
 					local backdroptex = icon2.overlay:CreateTexture(nil, "BORDER")
 					backdroptex:SetTexture([=[Interface\Icons\Spell_Nature_WispSplode]=])

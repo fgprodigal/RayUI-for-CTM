@@ -1,7 +1,7 @@
 ﻿local R, C, L, DB = unpack(select(2, ...))
 if not C["chat"].enable then return end
 
-local AutoApply = true											-- /setchat upon UI loading
+local AutoApply = false											-- /setchat upon UI loading
 --Setchat parameters. Those parameters will apply to ChatFrame1 when you use /setchat
 local def_position = {"BOTTOMLEFT",UIParent,"BOTTOMLEFT",10,30} -- Chat Frame position
 local chat_height = 140
@@ -48,36 +48,23 @@ end
 CHAT_FRAME_TAB_NORMAL_NOMOUSE_ALPHA = 0
 CHAT_FRAME_TAB_SELECTED_NOMOUSE_ALPHA = 0
 
----------------- > Function to move and scale chatframes 
-function SetChatColor()
-	--Adjust Chat Colors
-	--General
-	ChangeChatColor("CHANNEL1", 195/255, 230/255, 232/255)
-	--Trade
-	ChangeChatColor("CHANNEL2", 232/255, 158/255, 121/255)
-	--Local Defense
-	ChangeChatColor("CHANNEL3", 232/255, 228/255, 121/255)
-end
-SlashCmdList["SETCHATCOLOR"] = SetChatColor
-SLASH_SETCHATCOLOR1 = "/setchatcolor"
-
 function SetChat()
     FCF_SetLocked(ChatFrame1, nil)
-	FCF_SetChatWindowFontSize(self, ChatFrame1, fontsize) 
-    ChatFrame1:ClearAllPoints()
-	ChatFrame1:SetPoint("TOPLEFT", ChatBG, "TOPLEFT", 2, -2)
-	ChatFrame1:SetPoint("BOTTOMRIGHT", ChatBG, "BOTTOMRIGHT", -2, 4)
-    -- ChatFrame1:SetPoint(unpack(def_position))
-    -- ChatFrame1:SetWidth(chat_width)
-    -- ChatFrame1:SetHeight(chat_height)
+	for i = 1, NUM_CHAT_WINDOWS do
+		FCF_SetChatWindowFontSize(self, _G["ChatFrame"..i], fontsize)
+		FCF_SetWindowAlpha(_G["ChatFrame"..i] , 0)
+	end
     ChatFrame1:SetFrameLevel(8)
-    -- ChatFrame1:SetUserPlaced(false)
-	for i=1,10 do local cf = _G["ChatFrame"..i] FCF_SetWindowAlpha(cf, 0) end
     FCF_SavePositionAndDimensions(ChatFrame1)
 	FCF_SetLocked(ChatFrame1, 1)
+	ChangeChatColor("CHANNEL1", 195/255, 230/255, 232/255)
+	ChangeChatColor("CHANNEL2", 232/255, 158/255, 121/255)
+	ChangeChatColor("CHANNEL3", 232/255, 228/255, 121/255)
 end
+
 SlashCmdList["SETCHAT"] = SetChat
 SLASH_SETCHAT1 = "/setchat"
+
 if AutoApply then
 	local f = CreateFrame"Frame"
 	f:RegisterEvent("PLAYER_ENTERING_WORLD")
@@ -475,7 +462,7 @@ if TimeStampsCopy then
 		text = ('|cffffffff|Hm_Chat|h|r%s|h %s'):format('|cff'..tscol..''..date('[%H:%M]')..'|r', text)
 		return AddMsg[frame:GetName()](frame, text, ...)
 	end
-	for i = 1, 10 do
+	for i = 1, NUM_CHAT_WINDOWS do
 		if i ~= 2 then
 			AddMsg["ChatFrame"..i] = _G["ChatFrame"..i].AddMessage
 			_G["ChatFrame"..i].AddMessage = AddMessage
@@ -592,7 +579,7 @@ local ChatBG = CreateFrame("Frame", "ChatBG", UIParent)
 ChatBG:CreatePanel("Default", C["chat"].width, C["chat"].height, "BOTTOMLEFT",UIParent,"BOTTOMLEFT",15,30)
 GeneralDockManager:SetParent(ChatBG)
 
-for i=1,NUM_CHAT_WINDOWS do
+for i=1, NUM_CHAT_WINDOWS do
 	_G["ChatFrame"..i]:SetParent(ChatBG)
 	local ebParts = {'Left', 'Mid', 'Right'}
 	for _, ebPart in ipairs(ebParts) do
@@ -627,7 +614,7 @@ local ChatPosUpdate = CreateFrame("Frame")
 ChatPosUpdate:SetScript("OnUpdate", function(self, elapsed)
 	if InCombatLockdown() then return end
 	if(self.elapsed and self.elapsed > 1) then
-		for i=1,NUM_CHAT_WINDOWS do
+		for i = 1, NUM_CHAT_WINDOWS do
 			if _G["ChatFrame"..i] == COMBATLOG then
 				_G["ChatFrame"..i]:ClearAllPoints()
 				_G["ChatFrame"..i]:SetPoint("TOPLEFT", ChatBG, "TOPLEFT", 2, -2 - CombatLogQuickButtonFrame_Custom:GetHeight())

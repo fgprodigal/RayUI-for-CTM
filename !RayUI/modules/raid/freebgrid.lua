@@ -460,7 +460,8 @@ local style = function(self)
     if C["raid"].roleicon then
         self.LFDRole = self.Health:CreateTexture(nil, 'OVERLAY')
         self.LFDRole:SetSize(C["raid"].leadersize, C["raid"].leadersize)
-        self.LFDRole:SetPoint('RIGHT', self, 'LEFT', C["raid"].leadersize/2, C["raid"].leadersize/2)
+        self.LFDRole:SetPoint('RIGHT', self, 'LEFT', C["raid"].leadersize/2, 0)
+		self.LFDRole:SetTexture("Interface\\AddOns\\!RayUI\\media\\lfd_role")
     end
 
     self.freebIndicators = true
