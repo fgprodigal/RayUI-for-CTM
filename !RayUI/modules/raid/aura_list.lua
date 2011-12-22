@@ -36,56 +36,39 @@ ns.auras = {
         --},
 		-- Dragon Soul
 	   [824] = {
-		  --Morchok
-		  [GetSpellInfo(103687)] = 11, --Crush Armor
-		  [GetSpellInfo(103821)] = 12, --Earthen Vortex
-		  [GetSpellInfo(103785)] = 13, --Black Blood of the Earth
-		  [GetSpellInfo(103534)] = 14, --Danger (Red)
-		  [GetSpellInfo(103536)] = 15, --Warning (Yellow)
-		  -- Don't need to show Safe people
-		  [GetSpellInfo(103541)] = 16, --Safe (Blue)
+			---- Dragon Soul
+			-- Morchok
+			[GetSpellInfo(103687)] = 7,  -- Crush Armor(擊碎護甲)
 
-		  --Warlord Zon'ozz
-		  [GetSpellInfo(104378)] = 21, --Black Blood of Go'rath
-		  [GetSpellInfo(103434)] = 22, --Disrupting Shadows (dispellable)
+			-- Zon'ozz
+			[GetSpellInfo(103434)] = 7, -- Disrupting Shadows(崩解之影)
 
-		  --Yor'sahj the Unsleeping
-		  [GetSpellInfo(104849)] = 31, --Void Bolt
-		  [GetSpellInfo(105171)] = 32, --Deep Corruption
+			-- Yor'sahj
+			[GetSpellInfo(105171)] = 7, -- Deep Corruption(深度腐化)
+			--[GetSpellInfo(103628)] = 7, -- Deep Corruption(深度腐化)
+			[GetSpellInfo(104849)] = 8,  -- Void Bolt(虛無箭)
 
-		  --Hagara the Stormbinder
-		  [GetSpellInfo(105316)] = 41, --Ice Lance
-		  [GetSpellInfo(105465)] = 42, --Lightning Storm
-		  [GetSpellInfo(105369)] = 43, --Lightning Conduit
-		  [GetSpellInfo(105289)] = 44, --Shattered Ice (dispellable)
-		  [GetSpellInfo(105285)] = 45, --Target (next Ice Lance)
-		  [GetSpellInfo(104451)] = 46, --Ice Tomb
-		  [GetSpellInfo(110317)] = 47, --Watery Entrenchment
+			-- Hagara
+			[GetSpellInfo(104451)] = 7,  -- Ice Tomb(寒冰之墓)
 
-		  --Ultraxion
-		  [GetSpellInfo(105925)] = 51, --Fading Light
-		  [GetSpellInfo(106108)] = 52, --Heroic Will
-		  [GetSpellInfo(105984)] = 53, --Timeloop
-		  [GetSpellInfo(105927)] = 54, --Faded Into Twilight
+			-- Ultraxion
+			[GetSpellInfo(110073)] = 7, -- Fading Light(凋零之光)
 
-		  --Warmaster Blackhorn
-		  [GetSpellInfo(108043)] = 61, --Sunder Armor
-		  [GetSpellInfo(107558)] = 62, --Degeneration
-		  [GetSpellInfo(107567)] = 64, --Brutal Strike
-		  [GetSpellInfo(108046)] = 64, --Shockwave
+			-- Blackhorn
+			[GetSpellInfo(109209)] = 7,  -- Brutal Strike(蠻橫打擊)
+			[GetSpellInfo(108043)] = 8,  -- Sunder Armor(破甲攻擊)
+			[GetSpellInfo(108861)] = 9,  -- Degeneration(衰亡)
 
-		  --Spine of Deathwing
-		  [GetSpellInfo(105563)] = 71, --Grasping Tendrils
-		  [GetSpellInfo(105479)] = 72, --Searing Plasma
-		  [GetSpellInfo(105490)] = 73, --Fiery Grip
+			-- Spine
+			[GetSpellInfo(105479)] = 7, -- 燃燒血漿
+			--[GetSpellInfo(109379)] = 7, -- Searing Plasma(燃燒血漿)
+			--[GetSpellInfo(109457)] = 8,  -- Fiery Grip(熾熱之握)
+			[GetSpellInfo(105490)] = 8,  -- Fiery Grip(熾熱之握)
 
-		  --Madness of Deathwing
-		  [GetSpellInfo(105445)] = 81, --Blistering Heat
-		  [GetSpellInfo(105841)] = 82, --Degenerative Bite
-		  [GetSpellInfo(106385)] = 83, --Crush
-		  [GetSpellInfo(106730)] = 84, --Tetanus
-		  [GetSpellInfo(106444)] = 85, --Impale
-		  [GetSpellInfo(106794)] = 86, --Shrapnel (target)
+			-- Madness 
+			[GetSpellInfo(105841)] = 7,  -- Degenerative Bite(退化咬擊)
+			[GetSpellInfo(105445)] = 8,  -- Blistering Heat(極熾高熱)
+			[GetSpellInfo(106444)] = 9,  -- Impale(刺穿)
 	   },
 
         [800] = { --[[ Firelands ]]--
