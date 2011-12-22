@@ -197,7 +197,7 @@ local function Shared(self, unit)
 		local debuffs = CreateFrame("Frame", nil, self)
 		debuffs:SetHeight(PLAYER_HEIGHT - 11)
 		debuffs:SetWidth(PLAYER_WIDTH)
-		debuffs:Point("BOTTOMRIGHT", self, "TOPRIGHT", 0, 7)
+		debuffs:Point("BOTTOMRIGHT", self, "TOPRIGHT", 0, 8)
 		debuffs.spacing = 3.8
 		debuffs["growth-x"] = "LEFT"
 		debuffs["growth-y"] = "UP"

@@ -264,9 +264,11 @@ local function SetHealthColour(self)
 			if R.Role == "Tank" then
 				self.health:SetStatusBarColor(unpack(config.color[1]))
 				self.threatStatus = "BAD"
+				self:SetGlowColour(unpack(config.color[1]))
 			else
 				self.health:SetStatusBarColor(unpack(config.color[3]))
 				self.threatStatus = "GOOD"
+				self:SetGlowColour()
 			end
 		else
 			local r, g, b = self.glow:GetVertexColor()
@@ -275,27 +277,33 @@ local function SetHealthColour(self)
 				if R.Role == "Tank" then
 					self.health:SetStatusBarColor(unpack(config.color[3]))
 					self.threatStatus = "GOOD"
+					self:SetGlowColour()
 				else
 					self.health:SetStatusBarColor(unpack(config.color[1]))
 					self.threatStatus = "BAD"
+					self:SetGlowColour(unpack(config.color[1]))
 				end
 			else
 				--Losing/Gaining Threat
 				if R.Role == "Tank" then
 					if self.threatStatus == "GOOD" then
 						--Losing Threat
-						self.health:SetStatusBarColor(unpack(config.color[5]))			
+						self.health:SetStatusBarColor(unpack(config.color[5]))
+						self:SetGlowColour(unpack(config.color[1]))
 					else
 						--Gaining Threat
 						self.health:SetStatusBarColor(unpack(config.color[4]))
+						self:SetGlowColour()
 					end
 				else
 					if self.threatStatus == "GOOD" then
 						--Losing Threat
-						self.health:SetStatusBarColor(unpack(config.color[4]))		
+						self.health:SetStatusBarColor(unpack(config.color[4]))
+						self:SetGlowColour()
 					else
 						--Gaining Threat
 						self.health:SetStatusBarColor(unpack(config.color[5]))
+						self:SetGlowColour(unpack(config.color[1]))
 					end				
 				end
 			end
@@ -304,7 +312,8 @@ local function SetHealthColour(self)
 	end
 
 	frame.threatStatus = nil
-	
+	self:SetGlowColour()
+
 	local r, g, b = self.oldHealth:GetStatusBarColor()
 	if	self.health.reset  or
 		r ~= self.health.r or
@@ -346,7 +355,8 @@ local function SetGlowColour(self, r, g, b, a)
 		a = .85
 	end
 	
-    self.bg:SetVertexColor(r, g, b, a)
+    -- self.bg:SetVertexColor(r, g, b, a)
+    self.bg:SetBackdropBorderColor(r, g, b, a)
 end
 
 local function SetCastWarning(self, spellName, spellSchool)
@@ -779,22 +789,25 @@ function nameplates:InitFrame(frame)
 	
 	-- frame background --------------------------------------------------------
 	-- this also provides the shadow & threat glow
-	frame.bg:SetTexture(C.media.blank)
-	frame.bg:SetVertexColor(0, 0, 0, .85)
-	
-	-- frame.bg:SetPoint('TOPLEFT', frame.health, -7, 7)
-	-- frame.bg:SetPoint('BOTTOMRIGHT', frame.health, 7, -7)
-	frame.bg:SetAllPoints(frame.health)
-	
-	-- health background -------------------------------------------------------
-	frame.health.bg = frame:CreateTexture(nil, 'ARTWORK')
-	frame.health.bg:SetDrawLayer('ARTWORK', 1) -- (1 sub-layer above .bg)
-	frame.health.bg:SetTexture(C.media.blank)
-	frame.health.bg:SetVertexColor(0, 0, 0, .85)
-	
-	frame.health.bg:SetPoint('TOPLEFT', frame.health, -noscalemult, noscalemult)
-	frame.health.bg:SetPoint('BOTTOMRIGHT', frame.health, noscalemult, -noscalemult)
-	
+	frame.bg:SetTexture(nil)
+	frame.bg = CreateFrame("Frame", nil, frame)
+	if frame:GetFrameLevel() - 1 >0 then
+		frame.bg:SetFrameLevel(frame:GetFrameLevel() - 1)
+	else
+		frame.bg:SetFrameLevel(0)
+	end
+	frame.bg:SetBackdrop({
+		bgFile = C.media.blank,
+		edgeFile = C.media.glow,
+		edgeSize = 2*noscalemult,
+		insets = {
+			top = 2*noscalemult, left = 2*noscalemult, bottom = 2*noscalemult, right = 2*noscalemult
+		}
+	})
+	frame.bg:SetPoint('TOPLEFT', frame.health, -3*noscalemult, 3*noscalemult)
+	frame.bg:SetPoint('BOTTOMRIGHT', frame.health, 3*noscalemult, -3*noscalemult)
+	frame.bg:SetBackdropColor(0, 0, 0, .85)
+
 	-- overlay (text is parented to this) --------------------------------------
 	frame.overlay = CreateFrame('Frame', nil, frame)
 	frame.overlay:SetAllPoints(frame.health)
@@ -869,11 +882,11 @@ function nameplates:InitFrame(frame)
 	})
 	
 	frame.castbarbg:SetBackdropColor(0, 0, 0, .85)
-	frame.castbarbg:SetBackdropBorderColor(1, .2, .1, 0)
+	frame.castbarbg:SetBackdropBorderColor(0, 0, 0, .85)
 	frame.castbarbg:SetHeight(15)
 	
-	frame.castbarbg:SetPoint('TOPLEFT', frame.health.bg, 'BOTTOMLEFT', -5*noscalemult, 4*noscalemult)
-	frame.castbarbg:SetPoint('TOPRIGHT', frame.health.bg, 'BOTTOMRIGHT', 5*noscalemult, 0)
+	frame.castbarbg:SetPoint('TOPLEFT', frame.bg, 'BOTTOMLEFT', -3*noscalemult, 4*noscalemult)
+	frame.castbarbg:SetPoint('TOPRIGHT', frame.bg, 'BOTTOMRIGHT', 3*noscalemult, 0)
 	
 	frame.castbarbg:Hide()
 	
@@ -907,20 +920,29 @@ function nameplates:InitFrame(frame)
 
 	if frame.spell then
 		-- cast bar icon background ----------------------------------------
-		frame.spellbg = frame.castbarbg:CreateTexture(nil, 'BACKGROUND')
-		frame.spellbg:SetTexture(C.media.blank)
-		frame.spellbg:SetSize(19, 19)
-		
-		frame.spellbg:SetVertexColor(0, 0, 0, .85)
-		
-		frame.spellbg:SetPoint('TOPRIGHT', frame.health.bg, 'TOPLEFT', -noscalemult, 0)
+		-- frame.spellbg = frame.castbarbg:CreateTexture(nil, 'BACKGROUND')
+		-- frame.spellbg:SetTexture(C.media.blank)
+		frame.spellbg = CreateFrame("Frame", nil, frame.castbarbg)
+		frame.spellbg:SetFrameLevel(0)
+		frame.spellbg:SetBackdrop({
+			bgFile = C.media.blank,
+			edgeFile = C.media.glow,
+			edgeSize = 2*noscalemult,
+			insets = {
+				top = 2*noscalemult, left = 2*noscalemult, bottom = 2*noscalemult, right = 2*noscalemult
+			}
+		})
+		frame.spellbg:SetSize(24, 24)
+		frame.spellbg:SetBackdropColor(0, 0, 0, .85)
+		frame.spellbg:SetBackdropBorderColor(0, 0, 0, .85)
+		frame.spellbg:SetPoint('TOPRIGHT', frame.bg, 'TOPLEFT', -noscalemult, 0)
 		
 		-- cast bar icon ---------------------------------------------------
 		frame.spell:ClearAllPoints()
 		frame.spell:SetParent(frame.castbarbg)
 		
-		frame.spell:SetPoint('TOPLEFT', frame.spellbg, 'TOPLEFT', noscalemult, -noscalemult)
-		frame.spell:SetPoint('BOTTOMRIGHT', frame.spellbg, 'BOTTOMRIGHT', -noscalemult, noscalemult)
+		frame.spell:SetPoint('TOPLEFT', frame.spellbg, 'TOPLEFT', 3*noscalemult, -3*noscalemult)
+		frame.spell:SetPoint('BOTTOMRIGHT', frame.spellbg, 'BOTTOMRIGHT', -3*noscalemult, 3*noscalemult)
 		
 		frame.spell:SetTexCoord(.08, .92, .08, .92)
 	end
@@ -929,7 +951,7 @@ function nameplates:InitFrame(frame)
 	frame.castbar:HookScript('OnShow', function(bar)
 		if bar.interruptible then
 			bar:SetStatusBarColor(unpack(config.castbarcolor))
-			bar:GetParent():SetBackdropBorderColor(0, 0, 0, .3)
+			bar:GetParent():SetBackdropBorderColor(0, 0, 0, .85)
 		else
 			bar:SetStatusBarColor(.8, .1, .1)			
 			bar:GetParent():SetBackdropBorderColor(1, .1, .2, .5)
