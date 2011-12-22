@@ -127,6 +127,10 @@ local function LoadSkin()
 		R.CreateSD(FrameBD)
 	end
 	
+	for i = 1, 10 do
+		select(i, GuildInviteFrame:GetRegions()):Hide()
+	end
+	
 	-- [[ Headers ]]
 	local header = {"GameMenuFrame",
 			"InterfaceOptionsFrame",

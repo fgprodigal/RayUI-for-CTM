@@ -125,7 +125,6 @@ local function enable(self, unit)
 
 		if(bar.Rested) then
 			self:RegisterEvent('UPDATE_EXHAUSTION', argcheck)
-			bar.Rested:SetFrameLevel(1)
 		end
 
 		if(hunter) then
