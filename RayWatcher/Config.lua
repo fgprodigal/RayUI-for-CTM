@@ -805,6 +805,8 @@ ns.watchers ={
 			{ spellID = 84746, unitId = "player", caster = "player", filter = "BUFF" },
 			--深度洞察
 			{ spellID = 84747, unitId = "player", caster = "player", filter = "BUFF" },
+			--佯攻
+			{ spellID = 1966, unitId = "player", caster = "player", filter = "BUFF" },
 
 		},
 		{

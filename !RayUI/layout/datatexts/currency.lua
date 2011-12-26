@@ -110,6 +110,12 @@ local tokens = {
 	{615, 2000}, --Essence of Corrupted Deathwing
 }
 
+local currencyParent = CreateFrame("Frame", nil, UIParent)
+currencyParent:SetSize(1,1)
+currencyParent:Point("TOP", TopInfoBar7, "BOTTOM", 0, -13)
+currencyParent:SetAlpha(0)
+currencyParent:Hide()
+
 local function updateCurrency()
 	if CurrencyData[1] then
 		for i = 1, getn(CurrencyData) do
@@ -123,11 +129,9 @@ local function updateCurrency()
 		local name, amount, icon = GetCurrencyInfo(id)
 
 		if name and amount > 0 then
-			local frame = CreateFrame("Frame", "CurrencyData"..id, UIParent)
-			frame:CreatePanel("Default", 120, 20, "CENTER", UIParent, "CENTER", 0, 0)
+			local frame = CreateFrame("Frame", "CurrencyData"..id, currencyParent)
+			frame:CreatePanel("Default", 120, 20, "CENTER", currencyParent, "CENTER", 0, 0)
 			frame:EnableMouse(true)
-			frame:Hide()
-			frame:SetAlpha(0)
 
 			frame.Status = CreateFrame("StatusBar", "CurrencyDataStatus"..id, frame)
 			frame.Status:SetFrameLevel(12)
@@ -163,7 +167,7 @@ local function updateCurrency()
 	for key, frame in ipairs(CurrencyData) do
 		frame:ClearAllPoints()
 		if key == 1 then
-			frame:Point("TOP", TopInfoBar7, "BOTTOM", 0, -13)
+			frame:Point("TOP", currencyParent, "TOP", 0, 0)
 		else
 			frame:Point("TOP", CurrencyData[key-1], "BOTTOM", 0, -9)
 		end
@@ -171,19 +175,17 @@ local function updateCurrency()
 end
 
 Stat:SetScript("OnMouseDown", function(self)
-	for _, frame in pairs(CurrencyData) do
-		if frame and frame:IsShown() then
-			local fadeInfo = {};
-			fadeInfo.mode = "OUT";
-			fadeInfo.timeToFade = 0.5;
-			fadeInfo.finishedFunc = function() frame:Hide() end
-			fadeInfo.startAlpha = frame:GetAlpha()
-			fadeInfo.endAlpha = 0
-			UIFrameFade(frame, fadeInfo)
-		else
-			frame:Show()
-			UIFrameFadeIn(frame, 0.5, frame:GetAlpha(), 1)
-		end
+	if currencyParent:IsShown() then
+		local fadeInfo = {};
+		fadeInfo.mode = "OUT";
+		fadeInfo.timeToFade = 0.5;
+		fadeInfo.finishedFunc = function() currencyParent:Hide() end
+		fadeInfo.startAlpha = currencyParent:GetAlpha()
+		fadeInfo.endAlpha = 0
+		UIFrameFade(currencyParent, fadeInfo)
+	else
+		currencyParent:Show()
+		UIFrameFadeIn(currencyParent, 0.5, currencyParent:GetAlpha(), 1)
 	end
 end)
 
