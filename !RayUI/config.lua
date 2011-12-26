@@ -11,8 +11,8 @@ DB["media"]={
 	fontsize = 12,
 	fontflag = "THINOUTLINE",
 	warning = "RayUI Warning",
-	backdropcolor = { .05,.05,.05, .9},
-	bordercolor = {0,0,0,1},	
+	backdropcolor = { .05, .05, .05, .9},
+	bordercolor = {0, 0, 0, 1},	
 }
 
 DB["general"]={

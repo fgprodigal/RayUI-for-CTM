@@ -101,6 +101,8 @@ local bossIds = {
 	-- CATACLYSM
 	-- Baradin Hold
 	[47120] = true, -- Argaloth
+	[52363]	= true, -- Occu'thar
+	[55869]	= true, -- Alizabal
 	-- Blackwing Descent
 	[41570] = true, -- Magmaw
 	[42166] = "Omnitron Defense System", -- Arcanotron
@@ -135,6 +137,17 @@ local bossIds = {
 	[53494] = true, -- Baleroc
 	[52571] = true, -- Majordomo Staghelm
 	[52409] = true, -- Ragnaros
+	-- Dragon Soul
+	[55265]	= true,	-- Morchok
+	[55308]	= true,	-- Warlord Zon'ozz
+	[55312]	= true,	-- Yor'sahj the Unsleeping
+	[55689]	= true,	-- Hagara the Stormbinder
+	[55294]	= true,	-- Ultraxion
+	[56427]	= true,	-- Warmaster Blackhorn
+	[53879]	= true,	-- Spine of Deathwing
+	[56167] = "Madness of Deathwing", -- Arm Tentacle
+	[56846] = "Madness of Deathwing", -- Arm Tentacle
+	[56168] = "Madness of Deathwing", -- Wing Tentacle
 }
 
 -- used colors
@@ -151,13 +164,13 @@ do
 	addon.colorhex["PET"] = string.format("%02X%02X%02X", addon.color.PET[1] * 255, addon.color.PET[2] * 255, addon.color.PET[3] * 255)
 end
 
-addon.spellIcon = setmetatable({ [0] = "", [75] = "", }, { __index = function(tbl, i)
+addon.spellIcon = setmetatable({ [75] = "", [6603] = "", }, { __index = function(tbl, i)
 	local spell, _, icon = GetSpellInfo(i)
 	addon.spellName[i] = spell
 	tbl[i] = icon
 	return icon
 end})
-addon.spellName = setmetatable({ [0] = "Melee", }, {__index = function(tbl, i)
+addon.spellName = setmetatable({}, {__index = function(tbl, i)
 	local spell, _, icon = GetSpellInfo(i)
 	addon.spellIcon[i] = icon
 	tbl[i] = spell

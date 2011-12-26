@@ -139,7 +139,7 @@ ns.watchers ={
 			mode = "BAR",
 			size = 28,
 			barWidth = 170,
-			setpoint = { "BOTTOMLEFT", RayUIActionBar2, "BOTTOMRIGHT", 6, 0 },
+			setpoint = { "TOPLEFT", RayUIActionBar2, "BOTTOMRIGHT", -27, -6 },
 
 			--狂暴
 			{ spellID = 50334, filter = "CD" },
@@ -304,7 +304,7 @@ ns.watchers ={
 			mode = "BAR",
 			size = 28,
 			barWidth = 170,
-			setpoint = { "BOTTOMLEFT", RayUIActionBar2, "BOTTOMRIGHT", 6, 0 },
+			setpoint = { "TOPLEFT", RayUIActionBar2, "BOTTOMRIGHT", -27, -6 },
 			
 			-- 镜像术
 			{ spellID = 55342, unitId = "player", caster = "player", filter = "CD" },
@@ -547,7 +547,7 @@ ns.watchers ={
 			mode = "BAR",
 			size = 28,
 			barWidth = 170,
-			setpoint = { "BOTTOMLEFT", RayUIActionBar2, "BOTTOMRIGHT", 6, 0 },
+			setpoint = { "TOPLEFT", RayUIActionBar2, "BOTTOMRIGHT", -27, -6 },
 
 			--神恩術
 			{ spellID = 31842, filter = "CD" },
@@ -687,7 +687,7 @@ ns.watchers ={
 			mode = "BAR",
 			size = 28,
 			barWidth = 170,
-			setpoint = { "BOTTOMLEFT", RayUIActionBar2, "BOTTOMRIGHT", 6, 0 },
+			setpoint = { "TOPLEFT", RayUIActionBar2, "BOTTOMRIGHT", -27, -6 },
 			
 			--大天使
 			{ spellID = 87151, unitId = "player", caster = "player", filter = "CD" },
@@ -865,7 +865,7 @@ ns.watchers ={
 			mode = "BAR",
 			size = 28,
 			barWidth = 170,
-			setpoint = { "BOTTOMLEFT", RayUIActionBar2, "BOTTOMRIGHT", 6, 0 },
+			setpoint = { "TOPLEFT", RayUIActionBar2, "BOTTOMRIGHT", -27, -6 },
 
 			--暗影步
 			{ spellID = 36554, filter = "CD" },

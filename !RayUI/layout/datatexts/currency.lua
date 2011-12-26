@@ -106,6 +106,8 @@ local tokens = {
 	{402, 10},	 -- Chef's Award 
 	{416, 300}, -- Mark of the World Tree
 	{515, 2000}, --Darkmoon Prize Ticket
+	{614, 2000}, --Mote of Darkness
+	{615, 2000}, --Essence of Corrupted Deathwing
 }
 
 local function updateCurrency()

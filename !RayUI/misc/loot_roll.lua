@@ -20,8 +20,14 @@ local rolltypes = {"need", "greed", "disenchant", [0] = "pass"}
 local function SetTip(frame)
 	GameTooltip:SetOwner(frame, "ANCHOR_RIGHT")
 	GameTooltip:SetText(frame.tiptext)
-	if frame:IsEnabled() == 0 then GameTooltip:AddLine("|cffff3333Cannot roll") end
-	for name,roll in pairs(frame.parent.rolls) do if roll == rolltypes[frame.rolltype] then GameTooltip:AddLine(name, 1, 1, 1) end end
+	if not frame:IsEnabled() then
+		GameTooltip:AddLine("|cffff3333Cannot ".._G[rolltypes[frame.rolltype]:upper() == "DISENCHANT" and "ROLL_DISENCHANT" or rolltypes[frame.rolltype]:upper()])
+	end
+	for name,roll in pairs(frame.parent.rolls) do
+		if roll == rolltypes[frame.rolltype] then
+			GameTooltip:AddLine(name, 1, 1, 1)
+		end
+	end
 	GameTooltip:Show()
 end
 
@@ -81,6 +87,11 @@ local function CreateRollButton(parent, ntex, ptex, htex, rolltype, tiptext, ...
 	f:SetScript("OnEnter", SetTip)
 	f:SetScript("OnLeave", HideTip)
 	f:SetScript("OnClick", ClickRoll)
+	if f:IsEnabled() then
+		f:GetNormalTexture():SetDesaturated(0)
+	else
+		f:GetNormalTexture():SetDesaturated(1)
+	end
 	f:SetMotionScriptsWhileDisabled(true)
 	local txt = f:CreateFontString(nil, nil)
 	txt:SetFont(C["media"].font, C["media"].fontsize, C["media"].fontflag)
