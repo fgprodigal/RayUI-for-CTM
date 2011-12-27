@@ -22,6 +22,6 @@ p. 常用命令
 
 * /rw2 RayWatcher控制台
 
-h3. 说明
+h3. 网站
 
 p. "官方网站":http://fgprodigal.com (12月流量已用完，等下月才能正常打开)
