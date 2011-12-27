@@ -1,0 +1,17 @@
+h3. 下载
+
+h4. World of Warcraft (4.3)
+
+p. "Latest Version":https://github.com/fgprodigal/RayUI/zipball/master
+
+h3. 说明
+
+p. 常用命令
+
+* /moveui 解锁锚点
+
+* /hb 绑定快捷键
+
+* /rc RayUI控制台
+
+* /rw2 RayWatcher控制台
