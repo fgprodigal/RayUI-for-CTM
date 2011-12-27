@@ -2,7 +2,7 @@ h3. 下载
 
 h4. World of Warcraft (4.3)
 
-p. "Latest Version":https://github.com/fgprodigal/RayUI/zipball/master
+p. "最新版本":https://github.com/fgprodigal/RayUI/zipball/master
 
 h3. 说明
 
