@@ -10,6 +10,8 @@ h4. World of Warcraft (4.3)
 
 p. "最新版本":https://github.com/fgprodigal/RayUI/zipball/master
 
+p. "官方网站":http://fgprodigal.com (12月流量已用完，等下月才能正常打开)
+
 h3. 说明
 
 p. 常用命令
@@ -21,7 +23,3 @@ p. 常用命令
 * /rc RayUI控制台
 
 * /rw2 RayWatcher控制台
-
-h3. 网站
-
-p. "官方网站":http://fgprodigal.com (12月流量已用完，等下月才能正常打开)
