@@ -311,8 +311,8 @@ local function LoadSkin()
 	hooksecurefunc("ReputationFrame_OnEvent", UpdateFactionSkins)
 	
 	-- Pet stuff
-	if class == "HUNTER" or class == "MAGE" or class == "DEATHKNIGHT" or class == "WARLOCK" then
-		if class == "HUNTER" then
+	if R.myclass == "HUNTER" or R.myclass == "MAGE" or R.myclass == "DEATHKNIGHT" or R.myclass == "WARLOCK" then
+		if R.myclass == "HUNTER" then
 			PetStableFrame:DisableDrawLayer("BACKGROUND")
 			PetStableFrame:DisableDrawLayer("BORDER")
 			PetStableFrameInset:DisableDrawLayer("BACKGROUND")
@@ -339,9 +339,20 @@ local function LoadSkin()
 				bd:SetPoint("TOPLEFT", -1, 1)
 				bd:SetPoint("BOTTOMRIGHT", 1, -1)
 				R.CreateBD(bd, .25)
-				bu:SetNormalTexture("")
-				bu:DisableDrawLayer("BACKGROUND")
+				bu:StripTextures()
+				bu:StyleButton(true)
 				_G["PetStableStabledPet"..i.."IconTexture"]:SetTexCoord(.08, .92, .08, .92)
+			end
+			
+			for i = 1, 5 do
+				local bu = _G["PetStableActivePet"..i]
+				local bd = CreateFrame("Frame", nil, bu)
+				bd:SetPoint("TOPLEFT", -1, 1)
+				bd:SetPoint("BOTTOMRIGHT", 1, -1)
+				R.CreateBD(bd, .25)
+				bu:StripTextures()
+				bu:StyleButton(true)
+				_G["PetStableActivePet"..i.."IconTexture"]:SetTexCoord(.08, .92, .08, .92)
 			end
 		end
 

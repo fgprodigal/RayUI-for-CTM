@@ -22,6 +22,9 @@ local function SetTip(frame)
 	GameTooltip:SetText(frame.tiptext)
 	if not frame:IsEnabled() then
 		GameTooltip:AddLine("|cffff3333Cannot ".._G[rolltypes[frame.rolltype]:upper() == "DISENCHANT" and "ROLL_DISENCHANT" or rolltypes[frame.rolltype]:upper()])
+		frame:SetAlpha(0.4)
+	else
+		frame:SetAlpha(1)
 	end
 	for name,roll in pairs(frame.parent.rolls) do
 		if roll == rolltypes[frame.rolltype] then
@@ -31,6 +34,13 @@ local function SetTip(frame)
 	GameTooltip:Show()
 end
 
+local function SetButtonAlpha(frame)
+	if frame:IsEnabled() then
+		frame:SetAlpha(1)
+	else
+		frame:SetAlpha(0.4)
+	end
+end
 
 local function SetItemTip(frame)
 	if not frame.link then return end
@@ -84,6 +94,7 @@ local function CreateRollButton(parent, ntex, ptex, htex, rolltype, tiptext, ...
 	f.rolltype = rolltype
 	f.parent = parent
 	f.tiptext = tiptext
+	f:SetScript ("OnUpdate", SetButtonAlpha)
 	f:SetScript("OnEnter", SetTip)
 	f:SetScript("OnLeave", HideTip)
 	f:SetScript("OnClick", ClickRoll)
