@@ -1,5 +1,4 @@
 local R, C, L, DB = unpack(select(2, ...))
-local AddOnName = ...
 
 local function LoadSkin()
 	WhoFrameWhoButton:SetPoint("RIGHT", WhoFrameAddFriendButton, "LEFT", -1, 0)
@@ -182,4 +181,4 @@ local function LoadSkin()
 	R.CreateBD(sorbg, 0)
 end
 
-tinsert(R.SkinFuncs[AddOnName], LoadSkin)
+tinsert(R.SkinFuncs["RayUI"], LoadSkin)

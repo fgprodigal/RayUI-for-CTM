@@ -1,5 +1,4 @@
 local R, C, L, DB = unpack(select(2, ...))
-local AddOnName = ...
 
 local function LoadSkin()
 	----AchievementAlertFrame_ShowAlert(50)  测试位置
@@ -73,4 +72,4 @@ local function LoadSkin()
 	end)
 end
 
-tinsert(R.SkinFuncs[AddOnName], LoadSkin)
+tinsert(R.SkinFuncs["RayUI"], LoadSkin)

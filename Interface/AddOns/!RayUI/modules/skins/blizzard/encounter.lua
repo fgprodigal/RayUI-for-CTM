@@ -1,5 +1,4 @@
 local R, C, L, DB = unpack(select(2, ...))
-local AddOnName = ...
 
 local function LoadSkin()
 	EncounterJournalEncounterFrameInfo:DisableDrawLayer("BACKGROUND")

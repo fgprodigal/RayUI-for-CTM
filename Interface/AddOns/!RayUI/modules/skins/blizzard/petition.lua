@@ -1,5 +1,4 @@
 local R, C, L, DB = unpack(select(2, ...))
-local AddOnName = ...
 
 local function LoadSkin()
 	R.SetBD(PetitionFrame, 6, -15, -26, 64)
@@ -20,4 +19,4 @@ local function LoadSkin()
 	R.ReskinClose(PetitionFrameCloseButton, "TOPRIGHT", PetitionFrame, "TOPRIGHT", -30, -20)
 end
 
-tinsert(R.SkinFuncs[AddOnName], LoadSkin)
+tinsert(R.SkinFuncs["RayUI"], LoadSkin)

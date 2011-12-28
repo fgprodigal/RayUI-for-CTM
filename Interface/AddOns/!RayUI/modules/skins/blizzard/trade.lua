@@ -1,5 +1,4 @@
 local R, C, L, DB = unpack(select(2, ...))
-local AddOnName = ...
 
 local function LoadSkin()
 	R.SetBD(TradeFrame, 10, -12, -30, 52)
@@ -147,4 +146,4 @@ local function LoadSkin()
 	end)
 end
 
-tinsert(R.SkinFuncs[AddOnName], LoadSkin)
+tinsert(R.SkinFuncs["RayUI"], LoadSkin)

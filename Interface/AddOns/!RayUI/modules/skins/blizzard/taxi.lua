@@ -1,5 +1,4 @@
 local R, C, L, DB = unpack(select(2, ...))
-local AddOnName = ...
 
 local function LoadSkin()
 	R.SetBD(TaxiFrame, 3, -23, -5, 3)
@@ -10,4 +9,4 @@ local function LoadSkin()
 	R.ReskinClose(TaxiFrameCloseButton, "TOPRIGHT", TaxiRouteMap, "TOPRIGHT", -1, -1)
 end
 
-tinsert(R.SkinFuncs[AddOnName], LoadSkin)
+tinsert(R.SkinFuncs["RayUI"], LoadSkin)

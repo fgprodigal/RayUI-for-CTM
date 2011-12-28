@@ -48,4 +48,4 @@ local function LoadSkin()
 	end
 end
 
-tinsert(R.SkinFuncs["Delay"], LoadSkin)
+tinsert(R.SkinFuncs["RayUI"], LoadSkin)

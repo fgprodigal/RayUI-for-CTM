@@ -49,10 +49,31 @@ CHAT_FRAME_TAB_NORMAL_NOMOUSE_ALPHA = 0
 CHAT_FRAME_TAB_SELECTED_NOMOUSE_ALPHA = 0
 
 function SetChat()
-    FCF_SetLocked(ChatFrame1, nil)
+	local whisperFound
 	for i = 1, NUM_CHAT_WINDOWS do
-		FCF_SetChatWindowFontSize(self, _G["ChatFrame"..i], fontsize)
-		FCF_SetWindowAlpha(_G["ChatFrame"..i] , 0)
+		local chatName, _, _, _, _, _, shown = FCF_GetChatWindowInfo(_G["ChatFrame"..i]:GetID())
+		if chatName == WHISPER then
+			if shown then
+				whisperFound = true
+			elseif not shown and not whisperFound  then
+				_G["ChatFrame"..i]:Show()
+				whisperFound = true
+			end
+		end
+	end
+	if not whisperFound then
+		FCF_OpenNewWindow(WHISPER)
+	end
+	for i = 1, NUM_CHAT_WINDOWS do
+		local frame = _G["ChatFrame"..i]
+		FCF_SetChatWindowFontSize(nil, frame, fontsize)
+		FCF_SetWindowAlpha(frame , 0)
+		local chatName = FCF_GetChatWindowInfo(frame:GetID())
+		if chatName == WHISPER then
+			ChatFrame_RemoveAllMessageGroups(frame)
+			ChatFrame_AddMessageGroup(frame, "WHISPER")
+			ChatFrame_AddMessageGroup(frame, "BN_WHISPER")
+		end
 	end
     ChatFrame1:SetFrameLevel(8)
     FCF_SavePositionAndDimensions(ChatFrame1)
@@ -60,6 +81,34 @@ function SetChat()
 	ChangeChatColor("CHANNEL1", 195/255, 230/255, 232/255)
 	ChangeChatColor("CHANNEL2", 232/255, 158/255, 121/255)
 	ChangeChatColor("CHANNEL3", 232/255, 228/255, 121/255)
+	ToggleChatColorNamesByClassGroup(true, "SAY")
+	ToggleChatColorNamesByClassGroup(true, "EMOTE")
+	ToggleChatColorNamesByClassGroup(true, "YELL")
+	ToggleChatColorNamesByClassGroup(true, "GUILD")
+	ToggleChatColorNamesByClassGroup(true, "OFFICER")
+	ToggleChatColorNamesByClassGroup(true, "GUILD_ACHIEVEMENT")
+	ToggleChatColorNamesByClassGroup(true, "ACHIEVEMENT")
+	ToggleChatColorNamesByClassGroup(true, "WHISPER")
+	ToggleChatColorNamesByClassGroup(true, "PARTY")
+	ToggleChatColorNamesByClassGroup(true, "PARTY_LEADER")
+	ToggleChatColorNamesByClassGroup(true, "RAID")
+	ToggleChatColorNamesByClassGroup(true, "RAID_LEADER")
+	ToggleChatColorNamesByClassGroup(true, "RAID_WARNING")
+	ToggleChatColorNamesByClassGroup(true, "BATTLEGROUND")
+	ToggleChatColorNamesByClassGroup(true, "BATTLEGROUND_LEADER")	
+	ToggleChatColorNamesByClassGroup(true, "CHANNEL1")
+	ToggleChatColorNamesByClassGroup(true, "CHANNEL2")
+	ToggleChatColorNamesByClassGroup(true, "CHANNEL3")
+	ToggleChatColorNamesByClassGroup(true, "CHANNEL4")
+	ToggleChatColorNamesByClassGroup(true, "CHANNEL5")
+	ToggleChatColorNamesByClassGroup(true, "CHANNEL6")
+	ToggleChatColorNamesByClassGroup(true, "CHANNEL7")
+	ToggleChatColorNamesByClassGroup(true, "CHANNEL8")
+	ToggleChatColorNamesByClassGroup(true, "CHANNEL9")
+	ToggleChatColorNamesByClassGroup(true, "CHANNEL10")
+	ToggleChatColorNamesByClassGroup(true, "CHANNEL11")
+	
+	FCFDock_SelectWindow(GENERAL_CHAT_DOCK, ChatFrame1)
 end
 
 SlashCmdList["SETCHAT"] = SetChat
@@ -86,6 +135,7 @@ do
 		tab:SetAlpha(0)
 		tab.noMouseAlpha = 0
 		cf:SetFading(false)
+		_G["ChatFrame"..i.."TabText"]:SetFont(C.media.font, 13)
 	
 	-- Hide chat textures
 		for j = 1, #CHAT_FRAME_TEXTURES do
@@ -162,7 +212,7 @@ local sizes = {
 
 local function CreatCopyFrame()
 	frame = CreateFrame("Frame", "CopyFrame", UIParent)
-	frame:CreateShadow("Background")
+	R.SetBD(frame)
 	frame:Height(200)
 	frame:SetScale(1)
 	frame:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
@@ -245,7 +295,6 @@ local function ChatCopyButtons(id)
 	local name = FCF_GetChatWindowInfo(id)
 	local point = GetChatWindowSavedPosition(id)
 	local _, fontSize = FCF_GetChatWindowInfo(id)
-	local _, _, _, _, _, _, _, _, docked, _ = GetChatWindowInfo(id)
 	local button = _G[format("ButtonCF%d", id)]
 	
 	if not button then
@@ -386,13 +435,13 @@ do
 	end
 end
 ---------------- > Enable/Disable mouse for editbox
-eb_mouseon = function()
+local function eb_mouseon()
 	for i =1, 10 do
 		local eb = _G['ChatFrame'..i..'EditBox']
 		eb:EnableMouse(true)
 	end
 end
-eb_mouseoff = function()
+local function  eb_mouseoff()
 	for i =1, 10 do
 		local eb = _G['ChatFrame'..i..'EditBox']
 		eb:EnableMouse(false)
@@ -624,6 +673,10 @@ ChatPosUpdate:SetScript("OnUpdate", function(self, elapsed)
 				_G["ChatFrame"..i]:SetPoint("TOPLEFT", ChatBG, "TOPLEFT", 2, -2)
 				_G["ChatFrame"..i]:SetPoint("BOTTOMRIGHT", ChatBG, "BOTTOMRIGHT", -2, 4)
 				FCF_SavePositionAndDimensions(_G["ChatFrame"..i])
+				local _, _, _, _, _, _, shown, _, docked, _ = GetChatWindowInfo(i)
+				if shown and not docked then
+					FCF_DockFrame(_G["ChatFrame"..i])
+				end
 			end
 		end
 		self.elapsed = 0

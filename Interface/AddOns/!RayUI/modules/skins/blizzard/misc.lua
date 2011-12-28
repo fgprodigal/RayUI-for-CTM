@@ -1,5 +1,4 @@
 local R, C, L, DB = unpack(select(2, ...))
-local AddOnName = ...
 
 local function LoadSkin()
 	GameFontBlackMedium:SetTextColor(1, 1, 1)		
@@ -629,4 +628,4 @@ local function LoadSkin()
 	end
 end
 
-tinsert(R.SkinFuncs[AddOnName], LoadSkin)
+tinsert(R.SkinFuncs["RayUI"], LoadSkin)

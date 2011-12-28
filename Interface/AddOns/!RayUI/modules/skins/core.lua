@@ -1,11 +1,9 @@
 local R, C, L, DB = unpack(select(2, ...))
-local AddOnName = ...
 
 -- core from aurora
 
 R.SkinFuncs = {}
-R.SkinFuncs[AddOnName] = {}
-R.SkinFuncs["Delay"] = {}
+R.SkinFuncs["RayUI"] = {}
 
 local alpha = .5 -- controls the backdrop opacity (0 = invisible, 1 = solid)
 
@@ -410,24 +408,24 @@ RayUISkin:SetScript("OnEvent", function(self, event, addon)
 						skinfunc()
 						R.SkinFuncs[_addon] = nil
 					end
-				end
+				end				
 			elseif type(skinfunc) == "table" then
 				if _addon == addon then
 					for t, skinfunc in pairs(R.SkinFuncs[_addon]) do
 						if skinfunc then
 							skinfunc()
-							R.SkinFuncs[_addon][t] = nil
 						end
 					end
+					wipe(R.SkinFuncs[_addon])
 				end
 			end
 		end
 	elseif event == "PLAYER_ENTERING_WORLD" then
-		for t, skinfunc in pairs(R.SkinFuncs["Delay"]) do
+		for t, skinfunc in pairs(R.SkinFuncs["RayUI"]) do
 			if skinfunc then
 				skinfunc()
-				R.SkinFuncs["Delay"][t] = nil
 			end
 		end
+		wipe(R.SkinFuncs["RayUI"])
 	end
 end)

@@ -1,5 +1,4 @@
 local R, C, L, DB = unpack(select(2, ...))
-local AddOnName = ...
 
 local function LoadSkin()
 	R.Reskin(LFRQueueFrameFindGroupButton)
@@ -64,4 +63,4 @@ local function LoadSkin()
 	R.ReskinClose(RaidParentFrameCloseButton)
 end
 
-tinsert(R.SkinFuncs[AddOnName], LoadSkin)
+tinsert(R.SkinFuncs["RayUI"], LoadSkin)

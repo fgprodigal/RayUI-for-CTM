@@ -1,5 +1,4 @@
 local R, C, L, DB = unpack(select(2, ...))
-local AddOnName = ...
 
 local function LoadSkin()
 	R.SetBD(PVPFrame)
@@ -188,4 +187,4 @@ local function LoadSkin()
 	R.ReskinScroll(WarGamesFrameInfoScrollFrameScrollBar)
 end
 
-tinsert(R.SkinFuncs[AddOnName], LoadSkin)
+tinsert(R.SkinFuncs["RayUI"], LoadSkin)

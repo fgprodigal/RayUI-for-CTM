@@ -1,5 +1,4 @@
 local R, C, L, DB = unpack(select(2, ...))
-local AddOnName = ...
 
 local function LoadSkin()
 	R.SetBD(LFDParentFrame)	
@@ -120,4 +119,4 @@ local function LoadSkin()
 	R.Reskin(LFDQueueFrameNoLFDWhileLFRLeaveQueueButton)
 end
 
-tinsert(R.SkinFuncs[AddOnName], LoadSkin)
+tinsert(R.SkinFuncs["RayUI"], LoadSkin)
