@@ -172,9 +172,25 @@ local function CreateVirtualFrame(parent, point)
 	end
 end
 
+local function UpdateAuraAnchors(frame)
+	for i = 1, 5 do
+		if frame.icons and frame.icons[i] and frame.icons[i]:IsShown() then
+			if frame.icons.lastShown then 
+				frame.icons[i]:SetPoint("RIGHT", frame.icons.lastShown, "LEFT", -2, 0)
+			else
+				frame.icons[i]:SetPoint("RIGHT",frame.icons,"RIGHT")
+			end
+			frame.icons.lastShown = frame.icons[i]
+		end
+	end
+	
+	frame.icons.lastShown = nil;
+end
+
 --Create our Aura Icons
 local function CreateAuraIcon(parent)
 	local button = CreateFrame("Frame",nil,parent)
+	button:SetScript("OnHide", function(self) UpdateAuraAnchors(self:GetParent()) end)
 	button:SetWidth(20)
 	button:SetHeight(20)
 
@@ -205,14 +221,62 @@ local function CreateAuraIcon(parent)
 	button.icon:SetPoint("TOPLEFT",button,"TOPLEFT", noscalemult*3,-noscalemult*3)
 	button.icon:SetPoint("BOTTOMRIGHT",button,"BOTTOMRIGHT",-noscalemult*3,noscalemult*3)
 	button.icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
-	button.cd = CreateFrame("Cooldown",nil,button)
-	button.cd:SetAllPoints(button)
-	button.cd:SetReverse(true)
+
+	button.text = button:CreateFontString(nil, 'OVERLAY')
+	button.text:Point("CENTER", 1, 1)
+	button.text:SetJustifyH('CENTER')
+	button.text:SetFont(C["media"].font, 10, "OUTLINE")
+	button.text:SetShadowColor(0, 0, 0, 0)
+
 	button.count = button:CreateFontString(nil,"OVERLAY")
 	button.count:SetFont(C["media"].font,9,C["media"].fontflag)
 	button.count:SetShadowColor(0, 0, 0, 0.4)
 	button.count:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", 0, 2)
 	return button
+end
+
+local day, hour, minute, second = 86400, 3600, 60, 1
+local function formatTime(s)
+	if s >= day then
+		return format("%dd", ceil(s / hour))
+	elseif s >= hour then
+		return format("%dh", ceil(s / hour))
+	elseif s >= minute then
+		return format("%dm", ceil(s / minute))
+	elseif s >= minute / 12 then
+		return floor(s)
+	end
+	
+	return format("%.1f", s)
+end
+
+local function UpdateAuraTimer(self, elapsed)
+	if not self.timeLeft then return end
+	self.elapsed = (self.elapsed or 0) + elapsed
+	if self.elapsed >= 0.1 then
+		if not self.firstUpdate then
+			self.timeLeft = self.timeLeft - self.elapsed
+		else
+			self.timeLeft = self.timeLeft - GetTime()
+			self.firstUpdate = false
+		end
+		if self.timeLeft > 0 then
+			local time = formatTime(self.timeLeft)
+			self.text:SetText(time)
+			if self.timeLeft <= 5 then
+				self.text:SetTextColor(1, 0, 0)
+			elseif self.timeLeft <= minute then
+				self.text:SetTextColor(1, 1, 0)
+			else
+				self.text:SetTextColor(1, 1, 1)
+			end
+		else
+			self.text:SetText('')
+			self:SetScript("OnUpdate", nil)
+			self:Hide()
+		end
+		self.elapsed = 0
+	end
 end
 
 --Update an Aura Icon
@@ -224,17 +288,21 @@ local function UpdateAuraIcon(button, unit, index, filter)
 	else
 		button.bord:SetTexture(1, 0, 0, 1)
 	end
+
 	button.icon:SetTexture(icon)
-	button.cd:SetCooldown(expirationTime-duration,duration)
+	button.firstUpdate = true
 	button.expirationTime = expirationTime
 	button.duration = duration
-	button.spellID = spellID
+	button.spellID = spellID	
+	button.timeLeft = expirationTime
 	if count > 1 then 
 		button.count:SetText(count)
 	else
 		button.count:SetText("")
 	end
-	button.cd:SetScript("OnUpdate", function(self) if not button.cd.timer then self:SetScript("OnUpdate", nil) return end button.cd.timer.text:SetFont(C["media"].font,11,C["media"].fontflag) button.cd.timer.text:SetShadowColor(0, 0, 0, 0.4) end)
+	if not button:GetScript("OnUpdate") then
+		button:SetScript("OnUpdate", UpdateAuraTimer)
+	end
 	button:Show()
 end
 

@@ -26,6 +26,7 @@ C.Aurora.classcolours = {
 }
 
 R.CreateBD = function(f, a)
+	if not f then return end
 	f:SetBackdrop({
 		bgFile = C.Aurora.backdrop, 
 		edgeFile = C.Aurora.backdrop, 
@@ -36,6 +37,7 @@ R.CreateBD = function(f, a)
 end
 
 R.CreateBG = function(frame)
+	if not frame then return end
 	local f = frame
 	if frame:GetObjectType() == "Texture" then f = frame:GetParent() end
 
@@ -49,6 +51,7 @@ R.CreateBG = function(frame)
 end
 
 R.CreateSD = function(parent, size, r, g, b, alpha, offset)
+	if not parent then return end
 	local sd = CreateFrame("Frame", nil, parent)
 	sd.size = size or 5
 	sd.size = sd.size - 5
@@ -66,6 +69,7 @@ R.CreateSD = function(parent, size, r, g, b, alpha, offset)
 end
 
 R.CreatePulse = function(frame, speed, mult, alpha)
+	if not frame then return end
 	frame.speed = speed or .05
 	frame.mult = mult or 1
 	frame.alpha = alpha or 1
@@ -94,12 +98,14 @@ else
 end
 
 local function StartGlow(f)
+	if not f then return end
 	f:SetBackdropColor(r, g, b, .1)
 	f:SetBackdropBorderColor(r, g, b)
 	R.CreatePulse(f.glow)
 end
 
 local function StopGlow(f)
+	if not f then return end
 	f:SetBackdropColor(0, 0, 0, 0)
 	f:SetBackdropBorderColor(0, 0, 0)
 	f.glow:SetScript("OnUpdate", nil)
@@ -107,6 +113,7 @@ local function StopGlow(f)
 end
 
 R.Reskin = function(f, noGlow)
+	if not f then return end
 	f:SetNormalTexture("")
 	f:SetHighlightTexture("")
 	f:SetPushedTexture("")
@@ -148,7 +155,8 @@ R.Reskin = function(f, noGlow)
 	end
 end
 
-R.CreateTab = function(f)	
+R.CreateTab = function(f)
+	if not f then return end
 	f:DisableDrawLayer("BACKGROUND")
 
 	local bg = CreateFrame("Frame", nil, f)
@@ -164,7 +172,8 @@ R.CreateTab = function(f)
 	hl:SetVertexColor(r, g, b, .25)
 end
 
-R.ReskinScroll = function(f)	
+R.ReskinScroll = function(f)
+	if not f then return end
 	local frame = f:GetName()
 
 	if _G[frame.."Track"] then _G[frame.."Track"]:Hide() end
@@ -220,7 +229,8 @@ R.ReskinScroll = function(f)
 	downtex:SetVertexColor(1, 1, 1)
 end
 
-R.ReskinDropDown = function(f)	
+R.ReskinDropDown = function(f)
+	if not f then return end
 	local frame = f:GetName()
 
 	local left = _G[frame.."Left"]
@@ -264,7 +274,8 @@ R.ReskinDropDown = function(f)
 	tex:SetGradientAlpha("VERTICAL", 0, 0, 0, .3, .35, .35, .35, .35)
 end
 
-R.ReskinClose = function(f, a1, p, a2, x, y)	
+R.ReskinClose = function(f, a1, p, a2, x, y)
+	if not f then return end
 	f:Size(17, 17)
 
 	if not a1 then
@@ -296,7 +307,8 @@ R.ReskinClose = function(f, a1, p, a2, x, y)
  	f:HookScript("OnLeave", function(self) text:SetTextColor(1, 1, 1) end)
 end
 
-R.ReskinInput = function(f, height, width)	
+R.ReskinInput = function(f, height, width)
+	if not f then return end
 	local frame = f:GetName()
 	_G[frame.."Left"]:Hide()
 	if _G[frame.."Middle"] then _G[frame.."Middle"]:Hide() end
@@ -314,7 +326,8 @@ R.ReskinInput = function(f, height, width)
 	if width then f:Width(width) end
 end
 
-R.ReskinArrow = function(f, direction)	
+R.ReskinArrow = function(f, direction)
+	if not f then return end
 	f:Size(18, 18)
 	R.Reskin(f)
 	
@@ -334,7 +347,8 @@ R.ReskinArrow = function(f, direction)
 	end
 end
 
-R.ReskinCheck = function(f)	
+R.ReskinCheck = function(f)
+	if not f then return end
 	f:SetNormalTexture("")
 	f:SetPushedTexture("")
 	f:SetHighlightTexture(C.Aurora.backdrop)
@@ -356,7 +370,8 @@ R.ReskinCheck = function(f)
 	tex:SetGradientAlpha("VERTICAL", 0, 0, 0, .3, .35, .35, .35, .35)
 end
 
-R.ReskinSlider = function(f)	
+R.ReskinSlider = function(f)
+	if not f then return end
 	f:SetBackdrop(nil)
 	f.SetBackdrop = R.dummy
 
@@ -378,7 +393,8 @@ R.ReskinSlider = function(f)
 	slider:SetBlendMode("ADD")
 end
 
-R.SetBD = function(f, x, y, x2, y2)	
+R.SetBD = function(f, x, y, x2, y2)
+	if not f then return end
 	local bg = CreateFrame("Frame", nil, f)
 	if not x then
 		bg:SetPoint("TOPLEFT")
