@@ -133,7 +133,7 @@ function RayUIConfig.GenerateOptionsInternal()
 						order = 2,
 						type = "toggle",
 						name = L["登陆Logo"],
-						desc = L["开关登陆时的logo"],
+						desc = L["开关登陆时的Logo"],
 					},
 				},
 			},
