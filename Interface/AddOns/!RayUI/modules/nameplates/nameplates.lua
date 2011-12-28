@@ -116,9 +116,7 @@ local PlateBlacklist = {
 	["熔岩寄生虫"] = true,
 }
 
-local NamePlates = CreateFrame("Frame", nil, UIParent)
-NamePlates:SetScript("OnEvent", function(self, event, ...) self[event](self, ...) end)
-NamePlates:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
+local NamePlates = CreateFrame("Frame")
 
 local function QueueObject(parent, object)
 	parent.queue = parent.queue or {}
@@ -308,14 +306,14 @@ end
 
 --Filter auras on nameplate, and determine if we need to update them or not.
 local function OnAura(frame, unit)
-	if not frame.icons or not frame.unit then return end
+	if not frame.icons or not frame.unit or not C["nameplates"].showdebuff then return end
 	local i = 1
 	for index = 1,40 do
 		if i > 5 then return end
 		local match
 		local name,_,_,_,_,duration,_,caster,_,_,spellid = UnitAura(frame.unit,index,"HARMFUL")
 		
-		if caster == "player" then match = true end
+		if caster == "player" and duration>0 then match = true end
 		if DebuffWhiteList[name] then match = true end
 		
 		if duration and match == true then
@@ -837,11 +835,33 @@ function NamePlates:COMBAT_LOG_EVENT_UNFILTERED(_, event, ...)
 	end
 end
 
-NamePlates:RegisterEvent("PLAYER_ENTERING_WORLD")
 function NamePlates:PLAYER_ENTERING_WORLD()
 	SetCVar("threatWarning", 3)
 	SetCVar("bloatthreat", 0)
 	SetCVar("bloattest", 1)
 	SetCVar("ShowClassColorInNameplate", 1)
 	SetCVar("bloatnameplates", 0)
+	if C["nameplates"].combat then
+		if InCombatLockdown() then 
+			SetCVar("nameplateShowEnemies", 1) 
+		else 
+			SetCVar("nameplateShowEnemies", 0) 
+		end
+	end
+end
+
+function NamePlates:PLAYER_REGEN_ENABLED()
+	SetCVar("nameplateShowEnemies", 0)
+end
+
+function NamePlates:PLAYER_REGEN_DISABLED()
+	SetCVar("nameplateShowEnemies", 1)
+end
+
+NamePlates:SetScript("OnEvent", function(self, event, ...) self[event](self, ...) end)
+NamePlates:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
+NamePlates:RegisterEvent("PLAYER_ENTERING_WORLD")
+if C["nameplates"].combat then
+	NamePlates:RegisterEvent('PLAYER_REGEN_ENABLED')
+	NamePlates:RegisterEvent('PLAYER_REGEN_DISABLED')
 end

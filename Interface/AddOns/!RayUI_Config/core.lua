@@ -228,7 +228,7 @@ function RayUIConfig.GenerateOptionsInternal()
 			modules = {
 				order = 6,
 				type = "group",
-				name = L["功能"],				
+				name = L["模块"],				
 				args = {
 					worldmapGroup = {
 						order = 1,
@@ -300,6 +300,16 @@ function RayUIConfig.GenerateOptionsInternal()
 							enable = {
 								order = 1,
 								name = L["启用"],
+								type = "toggle",
+							},
+							showdebuff = {
+								order = 2,
+								name = L["显示debuff"],
+								type = "toggle",
+							},
+							combat = {
+								order = 3,
+								name = L["自动显示/隐藏"],
 								type = "toggle",
 							},
 						},

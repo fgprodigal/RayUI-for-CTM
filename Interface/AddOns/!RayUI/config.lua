@@ -34,6 +34,8 @@ DB["minimap"]={
 
 DB["nameplates"]={
 	enable = true,
+	showdebuff = true,
+	combat = false,
 }
 
 DB["bag"]={
