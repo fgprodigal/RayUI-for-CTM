@@ -9,8 +9,7 @@ local aggroColors = {
 
 -- create the bar
 local RayUIThreatBar = CreateFrame("StatusBar", "RayUIThreatBar", BottomInfoBar)
-RayUIThreatBar:Point("TOPLEFT", 2, -2)
-RayUIThreatBar:Point("BOTTOMRIGHT", -2, 2)
+RayUIThreatBar:SetAllPoints(BottomInfoBar)
 RayUIThreatBar:SetFrameStrata("BACKGROUND")
 RayUIThreatBar:SetFrameLevel(1)
 

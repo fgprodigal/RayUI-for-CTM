@@ -11,5 +11,6 @@ UIPARENT_MANAGED_FRAME_POSITIONS.PlayerPowerBarAlt.extraActionBarFrame = nil
 UIPARENT_MANAGED_FRAME_POSITIONS.CastingBarFrame.extraActionBarFrame = nil
 ExtraActionButton1Cooldown:Point("TOPLEFT", 1, -1)
 ExtraActionButton1Cooldown:Point("BOTTOMRIGHT", -1, 1)
+ExtraActionButton1:StyleButton(true)
 
 R.CreateMover(holder, 'BossButton', 'BossButton', true)

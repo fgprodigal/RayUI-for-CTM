@@ -499,7 +499,7 @@ function RayUIWatcher:OnInitialize()
 			self:NewWatcher(t)
 		end
 	end
-	ns.watchers = nil
+	wipe(ns.watchers)
 	
 	local RayWatcherConfig = LibStub("AceAddon-3.0"):GetAddon("RayWatcherConfig")
 	RayWatcherConfig:Load()

@@ -78,12 +78,16 @@ local function parsespellbook(spellbook)
 		
 		name = GetSpellBookItemName(i, spellbook)
 		if name and skilltype == "SPELL" and spellbook == BOOKTYPE_SPELL and not IsPassiveSpell(i, spellbook) then
-			spells[name] = id
+			spells[id] = true
 		elseif name and skilltype == "PETACTION" and spellbook == BOOKTYPE_PET and not IsPassiveSpell(i, spellbook) then
-			pets[name] = id
-		end
-		
+			pets[id] = true
+		end		
 		i = i + 1
+		if (id == 88625 or id == 88625 or id == 88625) and (skilltype == "SPELL" and spellbook == BOOKTYPE_SPELL) then
+		   spells[88625] = true
+		   spells[88684] = true
+		   spells[88685] = true
+		end
 	end
 end
 
@@ -95,8 +99,8 @@ end
 
 function addon:SPELL_UPDATE_COOLDOWN()
 	now = GetTime()
-	
-	for name, id in next, spells do
+
+	for id in next, spells do
 		local starttime, duration, enabled = GetSpellCooldown(id)
 		
 		if starttime == nil then
@@ -106,7 +110,7 @@ function addon:SPELL_UPDATE_COOLDOWN()
 		elseif starttime ~= 0 then
 			local timeleft = starttime + duration - now
 		
-			if enabled == 1 and timeleft > 3 then
+			if enabled == 1 and timeleft > 1.51 then
 				if not watched[id] or watched[id].start ~= starttime then
 					start(id, starttime, timeleft, "spell")
 				end
@@ -116,7 +120,7 @@ function addon:SPELL_UPDATE_COOLDOWN()
 		end
 	end
 	
-	for name, id in next, pets do
+	for id in next, pets do
 		local starttime, duration, enabled = GetSpellCooldown(id)
 
 		if starttime == nil then
@@ -126,7 +130,7 @@ function addon:SPELL_UPDATE_COOLDOWN()
 		elseif starttime ~= 0 then
 			local timeleft = starttime + duration - now
 		
-			if enabled == 1 and timeleft > 1.5 then
+			if enabled == 1 and timeleft > 1.51 then
 				if not watched[id] or watched[id].start ~= starttime then
 					start(id, starttime, timeleft, "pet")
 				end
@@ -138,7 +142,7 @@ function addon:SPELL_UPDATE_COOLDOWN()
 end
 
 function addon:BAG_UPDATE_COOLDOWN()
-	for name, id  in next, items do
+	for id  in next, items do
 		local starttime, duration, enabled = GetItemCooldown(id)
 		if enabled == 1 and duration > 10 then
 			start(id, starttime, duration, "item")
@@ -156,31 +160,31 @@ end
 
 hooksecurefunc("UseInventoryItem", function(slot)
 	local link = GetInventoryItemLink("player", slot) or ""
-	local id, name = string.match(link, ":(%w+).*|h%[(.+)%]|h")
-	if id and not items[name] then
-		items[name] = id
+	local id = string.match(link, ":(%w+).*|h%[(.+)%]|h")
+	if id and not items[id] then
+		items[id] = true
 	end
 end)
 
 hooksecurefunc("UseContainerItem", function(bag, slot)
 	local link = GetContainerItemLink(bag, slot) or ""
-	local id, name = string.match(link, ":(%w+).*|h%[(.+)%]|h")
-	if id and not items[name] then
-		items[name] = id
+	local id = string.match(link, ":(%w+).*|h%[(.+)%]|h")
+	if id and not items[id] then
+		items[id] = true
 	end
 end)
 
 for slot=1, 120 do
 	local action, id = GetActionInfo(slot)
 	if action == "item" then
-		items[GetItemInfo(id)] = id
+		items[id] = true
 	end
 end
 
 function addon:ACTION_BAR_SLOT_CHANGED(slot)
 	local action, id = GetActionInfo(slot)
 	if action == "item" then
-		items[GetItemInfo(id)] = id
+		items[id] = true
 	end
 end
 

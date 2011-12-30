@@ -56,7 +56,7 @@ function Style(self, totem, flyout)
 		Count:ClearAllPoints()
 		Count:SetPoint("BOTTOMRIGHT", 0, R.Scale(2))
 		-- Count:SetFont(C["media"].pxfont, R.Scale(10), "OUTLINE,MONOCHROME")
-		Count:SetFont(C["media"].pxfont, 768/(R.screenheight * C.general.uiscale)*10, "OUTLINE,MONOCHROME")
+		Count:SetFont(C["media"].pxfont, R.mult*10, "OUTLINE,MONOCHROME")
 	end
 	
 	if _G[name..'FloatingBG'] then
@@ -93,7 +93,7 @@ function Style(self, totem, flyout)
 		HotKey:ClearAllPoints()
 		HotKey:SetPoint("TOPRIGHT", 0, 0)
 		-- HotKey:SetFont(C["media"].pxfont, R.Scale(10), "OUTLINE,MONOCHROME")
-		HotKey:SetFont(C["media"].pxfont, 768/(R.screenheight * C.general.uiscale)*10, "OUTLINE,MONOCHROME")
+		HotKey:SetFont(C["media"].pxfont, R.mult*10, "OUTLINE,MONOCHROME")
 		HotKey:SetShadowColor(0, 0, 0, 0.3)
 		HotKey.ClearAllPoints = R.dummy
 		HotKey.SetPoint = R.dummy

@@ -229,7 +229,7 @@ local function CreateAuraIcon(parent)
 	button.count = button:CreateFontString(nil,"OVERLAY")
 	button.count:SetFont(C["media"].font,9,C["media"].fontflag)
 	button.count:SetShadowColor(0, 0, 0, 0.4)
-	button.count:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", 0, 2)
+	button.count:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", 2, 0)
 	return button
 end
 
@@ -862,6 +862,6 @@ NamePlates:SetScript("OnEvent", function(self, event, ...) self[event](self, ...
 NamePlates:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
 NamePlates:RegisterEvent("PLAYER_ENTERING_WORLD")
 if C["nameplates"].combat then
-	NamePlates:RegisterEvent('PLAYER_REGEN_ENABLED')
-	NamePlates:RegisterEvent('PLAYER_REGEN_DISABLED')
+	NamePlates:RegisterEvent("PLAYER_REGEN_ENABLED")
+	NamePlates:RegisterEvent("PLAYER_REGEN_DISABLED")
 end

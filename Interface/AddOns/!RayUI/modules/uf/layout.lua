@@ -848,7 +848,7 @@ local function Shared(self, unit)
 
     local QuestIcon = self:CreateTexture(nil, 'OVERLAY')
     QuestIcon:SetSize(24, 24)
-    QuestIcon:Point('BOTTOMRIGHT', self, 15, -20)
+    QuestIcon:Point('BOTTOMRIGHT', self, 15, -2)
     self.QuestIcon = QuestIcon
 	self.QuestIcon:SetTexture("Interface\\AddOns\\!RayUI\\media\\quest")
 	self.QuestIcon:SetVertexColor(0.8, 0.8, 0.8)

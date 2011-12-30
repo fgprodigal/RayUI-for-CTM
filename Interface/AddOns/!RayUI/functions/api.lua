@@ -365,6 +365,35 @@ local function CreateButton(f, bg, w, h, a1, p, a2, x, y)
 	R.Reskin(f)
 end
 
+local function RegisterEvent(self, event, func)
+	self:_RegisterEvent(event)
+	if not func then return end
+	assert(type(func)=="function", "arg2 must be function.")
+	self:HookScript("OnEvent", function(self, e, ...)
+		if e == event then
+			func(...)
+		end
+	end)
+end
+
+local function RegisterEvents(self, ...)
+	for i = 1, select("#", ...) do
+		local event = select(i, ...)
+		if type(event) == "string" then
+			self:RegisterEvent(event)
+		end
+	end
+end
+
+local function UnregisterEvents(self, ...)
+	for i = 1, select("#", ...) do
+		local event = select(i, ...)
+		if type(event) == "string" then
+			self:UnregisterEvent(event)
+		end
+	end
+end
+
 local function addapi(object)
 	local mt = getmetatable(object).__index
 	if not object.Size then mt.Size = Size end
@@ -383,6 +412,7 @@ local function addapi(object)
 	if not object.CreateButton then mt.CreateButton = CreateButton end
 	if not object.StartGlow then mt.StartGlow = StartGlow end
 	if not object.StopGlow then mt.StopGlow = StopGlow end
+	if object.RegisterEvent then mt.RegisterEvents = RegisterEvents mt.UnregisterEvents = UnregisterEvents end
 end
 local handled = {["Frame"] = true}
 local object = CreateFrame("Frame")

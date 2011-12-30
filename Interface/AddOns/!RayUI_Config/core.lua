@@ -306,11 +306,13 @@ function RayUIConfig.GenerateOptionsInternal()
 								order = 2,
 								name = L["显示debuff"],
 								type = "toggle",
+								disabled = function() return not db.nameplates.enable end,
 							},
 							combat = {
 								order = 3,
 								name = L["自动显示/隐藏"],
 								type = "toggle",
+								disabled = function() return not db.nameplates.enable end,
 							},
 						},
 					},
@@ -536,6 +538,7 @@ function RayUIConfig.GenerateOptionsInternal()
 						type = "group",
 						name = L["大小"],
 						guiInline = true,
+						hidden = function() return not db.raid.enable end,
 						args = {
 							width = {
 								order = 1,
@@ -615,6 +618,7 @@ function RayUIConfig.GenerateOptionsInternal()
 						type = "group",
 						name = L["显示"],
 						guiInline = true,
+						hidden = function() return not db.raid.enable end,
 						args = {
 							showwhensolo = {
 								order = 1,
@@ -641,6 +645,7 @@ function RayUIConfig.GenerateOptionsInternal()
 						type = "group",
 						name = L["排列"],
 						guiInline = true,
+						hidden = function() return not db.raid.enable end,
 						args = {
 							horizontal = {
 								order = 1,
@@ -668,6 +673,7 @@ function RayUIConfig.GenerateOptionsInternal()
 						type = "group",
 						name = L["箭头"],
 						guiInline = true,
+						hidden = function() return not db.raid.enable end,
 						args = {
 							arrow = {
 								order = 1,
@@ -689,6 +695,7 @@ function RayUIConfig.GenerateOptionsInternal()
 						type = "group",
 						name = L["预读"],
 						guiInline = true,
+						hidden = function() return not db.raid.enable end,
 						args = {
 							healbar = {
 								order = 1,
@@ -715,6 +722,7 @@ function RayUIConfig.GenerateOptionsInternal()
 						type = "group",
 						name = L["图标文字"],
 						guiInline = true,
+						hidden = function() return not db.raid.enable end,
 						args = {
 							roleicon = {
 								order = 1,
@@ -754,6 +762,7 @@ function RayUIConfig.GenerateOptionsInternal()
 						type = "group",
 						name = L["其他"],
 						guiInline = true,
+						hidden = function() return not db.raid.enable end,
 						args = {
 							dispel = {
 								order = 1,

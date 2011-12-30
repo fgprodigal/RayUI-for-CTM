@@ -206,6 +206,7 @@ RayUILaunch:SetScript("OnEvent", function(self, event)
 			end
 		end
 	end
+	SetCVar("profanityFilter", 0)
 	DEFAULT_CHAT_FRAME:AddMessage("欢迎使用|cff7aa6d6Ray|r|cffff0000U|r|cff7aa6d6I|r(v"..R.version..")，插件发布网址: |cff8A9DDE[|Hurl:http://fgprodigal.com|hhttp://fgprodigal.com|h]|r")
 	self:UnregisterEvent("PLAYER_ENTERING_WORLD" )
 end)

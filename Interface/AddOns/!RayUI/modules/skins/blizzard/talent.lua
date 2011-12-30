@@ -6,10 +6,10 @@ local function LoadSkin()
 	R.Reskin(PlayerTalentFrameLearnButton)
 	R.Reskin(PlayerTalentFrameResetButton)
 	R.Reskin(PlayerTalentFrameActivateButton)
-	PlayerTalentFrame:DisableDrawLayer("BACKGROUND")
-	PlayerTalentFrame:DisableDrawLayer("BORDER")
-	PlayerTalentFrameInset:DisableDrawLayer("BACKGROUND")
-	PlayerTalentFrameInset:DisableDrawLayer("BORDER")
+	-- PlayerTalentFrame:DisableDrawLayer("BACKGROUND")
+	-- PlayerTalentFrame:DisableDrawLayer("BORDER")
+	-- PlayerTalentFrameInset:DisableDrawLayer("BACKGROUND")
+	-- PlayerTalentFrameInset:DisableDrawLayer("BORDER")
 	PlayerTalentFramePortrait:Hide()
 	PlayerTalentFramePortraitFrame:Hide()
 	PlayerTalentFrameTopBorder:Hide()
@@ -18,6 +18,97 @@ local function LoadSkin()
 	PlayerTalentFrameToggleSummariesButton_RightSeparator:Hide()
 	PlayerTalentFrameLearnButton_LeftSeparator:Hide()
 	PlayerTalentFrameResetButton_LeftSeparator:Hide()
+
+	local StripAllTextures = {
+		"PlayerTalentFrame",
+		"PlayerTalentFrameInset",
+		"PlayerTalentFrameTalents",
+		"PlayerTalentFramePanel1HeaderIcon",
+		"PlayerTalentFramePanel2HeaderIcon",
+		"PlayerTalentFramePanel3HeaderIcon",
+		"PlayerTalentFramePetTalents",
+	}
+
+	for _, object in pairs(StripAllTextures) do
+		_G[object]:StripTextures()
+	end
+
+	local function StripTalentFramePanelTextures(object)
+		for i=1, object:GetNumRegions() do
+			local region = select(i, object:GetRegions())
+			if region:GetObjectType() == "Texture" then
+				if region:GetName():find("Branch") then
+					region:SetDrawLayer("OVERLAY")
+				else
+					region:SetTexture(nil)
+				end
+			end
+		end
+	end
+
+	StripTalentFramePanelTextures(PlayerTalentFramePanel1)
+	StripTalentFramePanelTextures(PlayerTalentFramePanel2)
+	StripTalentFramePanelTextures(PlayerTalentFramePanel3)
+	StripTalentFramePanelTextures(PlayerTalentFramePetPanel)
+	
+	local KillTextures = {
+		"PlayerTalentFramePanel1InactiveShadow",
+		"PlayerTalentFramePanel2InactiveShadow",
+		"PlayerTalentFramePanel3InactiveShadow",
+		"PlayerTalentFramePanel1SummaryRoleIcon",
+		"PlayerTalentFramePanel2SummaryRoleIcon",
+		"PlayerTalentFramePanel3SummaryRoleIcon",
+		"PlayerTalentFramePetShadowOverlay",
+	}
+
+	for _, texture in pairs(KillTextures) do
+		_G[texture]:Kill()
+	end
+	
+	local function TalentSummaryButtons(self, first, active, i, j)
+		if active then
+			button = _G["PlayerTalentFramePanel"..i.."SummaryActiveBonus1"]
+			icon = _G["PlayerTalentFramePanel"..i.."SummaryActiveBonus1Icon"]
+		else
+			button = _G["PlayerTalentFramePanel"..i.."SummaryBonus"..j]
+			icon = _G["PlayerTalentFramePanel"..i.."SummaryBonus"..j.."Icon"]
+		end
+
+		if first then
+			button:StripTextures()
+		end
+
+		if icon then
+			icon:SetTexCoord(.08, .92, .08, .92)
+			button:SetFrameLevel(button:GetFrameLevel() +1)
+			local frame = CreateFrame("Frame",nil, button)
+			R.CreateBD(frame)
+			frame:SetFrameLevel(button:GetFrameLevel() -1)
+			frame:ClearAllPoints()
+			frame:SetAllPoints(icon)
+		end
+	end
+
+	for i=1, 3 do
+		for j=1, 3 do
+			TalentSummaryButtons(nil, true, true, i, j)
+			TalentSummaryButtons(nil, true, false, i, j)
+		end
+		local tex1, tex2, _, _, textl, textr, texbl, texbr, _, _, _, _, border = _G["PlayerTalentFramePanel"..i.."Summary"]:GetRegions()
+		tex1:ClearAllPoints()
+		tex1:Point("TOPLEFT", _G["PlayerTalentFramePanel"..i.."Summary"], 0, 3)
+		tex1:Point("BOTTOMRIGHT", _G["PlayerTalentFramePanel"..i.."Summary"], 0, 0)
+		tex2:ClearAllPoints()
+		tex2:Point("TOPLEFT", _G["PlayerTalentFramePanel"..i.."Summary"], 1, 2)
+		tex2:Point("BOTTOMRIGHT", _G["PlayerTalentFramePanel"..i.."Summary"], -1, 1)
+		
+		textl:Point("TOPLEFT", 0, 3)
+		textr:Point("TOPRIGHT", 0, 3)
+		texbl:Point("BOTTOMLEFT", 0, 0)
+		texbr:Point("BOTTOMRIGHT", 0, 0)
+
+		border:Kill()
+	end
 
 	if R.myclass == "HUNTER" then
 		PlayerTalentFramePetPanel:DisableDrawLayer("BORDER")

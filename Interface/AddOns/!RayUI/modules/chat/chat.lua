@@ -659,26 +659,35 @@ for i=1, NUM_CHAT_WINDOWS do
 		end)
 end
 
+local function SetChatPosition()
+	for i = 1, NUM_CHAT_WINDOWS do
+		if _G["ChatFrame"..i] == COMBATLOG then
+			_G["ChatFrame"..i]:ClearAllPoints()
+			_G["ChatFrame"..i]:SetPoint("TOPLEFT", ChatBG, "TOPLEFT", 2, -2 - CombatLogQuickButtonFrame_Custom:GetHeight())
+			_G["ChatFrame"..i]:SetPoint("BOTTOMRIGHT", ChatBG, "BOTTOMRIGHT", -2, 4)
+		else				
+			_G["ChatFrame"..i]:ClearAllPoints()
+			_G["ChatFrame"..i]:SetPoint("TOPLEFT", ChatBG, "TOPLEFT", 2, -2)
+			_G["ChatFrame"..i]:SetPoint("BOTTOMRIGHT", ChatBG, "BOTTOMRIGHT", -2, 4)
+			FCF_SavePositionAndDimensions(_G["ChatFrame"..i])
+			local _, _, _, _, _, _, shown, _, docked, _ = GetChatWindowInfo(i)
+			if shown and not docked then
+				FCF_DockFrame(_G["ChatFrame"..i])
+			end
+		end
+	end
+end
+
 local ChatPosUpdate = CreateFrame("Frame")
+ChatPosUpdate:RegisterEvent("PLAYER_ENTERING_WORLD")
+ChatPosUpdate:SetScript("OnEvent", function(self)
+	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
+	SetChatPosition()
+end)
 ChatPosUpdate:SetScript("OnUpdate", function(self, elapsed)
 	if InCombatLockdown() then return end
 	if(self.elapsed and self.elapsed > 1) then
-		for i = 1, NUM_CHAT_WINDOWS do
-			if _G["ChatFrame"..i] == COMBATLOG then
-				_G["ChatFrame"..i]:ClearAllPoints()
-				_G["ChatFrame"..i]:SetPoint("TOPLEFT", ChatBG, "TOPLEFT", 2, -2 - CombatLogQuickButtonFrame_Custom:GetHeight())
-				_G["ChatFrame"..i]:SetPoint("BOTTOMRIGHT", ChatBG, "BOTTOMRIGHT", -2, 4)
-			else				
-				_G["ChatFrame"..i]:ClearAllPoints()
-				_G["ChatFrame"..i]:SetPoint("TOPLEFT", ChatBG, "TOPLEFT", 2, -2)
-				_G["ChatFrame"..i]:SetPoint("BOTTOMRIGHT", ChatBG, "BOTTOMRIGHT", -2, 4)
-				FCF_SavePositionAndDimensions(_G["ChatFrame"..i])
-				local _, _, _, _, _, _, shown, _, docked, _ = GetChatWindowInfo(i)
-				if shown and not docked then
-					FCF_DockFrame(_G["ChatFrame"..i])
-				end
-			end
-		end
+		SetChatPosition()
 		self.elapsed = 0
 	else
 		self.elapsed = (self.elapsed or 0) + elapsed

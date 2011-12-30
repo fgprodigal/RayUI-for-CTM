@@ -585,12 +585,12 @@ oUF:Factory(function(self)
     -- ns:Anchors()
     ns:Colors()
 	--隐藏自带团队
-	-- CompactRaidFrameContainer:UnregisterAllEvents()
-	-- CompactRaidFrameContainer:Hide() 
-	-- CompactRaidFrameContainer.Show = function() end
-	-- CompactRaidFrameManager:UnregisterAllEvents()
-	-- CompactRaidFrameManager:Hide()
-	-- CompactRaidFrameManager.Show = function() end
+	CompactRaidFrameContainer:UnregisterAllEvents()
+	CompactRaidFrameContainer.Show = R.dummy
+	CompactRaidFrameContainer:Hide() 
+	CompactRaidFrameManager:UnregisterAllEvents()
+	CompactRaidFrameManager.Show =  R.dummy
+	CompactRaidFrameManager:Hide()
 	
     self:SetActiveStyle"Freebgrid"
 	local raid = {}
@@ -622,17 +622,17 @@ function ns:PLAYER_LOGIN()
     self.PLAYER_LOGIN = nil
 end
 
-function HideRaid()
-	if InCombatLockdown() then return end
-	CompactRaidFrameManager:Hide()
-	local compact_raid = CompactRaidFrameManager_GetSetting("IsShown")
-	if compact_raid and compact_raid ~= "0" then 
-		CompactRaidFrameManager_SetSetting("IsShown", "0")
-	end
-end
+-- function HideRaid()
+	-- if InCombatLockdown() then return end
+	-- CompactRaidFrameManager:Hide()
+	-- local compact_raid = CompactRaidFrameManager_GetSetting("IsShown")
+	-- if compact_raid and compact_raid ~= "0" then 
+		-- CompactRaidFrameManager_SetSetting("IsShown", "0")
+	-- end
+-- end
 
-hooksecurefunc("CompactRaidFrameManager_UpdateShown",function()
-	HideRaid()
-end)
-CompactRaidFrameManager:HookScript('OnShow', HideRaid)
-CompactRaidFrameManager:SetScale(0.000001) --- BAHAHAHA FUCK YOU RAID FRAMES!
+-- hooksecurefunc("CompactRaidFrameManager_UpdateShown",function()
+	-- HideRaid()
+-- end)
+-- CompactRaidFrameManager:HookScript('OnShow', HideRaid)
+-- CompactRaidFrameManager:SetScale(0.000001) --- BAHAHAHA FUCK YOU RAID FRAMES!
