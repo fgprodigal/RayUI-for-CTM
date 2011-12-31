@@ -563,6 +563,8 @@ ns.watchers ={
 			{ spellID = 86150, filter = "CD" },
 			--狂熱精神
 			{ spellID = 85696, filter = "CD" },
+			--圣佑術
+			{ spellID = 498, filter = "CD" },
 		},
 	},
 	["PRIEST"] = {
@@ -1357,15 +1359,13 @@ ns.watchers ={
 			-- 黑暗逼近
 			{ spellID = 106498, unitId = "player", caster = "all", filter = "DEBUFF" },
 			-- 凋零之光
-			{ spellID = 109075, unitId = "player", caster = "all", filter = "BUFF" },
+			{ spellID = 109075, unitId = "player", caster = "all", filter = "DEBUFF" },
 			-- 將領黑角
 			-- 暮光彈幕
 			{ spellID = 109204, unitId = "player", caster = "all", filter = "DEBUFF" },
 			-- 死亡之翼的脊椎
-			-- 熾熱之握
-			{ spellID = 105490, unitId = "player", caster = "all", filter = "DEBUFF" },
 			-- 纏繞觸鬚
-			{ spellID = 109454, unitId = "player", caster = "all", filter = "DEBUFF" },
+			{ spellID = 105563, unitId = "player", caster = "all", filter = "DEBUFF" },
 
 		},
 		{
