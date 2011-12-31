@@ -90,7 +90,7 @@ local function LoadSkin()
 			local target = _G["Inspect"..slots[i].."Slot"]
 			local icon = _G["Inspect"..slots[i].."SlotIconTexture"]
 			local slotId, _, _ = GetInventorySlotInfo(slots[i].."Slot")
-			local itemId = GetInventoryItemID("target", slotId)
+			local itemId = GetInventoryItemID(unit, slotId)
 			
 			local glow = target.glow
 			if(not glow) then

@@ -275,7 +275,8 @@ local function PostPower(power, unit)
     local _, class = UnitClass(unit)
 
 	power:Height(C["raid"].height*C["raid"].powerbarsize)
-	self.Health:Height((0.98 - C["raid"].powerbarsize)*C["raid"].height-1)
+	-- self.Health:SetHeight((1 - C["raid"].powerbarsize)*self:GetHeight()-1)
+	self.Health:Point("BOTTOM", self.Power, "TOP", 0, 1)
 
     local perc = oUF.Tags['perpp'](unit)
     -- This kinda conflicts with the threat module, but I don't really care
@@ -343,8 +344,8 @@ end
 local style = function(self)
     self.menu = menu
 
-	self:Height(C["raid"].height)
-	self:Width(C["raid"].width)
+	-- self:Height(C["raid"].height)
+	-- self:Width(C["raid"].width)
     -- Backdrop
     self.BG = CreateFrame("Frame", nil, self)
     self.BG:SetPoint("TOPLEFT", self, "TOPLEFT")
@@ -518,8 +519,16 @@ function ns:Colors()
 end
 
 local pos, posRel, colX, colY
-local function freebHeader(name, group, temp, pet, MT)
+local function freebHeader(name, group, temp, pet, MT, layout)
     local horiz, grow = C["raid"].horizontal, C["raid"].growth
+	local width, height = C["raid"].width, C["raid"].height
+	local visibility = 'custom [@raid16,noexists] hide;show'
+	
+	if layout == 15 then
+		width = width * 1.3
+		height = height * 1.3
+		visibility = 'custom [@raid16,exists] hide;show'
+	end
 
     local initconfig = [[
     self:SetWidth(%d)
@@ -560,8 +569,8 @@ local function freebHeader(name, group, temp, pet, MT)
     end
 
     local template = temp or nil
-    local header = oUF:SpawnHeader(name, template, 'raid,party,solo',
-    -- 'oUF-initialConfigFunction', (initconfig):format(C["raid"].width, C["raid"].height),
+    local header = oUF:SpawnHeader(name, template, visibility,
+    'oUF-initialConfigFunction', (initconfig):format(R.Scale(width), R.Scale(height)),
     'showPlayer', C["raid"].showplayerinparty,
     'showSolo', C["raid"].showwhensolo,
     'showParty', C["raid"].showgridwhenparty,
@@ -594,8 +603,19 @@ oUF:Factory(function(self)
 	
     self:SetActiveStyle"Freebgrid"
 	local raid = {}
+	for i=1, 3 do
+		local group = freebHeader("Raid_Freebgrid10_"..i, i, nil, nil, nil, 15)
+		if i == 1 then
+			group:Point("TOPLEFT", UIParent, "BOTTOMRIGHT", - C["raid"].width*1.3*3 -  C["raid"].spacing*2 - 50, 461)
+		else
+			group:Point(pos, raid[i-1], posRel, colX or 0, colY or 0)
+		end
+		raid[i] = group
+		ns._Headers[group:GetName()] = group
+	end
+
 	for i=1, C["raid"].numCol do
-		local group = freebHeader("Raid_Freebgrid"..i, i)
+		local group = freebHeader("Raid_Freebgrid25_"..i, i)
 		if i == 1 then
 			-- group:SetPoint("TOPLEFT", UIParent, "BOTTOMRIGHT", - C["raid"].width*5 -  C["raid"].spacing*4 - 50, C["raid"].height*5 +  C["raid"].spacing*4 + 230)
 			group:Point("TOPLEFT", UIParent, "BOTTOMRIGHT", - C["raid"].width*5 -  C["raid"].spacing*4 - 50, 422)
