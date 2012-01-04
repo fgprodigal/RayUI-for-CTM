@@ -19,6 +19,7 @@ local function valueChanged(self, event, unit)
 	if name then
 		local value = select(14, UnitAura("player", vengeance, nil, "PLAYER|HELPFUL")) or -1
 		if value > 0 then
+		--	if value > bar.max then bar.max = value end
 			if value > bar.max then value = bar.max end
 			if value == bar.value then return end
 			
@@ -56,8 +57,9 @@ local function maxChanged(self, event, unit)
 	
 	if not health or not stat then return end
 
-	local basehealth = health - (posBuff*UnitHPPerStamina("player"))
-	bar.max = basehealth/10 + stat
+--	local basehealth = health - (posBuff*UnitHPPerStamina("player"))
+--	bar.max = basehealth/10 + stat
+	bar.max = UnitHealthMax("player")/10
 	bar:SetMinMaxValues(0, bar.max)
 	valueChanged(self, event, unit)
 end
@@ -70,7 +72,7 @@ local function Enable(self, unit)
 		bar.value = 0
 		maxChanged(self, nil, unit)
 		self:RegisterEvent("UNIT_AURA", valueChanged)
-
+		self:RegisterEvent("PLAYER_ENTERING_WORLD", maxChanged)
 		self:RegisterEvent("UNIT_MAXHEALTH", maxChanged)
 		self:RegisterEvent("UNIT_LEVEL", maxChanged)
 		

@@ -346,12 +346,53 @@ SLASH_TELLTARGET1 = "/tt"
 SLASH_TELLTARGET2 = "/ее"
 SLASH_TELLTARGET3 = "/wt"
 
+---------------- > URL Copy
+local OldSetItemRef = SetItemRef
+local function URL_SetItemRef(link, text, button, chatFrame)
+	if (strsub(link, 1, 3) == "url") then
+		local ChatFrameEditBox = ChatEdit_ChooseBoxForSend()
+		local url = strsub(link, 5);
+		if (not ChatFrameEditBox:IsShown()) then
+			ChatEdit_ActivateChat(ChatFrameEditBox)
+		end
+		ChatFrameEditBox:Insert(url)
+		ChatFrameEditBox:HighlightText()
+	else
+		OldSetItemRef(link, text, button, chatFrame)
+	end
+end
+SetItemRef = URL_SetItemRef
+
+local function URL_Link(url)
+	return " |cff8A9DDE".."|Hurl:"..url.."|h["..url.."]|h|r "
+end
+
+local function URL_AddLinkSyntax(chatstring)
+	if (type(chatstring) == "string") then
+		local extraspace
+		if (not strfind(chatstring, "^ ")) then
+			extraspace = true
+			chatstring = " "..chatstring
+		end
+		chatstring = gsub (chatstring, " www%.([_A-Za-z0-9-]+)%.(%S+)%s?", URL_Link("www.%1.%2"))
+		chatstring = gsub (chatstring, " (%a+)://(%S+)%s?", URL_Link("%1://%2"))
+		chatstring = gsub (chatstring, " ([_A-Za-z0-9-%.]+)@([_A-Za-z0-9-]+)(%.+)([_A-Za-z0-9-%.]+)%s?", URL_Link("%1@%2%3%4"))
+		chatstring = gsub (chatstring, " (%d%d?%d?)%.(%d%d?%d?)%.(%d%d?%d?)%.(%d%d?%d?):(%d%d?%d?%d?%d?)%s?", URL_Link("%1.%2.%3.%4:%5"))
+		chatstring = gsub (chatstring, " (%d%d?%d?)%.(%d%d?%d?)%.(%d%d?%d?)%.(%d%d?%d?)%s?", URL_Link("%1.%2.%3.%4"))
+		if (extraspace) then
+			chatstring = strsub(chatstring, 2);
+		end
+	end
+	return chatstring
+end
+
 ---------------- > Channel names
 local gsub = _G.string.gsub
 local time = _G.time
 local newAddMsg = {}
 
 local chn, rplc
+
 do
 	rplc = {
 		"[綜合]", --General
@@ -414,18 +455,20 @@ do
 
 	end
 end
-local function AddMessage(frame, text, ...)
-	for i = 1, 16 do
-		text = gsub(text, chn[i], rplc[i])
-	end
-	--If Blizz timestamps is enabled, stamp anything it misses
-	if CHAT_TIMESTAMP_FORMAT and not text:find("|r") then
-		text = BetterDate(CHAT_TIMESTAMP_FORMAT, time())..text
-	end
-	text = gsub(text, "%[(%d0?)%. .-%]", "[%1]") --custom channels
-	return newAddMsg[frame:GetName()](frame, text, ...)
-end
+
 do
+	local function AddMessage(frame, text, ...)
+		text = URL_AddLinkSyntax(text)
+		for i = 1, 16 do
+			text = gsub(text, chn[i], rplc[i])
+		end
+		--If Blizz timestamps is enabled, stamp anything it misses
+		if CHAT_TIMESTAMP_FORMAT and not text:find("|r") then
+			text = BetterDate(CHAT_TIMESTAMP_FORMAT, time())..text
+		end
+		text = gsub(text, "%[(%d0?)%. .-%]", "[%1]") --custom channels
+		return newAddMsg[frame:GetName()](frame, text, ...)
+	end
 	for i = 1, 5 do
 		if i ~= 2 then -- skip combatlog
 			local f = _G[format("%s%d", "ChatFrame", i)]
@@ -517,89 +560,6 @@ if TimeStampsCopy then
 			_G["ChatFrame"..i].AddMessage = AddMessage
 		end
 	end
-end
-
----------------- > URL copy Module
-local tlds = {
-	"[Cc][Oo][Mm]", "[Uu][Kk]", "[Nn][Ee][Tt]", "[Dd][Ee]", "[Ff][Rr]", "[Ee][Ss]",
-	"[Bb][Ee]", "[Cc][Cc]", "[Uu][Ss]", "[Kk][Oo]", "[Cc][Hh]", "[Tt][Ww]",
-	"[Cc][Nn]", "[Rr][Uu]", "[Gg][Rr]", "[Ii][Tt]", "[Ee][Uu]", "[Tt][Vv]",
-	"[Nn][Ll]", "[Hh][Uu]", "[Oo][Rr][Gg]", "[Ss][Ee]", "[Nn][Oo]", "[Ff][Ii]"
-}
-
-local uPatterns = {
-	'(http://%S+)',
-	'(www%.%S+)',
-	'(%d+%.%d+%.%d+%.%d+:?%d*)',
-}
-
-local cTypes = {
-	"CHAT_MSG_CHANNEL",
-	"CHAT_MSG_YELL",
-	"CHAT_MSG_GUILD",
-	"CHAT_MSG_OFFICER",
-	"CHAT_MSG_PARTY",
-	"CHAT_MSG_PARTY_LEADER",
-	"CHAT_MSG_RAID",
-	"CHAT_MSG_RAID_LEADER",
-	"CHAT_MSG_SAY",
-	"CHAT_MSG_WHISPER",
-	"CHAT_MSG_BN_WHISPER",
-	"CHAT_MSG_BN_CONVERSATION",
-}
-
-for _, event in pairs(cTypes) do
-	ChatFrame_AddMessageEventFilter(event, function(self, event, text, ...)
-		for i=1, 24 do
-			local result, matches = string.gsub(text, "(%S-%."..tlds[i].."/?%S*)", "|cff8A9DDE|Hurl:%1|h[%1]|h|r")
-			if matches > 0 then
-				return false, result, ...
-			end
-		end
- 		for _, pattern in pairs(uPatterns) do
-			local result, matches = string.gsub(text, pattern, '|cff8A9DDE|Hurl:%1|h[%1]|h|r')
-			if matches > 0 then
-				return false, result, ...
-			end
-		end 
-	end)
-end
-
-local GetText = function(...)
-	for l = 1, select("#", ...) do
-		local obj = select(l, ...)
-		if obj:GetObjectType() == "FontString" and obj:IsMouseOver() then
-			return obj:GetText()
-		end
-	end
-end
-
-local SetIRef = SetItemRef
-SetItemRef = function(link, text, ...)
-	local txt, frame
-	if link:sub(1, 6) == 'm_Chat' then
-		frame = GetMouseFocus():GetParent()
-		txt = GetText(frame:GetRegions())
-		txt = txt:gsub("|c%x%x%x%x%x%x%x%x(.-)|r", "%1")
-		txt = txt:gsub("|H.-|h(.-)|h", "%1")
-	elseif link:sub(1, 3) == 'url' then
-		frame = GetMouseFocus():GetParent()
-		txt = link:sub(5)
-	end
-	if txt then
-		local editbox
-		if GetCVar('chatStyle') == 'classic' then
-			editbox = LAST_ACTIVE_CHAT_EDIT_BOX
-		else
-			editbox = _G['ChatFrame'..frame:GetID()..'EditBox']
-		end
-		editbox:Show()
-		editbox:Insert(txt)
-		editbox:HighlightText()
-		editbox:SetFocus()
-		return
-	end
-	return SetIRef(link, text, ...)
 end
 
 for i = 1, NUM_CHAT_WINDOWS do

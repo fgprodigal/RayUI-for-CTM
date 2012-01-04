@@ -68,3 +68,11 @@ RayUIFonts:SetScript("OnEvent", function(self, event, addon)
 	self:UnregisterAllEvents()
 	self = nil
 end)
+
+local f = CreateFrame("Frame")
+f:RegisterEvent("ADDON_LOADED")
+f:SetScript("OnEvent", function(self, event, addon)
+	if addon == "Blizzard_MacroUI" then
+		MacroFrameText:SetFont(C.media.font, 14)
+	end
+end)

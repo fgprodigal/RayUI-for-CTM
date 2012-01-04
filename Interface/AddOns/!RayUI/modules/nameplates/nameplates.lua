@@ -456,7 +456,7 @@ local function UpdateObjects(frame)
 	if frame.hp.boss:IsShown() then
 		frame.hp.name:SetText(R.RGBToHex(0.8, 0.05, 0).." ??|r "..frame.hp.oldname:GetText())
 	else
-		frame.hp.name:SetText(R.RGBToHex(frame.hp.oldlevel:GetTextColor())..level..(elite and " +|r" or " |r")..frame.hp.oldname:GetText())
+		frame.hp.name:SetText(R.RGBToHex(frame.hp.oldlevel:GetTextColor())..level..(elite and "+ |r" or "|r ")..frame.hp.oldname:GetText())
 	end	
 	frame.overlay:ClearAllPoints()
 	frame.overlay:SetAllPoints(frame.hp)

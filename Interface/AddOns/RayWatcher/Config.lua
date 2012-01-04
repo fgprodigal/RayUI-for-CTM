@@ -78,6 +78,8 @@ ns.watchers ={
 			{ spellID = 50334, unitId = "player", caster = "player", filter = "BUFF" },
 			-- 狂暴恢復
 			{ spellID = 22842, unitId = "player", caster = "player", filter = "BUFF" },
+			-- 共生
+			{ spellID = 100977, unitId = "player", caster = "player", filter = "BUFF" },
 
 		},
 		{
@@ -279,6 +281,8 @@ ns.watchers ={
 			{ spellID = 44457, unitId = "target", caster = "player", filter = "DEBUFF" },
 			-- 炎爆術!
 			{ spellID = 92315, unitId = "target", caster = "player", filter = "DEBUFF" },
+			-- 炎爆術
+			{ spellID = 11366, unitId = "target", caster = "player", filter = "DEBUFF" },
 			-- 極度冰凍
 			{ spellID = 44572, unitId = "target", caster = "player", filter = "DEBUFF"},
 
@@ -335,24 +339,36 @@ ns.watchers ={
 			setpoint = { "BOTTOMRIGHT", "RayUF_player", "TOPRIGHT", 0, 33 },
 			size = 38,
 			
-			-- Sudden Death / Plötzlicher Tod
+			-- 驟亡
 			{ spellID = 52437, unitId = "player", caster = "player", filter = "BUFF" },
-			-- Bloodsurge / Schäumendes Blut
+			-- 心靈之怒
+			{ spellID = 1134, unitId = "player", caster = "player", filter = "BUFF" },
+			-- 沉著殺機
+			{ spellID = 85730, unitId = "target", caster = "player", filter = "DEBUFF" },
+			-- 狂暴之怒
+			{ spellID = 18499, unitId = "player", caster = "player", filter = "BUFF" },
+			-- 魯莽
+			{ spellID = 1719, unitId = "player", caster = "player", filter = "BUFF" },
+			-- 熱血沸騰
 			{ spellID = 46916, unitId = "player", caster = "all", filter = "BUFF" },
-			-- Sword and Board / Schwert und Schild
+			-- 劍盾合璧
 			{ spellID = 50227, unitId = "player", caster = "player", filter = "BUFF" },
-			-- Blood Reserve / Blutreserve
+			-- 蓄血
 			{ spellID = 64568, unitId = "player", caster = "player", filter = "BUFF" },
-			-- Spell Reflection / Zauberreflexion
+			-- 法術反射
 			{ spellID = 23920, unitId = "player", caster = "player", filter = "BUFF" },
-			-- Victory Rush / Siegesrausch
+			-- 勝利衝擊
 			{ spellID = 34428, unitId = "player", caster = "player", filter = "BUFF" },
-			-- Shield Block / Schildblock
+			-- 盾牌格擋
 			{ spellID = 2565, unitId = "player", caster = "player", filter = "BUFF" },
-			-- Last Stand / Letztes Gefecht
-			{ spellID = 12975, unitId = "player", caster = "player", filter = "BUFF" },
-			-- Shield Wall / Schildwall
+			-- 破釜沉舟
+			{ spellID = 12976, unitId = "player", caster = "player", filter = "BUFF" },
+			-- 振奮咆哮
+			{ spellID = 97463, unitId = "player", caster = "player", filter = "BUFF" },
+			-- 盾墻
 			{ spellID = 871, unitId = "player", caster = "player", filter = "BUFF" },
+			-- 狂怒恢復
+			{ spellID = 55694, unitId = "player", caster = "player", filter = "BUFF" },
 
 		},
 		{
@@ -360,30 +376,28 @@ ns.watchers ={
 			direction = "RIGHT",
 			setpoint = { "BOTTOMLEFT", "RayUF_target", "TOPLEFT", 0, 33 },
 			size = 38,
-			
-			-- Charge Stun / Sturmangriffsbetäubung
-			{ spellID = 7922, unitId = "target", caster = "all", filter = "DEBUFF" },
-			-- Shockwave / Schockwelle
+
+			-- 震盪波
 			{ spellID = 46968, unitId = "target", caster = "all", filter = "DEBUFF" },
-			-- Hamstring / Kniesehne
+			--  斷筋
 			{ spellID = 1715, unitId = "target", caster = "all", filter = "DEBUFF" },
-			-- Rend / Verwunden
+			-- 撕裂
 			{ spellID = 94009, unitId = "target", caster = "player", filter = "DEBUFF" },
-			-- Sunder Armor /Rüstung zerreiße
-			{ spellID = 7386, unitId = "target", caster = "all", filter = "DEBUFF" },
-			-- Thunder Clap / Donnerknall
+			-- 破甲攻擊
+			{ spellID = 58567, unitId = "target", caster = "all", filter = "DEBUFF" },
+			-- 雷霆一擊
 			{ spellID = 6343, unitId = "target", caster = "player", filter = "DEBUFF" },
-			-- Demoralizing Shout / Demoralisierender Ruf
+			-- 挫志怒吼
 			{ spellID = 1160, unitId = "target", caster = "player", filter = "DEBUFF" },
-			-- Expose Armor / Rüstung schwächen (Rogue)
+			-- 破膽怒吼
+			{ spellID = 5246, unitId = "target", caster = "player", filter = "DEBUFF" },
+			-- 破甲（盜賊）
 			{ spellID = 8647, unitId = "target", caster = "player", filter = "DEBUFF" },
-			-- Infected Wounds / Infizierte Wunden (Druid)
+			-- 感染之傷（德魯伊）
 			{ spellID = 48484, unitId = "target", caster = "all", filter = "DEBUFF" },
-			-- Frost Fever / Frostfieber (Death Knight)
-			{ spellID = 55095, unitId = "target", caster = "all", filter = "DEBUFF" },
-			-- Demoralizing Roar / Demoralisierendes Gebrüll (Druid)
+			-- 挫志咆哮（德魯伊）
 			{ spellID = 99, unitId = "target", caster = "all", filter = "DEBUFF" },
-			-- Curse of Weakness / Fluch der Schwäche (Warlock)
+			-- 虛弱詛咒（術士）
 			{ spellID = 702, unitId = "target", caster = "all", filter = "DEBUFF" },
 
 		},
@@ -912,25 +926,25 @@ ns.watchers ={
 			setpoint = { "BOTTOMRIGHT", "RayUF_player", "TOPRIGHT", 0, 33 },
 			size = 38,
 			
-			-- Blood Shield / Blutschild
+			-- 血魄護盾
 			{ spellID = 77513, unitId = "player", caster = "player", filter = "BUFF" },
-			-- Unholy Force / Unheilige Kraft
+			-- 穢邪力量
 			{ spellID = 67383, unitId = "player", caster = "player", filter = "BUFF" },
-			-- Unholy Strength / Unheilige Stärke
+			-- 穢邪力量
 			{ spellID = 53365, unitId = "player", caster = "player", filter = "BUFF" },
-			-- Unholy Might / Unheilige Macht
+			-- 穢邪之力
 			{ spellID = 67117, unitId = "player", caster = "player", filter = "BUFF" },
-			-- Dancing Rune Weapon / Tanzende Runenwaffe
+			-- 符文武器幻舞
 			{ spellID = 49028, unitId = "player", caster = "player", filter = "BUFF" },
-			-- Icebound Fortitude / Eisige Gegenwehr
+			-- 冰錮堅韌
 			{ spellID = 48792, unitId = "player", caster = "player", filter = "BUFF" },
-			-- Anti-Magic Shell / Antimagische Hülle
+			-- 反魔法護罩
 			{ spellID = 48707, unitId = "player", caster = "player", filter = "BUFF" },
-			-- Killing Machine / Tötungsmaschine
+			-- 殺戮酷刑
 			{ spellID = 51124, unitId = "player", caster = "player", filter = "BUFF" },
-			-- Freezing Fog / Gefrierender Nebel
+			-- 冰封之霧
 			{ spellID = 59052, unitId = "player", caster = "player", filter = "BUFF" },
-			-- Bone Shield / Knochenschild
+			-- 骸骨之盾
 			{ spellID = 49222, unitId = "player", caster = "player", filter = "BUFF" },
 
 		},
@@ -940,17 +954,17 @@ ns.watchers ={
 			setpoint = { "BOTTOMLEFT", "RayUF_target", "TOPLEFT", 0, 33 },
 			size = 38,
 			
-			-- Strangulate / Strangulieren
+			-- 絞殺
 			{ spellID = 47476, unitId = "target", caster = "player", filter = "DEBUFF" },
-			-- Blood Plague / Blutseuche
-			{ spellID = 59879, unitId = "target", caster = "player", filter = "DEBUFF" },
-			-- Frost Fever / Frostfieber
-			{ spellID = 59921, unitId = "target", caster = "player", filter = "DEBUFF" },
-			-- Unholy Blight / Unheilige Verseuchung
+			-- 血魄瘟疫
+			{ spellID = 55078, unitId = "target", caster = "player", filter = "DEBUFF" },
+			-- 冰霜熱疫
+			{ spellID = 55095, unitId = "target", caster = "player", filter = "DEBUFF" },
+			-- 穢邪荒疫
 			{ spellID = 49194, unitId = "target", caster = "player", filter = "DEBUFF" },
-			-- Summon Gargoyle / Gargoyle beschwören
+			-- 召喚石像鬼
 			{ spellID = 49206, unitId = "target", caster = "player", filter = "DEBUFF" },
-			-- Death and Decay / Tod und Verfall
+			-- 死亡凋零
 			{ spellID = 43265, unitId = "target", caster = "player", filter = "DEBUFF" },
 
 		},
@@ -1274,98 +1288,99 @@ ns.watchers ={
 		-- 副本
 		-- 暮光堡壘
 		    -- 致死打擊 (哈福斯·破龍者)
-			{ spellID = 39171, unitId = "player", caster = "all", filter = "DEBUFF" },
+			{ spellID = 39171, unitId = "player", caster = "all", filter = "DEBUFF", fuzzy = true },
 			-- 昏天暗地 (瑟拉里恩和瓦莉歐娜)
-			{ spellID = 92879, unitId = "player", caster = "all", filter = "DEBUFF" },
+			{ spellID = 92879, unitId = "player", caster = "all", filter = "DEBUFF", fuzzy = true },
 			-- 侵蝕魔法 (瑟拉里恩和瓦莉歐娜)
-            { spellID = 86622, unitId = "player", caster = "all", filter = "DEBUFF" },
+            { spellID = 86622, unitId = "player", caster = "all", filter = "DEBUFF", fuzzy = true },
 			-- 暮光隕星 (瑟拉里恩和瓦莉歐娜)
-            { spellID = 88518, unitId = "player", caster = "all", filter = "DEBUFF" },
+            { spellID = 88518, unitId = "player", caster = "all", filter = "DEBUFF", fuzzy = true },
 			-- 侵濕 (卓越者議會)
-			{ spellID = 82762, unitId = "player", caster = "all", filter = "DEBUFF" }, 
+			{ spellID = 82762, unitId = "player", caster = "all", filter = "DEBUFF", fuzzy = true }, 
 			-- 聚雷針 (卓越者議會)
-             { spellID = 83099, unitId = "player", caster = "all", filter = "DEBUFF" }, 
+             { spellID = 83099, unitId = "player", caster = "all", filter = "DEBUFF", fuzzy = true }, 
 			-- 旋風 (卓越者議會)
-			{ spellID = 83500, unitId = "player", caster = "all", filter = "DEBUFF" },
+			{ spellID = 83500, unitId = "player", caster = "all", filter = "DEBUFF", fuzzy = true },
 			-- 磁力吸引 (卓越者議會)
-			{ spellID = 83587, unitId = "player", caster = "all", filter = "DEBUFF" },
+			{ spellID = 83587, unitId = "player", caster = "all", filter = "DEBUFF", fuzzy = true },
 			-- 腐化:畸形 (丘加利)
-			{ spellID = 82125, unitId = "player", caster = "all", filter = "DEBUFF" },
+			{ spellID = 82125, unitId = "player", caster = "all", filter = "DEBUFF", fuzzy = true },
 			-- 腐化:絕對 (丘加利)
-			{ spellID = 82170, unitId = "player", caster = "all", filter = "DEBUFF" },
+			{ spellID = 82170, unitId = "player", caster = "all", filter = "DEBUFF", fuzzy = true },
 			-- 腐化:疾病 (丘加利)
-			{ spellID = 93200, unitId = "player", caster = "all", filter = "DEBUFF" },
+			{ spellID = 93200, unitId = "player", caster = "all", filter = "DEBUFF", fuzzy = true },
 
 		-- 黑翼魔窟
 			-- 寄生感染 (熔喉)
-			{ spellID = 94679, unitId = "player", caster = "all", filter = "DEBUFF" },
+			{ spellID = 94679, unitId = "player", caster = "all", filter = "DEBUFF", fuzzy = true },
 			-- 傳染嘔吐 (熔喉)
-			{ spellID = 91923, unitId = "player", caster = "all", filter = "DEBUFF" },
+			{ spellID = 91923, unitId = "player", caster = "all", filter = "DEBUFF", fuzzy = true },
 			-- 聚雷針 (全能魔像防禦系統)
-			{ spellID = 91433, unitId = "player", caster = "all", filter = "DEBUFF" },
+			{ spellID = 91433, unitId = "player", caster = "all", filter = "DEBUFF", fuzzy = true },
 			-- 闇能灌注 (全能魔像防禦系統)
-			{ spellID = 92048, unitId = "player", caster = "all", filter = "DEBUFF" },
+			{ spellID = 92048, unitId = "player", caster = "all", filter = "DEBUFF", fuzzy = true },
 			-- 瞬間冷凍 (瑪洛里亞克)
-			{ spellID = 77699, unitId = "player", caster = "all", filter = "DEBUFF" },
+			{ spellID = 77699, unitId = "player", caster = "all", filter = "DEBUFF", fuzzy = true },
 			-- 吞噬烈焰 (瑪洛里亞克)
-			{ spellID = 77786, unitId = "player", caster = "all", filter = "DEBUFF" },
+			{ spellID = 77786, unitId = "player", caster = "all", filter = "DEBUFF", fuzzy = true },
 			-- 聚影體 (全能魔像防禦系統)
-			{ spellID = 92053, unitId = "player", caster = "all", filter = "DEBUFF" },
+			{ spellID = 92053, unitId = "player", caster = "all", filter = "DEBUFF", fuzzy = true },
 			--爆裂灰燼（h奈法利安的末路）
-            { spellID = 79339, size = 55, unitId = "player", caster = "all", filter = "DEBUFF" },
+            { spellID = 79339, unitId = "player", caster = "all", filter = "DEBUFF", fuzzy = true },
 
 		-- 四風
 			-- 風寒冷卻 (四風議會)
-			{ spellID = 93123, unitId = "player", caster = "all", filter = "DEBUFF" },
+			{ spellID = 93123, unitId = "player", caster = "all", filter = "DEBUFF", fuzzy = true },
 			-- 削骨颶風 (四風議會)
-			{ spellID = 93058, unitId = "player", caster = "all", filter = "DEBUFF" },
+			{ spellID = 93058, unitId = "player", caster = "all", filter = "DEBUFF", fuzzy = true },
 			-- 靜電震擊 (奧拉基爾)
-			{ spellID = 87873, unitId = "player", caster = "all", filter = "DEBUFF" },
+			{ spellID = 87873, unitId = "player", caster = "all", filter = "DEBUFF", fuzzy = true },
 			-- 酸雨 (奧拉基爾)
-			{ spellID = 93279, unitId = "player", caster = "all", filter = "DEBUFF" },
+			{ spellID = 93279, unitId = "player", caster = "all", filter = "DEBUFF", fuzzy = true },
 			
 		-- 火源
 			-- 燃燒之球
-			{ spellID = 98451, unitId = "player", caster = "all", filter = "DEBUFF" },
+			{ spellID = 98451, unitId = "player", caster = "all", filter = "DEBUFF", fuzzy = true },
 			--活力火花
-            { spellID = 99262, unitId = "player", caster = "all", filter = "BUFF" },
+            { spellID = 99262, unitId = "player", caster = "all", filter = "BUFF", fuzzy = true },
             --活力烈焰
-			{ spellID = 99263, unitId = "player", caster = "all", filter = "BUFF" },
+			{ spellID = 99263, unitId = "player", caster = "all", filter = "BUFF", fuzzy = true },
 			--火焰易傷
-			{ spellID = 98492, unitId = "player", caster = "all", filter = "DEBUFF" },
+			{ spellID = 98492, unitId = "player", caster = "all", filter = "DEBUFF", fuzzy = true },
 			--爆裂種子
-			{ spellID = 98450, unitId = "player", caster = "all", filter = "DEBUFF" },
+			{ spellID = 98450, unitId = "player", caster = "all", filter = "DEBUFF", fuzzy = true },
 			
 		-- 龍魂
 			-- 魔寇
 			-- 安全
-			{ spellID = 103541, unitId = "player", caster = "all", filter = "DEBUFF" },
+			{ spellID = 103541, unitId = "player", caster = "all", filter = "DEBUFF", fuzzy = true },
 			-- 警告
-			{ spellID = 103536, unitId = "player", caster = "all", filter = "DEBUFF" },
+			{ spellID = 103536, unitId = "player", caster = "all", filter = "DEBUFF", fuzzy = true },
 			-- 危險
-			{ spellID = 103534, unitId = "player", caster = "all", filter = "DEBUFF" },
+			{ spellID = 103534, unitId = "player", caster = "all", filter = "DEBUFF", fuzzy = true },
 			-- 督軍松奧茲
 			-- 崩解之影
-			{ spellID = 103434, unitId = "player", caster = "all", filter = "DEBUFF" },
+			{ spellID = 103434, unitId = "player", caster = "all", filter = "DEBUFF", fuzzy = true },
 			-- 未眠者尤沙吉
 			-- 深度腐化
-			{ spellID = 103628, unitId = "player", caster = "all", filter = "DEBUFF" },
+			{ spellID = 103628, unitId = "player", caster = "all", filter = "DEBUFF", fuzzy = true },
 			-- 哈甲拉
 			-- 目標
-			{ spellID = 105285, unitId = "player", caster = "all", filter = "DEBUFF" },
+			{ spellID = 105285, unitId = "player", caster = "all", filter = "DEBUFF", fuzzy = true },
 			-- 破碎寒冰
-			{ spellID = 105289, unitId = "player", caster = "all", filter = "DEBUFF" },
+			{ spellID = 105289, unitId = "player", caster = "all", filter = "DEBUFF", fuzzy = true },
 			-- 奧特拉賽恩
 			-- 黑暗逼近
-			{ spellID = 106498, unitId = "player", caster = "all", filter = "DEBUFF" },
+			{ spellID = 106498, unitId = "player", caster = "all", filter = "DEBUFF", fuzzy = true },
 			-- 凋零之光
-			{ spellID = 109075, unitId = "player", caster = "all", filter = "DEBUFF" },
+			{ spellID = 109075, unitId = "player", caster = "all", filter = "DEBUFF", fuzzy = true },
+			{ spellID = 109075, unitId = "player", caster = "all", filter = "BUFF", fuzzy = true },
 			-- 將領黑角
 			-- 暮光彈幕
-			{ spellID = 109204, unitId = "player", caster = "all", filter = "DEBUFF" },
+			{ spellID = 109204, unitId = "player", caster = "all", filter = "DEBUFF", fuzzy = true },
 			-- 死亡之翼的脊椎
 			-- 纏繞觸鬚
-			{ spellID = 105563, unitId = "player", caster = "all", filter = "DEBUFF" },
+			{ spellID = 105563, unitId = "player", caster = "all", filter = "DEBUFF", fuzzy = true },
 
 		},
 		{

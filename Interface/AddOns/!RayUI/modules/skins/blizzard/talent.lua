@@ -102,8 +102,13 @@ local function LoadSkin()
 		tex2:Point("TOPLEFT", _G["PlayerTalentFramePanel"..i.."Summary"], 1, 2)
 		tex2:Point("BOTTOMRIGHT", _G["PlayerTalentFramePanel"..i.."Summary"], -1, 1)
 		
-		textl:Point("TOPLEFT", 0, 3)
-		textr:Point("TOPRIGHT", 0, 3)
+		local bg = _G["PlayerTalentFramePanel"..i.."Summary"]:CreateTexture(nil, "BACKGROUND")
+		bg:Point("TOPLEFT", _G["PlayerTalentFramePanel"..i.."Summary"], -1, 4)
+		bg:Point("BOTTOMRIGHT", _G["PlayerTalentFramePanel"..i.."Summary"], 1, -1)
+		bg:SetTexture(0, 0, 0)
+		
+		textl:Point("TOPLEFT", 0, 2)
+		textr:Point("TOPRIGHT", 0, 2)
 		texbl:Point("BOTTOMLEFT", 0, 0)
 		texbr:Point("BOTTOMRIGHT", 0, 0)
 
@@ -127,19 +132,19 @@ local function LoadSkin()
 		PlayerTalentFramePetPanelHeaderIconIcon:SetTexCoord(.08, .92, .08, .92)
 		R.CreateBG(PlayerTalentFramePetPanelHeaderIcon)
 
-		PlayerTalentFramePetPanelHeaderIcon:SetPoint("TOPLEFT", PlayerTalentFramePetPanelHeaderBackground, "TOPLEFT", -2, 3)
-		PlayerTalentFramePetPanelName:SetPoint("LEFT", PlayerTalentFramePetPanelHeaderBackground, "LEFT", 62, 8)
+		PlayerTalentFramePetPanelHeaderIcon:Point("TOPLEFT", PlayerTalentFramePetPanelHeaderBackground, "TOPLEFT", -2, 3)
+		PlayerTalentFramePetPanelName:Point("LEFT", PlayerTalentFramePetPanelHeaderBackground, "LEFT", 62, 8)
 
 		local bg = CreateFrame("Frame", nil, PlayerTalentFramePetPanel)
-		bg:SetPoint("TOPLEFT", 4, -6)
-		bg:SetPoint("BOTTOMRIGHT", -4, 4)
+		bg:Point("TOPLEFT", 4, -6)
+		bg:Point("BOTTOMRIGHT", -4, 4)
 		bg:SetFrameLevel(0)
 		R.CreateBD(bg, .25)
 
 		local line = PlayerTalentFramePetPanel:CreateTexture(nil, "BACKGROUND")
 		line:SetHeight(1)
-		line:SetPoint("TOPLEFT", 4, -52)
-		line:SetPoint("TOPRIGHT", -4, -52)
+		line:Point("TOPLEFT", 4, -52)
+		line:Point("TOPRIGHT", -4, -52)
 		line:SetTexture(C.Aurora.backdrop)
 		line:SetVertexColor(0, 0, 0)
 		
@@ -157,8 +162,8 @@ local function LoadSkin()
 			bu.SetPushedTexture = R.dummy
 			
 			ic:SetTexCoord(.08, .92, .08, .92)
-			ic:SetPoint("TOPLEFT", 1, -1)
-			ic:SetPoint("BOTTOMRIGHT", -1, 1)
+			ic:Point("TOPLEFT", 1, -1)
+			ic:Point("BOTTOMRIGHT", -1, 1)
 
 			R.CreateBD(bu)
 		end
@@ -191,23 +196,23 @@ local function LoadSkin()
 		_G["PlayerTalentFramePanel"..i.."HeaderIconPointsSpentBgSilver"]:SetAlpha(0)
 
 		icontexture:SetTexCoord(.08, .92, .08, .92)
-		icontexture:SetPoint("TOPLEFT", 1, -1)
-		icontexture:SetPoint("BOTTOMRIGHT", -1, 1)
+		icontexture:Point("TOPLEFT", 1, -1)
+		icontexture:Point("BOTTOMRIGHT", -1, 1)
 
 		R.CreateBD(icon)
 
 		icon:SetPoint("TOPLEFT", panel, "TOPLEFT", 4, -1)
 
 		num:ClearAllPoints()
-		num:SetPoint("RIGHT", _G["PlayerTalentFramePanel"..i.."HeaderBackground"], "RIGHT", -40, 0)
+		num:Point("RIGHT", _G["PlayerTalentFramePanel"..i.."HeaderBackground"], "RIGHT", -40, 0)
 		num:SetFont("FONTS\\FRIZQT__.TTF", 12)
 		num:SetJustifyH("RIGHT")
 
 		panel.bg = CreateFrame("Frame", nil, panel)
 		panel.bg:SetPoint("TOPLEFT", 4, -39)
 		panel.bg:SetPoint("BOTTOMRIGHT", -4, 4)
-		panel.bg:SetFrameLevel(0)
-		R.CreateBD(panel.bg)
+		panel.bg:SetFrameLevel(panel:GetFrameLevel()+1)
+		R.CreateBD(panel.bg, 0)
 
 		panel.bg2 = CreateFrame("Frame", nil, panel)
 		panel.bg2:SetSize(200, 36)
@@ -235,8 +240,8 @@ local function LoadSkin()
 			bu.SetPushedTexture = R.dummy
 
 			ic:SetTexCoord(.08, .92, .08, .92)
-			ic:SetPoint("TOPLEFT", 1, -1)
-			ic:SetPoint("BOTTOMRIGHT", -1, 1)
+			ic:Point("TOPLEFT", 1, -1)
+			ic:Point("BOTTOMRIGHT", -1, 1)
 
 			R.CreateBD(bu)
 		end
@@ -252,8 +257,8 @@ local function LoadSkin()
 		bg:Point("BOTTOMRIGHT", 1, -1)
 		bg:SetFrameLevel(tab:GetFrameLevel()-1)
 		hooksecurefunc("PlayerTalentFrame_UpdateTabs", function()
-			PlayerSpecTab1:SetPoint(a1, p, a2, x + 11, y + 10)
-			PlayerSpecTab2:SetPoint("TOP", PlayerSpecTab1, "BOTTOM")
+			PlayerSpecTab1:Point(a1, p, a2, x + 11, y + 10)
+			PlayerSpecTab2:Point("TOP", PlayerSpecTab1, "BOTTOM")
 		end)
 		R.CreateSD(tab, 5, 0, 0, 0, 1, 1)
 		R.CreateBD(bg, 1)

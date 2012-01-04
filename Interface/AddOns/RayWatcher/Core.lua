@@ -5,6 +5,7 @@ local _, ns = ...
 local _, myclass = UnitClass("player")
 local colors = RAID_CLASS_COLORS
 ns.modules = {}
+abc = ns.modules
 local testing = false
 local ACD = LibStub("AceConfigDialog-3.0")
 
@@ -226,8 +227,9 @@ function watcherPrototype:CheckAura(num)
 			if self.BUFF.unitIDs[unitID] then
 				local index = 1
 				while UnitBuff(unitID, index) and not ( index > 1024 ) do
-					local _, _, icon, count, _, duration, expires, caster, _, _, spellID = UnitBuff(unitID,index)
-					if self.BUFF[spellID] and self.BUFF[spellID].unitID == unitID and ( caster == self.BUFF[spellID].caster or self.BUFF[spellID].caster:lower() == "all" ) then
+					local spellName, _, icon, count, _, duration, expires, caster, _, _, spellID = UnitBuff(unitID,index)
+					if (self.BUFF[spellID] and self.BUFF[spellID].unitID == unitID and ( caster == self.BUFF[spellID].caster or self.BUFF[spellID].caster:lower() == "all" )) or
+						(self.BUFF[spellName] and self.BUFF[spellName].unitID == unitID and ( caster == self.BUFF[spellName].caster or self.BUFF[spellName].caster:lower() == "all" )) then
 						if not self.button[num] then
 							self.button[num] = self:CreateButton(self.mode)					
 							self:SetPosition(num)
@@ -250,8 +252,9 @@ function watcherPrototype:CheckAura(num)
 			if self.DEBUFF.unitIDs[unitID] then
 				local index = 1
 				while UnitDebuff(unitID, index) and not ( index > 1024 ) do
-					local _, _, icon, count, _, duration, expires, caster, _, _, spellID = UnitDebuff(unitID,index)
-					if self.DEBUFF[spellID] and self.DEBUFF[spellID].unitID == unitID and ( caster == self.DEBUFF[spellID].caster or self.DEBUFF[spellID].caster:lower() == "all" ) then
+					local spellName, _, icon, count, _, duration, expires, caster, _, _, spellID = UnitDebuff(unitID,index)
+					if (self.DEBUFF[spellID] and self.DEBUFF[spellID].unitID == unitID and ( caster == self.DEBUFF[spellID].caster or self.DEBUFF[spellID].caster:lower() == "all" )) or
+						(self.DEBUFF[spellName] and self.DEBUFF[spellName].unitID == unitID and ( caster == self.DEBUFF[spellName].caster or self.DEBUFF[spellName].caster:lower() == "all" )) then
 						if not self.button[num] then
 							self.button[num] = self:CreateButton(self.mode)					
 							self:SetPosition(num)
@@ -602,14 +605,20 @@ function RayUIWatcher:NewWatcher(data)
 			module[i:lower()] = v
 		elseif type(v) == 'table' then
 			if (v.spellID or v.itemID) and v.filter then
+				local spellName
+				if v.fuzzy and (v.filter == "BUFF" or v.filter == "DEBUFF") then spellName = GetSpellInfo(v.spellID) end
 				module[v.filter] = module[v.filter] or {}
-				module[v.filter][v.spellID or v.itemID] = module[v.filter][v.spellID or v.itemID] or {}
+				module[v.filter][spellName or v.spellID or v.itemID] = module[v.filter][spellName or v.spellID or v.itemID] or {}
 				for ii,vv in pairs(v) do
 					if ii ~= 'filter' and ii ~= 'spellID' and ii ~= 'itemID' and v.filter ~= "CD" and v.filter ~= "itemCD" then
 						ii = ii == 'unitId' and 'unitID' or ii
-						module[v.filter][v.spellID or v.itemID][ii] = vv
+						module[v.filter][spellName or v.spellID or v.itemID][ii] = vv
+						if spellName then
+							module[v.filter][spellName]["spellID"] = v.spellID
+							module[v.filter][spellName]["fuzzy"] = true
+						end
 					end
-					if (ii == 'unitId' or ii == 'unitID') and (v.filter == "BUFF" or v.filter == "DEBUFF")then
+					if (ii == 'unitId' or ii == 'unitID') and (v.filter == "BUFF" or v.filter == "DEBUFF") then
 						module[v.filter]['unitIDs'] = module[v.filter]['unitIDs'] or {}
 						module[v.filter]['unitIDs'][vv] = true
 					end

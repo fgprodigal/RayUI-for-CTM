@@ -651,12 +651,7 @@ function Bag:InitBags()
 	f.bagsButton:SetScript("OnEnter", Tooltip_Show)
 	f.bagsButton:SetScript("OnLeave", Tooltip_Hide)	
 	f.bagsButton:SetScript('OnClick', function() 
-		local numSlots, full = GetNumBankSlots()
-		if numSlots >= 1 then
-			ToggleFrame(f.ContainerHolder) 
-		else
-			StaticPopup_Show("NO_BANK_BAGS")
-		end	
+		ToggleFrame(f.ContainerHolder) 
 	end)
 	R.Reskin(f.bagsButton)
 	
@@ -733,7 +728,7 @@ function Bag:InitBank()
 		if numSlots >= 1 then
 			ToggleFrame(f.ContainerHolder) 
 		else
-			StaticPopup_Show("NO_BANK_BAGS")
+			-- StaticPopup_Show("NO_BANK_BAGS")
 		end	
 	end)
 	R.Reskin(f.bagsButton)
