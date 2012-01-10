@@ -35,8 +35,8 @@ local function LoadSkin()
 	check:SetVertexColor(r, g, b, .2)
 
 	local icbg = CreateFrame("Frame", nil, ClassTrainerFrameSkillStepButton)
-	icbg:SetPoint("TOPLEFT", ClassTrainerFrameSkillStepButtonIcon, -1, 1)
-	icbg:SetPoint("BOTTOMRIGHT", ClassTrainerFrameSkillStepButtonIcon, 1, -1)
+	icbg:Point("TOPLEFT", ClassTrainerFrameSkillStepButtonIcon, -1, 1)
+	icbg:Point("BOTTOMRIGHT", ClassTrainerFrameSkillStepButtonIcon, 1, -1)
 	R.CreateBD(icbg, 0)
 
 	ClassTrainerFrameSkillStepButtonIcon:SetTexCoord(.08, .92, .08, .92)
@@ -83,8 +83,8 @@ local function LoadSkin()
 	ClassTrainerStatusBar:GetStatusBarTexture():SetGradient("VERTICAL", .1, .3, .9, .2, .4, 1)
 
 	local bd = CreateFrame("Frame", nil, ClassTrainerStatusBar)
-	bd:SetPoint("TOPLEFT", -1, 1)
-	bd:SetPoint("BOTTOMRIGHT", 1, -1)
+	bd:Point("TOPLEFT", -1, 1)
+	bd:Point("BOTTOMRIGHT", 1, -1)
 	bd:SetFrameLevel(ClassTrainerStatusBar:GetFrameLevel()-1)
 	R.CreateBD(bd, .25)
 

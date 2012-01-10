@@ -31,12 +31,12 @@ local function setup()
 	WatchFrame:SetPoint("BOTTOMRIGHT", 4,0)
 	WatchFrame.SetPoint = R.dummy
 
-	WatchFrameTitle:SetParent(RayUIWatchFrame)
+	-- WatchFrameTitle:SetParent(RayUIWatchFrame)
 	WatchFrameCollapseExpandButton:SetParent(RayUIWatchFrame)
 	WatchFrameCollapseExpandButton.Disable = R.dummy
 	
-	WatchFrameTitle:Hide()
-	WatchFrameTitle.Show = R.dummy
+	-- WatchFrameTitle:Hide()
+	-- WatchFrameTitle.Show = R.dummy
 end
 
 local f = CreateFrame("Frame")

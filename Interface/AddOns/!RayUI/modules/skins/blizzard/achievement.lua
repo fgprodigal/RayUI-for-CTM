@@ -56,8 +56,8 @@ local function LoadSkin()
 	AchievementFrameSummaryCategoriesStatusBarText:SetPoint("RIGHT", AchievementFrameSummaryCategoriesStatusBar, "RIGHT", -5, 0)
 
 	local bg = CreateFrame("Frame", nil, AchievementFrameSummaryCategoriesStatusBar)
-	bg:SetPoint("TOPLEFT", -1, 1)
-	bg:SetPoint("BOTTOMRIGHT", 1, -1)
+	bg:Point("TOPLEFT", -1, 1)
+	bg:Point("BOTTOMRIGHT", 1, -1)
 	bg:SetFrameLevel(AchievementFrameSummaryCategoriesStatusBar:GetFrameLevel()-1)
 	R.CreateBD(bg, .25)
 
@@ -86,8 +86,8 @@ local function LoadSkin()
 		_G["AchievementFrameAchievementsContainerButton"..i.."GuildCornerR"]:SetAlpha(0)
 
 		local bg = CreateFrame("Frame", nil, bu)
-		bg:SetPoint("TOPLEFT", 2, -2)
-		bg:SetPoint("BOTTOMRIGHT", -2, 2)
+		bg:Point("TOPLEFT", 2, -2)
+		bg:Point("BOTTOMRIGHT", -2, 2)
 		R.CreateBD(bg, 0)
 
 		local ic = _G["AchievementFrameAchievementsContainerButton"..i.."IconTexture"]
@@ -122,8 +122,8 @@ local function LoadSkin()
 			_G["AchievementFrameProgressBar"..index.."BorderRight"]:Hide()
 
 			local bg = CreateFrame("Frame", nil, bar)
-			bg:SetPoint("TOPLEFT", -1, 1)
-			bg:SetPoint("BOTTOMRIGHT", 1, -1)
+			bg:Point("TOPLEFT", -1, 1)
+			bg:Point("BOTTOMRIGHT", 1, -1)
 			R.CreateBD(bg, 0)
 
 			bar.reskinned = true
@@ -153,8 +153,8 @@ local function LoadSkin()
 				text.SetShadowOffset = R.dummy
 
 				local bg = CreateFrame("Frame", nil, bu)
-				bg:SetPoint("TOPLEFT", 2, -2)
-				bg:SetPoint("BOTTOMRIGHT", -2, 2)
+				bg:Point("TOPLEFT", 2, -2)
+				bg:Point("BOTTOMRIGHT", -2, 2)
 				R.CreateBD(bg, 0)
 
 				local ic = _G["AchievementFrameSummaryAchievement"..i.."IconTexture"]
@@ -186,11 +186,11 @@ local function LoadSkin()
 		bu:SetStatusBarTexture(C.Aurora.backdrop)
 		bar:SetGradient("VERTICAL", 0, .4, 0, 0, .6, 0)
 		label:SetTextColor(1, 1, 1)
-		label:SetPoint("LEFT", bu, "LEFT", 6, 0)
+		label:Point("LEFT", bu, "LEFT", 6, 0)
 
 		local bg = CreateFrame("Frame", nil, bu)
-		bg:SetPoint("TOPLEFT", -1, 1)
-		bg:SetPoint("BOTTOMRIGHT", 1, -1)
+		bg:Point("TOPLEFT", -1, 1)
+		bg:Point("BOTTOMRIGHT", 1, -1)
 		bg:SetFrameLevel(bu:GetFrameLevel()-1)
 		R.CreateBD(bg, .25)
 		

@@ -692,12 +692,13 @@ local function Shared(self, unit)
 			self:Tag(name, '[RayUF:name]')
 		else
 			self:Tag(name, '[RayUF:color][RayUF:name]')
-		end
-		if unit == "pet" then
-			--Dummy Cast Bar, so we don't see an extra castbar while in vehicle
-		--	local castbar = CreateFrame("StatusBar", nil, self)
-		--	self.Castbar = castbar
-		end
+		end		
+	end
+	
+	if unit == "pet" then
+		--Dummy Cast Bar, so we don't see an extra castbar while in vehicle
+	--	local castbar = CreateFrame("StatusBar", nil, self)
+	--	self.Castbar = castbar
 	end
 	
 	if unit == "targettarget" then

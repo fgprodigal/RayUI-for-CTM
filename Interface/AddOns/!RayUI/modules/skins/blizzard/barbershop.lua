@@ -13,6 +13,8 @@ local function LoadSkin()
 	R.ReskinArrow(BarberShopFrameSelector2Next, 2)
 	R.ReskinArrow(BarberShopFrameSelector3Prev, 1)
 	R.ReskinArrow(BarberShopFrameSelector3Next, 2)
+	R.ReskinArrow(BarberShopFrameSelector4Prev, 1)
+	R.ReskinArrow(BarberShopFrameSelector4Next, 2)
 end
 
 R.SkinFuncs["Blizzard_BarbershopUI"] = LoadSkin

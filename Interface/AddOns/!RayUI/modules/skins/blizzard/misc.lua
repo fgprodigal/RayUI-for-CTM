@@ -45,6 +45,9 @@ local function LoadSkin()
 		"StaticPopup2MoneyInputFrameGold",
 		"StaticPopup2MoneyInputFrameSilver",
 		"StaticPopup2MoneyInputFrameCopper",
+		"StaticPopup3MoneyInputFrameGold",
+		"StaticPopup3MoneyInputFrameSilver",
+		"StaticPopup3MoneyInputFrameCopper",
 		"BagItemSearchBox",
 		"BankItemSearchBox"
 	}
@@ -57,6 +60,8 @@ local function LoadSkin()
 	StaticPopup1MoneyInputFrameCopper:SetPoint("LEFT", StaticPopup1MoneyInputFrameSilver, "RIGHT", 1, 0)
 	StaticPopup2MoneyInputFrameSilver:SetPoint("LEFT", StaticPopup2MoneyInputFrameGold, "RIGHT", 1, 0)
 	StaticPopup2MoneyInputFrameCopper:SetPoint("LEFT", StaticPopup2MoneyInputFrameSilver, "RIGHT", 1, 0)
+	StaticPopup3MoneyInputFrameSilver:SetPoint("LEFT", StaticPopup3MoneyInputFrameGold, "RIGHT", 1, 0)
+	StaticPopup3MoneyInputFrameCopper:SetPoint("LEFT", StaticPopup3MoneyInputFrameSilver, "RIGHT", 1, 0)
 	StackSplitFrame:GetRegions():Hide()
 	
 	local buttons = {
@@ -103,6 +108,7 @@ local function LoadSkin()
 	local FrameBDs = {
 			"StaticPopup1",
 			"StaticPopup2",
+			"StaticPopup3",
 			"GameMenuFrame",
 			"InterfaceOptionsFrame",
 			"VideoOptionsFrame",

@@ -85,15 +85,15 @@ local function LoadSkin()
 			bu:SetHighlightTexture("")
 
 			local bg = CreateFrame("Frame", nil, bu)
-			bg:SetPoint("TOPLEFT", 4, -4)
-			bg:SetPoint("BOTTOMRIGHT", -5, 3)
+			bg:Point("TOPLEFT", 4, -4)
+			bg:Point("BOTTOMRIGHT", -5, 3)
 			R.CreateBD(bg, 0)
 		end
 	end
 
 	local modelbg = CreateFrame("Frame", nil, EncounterJournalEncounterFrameModelFrame)
-	modelbg:SetPoint("TOPLEFT", -1, 1)
-	modelbg:SetPoint("BOTTOMRIGHT", 1, -1)
+	modelbg:Point("TOPLEFT", -1, 1)
+	modelbg:Point("BOTTOMRIGHT", 1, -1)
 	modelbg:SetFrameLevel(EncounterJournalEncounterFrameModelFrame:GetFrameLevel()-1)
 	R.CreateBD(modelbg, .25)
 
@@ -132,8 +132,8 @@ local function LoadSkin()
 
 				if not header.button.bg then
 					header.button.bg = header.button:CreateTexture(nil, "BACKGROUND")
-					header.button.bg:SetPoint("TOPLEFT", header.button.abilityIcon, -1, 1)
-					header.button.bg:SetPoint("BOTTOMRIGHT", header.button.abilityIcon, 1, -1)
+					header.button.bg:Point("TOPLEFT", header.button.abilityIcon, -1, 1)
+					header.button.bg:Point("BOTTOMRIGHT", header.button.abilityIcon, 1, -1)
 					header.button.bg:SetTexture(C.media.backdrop)
 					header.button.bg:SetVertexColor(0, 0, 0)
 				end
@@ -195,20 +195,20 @@ local function LoadSkin()
 		item.bossTexture:SetAlpha(0)
 		item.bosslessTexture:SetAlpha(0)
 
-		item.icon:SetPoint("TOPLEFT", 3, -3)
+		item.icon:Point("TOPLEFT", 3, -3)
 		item.icon:SetTexCoord(.08, .92, .08, .92)
 		item.icon:SetDrawLayer("OVERLAY")
 		R.CreateBG(item.icon)
 
 		local bg = CreateFrame("Frame", nil, item)
 		bg:SetPoint("TOPLEFT")
-		bg:SetPoint("BOTTOMRIGHT", 0, 1)
+		bg:Point("BOTTOMRIGHT", 0, 1)
 		bg:SetFrameStrata("BACKGROUND")
 		R.CreateBD(bg, 0)
 
 		local tex = item:CreateTexture(nil, "BACKGROUND")
 		tex:SetPoint("TOPLEFT")
-		tex:SetPoint("BOTTOMRIGHT", -1, 2)
+		tex:Point("BOTTOMRIGHT", -1, 2)
 		tex:SetTexture(C.media.backdrop)
 		tex:SetVertexColor(0, 0, 0, .25)
 	end

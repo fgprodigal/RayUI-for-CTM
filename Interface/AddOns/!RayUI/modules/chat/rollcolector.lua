@@ -7,7 +7,7 @@ local L = setmetatable(GetLocale() == "zhCN" and {
 	["%s|HRayUILootCollector:%d|h[%s roll]|h|r %s won %s "] = "%s|HRayUILootCollector:%d|h[%s]|h|r %s 赢得了 %s ",
 	["(.*) has?v?e? selected (.+) for: (.+)"]        = "(.+)选择了(.+)取向：(.+)",
 	["(.+) Roll . (%d+) for (.+) by (.+)"]           = "（(.+)）(%d+)点：(.+)（(.+)）",
-	["(.+) Roll - (%d+) for (.+) by (.+) + Role Bonus"]	 = "（(.+)%+职责加成）(%d+)點:(.+)（(.+)）",
+	["(.+) Roll - (%d+) for (.+) by (.+) + Role Bonus"]	 = "（(.+)%+职责加成）(%d+)点：(.+)（(.+)）",
 	[" passed on: "]                                 = "放弃了：",
 	[" automatically passed on: "]                   = "自动放弃了",
 	["You passed on: "]                              = "你放弃了：",
@@ -16,7 +16,7 @@ local L = setmetatable(GetLocale() == "zhCN" and {
 } or GetLocale() == "zhTW" and {
 	["(.*) won: (.+)"]                               = "(.*)贏得了:(.+)",
 	["%s|HRayUILootCollector:%d|h[%s roll]|h|r %s won %s "] = "%s|HRayUILootCollector:%d|h[%s]|h|r %s 贏得了 %s ",
-	["(.*) has?v?e? selected (.+) for: (.+)"]        = "(.+)選擇\228?\186?\134?(.+):(.+)",
+	["(.*) has?v?e? selected (.+) for: (.+)"]        = "(.+)選擇了(.+):(.+)",
 	["(.+) Roll . (%d+) for (.+) by (.+)"]           = "(.+) %- (.+)由(.+)擲出(%d+)",
 	["(.+) Roll - (%d+) for (.+) by (.+) + Role Bonus"]	 = "%((.+)%+角色加成%)(%d+)點:(.+)%((.+)%)",
 	[" passed on: "]                                 = "放棄了:",
@@ -82,7 +82,7 @@ f:SetScript("OnEvent", function(self, event, addon)
 		local player, selection, link = msg:match(L["(.*) has?v?e? selected (.+) for: (.+)"])
 		if player and player ~= "" then
 			player = player == YOU and UnitName("player") or player
-			FindRoll(link, player)[player] = coloredwords[selection]
+			FindRoll(link, player)[player] = {selection, nil}
 			return
 		end
 

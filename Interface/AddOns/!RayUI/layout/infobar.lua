@@ -3,46 +3,45 @@ local ADDON_NAME = ...
 
 R.InfoBarStatusColor = {{1, 0, 0}, {1, 1, 0}, {0, 0.4, 1}}
 
-local topinfo= {}
-local botinfo= {}
+local infobar= {}
 local LastUpdate = 1
 for i = 1,8 do
 	if i == 1 then
-		topinfo[i] = CreateFrame("Frame", "BottomInfoBar", UIParent)
-		topinfo[i]:CreatePanel("Default", 400, 6, "BOTTOM", UIParent, "BOTTOM", 0, 5)
+		infobar[i] = CreateFrame("Frame", "BottomInfoBar", UIParent)
+		infobar[i]:CreatePanel("Default", 400, 6, "BOTTOM", UIParent, "BOTTOM", 0, 10)
 	elseif i == 2 then
-		topinfo[i] = CreateFrame("Frame", "TopInfoBar"..i-1, UIParent)
-		topinfo[i]:CreatePanel("Default", 80, 6, "TOPLEFT", UIParent, "TOPLEFT", 10, -10)
+		infobar[i] = CreateFrame("Frame", "TopInfoBar"..i-1, UIParent)
+		infobar[i]:CreatePanel("Default", 80, 6, "TOPLEFT", UIParent, "TOPLEFT", 10, -10)
 	else
-		topinfo[i] = CreateFrame("Frame", "TopInfoBar"..i-1, UIParent)
-		topinfo[i]:CreatePanel("Default", 80, 6, "LEFT", topinfo[i-1], "RIGHT", 9, 0)
+		infobar[i] = CreateFrame("Frame", "TopInfoBar"..i-1, UIParent)
+		infobar[i]:CreatePanel("Default", 80, 6, "LEFT", infobar[i-1], "RIGHT", 9, 0)
 	end
 	
 	if i~= 1 then
-		topinfo[i].Status = CreateFrame("StatusBar", "TopInfoBarStatus"..i, topinfo[i])
-		topinfo[i].Status:SetFrameLevel(12)
-		topinfo[i].Status:SetStatusBarTexture(C["media"].normal)
-		topinfo[i].Status:SetMinMaxValues(0, 100)
-		topinfo[i].Status:SetStatusBarColor(unpack(R.InfoBarStatusColor[3]))
-		topinfo[i].Status:SetAllPoints()
-		topinfo[i].Status:SetValue(100)
+		infobar[i].Status = CreateFrame("StatusBar", "TopInfoBarStatus"..i, infobar[i])
+		infobar[i].Status:SetFrameLevel(12)
+		infobar[i].Status:SetStatusBarTexture(C["media"].normal)
+		infobar[i].Status:SetMinMaxValues(0, 100)
+		infobar[i].Status:SetStatusBarColor(unpack(R.InfoBarStatusColor[3]))
+		infobar[i].Status:SetAllPoints()
+		infobar[i].Status:SetValue(100)
 		
-		topinfo[i].Text = topinfo[i].Status:CreateFontString(nil, "OVERLAY")
-		topinfo[i].Text:SetFont(C["media"].font, C["media"].fontsize, C["media"].fontflag)
-		topinfo[i].Text:Point("CENTER", topinfo[i], "CENTER", 0, -4)
-		topinfo[i].Text:SetShadowColor(0, 0, 0, 0.4)
-		topinfo[i].Text:SetShadowOffset(R.mult, -R.mult)
+		infobar[i].Text = infobar[i].Status:CreateFontString(nil, "OVERLAY")
+		infobar[i].Text:SetFont(C["media"].font, C["media"].fontsize, C["media"].fontflag)
+		infobar[i].Text:Point("CENTER", infobar[i], "CENTER", 0, -4)
+		infobar[i].Text:SetShadowColor(0, 0, 0, 0.4)
+		infobar[i].Text:SetShadowOffset(R.mult, -R.mult)
 	end
-	topinfo[i]:SetAlpha(0)
+	infobar[i]:SetAlpha(0)
 end
 
 local infoshow = CreateFrame("Frame")
 infoshow:RegisterEvent("PLAYER_ENTERING_WORLD")
 infoshow:SetScript("OnEvent", function(self)
 		self:UnregisterEvent("PLAYER_ENTERING_WORLD")
-		for i=1,#topinfo do
+		for i=1,#infobar do
 			R.Delay((3+i*0.6),function()
-				UIFrameFadeIn(topinfo[i], 1, 0, 1)
+				UIFrameFadeIn(infobar[i], 1, 0, 1)
 			end)
 		end
 		if C["general"].logo then

@@ -56,7 +56,7 @@ local function LoadSkin()
 	R.Reskin(GuildBankInfoSaveButton)
 
 	GuildBankFrameWithdrawButton:ClearAllPoints()
-	GuildBankFrameWithdrawButton:SetPoint("RIGHT", GuildBankFrameDepositButton, "LEFT", -1, 0)
+	GuildBankFrameWithdrawButton:Point("RIGHT", GuildBankFrameDepositButton, "LEFT", -1, 0)
 
 	for i = 1, NUM_GUILDBANK_COLUMNS do
 		_G["GuildBankColumn"..i]:GetRegions():Hide()
@@ -68,8 +68,8 @@ local function LoadSkin()
 			_G["GuildBankColumn"..i.."Button"..j.."NormalTexture"]:SetAlpha(0)
 
 			local bg = CreateFrame("Frame", nil, bu)
-			bg:SetPoint("TOPLEFT", -1, 1)
-			bg:SetPoint("BOTTOMRIGHT", 1, -1)
+			bg:Point("TOPLEFT", -1, 1)
+			bg:Point("BOTTOMRIGHT", 1, -1)
 			bg:SetFrameLevel(bu:GetFrameLevel()-1)
 			R.CreateBD(bg, 0)
 		end
@@ -85,7 +85,7 @@ local function LoadSkin()
 		R.CreateSD(bu, 5, 0, 0, 0, 1, 1)
 
 		local a1, p, a2, x, y = bu:GetPoint()
-		bu:SetPoint(a1, p, a2, x + 11, y)
+		bu:Point(a1, p, a2, x + 11, y)
 
 		ic:SetTexCoord(.08, .92, .08, .92)
 		tb:GetRegions():Hide()

@@ -151,8 +151,11 @@ local function LoadSkin()
 		for i=1,GetNumTalents(1,false,true) do
 			local bu = _G["PlayerTalentFramePetPanelTalent"..i]
 			local ic = _G["PlayerTalentFramePetPanelTalent"..i.."IconTexture"]
-			
-			bu:StripTextures()
+
+			_G["PlayerTalentFramePetPanelTalent"..i.."Slot"]:SetAlpha(0)
+			_G["PlayerTalentFramePetPanelTalent"..i.."SlotShadow"]:SetAlpha(0)
+			_G["PlayerTalentFramePetPanelTalent"..i.."GoldBorder"]:SetAlpha(0)
+			_G["PlayerTalentFramePetPanelTalent"..i.."GlowBorder"]:SetAlpha(0)
 			bu:StyleButton()
 			bu:GetHighlightTexture():Point("TOPLEFT", 1, -1)
 			bu:GetHighlightTexture():Point("BOTTOMRIGHT", -1, 1)

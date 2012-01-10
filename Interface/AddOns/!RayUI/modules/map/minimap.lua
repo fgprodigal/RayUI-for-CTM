@@ -252,22 +252,36 @@ HelpOpenTicketButton:ClearAllPoints()
 HelpOpenTicketButton:SetPoint("TOPLEFT", Minimap, "TOPLEFT")
 
 if R.GetScreenQuadrant(Minimap) == "TOPLEFT" then
-	local f = CreateFrame("Frame")
-	f:RegisterEvent("ADDON_LOADED")
-	f:RegisterEvent("PLAYER_ENTERING_WORLD")
-	f:SetScript("OnEvent", function(self, event, addon)
-		if event=="PLAYER_ENTERING_WORLD" then
-			self:UnregisterEvent("PLAYER_ENTERING_WORLD")
-		end
-		if event=="PLAYER_ENTERING_WORLD" or addon:find("Blizzard_") then
-			for _, data in pairs(UIPanelWindows) do
-				if data.area ==  "left" or data.area ==  "doublewide" then
-					data.yoffset = -100
-					if data.xoffset and data.xoffset < 0 then
-						data.xoffset = 0
-					end
-				end
-			end
-		end
-	end)
+	-- local f = CreateFrame("Frame")
+	-- f:RegisterEvent("ADDON_LOADED")
+	-- f:RegisterEvent("PLAYER_ENTERING_WORLD")
+	-- f:SetScript("OnEvent", function(self, event, addon)
+		-- if InCombatLockdown() then return end
+		-- if event=="PLAYER_ENTERING_WORLD" then
+			-- self:UnregisterEvent("PLAYER_ENTERING_WORLD")
+		-- end
+		-- if event=="PLAYER_ENTERING_WORLD" or addon:find("Blizzard_") then
+			-- for _, data in pairs(UIPanelWindows) do
+				-- if data.area ==  "left" or data.area ==  "doublewide" then
+					-- data.yoffset = -100
+					-- if data.xoffset and data.xoffset < 0 then
+						-- data.xoffset = 0
+					-- end
+				-- end
+			-- end
+		-- end
+	-- end)
+	-- local function SetYoffsetAttribute(frame)
+		-- if InCombatLockdown() then return end
+		-- if frame:GetAttribute("UIPanelLayout-defined") and (frame:GetAttribute("UIPanelLayout-area") ==  "left" or frame:GetAttribute("UIPanelLayout-area") ==  "doublewide") then
+			-- if frame:GetAttribute("UIPanelLayout-xoffset") and frame:GetAttribute("UIPanelLayout-xoffset")< 0 then
+				-- frame:SetAttribute("UIPanelLayout-xoffset", 0)
+			-- end
+			-- if not frame:GetAttribute("UIPanelLayout-yoffset") or frame:GetAttribute("UIPanelLayout-yoffset") ~= -100 then
+				-- frame:SetAttribute("UIPanelLayout-yoffset", -100)
+			-- end
+		-- end
+	-- end
+	
+	-- hooksecurefunc("ShowUIPanel", SetYoffsetAttribute)
 end

@@ -190,15 +190,6 @@ end
 ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL", TRADE_FILTER)
 
 ----------------------------------------------------------------------------------
--- 插件导致界面行为失效
-----------------------------------------------------------------------------------
-local function INTERFACE_ACTION_BLOCKED_FILTER(self, event, msg)
-	if (msg:find(INTERFACE_ACTION_BLOCKED)) then
-		return true
-	end
-end
-ChatFrame_AddMessageEventFilter("CHAT_MSG_SYSTEM", INTERFACE_ACTION_BLOCKED_FILTER) 
-----------------------------------------------------------------------------------
 -- 高亮显示自己名字
 ----------------------------------------------------------------------------------
 local function changeName(msgHeader, name, msgCnt, chatGroup, displayName, msgBody)

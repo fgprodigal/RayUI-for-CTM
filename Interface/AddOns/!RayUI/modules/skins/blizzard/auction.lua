@@ -20,8 +20,8 @@ local function LoadSkin()
 
 	AuctionProgressBar:SetStatusBarTexture(C.Aurora.backdrop)
 	local ABBD = CreateFrame("Frame", nil, AuctionProgressBar)
-	ABBD:SetPoint("TOPLEFT", -1, 1)
-	ABBD:SetPoint("BOTTOMRIGHT", 1, -1)
+	ABBD:Point("TOPLEFT", -1, 1)
+	ABBD:Point("BOTTOMRIGHT", 1, -1)
 	ABBD:SetFrameLevel(AuctionProgressBar:GetFrameLevel()-1)
 	R.CreateBD(ABBD, .25)
 
@@ -100,28 +100,28 @@ local function LoadSkin()
 	BrowseCloseButton:ClearAllPoints()
 	BrowseCloseButton:SetPoint("BOTTOMRIGHT", AuctionFrameBrowse, "BOTTOMRIGHT", 66, 13)
 	BrowseBuyoutButton:ClearAllPoints()
-	BrowseBuyoutButton:SetPoint("RIGHT", BrowseCloseButton, "LEFT", -1, 0)
+	BrowseBuyoutButton:Point("RIGHT", BrowseCloseButton, "LEFT", -1, 0)
 	BrowseBidButton:ClearAllPoints()
-	BrowseBidButton:SetPoint("RIGHT", BrowseBuyoutButton, "LEFT", -1, 0)
+	BrowseBidButton:Point("RIGHT", BrowseBuyoutButton, "LEFT", -1, 0)
 	BidBuyoutButton:ClearAllPoints()
-	BidBuyoutButton:SetPoint("RIGHT", BidCloseButton, "LEFT", -1, 0)
+	BidBuyoutButton:Point("RIGHT", BidCloseButton, "LEFT", -1, 0)
 	BidBidButton:ClearAllPoints()
-	BidBidButton:SetPoint("RIGHT", BidBuyoutButton, "LEFT", -1, 0)
+	BidBidButton:Point("RIGHT", BidBuyoutButton, "LEFT", -1, 0)
 	AuctionsCancelAuctionButton:ClearAllPoints()
-	AuctionsCancelAuctionButton:SetPoint("RIGHT", AuctionsCloseButton, "LEFT", -1, 0)
+	AuctionsCancelAuctionButton:Point("RIGHT", AuctionsCloseButton, "LEFT", -1, 0)
 	BrowseSearchButton:ClearAllPoints()
 	BrowseSearchButton:SetPoint("TOPRIGHT", AuctionFrameBrowse, "TOPRIGHT", 25, -30)
 	
 	-- Blizz needs to be more consistent
 
-	BrowseBidPriceSilver:SetPoint("LEFT", BrowseBidPriceGold, "RIGHT", 1, 0)
-	BrowseBidPriceCopper:SetPoint("LEFT", BrowseBidPriceSilver, "RIGHT", 1, 0)
-	BidBidPriceSilver:SetPoint("LEFT", BidBidPriceGold, "RIGHT", 1, 0)
-	BidBidPriceCopper:SetPoint("LEFT", BidBidPriceSilver, "RIGHT", 1, 0)
-	StartPriceSilver:SetPoint("LEFT", StartPriceGold, "RIGHT", 1, 0)
-	StartPriceCopper:SetPoint("LEFT", StartPriceSilver, "RIGHT", 1, 0)
-	BuyoutPriceSilver:SetPoint("LEFT", BuyoutPriceGold, "RIGHT", 1, 0)
-	BuyoutPriceCopper:SetPoint("LEFT", BuyoutPriceSilver, "RIGHT", 1, 0)
+	BrowseBidPriceSilver:Point("LEFT", BrowseBidPriceGold, "RIGHT", 1, 0)
+	BrowseBidPriceCopper:Point("LEFT", BrowseBidPriceSilver, "RIGHT", 1, 0)
+	BidBidPriceSilver:Point("LEFT", BidBidPriceGold, "RIGHT", 1, 0)
+	BidBidPriceCopper:Point("LEFT", BidBidPriceSilver, "RIGHT", 1, 0)
+	StartPriceSilver:Point("LEFT", StartPriceGold, "RIGHT", 1, 0)
+	StartPriceCopper:Point("LEFT", StartPriceSilver, "RIGHT", 1, 0)
+	BuyoutPriceSilver:Point("LEFT", BuyoutPriceGold, "RIGHT", 1, 0)
+	BuyoutPriceCopper:Point("LEFT", BuyoutPriceSilver, "RIGHT", 1, 0)
 
 	for i = 1, NUM_BROWSE_TO_DISPLAY do
 		local bu = _G["BrowseButton"..i]
@@ -140,7 +140,7 @@ local function LoadSkin()
 
 			local bd = CreateFrame("Frame", nil, bu)
 			bd:SetPoint("TOPLEFT")
-			bd:SetPoint("BOTTOMRIGHT", 0, 5)
+			bd:Point("BOTTOMRIGHT", 0, 5)
 			bd:SetFrameLevel(bu:GetFrameLevel()-1)
 			R.CreateBD(bd, .25)
 
@@ -148,8 +148,8 @@ local function LoadSkin()
 			local hl = bu:GetHighlightTexture()
 			hl:SetVertexColor(r, g, b, .2)
 			hl:ClearAllPoints()
-			hl:SetPoint("TOPLEFT", 0, -1)
-			hl:SetPoint("BOTTOMRIGHT", -1, 6)
+			hl:Point("TOPLEFT", 0, -1)
+			hl:Point("BOTTOMRIGHT", -1, 6)
 
 			it:StyleButton(true)
 		end
@@ -171,7 +171,7 @@ local function LoadSkin()
 
 		local bd = CreateFrame("Frame", nil, bu)
 		bd:SetPoint("TOPLEFT")
-		bd:SetPoint("BOTTOMRIGHT", 0, 5)
+		bd:Point("BOTTOMRIGHT", 0, 5)
 		bd:SetFrameLevel(bu:GetFrameLevel()-1)
 		R.CreateBD(bd, .25)
 
@@ -179,8 +179,8 @@ local function LoadSkin()
 		local hl = bu:GetHighlightTexture()
 		hl:SetVertexColor(r, g, b, .2)
 		hl:ClearAllPoints()
-		hl:SetPoint("TOPLEFT", 0, -1)
-		hl:SetPoint("BOTTOMRIGHT", -1, 6)
+		hl:Point("TOPLEFT", 0, -1)
+		hl:Point("BOTTOMRIGHT", -1, 6)
 
 		it:StyleButton(true)
 	end
@@ -201,7 +201,7 @@ local function LoadSkin()
 
 		local bd = CreateFrame("Frame", nil, bu)
 		bd:SetPoint("TOPLEFT")
-		bd:SetPoint("BOTTOMRIGHT", 0, 5)
+		bd:Point("BOTTOMRIGHT", 0, 5)
 		bd:SetFrameLevel(bu:GetFrameLevel()-1)
 		R.CreateBD(bd, .25)
 
@@ -209,8 +209,8 @@ local function LoadSkin()
 		local hl = bu:GetHighlightTexture()
 		hl:SetVertexColor(r, g, b, .2)
 		hl:ClearAllPoints()
-		hl:SetPoint("TOPLEFT", 0, -1)
-		hl:SetPoint("BOTTOMRIGHT", -1, 6)
+		hl:Point("TOPLEFT", 0, -1)
+		hl:Point("BOTTOMRIGHT", -1, 6)
 
 		it:StyleButton(true)
 	end
@@ -221,8 +221,8 @@ local function LoadSkin()
 		local _, _, _, _, _, _, _, _, _, _, _, _, _, AuctionsItemButtonIconTexture = AuctionsItemButton:GetRegions() -- blizzard, please name your textures
 		if AuctionsItemButtonIconTexture then
 			AuctionsItemButtonIconTexture:SetTexCoord(.08, .92, .08, .92)
-			AuctionsItemButtonIconTexture:SetPoint("TOPLEFT", 1, -1)
-			AuctionsItemButtonIconTexture:SetPoint("BOTTOMRIGHT", -1, 1)
+			AuctionsItemButtonIconTexture:Point("TOPLEFT", 1, -1)
+			AuctionsItemButtonIconTexture:Point("BOTTOMRIGHT", -1, 1)
 		end
 	end)
 

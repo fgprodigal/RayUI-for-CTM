@@ -180,6 +180,8 @@ ns.watchers ={
 			{ spellID = 136, unitId = "pet", caster = "player", filter = "BUFF" },
 			-- 狂野呼喚
 			{ spellID = 53434, unitId = "player", caster = "player", filter = "BUFF" },
+			-- 強化穩固射擊
+			{ spellID = 53220, unitId = "player", caster = "player", filter = "BUFF" },
 
 		},
 		{
@@ -1349,6 +1351,8 @@ ns.watchers ={
 			{ spellID = 98492, unitId = "player", caster = "all", filter = "DEBUFF", fuzzy = true },
 			--爆裂種子
 			{ spellID = 98450, unitId = "player", caster = "all", filter = "DEBUFF", fuzzy = true },
+			--折磨
+			{ spellID = 99256, unitId = "player", caster = "all", filter = "DEBUFF", fuzzy = true },
 			
 		-- 龍魂
 			-- 魔寇

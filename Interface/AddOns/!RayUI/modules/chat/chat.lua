@@ -11,7 +11,6 @@ local fontFlag = "THINOUTLINE"
 --other variables
 local eb_width = chat_width						-- Editbox width
 local tscol = "64C2F5"						-- Timestamp coloring
-local TimeStampsCopy = true
 local LinkHover = {}; LinkHover.show = {	-- enable (true) or disable (false) LinkHover functionality for different things in chat
 	["achievement"] = true,
 	["enchant"]     = true,
@@ -349,13 +348,30 @@ SLASH_TELLTARGET3 = "/wt"
 ---------------- > URL Copy
 local OldSetItemRef = SetItemRef
 local function URL_SetItemRef(link, text, button, chatFrame)
-	if (strsub(link, 1, 3) == "url") then
+	if strsub(link, 1, 9) == "RayUIChat" then
+		frame = GetMouseFocus():GetParent()
+		local text
+		for i = 1, select("#", frame:GetRegions()) do
+			local obj = select(i, frame:GetRegions())
+			if obj:GetObjectType() == "FontString" and obj:IsMouseOver() then
+				text = obj:GetText()
+			end
+		end
+		text = text:gsub("|c%x%x%x%x%x%x%x%x(.-)|r", "%1")
+		text = text:gsub("|H.-|h(.-)|h", "%1")
+		local ChatFrameEditBox = ChatEdit_ChooseBoxForSend()
+		if (not ChatFrameEditBox:IsShown()) then
+			ChatEdit_ActivateChat(ChatFrameEditBox)
+		end
+		ChatFrameEditBox:SetText(text)
+		ChatFrameEditBox:HighlightText()
+	elseif (strsub(link, 1, 3) == "url") then
 		local ChatFrameEditBox = ChatEdit_ChooseBoxForSend()
 		local url = strsub(link, 5);
 		if (not ChatFrameEditBox:IsShown()) then
 			ChatEdit_ActivateChat(ChatFrameEditBox)
 		end
-		ChatFrameEditBox:Insert(url)
+		ChatFrameEditBox:SetText(url)
 		ChatFrameEditBox:HighlightText()
 	else
 		OldSetItemRef(link, text, button, chatFrame)
@@ -387,38 +403,21 @@ local function URL_AddLinkSyntax(chatstring)
 end
 
 ---------------- > Channel names
-local gsub = _G.string.gsub
-local time = _G.time
 local newAddMsg = {}
 
-local chn, rplc
-
-do
-	rplc = {
-		"[綜合]", --General
-		"[交易]", --Trade
-		"[世界防務]", --WorldDefense
-		"[本地防務]", --LocalDefense
-		"[尋求組隊]", --LookingForGroup
-		"[公會招募]", --GuildRecruitment
-		"[戰場]", --Battleground
-		"[戰場領袖]", --Battleground Leader
+local rplc = {
+		"[BG]", --Battleground
+		"[BGL]", --Battleground Leader
 		"[G]", --Guild
 		"[P]", --Party
-		"[隊長]", --Party Leader
-		"[隊長]", --Party Leader (Guide)
+		"[PL]", --Party Leader
+		"[PL]", --Party Leader (Guide)
 		"[O]", --Officer
-		"[Raid]", --Raid
+		"[R]", --Raid
 		"[RL]", --Raid Leader
-		"[團隊警告]", --Raid Warning
+		"[RW]", --Raid Warning
 	}
-	chn = {
-		"%[%d+%. General.-%]",
-		"%[%d+%. Trade.-%]",
-		"%[%d+%. WorldDefense%]",
-		"%[%d+%. LocalDefense.-%]",
-		"%[%d+%. LookingForGroup%]",
-		"%[%d+%. GuildRecruitment.-%]",
+local chn = {
 		gsub(CHAT_BATTLEGROUND_GET, ".*%[(.*)%].*", "%%[%1%%]"),
 		gsub(CHAT_BATTLEGROUND_LEADER_GET, ".*%[(.*)%].*", "%%[%1%%]"),
 		gsub(CHAT_GUILD_GET, ".*%[(.*)%].*", "%%[%1%%]"),
@@ -429,69 +428,60 @@ do
 		gsub(CHAT_RAID_GET, ".*%[(.*)%].*", "%%[%1%%]"),
 		gsub(CHAT_RAID_LEADER_GET, ".*%[(.*)%].*", "%%[%1%%]"),
 		gsub(CHAT_RAID_WARNING_GET, ".*%[(.*)%].*", "%%[%1%%]"),
+		gsub(CHAT_BN_CONVERSATION_GET_LINK, ".*%[(.*)%..*%].*", "%%[%1%%]"),
 	}
-	local L = GetLocale()
-	if L == "ruRU" then --Russian
-		chn[1] = "%[%d+%. Общий.-%]"
-		chn[2] = "%[%d+%. Торговля.-%]"
-		chn[3] = "%[%d+%. Оборона: глобальный%]" --Defense: Global
-		chn[4] = "%[%d+%. Оборона.-%]" --Defense: Zone
-		chn[5] = "%[%d+%. Поиск спутников%]"
-		chn[6] = "%[%d+%. Гильдии.-%]"
-	elseif L == "deDE" then --German
-		chn[1] = "%[%d+%. Allgemein.-%]"
-		chn[2] = "%[%d+%. Handel.-%]"
-		chn[3] = "%[%d+%. Weltverteidigung%]"
-		chn[4] = "%[%d+%. LokaleVerteidigung.-%]"
-		chn[5] = "%[%d+%. SucheNachGruppe%]"
-		chn[6] = "%[%d+%. Gildenrekrutierung.-%]"
-	elseif L == "zhTW" then --繁體中文
-		chn[1] = "%[%d+%. 綜合-%]"
-		chn[2] = "%[%d+%. 交易-%]"
-		chn[3] = "%[%d+%. 世界防務%]"
-		chn[4] = "%[%d+%. 本地防務-%]"
-		chn[5] = "%[%d+%. 尋求組隊%]"
-		chn[6] = "%[%d+%. 工會招募-%]"
-
-	end
-end
 
 do
 	local function AddMessage(frame, text, ...)
-		text = URL_AddLinkSyntax(text)
-		for i = 1, 16 do
-			text = gsub(text, chn[i], rplc[i])
+		if text:find(INTERFACE_ACTION_BLOCKED) then return end
+		if text:find("BN_CONVERSATION") then
+			-- text = text:gsub("|Hchannel:BN_CONVERSATION:(%d*)|h%[(%d*)%..*%]|h", string.format("|Hchannel:BN_CONVERSATION:%s|h[%s]|h", text:match("|Hchannel:BN_CONVERSATION:(%d*)|h%[(%d*)%..*%]|h")))
+		else			
+			for i = 1, 10 do
+				text = gsub(text, chn[i], rplc[i])
+			end
+			text = text:gsub("%[(%d0?)%. .-%]", "[%1]") --custom channels
+			text = text:gsub("CHANNEL:", "")
 		end
+		text = URL_AddLinkSyntax(text)
 		--If Blizz timestamps is enabled, stamp anything it misses
 		if CHAT_TIMESTAMP_FORMAT and not text:find("|r") then
 			text = BetterDate(CHAT_TIMESTAMP_FORMAT, time())..text
 		end
-		text = gsub(text, "%[(%d0?)%. .-%]", "[%1]") --custom channels
+		text = string.gsub(text, "%[(%d+)%. .-%]", "[%1]")
+		text = ('|cffffffff|HRayUIChat|h|r%s|h %s'):format('|cff'..tscol..''..date('[%H:%M]')..'|r', text)
 		return newAddMsg[frame:GetName()](frame, text, ...)
 	end
 	for i = 1, 5 do
-		if i ~= 2 then -- skip combatlog
+		if _G["ChatFrame"..i] ~= COMBATLOG then -- skip combatlog
 			local f = _G[format("%s%d", "ChatFrame", i)]
 			newAddMsg[format("%s%d", "ChatFrame", i)] = f.AddMessage
 			f.AddMessage = AddMessage
 		end
 	end
 end
+
 ---------------- > Enable/Disable mouse for editbox
 local function eb_mouseon()
 	for i =1, 10 do
 		local eb = _G['ChatFrame'..i..'EditBox']
+		local tab = _G['ChatFrame'..i..'Tab']
 		eb:EnableMouse(true)
+		tab:EnableMouse(false)
 	end
 end
 local function  eb_mouseoff()
 	for i =1, 10 do
 		local eb = _G['ChatFrame'..i..'EditBox']
+		local tab = _G['ChatFrame'..i..'Tab']
 		eb:EnableMouse(false)
+		tab:EnableMouse(true)
 	end
 end
 hooksecurefunc("ChatFrame_OpenChat",eb_mouseon)
+hooksecurefunc("ChatEdit_OnShow",eb_mouseon)
 hooksecurefunc("ChatEdit_SendText",eb_mouseoff)
+hooksecurefunc("ChatEdit_OnHide",eb_mouseoff)
 
 ---------------- > Show tooltips when hovering a link in chat (credits to Adys for his LinkHover)
 function LinkHover.OnHyperlinkEnter(_this, linkData, link)
@@ -513,7 +503,8 @@ local function LinkHoverOnLoad()
 	for i = 1, NUM_CHAT_WINDOWS do
 		local f = _G["ChatFrame"..i]
 		f:SetScript("OnHyperlinkEnter", LinkHover.OnHyperlinkEnter)
-		f:SetScript("OnHyperlinkLeave", LinkHover.OnHyperlinkLeave)
+		-- f:SetScript("OnHyperlinkLeave", LinkHover.OnHyperlinkLeave)
+		f:SetScript("OnHyperlinkLeave", GameTooltip_Hide)
 	end
 end
 LinkHoverOnLoad()
@@ -546,22 +537,6 @@ ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL_NOTICE", function(msg) return 
 ChatFrame_AddMessageEventFilter("CHAT_MSG_AFK", function(msg) return true end)
 ChatFrame_AddMessageEventFilter("CHAT_MSG_DND", function(msg) return true end)
 
----------------- > Per-line chat copy via time stamps
-if TimeStampsCopy then
-	local AddMsg = {}
-	local AddMessage = function(frame, text, ...)
-		text = string.gsub(text, "%[(%d+)%. .-%]", "[%1]")
-		text = ('|cffffffff|Hm_Chat|h|r%s|h %s'):format('|cff'..tscol..''..date('[%H:%M]')..'|r', text)
-		return AddMsg[frame:GetName()](frame, text, ...)
-	end
-	for i = 1, NUM_CHAT_WINDOWS do
-		if i ~= 2 then
-			AddMsg["ChatFrame"..i] = _G["ChatFrame"..i].AddMessage
-			_G["ChatFrame"..i].AddMessage = AddMessage
-		end
-	end
-end
-
 for i = 1, NUM_CHAT_WINDOWS do
 	chat = _G[format("ChatFrame%s", i)]:GetName()
 	for j = 1, #CHAT_FRAME_TEXTURES do 
@@ -582,8 +557,6 @@ end
 -----------------------------------------------------
 -- ChatBackground
 -----------------------------------------------------
-SetCVar("chatStyle", "classic")
-
 local ChatBG = CreateFrame("Frame", "ChatBG", UIParent)
 ChatBG:CreatePanel("Default", C["chat"].width, C["chat"].height, "BOTTOMLEFT",UIParent,"BOTTOMLEFT",15,30)
 GeneralDockManager:SetParent(ChatBG)
@@ -638,13 +611,16 @@ local function SetChatPosition()
 	end
 end
 
-local ChatPosUpdate = CreateFrame("Frame")
-ChatPosUpdate:RegisterEvent("PLAYER_ENTERING_WORLD")
-ChatPosUpdate:SetScript("OnEvent", function(self)
+local f = CreateFrame("Frame")
+f:RegisterEvent("PLAYER_ENTERING_WORLD")
+f:SetScript("OnEvent", function(self)
 	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
 	SetChatPosition()
+	SetCVar("showTimestamps", "none")
+	SetCVar("profanityFilter", 0)
+	SetCVar("chatStyle", "classic")
 end)
-ChatPosUpdate:SetScript("OnUpdate", function(self, elapsed)
+f:SetScript("OnUpdate", function(self, elapsed)
 	if InCombatLockdown() then return end
 	if(self.elapsed and self.elapsed > 1) then
 		SetChatPosition()

@@ -27,11 +27,11 @@ local function LoadSkin()
 	InboxPrevPageButton:GetRegions():Hide()
 	InboxNextPageButton:GetRegions():Hide()
 	
-	SendMailMailButton:SetPoint("RIGHT", SendMailCancelButton, "LEFT", -1, 0)
-	OpenMailDeleteButton:SetPoint("RIGHT", OpenMailCancelButton, "LEFT", -1, 0)
-	OpenMailReplyButton:SetPoint("RIGHT", OpenMailDeleteButton, "LEFT", -1, 0)
-	SendMailMoneySilver:SetPoint("LEFT", SendMailMoneyGold, "RIGHT", 1, 0)
-	SendMailMoneyCopper:SetPoint("LEFT", SendMailMoneySilver, "RIGHT", 1, 0)
+	SendMailMailButton:Point("RIGHT", SendMailCancelButton, "LEFT", -1, 0)
+	OpenMailDeleteButton:Point("RIGHT", OpenMailCancelButton, "LEFT", -1, 0)
+	OpenMailReplyButton:Point("RIGHT", OpenMailDeleteButton, "LEFT", -1, 0)
+	SendMailMoneySilver:Point("LEFT", SendMailMoneyGold, "RIGHT", 1, 0)
+	SendMailMoneyCopper:Point("LEFT", SendMailMoneySilver, "RIGHT", 1, 0)
 
 	local buttons = {
 		"SendMailMailButton",
@@ -75,8 +75,8 @@ local function LoadSkin()
 	OpenMailFrame:DisableDrawLayer("BORDER")
 
 	local bg = CreateFrame("Frame", nil, OpenMailLetterButton)
-	bg:SetPoint("TOPLEFT", -1, 1)
-	bg:SetPoint("BOTTOMRIGHT", 1, -1)
+	bg:Point("TOPLEFT", -1, 1)
+	bg:Point("BOTTOMRIGHT", 1, -1)
 	bg:SetFrameLevel(OpenMailLetterButton:GetFrameLevel()-1)
 	R.CreateBD(bg)
 
@@ -99,8 +99,8 @@ local function LoadSkin()
 		ic:SetTexCoord(.08, .92, .08, .92)
 
 		local bg = CreateFrame("Frame", nil, bu)
-		bg:SetPoint("TOPLEFT", -1, 1)
-		bg:SetPoint("BOTTOMRIGHT", 1, -1)
+		bg:Point("TOPLEFT", -1, 1)
+		bg:Point("BOTTOMRIGHT", 1, -1)
 		bg:SetFrameLevel(bu:GetFrameLevel()-1)
 		R.CreateBD(bg, 0)
 	end
@@ -110,8 +110,8 @@ local function LoadSkin()
 		button:GetRegions():Hide()
 
 		local bg = CreateFrame("Frame", nil, button)
-		bg:SetPoint("TOPLEFT", -1, 1)
-		bg:SetPoint("BOTTOMRIGHT", 1, -1)
+		bg:Point("TOPLEFT", -1, 1)
+		bg:Point("BOTTOMRIGHT", 1, -1)
 		bg:SetFrameLevel(0)
 		R.CreateBD(bg, .25)
 	end
@@ -124,8 +124,8 @@ local function LoadSkin()
 		ic:SetTexCoord(.08, .92, .08, .92)
 
 		local bg = CreateFrame("Frame", nil, bu)
-		bg:SetPoint("TOPLEFT", -1, 1)
-		bg:SetPoint("BOTTOMRIGHT", 1, -1)
+		bg:Point("TOPLEFT", -1, 1)
+		bg:Point("BOTTOMRIGHT", 1, -1)
 		bg:SetFrameLevel(0)
 		R.CreateBD(bg, .25)
 	end

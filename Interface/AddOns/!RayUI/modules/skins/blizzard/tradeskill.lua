@@ -47,9 +47,9 @@ local function LoadSkin()
 
 	local a1, p, a2, x, y = TradeSkillGuildFrame:GetPoint()
 	TradeSkillGuildFrame:ClearAllPoints()
-	TradeSkillGuildFrame:SetPoint(a1, p, a2, x + 16, y)
+	TradeSkillGuildFrame:Point(a1, p, a2, x + 16, y)
 
-	TradeSkillLinkButton:SetPoint("LEFT", 0, -1)
+	TradeSkillLinkButton:Point("LEFT", 0, -1)
 
 	R.Reskin(TradeSkillCreateButton)
 	R.Reskin(TradeSkillCreateAllButton)
@@ -62,8 +62,8 @@ local function LoadSkin()
 	TradeSkillRankFrame:GetStatusBarTexture():SetGradient("VERTICAL", .1, .3, .9, .2, .4, 1)
 	
 	local bg = CreateFrame("Frame", nil, TradeSkillRankFrame)
-	bg:SetPoint("TOPLEFT", -1, 1)
-	bg:SetPoint("BOTTOMRIGHT", 1, -1)
+	bg:Point("TOPLEFT", -1, 1)
+	bg:Point("BOTTOMRIGHT", 1, -1)
 	bg:SetFrameLevel(TradeSkillRankFrame:GetFrameLevel()-1)
 	R.CreateBD(bg, .25)
 
@@ -97,8 +97,8 @@ local function LoadSkin()
 			TradeSkillSkillIcon:GetHighlightTexture():Point("BOTTOMRIGHT", -1, 1)
 			if ic then
 				ic:SetTexCoord(.08, .92, .08, .92)
-				ic:SetPoint("TOPLEFT", 1, -1)
-				ic:SetPoint("BOTTOMRIGHT", -1, 1)
+				ic:Point("TOPLEFT", 1, -1)
+				ic:Point("BOTTOMRIGHT", -1, 1)
 				R.CreateBD(TradeSkillSkillIcon)
 				reskinned = true
 			end

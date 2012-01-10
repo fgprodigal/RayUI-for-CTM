@@ -112,7 +112,7 @@ end)
 
 local LockToggle = false
 
-function MoveOut()
+local function MoveOut()
 	local nowwidth = 0
 	local all = .7  ---all time
 	local allwidth = C["chat"].width
@@ -129,13 +129,13 @@ function MoveOut()
 			finished = true
 			R.ChatIn = false
 			ChatBG:ClearAllPoints()
-			ChatBG:SetPoint("BOTTOMLEFT",UIParent,"BOTTOMLEFT",-C["chat"].width,30);	
+			ChatBG:SetPoint("BOTTOMLEFT",UIParent,"BOTTOMLEFT",-C["chat"].width - 2,30);	
 		end
 	end)
 	UIFrameFadeOut(ChatBG, .7, 1, 0)
 end
 
-function MoveIn()
+local function MoveIn()
 	local nowwidth = -C["chat"].width
 	local all = .7  ---all time
 	local allwidth = C["chat"].width

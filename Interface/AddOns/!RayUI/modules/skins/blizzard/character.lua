@@ -222,28 +222,28 @@ local function LoadSkin()
 		end
 
 		tab.Highlight:SetTexture(r, g, b, .2)
-		tab.Highlight:SetPoint("TOPLEFT", 3, -4)
-		tab.Highlight:SetPoint("BOTTOMRIGHT", -1, 0)
+		tab.Highlight:Point("TOPLEFT", 3, -4)
+		tab.Highlight:Point("BOTTOMRIGHT", -1, 0)
 		tab.Hider:SetTexture(.3, .3, .3, .4)
 		tab.TabBg:SetAlpha(0)
 
 		select(2, tab:GetRegions()):ClearAllPoints()
 		if i == 1 then
-			select(2, tab:GetRegions()):SetPoint("TOPLEFT", 3, -4)
-			select(2, tab:GetRegions()):SetPoint("BOTTOMRIGHT", -1, 0)
+			select(2, tab:GetRegions()):Point("TOPLEFT", 3, -4)
+			select(2, tab:GetRegions()):Point("BOTTOMRIGHT", -1, 0)
 		else
-			select(2, tab:GetRegions()):SetPoint("TOPLEFT", 2, -4)
-			select(2, tab:GetRegions()):SetPoint("BOTTOMRIGHT", -1, -1)
+			select(2, tab:GetRegions()):Point("TOPLEFT", 2, -4)
+			select(2, tab:GetRegions()):Point("BOTTOMRIGHT", -1, -1)
 		end
 
 		tab.bg = CreateFrame("Frame", nil, tab)
-		tab.bg:SetPoint("TOPLEFT", 2, -3)
-		tab.bg:SetPoint("BOTTOMRIGHT", 0, -1)
+		tab.bg:Point("TOPLEFT", 2, -3)
+		tab.bg:Point("BOTTOMRIGHT", 0, -1)
 		tab.bg:SetFrameLevel(0)
 		R.CreateBD(tab.bg)
 
-		tab.Hider:SetPoint("TOPLEFT", tab.bg, 1, -1)
-		tab.Hider:SetPoint("BOTTOMRIGHT", tab.bg, -1, 1)
+		tab.Hider:Point("TOPLEFT", tab.bg, 1, -1)
+		tab.Hider:Point("BOTTOMRIGHT", tab.bg, -1, 1)
 	end
 
 	for i = 1, NUM_GEARSET_ICONS_SHOWN do
@@ -252,8 +252,8 @@ local function LoadSkin()
 
 		bu:SetCheckedTexture(C.Aurora.checked)
 		select(2, bu:GetRegions()):Hide()
-		ic:SetPoint("TOPLEFT", 1, -1)
-		ic:SetPoint("BOTTOMRIGHT", -1, 1)
+		ic:Point("TOPLEFT", 1, -1)
+		ic:Point("BOTTOMRIGHT", -1, 1)
 		ic:SetTexCoord(.08, .92, .08, .92)
 
 		R.CreateBD(bu, .25)
@@ -335,8 +335,8 @@ local function LoadSkin()
 			for i = 1, 10 do
 				local bu = _G["PetStableStabledPet"..i]
 				local bd = CreateFrame("Frame", nil, bu)
-				bd:SetPoint("TOPLEFT", -1, 1)
-				bd:SetPoint("BOTTOMRIGHT", 1, -1)
+				bd:Point("TOPLEFT", -1, 1)
+				bd:Point("BOTTOMRIGHT", 1, -1)
 				R.CreateBD(bd, .25)
 				bu:StripTextures()
 				bu:StyleButton(true)
@@ -346,8 +346,8 @@ local function LoadSkin()
 			for i = 1, 5 do
 				local bu = _G["PetStableActivePet"..i]
 				local bd = CreateFrame("Frame", nil, bu)
-				bd:SetPoint("TOPLEFT", -1, 1)
-				bd:SetPoint("BOTTOMRIGHT", 1, -1)
+				bd:Point("TOPLEFT", -1, 1)
+				bd:Point("BOTTOMRIGHT", 1, -1)
 				R.CreateBD(bd, .25)
 				bu:StripTextures()
 				bu:StyleButton(true)
@@ -374,8 +374,8 @@ local function LoadSkin()
 		PetPaperDollFrameExpBar:SetStatusBarTexture(C.media.normal)
 
 		local bbg = CreateFrame("Frame", nil, PetPaperDollFrameExpBar)
-		bbg:SetPoint("TOPLEFT", -1, 1)
-		bbg:SetPoint("BOTTOMRIGHT", 1, -1)
+		bbg:Point("TOPLEFT", -1, 1)
+		bbg:Point("BOTTOMRIGHT", 1, -1)
 		bbg:SetFrameLevel(PetPaperDollFrameExpBar:GetFrameLevel()-1)
 		R.CreateBD(bbg, .25)
 	end

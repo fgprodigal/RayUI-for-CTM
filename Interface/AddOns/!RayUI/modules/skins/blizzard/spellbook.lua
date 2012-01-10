@@ -75,13 +75,19 @@ local function LoadSkin()
 		else
 			ic.bg:Hide()
 		end
+		if self.shine then
+			self.shine:SetAllPoints()
+		end
+		if _G[name.."AutoCastable"] then
+			_G[name.."AutoCastable"]:SetSize(75, 75)
+		end
 	end)
 
 	for i = 1, 5 do
 		local tab = _G["SpellBookSkillLineTab"..i]
 		tab:StripTextures()
 		local a1, p, a2, x, y = tab:GetPoint()
-		tab:SetPoint(a1, p, a2, x + 11, y)
+		tab:Point(a1, p, a2, x + 11, y)
 		R.CreateBG(tab)
 		R.CreateSD(tab, 5, 0, 0, 0, 1, 1)
 		_G["SpellBookSkillLineTab"..i.."TabardIconFrame"]:SetTexCoord(.08, .92, .08, .92)
@@ -112,7 +118,7 @@ local function LoadSkin()
 		bu.statusBar.rankText:SetPoint("CENTER")
 
 		local _, p = bu.statusBar:GetPoint()
-		bu.statusBar:SetPoint("TOPLEFT", p, "BOTTOMLEFT", 1, -3)
+		bu.statusBar:Point("TOPLEFT", p, "BOTTOMLEFT", 1, -3)
 
 		_G[button.."StatusBarLeft"]:Hide()
 		bu.statusBar.capRight:SetAlpha(0)
@@ -121,8 +127,8 @@ local function LoadSkin()
 		_G[button.."StatusBarBGRight"]:Hide()
 
 		local bg = CreateFrame("Frame", nil, bu.statusBar)
-		bg:SetPoint("TOPLEFT", -1, 1)
-		bg:SetPoint("BOTTOMRIGHT", 1, -1)
+		bg:Point("TOPLEFT", -1, 1)
+		bg:Point("BOTTOMRIGHT", 1, -1)
 		bg:SetFrameLevel(bu:GetFrameLevel()-1)
 		R.CreateBD(bg, .25)
 	end
@@ -154,8 +160,8 @@ local function LoadSkin()
 		if icon then
 			icon:SetTexCoord(.08, .92, .08, .92)
 			icon:ClearAllPoints()
-			icon:SetPoint("TOPLEFT", 2, -2)
-			icon:SetPoint("BOTTOMRIGHT", -2, 2)
+			icon:Point("TOPLEFT", 2, -2)
+			icon:Point("BOTTOMRIGHT", -2, 2)
 			R.CreateBG(icon)
 		end					
 	end
@@ -164,7 +170,7 @@ local function LoadSkin()
 		local bu = _G["PrimaryProfession"..i]
 		local bg = CreateFrame("Frame", nil, bu)
 		bg:SetPoint("TOPLEFT")
-		bg:SetPoint("BOTTOMRIGHT", 0, -4)
+		bg:Point("BOTTOMRIGHT", 0, -4)
 		bg:SetFrameLevel(0)
 		R.CreateBD(bg, .25)
 	end
@@ -181,8 +187,8 @@ local function LoadSkin()
 			ic:SetTexCoord(.08, .92, .08, .92)
 
 			bu.bd = CreateFrame("Frame", nil, bu)
-			bu.bd:SetPoint("TOPLEFT", ic, -1, 1)
-			bu.bd:SetPoint("BOTTOMRIGHT", ic, 1, -1)
+			bu.bd:Point("TOPLEFT", ic, -1, 1)
+			bu.bd:Point("BOTTOMRIGHT", ic, 1, -1)
 			R.CreateBD(bu.bd, 0)
 
 			bu:SetPushedTexture(nil)

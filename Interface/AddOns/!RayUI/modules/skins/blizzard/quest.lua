@@ -277,6 +277,15 @@ local function LoadSkin()
 	R.ReskinClose(QuestLogFrameCloseButton, "TOPRIGHT", QuestLogFrame, "TOPRIGHT", -7, -14)
 	R.ReskinClose(QuestLogDetailFrameCloseButton, "TOPRIGHT", QuestLogDetailFrame, "TOPRIGHT", -5, -14)
 	R.ReskinClose(QuestFrameCloseButton, "TOPRIGHT", QuestFrame, "TOPRIGHT", -30, -20)
+	
+	R.Reskin(WatchFrameCollapseExpandButton)
+	local downtex = WatchFrameCollapseExpandButton:CreateTexture(nil, "ARTWORK")
+	downtex:Size(8, 8)
+	downtex:SetPoint("CENTER", 0, -1)
+	downtex:SetVertexColor(1, 1, 1)
+	
+	hooksecurefunc("WatchFrame_Collapse", function() downtex:SetTexture("Interface\\AddOns\\!RayUI\\media\\arrow-down-active") end)
+	hooksecurefunc("WatchFrame_Expand", function() downtex:SetTexture("Interface\\AddOns\\!RayUI\\media\\arrow-up-active") end)
 end
 
 tinsert(R.SkinFuncs["RayUI"], LoadSkin)

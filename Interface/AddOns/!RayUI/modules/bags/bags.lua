@@ -728,7 +728,7 @@ function Bag:InitBank()
 		if numSlots >= 1 then
 			ToggleFrame(f.ContainerHolder) 
 		else
-			-- StaticPopup_Show("NO_BANK_BAGS")
+			StaticPopup_Show("NO_BANK_BAGS")
 		end	
 	end)
 	R.Reskin(f.bagsButton)
@@ -1209,3 +1209,35 @@ BankFrame:UnregisterAllEvents()
 
 StackSplitFrame:SetFrameStrata('DIALOG')
 LootFrame:SetFrameStrata('DIALOG')
+
+StaticPopupDialogs["BUY_BANK_SLOT"] = {
+	text = CONFIRM_BUY_BANK_SLOT,
+	button1 = YES,
+	button2 = NO,
+	OnAccept = function(self)
+		PurchaseSlot()
+	end,
+	OnShow = function(self)
+		MoneyFrame_Update(self.moneyFrame, GetBankSlotCost())
+	end,
+	hasMoneyFrame = 1,
+	timeout = 0,
+	hideOnEscape = 1,
+	preferredIndex = 3
+}
+
+StaticPopupDialogs["CANNOT_BUY_BANK_SLOT"] = {
+	text = L["不能购买更多的银行栏位了!"],
+	button1 = ACCEPT,
+	timeout = 0,
+	whileDead = 1,	
+	preferredIndex = 3
+}
+
+StaticPopupDialogs["NO_BANK_BAGS"] = {
+	text = L["你必须先购买一个银行栏位!"],
+	button1 = ACCEPT,
+	timeout = 0,
+	whileDead = 1,	
+	preferredIndex = 3
+}
