@@ -491,7 +491,7 @@ local function SkinObjects(frame)
 	hp.boss = bossicon
 	hp.elite = elite
 	
-	hp.value = frame:CreateFontString(nil, "OVERLAY")	
+	hp.value = hp:CreateFontString(nil, "OVERLAY")	
 	hp.value:SetFont(C["media"].font, FONTSIZE, C["media"].fontflag)
 	hp.value:SetShadowColor(0, 0, 0, 0.4)
 	hp.value:SetPoint("BOTTOMRIGHT", hp, "TOPRIGHT", 0, -4)
@@ -500,7 +500,7 @@ local function SkinObjects(frame)
 	hp.value:SetShadowOffset(R.mult, -R.mult)
 	
 	--Create Name Text
-	hp.name = frame:CreateFontString(nil, 'OVERLAY')
+	hp.name = hp:CreateFontString(nil, "OVERLAY")
 	hp.name:SetPoint("BOTTOMLEFT", hp, "TOPLEFT", 0, -4)
 	hp.name:SetPoint("BOTTOMRIGHT", hp, "TOPRIGHT", -20, -4)
 	hp.name:SetFont(C["media"].font, FONTSIZE, C["media"].fontflag)
@@ -609,8 +609,9 @@ end
 local function UpdateThreat(frame, elapsed)
 	frame.hp:Show()
 	if frame.hasClass == true then return end
-	if not frame.region:IsShown() then
-		if InCombatLockdown() and frame.isFriendly ~= true then
+	local r, g, b = frame.hp.oldname:GetTextColor()
+	if not frame.region:IsShown() or g+b > 1.95 then
+		if InCombatLockdown() and frame.isFriendly ~= true and g+b == 0 then
 			--No Threat
 			if R.Role == "Tank" then
 				frame.hp:SetStatusBarColor(badR, badG, badB)
@@ -700,7 +701,7 @@ local function AdjustNameLevel(frame, ...)
 	if UnitName("target") == frame.hp.oldname:GetText() and frame:GetAlpha() == 1 then
 		frame.hp.name:SetDrawLayer("OVERLAY")
 	else
-		frame.hp.name:SetDrawLayer("BORDER")
+		frame.hp.name:SetDrawLayer("ARTWORK")
 	end
 end
 
@@ -720,7 +721,7 @@ local function ShowHealth(frame, ...)
 	--Change frame style if the frame is our target or not
 	if UnitName("target") == frame.hp.oldname:GetText() and frame:GetAlpha() == 1 then
 		--Targetted Unit
-		frame.hp.name:SetTextColor(1, 1, 1)
+		frame.hp.name:SetTextColor(1, 1, 1)		
 	else
 		--Not Targetted
 		-- frame.hp.name:SetTextColor(1, 1, 1)

@@ -14,8 +14,8 @@ local firstLines = {
 	"^Skada: Bericht für (.*) gegen (.*), (.*) bis (.*):$",	-- Skada deDE, might change in new Skada version
 	"^Skada : (.*) pour (.*), de (.*) à (.*) :$",			-- Skada frFR
 	"^(.*) - (.*)의 Skada 보고, (.*) ~ (.*):$",				-- Skada koKR
-	"^Skada报告(.*)的(.*), (.*)到(.*):$",					-- Skada zhCN, might change in new Skada version
-	"^(.*)的報告來自(.*)，從(.*)到(.*)：$",					-- Skada zhTW, might change in new Skada version
+	"^Skada战斗报告：(.*)的(.*), (.*)到(.*):$",					-- Skada zhCN, might change in new Skada version
+	"^Skada:(.*)來自(.*)，(.*) - (.*):$",					-- Skada zhTW, might change in new Skada version
 	"^Skada: (.*) for (.*), (.*) - (.*):$",					-- Better Skada support player details
 	"^(.*) Done for (.*)$"	,								-- TinyDPS
 	"^Numeration: (.*) for (.*)$"                        -- Numeration

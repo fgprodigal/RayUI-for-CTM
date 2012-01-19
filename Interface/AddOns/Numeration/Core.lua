@@ -327,6 +327,7 @@ end
 
 function addon:Reset()
 	local lastZone = NumerationCharDB and NumerationCharDB.zone
+	wipe(NumerationCharDB)
 	NumerationCharDB = {
 		[0] = newSet(),
 		zone = lastZone,

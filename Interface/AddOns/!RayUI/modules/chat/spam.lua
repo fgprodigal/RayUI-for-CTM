@@ -192,9 +192,17 @@ ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL", TRADE_FILTER)
 ----------------------------------------------------------------------------------
 -- 高亮显示自己名字
 ----------------------------------------------------------------------------------
+local function nocase(s)
+    s = string.gsub(s, "%a", function (c)
+       return string.format("[%s%s]", string.lower(c),
+                                          string.upper(c))
+    end)
+    return s
+end
+
 local function changeName(msgHeader, name, msgCnt, chatGroup, displayName, msgBody)
 	if name ~= R.myname then
-		msgBody = msgBody:gsub("("..R.myname:lower()..")" , "|cffffff00>>|r|cffff0000%1|r|cffffff00<<|r")
+		msgBody = msgBody:gsub("("..nocase(R.myname)..")" , "|cffffff00>>|r|cffff0000%1|r|cffffff00<<|r")
 	end
 	return ("|Hplayer:%s%s%s|h[%s]|h%s"):format(name, msgCnt, chatGroup, displayName, msgBody)
 end

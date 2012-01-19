@@ -304,11 +304,15 @@ local function Shared(self, unit)
             ebar.SolarBar = sbar
 
             ebar.Spark = sbar:CreateTexture(nil, "OVERLAY")
-            ebar.Spark:SetTexture[[Interface\CastingBar\UI-CastingBar-Spark]]
+            ebar.Spark:SetTexture("Interface\\CastingBar\\UI-CastingBar-Spark")
             ebar.Spark:SetBlendMode("ADD")
             ebar.Spark:SetAlpha(0.5)
             ebar.Spark:SetHeight(20)
             ebar.Spark:Point("LEFT", sbar:GetStatusBarTexture(), "LEFT", -15, 0)
+			
+            ebar.Arrow = sbar:CreateTexture(nil, "OVERLAY")
+            ebar.Arrow:SetSize(8,8)
+            ebar.Arrow:Point("CENTER", sbar:GetStatusBarTexture(), "LEFT", 0, 0)
 
             self.EclipseBar = ebar
             self.EclipseBar.PostUnitAura = R.UpdateEclipse

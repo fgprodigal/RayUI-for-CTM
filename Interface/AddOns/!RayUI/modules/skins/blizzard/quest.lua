@@ -108,8 +108,11 @@ local function LoadSkin()
 	QuestInfoItemHighlight:GetRegions():Hide()
 	QuestInfoSpellObjectiveFrameNameFrame:Hide()
 
-	QuestLogFrameShowMapButton:Hide()
-	QuestLogFrameShowMapButton.Show = R.dummy
+	QuestLogFrameShowMapButton:StripTextures()
+	R.Reskin(QuestLogFrameShowMapButton)
+	QuestLogFrameShowMapButton.text:ClearAllPoints()
+	QuestLogFrameShowMapButton.text:SetPoint("CENTER")
+	QuestLogFrameShowMapButton:Size(QuestLogFrameShowMapButton:GetWidth() - 30, QuestLogFrameShowMapButton:GetHeight(), - 40)
 
 	for i = 1, 9 do
 		select(i, QuestLogCount:GetRegions()):Hide()			
@@ -120,22 +123,22 @@ local function LoadSkin()
 	end
 	
 	NPCBD = CreateFrame("Frame", nil, QuestNPCModel)
-	NPCBD:SetPoint("TOPLEFT", 0, 1)
-	NPCBD:SetPoint("RIGHT", 1, 0)
+	NPCBD:Point("TOPLEFT", 0, 1)
+	NPCBD:Point("RIGHT", 1, 0)
 	NPCBD:SetPoint("BOTTOM", QuestNPCModelTextScrollFrame)
 	NPCBD:SetFrameLevel(QuestNPCModel:GetFrameLevel()-1)
 	R.CreateBD(NPCBD)
 
 	local line1 = CreateFrame("Frame", nil, QuestNPCModel)
-	line1:SetPoint("BOTTOMLEFT", 0, -1)
-	line1:SetPoint("BOTTOMRIGHT", 0, -1)
+	line1:Point("BOTTOMLEFT", 0, -1)
+	line1:Point("BOTTOMRIGHT", 0, -1)
 	line1:SetHeight(1)
 	line1:SetFrameLevel(QuestNPCModel:GetFrameLevel()-1)
 	R.CreateBD(line1, 0)
 
 	local bg = CreateFrame("Frame", nil, QuestInfoSkillPointFrame)
-	bg:SetPoint("TOPLEFT", -3, 0)
-	bg:SetPoint("BOTTOMRIGHT", -3, 0)
+	bg:Point("TOPLEFT", -3, 0)
+	bg:Point("BOTTOMRIGHT", -3, 0)
 	bg:Lower()
 	R.CreateBD(bg, .25)
 	
@@ -155,7 +158,7 @@ local function LoadSkin()
 
 	local line2 = QuestInfoSkillPointFrame:CreateTexture(nil, "BACKGROUND")
 	line2:SetSize(1, 40)
-	line2:SetPoint("RIGHT", QuestInfoSkillPointFrameIconTexture, 1, 0)
+	line2:Point("RIGHT", QuestInfoSkillPointFrameIconTexture, 1, 0)
 	line2:SetTexture(C.Aurora.backdrop)
 	line2:SetVertexColor(0, 0, 0)
 
@@ -192,7 +195,7 @@ local function LoadSkin()
 
 		local line = CreateFrame("Frame", nil, bu)
 		line:SetSize(1, 40)
-		line:SetPoint("RIGHT", ic, 1, 0)
+		line:Point("RIGHT", ic, 1, 0)
 		R.CreateBD(line)
 		
 		bu:StyleButton()
@@ -208,7 +211,7 @@ local function LoadSkin()
 		local na = _G["QuestInfoItem"..i.."NameFrame"]
 		local co = _G["QuestInfoItem"..i.."Count"]
 
-		ic:SetPoint("TOPLEFT", 1, -1)
+		ic:Point("TOPLEFT", 1, -1)
 		ic:SetSize(39, 39)
 		ic:SetTexCoord(.08, .92, .08, .92)
 		ic:SetDrawLayer("OVERLAY")
@@ -220,7 +223,7 @@ local function LoadSkin()
 
 		local line = CreateFrame("Frame", nil, bu)
 		line:SetSize(1, 40)
-		line:SetPoint("RIGHT", ic, 1, 0)
+		line:Point("RIGHT", ic, 1, 0)
 		R.CreateBD(line)
 		
 		bu:StyleButton()
@@ -231,10 +234,10 @@ local function LoadSkin()
 	end
 	
 	QuestLogFramePushQuestButton:ClearAllPoints()
-	QuestLogFramePushQuestButton:SetPoint("LEFT", QuestLogFrameAbandonButton, "RIGHT", 1, 0)
+	QuestLogFramePushQuestButton:Point("LEFT", QuestLogFrameAbandonButton, "RIGHT", 1, 0)
 	QuestLogFramePushQuestButton:SetWidth(100)
 	QuestLogFrameTrackButton:ClearAllPoints()
-	QuestLogFrameTrackButton:SetPoint("LEFT", QuestLogFramePushQuestButton, "RIGHT", 1, 0)
+	QuestLogFrameTrackButton:Point("LEFT", QuestLogFramePushQuestButton, "RIGHT", 1, 0)
 	
 	hooksecurefunc("QuestFrame_ShowQuestPortrait", function(parentFrame, portrait, text, name, x, y)
 		local parent = parentFrame:GetName()
@@ -281,7 +284,7 @@ local function LoadSkin()
 	R.Reskin(WatchFrameCollapseExpandButton)
 	local downtex = WatchFrameCollapseExpandButton:CreateTexture(nil, "ARTWORK")
 	downtex:Size(8, 8)
-	downtex:SetPoint("CENTER", 0, -1)
+	downtex:Point("CENTER", 0, -1)
 	downtex:SetVertexColor(1, 1, 1)
 	
 	hooksecurefunc("WatchFrame_Collapse", function() downtex:SetTexture("Interface\\AddOns\\!RayUI\\media\\arrow-down-active") end)

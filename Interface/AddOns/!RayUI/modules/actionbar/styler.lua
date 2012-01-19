@@ -277,12 +277,15 @@ end
 
 local function UpdateOverlayGlow(self)
 	if self.overlay then
-		local frameWidth, frameHeight = self.border:GetSize();
 		self.overlay:SetParent(self)
 		self.overlay:ClearAllPoints()
-		self.overlay:SetSize(frameWidth * 1.6, frameHeight * 1.6)
-		self.overlay:SetPoint("TOPLEFT", self.border, "TOPLEFT", -frameWidth * 0.3, frameHeight * 0.3)
-		self.overlay:SetPoint("BOTTOMRIGHT", self.border, "BOTTOMRIGHT", frameWidth * 0.3, -frameHeight * 0.3)
+		self.overlay:SetAllPoints(self.shadow)
+		self.overlay.ants:ClearAllPoints()
+		self.overlay.ants:SetAllPoints(self.shadow)
+		-- self.overlay.ants:SetPoint("TOPLEFT", self.shadow, "TOPLEFT", -1, 1)
+		-- self.overlay.ants:SetPoint("BOTTOMRIGHT", self.shadow, "BOTTOMRIGHT", 1, -1)
+		self.overlay.outerGlow:SetPoint("TOPLEFT", self.shadow, "TOPLEFT", -4, 4)
+		self.overlay.outerGlow:SetPoint("BOTTOMRIGHT", self.shadow, "BOTTOMRIGHT", 4, -4)
 	end
 end
 

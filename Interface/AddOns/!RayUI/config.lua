@@ -108,6 +108,7 @@ DB["raid"]={
     dispel = true,
     tooltip = true,
     hidemenu = false,
+	autorez = true,
 }
 
 DB["actionbar"]={

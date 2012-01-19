@@ -185,6 +185,24 @@ local function LoadSkin()
 	WarGameStartButton_RightSeparator:Hide()	
 	R.ReskinScroll(WarGamesFrameScrollFrameScrollBar)
 	R.ReskinScroll(WarGamesFrameInfoScrollFrameScrollBar)
+	
+	for i = 1, 6 do
+		local button = _G["WarGamesFrameScrollFrameButton"..i.."WarGame"]
+		local icon = _G["WarGamesFrameScrollFrameButton"..i.."WarGameIcon"]
+		
+		local bg = CreateFrame("Frame", nil, button)
+		bg:Point("TOPLEFT", icon, "TOPLEFT", -1, 1)
+		bg:Point("BOTTOMRIGHT", icon, "BOTTOMRIGHT", 1, -1)
+		R.CreateBD(bg, 0)
+		
+		button:StripTextures()
+		button:StyleButton()
+		button:GetHighlightTexture():Point("TOPLEFT", 2, 0)
+		button:GetHighlightTexture():Point("BOTTOMRIGHT", -2, 0)
+		button:GetPushedTexture():Point("TOPLEFT", 2, 0)
+		button:GetPushedTexture():Point("BOTTOMRIGHT", -2, 0)
+		select(2, button:GetRegions()):SetTexture(23/255,132/255,209/255,0.5)
+	end
 end
 
 tinsert(R.SkinFuncs["RayUI"], LoadSkin)

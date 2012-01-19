@@ -158,7 +158,7 @@ local Enable = function(self)
         end
         OnRangeFrame:Show()
 
-        local frame = CreateFrame("Frame", nil, UIParent)
+        local frame = CreateFrame("Frame", nil, self)
         frame:SetAllPoints(self)
         frame:SetFrameStrata("HIGH")
 

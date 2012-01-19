@@ -228,8 +228,58 @@ function R.ConstructCastBar(self)
 	return castbar
 end
 
+local channelTicks = {
+	-- warlock
+	[GetSpellInfo(1120)] = 5, -- drain soul
+	[GetSpellInfo(689)] = 5, -- drain life
+	[GetSpellInfo(5740)] = 4, -- rain of fire
+	-- druid
+	[GetSpellInfo(740)] = 4, -- Tranquility
+	[GetSpellInfo(16914)] = 10, -- Hurricane
+	-- priest
+	[GetSpellInfo(15407)] = 3, -- mind flay
+	[GetSpellInfo(48045)] = 5, -- mind sear
+	[GetSpellInfo(47540)] = 2, -- penance
+	-- mage
+	[GetSpellInfo(5143)] = 5, -- arcane missiles
+	[GetSpellInfo(10)] = 5, -- blizzard
+	[GetSpellInfo(12051)] = 4, -- evocation
+}
+
+local ticks = {}
+local function SetCastTicks(self, num)
+	if num and num > 0 then
+		local d = self:GetWidth() / num
+		for i = 1, num - 1 do
+			if not ticks[i] then
+				ticks[i] = self:CreateTexture(nil, 'OVERLAY')
+				ticks[i]:SetTexture[[Interface\CastingBar\UI-CastingBar-Spark]]
+				ticks[i]:SetBlendMode("ADD")
+				ticks[i]:SetWidth(12)
+				ticks[i]:SetHeight(self:GetHeight()+15)
+			end
+			ticks[i]:ClearAllPoints()
+			ticks[i]:SetPoint("CENTER", self, "LEFT", d * i, 0)
+			ticks[i]:Show()
+		end
+	else
+		for _, tick in pairs(ticks) do
+			tick:Hide()
+		end
+	end
+end
+
 function R.PostCastStart(self, unit, name, rank, castid)
 	if unit == "vehicle" then unit = "player" end
+	if unit == "player" then
+		if channelTicks[name] then
+			SetCastTicks(self, channelTicks[name])
+		else
+			for _, tick in pairs(ticks) do
+				tick:Hide()
+			end		
+		end
+	end
 	local r, g, b
 	if UnitIsPlayer(unit) and UnitIsFriend(unit, "player") and R.myname == "夏可" then
 		r, g, b = 95/255, 182/255, 255/255
@@ -551,6 +601,17 @@ function R.UpdateEclipse(element, unit)
         element.border:SetBackdropBorderColor(0, 0, 0)
         element.shadow:SetBackdropBorderColor(0, 0, 0)
     end
+	local direction = GetEclipseDirection()
+	if direction == "sun" then
+		element.Arrow:SetTexture("Interface\\AddOns\\!RayUI\\media\\arrow-right-active")
+		element.Spark:Hide()
+	elseif direction == "moon" then
+		element.Arrow:SetTexture("Interface\\AddOns\\!RayUI\\media\\arrow-left-active")
+		element.Spark:Hide()
+	else
+		element.Arrow:SetTexture(nil)
+		element.Spark:Show()
+	end
 end
 
 function R.ComboDisplay(self, event, unit)
@@ -616,7 +677,7 @@ local function CreateAuraTimer(self,elapsed)
 end
 
 function R.PostUpdateIcon(icons, unit, icon, index, offset)
-	local name, _, _, _, dtype, duration, expirationTime, unitCaster, isStealable = UnitAura(unit, index, icon.filter)
+	local name, _, _, _, dtype, duration, expirationTime, unitCaster, canStealOrPurge = UnitAura(unit, index, icon.filter)
 
 	local texture = icon.icon
 	if icon.debuff then
@@ -633,7 +694,7 @@ function R.PostUpdateIcon(icons, unit, icon, index, offset)
 			texture:SetDesaturated(true)
 		end
 	else
-		if (isStealable or ((R.myclass == "PRIEST" or R.myclass == "SHAMAN" or R.myclass == "MAGE") and dtype == "Magic")) and not UnitIsFriend("player", unit) then
+		if (canStealOrPurge or ((R.myclass == "PRIEST" or R.myclass == "SHAMAN" or R.myclass == "MAGE") and dtype == "Magic")) and not UnitIsFriend("player", unit) then
 			icon.border:SetBackdropBorderColor(237/255, 234/255, 142/255)
 			texture:Point("TOPLEFT", icon, 1, -1)
 			texture:Point("BOTTOMRIGHT", icon, -1, 1)
@@ -797,7 +858,7 @@ local function TestUF(msg)
 		if RayUF_targettarget.Buffs then RayUF_targettarget.Buffs.CustomFilter = nil end
 		testuf()
 		UnitAura = function()
-			return 'penancelol', 'Rank 2', 'Interface\\Icons\\Spell_Holy_Penance', random(5), 'Magic', 0, 0, "player"
+			return 'penancelol', 'Rank 2', 'Interface\\Icons\\Spell_Holy_Penance', random(5), 'Curse', 0, 0, "player"
 		end
 		if(oUF) then
 			for i, v in pairs(oUF.units) do

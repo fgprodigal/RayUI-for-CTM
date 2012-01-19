@@ -132,31 +132,47 @@ local function LoadSkin()
 		bu:SetHighlightTexture(C.Aurora.backdrop)
 		bu:GetHighlightTexture():SetVertexColor(.24, .56, 1, .2)
 
-		ic:SetSize(22, 22)
+		ic:SetSize(25, 25)
 		ic:SetTexCoord(.15, .85, .15, .85)
 
 		ic:ClearAllPoints()
-		ic:SetPoint("RIGHT", bu, "RIGHT", -2, -2)
+		ic:Point("RIGHT", bu, "RIGHT", -24, 0)
 		ic.SetPoint = R.dummy
 
-		inv:SetAlpha(0)
-		inv:EnableMouse(false)
+		R.Reskin(inv)
+		inv:SetSize(15, 25)
+		inv:ClearAllPoints()
+		inv:Point("RIGHT", bu, "RIGHT", -4, 0)
+		inv.SetPoint = R.dummy
+		local text = inv:CreateFontString(nil, "OVERLAY")
+		text:SetFont(C.media.font, C.media.fontsize)
+		text:SetShadowOffset(R.mult, -R.mult)
+		text:SetPoint("CENTER")
+		text:SetText("+")
 	end
 
 	local function UpdateScroll()
 		for i = 1, FRIENDS_TO_DISPLAY do
 			local bu = _G["FriendsFrameFriendsScrollFrameButton"..i]
 			local ic = _G["FriendsFrameFriendsScrollFrameButton"..i.."GameIcon"]
-			if not bu.bg then
-				bu.bg = CreateFrame("Frame", nil, bu)
-				bu.bg:SetPoint("TOPLEFT", ic)
-				bu.bg:SetPoint("BOTTOMRIGHT", ic)
-				R.CreateBD(bu.bg, 0)
+			local inv = _G["FriendsFrameFriendsScrollFrameButton"..i.."TravelPassButton"]
+			if not ic.bg then
+				ic.bg = CreateFrame("Frame", nil, bu)
+				ic.bg:Point("TOPLEFT", ic)
+				ic.bg:Point("BOTTOMRIGHT", ic)
+				R.CreateBD(ic.bg, 0)
 			end
 			if ic:IsShown() then
-				bu.bg:Show()
+				ic.bg:Show()
+				if inv:IsEnabled() then
+					inv:SetAlpha(1)
+					inv:EnableMouse(true)
+				else
+					inv:SetAlpha(0)
+					inv:EnableMouse(false)
+				end
 			else
-				bu.bg:Hide()
+				ic.bg:Hide()
 			end
 		end
 	end

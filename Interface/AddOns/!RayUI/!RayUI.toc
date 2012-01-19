@@ -1,8 +1,8 @@
 ﻿## Interface: 40300
 ## Title: |cff7aa6d6Ray|r|cffff0000U|r|cff7aa6d6I|r
-## Version: 20120111
+## Version: 20120119
 ## Author: Tukz, Elv, Ray
-## OptionalDeps: Skada, ACP, DBM-Core, BigWigs, AtlasLoot, Gladius, Clique
+## OptionalDeps: Skada, ACP, DBM-Core, BigWigs, AtlasLoot, Gladius
 ## RequiredDeps: !RayUI_Config, Blizzard_CombatText
 ## X-oUF: RayUF
 
@@ -25,5 +25,7 @@ misc\misc.xml
 modules\modules.xml
 
 mini\mini.xml
+
+functions\versioncheck.lua
 
 functions\test.lua

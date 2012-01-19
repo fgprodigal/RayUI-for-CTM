@@ -788,6 +788,13 @@ function RayUIConfig.GenerateOptionsInternal()
 								type = "toggle",
 								hidden = function() return not db.raid.enable end,
 							},
+							autorez = {
+								order = 5,
+								name = L["快速复活"],
+								desc = L["鼠标中键点击快速复活/战复"],
+								type = "toggle",
+								hidden = function() return not db.raid.enable end,
+							},
 						},
 					},
 				},

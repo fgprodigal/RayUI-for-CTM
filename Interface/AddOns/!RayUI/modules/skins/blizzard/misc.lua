@@ -32,10 +32,18 @@ local function LoadSkin()
 		end
 	end
 	
-	for i = 1, 4 do
+	for i = 1, 3 do
 		for j = 1, 3 do
 			R.Reskin(_G["StaticPopup"..i.."Button"..j])
 		end
+		local bu = _G["StaticPopup"..i.."ItemFrame"]
+		_G["StaticPopup"..i.."ItemFrameNameFrame"]:Hide()
+		_G["StaticPopup"..i.."ItemFrameIconTexture"]:SetTexCoord(.08, .92, .08, .92)
+
+		bu:StyleButton(true)
+		R.CreateBG(bu)
+		
+		R.ReskinInput(_G["StaticPopup"..i.."EditBox"], 20)
 	end
 	
 	local inputs = {
@@ -188,17 +196,6 @@ local function LoadSkin()
 		end
 	end
 	hooksecurefunc("UIDropDownMenu_CreateFrames", SkinDropDownList)
-	
-	for i = 1, 2 do
-		local bu = _G["StaticPopup"..i.."ItemFrame"]
-		_G["StaticPopup"..i.."ItemFrameNameFrame"]:Hide()
-		_G["StaticPopup"..i.."ItemFrameIconTexture"]:SetTexCoord(.08, .92, .08, .92)
-
-		bu:SetNormalTexture("")
-		R.CreateBG(bu)
-		
-		R.ReskinInput(_G["StaticPopup"..i.."EditBox"], 20)
-	end
 	
 	-- Ghost frame
 	GhostFrameContentsFrameIcon:SetTexCoord(.08, .92, .08, .92)
