@@ -167,8 +167,8 @@ R.CreateTab = function(f)
 
 	f:SetHighlightTexture(C.Aurora.backdrop)
 	local hl = f:GetHighlightTexture()
-	hl:SetPoint("TOPLEFT", 9, -4)
-	hl:SetPoint("BOTTOMRIGHT", -9, 1)
+	hl:Point("TOPLEFT", 9, -4)
+	hl:Point("BOTTOMRIGHT", -9, 1)
 	hl:SetVertexColor(r, g, b, .25)
 end
 
