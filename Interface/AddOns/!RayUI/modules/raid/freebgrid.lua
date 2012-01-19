@@ -594,35 +594,31 @@ oUF:Factory(function(self)
     -- ns:Anchors()
     ns:Colors()
 	--隐藏自带团队
-	CompactRaidFrameContainer:UnregisterAllEvents()
-	CompactRaidFrameContainer.Show = R.dummy
-	CompactRaidFrameContainer:Hide() 
-	CompactRaidFrameManager:UnregisterAllEvents()
-	CompactRaidFrameManager.Show =  R.dummy
-	CompactRaidFrameManager:Hide()
+	CompactRaidFrameContainer:Kill()
+	CompactRaidFrameManager:Kill()
 	
     self:SetActiveStyle"Freebgrid"
-	local raid = {}
+	local raid10 = {}
 	for i=1, 3 do
 		local group = freebHeader("Raid_Freebgrid10_"..i, i, nil, nil, nil, 15)
 		if i == 1 then
 			group:Point("TOPLEFT", UIParent, "BOTTOMRIGHT", - C["raid"].width*1.3*3 -  C["raid"].spacing*2 - 50, 461)
 		else
-			group:Point(pos, raid[i-1], posRel, colX or 0, colY or 0)
+			group:Point(pos, raid10[i-1], posRel, colX or 0, colY or 0)
 		end
-		raid[i] = group
+		raid10[i] = group
 		ns._Headers[group:GetName()] = group
 	end
 
+	local raid25 = {}
 	for i=1, C["raid"].numCol do
 		local group = freebHeader("Raid_Freebgrid25_"..i, i)
 		if i == 1 then
-			-- group:SetPoint("TOPLEFT", UIParent, "BOTTOMRIGHT", - C["raid"].width*5 -  C["raid"].spacing*4 - 50, C["raid"].height*5 +  C["raid"].spacing*4 + 230)
 			group:Point("TOPLEFT", UIParent, "BOTTOMRIGHT", - C["raid"].width*5 -  C["raid"].spacing*4 - 50, 422)
 		else
-			group:Point(pos, raid[i-1], posRel, colX or 0, colY or 0)
+			group:Point(pos, raid25[i-1], posRel, colX or 0, colY or 0)
 		end
-		raid[i] = group
+		raid25[i] = group
 		ns._Headers[group:GetName()] = group
 	end
 end)
@@ -641,18 +637,3 @@ function ns:PLAYER_LOGIN()
     self:UnregisterEvent("PLAYER_LOGIN")
     self.PLAYER_LOGIN = nil
 end
-
--- function HideRaid()
-	-- if InCombatLockdown() then return end
-	-- CompactRaidFrameManager:Hide()
-	-- local compact_raid = CompactRaidFrameManager_GetSetting("IsShown")
-	-- if compact_raid and compact_raid ~= "0" then 
-		-- CompactRaidFrameManager_SetSetting("IsShown", "0")
-	-- end
--- end
-
--- hooksecurefunc("CompactRaidFrameManager_UpdateShown",function()
-	-- HideRaid()
--- end)
--- CompactRaidFrameManager:HookScript('OnShow', HideRaid)
--- CompactRaidFrameManager:SetScale(0.000001) --- BAHAHAHA FUCK YOU RAID FRAMES!

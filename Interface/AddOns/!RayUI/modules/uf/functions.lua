@@ -229,21 +229,24 @@ function R.ConstructCastBar(self)
 end
 
 local channelTicks = {
-	-- warlock
-	[GetSpellInfo(1120)] = 5, -- drain soul
-	[GetSpellInfo(689)] = 5, -- drain life
-	[GetSpellInfo(5740)] = 4, -- rain of fire
-	-- druid
-	[GetSpellInfo(740)] = 4, -- Tranquility
-	[GetSpellInfo(16914)] = 10, -- Hurricane
-	-- priest
-	[GetSpellInfo(15407)] = 3, -- mind flay
-	[GetSpellInfo(48045)] = 5, -- mind sear
-	[GetSpellInfo(47540)] = 2, -- penance
-	-- mage
-	[GetSpellInfo(5143)] = 5, -- arcane missiles
-	[GetSpellInfo(10)] = 5, -- blizzard
-	[GetSpellInfo(12051)] = 4, -- evocation
+	--Warlock
+	[GetSpellInfo(1120)] = 5, --"Drain Soul"
+	[GetSpellInfo(689)] = 3, -- "Drain Life"
+	[GetSpellInfo(5740)] = 4, -- "Rain of Fire"
+	[GetSpellInfo(755)] = 3, -- Health Funnel
+	--Druid
+	[GetSpellInfo(44203)] = 4, -- "Tranquility"
+	[GetSpellInfo(16914)] = 10, -- "Hurricane"
+	--Priest
+	[GetSpellInfo(15407)] = 3, -- "Mind Flay"
+	[GetSpellInfo(48045)] = 5, -- "Mind Sear"
+	[GetSpellInfo(47540)] = 2, -- "Penance"
+	[GetSpellInfo(64901)] = 4, -- Hymn of Hope
+	[GetSpellInfo(64843)] = 4, -- Divine Hymn
+	--Mage
+	[GetSpellInfo(5143)] = 5, -- "Arcane Missiles"
+	[GetSpellInfo(10)] = 5, -- "Blizzard"
+	[GetSpellInfo(12051)] = 4, -- "Evocation"
 }
 
 local ticks = {}
@@ -272,12 +275,35 @@ end
 function R.PostCastStart(self, unit, name, rank, castid)
 	if unit == "vehicle" then unit = "player" end
 	if unit == "player" then
-		if channelTicks[name] then
-			SetCastTicks(self, channelTicks[name])
+		local baseTicks = channelTicks[name]
+		if baseTicks and channelTicks[name] then
+			local tickIncRate = 1 / baseTicks
+			local curHaste = UnitSpellHaste("player") * 0.01
+			local firstTickInc = tickIncRate / 2
+			local bonusTicks = 0
+			if curHaste >= firstTickInc then
+				bonusTicks = bonusTicks + 1
+			end
+			
+			local x = tonumber(R.Round(firstTickInc + tickIncRate, 2))
+			while curHaste >= x do
+				x = tonumber(R.Round(firstTickInc + (tickIncRate * bonusTicks), 2))
+				if curHaste >= x then
+					bonusTicks = bonusTicks + 1
+				end
+			end
+
+			SetCastTicks(self, baseTicks + bonusTicks)
+		elseif baseTicks then
+			SetCastTicks(self, baseTicks)
 		else
 			for _, tick in pairs(ticks) do
 				tick:Hide()
-			end		
+			end
+		end
+	else
+		for _, tick in pairs(ticks) do
+			tick:Hide()
 		end
 	end
 	local r, g, b
@@ -858,7 +884,7 @@ local function TestUF(msg)
 		if RayUF_targettarget.Buffs then RayUF_targettarget.Buffs.CustomFilter = nil end
 		testuf()
 		UnitAura = function()
-			return 'penancelol', 'Rank 2', 'Interface\\Icons\\Spell_Holy_Penance', random(5), 'Curse', 0, 0, "player"
+			return 'penancelol', 'Rank 2', 'Interface\\Icons\\Spell_Holy_Penance', random(5), 'Magic', 0, 0, "player"
 		end
 		if(oUF) then
 			for i, v in pairs(oUF.units) do

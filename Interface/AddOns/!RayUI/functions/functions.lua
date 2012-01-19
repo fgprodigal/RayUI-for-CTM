@@ -13,7 +13,10 @@ function R.debug(...)
 	DEFAULT_CHAT_FRAME:AddMessage( "|cffff0000RayUI debug|r: " .. table.concat(tmp,",",1,n) )
 end
 
-R.dummy= function() return end
+function R.Round(v, decimals)
+	if not decimals then decimals = 0 end
+    return (("%%.%df"):format(decimals)):format(v)
+end
 
 --该死的低等级染色，给我只读！
 -- function R.readOnly(t)

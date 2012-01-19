@@ -110,6 +110,8 @@ local mult = 768/string.match(GetCVar("gxResolution"), "%d+x(%d+)")/C["general"]
 local function scale(x)
 	return (mult*math.floor(x/mult+.5))
 end
+
+R.dummy= function() return end
 R.mult = mult
 R.Scale = scale
 
@@ -278,16 +280,16 @@ local function CreatePanel(f, t, w, h, a1, p, a2, x, y)
 	end
 end
 
+R.HiddenFrame = CreateFrame("Frame")
+R.HiddenFrame:Hide()
+
 local function Kill(object)
-	if object.IsProtected then 
-		if object:IsProtected() then
-			error("Attempted to kill a protected object: <"..object:GetName()..">")
-		end
-	end
 	if object.UnregisterAllEvents then
 		object:UnregisterAllEvents()
+		object:SetParent(R.HiddenFrame)
+	else
+		object.Show = R.dummy
 	end
-	object.Show = function() return end
 	object:Hide()
 end
 

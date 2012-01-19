@@ -276,16 +276,15 @@ do
 end
 
 local function UpdateOverlayGlow(self)
-	if self.overlay then
+	if self.overlay and self.shadow then
 		self.overlay:SetParent(self)
 		self.overlay:ClearAllPoints()
 		self.overlay:SetAllPoints(self.shadow)
 		self.overlay.ants:ClearAllPoints()
-		self.overlay.ants:SetAllPoints(self.shadow)
-		-- self.overlay.ants:SetPoint("TOPLEFT", self.shadow, "TOPLEFT", -1, 1)
-		-- self.overlay.ants:SetPoint("BOTTOMRIGHT", self.shadow, "BOTTOMRIGHT", 1, -1)
-		self.overlay.outerGlow:SetPoint("TOPLEFT", self.shadow, "TOPLEFT", -4, 4)
-		self.overlay.outerGlow:SetPoint("BOTTOMRIGHT", self.shadow, "BOTTOMRIGHT", 4, -4)
+		self.overlay.ants:SetPoint("TOPLEFT", self.shadow, "TOPLEFT", -2, 2)
+		self.overlay.ants:SetPoint("BOTTOMRIGHT", self.shadow, "BOTTOMRIGHT", 2, -2)
+		self.overlay.outerGlow:SetPoint("TOPLEFT", self.shadow, "TOPLEFT", -2, 2)
+		self.overlay.outerGlow:SetPoint("BOTTOMRIGHT", self.shadow, "BOTTOMRIGHT", 2, -2)
 	end
 end
 

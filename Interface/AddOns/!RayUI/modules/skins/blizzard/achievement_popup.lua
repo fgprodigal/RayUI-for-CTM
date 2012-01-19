@@ -11,6 +11,9 @@ local function LoadSkin()
 		local previousFrame
 		for i=1, MAX_ACHIEVEMENT_ALERTS do
 			local aFrame = _G["AchievementAlertFrame"..i]
+			if _G["AchievementAlertFrame"..i.."Unlocked"] then
+				_G["AchievementAlertFrame"..i.."Unlocked"]:SetTextColor(1,1,1)
+			end
 			if ( aFrame ) then
 				aFrame:ClearAllPoints()
 				if ( previousFrame and previousFrame:IsShown() ) then

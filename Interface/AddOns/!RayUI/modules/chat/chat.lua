@@ -435,7 +435,7 @@ do
 	local function AddMessage(frame, text, ...)
 		if text:find(INTERFACE_ACTION_BLOCKED) then return end
 		if text:find("BN_CONVERSATION") then
-			-- text = text:gsub("|Hchannel:BN_CONVERSATION:(%d*)|h%[(%d*)%..*%]|h", string.format("|Hchannel:BN_CONVERSATION:%s|h[%s]|h", text:match("|Hchannel:BN_CONVERSATION:(%d*)|h%[(%d*)%..*%]|h")))
+
 		else			
 			for i = 1, 10 do
 				text = gsub(text, chn[i], rplc[i])
@@ -444,7 +444,6 @@ do
 			text = text:gsub("CHANNEL:", "")
 		end
 		text = URL_AddLinkSyntax(text)
-		--If Blizz timestamps is enabled, stamp anything it misses
 		if CHAT_TIMESTAMP_FORMAT and not text:find("|r") then
 			text = BetterDate(CHAT_TIMESTAMP_FORMAT, time())..text
 		end
