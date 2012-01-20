@@ -1145,6 +1145,8 @@ ns.watchers ={
 			{ spellID = 92380, unitId = "player", caster = "all", filter = "DEBUFF" },
 			--裂筋
 			{ spellID = 50271, unitId = "player", caster = "all", filter = "DEBUFF" },
+			--豹群
+			{ spellID = 13159, unitId = "player", caster = "player", filter = "BUFF" },
 
 		--Mage
 			--龍之吐息
@@ -1400,10 +1402,7 @@ ns.watchers ={
 			direction = "UP",
 			setpoint = { "BOTTOM", UIParent, "BOTTOM", 35, 350 },
 			size = 51,
-			
-			
-			--豹群
-			{ spellID = 13159, unitId = "player", caster = "player", filter = "BUFF" },
+
 			--啟動
 			{ spellID = 29166, unitId = "target", caster = "all", filter = "BUFF"},
 			--法術反射
