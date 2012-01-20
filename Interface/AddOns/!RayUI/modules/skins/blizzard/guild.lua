@@ -19,6 +19,8 @@ local function LoadSkin()
 	for i = 1, 5 do
 		R.CreateTab(_G["GuildFrameTab"..i])
 	end
+	GuildInfoMOTD:SetFontObject(GameFontNormal)
+	GuildInfoDetails:SetFont(C.media.font, 12)
 	GuildFrameTabardBackground:Hide()
 	GuildFrameTabardEmblem:Hide()
 	GuildFrameTabardBorder:Hide()

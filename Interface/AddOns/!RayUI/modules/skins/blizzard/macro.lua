@@ -1,6 +1,7 @@
 local R, C, L, DB = unpack(select(2, ...))
 
 local function LoadSkin()
+	MacroFrameText:SetFont(C.media.font, 14)
 	R.SetBD(MacroFrame, 12, -10, -33, 68)
 	R.CreateBD(MacroFrameScrollFrame, .25)
 	R.CreateBD(MacroPopupFrame)
