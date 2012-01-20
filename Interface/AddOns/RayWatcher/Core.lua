@@ -438,6 +438,7 @@ function watcherPrototype:TestMode(arg)
 		for _, subt in pairs({"BUFF", "DEBUFF", "CD", "itemCD"}) do
 			for i,v in pairs(self[subt] or {}) do
 				if i ~= "unitIDs" then
+					if type(i) == "string" then i = self[subt][i].spellID end
 					if not self.button[num] then
 						self.button[num] = self:CreateButton(self.mode)					
 						self:SetPosition(num)
