@@ -96,7 +96,7 @@ local function LoadSkin()
 	end
 
 	hooksecurefunc("AchievementObjectives_DisplayCriteria", function()
-		for i = 1, 16 do
+		for i = 1, 18 do
 			local name = _G["AchievementFrameCriteria"..i.."Name"]
 			if name and select(2, name:GetTextColor()) == 0 then
 				name:SetTextColor(1, 1, 1)

@@ -55,6 +55,7 @@ local function BuildGuildTable()
 		
 		if connected then 
 			count = count + 1
+			status = status == 1 and "|cffff0000<"..AFK..">|r" or status == 2 and "|cffff0000<"..DND..">|r" or ""
 			guildTable[count] = { name, rank, level, zone, note, officernote, connected, status, class, rankIndex }
 		end
 	end

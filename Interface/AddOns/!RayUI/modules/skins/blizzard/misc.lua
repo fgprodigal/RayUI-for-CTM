@@ -145,12 +145,14 @@ local function LoadSkin()
 	end
 	
 	-- [[ Headers ]]
-	local header = {"GameMenuFrame",
-			"InterfaceOptionsFrame",
-			"AudioOptionsFrame",
-			"VideoOptionsFrame",
-			"ChatConfigFrame",
-			"ColorPickerFrame"}
+	local header = {
+		"GameMenuFrame",
+		"InterfaceOptionsFrame",
+		"AudioOptionsFrame",
+		"VideoOptionsFrame",
+		"ChatConfigFrame",
+		"ColorPickerFrame"
+	}
 	for i = 1, #header do
 	local title = _G[header[i].."Header"]
 		if title then
@@ -212,329 +214,318 @@ local function LoadSkin()
 	R.CreateBD(GhostBD, 0)
 	
 	-- Option panels
-	local options = false
-	GameMenuButtonOptions:HookScript("OnClick", function()
-		if options == true then return end
-		options = true
+	local line = VideoOptionsFrame:CreateTexture(nil, "ARTWORK")
+	line:SetSize(1, 536)
+	line:SetPoint("LEFT", 205, 18)
+	line:SetTexture(1, 1, 1, .2)
 
-		local line = VideoOptionsFrame:CreateTexture(nil, "ARTWORK")
-		line:SetSize(1, 512)
-		line:SetPoint("LEFT", 205, 30)
-		line:SetTexture(1, 1, 1, .2)
+	R.CreateBD(AudioOptionsSoundPanelPlayback, .25)
+	R.CreateBD(AudioOptionsSoundPanelHardware, .25)
+	R.CreateBD(AudioOptionsSoundPanelVolume, .25)
+	R.CreateBD(AudioOptionsVoicePanelTalking, .25)
+	R.CreateBD(AudioOptionsVoicePanelBinding, .25)
+	R.CreateBD(AudioOptionsVoicePanelListening, .25)
 
-		R.CreateBD(AudioOptionsSoundPanelPlayback, .25)
-		R.CreateBD(AudioOptionsSoundPanelHardware, .25)
-		R.CreateBD(AudioOptionsSoundPanelVolume, .25)
-		R.CreateBD(AudioOptionsVoicePanelTalking, .25)
-		R.CreateBD(AudioOptionsVoicePanelBinding, .25)
-		R.CreateBD(AudioOptionsVoicePanelListening, .25)
+	AudioOptionsSoundPanelPlaybackTitle:SetPoint("BOTTOMLEFT", AudioOptionsSoundPanelPlayback, "TOPLEFT", 5, 2)
+	AudioOptionsSoundPanelHardwareTitle:SetPoint("BOTTOMLEFT", AudioOptionsSoundPanelHardware, "TOPLEFT", 5, 2)
+	AudioOptionsSoundPanelVolumeTitle:SetPoint("BOTTOMLEFT", AudioOptionsSoundPanelVolume, "TOPLEFT", 5, 2)
+	AudioOptionsVoicePanelTalkingTitle:SetPoint("BOTTOMLEFT", AudioOptionsVoicePanelTalking, "TOPLEFT", 5, 2)
+	AudioOptionsVoicePanelListeningTitle:SetPoint("BOTTOMLEFT", AudioOptionsVoicePanelListening, "TOPLEFT", 5, 2)
 
-		AudioOptionsSoundPanelPlaybackTitle:SetPoint("BOTTOMLEFT", AudioOptionsSoundPanelPlayback, "TOPLEFT", 5, 2)
-		AudioOptionsSoundPanelHardwareTitle:SetPoint("BOTTOMLEFT", AudioOptionsSoundPanelHardware, "TOPLEFT", 5, 2)
-		AudioOptionsSoundPanelVolumeTitle:SetPoint("BOTTOMLEFT", AudioOptionsSoundPanelVolume, "TOPLEFT", 5, 2)
-		AudioOptionsVoicePanelTalkingTitle:SetPoint("BOTTOMLEFT", AudioOptionsVoicePanelTalking, "TOPLEFT", 5, 2)
-		AudioOptionsVoicePanelListeningTitle:SetPoint("BOTTOMLEFT", AudioOptionsVoicePanelListening, "TOPLEFT", 5, 2)
-
-		local dropdowns = {
-			"Graphics_DisplayModeDropDown",
-			"Graphics_ResolutionDropDown",
-			"Graphics_RefreshDropDown",
-			"Graphics_PrimaryMonitorDropDown",
-			"Graphics_MultiSampleDropDown",
-			"Graphics_VerticalSyncDropDown",
-			"Graphics_TextureResolutionDropDown",
-			"Graphics_FilteringDropDown",
-			"Graphics_ProjectedTexturesDropDown",
-			"Graphics_ShadowsDropDown",
-			"Graphics_LiquidDetailDropDown",
-			"Graphics_SunshaftsDropDown",
-			"Graphics_ParticleDensityDropDown",
-			"Graphics_ViewDistanceDropDown",
-			"Graphics_EnvironmentalDetailDropDown",
-			"Graphics_GroundClutterDropDown",
-			"Advanced_BufferingDropDown",
-			"Advanced_LagDropDown",
-			"Advanced_HardwareCursorDropDown",
-			"AudioOptionsSoundPanelHardwareDropDown",
-			"AudioOptionsSoundPanelSoundChannelsDropDown",
-			"AudioOptionsVoicePanelInputDeviceDropDown",
-			"AudioOptionsVoicePanelChatModeDropDown",
-			"AudioOptionsVoicePanelOutputDeviceDropDown"
-			}
-		for i = 1, #dropdowns do
-			R.ReskinDropDown(_G[dropdowns[i]])
-		end
-
-		Graphics_RightQuality:GetRegions():Hide()
-		Graphics_RightQuality:DisableDrawLayer("BORDER")
-
-		local sliders = {
-			"Graphics_Quality",
-			"Advanced_UIScaleSlider",
-			"Advanced_MaxFPSSlider",
-			"Advanced_MaxFPSBKSlider",
-			"Advanced_GammaSlider",
-			"AudioOptionsSoundPanelSoundQuality",
-			"AudioOptionsSoundPanelMasterVolume",
-			"AudioOptionsSoundPanelSoundVolume",
-			"AudioOptionsSoundPanelMusicVolume",
-			"AudioOptionsSoundPanelAmbienceVolume",
-			"AudioOptionsVoicePanelMicrophoneVolume",
-			"AudioOptionsVoicePanelSpeakerVolume",
-			"AudioOptionsVoicePanelSoundFade",
-			"AudioOptionsVoicePanelMusicFade",
-			"AudioOptionsVoicePanelAmbienceFade"
+	local dropdowns = {
+		"Graphics_DisplayModeDropDown",
+		"Graphics_ResolutionDropDown",
+		"Graphics_RefreshDropDown",
+		"Graphics_PrimaryMonitorDropDown",
+		"Graphics_MultiSampleDropDown",
+		"Graphics_VerticalSyncDropDown",
+		"Graphics_TextureResolutionDropDown",
+		"Graphics_FilteringDropDown",
+		"Graphics_ProjectedTexturesDropDown",
+		"Graphics_ShadowsDropDown",
+		"Graphics_LiquidDetailDropDown",
+		"Graphics_SunshaftsDropDown",
+		"Graphics_ParticleDensityDropDown",
+		"Graphics_ViewDistanceDropDown",
+		"Graphics_EnvironmentalDetailDropDown",
+		"Graphics_GroundClutterDropDown",
+		"Advanced_BufferingDropDown",
+		"Advanced_LagDropDown",
+		"Advanced_HardwareCursorDropDown",
+		"AudioOptionsSoundPanelHardwareDropDown",
+		"AudioOptionsSoundPanelSoundChannelsDropDown",
+		"AudioOptionsVoicePanelInputDeviceDropDown",
+		"AudioOptionsVoicePanelChatModeDropDown",
+		"AudioOptionsVoicePanelOutputDeviceDropDown"
 		}
-		for i = 1, #sliders do
-			R.ReskinSlider(_G[sliders[i]])
-		end
+	for i = 1, #dropdowns do
+		R.ReskinDropDown(_G[dropdowns[i]])
+	end
 
-		Graphics_Quality.SetBackdrop = R.dummy
+	Graphics_RightQuality:GetRegions():Hide()
+	Graphics_RightQuality:DisableDrawLayer("BORDER")
 
-		local checkboxes = {
-			"Advanced_UseUIScale",
-			"Advanced_MaxFPSCheckBox",
-			"Advanced_MaxFPSBKCheckBox",
-			"Advanced_DesktopGamma",
-			"NetworkOptionsPanelOptimizeSpeed",
-			"NetworkOptionsPanelUseIPv6",
-			"AudioOptionsSoundPanelEnableSound",
-			"AudioOptionsSoundPanelSoundEffects",
-			"AudioOptionsSoundPanelErrorSpeech",
-			"AudioOptionsSoundPanelEmoteSounds",
-			"AudioOptionsSoundPanelPetSounds",
-			"AudioOptionsSoundPanelMusic",
-			"AudioOptionsSoundPanelLoopMusic",
-			"AudioOptionsSoundPanelAmbientSounds",
-			"AudioOptionsSoundPanelSoundInBG",
-			"AudioOptionsSoundPanelReverb",
-			"AudioOptionsSoundPanelHRTF",
-			"AudioOptionsSoundPanelEnableDSPs",
-			"AudioOptionsSoundPanelUseHardware",
-			"AudioOptionsVoicePanelEnableVoice",
-			"AudioOptionsVoicePanelEnableMicrophone",
-			"AudioOptionsVoicePanelPushToTalkSound"
-		}
-		for i = 1, #checkboxes do
-			R.ReskinCheck(_G[checkboxes[i]])
-		end
+	local sliders = {
+		"Graphics_Quality",
+		"Advanced_UIScaleSlider",
+		"Advanced_MaxFPSSlider",
+		"Advanced_MaxFPSBKSlider",
+		"Advanced_GammaSlider",
+		"AudioOptionsSoundPanelSoundQuality",
+		"AudioOptionsSoundPanelMasterVolume",
+		"AudioOptionsSoundPanelSoundVolume",
+		"AudioOptionsSoundPanelMusicVolume",
+		"AudioOptionsSoundPanelAmbienceVolume",
+		"AudioOptionsVoicePanelMicrophoneVolume",
+		"AudioOptionsVoicePanelSpeakerVolume",
+		"AudioOptionsVoicePanelSoundFade",
+		"AudioOptionsVoicePanelMusicFade",
+		"AudioOptionsVoicePanelAmbienceFade"
+	}
+	for i = 1, #sliders do
+		R.ReskinSlider(_G[sliders[i]])
+	end
 
-		R.Reskin(RecordLoopbackSoundButton)
-		R.Reskin(PlayLoopbackSoundButton)
-		R.Reskin(AudioOptionsVoicePanelChatMode1KeyBindingButton)
-	end)
+	Graphics_Quality.SetBackdrop = R.dummy
 
-	local interface = false
-	GameMenuButtonUIOptions:HookScript("OnClick", function()
-		if interface == true then return end
-		interface = true
+	local checkboxes = {
+		"Advanced_UseUIScale",
+		"Advanced_MaxFPSCheckBox",
+		"Advanced_MaxFPSBKCheckBox",
+		"Advanced_DesktopGamma",
+		"NetworkOptionsPanelOptimizeSpeed",
+		"NetworkOptionsPanelUseIPv6",
+		"AudioOptionsSoundPanelEnableSound",
+		"AudioOptionsSoundPanelSoundEffects",
+		"AudioOptionsSoundPanelErrorSpeech",
+		"AudioOptionsSoundPanelEmoteSounds",
+		"AudioOptionsSoundPanelPetSounds",
+		"AudioOptionsSoundPanelMusic",
+		"AudioOptionsSoundPanelLoopMusic",
+		"AudioOptionsSoundPanelAmbientSounds",
+		"AudioOptionsSoundPanelSoundInBG",
+		"AudioOptionsSoundPanelReverb",
+		"AudioOptionsSoundPanelHRTF",
+		"AudioOptionsSoundPanelEnableDSPs",
+		"AudioOptionsSoundPanelUseHardware",
+		"AudioOptionsVoicePanelEnableVoice",
+		"AudioOptionsVoicePanelEnableMicrophone",
+		"AudioOptionsVoicePanelPushToTalkSound"
+	}
+	for i = 1, #checkboxes do
+		R.ReskinCheck(_G[checkboxes[i]])
+	end
 
-		local line = InterfaceOptionsFrame:CreateTexture(nil, "ARTWORK")
-		line:SetSize(1, 536)
-		line:SetPoint("LEFT", 205, 18)
-		line:SetTexture(1, 1, 1, .2)
+	R.Reskin(RecordLoopbackSoundButton)
+	R.Reskin(PlayLoopbackSoundButton)
+	R.Reskin(AudioOptionsVoicePanelChatMode1KeyBindingButton)
 
-		local checkboxes = {
-			"InterfaceOptionsControlsPanelStickyTargeting",
-			"InterfaceOptionsControlsPanelAutoDismount",
-			"InterfaceOptionsControlsPanelAutoClearAFK",
-			"InterfaceOptionsControlsPanelBlockTrades",
-			"InterfaceOptionsControlsPanelBlockGuildInvites",
-			"InterfaceOptionsControlsPanelLootAtMouse",
-			"InterfaceOptionsControlsPanelAutoLootCorpse",
-			"InterfaceOptionsControlsPanelInteractOnLeftClick",
-			"InterfaceOptionsCombatPanelAttackOnAssist",
-			"InterfaceOptionsCombatPanelStopAutoAttack",
-			"InterfaceOptionsCombatPanelNameplateClassColors",
-			"InterfaceOptionsCombatPanelTargetOfTarget",
-			"InterfaceOptionsCombatPanelShowSpellAlerts",
-			"InterfaceOptionsCombatPanelReducedLagTolerance",
-			"InterfaceOptionsCombatPanelActionButtonUseKeyDown",
-			"InterfaceOptionsCombatPanelEnemyCastBarsOnPortrait",
-			"InterfaceOptionsCombatPanelEnemyCastBarsOnNameplates",
-			"InterfaceOptionsCombatPanelAutoSelfCast",
-			"InterfaceOptionsDisplayPanelShowCloak",
-			"InterfaceOptionsDisplayPanelShowHelm",
-			"InterfaceOptionsDisplayPanelShowAggroPercentage",
-			"InterfaceOptionsDisplayPanelPlayAggroSounds",
-			"InterfaceOptionsDisplayPanelDetailedLootInfo",
-			"InterfaceOptionsDisplayPanelShowSpellPointsAvg",
-			"InterfaceOptionsDisplayPanelemphasizeMySpellEffects",
-			"InterfaceOptionsDisplayPanelShowFreeBagSpace",
-			"InterfaceOptionsDisplayPanelCinematicSubtitles",
-			"InterfaceOptionsDisplayPanelRotateMinimap",
-			"InterfaceOptionsDisplayPanelScreenEdgeFlash",
-			"InterfaceOptionsObjectivesPanelAutoQuestTracking",
-			"InterfaceOptionsObjectivesPanelAutoQuestProgress",
-			"InterfaceOptionsObjectivesPanelMapQuestDifficulty",
-			"InterfaceOptionsObjectivesPanelWatchFrameWidth",
-			"InterfaceOptionsSocialPanelProfanityFilter",
-			"InterfaceOptionsSocialPanelSpamFilter",
-			"InterfaceOptionsSocialPanelChatBubbles",
-			"InterfaceOptionsSocialPanelPartyChat",
-			"InterfaceOptionsSocialPanelChatHoverDelay",
-			"InterfaceOptionsSocialPanelGuildMemberAlert",
-			"InterfaceOptionsSocialPanelChatMouseScroll",
-			"InterfaceOptionsActionBarsPanelBottomLeft",
-			"InterfaceOptionsActionBarsPanelBottomRight",
-			"InterfaceOptionsActionBarsPanelRight",
-			"InterfaceOptionsActionBarsPanelRightTwo",
-			"InterfaceOptionsActionBarsPanelLockActionBars",
-			"InterfaceOptionsActionBarsPanelAlwaysShowActionBars",
-			"InterfaceOptionsActionBarsPanelSecureAbilityToggle",
-			"InterfaceOptionsNamesPanelMyName",
-			"InterfaceOptionsNamesPanelFriendlyPlayerNames",
-			"InterfaceOptionsNamesPanelFriendlyPets",
-			"InterfaceOptionsNamesPanelFriendlyGuardians",
-			"InterfaceOptionsNamesPanelFriendlyTotems",
-			"InterfaceOptionsNamesPanelUnitNameplatesFriends",
-			"InterfaceOptionsNamesPanelUnitNameplatesFriendlyPets",
-			"InterfaceOptionsNamesPanelUnitNameplatesFriendlyGuardians",
-			"InterfaceOptionsNamesPanelUnitNameplatesFriendlyTotems",
-			"InterfaceOptionsNamesPanelGuilds",
-			"InterfaceOptionsNamesPanelGuildTitles",
-			"InterfaceOptionsNamesPanelTitles",
-			"InterfaceOptionsNamesPanelNonCombatCreature",
-			"InterfaceOptionsNamesPanelEnemyPlayerNames",
-			"InterfaceOptionsNamesPanelEnemyPets",
-			"InterfaceOptionsNamesPanelEnemyGuardians",
-			"InterfaceOptionsNamesPanelEnemyTotems",
-			"InterfaceOptionsNamesPanelUnitNameplatesEnemies",
-			"InterfaceOptionsNamesPanelUnitNameplatesEnemyPets",
-			"InterfaceOptionsNamesPanelUnitNameplatesEnemyGuardians",
-			"InterfaceOptionsNamesPanelUnitNameplatesEnemyTotems",
-			"InterfaceOptionsCombatTextPanelTargetDamage",
-			"InterfaceOptionsCombatTextPanelPeriodicDamage",
-			"InterfaceOptionsCombatTextPanelPetDamage",
-			"InterfaceOptionsCombatTextPanelHealing",
-			"InterfaceOptionsCombatTextPanelTargetEffects",
-			"InterfaceOptionsCombatTextPanelOtherTargetEffects",
-			"InterfaceOptionsCombatTextPanelEnableFCT",
-			"InterfaceOptionsCombatTextPanelDodgeParryMiss",
-			"InterfaceOptionsCombatTextPanelDamageReduction",
-			"InterfaceOptionsCombatTextPanelRepChanges",
-			"InterfaceOptionsCombatTextPanelReactiveAbilities",
-			"InterfaceOptionsCombatTextPanelFriendlyHealerNames",
-			"InterfaceOptionsCombatTextPanelCombatState",
-			"InterfaceOptionsCombatTextPanelComboPoints",
-			"InterfaceOptionsCombatTextPanelLowManaHealth",
-			"InterfaceOptionsCombatTextPanelEnergyGains",
-			"InterfaceOptionsCombatTextPanelPeriodicEnergyGains",
-			"InterfaceOptionsCombatTextPanelHonorGains",
-			"InterfaceOptionsCombatTextPanelAuras",
-			"InterfaceOptionsStatusTextPanelPlayer",
-			"InterfaceOptionsStatusTextPanelPet",
-			"InterfaceOptionsStatusTextPanelParty",
-			"InterfaceOptionsStatusTextPanelTarget",
-			"InterfaceOptionsStatusTextPanelAlternateResource",
-			"InterfaceOptionsStatusTextPanelPercentages",
-			"InterfaceOptionsStatusTextPanelXP",
-			"InterfaceOptionsUnitFramePanelPartyBackground",
-			"InterfaceOptionsUnitFramePanelPartyPets",
-			"InterfaceOptionsUnitFramePanelArenaEnemyFrames",
-			"InterfaceOptionsUnitFramePanelArenaEnemyCastBar",
-			"InterfaceOptionsUnitFramePanelArenaEnemyPets",
-			"InterfaceOptionsUnitFramePanelFullSizeFocusFrame",
-			"CompactUnitFrameProfilesRaidStylePartyFrames",
-			"CompactUnitFrameProfilesGeneralOptionsFrameKeepGroupsTogether",
-			"CompactUnitFrameProfilesGeneralOptionsFrameDisplayIncomingHeals",
-			"CompactUnitFrameProfilesGeneralOptionsFrameDisplayPowerBar",
-			"CompactUnitFrameProfilesGeneralOptionsFrameDisplayAggroHighlight",
-			"CompactUnitFrameProfilesGeneralOptionsFrameUseClassColors",
-			"CompactUnitFrameProfilesGeneralOptionsFrameDisplayPets",
-			"CompactUnitFrameProfilesGeneralOptionsFrameDisplayMainTankAndAssist",
-			"CompactUnitFrameProfilesGeneralOptionsFrameDisplayBorder",
-			"CompactUnitFrameProfilesGeneralOptionsFrameShowDebuffs",
-			"CompactUnitFrameProfilesGeneralOptionsFrameDisplayOnlyDispellableDebuffs",
-			"CompactUnitFrameProfilesGeneralOptionsFrameAutoActivate2Players",
-			"CompactUnitFrameProfilesGeneralOptionsFrameAutoActivate3Players",
-			"CompactUnitFrameProfilesGeneralOptionsFrameAutoActivate5Players",
-			"CompactUnitFrameProfilesGeneralOptionsFrameAutoActivate10Players",
-			"CompactUnitFrameProfilesGeneralOptionsFrameAutoActivate15Players",
-			"CompactUnitFrameProfilesGeneralOptionsFrameAutoActivate25Players",
-			"CompactUnitFrameProfilesGeneralOptionsFrameAutoActivate40Players",
-			"CompactUnitFrameProfilesGeneralOptionsFrameAutoActivateSpec1",
-			"CompactUnitFrameProfilesGeneralOptionsFrameAutoActivateSpec2",
-			"CompactUnitFrameProfilesGeneralOptionsFrameAutoActivatePvP",
-			"CompactUnitFrameProfilesGeneralOptionsFrameAutoActivatePvE",
-			"InterfaceOptionsBuffsPanelBuffDurations",
-			"InterfaceOptionsBuffsPanelDispellableDebuffs",
-			"InterfaceOptionsBuffsPanelCastableBuffs",
-			"InterfaceOptionsBuffsPanelConsolidateBuffs",
-			"InterfaceOptionsBuffsPanelShowAllEnemyDebuffs",
-			"InterfaceOptionsBattlenetPanelOnlineFriends",
-			"InterfaceOptionsBattlenetPanelOfflineFriends",
-			"InterfaceOptionsBattlenetPanelBroadcasts",
-			"InterfaceOptionsBattlenetPanelFriendRequests",
-			"InterfaceOptionsBattlenetPanelConversations",
-			"InterfaceOptionsBattlenetPanelShowToastWindow",
-			"InterfaceOptionsCameraPanelFollowTerrain",
-			"InterfaceOptionsCameraPanelHeadBob",
-			"InterfaceOptionsCameraPanelWaterCollision",
-			"InterfaceOptionsCameraPanelSmartPivot",
-			"InterfaceOptionsMousePanelInvertMouse",
-			"InterfaceOptionsMousePanelClickToMove",
-			"InterfaceOptionsMousePanelWoWMouse",
-			"InterfaceOptionsHelpPanelShowTutorials",
-			"InterfaceOptionsHelpPanelLoadingScreenTips",
-			"InterfaceOptionsHelpPanelEnhancedTooltips",
-			"InterfaceOptionsHelpPanelBeginnerTooltips",
-			"InterfaceOptionsHelpPanelShowLuaErrors",
-			"InterfaceOptionsHelpPanelColorblindMode",
-			"InterfaceOptionsHelpPanelMovePad"
-		}
-		for i = 1, #checkboxes do
-			R.ReskinCheck(_G[checkboxes[i]])
-		end
+	local line = InterfaceOptionsFrame:CreateTexture(nil, "ARTWORK")
+	line:SetSize(1, 536)
+	line:SetPoint("LEFT", 205, 18)
+	line:SetTexture(1, 1, 1, .2)
 
-		local dropdowns = {
-			"InterfaceOptionsControlsPanelAutoLootKeyDropDown",
-			"InterfaceOptionsCombatPanelTOTDropDown",
-			"InterfaceOptionsCombatPanelFocusCastKeyDropDown",
-			"InterfaceOptionsCombatPanelSelfCastKeyDropDown",
-			"InterfaceOptionsDisplayPanelAggroWarningDisplay",
-			"InterfaceOptionsDisplayPanelWorldPVPObjectiveDisplay",
-			"InterfaceOptionsSocialPanelChatStyle",
-			"InterfaceOptionsSocialPanelTimestamps",
-			"InterfaceOptionsSocialPanelWhisperMode",
-			"InterfaceOptionsSocialPanelBnWhisperMode",
-			"InterfaceOptionsSocialPanelConversationMode",
-			"InterfaceOptionsActionBarsPanelPickupActionKeyDropDown",
-			"InterfaceOptionsNamesPanelNPCNamesDropDown",
-			"InterfaceOptionsNamesPanelUnitNameplatesMotionDropDown",
-			"InterfaceOptionsCombatTextPanelFCTDropDown",
-			"CompactUnitFrameProfilesProfileSelector",
-			"CompactUnitFrameProfilesGeneralOptionsFrameSortByDropdown",
-			"CompactUnitFrameProfilesGeneralOptionsFrameHealthTextDropdown",
-			"InterfaceOptionsCameraPanelStyleDropDown",
-			"InterfaceOptionsMousePanelClickMoveStyleDropDown"
-		}
-		for i = 1, #dropdowns do
-			R.ReskinDropDown(_G[dropdowns[i]])
-		end
+	local checkboxes = {
+		"InterfaceOptionsControlsPanelStickyTargeting",
+		"InterfaceOptionsControlsPanelAutoDismount",
+		"InterfaceOptionsControlsPanelAutoClearAFK",
+		"InterfaceOptionsControlsPanelBlockTrades",
+		"InterfaceOptionsControlsPanelBlockGuildInvites",
+		"InterfaceOptionsControlsPanelLootAtMouse",
+		"InterfaceOptionsControlsPanelAutoLootCorpse",
+		"InterfaceOptionsControlsPanelInteractOnLeftClick",
+		"InterfaceOptionsCombatPanelAttackOnAssist",
+		"InterfaceOptionsCombatPanelStopAutoAttack",
+		"InterfaceOptionsCombatPanelNameplateClassColors",
+		"InterfaceOptionsCombatPanelTargetOfTarget",
+		"InterfaceOptionsCombatPanelShowSpellAlerts",
+		"InterfaceOptionsCombatPanelReducedLagTolerance",
+		"InterfaceOptionsCombatPanelActionButtonUseKeyDown",
+		"InterfaceOptionsCombatPanelEnemyCastBarsOnPortrait",
+		"InterfaceOptionsCombatPanelEnemyCastBarsOnNameplates",
+		"InterfaceOptionsCombatPanelAutoSelfCast",
+		"InterfaceOptionsDisplayPanelShowCloak",
+		"InterfaceOptionsDisplayPanelShowHelm",
+		"InterfaceOptionsDisplayPanelShowAggroPercentage",
+		"InterfaceOptionsDisplayPanelPlayAggroSounds",
+		"InterfaceOptionsDisplayPanelDetailedLootInfo",
+		"InterfaceOptionsDisplayPanelShowSpellPointsAvg",
+		"InterfaceOptionsDisplayPanelemphasizeMySpellEffects",
+		"InterfaceOptionsDisplayPanelShowFreeBagSpace",
+		"InterfaceOptionsDisplayPanelCinematicSubtitles",
+		"InterfaceOptionsDisplayPanelRotateMinimap",
+		"InterfaceOptionsDisplayPanelScreenEdgeFlash",
+		"InterfaceOptionsObjectivesPanelAutoQuestTracking",
+		"InterfaceOptionsObjectivesPanelAutoQuestProgress",
+		"InterfaceOptionsObjectivesPanelMapQuestDifficulty",
+		"InterfaceOptionsObjectivesPanelWatchFrameWidth",
+		"InterfaceOptionsSocialPanelProfanityFilter",
+		"InterfaceOptionsSocialPanelSpamFilter",
+		"InterfaceOptionsSocialPanelChatBubbles",
+		"InterfaceOptionsSocialPanelPartyChat",
+		"InterfaceOptionsSocialPanelChatHoverDelay",
+		"InterfaceOptionsSocialPanelGuildMemberAlert",
+		"InterfaceOptionsSocialPanelChatMouseScroll",
+		"InterfaceOptionsActionBarsPanelBottomLeft",
+		"InterfaceOptionsActionBarsPanelBottomRight",
+		"InterfaceOptionsActionBarsPanelRight",
+		"InterfaceOptionsActionBarsPanelRightTwo",
+		"InterfaceOptionsActionBarsPanelLockActionBars",
+		"InterfaceOptionsActionBarsPanelAlwaysShowActionBars",
+		"InterfaceOptionsActionBarsPanelSecureAbilityToggle",
+		"InterfaceOptionsNamesPanelMyName",
+		"InterfaceOptionsNamesPanelFriendlyPlayerNames",
+		"InterfaceOptionsNamesPanelFriendlyPets",
+		"InterfaceOptionsNamesPanelFriendlyGuardians",
+		"InterfaceOptionsNamesPanelFriendlyTotems",
+		"InterfaceOptionsNamesPanelUnitNameplatesFriends",
+		"InterfaceOptionsNamesPanelUnitNameplatesFriendlyPets",
+		"InterfaceOptionsNamesPanelUnitNameplatesFriendlyGuardians",
+		"InterfaceOptionsNamesPanelUnitNameplatesFriendlyTotems",
+		"InterfaceOptionsNamesPanelGuilds",
+		"InterfaceOptionsNamesPanelGuildTitles",
+		"InterfaceOptionsNamesPanelTitles",
+		"InterfaceOptionsNamesPanelNonCombatCreature",
+		"InterfaceOptionsNamesPanelEnemyPlayerNames",
+		"InterfaceOptionsNamesPanelEnemyPets",
+		"InterfaceOptionsNamesPanelEnemyGuardians",
+		"InterfaceOptionsNamesPanelEnemyTotems",
+		"InterfaceOptionsNamesPanelUnitNameplatesEnemies",
+		"InterfaceOptionsNamesPanelUnitNameplatesEnemyPets",
+		"InterfaceOptionsNamesPanelUnitNameplatesEnemyGuardians",
+		"InterfaceOptionsNamesPanelUnitNameplatesEnemyTotems",
+		"InterfaceOptionsCombatTextPanelTargetDamage",
+		"InterfaceOptionsCombatTextPanelPeriodicDamage",
+		"InterfaceOptionsCombatTextPanelPetDamage",
+		"InterfaceOptionsCombatTextPanelHealing",
+		"InterfaceOptionsCombatTextPanelTargetEffects",
+		"InterfaceOptionsCombatTextPanelOtherTargetEffects",
+		"InterfaceOptionsCombatTextPanelEnableFCT",
+		"InterfaceOptionsCombatTextPanelDodgeParryMiss",
+		"InterfaceOptionsCombatTextPanelDamageReduction",
+		"InterfaceOptionsCombatTextPanelRepChanges",
+		"InterfaceOptionsCombatTextPanelReactiveAbilities",
+		"InterfaceOptionsCombatTextPanelFriendlyHealerNames",
+		"InterfaceOptionsCombatTextPanelCombatState",
+		"InterfaceOptionsCombatTextPanelComboPoints",
+		"InterfaceOptionsCombatTextPanelLowManaHealth",
+		"InterfaceOptionsCombatTextPanelEnergyGains",
+		"InterfaceOptionsCombatTextPanelPeriodicEnergyGains",
+		"InterfaceOptionsCombatTextPanelHonorGains",
+		"InterfaceOptionsCombatTextPanelAuras",
+		"InterfaceOptionsStatusTextPanelPlayer",
+		"InterfaceOptionsStatusTextPanelPet",
+		"InterfaceOptionsStatusTextPanelParty",
+		"InterfaceOptionsStatusTextPanelTarget",
+		"InterfaceOptionsStatusTextPanelAlternateResource",
+		"InterfaceOptionsStatusTextPanelPercentages",
+		"InterfaceOptionsStatusTextPanelXP",
+		"InterfaceOptionsUnitFramePanelPartyBackground",
+		"InterfaceOptionsUnitFramePanelPartyPets",
+		"InterfaceOptionsUnitFramePanelArenaEnemyFrames",
+		"InterfaceOptionsUnitFramePanelArenaEnemyCastBar",
+		"InterfaceOptionsUnitFramePanelArenaEnemyPets",
+		"InterfaceOptionsUnitFramePanelFullSizeFocusFrame",
+		"CompactUnitFrameProfilesRaidStylePartyFrames",
+		"CompactUnitFrameProfilesGeneralOptionsFrameKeepGroupsTogether",
+		"CompactUnitFrameProfilesGeneralOptionsFrameDisplayIncomingHeals",
+		"CompactUnitFrameProfilesGeneralOptionsFrameDisplayPowerBar",
+		"CompactUnitFrameProfilesGeneralOptionsFrameDisplayAggroHighlight",
+		"CompactUnitFrameProfilesGeneralOptionsFrameUseClassColors",
+		"CompactUnitFrameProfilesGeneralOptionsFrameDisplayPets",
+		"CompactUnitFrameProfilesGeneralOptionsFrameDisplayMainTankAndAssist",
+		"CompactUnitFrameProfilesGeneralOptionsFrameDisplayBorder",
+		"CompactUnitFrameProfilesGeneralOptionsFrameShowDebuffs",
+		"CompactUnitFrameProfilesGeneralOptionsFrameDisplayOnlyDispellableDebuffs",
+		"CompactUnitFrameProfilesGeneralOptionsFrameAutoActivate2Players",
+		"CompactUnitFrameProfilesGeneralOptionsFrameAutoActivate3Players",
+		"CompactUnitFrameProfilesGeneralOptionsFrameAutoActivate5Players",
+		"CompactUnitFrameProfilesGeneralOptionsFrameAutoActivate10Players",
+		"CompactUnitFrameProfilesGeneralOptionsFrameAutoActivate15Players",
+		"CompactUnitFrameProfilesGeneralOptionsFrameAutoActivate25Players",
+		"CompactUnitFrameProfilesGeneralOptionsFrameAutoActivate40Players",
+		"CompactUnitFrameProfilesGeneralOptionsFrameAutoActivateSpec1",
+		"CompactUnitFrameProfilesGeneralOptionsFrameAutoActivateSpec2",
+		"CompactUnitFrameProfilesGeneralOptionsFrameAutoActivatePvP",
+		"CompactUnitFrameProfilesGeneralOptionsFrameAutoActivatePvE",
+		"InterfaceOptionsBuffsPanelBuffDurations",
+		"InterfaceOptionsBuffsPanelDispellableDebuffs",
+		"InterfaceOptionsBuffsPanelCastableBuffs",
+		"InterfaceOptionsBuffsPanelConsolidateBuffs",
+		"InterfaceOptionsBuffsPanelShowAllEnemyDebuffs",
+		"InterfaceOptionsBattlenetPanelOnlineFriends",
+		"InterfaceOptionsBattlenetPanelOfflineFriends",
+		"InterfaceOptionsBattlenetPanelBroadcasts",
+		"InterfaceOptionsBattlenetPanelFriendRequests",
+		"InterfaceOptionsBattlenetPanelConversations",
+		"InterfaceOptionsBattlenetPanelShowToastWindow",
+		"InterfaceOptionsCameraPanelFollowTerrain",
+		"InterfaceOptionsCameraPanelHeadBob",
+		"InterfaceOptionsCameraPanelWaterCollision",
+		"InterfaceOptionsCameraPanelSmartPivot",
+		"InterfaceOptionsMousePanelInvertMouse",
+		"InterfaceOptionsMousePanelClickToMove",
+		"InterfaceOptionsMousePanelWoWMouse",
+		"InterfaceOptionsHelpPanelShowTutorials",
+		"InterfaceOptionsHelpPanelLoadingScreenTips",
+		"InterfaceOptionsHelpPanelEnhancedTooltips",
+		"InterfaceOptionsHelpPanelBeginnerTooltips",
+		"InterfaceOptionsHelpPanelShowLuaErrors",
+		"InterfaceOptionsHelpPanelColorblindMode",
+		"InterfaceOptionsHelpPanelMovePad"
+	}
+	for i = 1, #checkboxes do
+		R.ReskinCheck(_G[checkboxes[i]])
+	end
 
-		local sliders = {
-			"InterfaceOptionsCombatPanelSpellAlertOpacitySlider",
-			"InterfaceOptionsCombatPanelMaxSpellStartRecoveryOffset",
-			"CompactUnitFrameProfilesGeneralOptionsFrameHeightSlider",
-			"CompactUnitFrameProfilesGeneralOptionsFrameWidthSlider",
-			"InterfaceOptionsBattlenetPanelToastDurationSlider",
-			"InterfaceOptionsCameraPanelMaxDistanceSlider",
-			"InterfaceOptionsCameraPanelFollowSpeedSlider",
-			"InterfaceOptionsMousePanelMouseSensitivitySlider",
-			"InterfaceOptionsMousePanelMouseLookSpeedSlider"
-		}
-		for i = 1, #sliders do
-			R.ReskinSlider(_G[sliders[i]])
-		end
+	local dropdowns = {
+		"InterfaceOptionsControlsPanelAutoLootKeyDropDown",
+		"InterfaceOptionsCombatPanelTOTDropDown",
+		"InterfaceOptionsCombatPanelFocusCastKeyDropDown",
+		"InterfaceOptionsCombatPanelSelfCastKeyDropDown",
+		"InterfaceOptionsDisplayPanelAggroWarningDisplay",
+		"InterfaceOptionsDisplayPanelWorldPVPObjectiveDisplay",
+		"InterfaceOptionsSocialPanelChatStyle",
+		"InterfaceOptionsSocialPanelTimestamps",
+		"InterfaceOptionsSocialPanelWhisperMode",
+		"InterfaceOptionsSocialPanelBnWhisperMode",
+		"InterfaceOptionsSocialPanelConversationMode",
+		"InterfaceOptionsActionBarsPanelPickupActionKeyDropDown",
+		"InterfaceOptionsNamesPanelNPCNamesDropDown",
+		"InterfaceOptionsNamesPanelUnitNameplatesMotionDropDown",
+		"InterfaceOptionsCombatTextPanelFCTDropDown",
+		"CompactUnitFrameProfilesProfileSelector",
+		"CompactUnitFrameProfilesGeneralOptionsFrameSortByDropdown",
+		"CompactUnitFrameProfilesGeneralOptionsFrameHealthTextDropdown",
+		"InterfaceOptionsCameraPanelStyleDropDown",
+		"InterfaceOptionsMousePanelClickMoveStyleDropDown",
+		"Advanced_GraphicsAPIDropDown"
+	}
+	for i = 1, #dropdowns do
+		R.ReskinDropDown(_G[dropdowns[i]])
+	end		
 
-		R.Reskin(CompactUnitFrameProfilesSaveButton)
-		R.Reskin(CompactUnitFrameProfilesDeleteButton)
-		R.Reskin(CompactUnitFrameProfilesGeneralOptionsFrameResetPositionButton)
-		R.Reskin(InterfaceOptionsHelpPanelResetTutorials)
+	local sliders = {
+		"InterfaceOptionsCombatPanelSpellAlertOpacitySlider",
+		"InterfaceOptionsCombatPanelMaxSpellStartRecoveryOffset",
+		"CompactUnitFrameProfilesGeneralOptionsFrameHeightSlider",
+		"CompactUnitFrameProfilesGeneralOptionsFrameWidthSlider",
+		"InterfaceOptionsBattlenetPanelToastDurationSlider",
+		"InterfaceOptionsCameraPanelMaxDistanceSlider",
+		"InterfaceOptionsCameraPanelFollowSpeedSlider",
+		"InterfaceOptionsMousePanelMouseSensitivitySlider",
+		"InterfaceOptionsMousePanelMouseLookSpeedSlider"
+	}
+	for i = 1, #sliders do
+		R.ReskinSlider(_G[sliders[i]])
+	end
 
-		CompactUnitFrameProfilesGeneralOptionsFrameAutoActivateBG:Hide()
-	end)
+	R.Reskin(CompactUnitFrameProfilesSaveButton)
+	R.Reskin(CompactUnitFrameProfilesDeleteButton)
+	R.Reskin(CompactUnitFrameProfilesGeneralOptionsFrameResetPositionButton)
+	R.Reskin(InterfaceOptionsHelpPanelResetTutorials)
+
+	CompactUnitFrameProfilesGeneralOptionsFrameAutoActivateBG:Hide()
 	
 	VideoOptionsFrameCategoryFrame:DisableDrawLayer("BACKGROUND")	
 	InterfaceOptionsFrameCategories:DisableDrawLayer("BACKGROUND")	

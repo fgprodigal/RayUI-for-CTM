@@ -22,7 +22,8 @@ local addon = CreateFrame("Frame")
 local band = bit.band
 local petflags = COMBATLOG_OBJECT_TYPE_PET
 local mine = COMBATLOG_OBJECT_AFFILIATION_MINE
-local spells = {}
+-- local spells = {}
+spells = {}
 local pets = {}
 local items = {}
 local watched = {}
@@ -71,6 +72,12 @@ local function start(id, starttime, duration, class)
 end
 
 local function parsespellbook(spellbook)
+	if spellbook == BOOKTYPE_SPELL then
+		wipe(spells)
+	end
+	if spellbook == BOOKTYPE_SPELL then
+		wipe(pets)
+	end
 	i = 1
 	while true do
 		skilltype, id = GetSpellBookItemInfo(i, spellbook)

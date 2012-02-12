@@ -35,29 +35,29 @@ end
 local dropdown = CreateFrame("Frame", "NumerationMenuFrame", nil, "UIDropDownMenuTemplate")
 local menuTable = {
 	{ text = "Numeration", isTitle = true, notCheckable = true, notClickable = true },
-	{ text = "报告", notCheckable = true, hasArrow = true,
+	{ text = "報告", notCheckable = true, hasArrow = true,
 		menuList = {
-			{ text = "报告", isTitle = true, notCheckable = true, notClickable = true },
+			{ text = "報告", isTitle = true, notCheckable = true, notClickable = true },
 			{ text = SAY, arg1 = "SAY", func = reportFunction, notCheckable = 1 },
 			{ text = RAID, arg1 = "RAID", func = reportFunction, notCheckable = 1 },
 			{ text = PARTY, arg1 = "PARTY", func = reportFunction, notCheckable = 1 },
 			{ text = GUILD, arg1 = "GUILD", func = reportFunction, notCheckable = 1 },
 			{ text = OFFICER, arg1 = "OFFICER", func = reportFunction, notCheckable = 1 },
-			{ text = WHISPER, func = function() window:ShowWhisperWindow() end, notCheckable = 1 },
+			{ text = WHISPER, func = function() StaticPopup_Show("NUMERATION_WHISPER") end, notCheckable = 1 },
 			{ text = CHANNEL, notCheckable = 1, keepShownOnClick = true, hasArrow = true, menuList = {} }
 		},
 	},
-	{ text = "选项", notCheckable = true, hasArrow = true,
+	{ text = "選項", notCheckable = true, hasArrow = true,
 		menuList = {
-			{ text = "合并宠物伤害", arg1 = "petsmerged", func = optionFunction, checked = function() return addon:GetOption("petsmerged") end, keepShownOnClick = true },
-			{ text = "仅保留BOSS数据", arg1 = "keeponlybosses", func = optionFunction, checked = function() return addon:GetOption("keeponlybosses") end, keepShownOnClick = true },
-			{ text = "仅在副本中统计", arg1 = "onlyinstance", func = optionFunction, checked = function() return addon:GetOption("onlyinstance") end, keepShownOnClick = true },
-			{ text = "显示小地图图标", func = function(f, a1, a2, checked) addon:MinimapIconShow(checked) end, checked = function() return not NumerationCharOptions.minimap.hide end, keepShownOnClick = true },
-			{ text = "Solo时隐藏", arg1 = "hideonsolo", func = optionFunction, checked = function() return addon:GetOption("hideonsolo") end, keepShownOnClick = true },
+			{ text = "合併寵物傷害", arg1 = "petsmerged", func = optionFunction, checked = function() return addon:GetOption("petsmerged") end, keepShownOnClick = true },
+			{ text = "僅保留BOSS數據", arg1 = "keeponlybosses", func = optionFunction, checked = function() return addon:GetOption("keeponlybosses") end, keepShownOnClick = true },
+			{ text = "僅在副本中統計", arg1 = "onlyinstance", func = optionFunction, checked = function() return addon:GetOption("onlyinstance") end, keepShownOnClick = true },
+			{ text = "顯示小地圖圖標", func = function(f, a1, a2, checked) addon:MinimapIconShow(checked) end, checked = function() return not NumerationCharOptions.minimap.hide end, keepShownOnClick = true },
+			{ text = "Solo時隱藏", arg1 = "hideonsolo", func = optionFunction, checked = function() return addon:GetOption("hideonsolo") end, keepShownOnClick = true },
 		},
 	},
 	{ text = "", notClickable = true },
-	{ text = "重置", func = function() window:ShowResetWindow() end, notCheckable = true },
+	{ text = "重置", func = function() StaticPopup_Show("NUMERATION_RESET") end, notCheckable = true },
 }
 
 local updateReportChannels = function()
@@ -336,79 +336,34 @@ function window:GetLine(id)
 	return f
 end
 
-local reset
-function window:ShowResetWindow()
-	if not reset then
-		reset = CreateFrame("Frame", nil, window)
-		R.SetBD(reset)
-		reset:SetWidth(200)
-		reset:SetHeight(45)
-		reset:SetPoint("CENTER", UIParent, "CENTER", 0, 200)
-		
-		reset.titletext = reset:CreateFontString(nil, "ARTWORK")
-		reset.titletext:SetFont(s.titlefont, s.titlefontsize, "OUTLINE")
-		reset.titletext:SetTextColor(s.titlefontcolor[1], s.titlefontcolor[2], s.titlefontcolor[3], 1)
-		reset.titletext:SetText("Numeration: 重置数据 ?")
-		reset.titletext:SetPoint("TOP", 0, -2)
-		
-		reset.yes = CreateFrame("Button", nil, reset)
-		reset.yes:SetNormalFontObject(ChatFontSmall)
-		reset.yes:SetText("是")
-		reset.yes:SetWidth(80)
-		reset.yes:SetHeight(18)
-		reset.yes:SetPoint("BOTTOMLEFT", 10, 5)
-		reset.yes:SetScript("OnMouseUp", function() addon:Reset() reset:Hide() end)
-		R.Reskin(reset.yes)
-		
-		reset.no = CreateFrame("Button", nil, reset)
-		reset.no:SetNormalFontObject(ChatFontSmall)
-		reset.no:SetText("否")
-		reset.no:SetWidth(80)
-		reset.no:SetHeight(18)
-		reset.no:SetPoint("BOTTOMRIGHT", -10, 5)
-		reset.no:SetScript("OnMouseUp", function() reset:Hide() end)
-		R.Reskin(reset.no)
-	end
+StaticPopupDialogs["NUMERATION_RESET"] = {
+	text = "Numeration: 重置數據 ?",
+	button1 = YES,
+	button2 = CANCEL,
+	OnAccept = function(self)
+		addon:Reset()
+	end,
+	timeout = 0,
+	hideOnEscape = 1,
+	preferredIndex = 3,
+	whileDead = true,
+}
 
-	reset:Show()
-end
-
-local whisper
-function window:ShowWhisperWindow()
-	if not whisper then
-		whisper = CreateFrame("Frame", nil, window)
-		R.SetBD(whisper)
-		whisper:SetWidth(200)
-		whisper:SetHeight(45)
-		whisper:SetPoint("CENTER", UIParent, "CENTER", 0, 200)
-		
-		whisper.titletext = whisper:CreateFontString(nil, "ARTWORK")
-		whisper.titletext:SetFont(s.titlefont, s.titlefontsize, "OUTLINE")
-		whisper.titletext:SetTextColor(s.titlefontcolor[1], s.titlefontcolor[2], s.titlefontcolor[3], 1)
-		whisper.titletext:SetText("Numeration: 密语目标")
-		whisper.titletext:SetPoint("TOP", 0, -2)
-
-		whisper.target = CreateFrame("EditBox", "NumerationWhisperEditBox", whisper)
-		whisper.target:SetFontObject(ChatFontSmall)
-		whisper.target:SetWidth(90)
-		whisper.target:SetHeight(18)
-		whisper.target:SetPoint("BOTTOMLEFT", 10, 5)
-		whisper.target:SetScript("OnEscapePressed", function() whisper:Hide() end)
-		whisper.target:SetScript("OnEnterPressed", function() reportFunction(self, "WHISPER", whisper.target:GetText()) whisper:Hide() end)
-		R.CreateBD(whisper.target, 0)		
-
-		whisper.yes = CreateFrame("Button", nil, whisper)
-		whisper.yes:SetNormalFontObject(ChatFontSmall)
-		whisper.yes:SetText(WHISPER)
-		whisper.yes:SetWidth(70)
-		whisper.yes:SetHeight(18)
-		whisper.yes:SetPoint("BOTTOMRIGHT", -10, 5)
-		whisper.yes:SetScript("OnMouseUp", function() reportFunction(self, "WHISPER", whisper.target:GetText()) whisper:Hide() end)
-		R.Reskin(whisper.yes)
-	end
-	if UnitIsPlayer("target") and UnitCanCooperate("player", "target") then
-		whisper.target:SetText(UnitName("target"))
-	end
-
-	whisper:Show()
-end
+StaticPopupDialogs["NUMERATION_WHISPER"] = {
+	text = "Numeration: 將報告發送給: ",
+	button1 = YES,
+	button2 = CANCEL,
+	OnAccept = function(self)
+		reportFunction(self, "WHISPER", self.editBox:GetText())
+	end,
+	OnShow = function (self, data)
+		if UnitIsPlayer("target") and UnitCanCooperate("player", "target") then
+			self.editBox:SetText(UnitName("target"))
+		end
+	end,
+	timeout = 0,
+	hideOnEscape = 1,
+	preferredIndex = 3,
+	hasEditBox = true,
+	whileDead = true,
+}

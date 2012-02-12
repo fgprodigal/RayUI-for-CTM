@@ -14,6 +14,9 @@ local function LoadSkin()
 	R.ReskinScroll(FriendsFrameFriendsScrollFrameScrollBar)
 	R.ReskinScroll(WhoListScrollFrameScrollBar)
 	R.ReskinScroll(FriendsFriendsScrollFrameScrollBar)
+	R.ReskinScroll(ChannelRosterScrollFrameScrollBar)
+	ChannelRosterScrollFrame:Point("TOPRIGHT", ChannelFrame, "TOPRIGHT", -39, -60)
+	-- ChannelRosterScrollFrame:SetHeight(320)
 	R.ReskinDropDown(FriendsFrameStatusDropDown)
 	R.ReskinDropDown(WhoFrameDropDown)
 	R.ReskinDropDown(FriendsFriendsFrameDropDown)
@@ -132,7 +135,7 @@ local function LoadSkin()
 		bu:SetHighlightTexture(C.Aurora.backdrop)
 		bu:GetHighlightTexture():SetVertexColor(.24, .56, 1, .2)
 
-		ic:SetSize(25, 25)
+		ic:Size(25, 25)
 		ic:SetTexCoord(.15, .85, .15, .85)
 
 		ic:ClearAllPoints()
@@ -140,7 +143,7 @@ local function LoadSkin()
 		ic.SetPoint = R.dummy
 
 		R.Reskin(inv)
-		inv:SetSize(15, 25)
+		inv:Size(15, 25)
 		inv:ClearAllPoints()
 		inv:Point("RIGHT", bu, "RIGHT", -4, 0)
 		inv.SetPoint = R.dummy
@@ -195,6 +198,9 @@ local function LoadSkin()
 	sorbg:Point("TOPLEFT", -1, 1)
 	sorbg:Point("BOTTOMRIGHT", 1, -1)
 	R.CreateBD(sorbg, 0)
+	for i=1, MAX_CHANNEL_BUTTONS do
+		_G["ChannelButton"..i.."Text"]:SetFont(C["media"].font, C["media"].fontsize)
+	end
 end
 
 tinsert(R.SkinFuncs["RayUI"], LoadSkin)

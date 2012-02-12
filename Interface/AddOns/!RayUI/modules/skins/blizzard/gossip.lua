@@ -36,6 +36,10 @@ local function LoadSkin()
 	ItemTextScrollFrameMiddle:Hide()
 	ItemTextScrollFrameTop:Hide()
 	ItemTextScrollFrameBottom:Hide()
+	ItemTextMaterialTopLeft:SetAlpha(0)
+	ItemTextMaterialTopRight:SetAlpha(0)
+	ItemTextMaterialBotLeft:SetAlpha(0)
+	ItemTextMaterialBotRight:SetAlpha(0)
 	R.ReskinClose(ItemTextCloseButton, "TOPRIGHT", ItemTextFrame, "TOPRIGHT", -32, -12)
 end
 

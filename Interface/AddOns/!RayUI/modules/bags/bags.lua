@@ -15,7 +15,6 @@ local trashButton, trashBag = {}, {}
 
 Bag.buttons = {}
 Bag.bags = {}
-Bag.CanUse = {}
 
 local function ResetAndClear(self)
 	if not self then return end
@@ -254,6 +253,7 @@ function Bag:SlotNew(bag, slot)
 		local count = _G[ret.frame:GetName().."Count"]
 		count:ClearAllPoints()
 		count:Point("BOTTOMRIGHT", ret.frame, "BOTTOMRIGHT", 1, 0)
+		count:SetFont(C["media"].pxfont, R.mult*10, "OUTLINE,MONOCHROME")
 	end
 
 	ret.bag = bag

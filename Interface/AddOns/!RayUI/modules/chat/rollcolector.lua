@@ -12,7 +12,7 @@ local L = setmetatable(GetLocale() == "zhCN" and {
 	[" automatically passed on: "]                   = "自动放弃了",
 	["You passed on: "]                              = "你放弃了：",
 	["Everyone passed on: "]                         = "所有人都放弃了：",
-	["Winner:"]										= "获胜者：",
+	["Winner"]										= "获胜者",
 } or GetLocale() == "zhTW" and {
 	["(.*) won: (.+)"]                               = "(.*)贏得了:(.+)",
 	["%s|HRayUILootCollector:%d|h[%s roll]|h|r %s won %s "] = "%s|HRayUILootCollector:%d|h[%s]|h|r %s 贏得了 %s ",
@@ -23,7 +23,7 @@ local L = setmetatable(GetLocale() == "zhCN" and {
 	[" automatically passed on: "]                   = "自動放棄:",
 	["You passed on: "]                              = "你放棄了:",
 	["Everyone passed on: "]                         = "所有人都放棄了:",
-	["Winner:"]										= "獲勝者:",
+	["Winner"]										= "獲勝者",
 } or {}, {__index = function(t,i) return i end})
 
 
@@ -60,8 +60,7 @@ end
 local f = CreateFrame("Frame")
 f:RegisterEvent("ADDON_LOADED")
 f:SetScript("OnEvent", function(self, event, addon)
-	if addon ~= AddOnName then return end
-
+	if addon ~= AddOnName then return end	
 	f:UnregisterEvent("ADDON_LOADED")
 	f:RegisterEvent("CHAT_MSG_LOOT")
 	f:SetScript("OnEvent", function(self, event, msg)
@@ -74,9 +73,7 @@ f:SetScript("OnEvent", function(self, event, addon)
 		
 		if player then
 			local roll = FindRoll(link, player, true)
-			-- roll[player] = rollcolors[rolltype]..rollval
-			-- roll._type = rolltype
-			roll[player] = {rolltype, rollcolors[rolltype]..rollval}
+			roll[player] = {rolltype, rollcolors[rolltype]..rollval, select(2, UnitClass(player))}
 			return
 		end
 		local player, selection, link = msg:match(L["(.*) has?v?e? selected (.+) for: (.+)"])
@@ -91,11 +88,18 @@ f:SetScript("OnEvent", function(self, event, addon)
 			player = player == YOU and UnitName("player") or player
 			for i, roll in ipairs(rolls) do
 				if roll._link == link and roll[player] and not roll._printed then
-					-- local rolltype = roll._type == NEED and NEED or roll._type == GREED and GREED or roll._type == ROLL_DISENCHANT and ROLL_DISENCHANT
 					roll._printed = true
 					roll._winner = player
 					local rolltype = roll[roll._winner][1]
-					local msg = string.format(L["%s|HRayUILootCollector:%d|h[%s roll]|h|r %s won %s "], rollcolors[rolltype], i, rolltype, player, link)
+					local r, g, b = 1, 1, 1
+					if roll[roll._winner][3] then
+						r, g, b = RAID_CLASS_COLORS[roll[roll._winner][3]].r, RAID_CLASS_COLORS[roll[roll._winner][3]].g, RAID_CLASS_COLORS[roll[roll._winner][3]].b
+					end
+					local name, server = UnitName(player)
+					if (server and server ~= "") then
+						name = name.."-"..server
+					end
+					local msg = string.format(L["%s|HRayUILootCollector:%d|h[%s roll]|h|r %s won %s "], rollcolors[rolltype], i, rolltype, "|Hplayer:"..(name or player).."|h["..R.RGBToHex(r, g, b)..player.."|r]|h", link)
 						for cf in pairs(frames) do
 							_G[cf]:AddMessage(msg)
 						end
@@ -124,12 +128,29 @@ function SetItemRef(link, text, button)
 		if not ItemRefTooltip:IsShown() then ItemRefTooltip:SetOwner(UIParent, "ANCHOR_PRESERVE") end
 
 		local roll = rolls[tonumber(id)]
-		-- local rolltype = roll._type == NEED and coloredwords[NEED] or roll._type == GREED and coloredwords[GREED] or roll._type == ROLL_DISENCHANT and coloredwords[ROLL_DISENCHANT]
 		local rolltype = roll[roll._winner][1]
 		ItemRefTooltip:ClearLines()
 		ItemRefTooltip:AddLine(rolltype.."|r - "..roll._link)
-		ItemRefTooltip:AddDoubleLine(L["Winner:"], "|cffffffff"..roll._winner)
-		for i,v in pairs(roll) do if string.sub(i, 1, 1) ~= "_" then ItemRefTooltip:AddDoubleLine(i, v[2]) end end
+		local r, g, b = 1, 1, 1
+		if roll[roll._winner][3] then
+			r, g, b = RAID_CLASS_COLORS[roll[roll._winner][3]].r, RAID_CLASS_COLORS[roll[roll._winner][3]].g, RAID_CLASS_COLORS[roll[roll._winner][3]].b
+		end
+		ItemRefTooltip:AddDoubleLine(L["Winner"]..": ", R.RGBToHex(r, g, b)..roll._winner.."|r")
+		for i,v in pairs(roll) do
+			if string.sub(i, 1, 1) ~= "_" then
+				local r, g, b = 1, 1, 1
+				if v[3] then
+					r, g, b = RAID_CLASS_COLORS[v[3]].r, RAID_CLASS_COLORS[v[3]].g, RAID_CLASS_COLORS[v[3]].b
+				end
+				if i == UnitName("player") then
+					ItemRefTooltip:AddDoubleLine(R.RGBToHex(r, g, b)..i.."|r (|cffff0000"..YOU.."|r)", v[2])
+				elseif i == roll._winner then
+					ItemRefTooltip:AddDoubleLine(R.RGBToHex(r, g, b)..i.."|r (|cffff0000"..L["Winner"].."|r)", v[2])
+				else
+					ItemRefTooltip:AddDoubleLine(R.RGBToHex(r, g, b)..i.."|r", v[2])
+				end
+			end
+		end
 		ItemRefTooltip:Show()
 	else
 		return orig2(link, text, button)

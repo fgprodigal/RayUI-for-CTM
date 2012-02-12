@@ -1,11 +1,5 @@
 local R, C, L, DB = unpack(select(2, ...))
 
-RayConfig.Class = RayConfig.Class or {}
-RayConfig.Class[R.myrealm] = RayConfig.Class[R.myrealm] or {}
-RayConfig.Class[R.myrealm][R.myname] = R.myclass
-RayConfig.Gold = RayConfig.Gold or {}
-RayConfig.Gold[R.myrealm] = RayConfig.Gold[R.myrealm] or {}
-
 local Stat = CreateFrame("Frame")
 Stat:EnableMouse(true)
 Stat:SetFrameStrata("MEDIUM")
@@ -14,6 +8,12 @@ Stat:SetParent(TopInfoBar7)
 
 TopInfoBar7.Text:SetText(CURRENCY)
 TopInfoBar7.Status:SetValue(0)
+
+RayConfig.Class = RayConfig.Class or {}
+RayConfig.Class[R.myrealm] = RayConfig.Class[R.myrealm] or {}
+RayConfig.Class[R.myrealm][R.myname] = R.myclass
+RayConfig.Gold = RayConfig.Gold or {}
+RayConfig.Gold[R.myrealm] = RayConfig.Gold[R.myrealm] or {}
 
 local function formatMoney(money, icon)
 	local gold = floor(math.abs(money) / 10000)

@@ -12,6 +12,5 @@
 	<Script file='TooltipItemID\TooltipItemID.lua'/>
 	<Script file='TooltipItemIcon\TooltipItemIcon.lua'/>
 	<Script file='TradeTabs\TradeTabs.lua'/>
-	<Script file='HatTrick.lua'/>
 	<Script file='tekKompare.lua'/>
 </Ui>

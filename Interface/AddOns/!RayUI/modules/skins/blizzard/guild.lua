@@ -274,6 +274,12 @@ local function LoadSkin()
 
 		bu.bg = R.CreateBG(ic)
 	end
+	
+	local function createButtonBg(bu)
+		bu:SetHighlightTexture(C.Aurora.backdrop)
+		bu:GetHighlightTexture():SetVertexColor(r, g, b, .2)
+		bu.bg = R.CreateBG(bu.icon)
+	end
 
 	local tcoords = {
 		["WARRIOR"]     = {0.02, 0.23, 0.02, 0.23},
@@ -300,6 +306,9 @@ local function LoadSkin()
 
 		for i = 1, numbuttons do
 			local button = GuildRosterContainer.buttons[i]
+			if not button.bg then
+				createButtonBg(button)
+			end
 			index = offset + i
 			local name, _, _, _, _, _, _, _, _, _, classFileName  = GetGuildRosterInfo(index)
 			if name and index <= visibleMembers then

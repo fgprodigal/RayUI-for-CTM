@@ -160,15 +160,15 @@ R.CreateTab = function(f)
 	f:DisableDrawLayer("BACKGROUND")
 
 	local bg = CreateFrame("Frame", nil, f)
-	bg:SetPoint("TOPLEFT", 8, -3)
-	bg:SetPoint("BOTTOMRIGHT", -8, 0)
+	bg:Point("TOPLEFT", 9, -3)
+	bg:Point("BOTTOMRIGHT", -9, 0)
 	bg:SetFrameLevel(f:GetFrameLevel()-1)
 	R.CreateBD(bg)
 
 	f:SetHighlightTexture(C.Aurora.backdrop)
 	local hl = f:GetHighlightTexture()
-	hl:Point("TOPLEFT", 9, -4)
-	hl:Point("BOTTOMRIGHT", -9, 1)
+	hl:Point("TOPLEFT", 10, -4)
+	hl:Point("BOTTOMRIGHT", -10, 1)
 	hl:SetVertexColor(r, g, b, .25)
 end
 
@@ -437,6 +437,7 @@ RayUISkin:SetScript("OnEvent", function(self, event, addon)
 			end
 		end
 	elseif event == "PLAYER_ENTERING_WORLD" then
+		RayUISkin:UnregisterEvent("PLAYER_ENTERING_WORLD")
 		for t, skinfunc in pairs(R.SkinFuncs["RayUI"]) do
 			if skinfunc then
 				skinfunc()

@@ -5,7 +5,7 @@ local oUF = RayUF or ns.oUF or oUF
 
 local function pending(self, unit)
 	local num, str = UnitPowerType(unit)
-	if(self.Castbar and UnitCastingInfo(unit)) then return true end
+	if(self.Castbar and (UnitCastingInfo(unit)) or UnitChannelInfo(unit)) then return true end
 	if(UnitAffectingCombat(unit)) then return true end
 	if(unit == 'pet' and GetPetHappiness() and GetPetHappiness() < 3) then return true end
 	if(UnitExists(unit..'target')) then	return true end

@@ -28,7 +28,7 @@ local function LoadSkin()
 	AuctionProgressBarIcon:SetTexCoord(.08, .92, .08, .92)
 	R.CreateBG(AuctionProgressBarIcon)
 
-	AuctionProgressBarText:SetPoint("CENTER")
+	AuctionProgressBarText:SetPoint("CENTER", 0, 1)
 
 	R.ReskinClose(AuctionProgressFrameCancelButton, "LEFT", AuctionProgressBar, "RIGHT", 4, 0)
 	select(15, AuctionProgressFrameCancelButton:GetRegions()):SetPoint("CENTER", 0, 2)

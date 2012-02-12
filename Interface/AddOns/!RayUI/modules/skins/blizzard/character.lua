@@ -209,6 +209,61 @@ local function LoadSkin()
 	CheckItemBorderColor:SetScript("OnEvent", ColorItemBorder)	
 	CharacterFrame:HookScript("OnShow", ColorItemBorder)
 	ColorItemBorder()
+	
+	local function ColorFlyOutItemBorder(self)
+		local location = self.location
+		if (not location) or (location >= EQUIPMENTFLYOUT_FIRST_SPECIAL_LOCATION) then
+			if self.glow then
+				self.glow:SetBackdropBorderColor(0, 0, 0, 0)
+			end
+			return
+		end
+		local id = EquipmentManager_GetItemInfoByLocation(location)
+		local icon = _G[self:GetName().."IconTexture"]
+		local glow = self.glow
+		if(not glow) then
+			self.glow = glow
+			glow = CreateFrame("Frame", nil, self)
+			glow:Point("TOPLEFT", -1, 1)
+			glow:Point("BOTTOMRIGHT", 1, -1)
+			glow:CreateBorder()
+			self.glow = glow			
+			self:SetBackdrop({
+					bgFile = C["media"].blank, 
+					insets = { left = -R.mult, right = -R.mult, top = -R.mult, bottom = -R.mult }
+				})
+		end
+		if id then
+			local _, _, rarity, _, _, _, _, _, _, _, _ = GetItemInfo(id)
+			if rarity and rarity > 1 then
+				glow:SetBackdropBorderColor(GetItemQualityColor(rarity))
+				icon:Point("TOPLEFT", 1, -1)
+				icon:Point("BOTTOMRIGHT", -1, 1)
+				self:SetBackdropColor(0, 0, 0)
+			else
+				glow:SetBackdropBorderColor(0, 0, 0, 0)
+				icon:SetAllPoints()
+				self:SetBackdropColor(0, 0, 0, 0)
+			end
+		else
+			glow:SetBackdropBorderColor(0, 0, 0, 0)
+			self:SetBackdropColor(0, 0, 0, 0)
+		end
+	end
+
+	hooksecurefunc("EquipmentFlyout_DisplayButton", ColorFlyOutItemBorder)
+	hooksecurefunc("EquipmentFlyout_Show", function()
+		local flyout = EquipmentFlyoutFrame
+		local buttonAnchor = flyout.buttonFrame
+		local p1, parent, p2, x, y = buttonAnchor:GetPoint()
+		if p2 == "TOPRIGHT" then
+			buttonAnchor:ClearAllPoints()
+			buttonAnchor:Point(p1, parent, p2, x, 2)
+		elseif p2 == "BOTTOMLEFT" then
+			buttonAnchor:ClearAllPoints()
+			buttonAnchor:Point(p1, parent, p2, -2, y)
+		end
+	end)
 
 	for i = 1, #PAPERDOLL_SIDEBARS do
 		local tab = _G["PaperDollSidebarTab"..i]

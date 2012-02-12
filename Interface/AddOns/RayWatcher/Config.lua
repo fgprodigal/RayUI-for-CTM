@@ -157,6 +157,10 @@ ns.watchers ={
 			{ spellID = 22812, filter = "CD" },
 			--挑戰怒吼
 			{ spellID = 5209, filter = "CD" },
+			--寧靜
+			{ spellID = 740, filter = "CD" },
+			--生命之樹
+			{ spellID = 33891, filter = "CD" },
 		},
 	},
 	["HUNTER"] = {
@@ -182,8 +186,12 @@ ns.watchers ={
 			{ spellID = 53434, unitId = "player", caster = "player", filter = "BUFF" },
 			--強化穩固射擊
 			{ spellID = 53220, unitId = "player", caster = "player", filter = "BUFF" },
+			--射擊!
+			{ spellID = 82926, unitId = "player", caster = "player", filter = "BUFF" },
 			--連環火網
-			{ spellID = 82921, unitId = "player", caster = "player", filter = "BUFF" },
+			{ spellID = 82921, unitId = "player", caster = "player", filter = "BUFF" },			
+			--準備、就緒、瞄準……
+			{ spellID = 82925, unitId = "player", caster = "player", filter = "BUFF" },
 
 		},
 		{
@@ -1015,9 +1023,12 @@ ns.watchers ={
 			{ spellID = 102664, unitId = "player", caster = "player", filter = "BUFF" },
 			--圣光念珠
 			{ spellID = 102660, unitId = "player", caster = "player", filter = "BUFF" },
+			--時間之箭
+			{ spellID = 102659, unitId = "player", caster = "player", filter = "BUFF" },
 			--七徵聖印
 			{ spellID = 109802, unitId = "player", caster = "player", filter = "BUFF" },
-
+			--飢餓者
+			{ spellID = 96911, unitId = "player", caster = "player", filter = "BUFF" },
 		--工程
 			--神經突觸彈簧(敏捷)
 			{ spellID = 96228, unitId = "player", caster = "player", filter = "BUFF" },
@@ -1025,6 +1036,7 @@ ns.watchers ={
 			{ spellID = 96229, unitId = "player", caster = "player", filter = "BUFF" },
 			--神經突觸彈簧(智力)
 			{ spellID = 96230, unitId = "player", caster = "player", filter = "BUFF" },
+
 
 		--裁縫
 			--暗輝刺繡

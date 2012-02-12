@@ -178,7 +178,7 @@ local function LoadSkin()
 	for i = 1, NUM_COMPANIONS_PER_PAGE do
 		_G["SpellBookCompanionButton"..i.."Background"]:Hide()
 		_G["SpellBookCompanionButton"..i.."TextBackground"]:Hide()
-		_G["SpellBookCompanionButton"..i.."ActiveTexture"]:SetTexture(C.Aurora.checked)
+		_G["SpellBookCompanionButton"..i.."ActiveTexture"]:Kill()
 
 		local bu = _G["SpellBookCompanionButton"..i]
 		local ic = _G["SpellBookCompanionButton"..i.."IconTexture"]
@@ -190,9 +190,7 @@ local function LoadSkin()
 			bu.bd:Point("TOPLEFT", ic, -1, 1)
 			bu.bd:Point("BOTTOMRIGHT", ic, 1, -1)
 			R.CreateBD(bu.bd, 0)
-
-			bu:SetPushedTexture(nil)
-			bu:SetCheckedTexture(nil)
+			bu:StyleButton(true)
 		end
 	end
 end

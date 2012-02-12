@@ -2,6 +2,7 @@ local R, C, L, DB = unpack(select(2, ...))
 
 local function LoadSkin()
 	R.Reskin(RaidFrameRaidInfoButton)
+	RaidFrameRaidInfoButton:SetPoint("LEFT", RaidFrameConvertToRaidButton, "RIGHT", 67, 12)
 	R.Reskin(RaidFrameConvertToRaidButton)
 	R.Reskin(RaidInfoExtendButton)
 	R.Reskin(RaidInfoCancelButton)

@@ -283,7 +283,7 @@ end
 function ldb:OnClick(button)
 	if button == "LeftButton" then
 		if IsShiftKeyDown() then
-			addon.window:ShowResetWindow()
+			StaticPopup_Show("NUMERATION_RESET")
 		elseif IsAltKeyDown() then
 			NumerationCharOptions.hideonsolo = not NumerationCharOptions.hideonsolo
 			addon:RefreshDisplay()
@@ -327,7 +327,6 @@ end
 
 function addon:Reset()
 	local lastZone = NumerationCharDB and NumerationCharDB.zone
-	wipe(NumerationCharDB)
 	NumerationCharDB = {
 		[0] = newSet(),
 		zone = lastZone,
@@ -585,7 +584,7 @@ function addon:ZONE_CHANGED_NEW_AREA(force)
 				local curZone = GetRealZoneText()
 				if curZone ~= NumerationCharDB.zone then
 					NumerationCharDB.zone = curZone
-					addon.window:ShowResetWindow()
+					StaticPopup_Show("NUMERATION_RESET")
 				end
 			end
 			self:UpdateGUIDS()

@@ -289,6 +289,76 @@ local function LoadSkin()
 	
 	hooksecurefunc("WatchFrame_Collapse", function() downtex:SetTexture("Interface\\AddOns\\!RayUI\\media\\arrow-down-active") end)
 	hooksecurefunc("WatchFrame_Expand", function() downtex:SetTexture("Interface\\AddOns\\!RayUI\\media\\arrow-up-active") end)
+
+	local function updateQuest()
+		local numEntries = GetNumQuestLogEntries()
+
+		local buttons = QuestLogScrollFrame.buttons
+		local numButtons = #buttons
+		local scrollOffset = HybridScrollFrame_GetOffset(QuestLogScrollFrame)
+		local questLogTitle, questIndex
+		local isHeader, isCollapsed
+
+		for i = 1, numButtons do
+			questLogTitle = buttons[i]
+			questIndex = i + scrollOffset
+
+			if not questLogTitle.reskinned then
+				questLogTitle.reskinned = true
+
+				questLogTitle:SetNormalTexture("")
+				questLogTitle.SetNormalTexture = R.dummy
+				questLogTitle:SetPushedTexture("")
+				questLogTitle:SetHighlightTexture("")
+				questLogTitle.SetHighlightTexture = R.dummy
+
+				questLogTitle.bg = CreateFrame("Frame", nil, questLogTitle)
+				questLogTitle.bg:SetSize(13, 13)
+				questLogTitle.bg:SetPoint("LEFT", 4, 0)
+				questLogTitle.bg:SetFrameLevel(questLogTitle:GetFrameLevel()-1)
+				R.CreateBD(questLogTitle.bg, 0)	
+
+				questLogTitle.tex = questLogTitle:CreateTexture(nil, "BACKGROUND")
+				questLogTitle.tex:SetAllPoints(questLogTitle.bg)
+				questLogTitle.tex:SetTexture(C.Aurora.backdrop)
+				questLogTitle.tex:SetGradientAlpha("VERTICAL", 0, 0, 0, .3, .35, .35, .35, .35)
+
+				questLogTitle.minus = questLogTitle:CreateTexture(nil, "OVERLAY")
+				questLogTitle.minus:SetSize(7, 1)
+				questLogTitle.minus:SetPoint("CENTER", questLogTitle.bg)
+				questLogTitle.minus:SetTexture(C.Aurora.backdrop)
+				questLogTitle.minus:SetVertexColor(1, 1, 1)
+
+				questLogTitle.plus = questLogTitle:CreateTexture(nil, "OVERLAY")
+				questLogTitle.plus:SetSize(1, 7)
+				questLogTitle.plus:SetPoint("CENTER", questLogTitle.bg)
+				questLogTitle.plus:SetTexture(C.Aurora.backdrop)
+				questLogTitle.plus:SetVertexColor(1, 1, 1)
+			end
+
+			if questIndex <= numEntries then
+				_, _, _, _, isHeader, isCollapsed = GetQuestLogTitle(questIndex)
+				if isHeader then
+					questLogTitle.bg:Show()
+					questLogTitle.tex:Show()
+					questLogTitle.minus:Show()
+					if isCollapsed then
+						questLogTitle.plus:Show()
+					else
+						questLogTitle.plus:Hide()
+					end
+				else
+					questLogTitle.bg:Hide()
+					questLogTitle.tex:Hide()
+					questLogTitle.minus:Hide()
+					questLogTitle.plus:Hide()
+				end
+			end
+		end
+	end
+	hooksecurefunc("QuestLog_Update", updateQuest)
+	QuestLogScrollFrame:HookScript("OnVerticalScroll", updateQuest)
+	QuestLogScrollFrame:HookScript("OnMouseWheel", updateQuest)
 end
 
 tinsert(R.SkinFuncs["RayUI"], LoadSkin)
