@@ -36,37 +36,37 @@ n.coresettings = {
 -- available types and their order
 n.types = {
 	{
-		name = "伤害",
+		name = "傷害",
 		id = "dd",
 		c = {.25, .66, .35},
 	},
 	{
-		name = "伤害目标",
+		name = "傷害目標",
 		id = "dd",
 		view = "Targets",
 		onlyfights = true,
 		c = {.25, .66, .35},
 	},
 	{
-		name = "伤害承受: 目标",
+		name = "傷害承受: 目標",
 		id = "dt",
 		view = "Targets",
 		onlyfights = true,
 		c = {.66, .25, .25},
 	},
 	{
-		name = "伤害承受: 技能",
+		name = "傷害承受: 技能",
 		id = "dt",
 		view = "Spells",
 		c = {.66, .25, .25},
 	},
 	{
-		name = "队友误伤",
+		name = "隊友誤傷",
 		id = "ff",
 		c = {.63, .58, .24},
 	},
 	{
-		name = "治疗及吸收",
+		name = "治療及吸收",
 		id = "hd",
 		id2 = "ga",
 		c = {.25, .5, .85},
@@ -88,27 +88,27 @@ n.types = {
 --		c = {.25, .5, .85},
 --	},
 	{
-		name = "过量治疗",
+		name = "過量治療",
 		id = "oh",
 		c = {.25, .5, .85},
 	},
 	{
-		name = "驱散",
+		name = "驅散",
 		id = "dp",
 		c = {.58, .24, .63},
 	},
 	{
-		name = "打断",
+		name = "打斷",
 		id = "ir",
 		c = {.09, .61, .55},
 	},
 	{
-		name = "法力获取",
+		name = "法力獲取",
 		id = "pg",
 		c = {48/255, 113/255, 191/255},
 	},
 	{
-		name = "死亡记录",
+		name = "死亡記錄",
 		id = "deathlog",
 		view = "Deathlog",
 		onlyfights = true,

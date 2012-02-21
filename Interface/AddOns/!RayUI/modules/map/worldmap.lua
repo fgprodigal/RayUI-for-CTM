@@ -75,6 +75,11 @@ local function UpdateCoords(self, elapsed)
 	if self.elapsed <= 0 then
 		self.elapsed = 0.1
 		OnUpdate(player, cursor)
+		if GetUnitSpeed("player") ~= 0 then
+			WorldMapFrame:SetAlpha(.5)
+		else
+			WorldMapFrame:SetAlpha(1)
+		end
 	end
 end
 local function gen_coords(self)

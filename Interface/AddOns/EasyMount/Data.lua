@@ -341,7 +341,9 @@ RegisterMount(43927, "fly")
 RegisterMount(44744, "fly")
 RegisterMount(46197, "fly")
 RegisterMount(46199, "fly")
+RegisterMount(97560, "fly")
 
+RegisterMount(75614, "fly") -- 星穹戰馬
 RegisterMount(44151, "both") --  Turbo-Charged fly Machine
 RegisterMount(44153, "both") --  fly Machine
 RegisterMount(48025, "both")
@@ -350,8 +352,8 @@ RegisterMount(61451, "both") -- fly Carpet
 RegisterMount(71342, "both")
 RegisterMount(72286, "both")
 RegisterMount(75596, "both") -- Frosty fly Carpet
-RegisterMount(75614, "fly") -- 星穹戰馬
 RegisterMount(75973, "both")
+RegisterMount(110051, "both") -- 守護巨龍之心
 
 RegisterMount(26055, "taq") -- Yellow Qiraji Battle Tank
 RegisterMount(25953, "taq") -- Blue Qiraji Battle Tank

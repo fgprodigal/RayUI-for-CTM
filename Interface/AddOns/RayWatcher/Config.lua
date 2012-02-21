@@ -837,6 +837,8 @@ ns.watchers ={
 			{ spellID = 84747, unitId = "player", caster = "player", filter = "BUFF" },
 			--佯攻
 			{ spellID = 1966, unitId = "player", caster = "player", filter = "BUFF" },
+			--暗影之舞
+			{ spellID = 51713, unitId = "player", caster = "player", filter = "BUFF" },
 
 		},
 		{
@@ -1011,6 +1013,8 @@ ns.watchers ={
 			{ spellID = 102662, unitId = "player", caster = "player", filter = "BUFF" },
 			--腐败心灵徽记(普通模式)
 			{ spellID = 107982, unitId = "player", caster = "player", filter = "BUFF" },
+			--腐敗心靈徽記(H)
+			{ spellID = 109789, unitId = "player", caster = "player", filter = "BUFF" },
 			--死灵法术集核(H)
 			{ spellID = 97131, unitId = "player", caster = "player", filter = "BUFF" },
 			--死灵法术集核
@@ -1029,6 +1033,8 @@ ns.watchers ={
 			{ spellID = 109802, unitId = "player", caster = "player", filter = "BUFF" },
 			--飢餓者
 			{ spellID = 96911, unitId = "player", caster = "player", filter = "BUFF" },
+			--淨縛之意志(隨機團隊)
+			{ spellID = 109793, unitId = "player", caster = "player", filter = "BUFF" },
 		--工程
 			--神經突觸彈簧(敏捷)
 			{ spellID = 96228, unitId = "player", caster = "player", filter = "BUFF" },

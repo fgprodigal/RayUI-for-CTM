@@ -70,81 +70,101 @@ local function LoadSkin()
 		slot:SetNormalTexture("")
 		slot:StyleButton(true)
 		_G["Inspect"..slots[i].."SlotIconTexture"]:SetTexCoord(.08, .92, .08, .92)
-		slot:SetBackdrop({
-					bgFile = C["media"].blank, 
-					insets = { left = -R.mult, right = -R.mult, top = -R.mult, bottom = -R.mult }
-				})
 	end
 	select(7, InspectMainHandSlot:GetRegions()):Kill()
 	select(7, InspectRangedSlot:GetRegions()):Kill()
 
 	R.ReskinClose(InspectFrameCloseButton)
-	
-	local CheckItemBorderColor = CreateFrame("Frame")
-	local function ScanSlots()
-		local unit = InspectFrame.unit
-		if not InspectFrame:IsShown() then return end
-		local notFound
-		for i = 1, #slots do
-			-- Colour the equipment slots by rarity
-			local target = _G["Inspect"..slots[i].."Slot"]
-			local icon = _G["Inspect"..slots[i].."SlotIconTexture"]
-			local slotId, _, _ = GetInventorySlotInfo(slots[i].."Slot")
-			local itemId = GetInventoryItemID(unit, slotId)
-			
-			local glow = target.glow
-			if(not glow) then
-				target.glow = glow
-				glow = CreateFrame("Frame", nil, target)
-				glow:Point("TOPLEFT", -1, 1)
-				glow:Point("BOTTOMRIGHT", 1, -1)
-				glow:CreateBorder()
-				target.glow = glow
-			end
 
-			if itemId then
-				local _, _, rarity, _, _, _, _, _, _, _, _ = GetItemInfo(itemId)
-				if not rarity then notFound = true end
-				if rarity and rarity > 1 then
-					glow:SetBackdropBorderColor(GetItemQualityColor(rarity))
-					icon:Point("TOPLEFT", 1, -1)
-					icon:Point("BOTTOMRIGHT", -1, 1)
-					target:SetBackdrop({
-						bgFile = C["media"].blank, 
-						insets = { left = -R.mult, right = -R.mult, top = -R.mult, bottom = -R.mult }
-					})
-					target:SetBackdropColor(0, 0, 0)
-				else
-					glow:SetBackdropBorderColor(0, 0, 0, 0)
-					icon:SetAllPoints()
-					target:SetBackdropColor(0, 0, 0, 0)
-				end
+	local CheckItemBorderColor = CreateFrame("Frame")
+
+	local function ColorItemBorder(slotName, itemLink)
+		local target = _G["Inspect"..slotName.."Slot"]
+		local icon = _G["Inspect"..slotName.."SlotIconTexture"]
+		
+		local glow = target.glow
+		if(not glow) then
+			glow = CreateFrame("Frame", nil, target)
+			glow:Point("TOPLEFT", -1, 1)
+			glow:Point("BOTTOMRIGHT", 1, -1)
+			glow:CreateBorder()
+			target.glow = glow
+		end
+
+		if itemLink then
+			local _, _, rarity, _, _, _, _, _, _, _, _ = GetItemInfo(itemLink)
+			if rarity and rarity > 1 then
+				glow:SetBackdropBorderColor(GetItemQualityColor(rarity))
+				icon:Point("TOPLEFT", 1, -1)
+				icon:Point("BOTTOMRIGHT", -1, 1)
+				target:SetBackdrop({
+					bgFile = C["media"].blank, 
+					insets = { left = -R.mult, right = -R.mult, top = -R.mult, bottom = -R.mult }
+				})
+				target:SetBackdropColor(0, 0, 0)
 			else
 				glow:SetBackdropBorderColor(0, 0, 0, 0)
+				icon:SetAllPoints()
 				target:SetBackdropColor(0, 0, 0, 0)
 			end
-		end	
-		
-		if notFound == true then
-			return false
 		else
-			CheckItemBorderColor:SetScript('OnUpdate', nil) --Stop updating
-			return true
-		end		
+			glow:SetBackdropBorderColor(0, 0, 0, 0)
+			target:SetBackdropColor(0, 0, 0, 0)
+		end
 	end
 	
-	local function ColorItemBorder(self)
-		if self and not ScanSlots() then
-			self:SetScript("OnUpdate", ScanSlots) --Run function until all items borders are colored, sometimes when you have never seen an item before GetItemInfo will return nil, when this happens we have to wait for the server to send information.
-		end 
-	end
+	local _MISSING = {}
+	
+	CheckItemBorderColor:SetScript("OnUpdate", function(self, elapsed)
+		local unit = InspectFrame.unit
+		if(not unit) then
+			self:Hide()
+			table.wipe(_MISSING)
+		end
 
+		for i, slotName in next, _MISSING do
+			local itemLink = GetInventoryItemLink(unit, i)
+			if(itemLink) then
+				ColorItemBorder(slotName, itemLink)
+
+				_MISSING[i] = nil
+			end
+		end
+
+		if(not next(_MISSING)) then
+			self:Hide()
+		end
+	end)	
+	
+	local function update()
+		if(not InspectFrame or not InspectFrame:IsShown()) then return end
+
+		local unit = InspectFrame.unit
+		for i, slotName in next, slots do
+			local itemLink = GetInventoryItemLink(unit, i)
+			local itemTexture = GetInventoryItemTexture(unit, i)
+
+			if(itemTexture and not itemLink) then
+				_MISSING[i] = slotName
+				CheckItemBorderColor:Show()
+			end
+
+			ColorItemBorder(slotName, itemLink)
+		end
+	end
+	
 	CheckItemBorderColor:RegisterEvent("PLAYER_TARGET_CHANGED")
-	CheckItemBorderColor:RegisterEvent("UNIT_PORTRAIT_UPDATE")
-	CheckItemBorderColor:RegisterEvent("PARTY_MEMBERS_CHANGED")
-	CheckItemBorderColor:SetScript("OnEvent", ColorItemBorder)	
-	InspectFrame:HookScript("OnShow", ColorItemBorder)
-	ColorItemBorder(CheckItemBorderColor)
+	CheckItemBorderColor:RegisterEvent('UNIT_INVENTORY_CHANGED')
+	CheckItemBorderColor:RegisterEvent('INSPECT_READY')
+	CheckItemBorderColor:SetScript("OnEvent", function(self, event, unit)
+		if event == "UNIT_INVENTORY_CHANGED" then
+			if(InspectFrame.unit == unit) then
+				update()
+			end
+		else
+			update()
+		end
+	end)	
 	
 	for i = 1, MAX_NUM_TALENTS do
 		local bu = _G["InspectTalentFrameTalent"..i]

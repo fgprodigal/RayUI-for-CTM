@@ -148,7 +148,7 @@ NotifyInspect(unit); unitilvl = GetPlayerScore(unit)
 
    if (unitilvl > 1) then 
 		local Red, Blue, Green = GetQuality(unitilvl)
-		GameTooltip:AddLine("物品等级: "..unitilvl,Red, Green, Blue);
+		GameTooltip:AddLine(STAT_AVERAGE_ITEM_LEVEL..": "..unitilvl,Red, Green, Blue);
 end
 end
 GameTooltip:HookScript("OnTooltipSetUnit",SetUnit)
