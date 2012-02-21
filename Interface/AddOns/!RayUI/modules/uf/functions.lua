@@ -341,7 +341,7 @@ function R.PostCastInterruptible(self, unit)
 		elseif UnitIsPlayer(unit) and UnitIsFriend(unit, "player") then
 			r, g, b = unpack(oUF.colors.class[select(2, UnitClass(unit))])
 		else
-			r, g, b = unpack(oUF.colors.reaction[1])
+			r, g, b = unpack(oUF.colors.reaction[6])
 		end
 		self:SetBackdropColor(r * 1, g * 1, b * 1)
 		if unit:find("arena%d") or unit:find("boss%d") then
