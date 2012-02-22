@@ -7,7 +7,7 @@
 
 /Interface/ICONS/
 
-/Interface/AddOns/*
+/Interface/AddOns*/*
 !/Interface/AddOns/!BlizzBugFix/
 !/Interface/AddOns/!BugGrabber/
 !/Interface/AddOns/!RayUI/
