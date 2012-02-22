@@ -35,7 +35,7 @@ local function ButtonUpdate(self, show)
 	local found = false
 	for _, itemid in pairs(poisons) do
 		local poison = GetItemInfo(itemid)
-		if text:match(poison) then
+		if poison and text:find(poison) then
 			found = true
 		end
 	end
@@ -48,7 +48,7 @@ local function ButtonUpdate(self, show)
 	end
 end
 
-local function UpdateButton(show)
+local function UpdateButtons(show)
 	for i = 1,12 do
 		ButtonUpdate(_G["ActionButton"..i], show)
 		ButtonUpdate(_G["MultiBarBottomRightButton"..i], show)
@@ -62,9 +62,9 @@ local updater = CreateFrame("Frame")
 updater:SetScript("OnUpdate", function(self, elapsed)
 	local _, mainHandExpiration, _, _, offHandExpiration = GetWeaponEnchantInfo()
 	if ( mainHandExpiration and mainHandExpiration/60000 > 5 ) and ( offHandExpiration and offHandExpiration/60000 > 5 ) then
-		UpdateButton(false)
+		UpdateButtons(false)
 	else
-		UpdateButton(true)
+		UpdateButtons(true)
 	end
 end)
 
