@@ -299,8 +299,8 @@ R.ReskinClose = function(f, a1, p, a2, x, y)
 	tex:SetGradientAlpha("VERTICAL", 0, 0, 0, .3, .35, .35, .35, .35)
 
 	local text = f:CreateFontString(nil, "OVERLAY")
-	text:SetFont(C["media"].font, 14, "THINOUTLINE")
-	text:Point("CENTER", 1, 1)
+	text:SetFont(C["media"].pxfont, R.mult*10, "OUTLINE,MONOCHROME")
+	text:Point("CENTER", 2, 1)
 	text:SetText("x")
 
 	f:HookScript("OnEnter", function(self) text:SetTextColor(1, .1, .1) end)

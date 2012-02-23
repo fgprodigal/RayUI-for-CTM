@@ -55,7 +55,6 @@ function Style(self, totem, flyout)
 	if Count then
 		Count:ClearAllPoints()
 		Count:SetPoint("BOTTOMRIGHT", 0, R.Scale(2))
-		-- Count:SetFont(C["media"].pxfont, R.Scale(10), "OUTLINE,MONOCHROME")
 		Count:SetFont(C["media"].pxfont, R.mult*10, "OUTLINE,MONOCHROME")
 	end
 	
@@ -92,7 +91,6 @@ function Style(self, totem, flyout)
 	if HotKey then
 		HotKey:ClearAllPoints()
 		HotKey:SetPoint("TOPRIGHT", 0, 0)
-		-- HotKey:SetFont(C["media"].pxfont, R.Scale(10), "OUTLINE,MONOCHROME")
 		HotKey:SetFont(C["media"].pxfont, R.mult*10, "OUTLINE,MONOCHROME")
 		HotKey:SetShadowColor(0, 0, 0, 0.3)
 		HotKey.ClearAllPoints = R.dummy
