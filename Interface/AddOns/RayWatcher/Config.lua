@@ -356,13 +356,13 @@ ns.watchers ={
 			--心靈之怒
 			{ spellID = 1134, unitId = "player", caster = "player", filter = "BUFF" },
 			--沉著殺機
-			{ spellID = 85730, unitId = "target", caster = "player", filter = "DEBUFF" },
+			{ spellID = 85730, unitId = "player", caster = "player", filter = "BUFF" },
 			--狂暴之怒
 			{ spellID = 18499, unitId = "player", caster = "player", filter = "BUFF" },
 			--魯莽
 			{ spellID = 1719, unitId = "player", caster = "player", filter = "BUFF" },
 			--熱血沸騰
-			{ spellID = 46916, unitId = "player", caster = "all", filter = "BUFF" },
+			{ spellID = 46916, unitId = "player", caster = "player", filter = "BUFF" },
 			--劍盾合璧
 			{ spellID = 50227, unitId = "player", caster = "player", filter = "BUFF" },
 			--蓄血
@@ -381,7 +381,8 @@ ns.watchers ={
 			{ spellID = 871, unitId = "player", caster = "player", filter = "BUFF" },
 			--狂怒恢復
 			{ spellID = 55694, unitId = "player", caster = "player", filter = "BUFF" },
-
+			--橫掃攻擊
+			{ spellID = 12328, unitId = "player", caster = "player", filter = "BUFF" },
 		},
 		{
 			name = "目标debuff",
@@ -1061,6 +1062,8 @@ ns.watchers ={
 			{ spellID = 74241, unitId = "player", caster = "player", filter = "BUFF" },
 			--轻盈步伐
 			{ spellID = 74243, unitId = "player", caster = "player", filter = "BUFF" },
+			--泰坦克，時之步履(隨機團隊)
+			{ spellID = 109842, unitId = "player", caster = "player", filter = "BUFF" },
 
 		--藥水
 			--土靈護甲
@@ -1081,6 +1084,8 @@ ns.watchers ={
 			{ spellID = 80353, unitId = "player", caster = "all", filter = "BUFF" },
 			--上古狂亂
 			{ spellID = 90355, unitId = "player", caster = "all", filter = "BUFF" },
+			--振奮咆哮
+			{ spellID = 97463, unitId = "player", caster = "all", filter = "BUFF" },
 		},
 		{
 			name = "PVE/PVP玩家debuff",

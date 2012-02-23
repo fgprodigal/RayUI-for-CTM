@@ -154,8 +154,8 @@ local function LoadSkin()
 	end
 	
 	CheckItemBorderColor:RegisterEvent("PLAYER_TARGET_CHANGED")
-	CheckItemBorderColor:RegisterEvent('UNIT_INVENTORY_CHANGED')
-	CheckItemBorderColor:RegisterEvent('INSPECT_READY')
+	CheckItemBorderColor:RegisterEvent("UNIT_INVENTORY_CHANGED")
+	CheckItemBorderColor:RegisterEvent("INSPECT_READY")
 	CheckItemBorderColor:SetScript("OnEvent", function(self, event, unit)
 		if event == "UNIT_INVENTORY_CHANGED" then
 			if(InspectFrame.unit == unit) then
@@ -164,7 +164,8 @@ local function LoadSkin()
 		else
 			update()
 		end
-	end)	
+	end)
+	InspectFrame:HookScript("OnShow", update)
 	
 	for i = 1, MAX_NUM_TALENTS do
 		local bu = _G["InspectTalentFrameTalent"..i]
