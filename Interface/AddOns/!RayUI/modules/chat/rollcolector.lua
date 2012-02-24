@@ -137,7 +137,7 @@ function SetItemRef(link, text, button)
 		end
 		ItemRefTooltip:AddDoubleLine(L["Winner"]..": ", R.RGBToHex(r, g, b)..roll._winner.."|r")
 		for i,v in pairs(roll) do
-			if string.sub(i, 1, 1) ~= "_" then
+			if string.sub(i, 1, 1) ~= "_" and v[2] then
 				local r, g, b = 1, 1, 1
 				if v[3] then
 					r, g, b = RAID_CLASS_COLORS[v[3]].r, RAID_CLASS_COLORS[v[3]].g, RAID_CLASS_COLORS[v[3]].b
