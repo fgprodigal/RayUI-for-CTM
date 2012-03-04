@@ -1,13 +1,9 @@
 local R, C, L, DB = unpack(select(2, ...))
 
-local Stat = CreateFrame("Frame")
-Stat:EnableMouse(true)
-Stat:SetFrameStrata("MEDIUM")
-Stat:SetFrameLevel(3)
-Stat:SetParent(TopInfoBar7)
+local Stat = TopInfoBar7.Status
 
 TopInfoBar7.Text:SetText(CURRENCY)
-TopInfoBar7.Status:SetValue(0)
+Stat:SetValue(0)
 
 RayConfig.Class = RayConfig.Class or {}
 RayConfig.Class[R.myrealm] = RayConfig.Class[R.myrealm] or {}
@@ -73,9 +69,9 @@ local function OnEvent(self, event)
 			total = total + v
 		end
 		if total > 0 then
-			TopInfoBar7.Status:SetMinMaxValues(0, total)
-			TopInfoBar7.Status:SetValue(money)
-			TopInfoBar7.Status:SetStatusBarColor(unpack(R.InfoBarStatusColor[3]))
+			Stat:SetMinMaxValues(0, total)
+			Stat:SetValue(money)
+			Stat:SetStatusBarColor(unpack(R.InfoBarStatusColor[3]))
 		end
 	end
 end

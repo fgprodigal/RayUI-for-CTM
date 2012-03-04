@@ -16,10 +16,10 @@ local ReminderBuffs = {
 	HUNTER = {
 		["Aspects"] = { --aspects group
 			["spells"] = {
-				[13165] = true, -- hawk
+				[82661] = true, -- fox	
 				[5118] = true, -- cheetah
 				[20043] = true, -- wild
-				[82661] = true, -- fox	
+				[13165] = true, -- hawk
 			},
 			["instance"] = true,
 			["personal"] = true,

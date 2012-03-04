@@ -58,10 +58,10 @@ hooksecurefunc(GameTooltip, "SetUnitAura", function(self,...)
 	end
 end)
 
-hooksecurefunc("SetItemRef", function(link, text, button, chatFrame)
+--[[hooksecurefunc("SetItemRef", function(link, text, button, chatFrame)
 	local id = tonumber(link:match("spell:(%d+)"))
 	if id then addLine(ItemRefTooltip,id) end
-end)
+end)]]
 
 GameTooltip:HookScript("OnTooltipSetSpell", function(self)
 	local id = select(3,self:GetSpell())

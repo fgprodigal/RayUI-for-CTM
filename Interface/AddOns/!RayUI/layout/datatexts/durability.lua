@@ -14,8 +14,9 @@ local Slots = {
 		[11] = {18, INVTYPE_RANGED, 1000}
 	}
 local tooltipString = "%d %%"
+local Stat = TopInfoBar4.Status
 
-TopInfoBar4.Status:SetScript("OnEvent", function(self)
+Stat:SetScript("OnEvent", function(self)
 	local Total = 0
 	local current, max
 	
@@ -46,7 +47,7 @@ TopInfoBar4.Status:SetScript("OnEvent", function(self)
 																R.InfoBarStatusColor[3][1], R.InfoBarStatusColor[3][2], R.InfoBarStatusColor[3][3])
 	self:SetStatusBarColor(r, g, b)
 end)
-TopInfoBar4.Status:SetScript("OnEnter", function(self)
+Stat:SetScript("OnEnter", function(self)
 	if not InCombatLockdown() then
 		GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT", 0, 0)
 		GameTooltip:ClearLines()
@@ -61,7 +62,7 @@ TopInfoBar4.Status:SetScript("OnEnter", function(self)
 		GameTooltip:Show()
 	end
 end)
-TopInfoBar4.Status:SetScript("OnLeave", function() GameTooltip:Hide() end)
-TopInfoBar4.Status:RegisterEvent("UPDATE_INVENTORY_DURABILITY")
-TopInfoBar4.Status:RegisterEvent("MERCHANT_SHOW")
-TopInfoBar4.Status:RegisterEvent("PLAYER_ENTERING_WORLD")
+Stat:SetScript("OnLeave", function() GameTooltip:Hide() end)
+Stat:RegisterEvent("UPDATE_INVENTORY_DURABILITY")
+Stat:RegisterEvent("MERCHANT_SHOW")
+Stat:RegisterEvent("PLAYER_ENTERING_WORLD")

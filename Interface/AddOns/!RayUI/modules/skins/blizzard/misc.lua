@@ -215,7 +215,7 @@ local function LoadSkin()
 	
 	-- Option panels
 	local line = VideoOptionsFrame:CreateTexture(nil, "ARTWORK")
-	line:SetSize(1, 536)
+	line:Size(1, 536)
 	line:SetPoint("LEFT", 205, 18)
 	line:SetTexture(1, 1, 1, .2)
 
@@ -321,7 +321,7 @@ local function LoadSkin()
 	R.Reskin(AudioOptionsVoicePanelChatMode1KeyBindingButton)
 
 	local line = InterfaceOptionsFrame:CreateTexture(nil, "ARTWORK")
-	line:SetSize(1, 536)
+	line:Size(1, 536)
 	line:SetPoint("LEFT", 205, 18)
 	line:SetTexture(1, 1, 1, .2)
 

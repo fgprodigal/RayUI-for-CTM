@@ -65,12 +65,7 @@ local function UpdateMem(self, t)
 	end
 end
 
-local Stat = CreateFrame("Frame", nil, TopInfoBar3)
-Stat:EnableMouse(true)
-Stat:SetFrameStrata(TopInfoBar3:GetFrameStrata())
-Stat:SetFrameLevel(TopInfoBar3:GetFrameLevel() + 5)
-Stat:ClearAllPoints()
-Stat:SetAllPoints(TopInfoBar3)
+local Stat = TopInfoBar3.Status
 
 Stat:SetScript("OnMouseDown", function(self)
 	UpdateAddOnMemoryUsage()
@@ -82,13 +77,10 @@ end)
 Stat:SetScript("OnUpdate", UpdateMem)
 Stat:SetScript("OnEnter", function(self)
 	local bandwidth = GetAvailableBandwidth()
-	local home_latency = select(3, GetNetStats()) 
-	local anchor, panel, xoff, yoff = "ANCHOR_BOTTOMRIGHT", self, 0, 0
-	GameTooltip:SetOwner(panel, anchor, xoff, yoff)
+	local home_latency = select(3, GetNetStats())
+	GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT", 0, 0)
 	GameTooltip:ClearLines()
-	
-	GameTooltip:AddDoubleLine(L["本地延迟"]..": ", string.format(homeLatencyString, home_latency), 0.69, 0.31, 0.31,0.84, 0.75, 0.65)
-	
+
 	if bandwidth ~= 0 then
 		GameTooltip:AddDoubleLine(L["带宽"]..": " , string.format(bandwidthString, bandwidth),0.69, 0.31, 0.31,0.84, 0.75, 0.65)
 		GameTooltip:AddDoubleLine(L["下载"]..": " , string.format(percentageString, GetDownloadedPercentage() *100),0.69, 0.31, 0.31, 0.84, 0.75, 0.65)

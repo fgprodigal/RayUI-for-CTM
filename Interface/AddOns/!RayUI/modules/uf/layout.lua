@@ -35,6 +35,13 @@ local UnitFrame_OnLeave = function(self)
 	end
 end
 
+local function Fader(self)
+	self.Fader = true
+	self.FadeSmooth = 0.5
+	self.FadeMinAlpha = 0
+	self.FadeMaxAlpha = 1
+end
+
 local function Shared(self, unit)
 --	self.FrameBackdrop = R.CreateBackdrop(self, self)
 	
@@ -209,9 +216,8 @@ local function Shared(self, unit)
 		
 		self.Debuffs = debuffs
 		
-		-- BarFader
-		self.BarFade = true
-		self.BarFaderMinAlpha = "0"
+		-- Fader
+		Fader(self)
 		
 		-- ClassBar
 		 if R.myclass == "DEATHKNIGHT" or R.myclass == "WARLOCK" or R.myclass == "PALADIN" then
@@ -703,6 +709,9 @@ local function Shared(self, unit)
 		--Dummy Cast Bar, so we don't see an extra castbar while in vehicle
 	--	local castbar = CreateFrame("StatusBar", nil, self)
 	--	self.Castbar = castbar
+
+		-- Fader
+		Fader(self)
 	end
 	
 	if unit == "targettarget" then
@@ -907,7 +916,6 @@ local function LoadDPSLayout()
 	local pet = oUF:Spawn('pet', "RayUF_pet")
 	pet:Point("BOTTOM", RayUIPetBar, "TOP", 0, 3)
 	pet:Size(SMALL_WIDTH, SMALL_HEIGHT)
-	pet:SetParent(player)
 
 	-- Focus's target
 	local focustarget = oUF:Spawn('focustarget', "RayUF_focustarget")

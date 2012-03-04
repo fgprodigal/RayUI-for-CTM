@@ -1,5 +1,5 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
-	<Script file="BarFader.lua"/>
+	<Script file="Fader.lua"/>
 	<Script file="Experience.lua"/>
 	<Script file="Movable.lua"/>
 	<Script file="Reputation.lua"/>

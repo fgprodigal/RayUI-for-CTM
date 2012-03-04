@@ -25,11 +25,7 @@ local find			= string.find
 local format		= string.format
 local sort			= table.sort
 
-local Stat = CreateFrame("Frame")
-Stat:EnableMouse(true)
-Stat:SetFrameStrata("MEDIUM")
-Stat:SetFrameLevel(3)
-Stat:SetParent(TopInfoBar5)
+local Stat = TopInfoBar5.Status
 
 local menuFrame = CreateFrame("Frame", "RayUIFriendRightClickMenu", UIParent, "UIDropDownMenuTemplate")
 local menuList = {
@@ -128,8 +124,8 @@ local function Update(self, event, ...)
 	dataValid = false
 
 	TopInfoBar5.Text:SetFormattedText(displayString, FRIENDS, onlineFriends + numBNetOnline)
-	TopInfoBar5.Status:SetMinMaxValues(0, totalFriends + totalBN)
-	TopInfoBar5.Status:SetValue(onlineFriends + numBNetOnline)
+	Stat:SetMinMaxValues(0, totalFriends + totalBN)
+	Stat:SetValue(onlineFriends + numBNetOnline)
 	self:SetAllPoints(TopInfoBar5)
 end
 

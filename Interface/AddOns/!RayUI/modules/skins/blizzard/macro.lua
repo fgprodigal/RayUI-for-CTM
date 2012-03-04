@@ -41,8 +41,8 @@ local function LoadSkin()
 		bu:GetCheckedTexture():Point("TOPLEFT", 1, -1)
 		bu:GetCheckedTexture():Point("BOTTOMRIGHT", -1, 1)
 
-		ic:SetPoint("TOPLEFT", 1, -1)
-		ic:SetPoint("BOTTOMRIGHT", -1, 1)
+		ic:Point("TOPLEFT", 1, -1)
+		ic:Point("BOTTOMRIGHT", -1, 1)
 		ic:SetTexCoord(.08, .92, .08, .92)
 
 		R.CreateBD(bu, .25)

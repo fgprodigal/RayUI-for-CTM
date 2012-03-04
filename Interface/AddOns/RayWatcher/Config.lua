@@ -31,8 +31,6 @@ ns.watchers ={
 			{ spellID = 774, unitId = "player", caster = "player", filter = "BUFF" },
 			--癒合
 			{ spellID = 8936, unitId = "player", caster = "player", filter = "BUFF" },
-			--野性痊癒
-			{ spellID = 48438, unitId = "player", caster = "player", filter = "BUFF" },
 		},
 		{
 			name = "目标buff",
@@ -46,8 +44,6 @@ ns.watchers ={
 			{ spellID = 774, unitId = "target", caster = "player", filter = "BUFF" },
 			--癒合
 			{ spellID = 8936, unitId = "target", caster = "player", filter = "BUFF" },
-			--野性痊癒
-			{ spellID = 48438, unitId = "target", caster = "player", filter = "BUFF" },
 
 		},
 		{
@@ -110,6 +106,7 @@ ns.watchers ={
 			{ spellID = 9007, unitId = "target", caster = "player", filter = "DEBUFF" },
 			--割碎
 			{ spellID = 33876, unitId = "target", caster = "player", filter = "DEBUFF" },
+			{ spellID = 33878, unitId = "target", caster = "player", filter = "DEBUFF" },
 			--大地新月
 			{ spellID = 48506, unitId = "target", caster = "player", filter = "DEBUFF" },
 			--精靈之火(野性)
@@ -230,6 +227,20 @@ ns.watchers ={
 			{ spellID = 19386, unitId = "focus", caster = "all", filter = "DEBUFF" },
 			--沉默射擊
 			{ spellID = 34490, unitId = "focus", caster = "all", filter = "DEBUFF" },
+		},
+		{
+			name = "CD",
+			direction = "DOWN",
+			iconSide = "LEFT",
+			mode = "BAR",
+			size = 28,
+			barWidth = 170,
+			setpoint = { "TOPLEFT", RayUIActionBar2, "BOTTOMRIGHT", -27, -6 },
+
+			--急速射擊
+			{ spellID = 3045, filter = "CD" },
+			--準備就緒
+			{ spellID = 23989, filter = "CD" },
 		},
 	},
 	["MAGE"] = {
@@ -1086,6 +1097,10 @@ ns.watchers ={
 			{ spellID = 90355, unitId = "player", caster = "all", filter = "BUFF" },
 			--振奮咆哮
 			{ spellID = 97463, unitId = "player", caster = "all", filter = "BUFF" },
+			
+		--種族天賦
+			--血之烈怒
+			{ spellID = 20572, unitId = "player", caster = "all", filter = "BUFF" },
 		},
 		{
 			name = "PVE/PVP玩家debuff",

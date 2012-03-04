@@ -27,11 +27,7 @@ local officerNoteString = join("", "|cff999999   ", GUILD_RANK1_DESC, ":|r %s")
 local friendOnline, friendOffline = gsub(ERR_FRIEND_ONLINE_SS,"\124Hplayer:%%s\124h%[%%s%]\124h",""), gsub(ERR_FRIEND_OFFLINE_S,"%%s","")
 local guildTable, guildXP, guildMotD = {}, {}, ""
 
-local Stat = CreateFrame("Frame")
-Stat:EnableMouse(true)
-Stat:SetFrameStrata("MEDIUM")
-Stat:SetFrameLevel(3)
-Stat:SetParent(TopInfoBar6)
+local Stat = TopInfoBar6.Status
 
 local function SortGuildTable(shift)
 	sort(guildTable, function(a, b)
@@ -100,8 +96,8 @@ local function Update(self, event, ...)
 		local total, online = GetNumGuildMembers()
 		
 		TopInfoBar6.Text:SetFormattedText(displayString, online)
-		TopInfoBar6.Status:SetMinMaxValues(0, total)
-		TopInfoBar6.Status:SetValue(online)
+		Stat:SetMinMaxValues(0, total)
+		Stat:SetValue(online)
 	else
 		TopInfoBar6.Text:SetText(noGuildString)
 	end

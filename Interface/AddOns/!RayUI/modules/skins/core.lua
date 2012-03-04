@@ -5,7 +5,8 @@ local R, C, L, DB = unpack(select(2, ...))
 R.SkinFuncs = {}
 R.SkinFuncs["RayUI"] = {}
 
-local alpha = .5 -- controls the backdrop opacity (0 = invisible, 1 = solid)
+local alpha = .65 -- controls the backdrop opacity (0 = invisible, 1 = solid)
+R.DefGradient = {"VERTICAL", 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3}
 
 C.Aurora = {
 	["backdrop"] = "Interface\\ChatFrame\\ChatFrameBackground",
@@ -137,7 +138,7 @@ R.Reskin = function(f, noGlow)
 	tex:SetPoint("TOPLEFT")
 	tex:SetPoint("BOTTOMRIGHT")
 	tex:SetTexture(C.Aurora.backdrop)
-	tex:SetGradientAlpha("VERTICAL", 0, 0, 0, .3, .35, .35, .35, .35)
+	tex:SetGradientAlpha(unpack(R.DefGradient))
 
 	if not noGlow then
 		f.glow = CreateFrame("Frame", nil, f)
@@ -195,7 +196,7 @@ R.ReskinScroll = function(f)
 	tex:Point("TOPLEFT", bu.bg)
 	tex:Point("BOTTOMRIGHT", bu.bg)
 	tex:SetTexture(C.Aurora.backdrop)
-	tex:SetGradientAlpha("VERTICAL", 0, 0, 0, .3, .35, .35, .35, .35)
+	tex:SetGradientAlpha(unpack(R.DefGradient))
 
 	local up = _G[frame.."ScrollUpButton"]
 	local down = _G[frame.."ScrollDownButton"]
@@ -243,9 +244,10 @@ R.ReskinDropDown = function(f)
 
 	local down = _G[frame.."Button"]
 
-	down:Size(19, 19)
 	down:ClearAllPoints()
-	down:Point("RIGHT", -18, 2)
+	down:Point("TOPRIGHT", -18, -4)
+	down:Point("BOTTOMRIGHT", -18, 8)
+	down:SetWidth(19)
 
 	R.Reskin(down)
 	
@@ -257,7 +259,7 @@ R.ReskinDropDown = function(f)
 
 	local downtex = down:CreateTexture(nil, "ARTWORK")
 	downtex:SetTexture("Interface\\AddOns\\!RayUI\\media\\arrow-down-active")
-	downtex:Size(8, 8)
+	downtex:SetSize(8, 8)
 	downtex:SetPoint("CENTER")
 	downtex:SetVertexColor(1, 1, 1)
 
@@ -271,7 +273,7 @@ R.ReskinDropDown = function(f)
 	tex:SetPoint("TOPLEFT")
 	tex:SetPoint("BOTTOMRIGHT")
 	tex:SetTexture(C.Aurora.backdrop)
-	tex:SetGradientAlpha("VERTICAL", 0, 0, 0, .3, .35, .35, .35, .35)
+	tex:SetGradientAlpha(unpack(R.DefGradient))
 end
 
 R.ReskinClose = function(f, a1, p, a2, x, y)
@@ -296,7 +298,7 @@ R.ReskinClose = function(f, a1, p, a2, x, y)
 	tex:SetPoint("TOPLEFT")
 	tex:SetPoint("BOTTOMRIGHT")
 	tex:SetTexture(C.Aurora.backdrop)
-	tex:SetGradientAlpha("VERTICAL", 0, 0, 0, .3, .35, .35, .35, .35)
+	tex:SetGradientAlpha(unpack(R.DefGradient))
 
 	local text = f:CreateFontString(nil, "OVERLAY")
 	text:SetFont(C["media"].pxfont, R.mult*10, "OUTLINE,MONOCHROME")
@@ -320,7 +322,7 @@ R.ReskinInput = function(f, height, width)
 	tex:SetPoint("TOPLEFT")
 	tex:SetPoint("BOTTOMRIGHT")
 	tex:SetTexture(C.Aurora.backdrop)
-	tex:SetGradientAlpha("VERTICAL", 0, 0, 0, .3, .35, .35, .35, .35)
+	tex:SetGradientAlpha(unpack(R.DefGradient))
 
 	if height then f:Height(height) end
 	if width then f:Width(width) end
@@ -353,21 +355,21 @@ R.ReskinCheck = function(f)
 	f:SetPushedTexture("")
 	f:SetHighlightTexture(C.Aurora.backdrop)
 	local hl = f:GetHighlightTexture()
-	hl:Point("TOPLEFT", 6, -6)
-	hl:Point("BOTTOMRIGHT", -6, 6)
+	hl:Point("TOPLEFT", 5, -5)
+	hl:Point("BOTTOMRIGHT", -5, 5)
 	hl:SetVertexColor(r, g, b, .2)
 
+	local tex = f:CreateTexture(nil, "BACKGROUND")
+	tex:Point("TOPLEFT", 5, -5)
+	tex:Point("BOTTOMRIGHT", -5, 5)
+	tex:SetTexture(C.Aurora.backdrop)
+	tex:SetGradientAlpha(unpack(R.DefGradient))
+	
 	local bd = CreateFrame("Frame", nil, f)
-	bd:Point("TOPLEFT", 4, -4)
-	bd:Point("BOTTOMRIGHT", -4, 4)
+	bd:Point("TOPLEFT", tex, -1, 1)
+	bd:Point("BOTTOMRIGHT", tex, 1, -1)
 	bd:SetFrameLevel(f:GetFrameLevel()-1)
 	R.CreateBD(bd, 0)
-
-	local tex = f:CreateTexture(nil, "BACKGROUND")
-	tex:Point("TOPLEFT", 6, -6)
-	tex:Point("BOTTOMRIGHT", -6, 6)
-	tex:SetTexture(C.Aurora.backdrop)
-	tex:SetGradientAlpha("VERTICAL", 0, 0, 0, .3, .35, .35, .35, .35)
 end
 
 R.ReskinSlider = function(f)
@@ -386,7 +388,7 @@ R.ReskinSlider = function(f)
 	tex:SetPoint("TOPLEFT")
 	tex:SetPoint("BOTTOMRIGHT")
 	tex:SetTexture(C.Aurora.backdrop)
-	tex:SetGradientAlpha("VERTICAL", 0, 0, 0, .3, .35, .35, .35, .35)
+	tex:SetGradientAlpha(unpack(R.DefGradient))
 
 	local slider = select(4, f:GetRegions())
 	slider:SetTexture("Interface\\CastingBar\\UI-CastingBar-Spark")

@@ -313,8 +313,8 @@ local function LoadSkin()
 				questLogTitle.SetHighlightTexture = R.dummy
 
 				questLogTitle.bg = CreateFrame("Frame", nil, questLogTitle)
-				questLogTitle.bg:SetSize(13, 13)
-				questLogTitle.bg:SetPoint("LEFT", 4, 0)
+				questLogTitle.bg:Size(13, 13)
+				questLogTitle.bg:Point("LEFT", 4, 0)
 				questLogTitle.bg:SetFrameLevel(questLogTitle:GetFrameLevel()-1)
 				R.CreateBD(questLogTitle.bg, 0)	
 
@@ -324,13 +324,13 @@ local function LoadSkin()
 				questLogTitle.tex:SetGradientAlpha("VERTICAL", 0, 0, 0, .3, .35, .35, .35, .35)
 
 				questLogTitle.minus = questLogTitle:CreateTexture(nil, "OVERLAY")
-				questLogTitle.minus:SetSize(7, 1)
+				questLogTitle.minus:Size(7, 1)
 				questLogTitle.minus:SetPoint("CENTER", questLogTitle.bg)
 				questLogTitle.minus:SetTexture(C.Aurora.backdrop)
 				questLogTitle.minus:SetVertexColor(1, 1, 1)
 
 				questLogTitle.plus = questLogTitle:CreateTexture(nil, "OVERLAY")
-				questLogTitle.plus:SetSize(1, 7)
+				questLogTitle.plus:Size(1, 7)
 				questLogTitle.plus:SetPoint("CENTER", questLogTitle.bg)
 				questLogTitle.plus:SetTexture(C.Aurora.backdrop)
 				questLogTitle.plus:SetVertexColor(1, 1, 1)
