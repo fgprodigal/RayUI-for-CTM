@@ -106,7 +106,7 @@ local function SysInfo_OnEnter(self)
 				return "TOPLEFT"
 			end,
 			"relativePoint", function()
-				return "BOTTOMRIGHT"
+				return "BOTTOMLEFT"
 			end,
 			"maxHeight", 500,
 			"clickable", true,

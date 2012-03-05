@@ -25,7 +25,7 @@ C.Aurora.classcolours = {
 	["DEATHKNIGHT"] = { r = 0.77, g = 0.12 , b = 0.23 },
 }
 
-C.Aurora.DefGradient = {"VERTICAL", 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3}
+C.Aurora.DefGradient = {"VERTICAL", 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2}
 
 R.CreateBD = function(f, a)
 	if not f then return end

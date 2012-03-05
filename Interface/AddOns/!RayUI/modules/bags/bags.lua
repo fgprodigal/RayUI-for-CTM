@@ -236,6 +236,11 @@ function Bag:SlotNew(bag, slot)
 			border:SetFrameLevel(0)
 			ret.frame.border = border
 			ret.frame.border:CreateBorder()
+			
+			local tex = ret.frame:CreateTexture(nil, "BACKGROUND")
+			tex:SetAllPoints()
+			tex:SetTexture(C.Aurora.backdrop)
+			tex:SetGradientAlpha(unpack(C.Aurora.DefGradient))
 		end
 
 		ret.frame:SetBackdrop({

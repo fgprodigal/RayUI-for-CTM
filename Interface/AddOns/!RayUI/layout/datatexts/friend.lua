@@ -1,268 +1,301 @@
 local R, C, L, DB = unpack(select(2, ...))
 
--- create a popup
-StaticPopupDialogs.SET_BN_BROADCAST = {
-	text = BN_BROADCAST_TOOLTIP,
-	button1 = ACCEPT,
-	button2 = CANCEL,
-	hasEditBox = 1,
-	editBoxWidth = 350,
-	maxLetters = 127,
-	OnAccept = function(self) BNSetCustomMessage(self.editBox:GetText()) end,
-	OnShow = function(self) self.editBox:SetText(select(3, BNGetInfo()) ) self.editBox:SetFocus() end,
-	OnHide = ChatEdit_FocusActiveWindow,
-	EditBoxOnEnterPressed = function(self) BNSetCustomMessage(self:GetText()) self:GetParent():Hide() end,
-	EditBoxOnEscapePressed = function(self) self:GetParent():Hide() end,
-	timeout = 0,
-	exclusive = 1,
-	whileDead = 1,
-	hideOnEscape = 1
-}
-
--- localized references for global functions (about 50% faster)
-local join 			= string.join
-local find			= string.find
-local format		= string.format
-local sort			= table.sort
-
 local Stat = TopInfoBar5.Status
+Stat.updateElapsed = 0
 
-local menuFrame = CreateFrame("Frame", "RayUIFriendRightClickMenu", UIParent, "UIDropDownMenuTemplate")
-local menuList = {
-	{ text = OPTIONS_MENU, isTitle = true,notCheckable=true},
-	{ text = INVITE, hasArrow = true,notCheckable=true, },
-	{ text = CHAT_MSG_WHISPER_INFORM, hasArrow = true,notCheckable=true, },
-	{ text = PLAYER_STATUS, hasArrow = true, notCheckable=true,
-		menuList = {
-			{ text = "|cff2BC226"..AVAILABLE.."|r", notCheckable=true, func = function() if IsChatAFK() then SendChatMessage("", "AFK") elseif IsChatDND() then SendChatMessage("", "DND") end end },
-			{ text = "|cffE7E716"..DND.."|r", notCheckable=true, func = function() if not IsChatDND() then SendChatMessage("", "DND") end end },
-			{ text = "|cffFF0000"..AFK.."|r", notCheckable=true, func = function() if not IsChatAFK() then SendChatMessage("", "AFK") end end },
-		},
-	},
-	{ text = BN_BROADCAST_TOOLTIP, notCheckable=true, func = function() StaticPopup_Show("SET_BN_BROADCAST") end },
-}
+local friendsTablets = LibStub("Tablet-2.0")
+local FriendsTabletData
+local FriendsTabletDataNames
+local FriendsOnline = 0
+local displayString = string.join("", "%s: ", "", "%d|r")
 
-local function inviteClick(self, arg1, arg2, checked)
-	menuFrame:Hide()
-	InviteUnit(arg1)
+local ClassLookup = {}
+
+local function Friends_TabletClickFunc(name, iname, toonid)
+	if not name or not FriendsFrame_HasInvitePermission() then return end
+	if IsAltKeyDown() then
+		if toonid then
+			BNInviteFriend(toonid)
+		elseif iname == "" then
+			InviteUnit(name)
+		else
+			InviteUnit(iname)
+		end
+	else
+		SetItemRef("player:"..name, "|Hplayer:"..name.."|h["..name.."|h", "LeftButton")
+	end
 end
 
-local function whisperClick(self,arg1,arg2,checked)
-	menuFrame:Hide() 
-	SetItemRef( "player:"..arg1, ("|Hplayer:%1$s|h[%1$s]|h"):format(arg1), "LeftButton" )		 
-end
-
-local levelNameString = "|cff%02x%02x%02x%d|r |cff%02x%02x%02x%s|r"
-local clientLevelNameString = "%s |cff%02x%02x%02x(%d|r |cff%02x%02x%02x%s|r%s) |cff%02x%02x%02x%s|r"
-local levelNameClassString = "|cff%02x%02x%02x%d|r %s%s%s"
-local worldOfWarcraftString = "World of Warcraft"
-local battleNetString = "Battle.NET"
-local wowString = "WoW"
-local otherGameInfoString = "%s (%s)"
-local otherGameInfoString2 = "%s %s"
-local totalOnlineString = join("", FRIENDS_LIST_ONLINE, ": %s/%s")
-local tthead, ttsubh, ttoff = {r=0.4, g=0.78, b=1}, {r=0.75, g=0.9, b=1}, {r=.3,g=1,b=.3}
-local activezone, inactivezone = {r=0.3, g=1.0, b=0.3}, {r=0.65, g=0.65, b=0.65}
-local displayString = join("", "%s: ", "", "%d|r")
-local statusTable = { "[AFK]", "[DND]", "" }
-local groupedTable = { "|cffaaaaaa*|r", "" } 
-local friendTable, BNTable = {}, {}
-local friendOnline, friendOffline = gsub(ERR_FRIEND_ONLINE_SS,"\124Hplayer:%%s\124h%[%%s%]\124h",""), gsub(ERR_FRIEND_OFFLINE_S,"%%s","")
-local dataValid = false
-
-local function BuildFriendTable(total)
-	wipe(friendTable)
-	local name, level, class, area, connected, status, note
-	for i = 1, total do
-		name, level, class, area, connected, status, note = GetFriendInfo(i)
+local FriendsCat
+local function Friends_UpdateTablet()
+	if ( FriendsOnline > 0 and FriendsTabletData ) then
+		resSizeExtra = 2
+		local Cols, lineHeader
 		
-		if connected then 
-			for k,v in pairs(LOCALIZED_CLASS_NAMES_MALE) do if class == v then class = k end end
-			friendTable[i] = { name, level, class, area, connected, status, note }
+		-- Title
+		local Cols = {
+			NAME,
+			LEVEL_ABBR,
+			ZONE,
+			FACTION,
+			GAME
+		}
+		FriendsCat = friendsTablets:AddCategory("columns", #Cols)
+		lineHeader = R.MakeTabletHeader(Cols, 10 + resSizeExtra, 0, {"LEFT", "RIGHT", "LEFT", "LEFT", "LEFT"})
+		FriendsCat:AddLine(lineHeader)
+		R.AddBlankTabLine(FriendsCat)
+		
+		-- Friends
+		for _, val in ipairs(FriendsTabletData) do
+			local line = {}
+			for i = 1, #Cols do
+				if i == 1 then	-- Name
+					line["text"] = val[i]
+					line["justify"] = "LEFT"
+					line["func"] = function() Friends_TabletClickFunc(val[6],val[8], val["toonid"]) end
+					line["size"] = 11 + resSizeExtra
+				elseif i == 2 then	-- Level
+					line["text"..i] = val[2]
+					line["justify"..i] = "RIGHT"
+					local uLevelColor = GetQuestDifficultyColor(tonumber(val[2]) or 1)
+					line["text"..i.."R"] = uLevelColor.r
+					line["text"..i.."G"] = uLevelColor.g
+					line["text"..i.."B"] = uLevelColor.b
+					line["size"..i] = 11 + resSizeExtra
+				else	-- The rest
+					line["text"..i] = val[i]
+					line["justify"..i] = "LEFT"
+					line["text"..i.."R"] = 0.8
+					line["text"..i.."G"] = 0.8
+					line["text"..i.."B"] = 0.8
+					line["size"..i] = 11 + resSizeExtra
+				end
+			end
+			FriendsCat:AddLine(line)
+		end
+		
+		-- Hint
+		friendsTablets:SetHint(L["<点击玩家>发送密语, <Alt+点击玩家>邀请玩家."])
+	end
+end
+
+local function Friends_OnEnter(self)
+	-- Register friendsTablets
+	if not friendsTablets:IsRegistered(self) then
+		friendsTablets:Register(self,
+			"children", function()
+				Friends_UpdateTablet()
+			end,
+			"point", function()
+				return "TOPLEFT"
+			end,
+			"relativePoint", function()
+				return "BOTTOMLEFT"
+			end,
+			"maxHeight", 500,
+			"clickable", true,
+			"hideWhenEmpty", true
+		)
+	end
+	
+	if friendsTablets:IsRegistered(self) then
+		-- friendsTablets appearance
+		friendsTablets:SetColor(self, 0, 0, 0)
+		friendsTablets:SetTransparency(self, .65)
+		friendsTablets:SetFontSizePercent(self, 1)
+		
+		-- Open
+		if ( FriendsOnline > 0 ) then
+			ShowFriends()
+		end
+		friendsTablets:Open(self)
+	end
+end
+
+local function Friends_Update(self)
+	FriendsTabletData = nil
+	FriendsTabletDataNames = nil
+	local curFriendsOnline = 0
+	
+	-- Standard Friends
+	for i = 1, GetNumFriends() do
+		local name, lvl, class, area, online, status, note = GetFriendInfo(i)
+		if online then
+			if ( not FriendsTabletData or FriendsTabletData == nil ) then FriendsTabletData = {} end
+			if ( not FriendsTabletDataNames or FriendsTabletDataNames == nil ) then FriendsTabletDataNames = {} end
+			
+			curFriendsOnline = curFriendsOnline + 1
+			
+			-- Class
+			local classColor = { RAID_CLASS_COLORS[class].r, RAID_CLASS_COLORS[class].g, RAID_CLASS_COLORS[class].b }
+			class = string.format("|cff%02x%02x%02x%s|r", classColor[1] * 255, classColor[2] * 255, classColor[3] * 255, class)
+			
+			-- Name
+			local cname
+			if ( status == "" and name ) then
+				cname = string.format("|cff%02x%02x%02x%s|r", classColor[1] * 255, classColor[2] * 255, classColor[3] * 255, name)
+			elseif ( name ) then
+				cname = string.format("%s |cff%02x%02x%02x%s|r", status, classColor[1] * 255, classColor[2] * 255, classColor[3] * 255, name)
+			end
+			
+			-- Add Friend to list
+			local _, faction = UnitFactionGroup("player")
+			tinsert(FriendsTabletData, { cname, lvl, area, faction, "WoW", name, note, "" })
+			if name then
+				FriendsTabletDataNames[name] = true
+			end
 		end
 	end
-	sort(friendTable, function(a, b)
-		if a[1] and b[1] then
-			return a[1] < b[1]
-		end
-	end)
-end
-
-local function BuildBNTable(total)
-	wipe(BNTable)
-	local presenceID, givenName, surname, toonName, toonID, client, isOnline, isAFK, isDND, noteText, realmName, faction, race, class, zoneName, level
-	for i = 1, total do
-		presenceID, givenName, surname, toonName, toonID, client, isOnline, _, isAFK, isDND, _, noteText = BNGetFriendInfo(i)
+	
+	-- Battle.net Friends
+	for t = 1, BNGetNumFriends() do
+		local BNid, BNfirstname, BNlastname, toonname, toonid, client, online, lastonline, isafk, isdnd, broadcast, note = BNGetFriendInfo(t)
 		
-		if isOnline then 
-			_, _, _, realmName, _, faction, race, class, _, zoneName, level = BNGetToonInfo(presenceID)
-			for k,v in pairs(LOCALIZED_CLASS_NAMES_MALE) do if class == v then class = k end end
-			BNTable[i] = { presenceID, surname, givenName, toonName, toonID, client, isOnline, isAFK, isDND, noteText, realmName, faction, race, class, zoneName, level }
+		-- WoW friends
+		if ( online and client=="WoW" ) then
+			if ( not FriendsTabletData or FriendsTabletData == nil ) then FriendsTabletData = {} end
+			if ( not FriendsTabletDataNames or FriendsTabletDataNames == nil ) then FriendsTabletDataNames = {} end
+			
+			local _,name, _, realmName, _, faction, race, class, guild, area, lvl = BNGetToonInfo(toonid)
+			curFriendsOnline = curFriendsOnline + 1
+			
+			if (realmName == R.myrealm) then
+				FriendsTabletDataNames[toonname] = true
+			end
+
+			-- Class
+			local classColor = { RAID_CLASS_COLORS[ClassLookup[class]].r, RAID_CLASS_COLORS[ClassLookup[class]].g, RAID_CLASS_COLORS[ClassLookup[class]].b }
+			class = string.format("|cff%02x%02x%02x%s|r", classColor[1] * 255, classColor[2] * 255, classColor[3] * 255, class)
+			
+			-- Name
+			local cname
+			local realname = string.format("%s %s", BNfirstname, BNlastname)
+			if ( realmName == GetRealmName() ) then
+				-- On My Realm
+				cname = string.format(
+					"|cff%02x%02x%02x%s|r |cffcccccc(|r|cff%02x%02x%02x%s|r|cffcccccc)|r",
+					FRIENDS_BNET_NAME_COLOR.r * 255, FRIENDS_BNET_NAME_COLOR.g * 255, FRIENDS_BNET_NAME_COLOR.b * 255,
+					realname,
+					classColor[1] * 255, classColor[2] * 255, classColor[3] * 255,
+					name
+				)
+			else
+				-- On Another Realm
+				cname = string.format(
+					"|cff%02x%02x%02x%s|r |cffcccccc(|r|cff%02x%02x%02x%s|r|cffcccccc-%s)|r",
+					FRIENDS_BNET_NAME_COLOR.r * 255, FRIENDS_BNET_NAME_COLOR.g * 255, FRIENDS_BNET_NAME_COLOR.b * 255,
+					realname,
+					classColor[1] * 255, classColor[2] * 255, classColor[3] * 255,
+					name,
+					realmName
+				)
+			end
+			if (isafk and name ) then
+				cname = string.format("%s %s", CHAT_FLAG_AFK, cname)
+			elseif(isdnd and name) then
+				cname = string.format("%s %s", CHAT_FLAG_DND, cname)
+			end
+			
+			-- Faction
+			if faction == 0 then
+				faction = FACTION_HORDE
+			else
+				faction = FACTION_ALLIANCE
+			end
+
+			-- Add Friend to list
+			tinsert(FriendsTabletData, { cname, lvl, area, faction, client, realname, note, name, ["toonid"] = toonid })
+			
+		-- SC2 friends
+		elseif ( online and client=="S2" ) then
+			if ( not FriendsTabletData or FriendsTabletData == nil ) then FriendsTabletData = {} end
+			
+			local _,name, _, realmName, faction, _, race, class, guild, area, lvl, gametext = BNGetToonInfo(toonid)
+			client = "SC2"
+			curFriendsOnline = curFriendsOnline + 1
+			
+			-- Name
+			local cname
+			local realname = string.format("%s %s", BNfirstname, BNlastname)
+			cname = string.format(
+				"|cff%02x%02x%02x%s|r |cffcccccc(%s)|r",
+				FRIENDS_BNET_NAME_COLOR.r * 255, FRIENDS_BNET_NAME_COLOR.g * 255, FRIENDS_BNET_NAME_COLOR.b * 255,
+				realname,
+				toonname
+			)
+			if ( isafk and toonname ) then
+				cname = string.format("%s %s", CHAT_FLAG_AFK, cname)
+			elseif ( isdnd and toonname ) then
+				cname = string.format("%s %s", CHAT_FLAG_DND, cname)
+			end
+			
+			-- Add Friend to list
+			tinsert(FriendsTabletData, { cname, "", gametext, "", client, realname, note })
 		end
 	end
-	sort(BNTable, function(a, b)
-		if a[2] and b[2] then
-			if a[2] == b[2] then return a[3] < b[3] end
-			return a[2] < b[2]
+	
+	-- OnEnter
+	FriendsOnline = curFriendsOnline
+	if FriendsOnline > 0 then
+		self:SetScript("OnEnter", function(self) 
+			Friends_OnEnter(self)
+		end)
+	else
+		self:SetScript("OnEnter", nil)
+	end
+	
+	-- Refresh tablet
+	if friendsTablets:IsRegistered(self) then
+		if Tablet20Frame:IsShown() then
+			friendsTablets:Refresh(self)
 		end
-	end)
-end
-
-local function Update(self, event, ...)
+	end
+	
+	-- Info Text
 	local totalFriends, onlineFriends = GetNumFriends()
 	local totalBN, numBNetOnline = BNGetNumFriends()
-
-	-- special handler to detect friend coming online or going offline
-	-- when this is the case, we invalidate our buffered table and update the 
-	-- datatext information
-	if event == "CHAT_MSG_SYSTEM" then
-		local message = select(1, ...)
-		if not (find(message, friendOnline) or find(message, friendOffline)) then return end
-	end
-
-	-- force update when showing tooltip
-	dataValid = false
-
 	TopInfoBar5.Text:SetFormattedText(displayString, FRIENDS, onlineFriends + numBNetOnline)
 	Stat:SetMinMaxValues(0, totalFriends + totalBN)
 	Stat:SetValue(onlineFriends + numBNetOnline)
 	self:SetAllPoints(TopInfoBar5)
 end
 
-Stat:SetScript("OnMouseUp", function(self, btn)
-	if btn ~= "RightButton" then return end
-	
-	GameTooltip:Hide()
-	
-	local menuCountWhispers = 0
-	local menuCountInvites = 0
-	local classc, levelc, info
-	
-	menuList[2].menuList = {}
-	menuList[3].menuList = {}
-	
-	if #friendTable > 0 then
-		for i = 1, #friendTable do
-			info = friendTable[i]
-			if (info[5]) then
-				menuCountInvites = menuCountInvites + 1
-				menuCountWhispers = menuCountWhispers + 1
-	
-				classc, levelc = (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[info[3]], GetQuestDifficultyColor(info[2])
-				if classc == nil then classc = GetQuestDifficultyColor(info[2]) end
-	
-				menuList[2].menuList[menuCountInvites] = {text = format(levelNameString,levelc.r*255,levelc.g*255,levelc.b*255,info[2],classc.r*255,classc.g*255,classc.b*255,info[1]), arg1 = info[1],notCheckable=true, func = inviteClick}
-				menuList[3].menuList[menuCountWhispers] = {text = format(levelNameString,levelc.r*255,levelc.g*255,levelc.b*255,info[2],classc.r*255,classc.g*255,classc.b*255,info[1]), arg1 = info[1],notCheckable=true, func = whisperClick}
-			end
-		end
+function Friends_OnMouseDown(self)
+	if not InCombatLockdown() then
+		ToggleFriendsFrame()
 	end
-	if #BNTable > 0 then
-		local realID, playerFaction, grouped
-		for i = 1, #BNTable do
-			info = BNTable[i]
-			if (info[7]) then
-				realID = (BATTLENET_NAME_FORMAT):format(info[2], info[3])
-				menuCountWhispers = menuCountWhispers + 1
-				menuList[3].menuList[menuCountWhispers] = {text = realID, arg1 = realID,notCheckable=true, func = whisperClick}
+end
 
-				if select(1, UnitFactionGroup("player")) == "Horde" then playerFaction = 0 else playerFaction = 1 end
-				if info[6] == wowString and info[11] == R.myrealm and playerFaction == info[12] then
-					classc, levelc = (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[info[14]], GetQuestDifficultyColor(info[16])
-					if classc == nil then classc = GetQuestDifficultyColor(info[16]) end
+Stat:SetScript("OnMouseDown", Friends_OnMouseDown)
+Stat:SetScript("OnEnter", Friends_OnEnter)
 
-					if UnitInParty(info[4]) or UnitInRaid(info[4]) then grouped = 1 else grouped = 2 end
-					menuCountInvites = menuCountInvites + 1
-					menuList[2].menuList[menuCountInvites] = {text = format(levelNameString,levelc.r*255,levelc.g*255,levelc.b*255,info[16],classc.r*255,classc.g*255,classc.b*255,info[4]), arg1 = info[4],notCheckable=true, func = inviteClick}
-				end
-			end
-		end
-	end
-
-	EasyMenu(menuList, menuFrame, "cursor", 0, 0, "MENU", 2)
-end)
-	
-Stat:SetScript("OnMouseDown", function(self, btn) if btn == "LeftButton" then ToggleFriendsFrame(1) end end)
-
-Stat:SetScript("OnEnter", function(self)
-	if InCombatLockdown() then return end
-
-	local numberOfFriends, onlineFriends = GetNumFriends()
-	local totalBNet, numBNetOnline = BNGetNumFriends()
-		
-	local totalonline = onlineFriends + numBNetOnline
-	
-	-- no friends online, quick exit
-	if totalonline == 0 then return end
-
-	if not dataValid then
-		-- only retrieve information for all on-line members when we actually view the tooltip
-		if numberOfFriends > 0 then BuildFriendTable(numberOfFriends) end
-		if totalBNet > 0 then BuildBNTable(totalBNet) end
-		dataValid = true
-	end
-
-	local totalfriends = numberOfFriends + totalBNet
-	local zonec, classc, levelc, realmc, info
-
-	GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT")
-	GameTooltip:ClearLines()
-	GameTooltip:AddDoubleLine(FRIENDS_LIST..":", format(totalOnlineString, totalonline, totalfriends),tthead.r,tthead.g,tthead.b,tthead.r,tthead.g,tthead.b)
-	if onlineFriends > 0 then
-		GameTooltip:AddLine(' ')
-		GameTooltip:AddLine(worldOfWarcraftString)
-		for i = 1, #friendTable do
-			info = friendTable[i]
-			if info[5] then
-				if GetRealZoneText() == info[4] then zonec = activezone else zonec = inactivezone end
-				classc, levelc = (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[info[3]], GetQuestDifficultyColor(info[2])
-				if classc == nil then classc = GetQuestDifficultyColor(info[2]) end
-				
-				if UnitInParty(info[1]) or UnitInRaid(info[1]) then grouped = 1 else grouped = 2 end
-				GameTooltip:AddDoubleLine(format(levelNameClassString,levelc.r*255,levelc.g*255,levelc.b*255,info[2],info[1],groupedTable[grouped]," "..info[6]),info[4],classc.r,classc.g,classc.b,zonec.r,zonec.g,zonec.b)
-			end
-		end
-	end
-
-	if numBNetOnline > 0 then
-		GameTooltip:AddLine(' ')
-		GameTooltip:AddLine(battleNetString)
-
-		local status = 0
-		for i = 1, #BNTable do
-			info = BNTable[i]
-			if info[7] then
-				if info[6] == wowString then
-					if (info[8] == true) then status = 1 elseif (info[9] == true) then status = 2 else status = 3 end
-
-					classc, levelc = (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[info[14]], GetQuestDifficultyColor(info[16])
-					if classc == nil then classc = GetQuestDifficultyColor(info[16]) end
-					
-					if UnitInParty(info[4]) or UnitInRaid(info[4]) then grouped = 1 else grouped = 2 end
-					GameTooltip:AddDoubleLine(format(clientLevelNameString, info[6],levelc.r*255,levelc.g*255,levelc.b*255,info[16],classc.r*255,classc.g*255,classc.b*255,info[4],groupedTable[grouped], 255, 0, 0, statusTable[status]),info[2].." "..info[3],238,238,238,238,238,238)
-					if IsShiftKeyDown() then
-						if GetRealZoneText() == info[15] then zonec = activezone else zonec = inactivezone end
-						if GetRealmName() == info[11] then realmc = activezone else realmc = inactivezone end
-						GameTooltip:AddDoubleLine(info[15], info[11], zonec.r, zonec.g, zonec.b, realmc.r, realmc.g, realmc.b)
-					end
-				else
-					GameTooltip:AddDoubleLine(format(otherGameInfoString, info[6], info[4]), format(otherGameInfoString2, info[2], info[3]), .9, .9, .9, .9, .9, .9)
-				end
-			end
-		end
-	end
-
-	GameTooltip:Show()	
-end)
-
+Stat:RegisterEvent("FRIENDLIST_UPDATE")
 Stat:RegisterEvent("BN_FRIEND_ACCOUNT_ONLINE")
 Stat:RegisterEvent("BN_FRIEND_ACCOUNT_OFFLINE")
-Stat:RegisterEvent("BN_FRIEND_INFO_CHANGED")
-Stat:RegisterEvent("BN_FRIEND_TOON_ONLINE")
-Stat:RegisterEvent("BN_FRIEND_TOON_OFFLINE")
-Stat:RegisterEvent("BN_TOON_NAME_UPDATED")
-Stat:RegisterEvent("FRIENDLIST_UPDATE")
 Stat:RegisterEvent("PLAYER_ENTERING_WORLD")
-Stat:RegisterEvent("CHAT_MSG_SYSTEM")
+Stat:RegisterEvent("PLAYER_LOGIN")
 
-Stat:SetScript("OnLeave", function() GameTooltip:Hide() end)
-Stat:SetScript("OnEvent", Update)
+Stat:SetScript("OnEvent", function(self, event)
+	if event == "PLAYER_LOGIN" then
+		for k, v in pairs(LOCALIZED_CLASS_NAMES_MALE) do
+			ClassLookup[v] = k
+		end
+		for k, v in pairs(LOCALIZED_CLASS_NAMES_FEMALE) do
+			ClassLookup[v] = k
+		end
+		self:UnregisterEvent("PLAYER_LOGIN")
+	end
+	self.needrefreshed = true
+	self.updateElapsed = 0
+end)
+Stat:SetScript("OnUpdate", function(self, elapsed)
+	self.updateElapsed = self.updateElapsed + elapsed
+	if self.updateElapsed > 1 then
+		self.updateElapsed = 0
+
+		if self.needrefreshed then
+			Friends_Update(self)
+			self.needrefreshed = false
+		end
+	end
+end)
