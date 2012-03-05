@@ -55,7 +55,11 @@ local function UpdateMem(self, t)
 		RebuildAddonList(self)
 		local total = UpdateMemory()
 		TopInfoBar3.Text:SetText(formatMem(total))
-		TopInfoBar3.Status:SetMinMaxValues(0,10000)
+		if Is64BitClient() then
+			TopInfoBar3.Status:SetMinMaxValues(0,15000)
+		else
+			TopInfoBar3.Status:SetMinMaxValues(0,10000)
+		end
 		TopInfoBar3.Status:SetValue(total)
 		local r, g, b = R.ColorGradient(total/10000, R.InfoBarStatusColor[3][1], R.InfoBarStatusColor[3][2], R.InfoBarStatusColor[3][3], 
 																R.InfoBarStatusColor[2][1], R.InfoBarStatusColor[2][2], R.InfoBarStatusColor[2][3],
