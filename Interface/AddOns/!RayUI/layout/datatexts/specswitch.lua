@@ -236,13 +236,11 @@ local function Spec_OnEnter(self)
 	if spec:IsRegistered(self) then
 		-- spec appearance
 		spec:SetColor(self, 0, 0, 0)
-		spec:SetTransparency(self, .6)
+		spec:SetTransparency(self, .65)
 		spec:SetFontSizePercent(self, 1)
 		
 		-- Open
 		spec:Open(self)
-		
-	--	HideOtherGraphs(self)
 	end
 end
 

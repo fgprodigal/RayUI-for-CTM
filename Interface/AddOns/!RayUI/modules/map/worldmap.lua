@@ -75,7 +75,7 @@ local function UpdateCoords(self, elapsed)
 	if self.elapsed <= 0 then
 		self.elapsed = 0.1
 		OnUpdate(player, cursor)
-		if GetUnitSpeed("player") ~= 0 then
+		if GetUnitSpeed("player") ~= 0 and WORLDMAP_SETTINGS.size ~= WORLDMAP_WINDOWED_SIZE then
 			WorldMapFrame:SetAlpha(.5)
 		else
 			WorldMapFrame:SetAlpha(1)
@@ -156,15 +156,15 @@ w:RegisterEvent("PLAYER_REGEN_DISABLED")
 w:RegisterEvent("PLAYER_REGEN_ENABLED")
 
 WorldMapFrame.backdrop = CreateFrame("Frame", nil, WorldMapFrame)
-WorldMapFrame.backdrop:Point("TOPLEFT", -2, 2)
-WorldMapFrame.backdrop:Point("BOTTOMRIGHT", 2, -2)
+WorldMapFrame.backdrop:Point("TOPLEFT", WorldMapFrame, -2, 2)
+WorldMapFrame.backdrop:Point("BOTTOMRIGHT", WorldMapFrame, 2, -2)
 R.SetBD(WorldMapFrame.backdrop)
 WorldMapFrame.backdrop:SetFrameLevel(0)
 
-WorldMapDetailFrame.backdrop = CreateFrame("Frame", nil, WorldMapDetailFrame)
+WorldMapDetailFrame.backdrop = CreateFrame("Frame", nil, WorldMapFrame)
 R.SetBD(WorldMapDetailFrame.backdrop)
-WorldMapDetailFrame.backdrop:Point("TOPLEFT", -2, 2)
-WorldMapDetailFrame.backdrop:Point("BOTTOMRIGHT", 2, -2)
+WorldMapDetailFrame.backdrop:Point("TOPLEFT", WorldMapDetailFrame, -2, 2)
+WorldMapDetailFrame.backdrop:Point("BOTTOMRIGHT", WorldMapDetailFrame, 2, -2)
 WorldMapDetailFrame.backdrop:SetFrameLevel(WorldMapDetailFrame:GetFrameLevel() - 2)
 	
 R.ReskinDropDown(WorldMapZoneMinimapDropDown)
@@ -201,7 +201,7 @@ local function SmallSkin()
 	WorldMapDetailFrame.backdrop:ClearAllPoints()
 	WorldMapDetailFrame.backdrop:SetPoint("BOTTOMRIGHT", WorldMapButton, 8, -30)
 	WorldMapDetailFrame.backdrop:SetPoint("TOPLEFT", WorldMapButton, -8, 25)
-	WorldMapDetailFrame.backdrop:SetParent("WorldMapDetailFrame")
+	-- WorldMapDetailFrame.backdrop:SetParent("WorldMapFrame")
 	WorldMapDetailFrame.backdrop:SetFrameLevel(0)
 	WorldMapDetailFrame.backdrop:SetFrameStrata(WorldMapDetailFrame:GetFrameStrata())
 	if C["worldmap"].lock then

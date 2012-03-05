@@ -60,25 +60,25 @@ local function SysInfo_UpdateTablet()
 			elseif i == 3 then
 				line["text"..i] = ComputerLines[l][2].max
 				line["justify"..i] = "RIGHT"
-				line["text"..i.."R"] = 0.7
-				line["text"..i.."G"] = 0.7
-				line["text"..i.."B"] = 0.7
+				line["text"..i.."R"] = 0.5
+				line["text"..i.."G"] = 0.5
+				line["text"..i.."B"] = 0.5
 				line["indentation"..i] = 12.5
 				line["customwidth"..i] = 30
 			elseif i == 4 then
 				line["text"..i] = ComputerLines[l][2].min
 				line["justify"..i] = "RIGHT"
-				line["text"..i.."R"] = 0.7
-				line["text"..i.."G"] = 0.7
-				line["text"..i.."B"] = 0.7
+				line["text"..i.."R"] = 0.5
+				line["text"..i.."G"] = 0.5
+				line["text"..i.."B"] = 0.5
 				line["indentation"..i] = 12.5
 				line["customwidth"..i] = 30
 			elseif i == 5 then
 				line["text"..i] = ComputerLines[l][2].avg
 				line["justify"..i] = "RIGHT"
-				line["text"..i.."R"] = 0.7
-				line["text"..i.."G"] = 0.7
-				line["text"..i.."B"] = 0.7
+				line["text"..i.."R"] = 0.5
+				line["text"..i.."G"] = 0.5
+				line["text"..i.."B"] = 0.5
 				line["indentation"..i] = 12.5
 				line["customwidth"..i] = 30
 			end
@@ -115,7 +115,7 @@ local function SysInfo_OnEnter(self)
 	if sysinfo:IsRegistered(self) then
 		-- sysinfo appearance
 		sysinfo:SetColor(self, 0, 0, 0)
-		sysinfo:SetTransparency(self, .6)
+		sysinfo:SetTransparency(self, .65)
 		sysinfo:SetFontSizePercent(self, 1)
 		
 		sysinfo:Open(self)

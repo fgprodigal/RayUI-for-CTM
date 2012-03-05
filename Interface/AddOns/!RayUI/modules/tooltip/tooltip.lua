@@ -34,11 +34,11 @@ local types = {
 
 for _, v in pairs(tooltips) do
 	v:SetBackdrop(backdrop)
-	v:SetBackdropColor(0, 0, 0, 0.6)
+	v:SetBackdropColor(0, 0, 0, 0.65)
 	v:SetBackdropBorderColor(0, 0, 0, 1)
 	v:SetScale(scale)
 	v:SetScript("OnShow", function(self)
-		self:SetBackdropColor(0, 0, 0, 0.6)
+		self:SetBackdropColor(0, 0, 0, 0.65)
 		local item
 		if self.GetItem then
 			item = select(2, self:GetItem())
