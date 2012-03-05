@@ -1077,9 +1077,16 @@ local function NewLine(self)
 		local col1 = newstring(button)
 		testString = col1
 		local highlight = button:CreateTexture(nil, "BACKGROUND")
-		highlight:SetTexture("Interface\\AddOns\\nibLibs\\Libs\\TabletLib\\Highlight")
+		highlight:SetTexture("Interface\\AddOns\\!RayUI\\libs\\Tablet-2.0\\Highlight")
+		local r, g, b
+		if CUSTOM_CLASS_COLORS then 
+			r, g, b = CUSTOM_CLASS_COLORS[R.myclass].r, CUSTOM_CLASS_COLORS[R.myclass].g, CUSTOM_CLASS_COLORS[R.myclass].b
+		else
+			r, g, b = C.Aurora.classcolours[R.myclass].r, C.Aurora.classcolours[R.myclass].g, C.Aurora.classcolours[R.myclass].b
+		end
+		highlight:SetVertexColor(r, g, b, 1)
 		button.highlight = highlight
-		highlight:SetBlendMode("ADD")
+		-- highlight:SetBlendMode("ADD")
 		highlight:SetAllPoints(button)
 		highlight:Hide()
 		self.buttons[#self.buttons+1] = button
@@ -1295,7 +1302,7 @@ local function AcquireFrame(self, registration, data, detachedData)
 				'bottom', 1
 			)
 		))
-		slider:SetThumbTexture("Interface\\AddOns\\nibLibs\\Libs\\TabletLib\\SliderButton")
+		slider:SetThumbTexture("Interface\\AddOns\\!RayUI\\libs\\Tablet-2.0\\SliderButton")
 		slider:SetScript("OnEnter", tooltip:GetScript("OnEnter"))
 		slider:SetScript("OnLeave", tooltip:GetScript("OnLeave"))
 		slider.tablet = tooltip
@@ -1316,7 +1323,7 @@ local function AcquireFrame(self, registration, data, detachedData)
 		sliderArrowTop:SetHeight(16)
 		sliderArrowTop.bg = sliderArrowTop:CreateTexture()
 		sliderArrowTop.bg:SetAllPoints()
-		sliderArrowTop.bg:SetTexture("Interface\\AddOns\\nibLibs\\Libs\\TabletLib\\SliderArrow")
+		sliderArrowTop.bg:SetTexture("Interface\\AddOns\\!RayUI\\libs\\Tablet-2.0\\SliderArrow")
 		tooltip.sliderArrowTop = sliderArrowTop
 		local sliderArrowBottom = CreateFrame("Frame", nil, tooltip)
 		sliderArrowBottom:SetPoint("BOTTOMRIGHT", tooltip, "BOTTOMRIGHT", -5, 5)
@@ -1324,7 +1331,7 @@ local function AcquireFrame(self, registration, data, detachedData)
 		sliderArrowBottom:SetHeight(16)
 		sliderArrowBottom.bg = sliderArrowBottom:CreateTexture()
 		sliderArrowBottom.bg:SetAllPoints()
-		sliderArrowBottom.bg:SetTexture("Interface\\AddOns\\nibLibs\\Libs\\TabletLib\\SliderArrow")
+		sliderArrowBottom.bg:SetTexture("Interface\\AddOns\\!RayUI\\libs\\Tablet-2.0\\SliderArrow")
 		sliderArrowBottom.bg:SetTexCoord(0, 1, 1, 0)
 		tooltip.sliderArrowBottom = sliderArrowBottom
 		
