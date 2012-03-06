@@ -262,9 +262,6 @@ local function Spec_Update(self)
 	end
 	
 	-- Gear sets
-	R.SavePath.specgear = R.SavePath.specgear or {}
-	R.SavePath.specgear.primary = R.SavePath.specgear.primary or -1
-	R.SavePath.specgear.secondary = R.SavePath.specgear.secondary or -1
 	wipe(SpecEquipList)
 	local numEquipSets = GetNumEquipmentSets()
 	if numEquipSets > 0 then
@@ -301,8 +298,17 @@ end
 Stat:SetScript("OnEnter", Spec_OnEnter)
 
 local function OnEvent(self, event, ...)
-	if event == "PLAYER_ENTERING_WORLD" then
-		self:UnregisterEvent("PLAYER_ENTERING_WORLD")
+	if event == "PLAYER_LOGIN" then
+		R.SavePath.specgear = R.SavePath.specgear or {}
+		R.SavePath.specgear.primary = R.SavePath.specgear.primary or -1
+		R.SavePath.specgear.secondary = R.SavePath.specgear.secondary or -1
+		self:UnregisterEvent("PLAYER_LOGIN")
+		self:RegisterEvent("PLAYER_ENTERING_WORLD");
+		self:RegisterEvent("CHARACTER_POINTS_CHANGED");
+		self:RegisterEvent("PLAYER_TALENT_UPDATE");
+		self:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
+		self:RegisterEvent("EQUIPMENT_SETS_CHANGED")
+		self:RegisterEvent("PLAYER_EQUIPMENT_CHANGED")
 	end
 
 	-- Setup Talents Tooltip
@@ -311,12 +317,7 @@ local function OnEvent(self, event, ...)
 	Spec_Update(self)
 end
 
-Stat:RegisterEvent("PLAYER_ENTERING_WORLD");
-Stat:RegisterEvent("CHARACTER_POINTS_CHANGED");
-Stat:RegisterEvent("PLAYER_TALENT_UPDATE");
-Stat:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
-Stat:RegisterEvent("EQUIPMENT_SETS_CHANGED")
-Stat:RegisterEvent("PLAYER_EQUIPMENT_CHANGED")
+Stat:RegisterEvent("PLAYER_LOGIN")
 Stat:SetScript("OnEvent", OnEvent)
 
 Stat:SetScript("OnMouseDown", function()
