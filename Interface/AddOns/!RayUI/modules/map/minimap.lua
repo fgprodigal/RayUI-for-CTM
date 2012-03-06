@@ -222,7 +222,7 @@ local function GameTooltip_AddPVPTimer()
 	GameTooltip:AddLine(" ")
 end
 function TimeManagerClockButton_UpdateTooltip()
-	GameTooltip:SetOwner(Minimap, "ANCHOR_RIGHT", 25, -150)
+	GameTooltip:SetOwner(Minimap, "ANCHOR_BOTTOMRIGHT", 5, 142)
 	GameTooltip:ClearLines()
 
 	if ( TimeManagerClockButton.alarmFiring ) then
@@ -238,7 +238,6 @@ function TimeManagerClockButton_UpdateTooltip()
 		GameTooltip_AddPVPTimer()
 		GameTooltip:AddLine(GAMETIME_TOOLTIP_TOGGLE_CLOCK)
 	end
-
 	GameTooltip:Show()
 end
 	
