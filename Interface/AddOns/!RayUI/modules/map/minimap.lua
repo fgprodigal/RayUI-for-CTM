@@ -208,13 +208,13 @@ local function GameTooltip_AddPVPTimer()
 
 	GameTooltip:AddLine(L["PVP信息"], HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b)
 	-- Wintergrasp
-	if ( WGTime ~= nil ) then
+	if ( WGTime and WGTime > 0 ) then
 		GameTooltip:AddDoubleLine(L["下一场冬拥湖:"], string.format("%s", ConvertSecondstoTime(WGTime)), NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b)
 	else
 		GameTooltip:AddLine(L["冬拥湖不可用"], NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b)
 	end
 	-- Tol Barad
-	if ( TBTime ~= nil ) then
+	if ( TBTime and TBTime > 0 ) then
 		GameTooltip:AddDoubleLine(L["下一场托尔巴拉德:"], string.format("%s", ConvertSecondstoTime(TBTime)), NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b)
 	else
 		GameTooltip:AddLine(L["托尔巴拉德不可用"], NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b)
