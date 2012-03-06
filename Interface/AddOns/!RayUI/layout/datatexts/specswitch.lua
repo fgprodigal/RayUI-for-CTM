@@ -296,6 +296,7 @@ local function Spec_Update(self)
 end
 
 Stat:SetScript("OnEnter", Spec_OnEnter)
+local manager = CreateFrame("Frame")
 
 local function OnEvent(self, event, ...)
 	if event == "PLAYER_LOGIN" then
@@ -309,6 +310,7 @@ local function OnEvent(self, event, ...)
 		self:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
 		self:RegisterEvent("EQUIPMENT_SETS_CHANGED")
 		self:RegisterEvent("PLAYER_EQUIPMENT_CHANGED")
+		manager:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
 	end
 
 	-- Setup Talents Tooltip
@@ -324,9 +326,6 @@ Stat:SetScript("OnMouseDown", function()
 	local active = GetActiveTalentGroup(false, false)
 	SetActiveTalentGroup(active == 1 and 2 or 1)
 end)
-
-local manager = CreateFrame("Frame")
-manager:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
 
 manager:SetScript("OnEvent", function(self, event, id)
 	if id == 1 then

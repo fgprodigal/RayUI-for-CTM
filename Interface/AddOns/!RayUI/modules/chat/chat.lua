@@ -347,7 +347,7 @@ SLASH_TELLTARGET3 = "/wt"
 
 ---------------- > URL Copy
 local tlds
-local style = "|cffffffff|Hurl:%s|h[%s]|h|r"
+local style = "|cff8A9DDE|Hurl:%s|h[%s]|h|r"
 local tokennum, matchTable = 1, {}
 
 local function RegisterMatch(text)

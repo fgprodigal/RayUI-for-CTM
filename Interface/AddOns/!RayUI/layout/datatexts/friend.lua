@@ -18,8 +18,9 @@ for k, v in pairs(LOCALIZED_CLASS_NAMES_FEMALE) do
 end
 
 local function Friends_TabletClickFunc(name, iname, toonid)
-	if not name or not FriendsFrame_HasInvitePermission() then return end
+	if not name then return end
 	if IsAltKeyDown() then
+		if not FriendsFrame_HasInvitePermission() then return end
 		if toonid then
 			BNInviteFriend(toonid)
 		elseif iname == "" then

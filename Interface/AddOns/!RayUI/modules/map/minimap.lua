@@ -197,15 +197,9 @@ local function ConvertSecondstoTime(value)
 	seconds = floor(value - ((hours * 3600) + (minutes * 60)))
 
 	if ( hours > 0 ) then
-		return string.format("%dh %dm", hours, minutes)
-	elseif ( minutes > 0 ) then
-		if minutes >= 10 then
-			return string.format("%dm", minutes)
-		else
-			return string.format("%dm %ds", minutes, seconds)
-		end
+		return string.format("%d:%02d:%02d", hours, minutes, seconds)
 	else
-		return string.format("%ds", seconds)
+		return string.format("%02d:%02d", minutes, seconds)
 	end
 end
 local function GameTooltip_AddPVPTimer()
@@ -228,6 +222,7 @@ local function GameTooltip_AddPVPTimer()
 	GameTooltip:AddLine(" ")
 end
 function TimeManagerClockButton_UpdateTooltip()
+	GameTooltip:SetOwner(Minimap, "ANCHOR_RIGHT", 25, -150)
 	GameTooltip:ClearLines()
 
 	if ( TimeManagerClockButton.alarmFiring ) then
