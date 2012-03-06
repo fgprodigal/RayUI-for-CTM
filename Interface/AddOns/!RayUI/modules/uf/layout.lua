@@ -866,13 +866,6 @@ local function Shared(self, unit)
     self.QuestIcon = QuestIcon
 	self.QuestIcon:SetTexture("Interface\\AddOns\\!RayUI\\media\\quest")
 	self.QuestIcon:SetVertexColor(0.8, 0.8, 0.8)
-
-    local PhaseIcon = self:CreateTexture(nil, 'OVERLAY')
-    PhaseIcon:SetSize(24, 24)
-    PhaseIcon:SetPoint('RIGHT', QuestIcon, 'LEFT')
-    self.PhaseIcon = PhaseIcon
-	self.PhaseIcon:SetTexture("Interface\\AddOns\\!RayUI\\media\\phase")
-	self.PhaseIcon:SetVertexColor(0.8, 0.8, 0.8)
 	
     local ricon = self:CreateTexture(nil, 'OVERLAY')
     ricon:Point("BOTTOM", self, "TOP", 0, -7)
