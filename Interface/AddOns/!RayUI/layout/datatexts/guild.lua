@@ -260,7 +260,7 @@ Stat:SetScript("OnUpdate", function(self, elapsed)
 
 		if self.needrefreshed then
 			Guild_Update(self)
-			self.needrefreshed = false
+			self.needrefreshed = nil
 		end
 	end
 end)

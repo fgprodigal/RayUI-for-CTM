@@ -345,7 +345,8 @@ manager:SetScript("OnUpdate", function(self, elapsed)
 		self.updateElapsed = 0
 
 		if self.needEquipSet then
-			Guild_Update(self)
+			EquipmentManager_EquipSet(self.needEquipSet)
+			self.needEquipSet = nil
 		end
 	end
 end)
