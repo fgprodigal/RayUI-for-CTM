@@ -133,7 +133,7 @@ local function Friends_Update(self)
 			curFriendsOnline = curFriendsOnline + 1
 			
 			-- Class
-			local classColor = { RAID_CLASS_COLORS[class].r, RAID_CLASS_COLORS[class].g, RAID_CLASS_COLORS[class].b }
+			local classColor = RAID_CLASS_COLORS[ClassLookup[class]] and { RAID_CLASS_COLORS[ClassLookup[class]].r, RAID_CLASS_COLORS[ClassLookup[class]].g, RAID_CLASS_COLORS[ClassLookup[class]].b } or {1, 1, 1}
 			class = string.format("|cff%02x%02x%02x%s|r", classColor[1] * 255, classColor[2] * 255, classColor[3] * 255, class)
 			
 			-- Name
