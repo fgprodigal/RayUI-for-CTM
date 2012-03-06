@@ -190,6 +190,62 @@ TimeManagerClockButton:SetScript("OnClick", function(_,btn)
 		Calendar_Toggle()
 	end
 end)
+local function ConvertSecondstoTime(value)
+	local hours, minues, seconds
+	hours = floor(value / 3600)
+	minutes = floor((value - (hours * 3600)) / 60)
+	seconds = floor(value - ((hours * 3600) + (minutes * 60)))
+
+	if ( hours > 0 ) then
+		return string.format("%dh %dm", hours, minutes)
+	elseif ( minutes > 0 ) then
+		if minutes >= 10 then
+			return string.format("%dm", minutes)
+		else
+			return string.format("%dm %ds", minutes, seconds)
+		end
+	else
+		return string.format("%ds", seconds)
+	end
+end
+local function GameTooltip_AddPVPTimer()
+	local _, _, _, _, WGTime = GetWorldPVPAreaInfo(1)
+	local _, _, _, _, TBTime = GetWorldPVPAreaInfo(2)
+
+	GameTooltip:AddLine(L["PVP信息"], HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b)
+	-- Wintergrasp
+	if ( WGTime ~= nil ) then
+		GameTooltip:AddDoubleLine(L["下一场冬拥湖:"], string.format("%s", ConvertSecondstoTime(WGTime)), NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b)
+	else
+		GameTooltip:AddLine(L["冬拥湖不可用"], NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b)
+	end
+	-- Tol Barad
+	if ( TBTime ~= nil ) then
+		GameTooltip:AddDoubleLine(L["下一场托尔巴拉德:"], string.format("%s", ConvertSecondstoTime(TBTime)), NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b)
+	else
+		GameTooltip:AddLine(L["托尔巴拉德不可用"], NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b)
+	end
+	GameTooltip:AddLine(" ")
+end
+function TimeManagerClockButton_UpdateTooltip()
+	GameTooltip:ClearLines()
+
+	if ( TimeManagerClockButton.alarmFiring ) then
+		if ( gsub(Settings.alarmMessage, "%s", "") ~= "" ) then
+			GameTooltip:AddLine(Settings.alarmMessage, HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b, 1)
+			GameTooltip:AddLine(" ")
+		end
+		GameTooltip_AddPVPTimer()
+		GameTooltip:AddLine(TIMEMANAGER_ALARM_TOOLTIP_TURN_OFF)
+	else
+		GameTime_UpdateTooltip()
+		GameTooltip:AddLine(" ")
+		GameTooltip_AddPVPTimer()
+		GameTooltip:AddLine(GAMETIME_TOOLTIP_TOGGLE_CLOCK)
+	end
+
+	GameTooltip:Show()
+end
 	
 -- Zone text
 local zoneTextFrame = CreateFrame("Frame", nil, UIParent)

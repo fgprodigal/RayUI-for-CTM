@@ -629,7 +629,7 @@ function Bag:InitBags()
 	f.sortButton:Point('TOPLEFT', f, 'TOPLEFT', 7, -4)
 	f.sortButton:Size(55, 10)
 	f.sortButton.ttText = L["整理背包"]
-	f.sortButton.ttText2 = L["按住shift: "]
+	f.sortButton.ttText2 = L["按住shift:"]
 	f.sortButton.ttText2desc = L["整理特殊背包"]
 	f.sortButton:SetScript("OnEnter", Tooltip_Show)
 	f.sortButton:SetScript("OnLeave", Tooltip_Hide)	
@@ -641,7 +641,7 @@ function Bag:InitBags()
 	f.stackButton:Point('LEFT', f.sortButton, 'RIGHT', 3, 0)
 	f.stackButton:Size(55, 10)
 	f.stackButton.ttText = L["堆叠物品"]
-	f.stackButton.ttText2 = L["按住shift: "]
+	f.stackButton.ttText2 = L["按住shift:"]
 	f.stackButton.ttText2desc = L["堆叠特殊背包物品"]
 	f.stackButton:SetScript("OnEnter", Tooltip_Show)
 	f.stackButton:SetScript("OnLeave", Tooltip_Hide)	
@@ -700,7 +700,7 @@ function Bag:InitBank()
 	f.sortButton:Size(85, 10)
 	f.sortButton:SetTemplate('Default', true)
 	f.sortButton.ttText = L["整理背包"]
-	f.sortButton.ttText2 = L["按住shift: "]
+	f.sortButton.ttText2 = L["按住shift:"]
 	f.sortButton.ttText2desc = L["整理特殊背包"]	
 	f.sortButton:SetScript("OnEnter", Tooltip_Show)
 	f.sortButton:SetScript("OnLeave", Tooltip_Hide)	
@@ -713,7 +713,7 @@ function Bag:InitBank()
 	f.stackButton:Size(85, 10)
 	f.stackButton:SetTemplate('Default', true)
 	f.stackButton.ttText = L["堆叠物品"]
-	f.stackButton.ttText2 = L["按住shift: "]
+	f.stackButton.ttText2 = L["按住shift:"]
 	f.stackButton.ttText2desc = L["堆叠特殊背包物品"]
 	f.stackButton:SetScript("OnEnter", Tooltip_Show)
 	f.stackButton:SetScript("OnLeave", Tooltip_Hide)	

@@ -10,6 +10,12 @@ local FriendsOnline = 0
 local displayString = string.join("", "%s: ", "", "%d|r")
 
 local ClassLookup = {}
+for k, v in pairs(LOCALIZED_CLASS_NAMES_MALE) do
+	ClassLookup[v] = k
+end
+for k, v in pairs(LOCALIZED_CLASS_NAMES_FEMALE) do
+	ClassLookup[v] = k
+end
 
 local function Friends_TabletClickFunc(name, iname, toonid)
 	if not name or not FriendsFrame_HasInvitePermission() then return end
@@ -164,7 +170,7 @@ local function Friends_Update(self)
 			end
 
 			-- Class
-			local classColor = { RAID_CLASS_COLORS[ClassLookup[class]].r, RAID_CLASS_COLORS[ClassLookup[class]].g, RAID_CLASS_COLORS[ClassLookup[class]].b }
+			local classColor = RAID_CLASS_COLORS[ClassLookup[class]] and { RAID_CLASS_COLORS[ClassLookup[class]].r, RAID_CLASS_COLORS[ClassLookup[class]].g, RAID_CLASS_COLORS[ClassLookup[class]].b } or {1, 1, 1}
 			class = string.format("|cff%02x%02x%02x%s|r", classColor[1] * 255, classColor[2] * 255, classColor[3] * 255, class)
 			
 			-- Name
@@ -273,18 +279,8 @@ Stat:RegisterEvent("FRIENDLIST_UPDATE")
 Stat:RegisterEvent("BN_FRIEND_ACCOUNT_ONLINE")
 Stat:RegisterEvent("BN_FRIEND_ACCOUNT_OFFLINE")
 Stat:RegisterEvent("PLAYER_ENTERING_WORLD")
-Stat:RegisterEvent("PLAYER_LOGIN")
 
 Stat:SetScript("OnEvent", function(self, event)
-	if event == "PLAYER_LOGIN" then
-		for k, v in pairs(LOCALIZED_CLASS_NAMES_MALE) do
-			ClassLookup[v] = k
-		end
-		for k, v in pairs(LOCALIZED_CLASS_NAMES_FEMALE) do
-			ClassLookup[v] = k
-		end
-		self:UnregisterEvent("PLAYER_LOGIN")
-	end
 	self.needrefreshed = true
 	self.updateElapsed = 0
 end)

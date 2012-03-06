@@ -1,6 +1,6 @@
 ﻿## Interface: 40300
 ## Title: |cff7aa6d6Ray|r|cffff0000U|r|cff7aa6d6I|r
-## Version: 20120305
+## Version: 20120306
 ## Author: Tukz, Elv, Ray
 ## OptionalDeps: Skada, ACP, DBM-Core, BigWigs, AtlasLoot, BugSack
 ## RequiredDeps: !RayUI_Config, Blizzard_CombatText

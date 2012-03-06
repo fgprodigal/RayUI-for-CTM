@@ -163,7 +163,7 @@ local function Spec_UpdateTablet(self)
 		-- Spec Category
 		SpecSection["specs"] = {}
 		SpecSection["specs"].cat = spec:AddCategory()
-		SpecSection["specs"].cat:AddLine("text", R.RGBToHex(1, 0.8, 0)..TALENTS.."|r", "size", 10 + resSizeExtra, "textR", 1, "textG", 1, "textB", 1)
+		SpecSection["specs"].cat:AddLine("text", R.RGBToHex(NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b)..TALENTS.."|r", "size", 10 + resSizeExtra, "textR", 1, "textG", 1, "textB", 1)
 		
 		-- Talent Cat
 		Cols = {
@@ -193,7 +193,7 @@ local function Spec_UpdateTablet(self)
 		-- Equipment Category
 		SpecSection["equipment"] = {}
 		SpecSection["equipment"].cat = spec:AddCategory()
-		SpecSection["equipment"].cat:AddLine("text", R.RGBToHex(1, 0.8, 0)..EQUIPMENT_MANAGER.."|r", "size", 10 + resSizeExtra, "textR", 1, "textG", 1, "textB", 1)
+		SpecSection["equipment"].cat:AddLine("text", R.RGBToHex(NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b)..EQUIPMENT_MANAGER.."|r", "size", 10 + resSizeExtra, "textR", 1, "textG", 1, "textB", 1)
 		R.AddBlankTabLine(SpecSection["equipment"].cat, 2)
 		
 		-- Equipment Cat

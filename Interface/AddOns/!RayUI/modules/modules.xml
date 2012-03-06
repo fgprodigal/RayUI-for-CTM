@@ -9,4 +9,5 @@
 	<Include file="tooltip\tooltip.xml"/>
 	<Include file="uf\uf.xml"/>
 	<Include file="raid\raid.xml"/>
+	<Include file="tutorial\tutorial.xml"/>
 </Ui>
