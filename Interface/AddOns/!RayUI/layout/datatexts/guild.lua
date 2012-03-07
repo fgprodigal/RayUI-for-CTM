@@ -150,7 +150,6 @@ local function Guild_OnEnter(self)
 end
 
 local function Guild_Update(self)
-	print(1)
 	-- If not in guild, set members to 0
 	local guildonline = 0
 	if not IsInGuild() then
