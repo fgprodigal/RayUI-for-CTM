@@ -87,7 +87,7 @@ local function Friends_UpdateTablet()
 end
 
 local function Friends_OnEnter(self)
-	self.forceUpdate = true
+	if InCombatLockdown() then return end
 
 	-- Register friendsTablets
 	if not friendsTablets:IsRegistered(self) then
@@ -281,7 +281,7 @@ Stat:SetScript("OnEvent", function(self, event)
 end)
 Stat:SetScript("OnUpdate", function(self, elapsed)
 	self.updateElapsed = self.updateElapsed + elapsed
-	if self.updateElapsed > 1 or self.forceUpdate then
+	if self.updateElapsed > 1 then
 		local totalFriends, onlineFriends = GetNumFriends()
 		local totalBN, numBNetOnline = BNGetNumFriends()
 		TopInfoBar5.Text:SetFormattedText(displayString, FRIENDS, onlineFriends + numBNetOnline)
@@ -290,12 +290,11 @@ Stat:SetScript("OnUpdate", function(self, elapsed)
 		self:SetAllPoints(TopInfoBar5)
 		self.updateElapsed = 0
 		
-		if InCombatLockdown() and not self.forceUpdate then return end
+		if InCombatLockdown() then return end
 
-		if self.needrefreshed or self.forceUpdate then
+		if self.needrefreshed then
 			Friends_Update(self)
 			self.needrefreshed = nil
-			self.forceUpdate = nil
 		end
 	end
 end)

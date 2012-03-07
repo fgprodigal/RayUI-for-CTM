@@ -115,7 +115,8 @@ local function Guild_UpdateTablet()
 end
 
 local function Guild_OnEnter(self)
-	self.forceUpdate = true
+	if InCombatLockdown() then return end
+	GuildRoster()
 
 	-- Register guildTablet
 	if not guildTablet:IsRegistered(self) then
@@ -250,19 +251,18 @@ Stat:SetScript("OnEvent", function(self, event)
 end)
 Stat:SetScript("OnUpdate", function(self, elapsed)
 	self.updateElapsed = self.updateElapsed + elapsed
-	if self.updateElapsed > 1 or self.forceUpdate then
+	if self.updateElapsed > 1 then
 		local total, online = GetNumGuildMembers()
 		TopInfoBar6.Text:SetFormattedText(displayString, online)
 		Stat:SetMinMaxValues(0, total)
 		Stat:SetValue(online)
 		self.updateElapsed = 0
 
-		if InCombatLockdown() and not self.forceUpdate then return end
+		if InCombatLockdown() then return end
 
-		if self.needrefreshed or self.forceUpdate then
+		if self.needrefreshed then
 			Guild_Update(self)
 			self.needrefreshed = nil
-			self.forceUpdate = nil
 		end
 	end
 end)
