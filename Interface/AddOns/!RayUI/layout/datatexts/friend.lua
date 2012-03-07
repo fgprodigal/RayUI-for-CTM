@@ -87,6 +87,8 @@ local function Friends_UpdateTablet()
 end
 
 local function Friends_OnEnter(self)
+	self.forceUpdate = true
+
 	-- Register friendsTablets
 	if not friendsTablets:IsRegistered(self) then
 		friendsTablets:Register(self,
@@ -257,14 +259,6 @@ local function Friends_Update(self)
 			friendsTablets:Refresh(self)
 		end
 	end
-	
-	-- Info Text
-	local totalFriends, onlineFriends = GetNumFriends()
-	local totalBN, numBNetOnline = BNGetNumFriends()
-	TopInfoBar5.Text:SetFormattedText(displayString, FRIENDS, onlineFriends + numBNetOnline)
-	Stat:SetMinMaxValues(0, totalFriends + totalBN)
-	Stat:SetValue(onlineFriends + numBNetOnline)
-	self:SetAllPoints(TopInfoBar5)
 end
 
 function Friends_OnMouseDown(self)
@@ -287,12 +281,21 @@ Stat:SetScript("OnEvent", function(self, event)
 end)
 Stat:SetScript("OnUpdate", function(self, elapsed)
 	self.updateElapsed = self.updateElapsed + elapsed
-	if self.updateElapsed > 1 then
+	if self.updateElapsed > 1 or self.forceUpdate then
+		local totalFriends, onlineFriends = GetNumFriends()
+		local totalBN, numBNetOnline = BNGetNumFriends()
+		TopInfoBar5.Text:SetFormattedText(displayString, FRIENDS, onlineFriends + numBNetOnline)
+		Stat:SetMinMaxValues(0, totalFriends + totalBN)
+		Stat:SetValue(onlineFriends + numBNetOnline)
+		self:SetAllPoints(TopInfoBar5)
 		self.updateElapsed = 0
+		
+		if InCombatLockdown() and not self.forceUpdate then return end
 
-		if self.needrefreshed then
+		if self.needrefreshed or self.forceUpdate then
 			Friends_Update(self)
-			self.needrefreshed = false
+			self.needrefreshed = nil
+			self.forceUpdate = nil
 		end
 	end
 end)

@@ -3,7 +3,7 @@ local R, C, L, DB = unpack(select(2, ...))
 local Stat = TopInfoBar6.Status
 Stat.updateElapsed = 0
 
-local GuildTabletData
+local GuildTabletData = {}
 local GuildOnline = 0
 local guildTablet = LibStub("Tablet-2.0")
 local ttheader = {0.4, 0.78, 1}
@@ -115,6 +115,8 @@ local function Guild_UpdateTablet()
 end
 
 local function Guild_OnEnter(self)
+	self.forceUpdate = true
+
 	-- Register guildTablet
 	if not guildTablet:IsRegistered(self) then
 		guildTablet:Register(self,
@@ -132,7 +134,7 @@ local function Guild_OnEnter(self)
 			"hideWhenEmpty", true
 		)
 	end
-	
+
 	if guildTablet:IsRegistered(self) then
 		-- guildTablet appearance
 		guildTablet:SetColor(self, 0, 0, 0)
@@ -148,6 +150,7 @@ local function Guild_OnEnter(self)
 end
 
 local function Guild_Update(self)
+	print(1)
 	-- If not in guild, set members to 0
 	local guildonline = 0
 	if not IsInGuild() then
@@ -156,10 +159,9 @@ local function Guild_Update(self)
 		return
 	end
 	
-	GuildTabletData = nil
+	wipe(GuildTabletData)
 	-- Total Online Guildies
-	for i = 1, GetNumGuildMembers() do
-		if ( not GuildTabletData or GuildTabletData == nil ) then GuildTabletData = {} end		
+	for i = 1, GetNumGuildMembers() do	
 		local gPrelist
 		local name, rank, _, lvl, _class, zone, note, offnote, online, status, class, _, _, mobile = GetGuildRosterInfo(i)
 		
@@ -210,14 +212,8 @@ local function Guild_Update(self)
 	if guildTablet:IsRegistered(self) then
 		guildTablet:Refresh(self)
 	end
-	
-	-- Info Text
+
 	self.hidden = false
-	local total, online = GetNumGuildMembers()
-		
-	TopInfoBar6.Text:SetFormattedText(displayString, online)
-	Stat:SetMinMaxValues(0, total)
-	Stat:SetValue(online)
 end
 
 function Guild_OnMouseDown(self)
@@ -255,12 +251,19 @@ Stat:SetScript("OnEvent", function(self, event)
 end)
 Stat:SetScript("OnUpdate", function(self, elapsed)
 	self.updateElapsed = self.updateElapsed + elapsed
-	if self.updateElapsed > 1 then
+	if self.updateElapsed > 1 or self.forceUpdate then
+		local total, online = GetNumGuildMembers()
+		TopInfoBar6.Text:SetFormattedText(displayString, online)
+		Stat:SetMinMaxValues(0, total)
+		Stat:SetValue(online)
 		self.updateElapsed = 0
 
-		if self.needrefreshed then
+		if InCombatLockdown() and not self.forceUpdate then return end
+
+		if self.needrefreshed or self.forceUpdate then
 			Guild_Update(self)
 			self.needrefreshed = nil
+			self.forceUpdate = nil
 		end
 	end
 end)

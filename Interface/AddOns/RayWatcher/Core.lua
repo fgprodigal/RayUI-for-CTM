@@ -5,7 +5,6 @@ local _, ns = ...
 local _, myclass = UnitClass("player")
 local colors = RAID_CLASS_COLORS
 ns.modules = {}
-abc = ns.modules
 local testing = false
 local ACD = LibStub("AceConfigDialog-3.0")
 
