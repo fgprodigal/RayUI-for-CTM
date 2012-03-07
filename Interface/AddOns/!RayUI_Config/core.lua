@@ -1272,12 +1272,12 @@ GameMenuButtonOptions:SetPoint("TOP", RayUIConfigButton, "BOTTOM", 0, -2)
 RayUIConfigButton:SetPoint("TOP", GameMenuButtonHelp, "BOTTOM", 0, -2)
 RayUIConfigButton:SetText(L["|cff7aa6d6Ray|r|cffff0000U|r|cff7aa6d6I|r设置"])
 RayUIConfigButton:SetScript("OnClick", function()
-	HideUIPanel(GameMenuFrame)
-	RayUIConfig:ShowConfig()
 	if RayUIConfigTutorial and RayUIConfigTutorial:IsShown() then
 		RayUIConfigTutorial:Hide()
 		RayUIConfig.db.profile.RayUIConfigTutorial = true
 	end
+	HideUIPanel(GameMenuFrame)
+	RayUIConfig:ShowConfig()
 end)
 
 local a = CreateFrame("Frame")
