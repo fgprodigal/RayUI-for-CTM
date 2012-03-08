@@ -62,7 +62,7 @@ local function SpecAddEquipListToCat(self, cat)
 			wipe(line)
 			for i = 1, 4 do
 				if i == 1 then
-					line["text"] = string.format("|T%s:%d:%d:%d:%d|t %s", SpecEquipList[k].icon, 10 + resSizeExtra, 10 + resSizeExtra, 0, 0, SpecEquipList[k].name)
+					line["text"] = string.format("|T%s:%d:%d:0:0:64:64:5:59:5:59|t %s", SpecEquipList[k].icon, 10 + resSizeExtra, 10 + resSizeExtra, SpecEquipList[k].name)
 					line["size"] = 10 + resSizeExtra
 					line["justify"] = "LEFT"
 					line["textR"] = 0.9
@@ -169,9 +169,9 @@ local function Spec_UpdateTablet(self)
 		-- Talent Cat
 		Cols = {
 			" ",
-			string.format("|T%s:%d:%d:%d:%d|t", TalentInfo[1][1].icon or "", 16 + resSizeExtra, 16 + resSizeExtra, 0, 4),
-			string.format("|T%s:%d:%d:%d:%d|t", TalentInfo[1][2].icon or "", 16 + resSizeExtra, 16 + resSizeExtra, 0, 4),
-			string.format("|T%s:%d:%d:%d:%d|t", TalentInfo[1][3].icon or "", 16 + resSizeExtra, 16 + resSizeExtra, 0, 4),
+			string.format("|T%s:%d:%d:0:0:64:64:5:59:5:59|t", TalentInfo[1][1].icon or "", 16 + resSizeExtra, 16 + resSizeExtra),
+			string.format("|T%s:%d:%d:0:0:64:64:5:59:5:59|t", TalentInfo[1][2].icon or "", 16 + resSizeExtra, 16 + resSizeExtra),
+			string.format("|T%s:%d:%d:0:0:64:64:5:59:5:59|t", TalentInfo[1][3].icon or "", 16 + resSizeExtra, 16 + resSizeExtra),
 		}
 		SpecSection["specs"].talentCat = spec:AddCategory("columns", #Cols)
 		lineHeader = R.MakeTabletHeader(Cols, 10 + resSizeExtra, 12, {"LEFT", "CENTER", "CENTER", "CENTER"})
