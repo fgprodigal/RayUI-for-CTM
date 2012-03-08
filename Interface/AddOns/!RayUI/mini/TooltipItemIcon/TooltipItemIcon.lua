@@ -334,7 +334,7 @@ DisplayIconTable.inside = function(data, iconpath)
 	data.insideoldtext = oldtext
 
 	-- show the icon
-	icon:SetFormattedText("%s |T%s:%d|t", oldtext, iconpath, texticonsize)
+	icon:SetFormattedText("%s |T%s:%d:%d:0:0:64:64:5:59:5:59|t", oldtext, iconpath, texticonsize, texticonsize)
 	icon:Show()
 
 	-- adjust height of title if icon size is large - this controls height of whole top line
@@ -363,7 +363,7 @@ DisplayIconTable.title = function(data, iconpath)
 	data.titleoldtext = oldtext
 
 	-- show the icon
-	icon:SetFormattedText("|T%s:%d|t %s", iconpath, texticonsize, oldtext)
+	icon:SetFormattedText("|T%s:%d:%d:0:0:64:64:5:59:5:59|t %s", iconpath, texticonsize, texticonsize, oldtext)
 	icon:Show()
 	data.parent:Show() -- required to reformat layout correctly
 
