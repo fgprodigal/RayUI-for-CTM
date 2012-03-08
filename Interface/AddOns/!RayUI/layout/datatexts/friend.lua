@@ -4,8 +4,8 @@ local Stat = TopInfoBar5.Status
 Stat.updateElapsed = 0
 
 local friendsTablets = LibStub("Tablet-2.0")
-local FriendsTabletData
-local FriendsTabletDataNames
+local FriendsTabletData = {}
+local FriendsTabletDataNames = {}
 local FriendsOnline = 0
 local displayString = string.join("", "%s: ", "", "%d|r")
 
@@ -34,98 +34,11 @@ local function Friends_TabletClickFunc(name, iname, toonid)
 end
 
 local FriendsCat
-local function Friends_UpdateTablet()
-	if ( FriendsOnline > 0 and FriendsTabletData ) then
-		resSizeExtra = 2
-		local Cols, lineHeader
-		
-		-- Title
-		local Cols = {
-			NAME,
-			LEVEL_ABBR,
-			ZONE,
-			FACTION,
-			GAME
-		}
-		FriendsCat = friendsTablets:AddCategory("columns", #Cols)
-		lineHeader = R.MakeTabletHeader(Cols, 10 + resSizeExtra, 0, {"LEFT", "RIGHT", "LEFT", "LEFT", "LEFT"})
-		FriendsCat:AddLine(lineHeader)
-		R.AddBlankTabLine(FriendsCat)
-		
-		-- Friends
-		for _, val in ipairs(FriendsTabletData) do
-			local line = {}
-			for i = 1, #Cols do
-				if i == 1 then	-- Name
-					line["text"] = val[i]
-					line["justify"] = "LEFT"
-					line["func"] = function() Friends_TabletClickFunc(val[6],val[8], val["toonid"]) end
-					line["size"] = 11 + resSizeExtra
-				elseif i == 2 then	-- Level
-					line["text"..i] = val[2]
-					line["justify"..i] = "RIGHT"
-					local uLevelColor = GetQuestDifficultyColor(tonumber(val[2]) or 1)
-					line["text"..i.."R"] = uLevelColor.r
-					line["text"..i.."G"] = uLevelColor.g
-					line["text"..i.."B"] = uLevelColor.b
-					line["size"..i] = 11 + resSizeExtra
-				else	-- The rest
-					line["text"..i] = val[i]
-					line["justify"..i] = "LEFT"
-					line["text"..i.."R"] = 0.8
-					line["text"..i.."G"] = 0.8
-					line["text"..i.."B"] = 0.8
-					line["size"..i] = 11 + resSizeExtra
-				end
-			end
-			FriendsCat:AddLine(line)
-		end
-		
-		-- Hint
-		friendsTablets:SetHint(L["<点击玩家>发送密语, <Alt+点击玩家>邀请玩家."])
-	end
-end
-
-local function Friends_OnEnter(self)
-	if InCombatLockdown() then return end
-
-	-- Register friendsTablets
-	if not friendsTablets:IsRegistered(self) then
-		friendsTablets:Register(self,
-			"children", function()
-				Friends_UpdateTablet()
-			end,
-			"point", function()
-				return "TOPLEFT"
-			end,
-			"relativePoint", function()
-				return "BOTTOMLEFT"
-			end,
-			"maxHeight", 500,
-			"clickable", true,
-			"hideWhenEmpty", true
-		)
-	end
-	
-	if friendsTablets:IsRegistered(self) then
-		-- friendsTablets appearance
-		friendsTablets:SetColor(self, 0, 0, 0)
-		friendsTablets:SetTransparency(self, .65)
-		friendsTablets:SetFontSizePercent(self, 1)
-		
-		-- Open
-		if ( FriendsOnline > 0 ) then
-			ShowFriends()
-		end
-		friendsTablets:Open(self)
-	end
-end
-
-local function Friends_Update(self)
-	FriendsTabletData = nil
-	FriendsTabletDataNames = nil
+local function Friends_BuildTablet()
 	local curFriendsOnline = 0
-	
+	wipe(FriendsTabletData)
+	wipe(FriendsTabletDataNames)
+
 	-- Standard Friends
 	for i = 1, GetNumFriends() do
 		local name, lvl, class, area, online, status, note = GetFriendInfo(i)
@@ -245,19 +158,109 @@ local function Friends_Update(self)
 	
 	-- OnEnter
 	FriendsOnline = curFriendsOnline
-	if FriendsOnline > 0 then
-		self:SetScript("OnEnter", function(self) 
-			Friends_OnEnter(self)
-		end)
-	else
-		self:SetScript("OnEnter", nil)
+end
+
+local function Friends_UpdateTablet()
+	if ( FriendsOnline > 0 and FriendsTabletData ) then
+		resSizeExtra = 2
+		local Cols, lineHeader
+		Friends_BuildTablet()
+		
+		-- Title
+		local Cols = {
+			NAME,
+			LEVEL_ABBR,
+			ZONE,
+			FACTION,
+			GAME
+		}
+		FriendsCat = friendsTablets:AddCategory("columns", #Cols)
+		lineHeader = R.MakeTabletHeader(Cols, 10 + resSizeExtra, 0, {"LEFT", "RIGHT", "LEFT", "LEFT", "LEFT"})
+		FriendsCat:AddLine(lineHeader)
+		R.AddBlankTabLine(FriendsCat)
+		
+		-- Friends
+		for _, val in ipairs(FriendsTabletData) do
+			local line = {}
+			for i = 1, #Cols do
+				if i == 1 then	-- Name
+					line["text"] = val[i]
+					line["justify"] = "LEFT"
+					line["func"] = function() Friends_TabletClickFunc(val[6],val[8], val["toonid"]) end
+					line["size"] = 11 + resSizeExtra
+				elseif i == 2 then	-- Level
+					line["text"..i] = val[2]
+					line["justify"..i] = "RIGHT"
+					local uLevelColor = GetQuestDifficultyColor(tonumber(val[2]) or 1)
+					line["text"..i.."R"] = uLevelColor.r
+					line["text"..i.."G"] = uLevelColor.g
+					line["text"..i.."B"] = uLevelColor.b
+					line["size"..i] = 11 + resSizeExtra
+				else	-- The rest
+					line["text"..i] = val[i]
+					line["justify"..i] = "LEFT"
+					line["text"..i.."R"] = 0.8
+					line["text"..i.."G"] = 0.8
+					line["text"..i.."B"] = 0.8
+					line["size"..i] = 11 + resSizeExtra
+				end
+			end
+			FriendsCat:AddLine(line)
+		end
+		
+		-- Hint
+		friendsTablets:SetHint(L["<点击玩家>发送密语, <Alt+点击玩家>邀请玩家."])
+	end
+	collectgarbage()
+end
+
+local function Friends_OnEnter(self)
+	if InCombatLockdown() then return end
+
+	-- Register friendsTablets
+	if not friendsTablets:IsRegistered(self) then
+		friendsTablets:Register(self,
+			"children", function()
+				Friends_BuildTablet()
+				Friends_UpdateTablet()
+			end,
+			"point", function()
+				return "TOPLEFT"
+			end,
+			"relativePoint", function()
+				return "BOTTOMLEFT"
+			end,
+			"maxHeight", 500,
+			"clickable", true,
+			"hideWhenEmpty", true
+		)
 	end
 	
-	-- Refresh tablet
 	if friendsTablets:IsRegistered(self) then
-		if Tablet20Frame:IsShown() then
-			friendsTablets:Refresh(self)
+		-- friendsTablets appearance
+		friendsTablets:SetColor(self, 0, 0, 0)
+		friendsTablets:SetTransparency(self, .65)
+		friendsTablets:SetFontSizePercent(self, 1)
+		
+		-- Open
+		if ( FriendsOnline > 0 ) then
+			ShowFriends()
 		end
+		friendsTablets:Open(self)
+	end
+end
+
+local function Friends_Update(self)
+	local totalFriends, onlineFriends = GetNumFriends()
+	local totalBN, numBNetOnline = BNGetNumFriends()
+	TopInfoBar5.Text:SetFormattedText(displayString, FRIENDS, onlineFriends + numBNetOnline)
+	self:SetMinMaxValues(0, totalFriends + totalBN)
+	self:SetValue(onlineFriends + numBNetOnline)
+	
+	if onlineFriends + numBNetOnline > 0 then
+		self:SetScript("OnEnter", Friends_OnEnter)
+	else
+		self:SetScript("OnEnter", nil)
 	end
 end
 
@@ -282,15 +285,7 @@ end)
 Stat:SetScript("OnUpdate", function(self, elapsed)
 	self.updateElapsed = self.updateElapsed + elapsed
 	if self.updateElapsed > 1 then
-		local totalFriends, onlineFriends = GetNumFriends()
-		local totalBN, numBNetOnline = BNGetNumFriends()
-		TopInfoBar5.Text:SetFormattedText(displayString, FRIENDS, onlineFriends + numBNetOnline)
-		Stat:SetMinMaxValues(0, totalFriends + totalBN)
-		Stat:SetValue(onlineFriends + numBNetOnline)
-		self:SetAllPoints(TopInfoBar5)
 		self.updateElapsed = 0
-		
-		if InCombatLockdown() then return end
 
 		if self.needrefreshed then
 			Friends_Update(self)

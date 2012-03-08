@@ -120,6 +120,7 @@ local function SysInfo_OnEnter(self)
 		
 		sysinfo:Open(self)
 	end
+	collectgarbage()
 end
 
 local function SysInfo_Update(self)

@@ -24,6 +24,51 @@ local function Guild_TabletClickFunc(name)
 end
 
 local GuildSection = {}
+local function Guild_BuidTablet()
+	local guildonline = 0
+	wipe(GuildTabletData)
+	-- Total Online Guildies
+	for i = 1, GetNumGuildMembers() do	
+		local gPrelist
+		local name, rank, _, lvl, _class, zone, note, offnote, online, status, class, _, _, mobile = GetGuildRosterInfo(i)
+		
+		-- Class Color
+		local classColor = { RAID_CLASS_COLORS[class].r, RAID_CLASS_COLORS[class].g, RAID_CLASS_COLORS[class].b }
+		class = string.format("|cff%02x%02x%02x%s|r", classColor[1] * 255, classColor[2] * 255, classColor[3] * 255, class)
+		
+		-- Player Name
+		local cname
+		if status == 0 then
+			cname = string.format("|cff%02x%02x%02x%s|r", classColor[1] * 255, classColor[2] * 255, classColor[3] * 255, name)
+		else
+			local curStatus = PlayerStatusValToStr[status] or ""
+			cname = string.format("%s |cff%02x%02x%02x%s|r", curStatus, classColor[1] * 255, classColor[2] * 255, classColor[3] * 255, name)
+		end
+		
+		-- Mobile
+		if mobile then
+			cname = ChatFrame_GetMobileEmbeddedTexture(73/255, 177/255, 73/255)..cname
+			zone = REMOTE_CHAT
+		end
+		
+		-- Note
+		if CanViewOfficerNote() then
+			gPrelist = { cname, lvl, zone, rank, note, offnote, name }
+		else
+			gPrelist = { cname, lvl, zone, rank, note, " ", name }
+		end
+		
+		-- Add to list
+		if online then
+			tinsert(GuildTabletData, gPrelist)
+			guildonline = guildonline + 1
+		end
+	end
+	
+	-- OnEnter
+	GuildOnline = guildonline
+end
+
 local function Guild_UpdateTablet()
 	if ( IsInGuild() and GuildOnline > 0 ) then
 		resSizeExtra = 2
@@ -112,6 +157,7 @@ local function Guild_UpdateTablet()
 		-- Hint
 		guildTablet:SetHint(L["<点击玩家>发送密语, <Alt+点击玩家>邀请玩家."])
 	end
+	collectgarbage()
 end
 
 local function Guild_OnEnter(self)
@@ -122,6 +168,7 @@ local function Guild_OnEnter(self)
 	if not guildTablet:IsRegistered(self) then
 		guildTablet:Register(self,
 			"children", function()
+				Guild_BuidTablet()
 				Guild_UpdateTablet()
 			end,
 			"point", function()
@@ -151,66 +198,22 @@ local function Guild_OnEnter(self)
 end
 
 local function Guild_Update(self)
-	-- If not in guild, set members to 0
-	local guildonline = 0
 	if not IsInGuild() then
 		self.hidden = true
+		self:SetScript("OnEnter", nil)
 		TopInfoBar6.Text:SetText(noGuildString)
 		return
 	end
+
+	local total, online = GetNumGuildMembers()
+	TopInfoBar6.Text:SetFormattedText(displayString, online)
+	self:SetMinMaxValues(0, total)
+	self:SetValue(online)
 	
-	wipe(GuildTabletData)
-	-- Total Online Guildies
-	for i = 1, GetNumGuildMembers() do	
-		local gPrelist
-		local name, rank, _, lvl, _class, zone, note, offnote, online, status, class, _, _, mobile = GetGuildRosterInfo(i)
-		
-		-- Class Color
-		local classColor = { RAID_CLASS_COLORS[class].r, RAID_CLASS_COLORS[class].g, RAID_CLASS_COLORS[class].b }
-		class = string.format("|cff%02x%02x%02x%s|r", classColor[1] * 255, classColor[2] * 255, classColor[3] * 255, class)
-		
-		-- Player Name
-		local cname
-		if status == 0 then
-			cname = string.format("|cff%02x%02x%02x%s|r", classColor[1] * 255, classColor[2] * 255, classColor[3] * 255, name)
-		else
-			local curStatus = PlayerStatusValToStr[status] or ""
-			cname = string.format("%s |cff%02x%02x%02x%s|r", curStatus, classColor[1] * 255, classColor[2] * 255, classColor[3] * 255, name)
-		end
-		
-		-- Mobile
-		if mobile then
-			cname = ChatFrame_GetMobileEmbeddedTexture(73/255, 177/255, 73/255)..cname
-			zone = REMOTE_CHAT
-		end
-		
-		-- Note
-		if CanViewOfficerNote() then
-			gPrelist = { cname, lvl, zone, rank, note, offnote, name }
-		else
-			gPrelist = { cname, lvl, zone, rank, note, " ", name }
-		end
-		
-		-- Add to list
-		if online then
-			tinsert(GuildTabletData, gPrelist)
-			guildonline = guildonline + 1
-		end
-	end
-	
-	-- OnEnter
-	GuildOnline = guildonline
-	if GuildOnline > 0 then
-		self:SetScript("OnEnter", function(self) 
-			Guild_OnEnter(self)
-		end)
+	if online > 0 then
+		self:SetScript("OnEnter", Guild_OnEnter)
 	else
 		self:SetScript("OnEnter", nil)
-	end
-	
-	-- Refresh tablet
-	if guildTablet:IsRegistered(self) then
-		guildTablet:Refresh(self)
 	end
 
 	self.hidden = false
@@ -252,13 +255,7 @@ end)
 Stat:SetScript("OnUpdate", function(self, elapsed)
 	self.updateElapsed = self.updateElapsed + elapsed
 	if self.updateElapsed > 1 then
-		local total, online = GetNumGuildMembers()
-		TopInfoBar6.Text:SetFormattedText(displayString, online)
-		Stat:SetMinMaxValues(0, total)
-		Stat:SetValue(online)
 		self.updateElapsed = 0
-
-		if InCombatLockdown() then return end
 
 		if self.needrefreshed then
 			Guild_Update(self)

@@ -151,6 +151,7 @@ local function SpecAddTalentGroupLineToCat(self, cat, talentGroup)
 end
 
 local SpecSection = {}
+
 local function Spec_UpdateTablet(self)
 	resSizeExtra = 2
 	local Cols, lineHeader
@@ -242,11 +243,11 @@ local function Spec_OnEnter(self)
 		-- Open
 		spec:Open(self)
 	end
+
+	collectgarbage()
 end
 
 local function Spec_Update(self)
-	resSizeExtra = 12
-	
 	-- Talent Info
 	wipe(TalentInfo)
 	local numTalentGroups = GetNumTalentGroups()
@@ -279,19 +280,13 @@ local function Spec_Update(self)
 	if R.SavePath.specgear.secondary > numEquipSets then
 		R.SavePath.specgear.secondary = -1
 	end
-	
+
 	local active = GetActiveTalentGroup(false, false)
 	if GetPrimaryTalentTree(false, false, active) and select(2, GetTalentTabInfo(GetPrimaryTalentTree(false, false, active))) then
 		Text:SetFormattedText(talentString, select(2, GetTalentTabInfo(GetPrimaryTalentTree(false, false, active))), TalentInfo[active][1].points, TalentInfo[active][2].points, TalentInfo[active][3].points)
-	end
-	
-	-- Refresh Tablet
-	if not self.hidden then
-		if spec:IsRegistered(self) then
-			if Tablet20Frame:IsShown() then
-				spec:Refresh(self)
-			end
-		end
+		self:SetScript("OnEnter", Spec_OnEnter)
+	else
+		self:SetScript("OnEnter", nil)
 	end
 end
 
