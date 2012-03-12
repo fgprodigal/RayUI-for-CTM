@@ -97,6 +97,7 @@ L["法力上限Buff"] = "法力上限Buff"
 L["法力恢复Buff"] = "法力恢復Buff"
 L["攻击强度Buff"] = "攻擊強度Buff"
 L["力量与敏捷Buff"] = "力量與敏捷Buff"
+L["缺少"] = "缺少"
 
 L["URL Ctrl+C复制"] = "URL Ctrl+C拷貝"
 

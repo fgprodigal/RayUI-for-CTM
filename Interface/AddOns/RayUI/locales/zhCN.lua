@@ -99,6 +99,7 @@ L["法力上限Buff"] = true
 L["法力恢复Buff"] = true
 L["攻击强度Buff"] = true
 L["力量与敏捷Buff"] = true
+L["缺少"] = true
 
 L["URL Ctrl+C复制"] = true
 
