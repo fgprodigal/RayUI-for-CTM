@@ -177,11 +177,3 @@ P["Skins"]={
 	bigwigs = true,
 	gladius = true,
 }
-
-local SpecialList = {
-	["夏琉"] = true,
-}
-
-if SpecialList[R.myname] then
-	R.SpecialFunc = true
-end
