@@ -26,6 +26,7 @@ local function LoadSkin()
 	R.ReskinInput(ChannelFrameDaughterFrameChannelPassword)
 	R.ReskinClose(ChannelFrameDaughterFrameDetailCloseButton)
 	R.ReskinClose(FriendsFrameCloseButton)
+	FriendsTabHeaderSoRButton:StyleButton(true)
 
 	local buttons = {
 		"WhoFrameAddFriendButton",
