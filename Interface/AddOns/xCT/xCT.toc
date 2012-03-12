@@ -3,7 +3,7 @@
 ## Notes: X Combat Text
 ## Author: Affli @ RU-Howling Fjord
 ## Version: 1.8f
-## RequiredDeps: Blizzard_CombatText
+## RequiredDeps: Blizzard_CombatText, RayUI
 
 config.lua
 xCT.lua
