@@ -1204,8 +1204,8 @@ function B:Initialize()
 	self:RawHook("CloseAllBags", "CloseBags", true)
 	self:RawHook("CloseBackpack", "CloseBags", true)
 
-	TradeFrame:HookScript("OnShow", function() Bag:OpenBags() end)
-	TradeFrame:HookScript("OnHide", function() Bag:CloseBags() end)
+	TradeFrame:HookScript("OnShow", function() B:OpenBags() end)
+	TradeFrame:HookScript("OnHide", function() B:CloseBags() end)
 
 	--Stop Blizzard bank bags from functioning.
 	BankFrame:UnregisterAllEvents()

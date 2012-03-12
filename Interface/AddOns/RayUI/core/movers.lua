@@ -271,6 +271,7 @@ function R:PLAYER_REGEN_DISABLED()
 		if _G[name]:IsShown() then
 			err = true
 			_G[name]:Hide()
+			self:Print(name)
 		end
 	end
 	if err == true then
@@ -280,6 +281,3 @@ end
 
 R:RegisterEvent("ADDON_LOADED")
 R:RegisterEvent("PLAYER_REGEN_DISABLED")
-
-SLASH_MOVEUI1 = "/moveui"
-SlashCmdList["MOVEUI"] = R.ToggleMovers

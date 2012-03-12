@@ -232,9 +232,6 @@ local function LoadFunc()
 		updaterun:Show()
 		flowingframe:Show()
 	end
-	 
-	SlashCmdList.ALLEYRUN = function(lol) allertrun(lol) end
-	SLASH_ALLEYRUN1 = "/arn" -- /command to test the text
 
 	CombatText:UnregisterEvent("PLAYER_REGEN_ENABLED")
 	CombatText:UnregisterEvent("PLAYER_REGEN_DISABLED")

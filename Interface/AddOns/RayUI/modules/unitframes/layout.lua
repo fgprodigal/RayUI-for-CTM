@@ -942,7 +942,8 @@ function UF:LoadDPSLayout()
 		end
 	end
 	
-	if self.db.showParty --[[ and not C["raid"].showgridwhenparty ]] then
+	local RA = R:GetModule("Raid")
+	if self.db.showParty and not RA.db.showgridwhenparty then
 		local party = oUF:SpawnHeader("RayUFParty", nil, 
 		"custom [@raid6,exists] hide;show",
 		-- "custom [group:party,nogroup:raid][@raid,noexists,group:raid] show;hide",

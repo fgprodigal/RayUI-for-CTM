@@ -479,17 +479,8 @@ function watcherPrototype:SPELL_UPDATE_COOLDOWN()
 	self:Update()
 end
 
-function watcherPrototype:PLAYER_ENTERING_WORLD()
-	if not self.parent:GetPoint() then
-		self.parent:SetPoint(unpack(self.setpoint))
-	end
-	local _, parent = self.parent:GetPoint()
-	if parent then self.parent:SetParent(parent) end
-	self:Update()
-	if self.disabled then self:Disable() end
-end
-
-function RW:Initialize()
+function RW:PLAYER_ENTERING_WORLD()
+	self:GetConfig()
 	if type(self.config[R.myclass]) == "table" then
 		for _, t in ipairs(self.config[R.myclass]) do
 			self:NewWatcher(t)
@@ -557,6 +548,11 @@ function RW:Initialize()
 	self.db.casterinput = nil
 	self.db.fuzzy = nil
 	self:UpdateGroup()
+	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
+end
+
+function RW:Initialize()
+	self:RegisterEvent("PLAYER_ENTERING_WORLD")
 end
 
 function RW:NewWatcher(data)
@@ -624,12 +620,15 @@ function RW:NewWatcher(data)
 			end
 		end
 	end
-
-	
 	
 	module.parent = CreateFrame("Frame", module.name, UIParent)
 	module.parent:SetSize(module.size, module.size)
-	module.parent:SetMovable(true)
+	if not module.parent:GetPoint() then
+		module.parent:SetPoint(unpack(module.setpoint))
+	end
+	local _, parent = module.parent:GetPoint()
+	if parent then module.parent:SetParent(parent) end
+	-- R:CreateMover(module.parent, module.name, module.name, true)
 	
 	local mover = CreateFrame("Frame", nil, module.parent)
 	module.moverFrame = mover
@@ -666,7 +665,7 @@ function RW:NewWatcher(data)
 	if module.CD or module.itemCD then
 		module:RegisterEvent("SPELL_UPDATE_COOLDOWN")
 	end
-	module:RegisterEvent("PLAYER_ENTERING_WORLD")
+	if self.disabled then self:Disable() end
 	RW.modules[module.name] = module
 end
 
