@@ -4,8 +4,6 @@ if not C["chat"].enable then return end
 local AutoApply = false											-- /setchat upon UI loading
 --Setchat parameters. Those parameters will apply to ChatFrame1 when you use /setchat
 local def_position = {"BOTTOMLEFT",UIParent,"BOTTOMLEFT",10,30} -- Chat Frame position
-local chat_height = 140
-local chat_width = 400
 local fontsize = 15
 local fontFlag = "THINOUTLINE"
 --other variables

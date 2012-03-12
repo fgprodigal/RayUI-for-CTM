@@ -158,7 +158,7 @@ local function Spec_UpdateTablet(self)
 	
 	local numTalentGroups = GetNumTalentGroups()
 	
-	if numTalentGroups > 1 then
+	if numTalentGroups > 0 then
 		wipe(SpecSection)
 	
 		-- Spec Category
@@ -182,7 +182,9 @@ local function Spec_UpdateTablet(self)
 		SpecAddTalentGroupLineToCat(self, SpecSection["specs"].talentCat, 1)
 		
 		-- Secondary Talent line
-		SpecAddTalentGroupLineToCat(self, SpecSection["specs"].talentCat, 2)
+		if numTalentGroups > 1 then
+			SpecAddTalentGroupLineToCat(self, SpecSection["specs"].talentCat, 2)
+		end
 	end
 
 	local numEquipSets = GetNumEquipmentSets()
@@ -205,9 +207,9 @@ local function Spec_UpdateTablet(self)
 	end
 	
 	-- Hint
-	if (numTalentGroups > 1) and (numEquipSets > 0) then
+	if (numTalentGroups > 0) and (numEquipSets > 0) then
 		spec:SetHint(L["<点击天赋> 切换天赋."].."\n"..L["<点击套装> 装备套装."].."\n"..L["<Ctrl+点击套装> 套装绑定至主天赋."].."\n"..L["<Alt+点击套装> 套装绑定至副天赋."].."\n"..L["<Shift+点击套装> 解除天赋绑定."])
-	elseif numTalentGroups > 1 then
+	elseif numTalentGroups > 0 then
 		spec:SetHint(L["<点击天赋> 切换天赋."])
 	elseif numEquipSets > 0 then
 		spec:SetHint(L["<点击套装> 装备套装."].."\n"..L["<Ctrl+点击套装> 套装绑定至主天赋."]..PRIMARY.."\n"..L["<Shift+点击套装> 解除天赋绑定."])

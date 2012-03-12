@@ -168,7 +168,6 @@ local function SysInfo_Update(self)
 	end
 end
 
-TopInfoBar2.Text:SetText("MS: 0")
 Stat:SetScript("OnUpdate", function(self, elapsed)
 	LastUpdate = LastUpdate - elapsed
 	

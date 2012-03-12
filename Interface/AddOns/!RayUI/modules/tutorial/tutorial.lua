@@ -31,4 +31,5 @@ f:SetScript("OnEvent", function(self, event)
 		local tutorial1 = CreateTutorialFrame("RayUIConfigTutorial", GameMenuFrame, 220, 100, L["點擊進入RayUI控制台。\n請仔細研究每一項設置的作用。"])
 		tutorial1:SetPoint("BOTTOM", RayUIConfigButton, "TOP", 0, 15)
 	end
+	f:UnregisterEvent("PLAYER_ENTERING_WORLD")
 end)
