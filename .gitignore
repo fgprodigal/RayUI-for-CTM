@@ -10,8 +10,7 @@
 /Interface/AddOns*/*
 !/Interface/AddOns/!BlizzBugFix/
 !/Interface/AddOns/!BugGrabber/
-!/Interface/AddOns/!RayUI/
-!/Interface/AddOns/!RayUI_Config/
+!/Interface/AddOns/AuctionFilterPlus/
 !/Interface/AddOns/Buffet/
 !/Interface/AddOns/BugSack/
 !/Interface/AddOns/EasyMount/
@@ -19,6 +18,6 @@
 !/Interface/AddOns/ncShadow/
 !/Interface/AddOns/Numeration/
 !/Interface/AddOns/Postal/
-!/Interface/AddOns/RayWatcher/
+!/Interface/AddOns/RayUI/
 !/Interface/AddOns/stAddonmanager/
 !/Interface/AddOns/xCT/

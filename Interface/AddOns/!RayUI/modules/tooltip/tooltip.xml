@@ -1,5 +1,0 @@
-<Ui xmlns="http://www.blizzard.com/wow/ui/">
-	<Script file="tooltip.lua"/>
-	<Script file="talent.lua"/>
-	<Script file="achievepoint.lua"/>
-</Ui>

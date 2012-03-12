@@ -1,0 +1,14 @@
+## Interface: 40300
+## Title: AuctionFilterPlus |cff3fcf26[Emerald]|r
+## Notes: Adds flyout filters and other features to the auction house
+## Version: 40300.1
+## X-Date: 2011-07-10
+## Author: Dsanai |cFFFFA0A0fan's update by Urbin|r
+## E-Mail: gfdesignlv@gmail.com
+## SavedVariables: afp_SavedSettings, afp_SearchItems
+## OptionalDeps: EnhTooltip, MailTo
+## RequiredDeps: RayUI
+## LoadWith: Blizzard_AuctionUI
+## LoadOnDemand: 0
+## OptionalDeps: Auc-Advanced
+AuctionFilterPlus.xml
