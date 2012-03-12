@@ -551,6 +551,8 @@ function RW:GetConfig()
 				{ spellID = 54149, unitId = "player", caster = "player", filter = "BUFF" },
 				--精通光環
 				{ spellID = 31821, unitId = "player", caster = "player", filter = "BUFF" },
+				--聖佑術
+				{ spellID = 498, unitId = "player", caster = "player", filter = "BUFF" },
 			},
 			{
 				name = "目标debuff",

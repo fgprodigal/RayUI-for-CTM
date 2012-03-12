@@ -538,6 +538,7 @@ function RW:PLAYER_ENTERING_WORLD()
 				defaults.profile.Watcher[i][ii] = vv
 			end
 		end
+		if i.disabled then i:Disable() end
 	end
 	local db = LibStub("AceDB-3.0"):New("RayUIData", defaults)
 	self.db = db.profile.Watcher
@@ -620,15 +621,14 @@ function RW:NewWatcher(data)
 			end
 		end
 	end
-	
+
+	local holder = CreateFrame("Frame", nil, UIParent)
+	holder:SetSize(module.size, module.size)
+	holder:SetPoint(unpack(module.setpoint))
+	R:CreateMover(holder, module.name.."Holder", module.name, true)
+
 	module.parent = CreateFrame("Frame", module.name, UIParent)
-	module.parent:SetSize(module.size, module.size)
-	if not module.parent:GetPoint() then
-		module.parent:SetPoint(unpack(module.setpoint))
-	end
-	local _, parent = module.parent:GetPoint()
-	if parent then module.parent:SetParent(parent) end
-	-- R:CreateMover(module.parent, module.name, module.name, true)
+	module.parent:SetAllPoints(holder)
 	
 	local mover = CreateFrame("Frame", nil, module.parent)
 	module.moverFrame = mover
@@ -665,7 +665,6 @@ function RW:NewWatcher(data)
 	if module.CD or module.itemCD then
 		module:RegisterEvent("SPELL_UPDATE_COOLDOWN")
 	end
-	if self.disabled then self:Disable() end
 	RW.modules[module.name] = module
 end
 
