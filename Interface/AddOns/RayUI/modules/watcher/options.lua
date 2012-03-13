@@ -108,10 +108,10 @@ function RW:GetOptions()
 				RW.db[RW.db.GroupSelect].disabled = not value
 				if RW.db[RW.db.GroupSelect].disabled then
 					RW.modules[RW.db.GroupSelect]:Disable()
-					print("|cff7aa6d6Ray|r|cffff0000W|r|cff7aa6d6atcher|r: "..RW.db.GroupSelect.."已禁用")
+					R:Print(RW.db.GroupSelect.."已禁用")
 				else
 					RW.modules[RW.db.GroupSelect]:Enable()
-					print("|cff7aa6d6Ray|r|cffff0000W|r|cff7aa6d6atcher|r: "..RW.db.GroupSelect.."已启用")
+					R:Print(RW.db.GroupSelect.."已启用")
 				end
 			end,
 			get = function() return not RW.db[RW.db.GroupSelect].disabled end,

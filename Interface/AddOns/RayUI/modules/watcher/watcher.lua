@@ -481,8 +481,9 @@ end
 
 function watcherPrototype:PLAYER_ENTERING_WORLD()
 	self.holder:SetPoint(unpack(self.setpoint))
-	R:CreateMover(holder, self.name.."Holder", self.name, true)
-	local _, parent = self.holder:GetPoint()
+	self.parent:SetAllPoints(self.holder)
+	R:CreateMover(self.holder, self.name.."Holder", self.name, true)
+	local _, parent = unpack(self.setpoint)
 	if parent then self.parent:SetParent(parent) end
 	self:Update()
 	if self.disabled then self:Disable() end
