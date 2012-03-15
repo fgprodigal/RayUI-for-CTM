@@ -385,8 +385,6 @@ function RW:GetConfig()
 				{ spellID = 2565, unitId = "player", caster = "player", filter = "BUFF" },
 				--破釜沉舟
 				{ spellID = 12976, unitId = "player", caster = "player", filter = "BUFF" },
-				--振奮咆哮
-				{ spellID = 97463, unitId = "player", caster = "player", filter = "BUFF" },
 				--盾墻
 				{ spellID = 871, unitId = "player", caster = "player", filter = "BUFF" },
 				--狂怒恢復
@@ -1048,6 +1046,11 @@ function RW:GetConfig()
 				{ spellID = 96911, unitId = "player", caster = "player", filter = "BUFF" },
 				--淨縛之意志(隨機團隊)
 				{ spellID = 109793, unitId = "player", caster = "player", filter = "BUFF" },
+				--加速之瓶
+				{ spellID = 96980, unitId = "player", caster = "player", filter = "BUFF" },
+				--謊言面紗
+				{ spellID = 102667, unitId = "player", caster = "player", filter = "BUFF" },
+
 			--工程
 				--神經突觸彈簧(敏捷)
 				{ spellID = 96228, unitId = "player", caster = "player", filter = "BUFF" },
@@ -1055,7 +1058,8 @@ function RW:GetConfig()
 				{ spellID = 96229, unitId = "player", caster = "player", filter = "BUFF" },
 				--神經突觸彈簧(智力)
 				{ spellID = 96230, unitId = "player", caster = "player", filter = "BUFF" },
-
+				--迅轉偏斜甲
+				{ spellID = 82176, unitId = "player", caster = "player", filter = "BUFF" },
 
 			--裁縫
 				--暗輝刺繡

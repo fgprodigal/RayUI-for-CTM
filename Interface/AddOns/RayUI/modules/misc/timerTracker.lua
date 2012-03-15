@@ -18,6 +18,7 @@ local function LoadFunc()
 		
 		bar:SetStatusBarTexture(R["media"].normal)
 		bar:SetStatusBarColor(95/255, 182/255, 255/255)
+		bar:Height(18)
 		
 		local spark = bar:CreateTexture(nil, "OVERLAY")
 		spark:SetTexture[[Interface\CastingBar\UI-CastingBar-Spark]]

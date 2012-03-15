@@ -119,7 +119,7 @@ function TradeTabs:CreateTab(spell,spellID,parent)
     button:SetAttribute("spell",spell)
     button.spellID = spellID
     button:GetRegions():Hide()
-	button:SetCheckedTexture(C.Aurora.checked)
+	button:SetCheckedTexture(S["media"].checked)
 	S:CreateBG(button)
 	S:CreateSD(button, 5, 0, 0, 0, 1, 1)
 	button:SetNormalTexture(GetSpellTexture(spellID, "spell"))

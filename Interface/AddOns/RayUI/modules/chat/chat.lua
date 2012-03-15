@@ -866,7 +866,8 @@ function CH:SetChat()
 end
 
 function CH:SetItemRef(link, text, button, chatFrame)
-	if strsub(link, 1, 9) == "TimeCopy" then
+	local linkType, id = strsplit(":", link)
+	if linkType == "TimeCopy" then
 		frame = GetMouseFocus():GetParent()
 		local text
 		for i = 1, select("#", frame:GetRegions()) do
@@ -883,7 +884,7 @@ function CH:SetItemRef(link, text, button, chatFrame)
 		end
 		ChatFrameEditBox:SetText(text)
 		ChatFrameEditBox:HighlightText()
-	elseif (strsub(link, 1, 3) == "url") then
+	elseif linkType == "url" then
 		currentLink = string.sub(link, 5)
 		StaticPopup_Show("UrlCopyDialog")
 	elseif linkType == "RayUIDamegeMeters" then
@@ -904,8 +905,7 @@ function CH:SetItemRef(link, text, button, chatFrame)
 			end
 		end
 		ItemRefTooltip:Show()
-	elseif link:match("RayUILootCollector:(%d+)") then
-		local id = link:match("RayUILootCollector:(%d+)")
+	elseif linkType == "RayUILootCollector" then
 		ShowUIPanel(ItemRefTooltip)
 		if not ItemRefTooltip:IsShown() then ItemRefTooltip:SetOwner(UIParent, "ANCHOR_PRESERVE") end
 

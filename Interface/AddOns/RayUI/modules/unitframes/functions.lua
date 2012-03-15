@@ -406,7 +406,7 @@ function UF:PostCastStart(unit, name, rank, castid)
 	if UnitIsPlayer(unit) and UnitIsFriend(unit, "player") and R.myname == "夏可" then
 		r, g, b = 95/255, 182/255, 255/255
 	elseif UnitIsPlayer(unit) and UnitIsFriend(unit, "player") then
-		r, g, b = unpack(oUF.colors.class[R.myclass])
+		r, g, b = unpack(oUF.colors.class[select(2, UnitClass(unit))])
 	elseif self.interrupt then
 		r, g, b = unpack(oUF.colors.reaction[1])
 	else
@@ -435,7 +435,7 @@ function UF:PostCastInterruptible(unit)
 		if UnitIsPlayer(unit) and UnitIsFriend(unit, "player") and R.myname == "夏可" then
 			r, g, b = 95/255, 182/255, 255/255
 		elseif UnitIsPlayer(unit) and UnitIsFriend(unit, "player") then
-			r, g, b = unpack(oUF.colors.class[R.myclass])
+			r, g, b = unpack(oUF.colors.class[select(2, UnitClass(unit))])
 		else
 			r, g, b = unpack(oUF.colors.reaction[6])
 		end
@@ -453,7 +453,7 @@ function UF:PostCastNotInterruptible(unit)
 	if UnitIsPlayer(unit) and UnitIsFriend(unit, "player") and R.myname == "夏可" then
 		r, g, b = 95/255, 182/255, 255/255
 	elseif UnitIsPlayer(unit) and UnitIsFriend(unit, "player") then
-		r, g, b = unpack(oUF.colors.class[R.myclass])
+		r, g, b = unpack(oUF.colors.class[select(2, UnitClass(unit))])
 	else
 		r, g, b = unpack(oUF.colors.reaction[5])
 	end

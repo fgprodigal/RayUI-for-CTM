@@ -44,11 +44,15 @@ local function LoadCurrency()
 					local _, _, _, _, _, _, ppQuantity = GetLFGDungeonRewardCapBarInfo(301)
 					if ppQuantity and ppQuantity >= 1000 then
 						newamount = "|cffff0000" .. amount .. "|r"
+					else
+						newamount = amount
 					end
 				elseif id == 390 then
 					local pointsThisWeek = GetPVPRewards()
 					if pointsThisWeek and pointsThisWeek >= 1650 then
 						newamount = "|cffff0000" .. amount .. "|r"
+					else
+						newamount = amount
 					end
 				else
 					newamount = (max >0 and amount >= max) and "|cffff0000" .. amount .. "|r" or amount
