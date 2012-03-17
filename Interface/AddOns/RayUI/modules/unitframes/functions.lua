@@ -145,7 +145,7 @@ end
 
 function UF:ConstructPortrait(frame)
 	local portrait = CreateFrame("PlayerModel", nil, frame)
-	portrait:SetFrameStrata('LOW')
+	portrait:SetFrameStrata("LOW")
 	portrait:SetFrameLevel(frame.Health:GetFrameLevel() + 1)
 	portrait:SetPoint("TOPLEFT", frame.Health, "TOPLEFT", 0, 0)
 	portrait:SetPoint("BOTTOMRIGHT", frame.Health, "BOTTOMRIGHT", 0, 0)

@@ -268,7 +268,7 @@ end
 
 function S:ReskinClose(f, a1, p, a2, x, y)
 	if not f then return end
-	f:Size(17, 17)
+	f:SetSize(17, 17)
 
 	if not a1 then
 		f:Point("TOPRIGHT", -4, -4)
@@ -292,7 +292,7 @@ function S:ReskinClose(f, a1, p, a2, x, y)
 
 	local text = f:CreateFontString(nil, "OVERLAY")
 	text:SetFont(R["media"].pxfont, R.mult*10, "OUTLINE,MONOCHROME")
-	text:Point("CENTER", 2, 1)
+	text:SetPoint("CENTER", 2, 1)
 	text:SetText("x")
 
 	f:HookScript("OnEnter", function(self) text:SetTextColor(1, .1, .1) end)

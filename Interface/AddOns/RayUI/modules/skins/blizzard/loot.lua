@@ -53,6 +53,9 @@ local function LoadSkin()
 			slot.text:SetPoint("LEFT", slot, "RIGHT", 4, 0)
 			slot.text:SetPoint("RIGHT", slot:GetParent(), "RIGHT", -4, 0)
 			slot.text:SetJustifyH("LEFT")
+			slot.glow = CreateFrame("Frame", nil, slot)
+			slot.glow:SetAllPoints()
+			slot.glow:CreateBorder()
 			slot.count = slot:CreateFontString(nil, "OVERLAY")
 			slot.count:SetFont(R["media"].font, R["media"].fontsize, R["media"].fontflag)
 			slot.count:SetPoint("BOTTOMRIGHT", 0, 0)
@@ -97,17 +100,14 @@ local function LoadSkin()
 				lootSlot.quest:SetText("")
 			end
 			local glow = lootSlot.glow
-			if(not glow) then
-				glow = CreateFrame("Frame", nil, lootSlot)
-				glow:SetAllPoints()
-				glow:CreateBorder()
-				lootSlot.glow = glow
-			end
 			if quality and quality > 1 then
+				glow:SetAllPoints()
 				glow:SetBackdropBorderColor(color.r, color.g, color.b)
 				lootSlot:SetBackdropColor(0, 0, 0)
 			else
-				glow:SetBackdropBorderColor(0, 0, 0, 0)
+				glow:SetBackdropBorderColor(0, 0, 0)
+				glow:Point("TOPLEFT", 1, -1)
+				glow:Point("BOTTOMRIGHT", -1, 1)
 				lootSlot:SetBackdropColor(0, 0, 0, 0)
 			end
 			if R:IsItemUnusable(GetLootSlotLink(id)) or locked then

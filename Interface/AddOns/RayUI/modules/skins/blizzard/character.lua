@@ -144,13 +144,16 @@ local function LoadSkin()
 		slot.checkRelic = nil
 		slot:SetNormalTexture("")
 		slot:StyleButton()
-		ic:SetTexCoord(.08, .92, .08, .92)
-		ic:Point("TOPLEFT", 2, -2)
-		ic:Point("BOTTOMRIGHT", -2, 2)
 		slot:SetBackdrop({
 					bgFile = R["media"].blank, 
 					insets = { left = -R.mult, right = -R.mult, top = -R.mult, bottom = -R.mult }
 				})
+		ic:SetTexCoord(.08, .92, .08, .92)
+		ic:Point("TOPLEFT", 2, -2)
+		ic:Point("BOTTOMRIGHT", -2, 2)
+		slot.glow = CreateFrame("Frame", nil, slot)
+		slot.glow:SetAllPoints()
+		slot.glow:CreateBorder()
 	end
 
 	select(8, CharacterMainHandSlot:GetRegions()):Kill()
@@ -182,21 +185,17 @@ local function LoadSkin()
 			local itemId = GetInventoryItemID("player", slotId)
 			
 			local glow = target.glow
-			if(not glow) then
-				target.glow = glow
-				glow = CreateFrame("Frame", nil, target)
-				glow:SetAllPoints()
-				glow:CreateBorder()
-				target.glow = glow
-			end
 
 			if itemId then
 				local _, _, rarity, _, _, _, _, _, _, _, _ = GetItemInfo(itemId)
 				if rarity and rarity > 1 then
+					glow:SetAllPoints()
 					glow:SetBackdropBorderColor(GetItemQualityColor(rarity))
 					target:SetBackdropColor(0, 0, 0)
 				else
-					glow:SetBackdropBorderColor(0, 0, 0, 0)
+					glow:Point("TOPLEFT", 1, -1)
+					glow:Point("BOTTOMRIGHT", -1, 1)
+					glow:SetBackdropBorderColor(0, 0, 0)
 					target:SetBackdropColor(0, 0, 0, 0)
 				end
 			else
@@ -214,15 +213,6 @@ local function LoadSkin()
 	
 	local function ColorFlyOutItemBorder(self)
 		local location = self.location
-		if (not location) or (location >= EQUIPMENTFLYOUT_FIRST_SPECIAL_LOCATION) then
-			if self.glow then
-				self.glow:SetBackdropBorderColor(0, 0, 0, 0)
-				self:SetBackdropColor(0, 0, 0, 0)
-			end
-			return
-		end
-		local id = EquipmentManager_GetItemInfoByLocation(location)
-		local icon = _G[self:GetName().."IconTexture"]
 		local glow = self.glow
 		if(not glow) then
 			self.glow = glow
@@ -235,17 +225,31 @@ local function LoadSkin()
 					insets = { left = -R.mult, right = -R.mult, top = -R.mult, bottom = -R.mult }
 				})
 		end
+		if (not location) or (location >= EQUIPMENTFLYOUT_FIRST_SPECIAL_LOCATION) then
+			self.glow:Point("TOPLEFT", 1, -1)
+			self.glow:Point("BOTTOMRIGHT", -1, 1)
+			self.glow:SetBackdropBorderColor(0, 0, 0)
+			self:SetBackdropColor(0, 0, 0, 0)
+			return
+		end
+		local id = EquipmentManager_GetItemInfoByLocation(location)
+		local icon = _G[self:GetName().."IconTexture"]
 		if id then
 			local _, _, rarity, _, _, _, _, _, _, _, _ = GetItemInfo(id)
 			if rarity and rarity > 1 then
+				glow:SetAllPoints()
 				glow:SetBackdropBorderColor(GetItemQualityColor(rarity))
 				self:SetBackdropColor(0, 0, 0)
 			else
-				glow:SetBackdropBorderColor(0, 0, 0, 0)
+				glow:Point("TOPLEFT", 1, -1)
+				glow:Point("BOTTOMRIGHT", -1, 1)
+				glow:SetBackdropBorderColor(0, 0, 0)
 				self:SetBackdropColor(0, 0, 0, 0)
 			end
 		else
-			glow:SetBackdropBorderColor(0, 0, 0, 0)
+			glow:Point("TOPLEFT", 1, -1)
+			glow:Point("BOTTOMRIGHT", -1, 1)
+			glow:SetBackdropBorderColor(0, 0, 0)
 			self:SetBackdropColor(0, 0, 0, 0)
 		end
 	end

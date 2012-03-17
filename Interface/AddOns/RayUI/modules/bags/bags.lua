@@ -174,12 +174,22 @@ function B:SlotUpdate(b)
 			b.frame.border:SetBackdropBorderColor(GetItemQualityColor(b.rarity))
 			_G[b.frame:GetName().."IconTexture"]:Point("TOPLEFT", 1, -1)
 			_G[b.frame:GetName().."IconTexture"]:Point("BOTTOMRIGHT", -1, 1)
+			b.frame:GetHighlightTexture():Point("TOPLEFT", 1, -1)
+			b.frame:GetHighlightTexture():Point("BOTTOMRIGHT", -1, 1)
+			b.frame:GetPushedTexture():Point("TOPLEFT", 1, -1)
+			b.frame:GetPushedTexture():Point("BOTTOMRIGHT", -1, 1)
 		elseif isQuest then
 			b.frame.border:SetBackdropBorderColor(1, 0, 0)
 			_G[b.frame:GetName().."IconTexture"]:Point("TOPLEFT", 1, -1)
 			_G[b.frame:GetName().."IconTexture"]:Point("BOTTOMRIGHT", -1, 1)
+			b.frame:GetHighlightTexture():Point("TOPLEFT", 1, -1)
+			b.frame:GetHighlightTexture():Point("BOTTOMRIGHT", -1, 1)
+			b.frame:GetPushedTexture():Point("TOPLEFT", 1, -1)
+			b.frame:GetPushedTexture():Point("BOTTOMRIGHT", -1, 1)
 		else
 			_G[b.frame:GetName().."IconTexture"]:SetAllPoints()
+			b.frame:GetHighlightTexture():SetAllPoints()
+			b.frame:GetPushedTexture():SetAllPoints()
 		end
 		if isActive == false then
 			b.quest:SetText("!")

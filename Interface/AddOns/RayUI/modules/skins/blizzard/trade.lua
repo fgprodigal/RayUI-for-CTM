@@ -72,9 +72,12 @@ local function LoadSkin()
 			end
 			name:SetTextColor(GetItemQualityColor(quality))
 			if (quality <=1 ) then
-				glow:SetBackdropBorderColor(0, 0, 0, 0)
+				glow:Point("TOPLEFT", 1, -1)
+				glow:Point("BOTTOMRIGHT", -1, 1)
+				glow:SetBackdropBorderColor(0, 0, 0)
 				button:SetBackdropColor(0, 0, 0, 0)
 			else
+				glow:SetAllPoints()
 				glow:SetBackdropBorderColor(GetItemQualityColor(quality))
 				button:SetBackdrop({
 					bgFile = R["media"].blank, 
@@ -115,9 +118,12 @@ local function LoadSkin()
 			end
 			name:SetTextColor(GetItemQualityColor(quality))
 			if (quality <=1 ) then
-				glow:SetBackdropBorderColor(0, 0, 0, 0)
+				glow:SetAllPoints()
+				glow:SetBackdropBorderColor(0, 0, 0)
 				button:SetBackdropColor(0, 0, 0, 0)
 			else
+				glow:Point("TOPLEFT", 1, -1)
+				glow:Point("BOTTOMRIGHT", -1, 1)
 				glow:SetBackdropBorderColor(GetItemQualityColor(quality))
 				button:SetBackdrop({
 					bgFile = R["media"].blank, 
