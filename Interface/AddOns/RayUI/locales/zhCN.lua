@@ -31,6 +31,7 @@ L["绑定至"] = true
 L["所有快捷键修改已储存"] = true
 L["这次的快捷键修改已重设为上一次修改"] = true
 L["将鼠标指向动作列上以绑定快捷键, 您可以按ESC或以右键点击快捷工具栏上任何一格以清除该位置的设定"] = true
+L["该按键的绑定已全部取消"] = true
 L["储存"] = true
 L["放弃"] = true
 
@@ -100,6 +101,7 @@ L["法力恢复Buff"] = true
 L["攻击强度Buff"] = true
 L["力量与敏捷Buff"] = true
 L["缺少"] = true
+L["缺少重要buff"] = true
 
 L["URL Ctrl+C复制"] = true
 

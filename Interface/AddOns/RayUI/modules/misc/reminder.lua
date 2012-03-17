@@ -388,15 +388,14 @@ local function LoadFunc()
 	local i = 0
 	for groupName, _ in pairs(tab) do
 		i = i + 1
-		local frame = CreateFrame("Frame", "ReminderFrame"..i, UIParent)
+		local frame = CreateFrame("Button", "ReminderFrame"..i, UIParent)
 		frame:CreatePanel("Default", 40, 40, "CENTER", UIParent, "CENTER", 0, 200)
 		frame:SetFrameLevel(1)
 		frame.id = groupName
 		frame.icon = frame:CreateTexture(nil, "OVERLAY")
-		frame.icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
-		frame.icon:SetPoint("CENTER")
-		frame.icon:Width(40)
-		frame.icon:Height(40)
+		frame.icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
+		frame.icon:SetAllPoints()
+		frame:StyleButton(true)
 		frame:Hide()
 
 		frame:RegisterEvent("UNIT_AURA")
@@ -420,6 +419,13 @@ local function LoadFunc()
 				self:Hide()
 			end	
 		end)
+		frame:SetScript("OnEnter", function(self)
+			GameTooltip:SetOwner(self, "ANCHOR_TOP")
+			GameTooltip:ClearLines()
+			GameTooltip:AddLine(L["缺少重要buff"])
+			GameTooltip:Show()			
+		end)
+		frame:SetScript("OnLeave", GameTooltip_Hide)
 	end
 end
 

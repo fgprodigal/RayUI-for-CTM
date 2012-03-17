@@ -34,7 +34,7 @@ function AB:BindListener(key)
 		for i = 1, #bind.button.bindings do
 			SetBinding(bind.button.bindings[i])
 		end
-		R:Print(L["该按键的绑定已全部取消"].." |cff00ff00"..self.button.name.."|r.")
+		R:Print(L["该按键的绑定已全部取消"].." |cff00ff00"..bind.button.name.."|r.")
 		self:BindUpdate(bind.button, bind.spellmacro)
 		if bind.spellmacro~="MACRO" then GameTooltip:Hide() end
 		return
@@ -63,7 +63,7 @@ function AB:BindListener(key)
 	else
 		SetBinding(alt..ctrl..shift..key, bind.spellmacro.." "..bind.button.name)
 	end
-	R:Print(alt..ctrl..shift..key.." |cff00ff00"..L["绑定至"].." |r"..self.button.name..".")
+	R:Print(alt..ctrl..shift..key.." |cff00ff00"..L["绑定至"].." |r"..bind.button.name..".")
 	self:BindUpdate(bind.button, bind.spellmacro)
 	if bind.spellmacro~="MACRO" then GameTooltip:Hide() end
 end

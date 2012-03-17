@@ -502,40 +502,6 @@ function RW:Initialize()
 		end
 	end
 	wipe(self.config)
-	
-	for group, options in pairs(self.db) do
-		if self.modules[group] then
-			for option, value in pairs(options) do
-				if type(value) ~= 'table' then
-					self.modules[group][option] = value
-				end
-			end
-			if type(options.BUFF) == "table" then
-				for id, value in pairs(options.BUFF) do
-					self.modules[group]["BUFF"] = self.modules[group]["BUFF"] or {}
-					self.modules[group]["BUFF"][id] = value
-				end
-			end
-			if type(options.DEBUFF) == "table" then
-				for id, value in pairs(options.DEBUFF or {}) do
-					self.modules[group]["DEBUFF"] = self.modules[group]["DEBUFF"] or {}
-					self.modules[group]["DEBUFF"][id] = value
-				end
-			end
-			if type(options.CD) == "table" then
-				for id, value in pairs(options.CD or {}) do
-					self.modules[group]["CD"] = self.modules[group]["CD"] or {}
-					self.modules[group]["CD"][id] = value
-				end
-			end
-			if type(options.itemCD) == "table" then
-				for id, value in pairs(options.itemCD or {}) do
-					self.modules[group]["itemCD"] = self.modules[group]["itemCD"] or {}
-					self.modules[group]["itemCD"][id] = value
-				end
-			end
-		end
-	end
 	CreatePopup()
 
 	defaults.profile = {}
@@ -548,7 +514,6 @@ function RW:Initialize()
 				defaults.profile.Watcher[i][ii] = vv
 			end
 		end
-		if i.disabled then i:Disable() end
 	end
 	local db = LibStub("AceDB-3.0"):New("RayUIData", defaults)
 	self.db = db.profile.Watcher
@@ -559,6 +524,49 @@ function RW:Initialize()
 	self.db.casterinput = nil
 	self.db.fuzzy = nil
 	self:UpdateGroup()
+	
+	for group, options in pairs(R.db.Watcher) do
+		if self.modules[group] then
+			for option, value in pairs(options) do
+				if type(value) ~= 'table' then
+					self.modules[group][option] = value
+					self.db[group][option] = value
+				end
+			end
+			if type(options.BUFF) == "table" then
+				for id, value in pairs(options.BUFF) do
+					self.modules[group]["BUFF"] = self.modules[group]["BUFF"] or {}
+					self.modules[group]["BUFF"][id] = value
+					self.db[group]["BUFF"] = self.db[group]["BUFF"] or {}
+					self.db[group]["BUFF"][id] = value
+				end
+			end
+			if type(options.DEBUFF) == "table" then
+				for id, value in pairs(options.DEBUFF or {}) do
+					self.modules[group]["DEBUFF"] = self.modules[group]["DEBUFF"] or {}
+					self.modules[group]["DEBUFF"][id] = value
+					self.db[group]["DEBUFF"] = self.db[group]["DEBUFF"] or {}
+					self.db[group]["DEBUFF"][id] = value
+				end
+			end
+			if type(options.CD) == "table" then
+				for id, value in pairs(options.CD or {}) do
+					self.modules[group]["CD"] = self.modules[group]["CD"] or {}
+					self.modules[group]["CD"][id] = value
+					self.db[group]["CD"] = self.db[group]["CD"] or {}
+					self.db[group]["CD"][id] = value
+				end
+			end
+			if type(options.itemCD) == "table" then
+				for id, value in pairs(options.itemCD or {}) do
+					self.modules[group]["itemCD"] = self.modules[group]["itemCD"] or {}
+					self.modules[group]["itemCD"][id] = value
+					self.db[group]["itemCD"] = self.db[group]["itemCD"] or {}
+					self.db[group]["itemCD"][id] = value
+				end
+			end
+		end
+	end
 end
 
 function RW:NewWatcher(data)

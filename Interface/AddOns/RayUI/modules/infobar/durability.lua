@@ -48,7 +48,7 @@ local function LoadDurability()
 		else
 			self:SetStatusBarColor(unpack(IF.InfoBarStatusColor[1]))
 		end
-		local r, g, b = R.ColorGradient(value/60, IF.InfoBarStatusColor[1][1], IF.InfoBarStatusColor[1][2], IF.InfoBarStatusColor[1][3], 
+		local r, g, b = R:ColorGradient(value/60, IF.InfoBarStatusColor[1][1], IF.InfoBarStatusColor[1][2], IF.InfoBarStatusColor[1][3], 
 																	IF.InfoBarStatusColor[2][1], IF.InfoBarStatusColor[2][2], IF.InfoBarStatusColor[2][3],
 																	IF.InfoBarStatusColor[3][1], IF.InfoBarStatusColor[3][2], IF.InfoBarStatusColor[3][3])
 		self:SetStatusBarColor(r, g, b)

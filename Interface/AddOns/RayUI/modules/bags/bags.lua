@@ -147,6 +147,7 @@ end
 
 function B:SlotUpdate(b)
 	local texture, count, locked = GetContainerItemInfo(b.bag, b.slot)
+	local isQuest, questId, isActive = GetContainerItemQuestInfo(b.bag, b.slot)
 	local clink = GetContainerItemLink(b.bag, b.slot)
 	
 	if not b.frame.lock then
@@ -162,7 +163,7 @@ function B:SlotUpdate(b)
 		local iType
 		b.name, _, b.rarity, _, _, iType = GetItemInfo(clink)
 		
-		if R.IsItemUnusable(clink) then
+		if R:IsItemUnusable(clink) then
 			_G[b.frame:GetName().."IconTexture"]:SetVertexColor(RED_FONT_COLOR.r, RED_FONT_COLOR.g, RED_FONT_COLOR.b)
 		else
 			_G[b.frame:GetName().."IconTexture"]:SetVertexColor(1, 1, 1)
@@ -173,16 +174,22 @@ function B:SlotUpdate(b)
 			b.frame.border:SetBackdropBorderColor(GetItemQualityColor(b.rarity))
 			_G[b.frame:GetName().."IconTexture"]:Point("TOPLEFT", 1, -1)
 			_G[b.frame:GetName().."IconTexture"]:Point("BOTTOMRIGHT", -1, 1)
-		elseif GetContainerItemQuestInfo(b.bag, b.slot) then
+		elseif isQuest then
 			b.frame.border:SetBackdropBorderColor(1, 0, 0)
 			_G[b.frame:GetName().."IconTexture"]:Point("TOPLEFT", 1, -1)
 			_G[b.frame:GetName().."IconTexture"]:Point("BOTTOMRIGHT", -1, 1)
 		else
 			_G[b.frame:GetName().."IconTexture"]:SetAllPoints()
 		end
+		if isActive == false then
+			b.quest:SetText("!")
+		else
+			b.quest:SetText("")
+		end
 	else
 		b.name, b.rarity = nil, nil
 		b.frame:SetBackdropColor(0, 0, 0, 0)
+		b.quest:SetText("")
 	end
 
 	SetItemButtonTexture(b.frame, texture)
@@ -261,6 +268,13 @@ function B:SlotNew(bag, slot)
 		count:ClearAllPoints()
 		count:Point("BOTTOMRIGHT", ret.frame, "BOTTOMRIGHT", 1, 0)
 		count:SetFont(R["media"].pxfont, R.mult*10, "OUTLINE,MONOCHROME")
+		
+		ret.quest = ret.frame:CreateFontString(nil, "OVERLAY")
+		ret.quest:SetFont(R["media"].pxfont, 30, R["media"].fontflag)
+		ret.quest:SetTextColor(NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b)
+		ret.quest:SetShadowOffset(R.mult, -R.mult)
+		ret.quest:SetShadowColor(0, 0, 0)
+		ret.quest:SetPoint("TOPRIGHT", 2, 6)
 	end
 
 	ret.bag = bag

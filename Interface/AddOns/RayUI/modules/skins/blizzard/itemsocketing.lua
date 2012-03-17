@@ -4,7 +4,7 @@ local S = R:GetModule("Skins")
 local function LoadSkin()
 	S:SetBD(ItemSocketingFrame, 12, -8, -2, 24)
 	select(2, ItemSocketingFrame:GetRegions()):Hide()
-	ItemSocketingFramePortrait:Hide()
+	ItemSocketingFramePortrait:Kill()
 	ItemSocketingScrollFrameTop:SetAlpha(0)
 	ItemSocketingScrollFrameBottom:SetAlpha(0)
 	ItemSocketingSocket1Left:SetAlpha(0)
@@ -16,6 +16,35 @@ local function LoadSkin()
 	ItemSocketingSocketButton:SetPoint("BOTTOMRIGHT", ItemSocketingFrame, "BOTTOMRIGHT", -10, 28)
 	S:ReskinClose(ItemSocketingCloseButton, "TOPRIGHT", ItemSocketingFrame, "TOPRIGHT", -6, -12)
 	S:ReskinScroll(ItemSocketingScrollFrameScrollBar)
+	for i = 1, MAX_NUM_SOCKETS  do
+		local button = _G["ItemSocketingSocket"..i]
+		local button_bracket = _G["ItemSocketingSocket"..i.."BracketFrame"]
+		local button_bg = _G["ItemSocketingSocket"..i.."Background"]
+		local button_icon = _G["ItemSocketingSocket"..i.."IconTexture"]
+		local shine = _G["ItemSocketingSocket"..i.."Shine"]
+		button:StripTextures()
+		button:StyleButton()
+		button:SetBackdrop({
+					bgFile = R["media"].blank, 
+					insets = { left = -R.mult, right = -R.mult, top = -R.mult, bottom = -R.mult }
+				})
+		button:SetBackdropColor(0, 0, 0, .5)
+		button.glow = CreateFrame("Frame", nil, button)
+		button.glow:SetAllPoints()
+		shine:SetAllPoints()
+		button.glow:CreateBorder()
+		button_bracket:Kill()
+		button_bg:Kill()
+		button_icon:SetTexCoord(.08, .92, .08, .92)
+		button_icon:ClearAllPoints()
+		button_icon:Point("TOPLEFT", 2, -2)
+		button_icon:Point("BOTTOMRIGHT", -2, 2)
+		ItemSocketingFrame:HookScript("OnUpdate", function(self)
+			gemColor = GetSocketTypes(i)
+			local color = GEM_TYPE_INFO[gemColor]
+			button.glow:SetBackdropBorderColor(color.r, color.g, color.b)
+		end)
+	end
 	
 	for i = 1, MAX_NUM_SOCKETS  do
 		local button = _G["ItemSocketingSocket"..i]

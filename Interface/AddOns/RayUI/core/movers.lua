@@ -135,7 +135,7 @@ function R:ToggleMovers()
 	end
 	
 	if RayUF or oUF then
-		R.MoveoUF()
+		R:MoveoUF()
 	end
 	
 	for name, _ in pairs(R.CreatedMovers) do

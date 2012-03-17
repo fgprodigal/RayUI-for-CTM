@@ -69,8 +69,10 @@ local function LoadSkin()
 		slot.backgroundTextureName = ""
 		slot.checkRelic = nil
 		slot:SetNormalTexture("")
-		slot:StyleButton(true)
+		slot:StyleButton()
 		_G["Inspect"..slots[i].."SlotIconTexture"]:SetTexCoord(.08, .92, .08, .92)
+		_G["Inspect"..slots[i].."SlotIconTexture"]:Point("TOPLEFT", 2, -2)
+		_G["Inspect"..slots[i].."SlotIconTexture"]:Point("BOTTOMRIGHT", -2, 2)
 	end
 	select(7, InspectMainHandSlot:GetRegions()):Kill()
 	select(7, InspectRangedSlot:GetRegions()):Kill()
@@ -86,8 +88,7 @@ local function LoadSkin()
 		local glow = target.glow
 		if(not glow) then
 			glow = CreateFrame("Frame", nil, target)
-			glow:Point("TOPLEFT", -1, 1)
-			glow:Point("BOTTOMRIGHT", 1, -1)
+			glow:SetAllPoints()
 			glow:CreateBorder()
 			target.glow = glow
 		end
@@ -96,8 +97,6 @@ local function LoadSkin()
 			local _, _, rarity, _, _, _, _, _, _, _, _ = GetItemInfo(itemLink)
 			if rarity and rarity > 1 then
 				glow:SetBackdropBorderColor(GetItemQualityColor(rarity))
-				icon:Point("TOPLEFT", 1, -1)
-				icon:Point("BOTTOMRIGHT", -1, 1)
 				target:SetBackdrop({
 					bgFile = R["media"].blank, 
 					insets = { left = -R.mult, right = -R.mult, top = -R.mult, bottom = -R.mult }
@@ -105,7 +104,6 @@ local function LoadSkin()
 				target:SetBackdropColor(0, 0, 0)
 			else
 				glow:SetBackdropBorderColor(0, 0, 0, 0)
-				icon:SetAllPoints()
 				target:SetBackdropColor(0, 0, 0, 0)
 			end
 		else

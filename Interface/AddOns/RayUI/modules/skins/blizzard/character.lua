@@ -143,8 +143,10 @@ local function LoadSkin()
 		slot.backgroundTextureName = ""
 		slot.checkRelic = nil
 		slot:SetNormalTexture("")
-		slot:StyleButton(true)
+		slot:StyleButton()
 		ic:SetTexCoord(.08, .92, .08, .92)
+		ic:Point("TOPLEFT", 2, -2)
+		ic:Point("BOTTOMRIGHT", -2, 2)
 		slot:SetBackdrop({
 					bgFile = R["media"].blank, 
 					insets = { left = -R.mult, right = -R.mult, top = -R.mult, bottom = -R.mult }
@@ -157,10 +159,13 @@ local function LoadSkin()
 	local function SkinItemFlyouts()
 		for i = 1, 10 do
 			local bu = _G["EquipmentFlyoutFrameButton"..i]
+			local icon = _G["EquipmentFlyoutFrameButton"..i.."IconTexture"]
 			if bu and not bu.reskinned then
 				bu:SetNormalTexture("")
-				bu:StyleButton(true)
+				bu:StyleButton()
 				_G["EquipmentFlyoutFrameButton"..i.."IconTexture"]:SetTexCoord(.08, .92, .08, .92)
+				icon:Point("TOPLEFT", 2, -2)
+				icon:Point("BOTTOMRIGHT", -2, 2)
 				bu.reskinned = true
 			end
 		end
@@ -180,8 +185,7 @@ local function LoadSkin()
 			if(not glow) then
 				target.glow = glow
 				glow = CreateFrame("Frame", nil, target)
-				glow:Point("TOPLEFT", -1, 1)
-				glow:Point("BOTTOMRIGHT", 1, -1)
+				glow:SetAllPoints()
 				glow:CreateBorder()
 				target.glow = glow
 			end
@@ -190,12 +194,9 @@ local function LoadSkin()
 				local _, _, rarity, _, _, _, _, _, _, _, _ = GetItemInfo(itemId)
 				if rarity and rarity > 1 then
 					glow:SetBackdropBorderColor(GetItemQualityColor(rarity))
-					icon:Point("TOPLEFT", 1, -1)
-					icon:Point("BOTTOMRIGHT", -1, 1)
 					target:SetBackdropColor(0, 0, 0)
 				else
 					glow:SetBackdropBorderColor(0, 0, 0, 0)
-					icon:SetAllPoints()
 					target:SetBackdropColor(0, 0, 0, 0)
 				end
 			else
@@ -216,6 +217,7 @@ local function LoadSkin()
 		if (not location) or (location >= EQUIPMENTFLYOUT_FIRST_SPECIAL_LOCATION) then
 			if self.glow then
 				self.glow:SetBackdropBorderColor(0, 0, 0, 0)
+				self:SetBackdropColor(0, 0, 0, 0)
 			end
 			return
 		end
@@ -225,8 +227,7 @@ local function LoadSkin()
 		if(not glow) then
 			self.glow = glow
 			glow = CreateFrame("Frame", nil, self)
-			glow:Point("TOPLEFT", -1, 1)
-			glow:Point("BOTTOMRIGHT", 1, -1)
+			glow:SetAllPoints()
 			glow:CreateBorder()
 			self.glow = glow			
 			self:SetBackdrop({
@@ -238,12 +239,9 @@ local function LoadSkin()
 			local _, _, rarity, _, _, _, _, _, _, _, _ = GetItemInfo(id)
 			if rarity and rarity > 1 then
 				glow:SetBackdropBorderColor(GetItemQualityColor(rarity))
-				icon:Point("TOPLEFT", 1, -1)
-				icon:Point("BOTTOMRIGHT", -1, 1)
 				self:SetBackdropColor(0, 0, 0)
 			else
 				glow:SetBackdropBorderColor(0, 0, 0, 0)
-				icon:SetAllPoints()
 				self:SetBackdropColor(0, 0, 0, 0)
 			end
 		else

@@ -5,7 +5,7 @@ local function SkinSkada()
 	if not S.db.skada or not IsAddOnLoaded("Skada") then return end
 
 	local Skada = Skada
-	local barSpacing = R.Scale(1)
+	local barSpacing = R:Scale(1)
 	local bars = 8
 
 	local barmod = Skada.displays["bar"]

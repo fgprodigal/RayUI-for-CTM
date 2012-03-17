@@ -52,8 +52,9 @@ CH.LinkHoverShow = {
 }
 
 local function CreatCopyFrame()
+	local S = R:GetModule("Skins")
 	frame = CreateFrame("Frame", "CopyFrame", UIParent)
-	R.SetBD(frame)
+	S:SetBD(frame)
 	frame:Height(200)
 	frame:SetScale(1)
 	frame:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
@@ -66,7 +67,7 @@ local function CreatCopyFrame()
 	scrollArea:Point("TOPLEFT", frame, "TOPLEFT", 8, -30)
 	scrollArea:Point("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -30, 8)
 	
-	R.ReskinScroll(CopyScrollScrollBar)
+	S:ReskinScroll(CopyScrollScrollBar)
 
 	editBox = CreateFrame("EditBox", "CopyBox", frame)
 	editBox:SetMultiLine(true)
@@ -99,7 +100,7 @@ local function CreatCopyFrame()
 		frame:Hide()
 	end)
 	
-	R.ReskinClose(close)	
+	S:ReskinClose(close)	
 	close:ClearAllPoints()
 	close:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -7, -5)
 	isf = true
