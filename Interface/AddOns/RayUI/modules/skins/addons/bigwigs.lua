@@ -134,7 +134,7 @@ local function SkinBigWigs()
 		bar.candyBarBar.OldSetPoint = bar.candyBarBar.SetPoint
 		bar.candyBarBar.SetPoint=R.dummy
 		bar.candyBarBar:SetStatusBarTexture(R["media"].normal)
-		bar.candyBarBackground:SetTexture(unpack(C.media.backdropcolor))
+		bar.candyBarBackground:SetTexture(unpack(R["media"].backdropcolor))
 
 		-- setup icon positions and other things
 		bar.candyBarIconFrame.OldPoint, bar.candyBarIconFrame.Anchor, bar.candyBarIconFrame.OldPoint2, bar.candyBarIconFrame.XPoint, bar.candyBarIconFrame.YPoint  = bar.candyBarIconFrame:GetPoint()

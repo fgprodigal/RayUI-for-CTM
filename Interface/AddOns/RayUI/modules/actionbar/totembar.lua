@@ -97,7 +97,7 @@ function AB:StyleTotemOpenButton(button, _, parent)
 	if not button.visibleBut then
 		button.visibleBut = CreateFrame("Frame",nil,button)
 		button.visibleBut:Height(8)
-		button.visibleBut:Width(C["actionbar"].buttonsize)
+		button.visibleBut:Width(AB.db.buttonsize)
 		button.visibleBut:SetPoint("CENTER")
 		button.visibleBut.highlight = button.visibleBut:CreateTexture(nil,"HIGHLIGHT")
 		button.visibleBut.highlight:SetTexture([[Interface\Buttons\ButtonHilight-Square]])
@@ -118,7 +118,7 @@ function AB:StyleTotemSlotButton(button, slot)
 	button.background:Point("TOPLEFT",button,"TOPLEFT",2, -2)
 	button.background:Point("BOTTOMRIGHT",button,"BOTTOMRIGHT",-2, 2)
 	-- button.background:SetAllPoints()
-	if not InCombatLockdown() then button:Size(C["actionbar"].buttonsize) end
+	if not InCombatLockdown() then button:Size(AB.db.buttonsize) end
 	button:CreateBorder(unpack(bordercolors[((index-1) % 4) + 1]))
 	button:StyleButton()
 end
@@ -157,7 +157,7 @@ function AB:StyleTotemSpellButton(button, index)
 	button:CreateShadow("Background")
 	button.shadow:SetBackdropColor(0, 0, 0)
 	button:GetNormalTexture():SetTexture(nil)
-	if not InCombatLockdown() then button:Size(C["actionbar"].buttonsize) end
+	if not InCombatLockdown() then button:Size(AB.db.buttonsize) end
 	_G[button:GetName().."Highlight"]:SetTexture(nil)
 	_G[button:GetName().."NormalTexture"]:SetTexture(nil)
 	button:StyleButton()
