@@ -20,13 +20,12 @@ local function LoadSkin()
 				_G[j..i.."ItemButtonIconTexture"]:SetTexCoord(0.08, 0.92, 0.08, 0.92)
 				_G[j..i.."NameFrame"]:SetTexture(nil)
 
-				if not tradeItemButton.nameframe then
-					local nameframe = CreateFrame("Frame", nil, _G[j..i])
-					nameframe:Point("TOPLEFT", _G[j..i.."NameFrame"], 11, -14)
-					nameframe:Point("BOTTOMRIGHT", _G[j..i.."NameFrame"], -10, 14)
-					nameframe:SetFrameLevel(_G[j..i]:GetFrameLevel())
-					nameframe:SetFrameStrata(_G[j..i]:GetFrameStrata())
-					tradeItemButton.nameframe = nameframe
+				if not tradeItemButton.boder then
+					local boder = CreateFrame("Frame", nil, tradeItemButton)
+					boder:Point("TOPLEFT", 1, -1)
+					boder:Point("BOTTOMRIGHT", -1, 1)
+					boder:CreateBorder()
+					tradeItemButton.boder = boder
 				end
 				
 				tradeItemButton:StyleButton()
@@ -118,12 +117,12 @@ local function LoadSkin()
 			end
 			name:SetTextColor(GetItemQualityColor(quality))
 			if (quality <=1 ) then
-				glow:SetAllPoints()
+				glow:Point("TOPLEFT", 1, -1)
+				glow:Point("BOTTOMRIGHT", -1, 1)
 				glow:SetBackdropBorderColor(0, 0, 0)
 				button:SetBackdropColor(0, 0, 0, 0)
 			else
-				glow:Point("TOPLEFT", 1, -1)
-				glow:Point("BOTTOMRIGHT", -1, 1)
+				glow:SetAllPoints()
 				glow:SetBackdropBorderColor(GetItemQualityColor(quality))
 				button:SetBackdrop({
 					bgFile = R["media"].blank, 
@@ -131,7 +130,6 @@ local function LoadSkin()
 				})
 				button:SetBackdropColor(0, 0, 0)
 			end
-			glow:SetBackdropBorderColor(r, g, b)
 			glow:Show()
 		else
 			glow:Hide()

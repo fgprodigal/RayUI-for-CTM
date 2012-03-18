@@ -4,6 +4,9 @@ local LSM = LibStub("LibSharedMedia-3.0")
 SlashCmdList['RELOAD'] = function() ReloadUI() end
 SLASH_RELOAD1 = '/rl'
 
+local AddonNotSupported = {}
+local BlackList = {"bigfoot", "duowan", "163ui", "neavo", "sora"}
+
 R["RegisteredModules"] = {}
 
 function R:RegisterModule(name)
@@ -15,10 +18,110 @@ function R:RegisterModule(name)
 	end
 end
 
-function R:InitializeModules()	
-	for i = 1, #self["RegisteredModules"] do
-		if (self.db[self["RegisteredModules"][i]] == nil or self.db[self["RegisteredModules"][i]].enable ~= false) and self:GetModule(self["RegisteredModules"][i]).Initialize then
-			self:GetModule(self["RegisteredModules"][i]):Initialize()
+function R:TableIsEmpty(t)
+	if type(t) ~= "table" then 
+		return true
+	else
+		return next(t) == nil
+	end
+end
+
+local function CreateWarningFrame()
+	for index in pairs(AddonNotSupported) do
+		R:Print(GetAddOnInfo(index))
+	end
+	local S = R:GetModule("Skins")
+	local frame = CreateFrame("Frame", "RayUIWarningFrame", UIParent)
+	S:SetBD(frame)
+	frame:Size(400, 400)
+	frame:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
+	-- frame:Hide()
+	frame:EnableMouse(true)
+	frame:SetFrameStrata("DIALOG")
+	
+	local titile = frame:CreateFontString(nil, "OVERLAY")
+	titile:Point("TOPLEFT", 0, -10)
+	titile:Point("TOPRIGHT", 0, -10)
+	titile:SetFont(R["media"].font, R["media"].fontsize + 2, R["media"].fontflag)
+	titile:SetText("由于一些很复杂的原因, 关闭以下插件后才能正常使用|cff7aa6d6Ray|r|cffff0000U|r|cff7aa6d6I|r:")
+
+	local scrollArea = CreateFrame("ScrollFrame", "RayUIWarningFrameScroll", frame, "UIPanelScrollFrameTemplate")
+	scrollArea:Point("TOPLEFT", frame, "TOPLEFT", 8, -40)
+	scrollArea:Point("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -30, 50)
+	
+	S:ReskinScroll(RayUIWarningFrameScrollScrollBar)
+
+	local messageFrame = CreateFrame("EditBox", nil, frame)
+	messageFrame:SetFont(R["media"].font, R["media"].fontsize, R["media"].fontflag)
+	messageFrame:EnableMouse(false)
+	messageFrame:EnableKeyboard(false) 
+	messageFrame:SetMultiLine(true)
+	messageFrame:SetMaxLetters(99999)
+	messageFrame:Size(400, 400)
+
+	scrollArea:SetScrollChild(messageFrame)
+	
+	for i in pairs(AddonNotSupported) do
+		local name, title, notes, enabled, loadable, reason, security = GetAddOnInfo(i)
+		messageFrame:SetText(messageFrame:GetText().."\n"..name)
+	end
+	
+	local button1 = CreateFrame("Button", nil, frame, "UIPanelButtonTemplate")
+	button1:Size(150, 30)
+	button1:Point("BOTTOMLEFT", 10, 10)
+	S:Reskin(button1)
+	button1:SetText("帮我关掉它们")
+	button1:SetScript("OnClick", function()
+		for i = 1, GetNumAddOns() do
+			if AddonNotSupported[i] then
+				DisableAddOn(i)
+			end
+		end
+		ReloadUI()
+	end)
+	
+	local button2 = CreateFrame("Button", nil, frame, "UIPanelButtonTemplate")
+	button2:Size(150, 30)
+	button2:Point("BOTTOMRIGHT", -10, 10)
+	S:Reskin(button2)
+	button2:SetText("不，我需要它们")
+	button2:SetScript("OnClick", function()
+		for i = 1, GetNumAddOns() do
+			if GetAddOnInfo(i) == "RayUI" then
+				DisableAddOn(i)
+			end
+		end
+		ReloadUI()
+	end)
+end
+
+local function CheckAddon()
+	for i = 1, GetNumAddOns() do
+		local name, title, notes, enabled, loadable, reason, security = GetAddOnInfo(i)
+		if enabled then
+			for _, word in pairs(BlackList) do
+				if (name and name:lower():find(word)) or (title and title:lower():find(word)) then
+					AddonNotSupported[i] = true
+				end
+			end
+		end
+	end
+	if R:TableIsEmpty(AddonNotSupported) then
+		return false
+	else
+		CreateWarningFrame()
+		return true
+	end
+end
+
+function R:InitializeModules()
+	if CheckAddon() then
+		return
+	else
+		for i = 1, #self["RegisteredModules"] do
+			if (self.db[self["RegisteredModules"][i]] == nil or self.db[self["RegisteredModules"][i]].enable ~= false) and self:GetModule(self["RegisteredModules"][i]).Initialize then
+				self:GetModule(self["RegisteredModules"][i]):Initialize()
+			end
 		end
 	end
 end
@@ -98,14 +201,6 @@ function R:ShortValue(v)
 		return ("%.1fk"):format(v / 1e3):gsub("%.?0+([km])$", "%1")
 	else
 		return v
-	end
-end
-
-function R:TableIsEmpty(t)
-	if type(t) ~= "table" then 
-		return true
-	else
-		return _G.next(t) == nil
 	end
 end
 

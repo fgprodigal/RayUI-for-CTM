@@ -164,16 +164,6 @@ function AddOn:PLAYER_ENTERING_WORLD()
 	Advanced_UseUIScale:Kill()
 	SetCVar("useUiScale", 1)
 	SetCVar("uiScale", AddOn.db.general.uiscale)
-	
-	for i = 1, GetNumAddOns() do
-		if IsAddOnLoaded(i) then
-			for _, v in pairs({GetAddOnInfo(i)}) do
-				if v and type(v) == 'string' and (v:lower():find("sora") or v:lower():find("neavo")) then
-					while true do end
-				end
-			end
-		end
-	end	
 	DEFAULT_CHAT_FRAME:AddMessage("欢迎使用|cff7aa6d6Ray|r|cffff0000U|r|cff7aa6d6I|r(v"..AddOn.version..")，插件发布网址: |cff8A9DDE[|Hurl:http://fgprodigal.com|hhttp://fgprodigal.com|h]|r")
 	self:UnregisterEvent("PLAYER_ENTERING_WORLD" )
 	
