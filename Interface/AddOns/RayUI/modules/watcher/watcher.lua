@@ -93,10 +93,6 @@ function watcherPrototype:CreateButton(mode)
 	self.parent:SetSize(self.size, self.size)
 	button.icon = button:CreateTexture(nil, "ARTWORK")
 	button.icon:SetAllPoints()
-	button.count = button:CreateFontString(nil, "OVERLAY")
-	button.count:SetFont(R["media"].font, R["media"].fontsize * (R:Round(self.size) / 30), R["media"].fontflag)
-	button.count:SetPoint("BOTTOMRIGHT", button , "BOTTOMRIGHT", 4, -4)
-	button.count:SetJustifyH("RIGHT")
 	button:SetScript("OnEnter", function(self)
 			GameTooltip:SetOwner(self, "ANCHOR_TOP")
 			if not RW.testing then
@@ -151,6 +147,10 @@ function watcherPrototype:CreateButton(mode)
 		button.cooldown:SetReverse()
 		button.mode = "ICON"	
 	end
+	button.count = button:CreateFontString(nil, "OVERLAY")
+	button.count:SetFont(R["media"].font, R["media"].fontsize * (R:Round(self.size) / 30), R["media"].fontflag)
+	button.count:SetPoint("BOTTOMRIGHT", button , "BOTTOMRIGHT", 4, -4)
+	button.count:SetJustifyH("RIGHT")
 	button.owner = self
 	return button
 end
@@ -490,6 +490,7 @@ function watcherPrototype:PLAYER_ENTERING_WORLD()
 end
 
 function RW:Initialize()
+	SpellActivationOverlayFrame:SetFrameStrata("BACKGROUND")
 	self:GetConfig()
 	if type(self.config[R.myclass]) == "table" then
 		for _, t in ipairs(self.config[R.myclass]) do

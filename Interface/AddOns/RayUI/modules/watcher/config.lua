@@ -551,6 +551,8 @@ function RW:GetConfig()
 				{ spellID = 31821, unitId = "player", caster = "player", filter = "BUFF" },
 				--聖佑術
 				{ spellID = 498, unitId = "player", caster = "player", filter = "BUFF" },
+				--戰爭藝術
+				{ spellID = 59578, unitId = "player", caster = "player", filter = "BUFF" },
 			},
 			{
 				name = "目标debuff",
