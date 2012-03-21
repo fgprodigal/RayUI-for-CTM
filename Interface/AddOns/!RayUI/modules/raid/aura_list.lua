@@ -44,9 +44,10 @@ ns.auras = {
 			[GetSpellInfo(103434)] = 7, -- Disrupting Shadows(崩解之影)
 
 			-- Yor'sahj
+			[105171] = 8, -- Deep Corruption(深度腐化)
+			[109389] = 8, -- Deep Corruption(深度腐化)
 			[GetSpellInfo(105171)] = 7, -- Deep Corruption(深度腐化)
-			--[GetSpellInfo(103628)] = 7, -- Deep Corruption(深度腐化)
-			[GetSpellInfo(104849)] = 8,  -- Void Bolt(虛無箭)
+			[GetSpellInfo(104849)] = 9,  -- Void Bolt(虛無箭)
 
 			-- Hagara
 			[GetSpellInfo(104451)] = 7,  -- Ice Tomb(寒冰之墓)
