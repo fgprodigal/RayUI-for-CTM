@@ -176,7 +176,7 @@ function watcherPrototype:UpdateButton(button, index, icon, count, duration, exp
 	button:Show()
 end
 
-local function BarUpdate(self, elapsed)
+local function OnUpdate(self, elapsed)
 	if self.spellID then
 		if self.filter == "BUFF" or self.filter == "DEBUFF" then
 			local _, _, _, _, _, duration, expires = (self.filter == "BUFF" and UnitBuff or UnitDebuff)(self.unitID, self.index)
@@ -235,7 +235,7 @@ function watcherPrototype:CheckAura(num)
 						end
 						self:UpdateButton(self.button[num], index, icon, count, duration, expires, spellID, unitID, "BUFF")
 						if self.mode == "BAR" then
-							self.button[num]:SetScript("OnUpdate", BarUpdate)
+							self.button[num]:SetScript("OnUpdate", OnUpdate)
 						else
 							self.button[num]:SetScript("OnUpdate", nil)
 						end
@@ -260,7 +260,7 @@ function watcherPrototype:CheckAura(num)
 						end	
 						self:UpdateButton(self.button[num], index, icon, count, duration, expires, spellID, unitID, "DEBUFF")
 						if self.mode == "BAR" then
-							self.button[num]:SetScript("OnUpdate", BarUpdate)
+							self.button[num]:SetScript("OnUpdate", OnUpdate)
 						else
 							self.button[num]:SetScript("OnUpdate", nil)
 						end
@@ -286,11 +286,7 @@ function watcherPrototype:CheckCooldown(num)
 						self:SetPosition(num)
 					end	
 					self:UpdateButton(self.button[num], nil, icon, 0, duration, start, spellID, nil, "CD")
-					if self.mode == "BAR" then
-						self.button[num]:SetScript("OnUpdate", BarUpdate)
-					else
-						self.button[num]:SetScript("OnUpdate", nil)
-					end
+					self.button[num]:SetScript("OnUpdate", OnUpdate)
 					num = num + 1
 				end
 			end
@@ -307,11 +303,7 @@ function watcherPrototype:CheckCooldown(num)
 						self:SetPosition(num)
 					end	
 					self:UpdateButton(self.button[num], nil, icon, 0, duration, start, itemID, nil, "itemCD")
-					if self.mode == "BAR" then
-						self.button[num]:SetScript("OnUpdate", BarUpdate)
-					else
-						self.button[num]:SetScript("OnUpdate", nil)
-					end
+					self.button[num]:SetScript("OnUpdate", OnUpdate)
 					num = num + 1
 				end
 			end
