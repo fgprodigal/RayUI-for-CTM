@@ -62,7 +62,7 @@ function UF:ContructHealthBar(frame, bg, text)
 	local health = CreateFrame('StatusBar', nil, frame)
 	health:SetStatusBarTexture(R["media"].normal)
 	health:SetFrameStrata("LOW")
-	health.frequentUpdates = 0.2
+	health.frequentUpdates = true
 	health.PostUpdate = UF.PostUpdateHealth
 
 	if self.db.smooth == true then
@@ -103,7 +103,7 @@ end
 function UF:ConstructPowerBar(frame, bg, text)
 	local power = CreateFrame('StatusBar', nil, frame)
 	power:SetStatusBarTexture(R["media"].normal)
-	power.frequentUpdates = 0.2
+	power.frequentUpdates = true
 	power:SetFrameStrata("LOW")
 	power.PostUpdate = self.PostUpdatePower
 	
@@ -580,7 +580,7 @@ end
 
 function UF:PostUpdateHealth(unit, cur, max)
 	local curhealth, maxhealth = UnitHealth(unit), UnitHealthMax(unit)
-	local r, g, b
+	local r, g, b = self:GetStatusBarColor()
 	if UF.db.smoothColor then
 		r,g,b = ColorGradient(curhealth/maxhealth)
 	else
@@ -610,8 +610,6 @@ function UF:PostUpdateHealth(unit, cur, max)
 			end
 			return self.value:SetFormattedText("|cff%02x%02x%02x%s|r", color[1] * 255, color[2] * 255, color[3] * 255, UnitIsGhost(unit) and GHOST or DEAD)
 		end
-	end
-	if not UF.db.healthColorClass then
 		if UF.db.smoothColor then
 			if UnitIsDeadOrGhost(unit) or (not UnitIsConnected(unit)) then
 				self:SetStatusBarColor(0.5, 0.5, 0.5, 1)
@@ -802,7 +800,7 @@ function UF:PostUpdateIcon(unit, icon, index, offset)
 	local name, _, _, _, dtype, duration, expirationTime, unitCaster, canStealOrPurge = UnitAura(unit, index, icon.filter)
 
 	local texture = icon.icon
-	if icon.debuff then
+	if icon.isDebuff then
 		if icon.owner == "player" or icon.owner == "pet" or icon.owner == "vehicle" or UnitIsFriend('player', unit) then
 			local color = DebuffTypeColor[dtype] or DebuffTypeColor.none
 			icon.border:SetBackdropBorderColor(color.r * 0.6, color.g * 0.6, color.b * 0.6)
@@ -989,7 +987,7 @@ local function TestUF(msg)
 			return 'penancelol', 'Rank 2', 'Interface\\Icons\\Spell_Holy_Penance', random(5), 'Magic', 0, 0, "player"
 		end
 		if(oUF) then
-			for i, v in pairs(oUF.units) do
+			for i, v in pairs(oUF.objects) do
 				if(v.UNIT_AURA) then
 					v:UNIT_AURA("UNIT_AURA", v.unit)
 				end

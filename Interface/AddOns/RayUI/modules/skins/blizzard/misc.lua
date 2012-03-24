@@ -561,9 +561,6 @@ local function LoadSkin()
 	for i = 1, #lightbds do
 		S:CreateBD(_G[lightbds[i]], .25)
 	end
-	
-	--公会挑战框
-	GuildChallengeAlertFrame:Kill()
 
 	--实名好友弹窗位置
 	BNToastFrameCloseButton:SetAlpha(0)

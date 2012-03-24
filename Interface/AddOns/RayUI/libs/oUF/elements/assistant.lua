@@ -1,12 +1,52 @@
+--[[ Element: Assistant Icon
+ Toggles visibility of `self.Assistant` based on the units raid officer status.
+
+ Widget
+
+ Assistant - Any UI widget.
+
+ Notes
+
+ The default assistant icon will be applied if the UI widget is a texture and
+ doesn't have a texture or color defined.
+
+ Examples
+
+   -- Position and size
+   local Assistant = self:CreateTexture(nil, "OVERLAY")
+   Assistant:SetSize(16, 16)
+   Assistant:SetPoint('TOP', self)
+   
+   -- Register it with oUF
+   self.Assistant = Assistant
+
+ Hooks
+
+ Override(self) - Used to completely override the internal update function.
+                  Removing the table key entry will make the element fall-back
+                  to its internal function again.
+]]
+
 local parent, ns = ...
 local oUF = ns.oUF
 
 local Update = function(self, event)
+	local assistant = self.Assistant
+
+	if(assistant.PreUpdate) then
+		assistant:PreUpdate()
+	end
+
 	local unit = self.unit
-	if(UnitInRaid(unit) and UnitIsRaidOfficer(unit) and not UnitIsPartyLeader(unit)) then
-		self.Assistant:Show()
+	local isAssistant = UnitInRaid(unit) and UnitIsRaidOfficer(unit) and not UnitIsPartyLeader(unit)
+	if(isAssistant) then
+		assistant:Show()
 	else
-		self.Assistant:Hide()
+		assistant:Hide()
+	end
+
+	if(assistant.PostUpdate) then
+		return assistant:PostUpdate(isAssistant)
 	end
 end
 
@@ -21,7 +61,7 @@ end
 local Enable = function(self)
 	local assistant = self.Assistant
 	if(assistant) then
-		self:RegisterEvent("PARTY_MEMBERS_CHANGED", Path)
+		self:RegisterEvent("PARTY_MEMBERS_CHANGED", Path, true)
 
 		if(assistant:IsObjectType"Texture" and not assistant:GetTexture()) then
 			assistant:SetTexture[[Interface\GroupFrame\UI-Group-AssistantIcon]]

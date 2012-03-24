@@ -254,6 +254,8 @@ local Update = function(self, event, unit)
     local index = 1
     while true do
         local name, rank, texture, count, dtype, duration, expires, caster, _, _, spellID = UnitDebuff(unit, index)
+    -- while true and index < 20 do
+        -- local name, rank, texture, count, dtype, duration, expires, caster, _, _, spellID = UnitAura(unit, index, "HARMFUL")
         if not name then break end
         
         local show = CustomFilter(auras, unit, icon, name, rank, texture, count, dtype, duration, expires, caster, spellID)

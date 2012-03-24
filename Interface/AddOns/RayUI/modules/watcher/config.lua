@@ -188,6 +188,14 @@ function RW:GetConfig()
 				{ spellID = 82925, unitId = "player", caster = "player", filter = "BUFF" },
 				--蓄勢待發
 				{ spellID = 56453, unitId = "player", caster = "player", filter = "BUFF" },
+				--狂亂效果
+				{ spellID = 19615, unitId = "pet", caster = "pet", filter = "BUFF" },
+				--獸心
+				{ spellID = 34471, unitId = "player", caster = "player", filter = "BUFF" },
+				--擊殺命令
+				{ spellID = 34026, filter = "CD" },
+				--爆裂射擊
+				{ spellID = 53301, filter = "CD" },
 
 			},
 			{

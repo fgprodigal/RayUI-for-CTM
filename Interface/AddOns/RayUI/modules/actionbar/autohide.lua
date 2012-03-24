@@ -122,4 +122,14 @@ function AB:EnableAutoHide()
 			FadeOutActionButton()
 		end
 	end)
+	
+	-- function AB:Test()
+		-- if StaticPopup1:IsShown() then
+			-- FadeInActionButton()
+		-- else
+			-- FadeOutActionButton()
+		-- end
+	-- end
+
+	-- AB:SecureHook(self, "ActivateBindMode", "Test")
 end

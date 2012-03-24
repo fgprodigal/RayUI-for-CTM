@@ -83,17 +83,13 @@ function UF:GetOptions()
 	return options
 end
 
-function UF:PLAYER_LOGIN()
+function UF:Initialize()
 	for layout, spawnFunc in pairs(UF.Layouts) do
 		if spawnFunc then
 			spawnFunc(self)
 		end
 	end
 	wipe(UF.Layouts)
-end
-
-function UF:Initialize()
-	self:RegisterEvent("PLAYER_LOGIN")
 end
 
 function UF:Info()

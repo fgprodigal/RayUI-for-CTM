@@ -22,7 +22,7 @@ function RA:Hex(r, g, b)
 end
 
 -- Unit Menu
-local dropdown = CreateFrame("Frame", "RayUIRaidDropDown", UIParent, "UIDropDownMenuTemplate")
+local dropdown = CreateFrame("Frame", "RayUFRaidDropDown", UIParent, "UIDropDownMenuTemplate")
 
 local function menu(self)
     dropdown:SetParent(self)
@@ -123,14 +123,14 @@ local function updateThreat(self, event, unit)
     self.Threat:Show()
 end
 
-oUF.Tags["RayUIRaid:name"] = function(u, r)
+oUF.Tags.Methods["RayUFRaid:name"] = function(u, r)
     local name = (u == "vehicle" and UnitName(r or u)) or UnitName(u)
 
     if RA.nameCache[name] then
         return RA.nameCache[name]
     end
 end
-oUF.TagEvents["RayUIRaid:name"] = "UNIT_NAME_UPDATE"
+oUF.Tags.Events["RayUFRaid:name"] = "UNIT_NAME_UPDATE"
 
 RA.nameCache = {}
 RA.colorCache = {}
@@ -254,7 +254,7 @@ local function PostPower(power, unit)
 	-- self.Health:SetHeight((1 - RA.db.powerbarsize)*self:GetHeight()-1)
 	self.Health:Point("BOTTOM", self.Power, "TOP", 0, 1)
 
-    local perc = oUF.Tags["perpp"](unit)
+    local perc = oUF.Tags.Methods["perpp"](unit)
     -- This kinda conflicts with the threat module, but I don't really care
     if (perc < 10 and UnitIsConnected(unit) and ptype == "MANA" and not UnitIsDeadOrGhost(unit)) then
         self.Threat:SetBackdropBorderColor(0, 0, 1, 1)
@@ -369,7 +369,7 @@ local function style(self)
     name:SetWidth(RA.db.width)
     name.overrideUnit = true
     self.Name = name
-    self:Tag(self.Name, "[RayUIRaid:name]")
+    self:Tag(self.Name, "[RayUFRaid:name]")
 
     RA:UpdateName(self.Name)
 
@@ -494,6 +494,7 @@ function RA:SpawnHeader(name, group, temp, pet, MT, layout)
     local horiz, grow = RA.db.horizontal, RA.db.growth
 	local width, height = RA.db.width, RA.db.height
 	local visibility = "custom [@raid16,noexists] hide;show"
+	-- local visibility = "solo, party, raid"
 	
 	if layout == 15 then
 		width = width * 1.3
@@ -580,14 +581,15 @@ function RA:SpawnRaid()
 		edgeFile = R["media"].glow, edgeSize = R:Scale(5),
 		insets = {left = R:Scale(3), right = R:Scale(3), top = R:Scale(3), bottom = R:Scale(3)}
 	}
-	oUF:RegisterStyle("RayUIRaid", style)
-	oUF:SetActiveStyle("RayUIRaid")
+	oUF:RegisterStyle("RayUFRaid10", style)
+	oUF:RegisterStyle("RayUFRaid25", style)
+	oUF:SetActiveStyle("RayUFRaid10")
 	RA:Colors()
 	CompactRaidFrameContainer:Kill()
 	CompactRaidFrameManager:Kill()
 	local raid10 = {}
 	for i=1, 3 do
-		local group = self:SpawnHeader("RayUIRaid10_"..i, i, nil, nil, nil, 15)
+		local group = self:SpawnHeader("RayUFRaid10_"..i, i, nil, nil, nil, 15)
 		if i == 1 then
 			group:Point("TOPLEFT", UIParent, "BOTTOMRIGHT", - RA.db.width*1.3*3 -  RA.db.spacing*2 - 50, 461)
 		else
@@ -596,10 +598,10 @@ function RA:SpawnRaid()
 		raid10[i] = group
 		RA._Headers[group:GetName()] = group
 	end
-
+	oUF:SetActiveStyle("RayUFRaid25")
 	local raid25 = {}
 	for i=1, RA.db.numCol do
-		local group = self:SpawnHeader("RayUIRaid25_"..i, i)
+		local group = self:SpawnHeader("RayUFRaid25_"..i, i)
 		if i == 1 then
 			group:Point("TOPLEFT", UIParent, "BOTTOMRIGHT", - RA.db.width*5 -  RA.db.spacing*4 - 50, 422)
 		else

@@ -16,7 +16,7 @@ local AfkTime = function(s)
     return min..":"..sec
 end
 
-oUF.Tags['RayUIRaid:afk'] = function(u)
+oUF.Tags.Methods['RayUIRaid:afk'] = function(u)
     local name = UnitName(u)
     if(RA.db.afk and (UnitIsAFK(u) or not UnitIsConnected(u))) then
         if not timer[name] then
@@ -29,7 +29,7 @@ oUF.Tags['RayUIRaid:afk'] = function(u)
         timer[name] = nil
     end
 end
-oUF.TagEvents['RayUIRaid:afk'] = 'PLAYER_FLAGS_CHANGED UNIT_CONNECTION'
+oUF.Tags.Events['RayUIRaid:afk'] = 'PLAYER_FLAGS_CHANGED UNIT_CONNECTION'
 
 local Enable = function(self)
     if not self.freebAfk then return end

@@ -74,6 +74,42 @@ local function LoadSkin()
 			select(i, DungeonCompletionAlertFrame1:GetRegions()):Hide()
 		end
 	end)
+	
+	--Guild Alert
+	--/run GuildChallengeAlertFrame_ShowAlert(3, 2, 5)
+	hooksecurefunc("GuildChallengeAlertFrame_FixAnchors", function()
+		local aFrame
+		for i=MAX_ACHIEVEMENT_ALERTS, 1, -1 do
+			if _G["AchievementAlertFrame"..i] and _G["AchievementAlertFrame"..i]:IsShown() then
+				aFrame = _G["AchievementAlertFrame"..i]
+			end
+		end
+		
+		if DungeonCompletionAlertFrame1:IsShown() then
+			aFrame = DungeonCompletionAlertFrame1
+		end
+		
+		if aFrame == nil then
+			aFrame = AchievementHolder
+		end
+		
+		GuildChallengeAlertFrame:ClearAllPoints()
+		if pos == "TOP" then
+			GuildChallengeAlertFrame:SetPoint("TOP", aFrame, "BOTTOM", 0, -10)
+		else
+			GuildChallengeAlertFrame:SetPoint("BOTTOM", aFrame, "TOP", 0, 10)
+		end
+	end)
+	
+	for i=1, GuildChallengeAlertFrame:GetNumRegions() do
+		local region = select(i, GuildChallengeAlertFrame:GetRegions()) 
+		if region and region:GetObjectType() == "Texture" and not region:GetName() then
+			region:SetTexture(nil)
+		end
+	end
+	
+	S:SetBD(GuildChallengeAlertFrame)
+	GuildChallengeAlertFrame:Height(65)
 end
 
 S:RegisterSkin("RayUI", LoadSkin)

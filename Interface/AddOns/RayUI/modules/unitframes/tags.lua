@@ -5,9 +5,9 @@ local oUF = RayUF or oUF
 
 local siValue = function(val)
     if(val >= 1e6) then
-        return ('%.1fm'):format(val / 1e6):gsub('%.?0+([km])$', '%1')
+        return ("%.1fm"):format(val / 1e6):gsub("%.?0+([km])$", "%1")
     elseif(val >= 1e4) then
-        return ('%.1fk'):format(val / 1e3):gsub('%.?0+([km])$', '%1')
+        return ("%.1fk"):format(val / 1e3):gsub("%.?0+([km])$", "%1")
     else
         return val
     end
@@ -45,10 +45,10 @@ end
 local function hex(r, g, b)
     if not r then return "|cffFFFFFF" end
 
-    if(type(r) == 'table') then
+    if(type(r) == "table") then
         if(r.r) then r, g, b = r.r, r.g, r.b else r, g, b = unpack(r) end
     end
-    return ('|cff%02x%02x%02x'):format(r * 255, g * 255, b * 255)
+    return ("|cff%02x%02x%02x"):format(r * 255, g * 255, b * 255)
 end
 
 do
@@ -66,7 +66,7 @@ do
 	rcolor[8][1], rcolor[8][2], rcolor[8][3] = 0.2, 1,   0.2 -- Exalted
 end
 
-oUF.Tags['RayUF:lvl'] = function(u) 
+oUF.Tags.Methods["RayUF:lvl"] = function(u) 
     local level = UnitLevel(u)
     local typ = UnitClassification(u)
     local color = GetQuestDifficultyColor(level)
@@ -77,17 +77,17 @@ oUF.Tags['RayUF:lvl'] = function(u)
     end
 
     if typ=="rareelite" then
-        return hex(color)..level..'r+|r'
+        return hex(color)..level.."r+|r"
     elseif typ=="elite" then
-        return hex(color)..level..'+|r'
+        return hex(color)..level.."+|r"
     elseif typ=="rare" then
-        return hex(color)..level..'r|r'
+        return hex(color)..level.."r|r"
     else
-        return hex(color)..level..'|r'
+        return hex(color)..level.."|r"
     end
 end
 
-oUF.Tags['RayUF:hp']  = function(u)
+oUF.Tags.Methods["RayUF:hp"]  = function(u)
 		local color
 		if UnitIsPlayer(u) then
 			local _, class = UnitClass(u)
@@ -103,9 +103,9 @@ oUF.Tags['RayUF:hp']  = function(u)
     -- return siValue(min).." | "..math.floor(min/max*100+.5).."%"
     return format("|cff%02x%02x%02x%s|r", color[1] * 255, color[2] * 255, color[3] * 255, siValue(min).." | "..math.floor(min/max*100+.5).."%")
 end
-oUF.TagEvents['RayUF:hp'] = 'UNIT_HEALTH'
+oUF.Tags.Events["RayUF:hp"] = "UNIT_HEALTH"
 
-oUF.Tags['RayUF:pp'] = function(u)
+oUF.Tags.Methods["RayUF:pp"] = function(u)
     local _, str = UnitPowerType(u)
     local power = UnitPower(u)
 
@@ -114,9 +114,9 @@ oUF.Tags['RayUF:pp'] = function(u)
         return hex(oUF.colors.power[str])..siValue(min).." | "..math.floor(min/max*100+.5).."%".."|r"
     end
 end
-oUF.TagEvents['RayUF:pp'] = 'UNIT_POWER'
+oUF.Tags.Events["RayUF:pp"] = "UNIT_POWER"
 
-oUF.Tags['RayUF:color'] = function(u, r)
+oUF.Tags.Methods["RayUF:color"] = function(u, r)
     local _, class = UnitClass(u)
     local reaction = UnitReaction(u, "player")
 
@@ -130,34 +130,34 @@ oUF.Tags['RayUF:color'] = function(u, r)
         return hex(1, 1, 1)
     end
 end
---oUF.TagEvents['RayUF:color'] = 'UNIT_REACTION UNIT_HEALTH UNIT_HAPPINESS'
+oUF.Tags.Events["RayUF:color"] = "UNIT_POWER"
 
-oUF.Tags['RayUF:name'] = function(u, r)
+oUF.Tags.Methods["RayUF:name"] = function(u, r)
     local name = UnitName(r or u)
     return name
 end
-oUF.TagEvents['RayUF:name'] = 'UNIT_NAME_UPDATE'
+oUF.Tags.Events["RayUF:name"] = "UNIT_NAME_UPDATE"
 
-oUF.Tags['raid:name'] = function(u, r)
+oUF.Tags.Methods["raid:name"] = function(u, r)
     local name = UnitName(realUnit or u or r)
     return utf8sub(name, 4, false)
 end
-oUF.TagEvents['raid:name'] = 'UNIT_NAME_UPDATE'
+oUF.Tags.Events["raid:name"] = "UNIT_NAME_UPDATE"
 
-oUF.Tags['RayUF:info'] = function(u)
+oUF.Tags.Methods["RayUF:info"] = function(u)
     if UnitIsDead(u) then
-        return oUF.Tags['RayUF:lvl'](u).."|cffCFCFCF 死亡|r"
+        return oUF.Tags.Methods["RayUF:lvl"](u).."|cffCFCFCF 死亡|r"
     elseif UnitIsGhost(u) then
-        return oUF.Tags['RayUF:lvl'](u).."|cffCFCFCF 靈魂|r"
+        return oUF.Tags.Methods["RayUF:lvl"](u).."|cffCFCFCF 靈魂|r"
     elseif not UnitIsConnected(u) then
-        return oUF.Tags['RayUF:lvl'](u).."|cffCFCFCF 離線|r"
+        return oUF.Tags.Methods["RayUF:lvl"](u).."|cffCFCFCF 離線|r"
     else
-        return oUF.Tags['RayUF:lvl'](u)
+        return oUF.Tags.Methods["RayUF:lvl"](u)
     end
 end
-oUF.TagEvents['RayUF:info'] = 'UNIT_HEALTH'
+oUF.Tags.Events["RayUF:info"] = "UNIT_HEALTH"
 
-oUF.Tags['freebraid:info'] = function(u)
+oUF.Tags.Methods["freebraid:info"] = function(u)
     local _, class = UnitClass(u)
 
     if class then
@@ -170,29 +170,29 @@ oUF.Tags['freebraid:info'] = function(u)
         end
     end
 end
-oUF.TagEvents['freebraid:info'] = 'UNIT_HEALTH UNIT_CONNECTION'
+oUF.Tags.Events["freebraid:info"] = "UNIT_HEALTH UNIT_CONNECTION"
 
-oUF.Tags['RayUF:curxp'] = function(unit)
+oUF.Tags.Methods["RayUF:curxp"] = function(unit)
     return siValue(UnitXP(unit))
 end
 
-oUF.Tags['RayUF:maxxp'] = function(unit)
+oUF.Tags.Methods["RayUF:maxxp"] = function(unit)
     return siValue(UnitXPMax(unit))
 end
 
-oUF.Tags['RayUF:perxp'] = function(unit)
+oUF.Tags.Methods["RayUF:perxp"] = function(unit)
     return math.floor(UnitXP(unit) / UnitXPMax(unit) * 100 + 0.5)
 end
 
-oUF.TagEvents['RayUF:curxp'] = 'PLAYER_XP_UPDATE PLAYER_LEVEL_UP'
-oUF.TagEvents['RayUF:maxxp'] = 'PLAYER_XP_UPDATE PLAYER_LEVEL_UP'
-oUF.TagEvents['RayUF:perxp'] = 'PLAYER_XP_UPDATE PLAYER_LEVEL_UP'
+oUF.Tags.Events["RayUF:curxp"] = "PLAYER_XP_UPDATE PLAYER_LEVEL_UP"
+oUF.Tags.Events["RayUF:maxxp"] = "PLAYER_XP_UPDATE PLAYER_LEVEL_UP"
+oUF.Tags.Events["RayUF:perxp"] = "PLAYER_XP_UPDATE PLAYER_LEVEL_UP"
 
-oUF.Tags['RayUF:altpower'] = function(u)
+oUF.Tags.Methods["RayUF:altpower"] = function(u)
 	local cur = UnitPower(u, ALTERNATE_POWER_INDEX)
 	local max = UnitPowerMax(u, ALTERNATE_POWER_INDEX)
     local per = floor(cur/max*100)
     
     return format("%d", per > 0 and per or 0).."%"
 end
-oUF.TagEvents['RayUF:altpower'] = "UNIT_POWER UNIT_MAXPOWER"
+oUF.Tags.Events["RayUF:altpower"] = "UNIT_POWER UNIT_MAXPOWER"

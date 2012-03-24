@@ -237,12 +237,8 @@ function RA:GetOptions()
 	return options
 end
 
-function RA:PLAYER_LOGIN()
-	self:SpawnRaid()
-end
-
 function RA:Initialize()
-	self:RegisterEvent("PLAYER_LOGIN")
+	self:SpawnRaid()
 end
 
 function RA:Info()

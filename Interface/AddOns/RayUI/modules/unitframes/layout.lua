@@ -35,14 +35,14 @@ local UnitFrame_OnLeave = function(self)
 	end
 end
 
+local function Fader(frame)
+	frame.Fader = true
+	frame.FadeSmooth = 0.5
+	frame.FadeMinAlpha = 0
+	frame.FadeMaxAlpha = 1
+end
+
 function UF:DPSLayout(frame, unit)
-	local function Fader(frame)
-		frame.Fader = true
-		frame.FadeSmooth = 0.5
-		frame.FadeMinAlpha = 0
-		frame.FadeMaxAlpha = 1
-	end
-	
 	-- Register Frames for Click
 	frame:RegisterForClicks("AnyUp")
 	frame:SetScript("OnEnter", UnitFrame_OnEnter)
@@ -882,10 +882,10 @@ function UF:DPSLayout(frame, unit)
 end
 
 function UF:LoadDPSLayout()
-	oUF:RegisterStyle("Ray", function(frame, unit)
+	oUF:RegisterStyle("RayUF", function(frame, unit)
 		UF:DPSLayout(frame, unit)
 	end)
-	oUF:SetActiveStyle("Ray")
+	oUF:SetActiveStyle("RayUF")
 	-- Player
 	local player = oUF:Spawn("player", "RayUF_player")
 	player:Point("BOTTOMRIGHT", UIParent, "BOTTOM", -80, 390)

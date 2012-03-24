@@ -147,7 +147,7 @@ function watcherPrototype:CreateButton(mode)
 		button.cooldown:SetReverse()
 		button.mode = "ICON"	
 	end
-	button.count = button:CreateFontString(nil, "OVERLAY")
+	button.count = (button.cooldown or button):CreateFontString(nil, "OVERLAY")
 	button.count:SetFont(R["media"].font, R["media"].fontsize * (R:Round(self.size) / 30), R["media"].fontflag)
 	button.count:SetPoint("BOTTOMRIGHT", button , "BOTTOMRIGHT", 4, -4)
 	button.count:SetJustifyH("RIGHT")
@@ -174,7 +174,7 @@ function watcherPrototype:UpdateButton(button, index, icon, count, duration, exp
 	button:Show()
 end
 
-local function BarUpdate(self, elapsed)
+local function OnUpdate(self, elapsed)
 	if self.spellID then
 		if self.filter == "BUFF" or self.filter == "DEBUFF" then
 			local _, _, _, _, _, duration, expires = (self.filter == "BUFF" and UnitBuff or UnitDebuff)(self.unitID, self.index)
@@ -218,7 +218,7 @@ local function BarUpdate(self, elapsed)
 	end
 end
 
-function watcherPrototype:CheckAura(num)
+function watcherPrototype:CheckAura()
 	if self.BUFF then
 		for unitID in pairs(self.BUFF.unitIDs) do
 			if self.BUFF.unitIDs[unitID] then
@@ -227,17 +227,17 @@ function watcherPrototype:CheckAura(num)
 					local spellName, _, icon, count, _, duration, expires, caster, _, _, spellID = UnitBuff(unitID,index)
 					if (self.BUFF[spellID] and self.BUFF[spellID].unitID == unitID and ( caster == self.BUFF[spellID].caster or self.BUFF[spellID].caster:lower() == "all" )) or
 						(self.BUFF[spellName] and self.BUFF[spellName].unitID == unitID and ( caster == self.BUFF[spellName].caster or self.BUFF[spellName].caster:lower() == "all" )) then
-						if not self.button[num] then
-							self.button[num] = self:CreateButton(self.mode)					
-							self:SetPosition(num)
+						if not self.button[self.current] then
+							self.button[self.current] = self:CreateButton(self.mode)					
+							self:SetPosition(self.current)
 						end
-						self:UpdateButton(self.button[num], index, icon, count, duration, expires, spellID, unitID, "BUFF")
+						self:UpdateButton(self.button[self.current], index, icon, count, duration, expires, spellID, unitID, "BUFF")
 						if self.mode == "BAR" then
-							self.button[num]:SetScript("OnUpdate", BarUpdate)
+							self.button[self.current]:SetScript("OnUpdate", OnUpdate)
 						else
-							self.button[num]:SetScript("OnUpdate", nil)
+							self.button[self.current]:SetScript("OnUpdate", nil)
 						end
-						num = num + 1
+						self.current = self.current + 1
 					end
 					index = index + 1
 				end
@@ -252,44 +252,39 @@ function watcherPrototype:CheckAura(num)
 					local spellName, _, icon, count, _, duration, expires, caster, _, _, spellID = UnitDebuff(unitID,index)
 					if (self.DEBUFF[spellID] and self.DEBUFF[spellID].unitID == unitID and ( caster == self.DEBUFF[spellID].caster or self.DEBUFF[spellID].caster:lower() == "all" )) or
 						(self.DEBUFF[spellName] and self.DEBUFF[spellName].unitID == unitID and ( caster == self.DEBUFF[spellName].caster or self.DEBUFF[spellName].caster:lower() == "all" )) then
-						if not self.button[num] then
-							self.button[num] = self:CreateButton(self.mode)					
-							self:SetPosition(num)
+						if not self.button[self.current] then
+							self.button[self.current] = self:CreateButton(self.mode)					
+							self:SetPosition(self.current)
 						end	
-						self:UpdateButton(self.button[num], index, icon, count, duration, expires, spellID, unitID, "DEBUFF")
+						self:UpdateButton(self.button[self.current], index, icon, count, duration, expires, spellID, unitID, "DEBUFF")
 						if self.mode == "BAR" then
-							self.button[num]:SetScript("OnUpdate", BarUpdate)
+							self.button[self.current]:SetScript("OnUpdate", OnUpdate)
 						else
-							self.button[num]:SetScript("OnUpdate", nil)
+							self.button[self.current]:SetScript("OnUpdate", nil)
 						end
-						num = num + 1
+						self.current = self.current + 1
 					end
 					index = index + 1
 				end
 			end
 		end
 	end
-	return num
 end
 
-function watcherPrototype:CheckCooldown(num)
+function watcherPrototype:CheckCooldown()
 	if self.CD then
 		for spellID in pairs(self.CD) do
 			if type(spellID) == "number" and self.CD[spellID] then
 				local start, duration = GetSpellCooldown(spellID)
 				local _, _, icon = GetSpellInfo(spellID)
 				if start ~= 0 and duration > 2.9 then
-					if not self.button[num] then
-						self.button[num] = self:CreateButton(self.mode)					
-						self:SetPosition(num)
+					if not self.button[self.current] then
+						self.button[self.current] = self:CreateButton(self.mode)					
+						self:SetPosition(self.current)
 					end	
-					self:UpdateButton(self.button[num], nil, icon, 0, duration, start, spellID, nil, "CD")
-					if self.mode == "BAR" then
-						self.button[num]:SetScript("OnUpdate", BarUpdate)
-					else
-						self.button[num]:SetScript("OnUpdate", nil)
-					end
-					num = num + 1
+					self:UpdateButton(self.button[self.current], nil, icon, 0, duration, start, spellID, nil, "CD")
+					self.button[self.current]:SetScript("OnUpdate", OnUpdate)
+					self.current = self.current + 1
 				end
 			end
 		end
@@ -300,32 +295,26 @@ function watcherPrototype:CheckCooldown(num)
 				local start, duration = GetItemCooldown(itemID)
 				local _, _, _, _, _, _, _, _, _, icon = GetItemInfo(itemID)
 				if start ~= 0 and duration > 2.9 then
-					if not self.button[num] then
-						self.button[num] = self:CreateButton(self.mode)					
-						self:SetPosition(num)
+					if not self.button[self.current] then
+						self.button[self.current] = self:CreateButton(self.mode)					
+						self:SetPosition(self.current)
 					end	
-					self:UpdateButton(self.button[num], nil, icon, 0, duration, start, itemID, nil, "itemCD")
-					if self.mode == "BAR" then
-						self.button[num]:SetScript("OnUpdate", BarUpdate)
-					else
-						self.button[num]:SetScript("OnUpdate", nil)
-					end
-					num = num + 1
+					self:UpdateButton(self.button[self.current], nil, icon, 0, duration, start, itemID, nil, "itemCD")
+					self.button[self.current]:SetScript("OnUpdate", OnUpdate)
+					self.current = self.current + 1
 				end
 			end
 		end
 	end
-	return num
 end
 
 function watcherPrototype:Update()
-	local num = 1
+	self.current = 1
 	for i = 1, #self.button do
 		self.button[i]:Hide()
 	end
-	
-	num = self:CheckAura(num)
-	num = self:CheckCooldown(num)
+	self:CheckAura()
+	self:CheckCooldown()
 end
 
 function watcherPrototype:SetPosition(num)
