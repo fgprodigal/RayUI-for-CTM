@@ -90,6 +90,7 @@ function UF:DPSLayout(frame, unit)
 	frame.ThreatHlt = Thrt	
 	
 	-- update threat
+	frame:RegisterEvent("PLAYER_TARGET_CHANGED", UF.UpdateThreatStatus)
 	frame:RegisterEvent("UNIT_THREAT_LIST_UPDATE", UF.UpdateThreatStatus)
 	frame:RegisterEvent("UNIT_THREAT_SITUATION_UPDATE", UF.UpdateThreatStatus)
 	

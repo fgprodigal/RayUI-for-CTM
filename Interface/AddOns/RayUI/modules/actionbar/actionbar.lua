@@ -486,7 +486,7 @@ local function SetupFlyoutButton()
 	for i=1, buttons do
 		if _G["SpellFlyoutButton"..i] then
 			AB:Style(_G["SpellFlyoutButton"..i])
-			_G["SpellFlyoutButton"..i]:StyleButton()
+			_G["SpellFlyoutButton"..i]:StyleButton(true)
 		end
 	end
 end

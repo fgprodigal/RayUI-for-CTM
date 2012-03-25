@@ -166,8 +166,8 @@ function RW:GetConfig()
 
 				--狙擊訓練
 				{ spellID = 64420, unitId = "player", caster = "player", filter = "BUFF" },
-				--蓄勢待發
-				{ spellID = 56453, unitId = "player", caster = "player", filter = "BUFF" },
+				--射擊!
+				{ spellID = 82926, unitId = "player", caster = "player", filter = "BUFF" },
 
 			},
 			{
@@ -187,6 +187,8 @@ function RW:GetConfig()
 				size = 38,
 				
 				--蓄勢待發
+				{ spellID = 56453, unitId = "player", caster = "player", filter = "BUFF" },
+				--蓄勢待發
 				{ spellID = 56342, unitId = "player", caster = "player", filter = "BUFF" },
 				--快速射擊
 				{ spellID = 6150, unitId = "player", caster = "player", filter = "BUFF" },
@@ -202,8 +204,6 @@ function RW:GetConfig()
 				{ spellID = 53434, unitId = "player", caster = "player", filter = "BUFF" },
 				--強化穩固射擊
 				{ spellID = 53220, unitId = "player", caster = "player", filter = "BUFF" },
-				--射擊!
-				{ spellID = 82926, unitId = "player", caster = "player", filter = "BUFF" },
 				--連環火網
 				{ spellID = 82921, unitId = "player", caster = "player", filter = "BUFF" },
 				--準備、就緒、瞄準……
@@ -831,6 +831,36 @@ function RW:GetConfig()
 		},
 		["ROGUE"] = {
 			{
+				name = "玩家buff",
+				direction = "LEFT",
+				setpoint = { "BOTTOMRIGHT", "RayUF_player", "TOPRIGHT", 0, 80 },
+				size = 28,
+				
+				--淺察
+				{ spellID = 84745, unitId = "player", caster = "player", filter = "BUFF" },
+				--中度洞察
+				{ spellID = 84746, unitId = "player", caster = "player", filter = "BUFF" },
+				--深度洞察
+				{ spellID = 84747, unitId = "player", caster = "player", filter = "BUFF" },
+				
+			},
+			{
+				name = "目标buff",
+				direction = "RIGHT",
+				setpoint = { "BOTTOMLEFT", "RayUF_target", "TOPLEFT", 0, 80 },
+				size = 28,
+				
+				--致命毒藥
+				{ spellID = 2818, unitId = "target", caster = "player", filter = "DEBUFF" },
+				--麻痺毒藥
+				{ spellID = 5760, unitId = "target", caster = "player", filter = "DEBUFF" },
+				--致殘毒藥
+				{ spellID = 3409, unitId = "target", caster = "player", filter = "DEBUFF" },
+				--致傷毒藥
+				{ spellID = 13218, unitId = "target", caster = "player", filter = "DEBUFF" },
+
+			},
+			{
 				name = "玩家重要buff",
 				direction = "LEFT",
 				setpoint = { "BOTTOMRIGHT", "RayUF_player", "TOPRIGHT", 0, 33 },
@@ -860,12 +890,6 @@ function RW:GetConfig()
 				{ spellID = 73651, unitId = "player", caster = "player", filter = "BUFF" },
 				--剑刃乱舞
 				{ spellID = 13877, unitId = "player", caster = "player", filter = "BUFF" },
-				--淺察
-				{ spellID = 84745, unitId = "player", caster = "player", filter = "BUFF" },
-				--中度洞察
-				{ spellID = 84746, unitId = "player", caster = "player", filter = "BUFF" },
-				--深度洞察
-				{ spellID = 84747, unitId = "player", caster = "player", filter = "BUFF" },
 				--佯攻
 				{ spellID = 1966, unitId = "player", caster = "player", filter = "BUFF" },
 				--暗影之舞
@@ -898,14 +922,6 @@ function RW:GetConfig()
 				{ spellID = 8647, unitId = "target", caster = "player", filter = "DEBUFF" },
 				--卸除武裝
 				{ spellID = 51722, unitId = "target", caster = "player", filter = "DEBUFF" },
-				--致命毒藥
-				{ spellID = 2818, unitId = "target", caster = "player", filter = "DEBUFF" },
-				--麻痺毒藥
-				{ spellID = 5760, unitId = "target", caster = "player", filter = "DEBUFF" },
-				--致殘毒藥
-				{ spellID = 3409, unitId = "target", caster = "player", filter = "DEBUFF" },
-				--致傷毒藥
-				{ spellID = 13218, unitId = "target", caster = "player", filter = "DEBUFF" },
 				--出血
 				{ spellID = 16511, unitId = "target", caster = "player", filter = "DEBUFF" },
 
