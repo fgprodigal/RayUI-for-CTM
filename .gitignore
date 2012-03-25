@@ -9,7 +9,6 @@
 /Interface/ICONS2/
 
 /Interface/AddOns*/*
-!/Interface/AddOns/!BlizzBugFix/
 !/Interface/AddOns/!BugGrabber/
 !/Interface/AddOns/Buffet/
 !/Interface/AddOns/BugSack/
