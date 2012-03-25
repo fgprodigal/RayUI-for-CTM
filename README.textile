@@ -19,5 +19,3 @@ p. 常用命令
 * /hb 绑定快捷键
 
 * /rc RayUI控制台
-
-* /rw2 RayWatcher控制台

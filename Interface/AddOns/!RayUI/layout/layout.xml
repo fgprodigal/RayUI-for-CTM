@@ -1,5 +1,0 @@
-<Ui xmlns="http://www.blizzard.com/wow/ui/">
-	<Script file="infobar.lua"/>
-	<Script file="fonts.lua"/>
-	<Include file="datatexts\datatexts.xml"/>
-</Ui>

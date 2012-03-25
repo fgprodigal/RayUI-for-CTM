@@ -2,8 +2,10 @@ local addonName = select(1, ...)
 ------------------------------------------------------
 -- MEDIA & CONFIG ------------------------------------
 ------------------------------------------------------
-local R, C = unpack(RayUI)
-local font = { C["media"].font, 13, "THINOUTLINE" }
+local R, L, P = unpack(RayUI)
+local S = R:GetModule("Skins")
+local LSM = LibStub("LibSharedMedia-3.0")
+local font = { LSM:Fetch("font", P["media"].font), 13, "THINOUTLINE" }
 ------------------------------------------------------
 -- INITIAL FRAME CREATION ----------------------------
 ------------------------------------------------------
@@ -60,11 +62,11 @@ local function LoadProfileWindow()
 	local window = CreateFrame("Frame", "stAddonManager_ProfileWindow", self)
 	window:SetPoint("TOPLEFT", self, "TOPRIGHT", 5, 0)
 	window:SetSize(200, 350)
-	R.CreateBD(window)
+	S:CreateBD(window)
 		
 	local header = CreateFrame("Frame", "stAddonmanager_ProfileWindow_Header", window)
 	header:SetPoint("TOP", window, "TOP", 0, 0)
-	R.CreateBD(header)
+	S:CreateBD(header)
 	header:SetSize(window:GetWidth(), 20)
 	
 	local hTitle = header:CreateFontString(nil, "OVERLAY")
@@ -78,7 +80,7 @@ local function LoadProfileWindow()
 	scrollFrame:SetPoint("TOPLEFT", header, "BOTTOMLEFT", 5, -57)
 	scrollFrame:SetWidth(window:GetWidth()-35)
 	scrollFrame:SetHeight(window:GetHeight()-85)
-	R.ReskinScroll(_G[window:GetName().."_ScrollFrameScrollBar"])
+	S:ReskinScroll(_G[window:GetName().."_ScrollFrameScrollBar"])
 	scrollFrame:SetFrameLevel(window:GetFrameLevel()+1)
 	
 	scrollFrame.Anchor = CreateFrame("Frame", window:GetName().."_ScrollAnchor", scrollFrame)
@@ -89,7 +91,7 @@ local function LoadProfileWindow()
 	scrollFrame:SetScrollChild(scrollFrame.Anchor)
 	
 	local EnableAll = CreateFrame("Button", window:GetName().."_EnableAllButton", window)
-	R.CreateBD(EnableAll)
+	S:CreateBD(EnableAll)
 	EnableAll:SetSize((window:GetWidth()-15)/2, 20)
 	EnableAll:SetPoint("TOPLEFT", header, "BOTTOMLEFT", 5, -5)
 	EnableAll.text = EnableAll:CreateFontString(nil, "OVERLAY")
@@ -97,7 +99,7 @@ local function LoadProfileWindow()
 	EnableAll.text:SetText("全部啓用")
 	EnableAll.text:SetPoint("CENTER")
 	EnableAll:SetScript("OnEnter", function(self) self.text:SetTextColor(0/255, 170/255, 255/255) self:SetBackdropColor(.2, .2, .2, .6) end)
-	EnableAll:SetScript("OnLeave", function(self) self.text:SetTextColor(255/255, 255/255, 255/255) R.CreateBD(self) end)
+	EnableAll:SetScript("OnLeave", function(self) self.text:SetTextColor(255/255, 255/255, 255/255) S:CreateBD(self) end)
 	EnableAll:SetScript("OnClick", function(self)
 		for i, addon in pairs(stAddonManager.AllAddons) do
 			EnableAddOn(addon.name)
@@ -107,7 +109,7 @@ local function LoadProfileWindow()
 	end)
 	
 	local DisableAll = CreateFrame("Button", window:GetName().."_DisableAllButton", window)
-	R.CreateBD(DisableAll)
+	S:CreateBD(DisableAll)
 	DisableAll:SetSize(EnableAll:GetSize())
 	DisableAll:SetPoint("TOPRIGHT", header, "BOTTOMRIGHT", -5, -5)
 	DisableAll.text = DisableAll:CreateFontString(nil, "OVERLAY")
@@ -115,12 +117,12 @@ local function LoadProfileWindow()
 	DisableAll.text:SetText("全部禁用")
 	DisableAll.text:SetPoint("CENTER")
 	DisableAll:SetScript("OnEnter", function(self) self.text:SetTextColor(0/255, 170/255, 255/255) self:SetBackdropColor(.2, .2, .2, .6) end)
-	DisableAll:SetScript("OnLeave", function(self) self.text:SetTextColor(255/255, 255/255, 255/255) R.CreateBD(self) end)
+	DisableAll:SetScript("OnLeave", function(self) self.text:SetTextColor(255/255, 255/255, 255/255) S:CreateBD(self) end)
 	DisableAll:SetScript("OnClick", function(self)
 		for i, addon in pairs(stAddonManager.AllAddons) do
 			if addon.name ~= addonName then			
 				DisableAddOn(addon.name)
-				stAddonManager.Buttons[i]:SetBackdropColor(unpack(C["media"].backdropcolor))
+				stAddonManager.Buttons[i]:SetBackdropColor(unpack(P["media"].backdropcolor))
 				addon.enabled = false
 			end
 		end
@@ -131,7 +133,7 @@ local function LoadProfileWindow()
 	end
 	
 	local SaveProfile = CreateFrame("Button", window:GetName().."_SaveProfileButton", window)
-	R.CreateBD(SaveProfile)
+	S:CreateBD(SaveProfile)
 	SaveProfile:SetHeight(20)
 	SaveProfile:SetPoint("TOPLEFT", EnableAll, "BOTTOMLEFT", 0, -5)
 	SaveProfile:SetPoint("TOPRIGHT", DisableAll, "BOTTOMRIGHT", 0, -5)
@@ -140,11 +142,11 @@ local function LoadProfileWindow()
 	SaveProfile.text:SetText("新檔案")
 	SaveProfile.text:SetPoint("CENTER")
 	SaveProfile:SetScript("OnEnter", function(self) self.text:SetTextColor(0/255, 170/255, 255/255) self:SetBackdropColor(.2, .2, .2, .6) end)
-	SaveProfile:SetScript("OnLeave", function(self) self.text:SetTextColor(255/255, 255/255, 255/255) R.CreateBD(self) end)
+	SaveProfile:SetScript("OnLeave", function(self) self.text:SetTextColor(255/255, 255/255, 255/255) S:CreateBD(self) end)
 	SaveProfile:SetScript("OnClick", function(self)
 		if not self.editbox then
 			local ebox = CreateFrame("EditBox", nil, self)
-			R.CreateBD(ebox)
+			S:CreateBD(ebox)
 			ebox:SetAllPoints(self)
 			ebox:SetFont(unpack(font))
 			ebox:SetText("Profile Name")
@@ -183,7 +185,7 @@ local function LoadProfileWindow()
 		local button = CreateFrame("Button", nil, parent)
 		button:SetFrameLevel(parent:GetFrameLevel()+1)
 		button:SetSize(width, height)
-		R.CreateBD(button)
+		S:CreateBD(button)
 		if ... then button:SetPoint(...) end
 		
 		button.text = button:CreateFontString(nil, "OVERLAY")
@@ -192,7 +194,7 @@ local function LoadProfileWindow()
 		if text then button.text:SetText(text) end
 		
 		button:SetScript("OnEnter", function(self) self.text:SetTextColor(0/255, 170/255, 255/255) self:SetBackdropColor(.2, .2, .2, .6) end)
-		button:SetScript("OnLeave", function(self) self.text:SetTextColor(255/255, 255/255, 255/255) R.CreateBD(self) end)	
+		button:SetScript("OnLeave", function(self) self.text:SetTextColor(255/255, 255/255, 255/255) S:CreateBD(self) end)	
 		
 		return button
 	end
@@ -326,9 +328,9 @@ local function LoadWindow()
 	window:SetSize(400,350)
 	header:SetSize(400,20)
 	
-	R.CreateBD(window)
-	R.CreateSD(window)
-	R.CreateBD(header)
+	S:CreateBD(window)
+	S:CreateSD(window)
+	S:CreateBD(header)
 	
 	header:EnableMouse(true)
 	header:SetMovable(true)
@@ -350,7 +352,7 @@ local function LoadWindow()
 	close.text:SetText("x")
 	close.text:SetPoint("CENTER", close, "CENTER", 0, 0)
 	close:SetScript("OnEnter", function(self) self.text:SetTextColor(0/255, 170/255, 255/255) self:SetBackdropColor(.2, .2, .2, .6) end)
-	close:SetScript("OnLeave", function(self) self.text:SetTextColor(255/255, 255/255, 255/255) R.CreateBD(self) end)
+	close:SetScript("OnLeave", function(self) self.text:SetTextColor(255/255, 255/255, 255/255) S:CreateBD(self) end)
 	close:SetScript("OnClick", function() window:Hide() end)
 	header.close = close
 	
@@ -358,14 +360,14 @@ local function LoadWindow()
 	addonListBG:SetPoint("TOPLEFT", header, "TOPLEFT", 10, -50)
 	addonListBG:SetWidth(window:GetWidth()-20)
 	addonListBG:SetHeight(window:GetHeight()-60)
-	R.CreateBD(addonListBG)
+	S:CreateBD(addonListBG)
 	
 	--Create scroll frame (God damn these things are a pain)
 	local scrollFrame = CreateFrame("ScrollFrame", window:GetName().."_ScrollFrame", window, "UIPanelScrollFrameTemplate")
 	scrollFrame:SetPoint("TOPLEFT", addonListBG, "TOPLEFT", 0, -2)
 	scrollFrame:SetWidth(addonListBG:GetWidth()-25)
 	scrollFrame:SetHeight(addonListBG:GetHeight()-5)
-	R.ReskinScroll(_G[window:GetName().."_ScrollFrameScrollBar"])
+	S:ReskinScroll(_G[window:GetName().."_ScrollFrameScrollBar"])
 	scrollFrame:SetFrameLevel(window:GetFrameLevel()+1)
 	
 	scrollFrame.Anchor = CreateFrame("Frame", window:GetName().."_ScrollAnchor", scrollFrame)
@@ -395,7 +397,7 @@ local function LoadWindow()
 		local button = CreateFrame("Frame", nil, scrollFrame.Anchor)
 		button:SetFrameLevel(scrollFrame.Anchor:GetFrameLevel() + 1)
 		button:SetSize(16, 16)
-		R.CreateBD(button)
+		S:CreateBD(button)
 		if addon.enabled then
 		button:SetBackdropColor(0/255, 170/255, 255/255)
 		end
@@ -427,7 +429,7 @@ local function LoadWindow()
 		
 		button:SetScript("OnMouseDown", function(self)
 			if addon.enabled then
-				self:SetBackdropColor(unpack(C["media"].backdropcolor))
+				self:SetBackdropColor(unpack(R["media"].backdropcolor))
 				DisableAddOn(addon.name)
 				addon.enabled = false
 			else
@@ -451,12 +453,12 @@ local function LoadWindow()
 			if addon.enabled then
 				button:SetBackdropColor(0/255, 170/255, 255/255)
 			else
-				button:SetBackdropColor(unpack(C["media"].backdropcolor))
+				button:SetBackdropColor(unpack(R["media"].backdropcolor))
 			end
 			
 			button:SetScript("OnMouseDown", function(self)
 				if addon.enabled then
-					self:SetBackdropColor(unpack(C["media"].backdropcolor))
+					self:SetBackdropColor(unpack(R["media"].backdropcolor))
 					DisableAddOn(addon.name)
 					addon.enabled = false
 				else
@@ -477,7 +479,7 @@ local function LoadWindow()
 	searchBar:SetPoint("TOPLEFT", header, "BOTTOMLEFT", 10, -5)
 	searchBar:SetWidth(250)
 	searchBar:SetHeight(20)
-	R.CreateBD(searchBar)
+	S:CreateBD(searchBar)
 	searchBar:SetFont(unpack(font))
 	searchBar:SetText("搜索")
 	searchBar:SetAutoFocus(false)
@@ -509,13 +511,13 @@ local function LoadWindow()
 	local profileButton = CreateFrame("Button", window:GetName().."_ProfileWindowButton", window)
 	profileButton:SetPoint("TOPRIGHT", header, "BOTTOMRIGHT", -10, -5)
 	profileButton:SetSize(20, 20)
-	R.CreateBD(profileButton)
+	S:CreateBD(profileButton)
 	profileButton.text = profileButton:CreateFontString(nil, "OVERLAY")
 	profileButton.text:SetFont(unpack(font))
 	profileButton.text:SetText(">")
 	profileButton.text:SetPoint("CENTER", profileButton, "CENTER", 0, 0)
 	profileButton:SetScript("OnEnter", function(self) self.text:SetTextColor(0/255, 170/255, 255/255) self:SetBackdropColor(.2, .2, .2, .6) end)
-	profileButton:SetScript("OnLeave", function(self) self.text:SetTextColor(255/255, 255/255, 255/255) R.CreateBD(self) end)
+	profileButton:SetScript("OnLeave", function(self) self.text:SetTextColor(255/255, 255/255, 255/255) S:CreateBD(self) end)
 	profileButton:SetScript("OnClick", function(self)
 		LoadProfileWindow()
 		if stAddonManager.ProfileWindow:IsShown() then
@@ -535,12 +537,12 @@ local function LoadWindow()
 	reloadButton.text:SetFont(unpack(font))
 	reloadButton.text:SetText("重載")
 	reloadButton:SetScript("OnEnter", function(self) self.text:SetTextColor(0/255, 170/255, 255/255) self:SetBackdropColor(.2, .2, .2, .6) end)
-	reloadButton:SetScript("OnLeave", function(self) self.text:SetTextColor(255/255, 255/255, 255/255) R.CreateBD(self) end)
+	reloadButton:SetScript("OnLeave", function(self) self.text:SetTextColor(255/255, 255/255, 255/255) S:CreateBD(self) end)
 	reloadButton:SetScript("OnClick", function(self)
 		if InCombatLockdown() then return end
 		ReloadUI()
 	end)
-	R.CreateBD(reloadButton)
+	S:CreateBD(reloadButton)
 	stAddonManager.reloadButton = reloadButton
 	
 	stAddonManager.Loaded = true
@@ -564,7 +566,7 @@ gmbAddOns:SetScript("OnClick", function()
 	LoadWindow()
 end)
 
-R.Reskin(gmbAddOns)
+S:Reskin(gmbAddOns)
 local font = {GameMenuButtonMacros:GetFontString():GetFont()}
 local shadow = {GameMenuButtonMacros:GetFontString():GetShadowOffset()}
 gmbAddOns:GetFontString():SetFont(unpack(font))
