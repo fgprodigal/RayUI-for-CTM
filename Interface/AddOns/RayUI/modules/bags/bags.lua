@@ -158,7 +158,7 @@ function B:SlotUpdate(b)
 		local cd_start, cd_finish, cd_enable = GetContainerItemCooldown(b.bag, b.slot)
 		CooldownFrame_SetTimer(b.Cooldown, cd_start, cd_finish, cd_enable)	
 	end
-
+		
 	if(clink) then
 		local iType
 		b.name, _, b.rarity, _, _, iType = GetItemInfo(clink)
@@ -192,14 +192,14 @@ function B:SlotUpdate(b)
 			b.frame:GetPushedTexture():SetAllPoints()
 		end
 		if isActive == false then
-			b.quest:SetText("!")
+			b.frame.quest:SetText("!")
 		else
-			b.quest:SetText("")
+			b.frame.quest:SetText("")
 		end
 	else
 		b.name, b.rarity = nil, nil
 		b.frame:SetBackdropColor(0, 0, 0, 0)
-		b.quest:SetText("")
+		b.frame.quest:SetText("")
 	end
 
 	SetItemButtonTexture(b.frame, texture)
@@ -278,13 +278,15 @@ function B:SlotNew(bag, slot)
 		count:ClearAllPoints()
 		count:Point("BOTTOMRIGHT", ret.frame, "BOTTOMRIGHT", 1, 0)
 		count:SetFont(R["media"].pxfont, R.mult*10, "OUTLINE,MONOCHROME")
-		
-		ret.quest = ret.frame:CreateFontString(nil, "OVERLAY")
-		ret.quest:SetFont(R["media"].pxfont, 30, R["media"].fontflag)
-		ret.quest:SetTextColor(NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b)
-		ret.quest:SetShadowOffset(R.mult, -R.mult)
-		ret.quest:SetShadowColor(0, 0, 0)
-		ret.quest:SetPoint("TOPRIGHT", 2, 6)
+	end
+	
+	if not ret.frame.quest then
+		ret.frame.quest = ret.frame:CreateFontString(nil, "OVERLAY")
+		ret.frame.quest:SetFont(R["media"].pxfont, 30, R["media"].fontflag)
+		ret.frame.quest:SetTextColor(NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b)
+		ret.frame.quest:SetShadowOffset(R.mult, -R.mult)
+		ret.frame.quest:SetShadowColor(0, 0, 0)
+		ret.frame.quest:SetPoint("TOPRIGHT", 2, 6)
 	end
 
 	ret.bag = bag

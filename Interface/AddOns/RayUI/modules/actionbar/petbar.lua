@@ -7,7 +7,7 @@ function AB:CreateBarPet()
 	local bar = CreateFrame("Frame","RayUIPetBar",UIParent, "SecureHandlerStateTemplate")
 	bar:SetWidth(AB.db.buttonsize*num+AB.db.buttonspacing*(num-1))
 	bar:SetHeight(AB.db.buttonsize)
-	bar:Point("BOTTOM", "UIParent", "BOTTOM", 0, 205)
+	bar:Point("BOTTOM", "UIParent", "BOTTOM", 0, 195)
 	bar:SetScale(AB.db.petbarscale)
 
 	R:CreateMover(bar, "PetBarMover", L["宠物动作条锚点"], true)  

@@ -159,6 +159,28 @@ function RW:GetConfig()
 		},
 		["HUNTER"] = {
 			{
+				name = "玩家buff",
+				direction = "LEFT",
+				setpoint = { "BOTTOMRIGHT", "RayUF_player", "TOPRIGHT", 0, 80 },
+				size = 28,
+
+				--狙擊訓練
+				{ spellID = 64420, unitId = "player", caster = "player", filter = "BUFF" },
+				--蓄勢待發
+				{ spellID = 56453, unitId = "player", caster = "player", filter = "BUFF" },
+
+			},
+			{
+				name = "目标buff",
+				direction = "RIGHT",
+				setpoint = { "BOTTOMLEFT", "RayUF_target", "TOPLEFT", 0, 80 },
+				size = 28,
+
+				--獵人印記
+				{ spellID = 1130, unitId = "target", caster = "all", filter = "DEBUFF" },
+
+			},
+			{
 				name = "玩家重要buff",
 				direction = "LEFT",
 				setpoint = { "BOTTOMRIGHT", "RayUF_player", "TOPRIGHT", 0, 33 },
@@ -186,12 +208,12 @@ function RW:GetConfig()
 				{ spellID = 82921, unitId = "player", caster = "player", filter = "BUFF" },
 				--準備、就緒、瞄準……
 				{ spellID = 82925, unitId = "player", caster = "player", filter = "BUFF" },
-				--蓄勢待發
-				{ spellID = 56453, unitId = "player", caster = "player", filter = "BUFF" },
 				--狂亂效果
 				{ spellID = 19615, unitId = "pet", caster = "pet", filter = "BUFF" },
 				--獸心
 				{ spellID = 34471, unitId = "player", caster = "player", filter = "BUFF" },
+				--4T13
+				{ spellID = 105919, unitId = "player", caster = "player", filter = "BUFF" },
 				--擊殺命令
 				{ spellID = 34026, filter = "CD" },
 				--爆裂射擊
@@ -217,9 +239,6 @@ function RW:GetConfig()
 				{ spellID = 3674, unitId = "target", caster = "player", filter = "DEBUFF" },
 				--爆裂射擊
 				{ spellID = 53301, unitId = "target", caster = "player", filter = "DEBUFF" },
-				--獵人印記
-				{ spellID = 1130, unitId = "target", caster = "all", filter = "DEBUFF" },
-
 			},
 			{
 				name = "焦点debuff",
@@ -555,12 +574,12 @@ function RW:GetConfig()
 				{ spellID = 88819, unitId = "player", caster = "player", filter = "BUFF" },
 				--聖光灌注
 				{ spellID = 54149, unitId = "player", caster = "player", filter = "BUFF" },
-				--精通光環
-				{ spellID = 31821, unitId = "player", caster = "player", filter = "BUFF" },
 				--聖佑術
 				{ spellID = 498, unitId = "player", caster = "player", filter = "BUFF" },
 				--戰爭藝術
 				{ spellID = 59578, unitId = "player", caster = "player", filter = "BUFF" },
+				--復仇之怒
+				{ spellID = 31884, unitId = "player", caster = "player", filter = "BUFF" },
 			},
 			{
 				name = "目标debuff",
@@ -596,24 +615,15 @@ function RW:GetConfig()
 				barWidth = 170,
 				setpoint = { "TOPLEFT", RayUIActionBar2, "BOTTOMRIGHT", -27, -6 },
 
-				--神恩術
-				{ spellID = 31842, filter = "CD" },
-				--復仇之怒
-				{ spellID = 31884, filter = "CD" },
 				--精通光環
 				{ spellID = 31821, filter = "CD" },
-				--聖療術
-				{ spellID = 633, filter = "CD" },
 				--神性祈求
 				{ spellID = 54428, filter = "CD" },
-				--遠古諸王守護者
-				{ spellID = 86150, filter = "CD" },
 				--狂熱精神
 				{ spellID = 85696, filter = "CD" },
 				--聖佑術
 				{ spellID = 498, filter = "CD" },
-				--聖盾術
-				{ spellID = 642, filter = "CD" },
+
 			},
 		},
 		["PRIEST"] = {
@@ -1060,6 +1070,8 @@ function RW:GetConfig()
 				{ spellID = 96980, unitId = "player", caster = "player", filter = "BUFF" },
 				--謊言面紗
 				{ spellID = 102667, unitId = "player", caster = "player", filter = "BUFF" },
+				--擒星羅盤(隨機團隊)
+				{ spellID = 109709, unitId = "player", caster = "player", filter = "BUFF" },
 
 			--工程
 				--神經突觸彈簧(敏捷)
@@ -1112,6 +1124,16 @@ function RW:GetConfig()
 				{ spellID = 90355, unitId = "player", caster = "all", filter = "BUFF" },
 				--振奮咆哮
 				{ spellID = 97463, unitId = "player", caster = "all", filter = "BUFF" },
+				--精通光環
+				{ spellID = 31821, unitId = "player", caster = "all", filter = "BUFF" },
+				--犧牲聖禦
+				{ spellID = 6940, unitId = "player", caster = "all", filter = "BUFF" },
+				--保護聖禦
+				{ spellID = 1022, unitId = "player", caster = "all", filter = "BUFF" },
+				--守护之魂
+				{ spellID = 47788, unitId = "player", caster = "all", filter = "BUFF" },
+				--痛苦镇压
+				{ spellID = 33206, unitId = "player", caster = "all", filter = "BUFF" },
 				
 			--種族天賦
 				--血之烈怒

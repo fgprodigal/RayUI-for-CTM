@@ -71,51 +71,52 @@ local CreateAuraIcon = function(auras)
     return button
 end
 
-local dispelClass = {
-    PRIEST = { Disease = true, },
-    SHAMAN = { Curse = true, },
-    PALADIN = { Poison = true, Disease = true, },
-    MAGE = { Curse = true, },
-    DRUID = { Curse = true, Poison = true, },
-}
+local dispellist = {}
 
-local _, class = UnitClass("player")
-local checkTalents = CreateFrame"Frame"
-checkTalents:RegisterEvent"PLAYER_ENTERING_WORLD"
-checkTalents:RegisterEvent"ACTIVE_TALENT_GROUP_CHANGED"
-checkTalents:RegisterEvent"CHARACTER_POINTS_CHANGED"
-checkTalents:SetScript("OnEvent", function(self, event)
-    if multicheck(class, "SHAMAN", "PALADIN", "DRUID", "PRIEST") then
+if multicheck(R.myclass, "SHAMAN", "PALADIN", "DRUID", "PRIEST") then
+	local dispelClass = {
+		PRIEST = { Disease = true, },
+		SHAMAN = { Curse = true, },
+		PALADIN = { Poison = true, Disease = true, },
+		MAGE = { Curse = true, },
+		DRUID = { Curse = true, Poison = true, },
+	}
 
-        if class == "SHAMAN" then
-            local _,_,_,_,rank = GetTalentInfo(3, 12)
+	local function CheckTalent()
+		if R.myclass == "SHAMAN" then
+			local name,_,_,_,rank = GetTalentInfo(3, 12)
 
-            dispelClass[class].Magic = rank == 1 and true
+			dispelClass[R.myclass].Magic = rank == 1 and true
 
-        elseif class == "PALADIN" then
-            local _,_,_,_,rank = GetTalentInfo(1, 14)
+		elseif R.myclass == "PALADIN" then
+			local name,_,_,_,rank = GetTalentInfo(1, 14)
+			dispelClass[R.myclass].Magic = rank == 1 and true
+		elseif R.myclass == "DRUID" then
+			local name,_,_,_,rank = GetTalentInfo(3, 17)
 
-            dispelClass[class].Magic = rank == 1 and true
+			dispelClass[R.myclass].Magic = rank == 1 and true
 
-        elseif class == "DRUID" then
-            local _,_,_,_,rank = GetTalentInfo(3, 17)
+		elseif R.myclass == "PRIEST" then
+			local tree = GetPrimaryTalentTree()
+			
+			dispelClass[R.myclass].Magic = (tree == 1 or tree == 2) and true
+		end
+		dispellist = dispelClass[R.myclass] or {}
+	end
 
-            dispelClass[class].Magic = rank == 1 and true
+	local checkTalents = CreateFrame("Frame")
+	checkTalents:RegisterEvent("PLAYER_ENTERING_WORLD")
+	checkTalents:RegisterEvent("PLAYER_TALENT_UPDATE")
+	checkTalents:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
+	checkTalents:RegisterEvent("CHARACTER_POINTS_CHANGED")
+	checkTalents:SetScript("OnEvent", function(self, event)
+		CheckTalent()
+		if event == "PLAYER_ENTERING_WORLD" then
+			self:UnregisterEvent("PLAYER_ENTERING_WORLD")
+		end
+	end)
+end
 
-        elseif class == "PRIEST" then
-            local tree = GetPrimaryTalentTree()
-            
-            dispelClass[class].Magic = (tree == 1 or tree == 2) and true
-            
-        end
-    end
-
-    if event == "PLAYER_ENTERING_WORLD" then
-        self:UnregisterEvent("PLAYER_ENTERING_WORLD")
-    end
-end)
-
-local dispellist = dispelClass[class] or {}
 local dispelPriority = {
     Magic = 4,
     Curse = 3,
@@ -126,7 +127,7 @@ local dispelPriority = {
 local instDebuffs = {}
 
 local delaytimer = 0
-local zoneDelay = function(self, elapsed)
+local function zoneDelay(self, elapsed)
     delaytimer = delaytimer + elapsed
 
     if delaytimer < 5 then return end
@@ -254,8 +255,6 @@ local Update = function(self, event, unit)
     local index = 1
     while true do
         local name, rank, texture, count, dtype, duration, expires, caster, _, _, spellID = UnitDebuff(unit, index)
-    -- while true and index < 20 do
-        -- local name, rank, texture, count, dtype, duration, expires, caster, _, _, spellID = UnitAura(unit, index, "HARMFUL")
         if not name then break end
         
         local show = CustomFilter(auras, unit, icon, name, rank, texture, count, dtype, duration, expires, caster, spellID)

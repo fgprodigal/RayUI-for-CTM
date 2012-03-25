@@ -130,19 +130,13 @@ oUF.Tags.Methods["RayUF:color"] = function(u, r)
         return hex(1, 1, 1)
     end
 end
-oUF.Tags.Events["RayUF:color"] = "UNIT_POWER"
+oUF.Tags.Events["RayUF:color"] = "UNIT_REACTION UNIT_HEALTH UNIT_HAPPINESS"
 
 oUF.Tags.Methods["RayUF:name"] = function(u, r)
     local name = UnitName(r or u)
     return name
 end
 oUF.Tags.Events["RayUF:name"] = "UNIT_NAME_UPDATE"
-
-oUF.Tags.Methods["raid:name"] = function(u, r)
-    local name = UnitName(realUnit or u or r)
-    return utf8sub(name, 4, false)
-end
-oUF.Tags.Events["raid:name"] = "UNIT_NAME_UPDATE"
 
 oUF.Tags.Methods["RayUF:info"] = function(u)
     if UnitIsDead(u) then
@@ -156,21 +150,6 @@ oUF.Tags.Methods["RayUF:info"] = function(u)
     end
 end
 oUF.Tags.Events["RayUF:info"] = "UNIT_HEALTH"
-
-oUF.Tags.Methods["freebraid:info"] = function(u)
-    local _, class = UnitClass(u)
-
-    if class then
-        if UnitIsDead(u) then
-            return hex(oUF.colors.class[class]).."DEAD|r"
-        elseif UnitIsGhost(u) then
-            return hex(oUF.colors.class[class]).."GHO|r"
-        elseif not UnitIsConnected(u) then
-            return hex(oUF.colors.class[class]).."離線|r"
-        end
-    end
-end
-oUF.Tags.Events["freebraid:info"] = "UNIT_HEALTH UNIT_CONNECTION"
 
 oUF.Tags.Methods["RayUF:curxp"] = function(unit)
     return siValue(UnitXP(unit))

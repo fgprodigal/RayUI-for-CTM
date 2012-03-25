@@ -46,7 +46,8 @@ local function LoadSkin()
 		"ChannelFrameDaughterFrameOkayButton",
 		"ChannelFrameDaughterFrameCancelButton",
 		"WhoFrameWhoButton",
-		"PendingListInfoFrameContinueButton"
+		"PendingListInfoFrameContinueButton",
+		"FriendsFrameMutePlayerButton"
 	}
 	for i = 1, #buttons do
 		local button = _G[buttons[i]]

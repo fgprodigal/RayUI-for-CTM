@@ -8,6 +8,7 @@ local TARGET_WIDTH = 220
 local TARGET_HEIGHT = 32
 local SMALL_WIDTH = 140
 local SMALL_HEIGHT = 8
+local PET_HEIGHT = 18
 local BOSS_WIDTH = 190
 local BOSS_HEIGHT = 22
 local PARTY_WIDTH = 170
@@ -695,7 +696,12 @@ function UF:DPSLayout(frame, unit)
 	if unit == "targettarget" or unit == "pet" or unit == "pettarget" or unit == "focustarget" then
 		health:SetSize(SMALL_WIDTH, SMALL_HEIGHT * 0.9)
 		health.value:Point("LEFT", frame, "LEFT", 5, 0)
-		name:Point("TOP", health, 0, 12)
+		if unit == "pet" then
+			health:SetHeight(PET_HEIGHT * 0.9)
+			name:Point("TOP", health, 0, 7)
+		else
+			name:Point("TOP", health, 0, 12)
+		end
 		name:SetFont(R["media"].font, 14, R["media"].fontflag)
 		if self.db.healthColorClass then
 			frame:Tag(name, "[RayUF:name]")
@@ -909,7 +915,7 @@ function UF:LoadDPSLayout()
 	-- Player's Pet
 	local pet = oUF:Spawn("pet", "RayUF_pet")
 	pet:Point("BOTTOM", RayUIPetBar, "TOP", 0, 3)
-	pet:Size(SMALL_WIDTH, SMALL_HEIGHT)
+	pet:Size(SMALL_WIDTH, PET_HEIGHT)
 
 	-- Focus's target
 	local focustarget = oUF:Spawn("focustarget", "RayUF_focustarget")

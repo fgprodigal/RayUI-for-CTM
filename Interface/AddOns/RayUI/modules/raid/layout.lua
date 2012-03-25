@@ -494,7 +494,6 @@ function RA:SpawnHeader(name, group, temp, pet, MT, layout)
     local horiz, grow = RA.db.horizontal, RA.db.growth
 	local width, height = RA.db.width, RA.db.height
 	local visibility = "custom [@raid16,noexists] hide;show"
-	-- local visibility = "solo, party, raid"
 	
 	if layout == 15 then
 		width = width * 1.3
@@ -581,9 +580,8 @@ function RA:SpawnRaid()
 		edgeFile = R["media"].glow, edgeSize = R:Scale(5),
 		insets = {left = R:Scale(3), right = R:Scale(3), top = R:Scale(3), bottom = R:Scale(3)}
 	}
-	oUF:RegisterStyle("RayUFRaid10", style)
-	oUF:RegisterStyle("RayUFRaid25", style)
-	oUF:SetActiveStyle("RayUFRaid10")
+	oUF:RegisterStyle("RayUFRaid", style)
+	oUF:SetActiveStyle("RayUFRaid")
 	RA:Colors()
 	CompactRaidFrameContainer:Kill()
 	CompactRaidFrameManager:Kill()
@@ -598,7 +596,6 @@ function RA:SpawnRaid()
 		raid10[i] = group
 		RA._Headers[group:GetName()] = group
 	end
-	oUF:SetActiveStyle("RayUFRaid25")
 	local raid25 = {}
 	for i=1, RA.db.numCol do
 		local group = self:SpawnHeader("RayUFRaid25_"..i, i)
