@@ -212,5 +212,7 @@ function CH:AutoHide()
 	ChatFrame1EditBox:HookScript("OnHide", function(self)
 		timeout = 0
 	end)
-	self:ScheduleRepeatingTimer("OnUpdate", 1)
+	if self.db.autohide then
+		self:ScheduleRepeatingTimer("OnUpdate", 1)
+	end
 end
