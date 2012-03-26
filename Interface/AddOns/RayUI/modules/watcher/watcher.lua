@@ -456,26 +456,17 @@ function watcherPrototype:TestMode(arg)
 	end
 end
 
-function watcherPrototype:UNIT_AURA()
+function watcherPrototype:OnEvent(event)
+	if event == "PLAYER_ENTERING_WORLD" then
+		self.holder:SetPoint(unpack(self.setpoint))
+		self.parent:SetAllPoints(self.holder)
+		R:CreateMover(self.holder, self.name.."Holder", self.name, true)
+		local _, parent = unpack(self.setpoint)
+		if parent then self.parent:SetParent(parent) end
+		if self.disabled then self:Disable() end
+		self:UnregisterEvent("PLAYER_ENTERING_WORLD")
+	end
 	self:Update()
-end
-
-function watcherPrototype:PLAYER_TARGET_CHANGED()
-	self:Update()
-end
-
-function watcherPrototype:SPELL_UPDATE_COOLDOWN()
-	self:Update()
-end
-
-function watcherPrototype:PLAYER_ENTERING_WORLD()
-	self.holder:SetPoint(unpack(self.setpoint))
-	self.parent:SetAllPoints(self.holder)
-	R:CreateMover(self.holder, self.name.."Holder", self.name, true)
-	local _, parent = unpack(self.setpoint)
-	if parent then self.parent:SetParent(parent) end
-	self:Update()
-	if self.disabled then self:Disable() end
 end
 
 function RW:Initialize()
@@ -659,14 +650,14 @@ function RW:NewWatcher(data)
 	mover:Hide()
 	
 	if module.BUFF or module.DEBUFF then
-		module:RegisterEvent("UNIT_AURA")
-		module:RegisterEvent("PLAYER_TARGET_CHANGED")
+		module:RegisterEvent("UNIT_AURA", "OnEvent")
+		module:RegisterEvent("PLAYER_TARGET_CHANGED", "OnEvent")
 	end
 	if module.CD or module.itemCD then
-		module:RegisterEvent("SPELL_UPDATE_COOLDOWN")
+		module:RegisterEvent("SPELL_UPDATE_COOLDOWN", "OnEvent")
 	end
 	RW.modules[module.name] = module
-	module:RegisterEvent("PLAYER_ENTERING_WORLD")
+	module:RegisterEvent("PLAYER_ENTERING_WORLD", "OnEvent")
 end
 
 function RW:TestMode()
