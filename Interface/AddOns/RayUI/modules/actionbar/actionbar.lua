@@ -290,6 +290,7 @@ function AB:Initialize()
 	end
 	self:CreateBarPet()
 	self:CreateStanceBar()
+	self:CreateBarTotem()
 	self:CreateVehicleExit()
 	self:CreateExtraButton()
 	self:CreateCooldown()

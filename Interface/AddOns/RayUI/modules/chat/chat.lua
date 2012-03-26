@@ -614,19 +614,19 @@ end
 function CH:OnMouseScroll(frame, dir)
 	if dir > 0 then
 		if IsShiftKeyDown() then
-			self:ScrollToTop()
+			frame:ScrollToTop()
 		elseif IsControlKeyDown() then
 			--only need to scroll twice because of blizzards scroll
-			self:ScrollUp()
-			self:ScrollUp()
+			frame:ScrollUp()
+			frame:ScrollUp()
 		end
 	elseif dir < 0 then
 		if IsShiftKeyDown() then
-			self:ScrollToBottom()
+			frame:ScrollToBottom()
 		elseif IsControlKeyDown() then
 			--only need to scroll twice because of blizzards scroll
-			self:ScrollDown()
-			self:ScrollDown()
+			frame:ScrollDown()
+			frame:ScrollDown()
 		end
 	end
 end

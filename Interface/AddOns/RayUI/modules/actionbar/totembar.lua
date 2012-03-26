@@ -31,8 +31,8 @@ local SLOT_EMPTY_TCOORDS = {
 
 -- the color we use for border
 local bordercolors = {
-	{0.741,0.580,0.04},   -- Earth
 	{0.752,0.172,0.02},   -- Fire
+	{0.741,0.580,0.04},   -- Earth
 	{0,0.443,0.631},   -- Water
 	{0.6,1,0.945},   -- Air
 }
@@ -108,8 +108,7 @@ function AB:StyleTotemOpenButton(button, _, parent)
 	button.visibleBut:CreateBorder(parent:GetBackdropBorderColor())
 end
 
-function AB:StyleTotemSlotButton(button, slot)
-	local index = tonumber( string.match(self:GetName(),"MultiCastSlotButton(%d)"))
+function AB:StyleTotemSlotButton(button, index)
 	button:CreateShadow("Background")
 	button.shadow:SetBackdropColor(0, 0, 0)
 	button.overlayTex:SetTexture(nil)
@@ -117,7 +116,6 @@ function AB:StyleTotemSlotButton(button, slot)
 	button.background:ClearAllPoints()
 	button.background:Point("TOPLEFT",button,"TOPLEFT",2, -2)
 	button.background:Point("BOTTOMRIGHT",button,"BOTTOMRIGHT",-2, 2)
-	-- button.background:SetAllPoints()
 	if not InCombatLockdown() then button:Size(AB.db.buttonsize) end
 	button:CreateBorder(unpack(bordercolors[((index-1) % 4) + 1]))
 	button:StyleButton()
@@ -137,7 +135,6 @@ function AB:StyleTotemActionButton(button, _, index)
 		button:SetAllPoints(button.slotButton)
 		button:SetFrameLevel(button.slotButton:GetFrameLevel()+1)
 	end
-	button:CreateBorder(unpack(bordercolors[((index-1) % 4) + 1]))
 	button:SetBackdropColor(0,0,0,0)
 	button:StyleButton()
 end

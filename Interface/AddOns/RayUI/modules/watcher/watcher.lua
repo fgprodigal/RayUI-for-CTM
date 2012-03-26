@@ -62,8 +62,8 @@ local function CreatePopup()
 	lock:SetPoint("BOTTOMRIGHT", -14, 14)
 	S:Reskin(lock)
 	
-	f:RegisterEvent('PLAYER_REGEN_DISABLED')
-	f:SetScript('OnEvent', function(self)
+	f:RegisterEvent("PLAYER_REGEN_DISABLED")
+	f:SetScript("OnEvent", function(self)
 		if self:IsShown() then
 			self:Hide()
 		end
@@ -446,9 +446,9 @@ function watcherPrototype:TestMode(arg)
 		end
 		self.moverFrame:Show()
 	else
-		self:RegisterEvent("UNIT_AURA")
-		self:RegisterEvent("PLAYER_TARGET_CHANGED")
-		self:RegisterEvent("SPELL_UPDATE_COOLDOWN")
+		self:RegisterEvent("UNIT_AURA", "OnEvent")
+		self:RegisterEvent("PLAYER_TARGET_CHANGED", "OnEvent")
+		self:RegisterEvent("SPELL_UPDATE_COOLDOWN", "OnEvent")
 		for _, v in pairs(RW.modules) do
 			v:Update()
 		end
@@ -491,7 +491,7 @@ function RW:Initialize()
 		RW.GroupName[i] = i
 		defaults.profile.Watcher[i] = defaults.profile.Watcher[i] or {}
 		for ii,vv in pairs(v) do
-			if type(vv) ~= 'table' then
+			if type(vv) ~= "table" then
 				defaults.profile.Watcher[i][ii] = vv
 			end
 		end
@@ -509,7 +509,7 @@ function RW:Initialize()
 	for group, options in pairs(R.db.Watcher) do
 		if self.modules[group] then
 			for option, value in pairs(options) do
-				if type(value) ~= 'table' then
+				if type(value) ~= "table" then
 					self.modules[group][option] = value
 					self.db[group][option] = value
 				end
@@ -592,24 +592,24 @@ function RW:NewWatcher(data)
 	for i,v in pairs(data) do
 		if type(v) ~= "table" or (type(v) == "table" and type(i) ~= "number") then
 			module[i:lower()] = v
-		elseif type(v) == 'table' then
+		elseif type(v) == "table" then
 			if (v.spellID or v.itemID) and v.filter then
 				local spellName
 				if v.fuzzy and (v.filter == "BUFF" or v.filter == "DEBUFF") then spellName = GetSpellInfo(v.spellID) end
 				module[v.filter] = module[v.filter] or {}
 				module[v.filter][spellName or v.spellID or v.itemID] = module[v.filter][spellName or v.spellID or v.itemID] or {}
 				for ii,vv in pairs(v) do
-					if ii ~= 'filter' and ii ~= 'spellID' and ii ~= 'itemID' and v.filter ~= "CD" and v.filter ~= "itemCD" then
-						ii = ii == 'unitId' and 'unitID' or ii
+					if ii ~= "filter" and ii ~= "spellID" and ii ~= "itemID" and v.filter ~= "CD" and v.filter ~= "itemCD" then
+						ii = ii == "unitId" and "unitID" or ii
 						module[v.filter][spellName or v.spellID or v.itemID][ii] = vv
 						if spellName then
 							module[v.filter][spellName]["spellID"] = v.spellID
 							module[v.filter][spellName]["fuzzy"] = true
 						end
 					end
-					if (ii == 'unitId' or ii == 'unitID') and (v.filter == "BUFF" or v.filter == "DEBUFF") then
-						module[v.filter]['unitIDs'] = module[v.filter]['unitIDs'] or {}
-						module[v.filter]['unitIDs'][vv] = true
+					if (ii == "unitId" or ii == "unitID") and (v.filter == "BUFF" or v.filter == "DEBUFF") then
+						module[v.filter]["unitIDs"] = module[v.filter]["unitIDs"] or {}
+						module[v.filter]["unitIDs"][vv] = true
 					end
 				end
 			end
