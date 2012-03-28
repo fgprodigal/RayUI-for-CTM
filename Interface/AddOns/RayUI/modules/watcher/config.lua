@@ -544,6 +544,8 @@ function RW:GetConfig()
 				{ spellID = 53563, unitId = "player", caster = "player", filter = "BUFF" },
 				--純潔審判
 				{ spellID = 53657, unitId = "player", caster = "player", filter = "BUFF" },
+				--精通光環
+				{ spellID = 31821, unitId = "player", caster = "player", filter = "BUFF" },
 			},
 			{
 				name = "目标buff",
@@ -1140,8 +1142,6 @@ function RW:GetConfig()
 				{ spellID = 90355, unitId = "player", caster = "all", filter = "BUFF" },
 				--振奮咆哮
 				{ spellID = 97463, unitId = "player", caster = "all", filter = "BUFF" },
-				--精通光環
-				{ spellID = 31821, unitId = "player", caster = "all", filter = "BUFF" },
 				--犧牲聖禦
 				{ spellID = 6940, unitId = "player", caster = "all", filter = "BUFF" },
 				--保護聖禦
@@ -1150,6 +1150,8 @@ function RW:GetConfig()
 				{ spellID = 47788, unitId = "player", caster = "all", filter = "BUFF" },
 				--痛苦镇压
 				{ spellID = 33206, unitId = "player", caster = "all", filter = "BUFF" },
+				--血族之裔
+				{ spellID = 105588, unitId = "player", caster = "all", filter = "BUFF" },
 				
 			--種族天賦
 				--血之烈怒

@@ -3,7 +3,7 @@ local AB = R:GetModule("ActionBar")
 
 function AB:CreateExtraButton()
 	local holder = CreateFrame('Frame', nil, UIParent)
-	holder:Point("CENTER", UIParent, "BOTTOM", 500, 500)
+	holder:Point("CENTER", UIParent, "BOTTOM", 500, 510)
 	holder:Size(ExtraActionBarFrame:GetSize())
 	ExtraActionBarFrame:SetParent(holder)
 	ExtraActionBarFrame:ClearAllPoints()

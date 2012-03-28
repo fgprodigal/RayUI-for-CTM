@@ -221,115 +221,17 @@ local saveCustomPosition = function(style, ident, point, x, y, scale)
 	)
 end
 
--- Attempt to figure out a more sane name to dispaly.
-local smartName
-do
-	local nameCache = {}
-	local validNames = {
-		'player',
-		'target',
-		'focus',
-		'raid',
-		'pet',
-		'party',
-		'maintank',
-		'mainassist',
-		'arena',
-	}
-
-	local rewrite = {
-		mt = 'maintank',
-		mtt = 'maintanktarget',
-
-		ma = 'mainassist',
-		mat = 'mainassisttarget',
-	}
-
-	local validName = function(smartName)
-		-- Not really a valid name, but we'll accept it for simplicities sake.
-		if(tonumber(smartName)) then
-			return smartName
+local function smartName(obj, header)
+	if(type(obj) == 'string') then
+		return obj
+	elseif(header) then
+		return header:GetName()
+	else
+		local name = obj:GetName()
+		if(name) then
+			return name
 		end
-
-		if(type(smartName) == 'string') then
-			-- strip away trailing s from pets, but don't touch boss/focus.
-			smartName = smartName:gsub('([^us])s$', '%1')
-
-			if(rewrite[smartName]) then
-				return rewrite[smartName]
-			end
-
-			for _, v in next, validNames do
-				if(v == smartName) then
-					return smartName
-				end
-			end
-
-			if(
-				smartName:match'^party%d?$' or
-				smartName:match'^arena%d?$' or
-				smartName:match'^boss%d?$' or
-				smartName:match'^partypet%d?$' or
-				smartName:match'^raid%d?%d?$' or
-				smartName:match'%w+target$' or
-				smartName:match'%w+pet$'
-				) then
-				return smartName
-			end
-		end
-	end
-
-	local function guessName(...)
-		local name = validName(select(1, ...))
-
-		local n = select('#', ...)
-		if(n > 1) then
-			for i=2, n do
-				local inp = validName(select(i, ...))
-				if(inp) then
-					name = (name or '') .. inp
-				end
-			end
-		end
-
-		return name
-	end
-
-	local smartString = function(name)
-		if(nameCache[name]) then
-			return nameCache[name]
-		end
-
-		-- Here comes the substitute train!
-		local n = name
-			:gsub('ToT', 'targettarget')
-			:gsub('(%l)(%u)', '%1_%2')
-			:gsub('([%l%u])(%d)', '%1_%2_')
-			:gsub('Main_', 'Main')
-			:lower()
-
-		n = guessName(string.split('_', n))
-		if(n) then
-			nameCache[name] = n
-			return n
-		end
-
-		return name
-	end
-
-	smartName = function(obj, header)
-		if(type(obj) == 'string') then
-			return smartString(obj)
-		elseif(header) then
-			return smartString(header:GetName())
-		else
-			local name = obj:GetName()
-			if(name) then
-				return smartString(name)
-			end
-
-			return obj.unit or '<unknown>'
-		end
+		return obj.unit or '<unknown>'
 	end
 end
 

@@ -797,8 +797,7 @@ function CH:ApplyStyle()
 		bb:SetScript("OnClick", BottomButtonClick)
 		local font, path = cf:GetFont()
 		cf:SetFont(font, path, R["media"].fontflag)
-		cf:SetShadowOffset(R.mult, -R.mult)
-		cf:SetShadowColor(0, 0, 0)
+		cf:SetShadowColor(0, 0, 0, 0)
 	end
 end
 

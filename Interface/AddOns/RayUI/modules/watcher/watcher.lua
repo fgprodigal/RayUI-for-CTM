@@ -171,7 +171,9 @@ function watcherPrototype:UpdateButton(button, index, icon, count, duration, exp
 	else
 		button.spn = GetSpellInfo(spellID)
 	end
-	button:Show()
+	if not button:IsShown() then
+		button:Show()
+	end
 end
 
 local function OnUpdate(self, elapsed)
@@ -311,7 +313,9 @@ end
 function watcherPrototype:Update()
 	self.current = 1
 	for i = 1, #self.button do
-		self.button[i]:Hide()
+		if self.button[i]:IsShown() then
+			self.button[i]:Hide()
+		end
 	end
 	self:CheckAura()
 	self:CheckCooldown()
@@ -471,6 +475,7 @@ end
 
 function RW:Initialize()
 	SpellActivationOverlayFrame:SetFrameStrata("BACKGROUND")
+	SpellActivationOverlayFrame:SetFrameLevel(0)
 	self:GetConfig()
 	if type(self.config[R.myclass]) == "table" then
 		for _, t in ipairs(self.config[R.myclass]) do

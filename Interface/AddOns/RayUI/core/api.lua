@@ -120,7 +120,8 @@ local function CreateShadow(f, t, offset, thickness, texture)
 	
 	local borderr, borderg, borderb, bordera = unpack(R["media"].bordercolor)
 	local backdropr, backdropg, backdropb, backdropa = unpack(R["media"].backdropcolor)
-	
+	local frameLevel = f:GetFrameLevel() > 1 and f:GetFrameLevel() or 1
+
 	if t == "Background" then
 		backdropa = 0.6
 	else
@@ -128,7 +129,7 @@ local function CreateShadow(f, t, offset, thickness, texture)
 	end
 	
 	local border = CreateFrame("Frame", nil, f)
-	border:SetFrameLevel(1)
+	border:SetFrameLevel(frameLevel)
 	border:Point("TOPLEFT", -1, 1)
 	border:Point("TOPRIGHT", 1, 1)
 	border:Point("BOTTOMRIGHT", 1, -1)
@@ -137,7 +138,7 @@ local function CreateShadow(f, t, offset, thickness, texture)
 	f.border = border
 	
 	local shadow = CreateFrame("Frame", nil, border)
-	shadow:SetFrameLevel(0)
+	shadow:SetFrameLevel(frameLevel - 1)
 	shadow:Point("TOPLEFT", -3, 3)
 	shadow:Point("TOPRIGHT", 3, 3)
 	shadow:Point("BOTTOMRIGHT", 3, -3)
