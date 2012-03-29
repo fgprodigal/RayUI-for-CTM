@@ -101,7 +101,18 @@ L["法力恢复Buff"] = true
 L["攻击强度Buff"] = true
 L["力量与敏捷Buff"] = true
 L["缺少"] = true
-L["缺少重要buff"] = true
+L["请取消"] = true
+L["守护"] = true
+L["护甲"] = true
+L["圣印"] = true
+L["正义之怒"] = true
+L["光环"] = true
+L["护盾"] = true
+L["武器附魔"] = true
+L["命令怒吼"] = true
+L["战斗怒吼"] = true
+L["寒冬号角"] = true
+L["鲜血灵气"] = true
 
 L["URL Ctrl+C复制"] = true
 

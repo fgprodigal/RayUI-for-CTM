@@ -1,4 +1,4 @@
-local R, L, P = unpack(select(2, ...)) --Inport: Engine, Locales, ProfileDB
+--[[ local R, L, P = unpack(select(2, ...)) --Inport: Engine, Locales, ProfileDB
 local M = R:GetModule("Misc")
 
 local function LoadFunc()
@@ -538,4 +538,4 @@ local function LoadFunc()
 	iLvLrFrame:SetScript("OnEvent", iLvLrOnEvent)
 end
 
-M:RegisterMiscModule("iLvLr", LoadFunc)
+M:RegisterMiscModule("iLvLr", LoadFunc) ]]

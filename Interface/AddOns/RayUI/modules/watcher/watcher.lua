@@ -476,18 +476,17 @@ end
 function RW:Initialize()
 	SpellActivationOverlayFrame:SetFrameStrata("BACKGROUND")
 	SpellActivationOverlayFrame:SetFrameLevel(0)
-	self:GetConfig()
-	if type(self.config[R.myclass]) == "table" then
-		for _, t in ipairs(self.config[R.myclass]) do
+	if type(P["Watcher"]["filters"][R.myclass]) == "table" then
+		for _, t in ipairs(P["Watcher"]["filters"][R.myclass]) do
 			self:NewWatcher(t)
 		end
 	end
-	if type(self.config["ALL"]) == "table" then
-		for _, t in ipairs(self.config["ALL"]) do
+	if type(P["Watcher"]["filters"]["ALL"]) == "table" then
+		for _, t in ipairs(P["Watcher"]["filters"]["ALL"]) do
 			self:NewWatcher(t)
 		end
 	end
-	wipe(self.config)
+	wipe(P["Watcher"]["filters"])
 	CreatePopup()
 
 	defaults.profile = {}
