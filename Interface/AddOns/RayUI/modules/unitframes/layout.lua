@@ -87,6 +87,7 @@ function UF:DPSLayout(frame, unit)
 	Thrt:SetTexture("Interface\\AddOns\\RayUI\\media\\threat")
 	Thrt:SetBlendMode("ADD")
 	Thrt:Hide()
+	Thrt.Override = UF.UpdateThreatStatus
 	frame.ThreatHlt = Thrt	
 	
 	-- update threat

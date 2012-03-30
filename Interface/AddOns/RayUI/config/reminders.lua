@@ -17,10 +17,10 @@ P["Reminder"]["filters"] = {
 	HUNTER = {
 		["守护"] = { --aspects group
 			["spellGroup"] = {
-				[13165] = true, -- hawk
 				[5118] = true, -- cheetah
 				[20043] = true, -- wild
 				[82661] = true, -- fox	
+				[13165] = true, -- hawk
 			},
 			["combat"] = true,
 			["instance"] = true,

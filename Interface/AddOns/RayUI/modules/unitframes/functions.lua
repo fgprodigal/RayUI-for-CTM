@@ -687,7 +687,8 @@ function UF:PostUpdatePower(unit, cur, max)
 end
 
 function UF:UpdateThreatStatus(event, unit)
-	if (self.unit ~= unit) then return end
+	if (self.unit ~= unit) and (event~="PLAYER_TARGET_CHANGED") then return end
+	unit = unit or self.unit
 	local s = UnitThreatSituation(unit)
 	if s and s > 1 then
 		local r, g, b = GetThreatStatusColor(s)
