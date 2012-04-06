@@ -121,7 +121,7 @@ P["Watcher"]["filters"] ={
 			mode = "BAR",
 			size = 28,
 			barWidth = 170,
-			setpoint = { "TOPLEFT", RayUIActionBar2, "BOTTOMRIGHT", -27, -6 },
+			setpoint = { "TOPLEFT", "RayUIActionBar2", "BOTTOMRIGHT", -27, -6 },
 
 			--狂暴
 			{ spellID = 50334, filter = "CD" },
@@ -171,7 +171,10 @@ P["Watcher"]["filters"] ={
 			direction = "LEFT",
 			setpoint = { "BOTTOMRIGHT", "RayUF_player", "TOPRIGHT", 0, 33 },
 			size = 38,
-			
+
+			--誤導
+			{ spellID = 34477, unitId = "player", caster = "player", filter = "BUFF" },
+			{ spellID = 35079, unitId = "player", caster = "player", filter = "BUFF" },
 			--蓄勢待發
 			{ spellID = 56453, unitId = "player", caster = "player", filter = "BUFF" },
 			--蓄勢待發
@@ -247,7 +250,7 @@ P["Watcher"]["filters"] ={
 			mode = "BAR",
 			size = 28,
 			barWidth = 170,
-			setpoint = { "TOPLEFT", RayUIActionBar2, "BOTTOMRIGHT", -27, -6 },
+			setpoint = { "TOPLEFT", "RayUIActionBar2", "BOTTOMRIGHT", -27, -6 },
 
 			--急速射擊
 			{ spellID = 3045, filter = "CD" },
@@ -343,7 +346,7 @@ P["Watcher"]["filters"] ={
 			mode = "BAR",
 			size = 28,
 			barWidth = 170,
-			setpoint = { "TOPLEFT", RayUIActionBar2, "BOTTOMRIGHT", -27, -6 },
+			setpoint = { "TOPLEFT", "RayUIActionBar2", "BOTTOMRIGHT", -27, -6 },
 			
 			--镜像术
 			{ spellID = 55342, unitId = "player", caster = "player", filter = "CD" },
@@ -530,8 +533,6 @@ P["Watcher"]["filters"] ={
 			{ spellID = 53563, unitId = "player", caster = "player", filter = "BUFF" },
 			--純潔審判
 			{ spellID = 53657, unitId = "player", caster = "player", filter = "BUFF" },
-			--精通光環
-			{ spellID = 31821, unitId = "player", caster = "player", filter = "BUFF" },
 		},
 		{
 			name = "目标buff",
@@ -568,6 +569,8 @@ P["Watcher"]["filters"] ={
 			{ spellID = 59578, unitId = "player", caster = "player", filter = "BUFF" },
 			--復仇之怒
 			{ spellID = 31884, unitId = "player", caster = "player", filter = "BUFF" },
+			--精通光環
+			{ spellID = 31821, unitId = "player", caster = "player", filter = "BUFF" },
 		},
 		{
 			name = "目标debuff",
@@ -601,7 +604,7 @@ P["Watcher"]["filters"] ={
 			mode = "BAR",
 			size = 28,
 			barWidth = 170,
-			setpoint = { "TOPLEFT", RayUIActionBar2, "BOTTOMRIGHT", -27, -6 },
+			setpoint = { "TOPLEFT", "RayUIActionBar2", "BOTTOMRIGHT", -27, -6 },
 
 			--精通光環
 			{ spellID = 31821, filter = "CD" },
@@ -736,7 +739,7 @@ P["Watcher"]["filters"] ={
 			mode = "BAR",
 			size = 28,
 			barWidth = 170,
-			setpoint = { "TOPLEFT", RayUIActionBar2, "BOTTOMRIGHT", -27, -6 },
+			setpoint = { "TOPLEFT", "RayUIActionBar2", "BOTTOMRIGHT", -27, -6 },
 			
 			--大天使
 			{ spellID = 87151, unitId = "player", caster = "player", filter = "CD" },
@@ -936,7 +939,7 @@ P["Watcher"]["filters"] ={
 			mode = "BAR",
 			size = 28,
 			barWidth = 170,
-			setpoint = { "TOPLEFT", RayUIActionBar2, "BOTTOMRIGHT", -27, -6 },
+			setpoint = { "TOPLEFT", "RayUIActionBar2", "BOTTOMRIGHT", -27, -6 },
 
 			--暗影步
 			{ spellID = 36554, filter = "CD" },

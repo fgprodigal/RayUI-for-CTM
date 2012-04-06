@@ -8,7 +8,6 @@ local function LoadSkin()
 		local anchorframe = CreateFrame("Frame", "ItemLoot", UIParent)
 		anchorframe:SetSize(200, 15)
 		anchorframe:SetPoint("TOPLEFT", 300, -300)
-		-- if UIMovableFrames then tinsert(UIMovableFrames, anchorframe) end
 
 		local function OnClick(self)
 			if IsModifiedClick() then
@@ -143,8 +142,12 @@ local function LoadSkin()
 					self:GetCenter()
 					self:Raise()
 				end
-				for i = 1, numLootItems do
-					UpdateLootSlot(self, i)
+				if numLootItems > 0 then
+					for i = 1, numLootItems do
+						UpdateLootSlot(self, i)
+					end
+				else
+					CloseLoot()
 				end
 				if not self:IsShown() then
 					CloseLoot(autoLoot == 0)
@@ -201,11 +204,61 @@ local function LoadSkin()
 		loot.title:SetJustifyH("LEFT")
 		loot.button = CreateFrame("Button", nil, loot)
 		loot.button:SetPoint("TOPRIGHT")
-		loot.button:SetSize(20, 20)
+		loot.button:SetSize(17, 17)
 		S:ReskinClose(loot.button)
 		loot.button:SetScript("OnClick", function()
 			CloseLoot()
 		end)
+		
+		local chn = { "say", "guild", "party", "raid"}
+		local function Announce(chn)
+			local nums = GetNumLootItems()
+			if(nums == 0) then return end
+			if UnitIsPlayer("target") or not UnitExists("target") then -- Chests are hard to identify!
+				SendChatMessage(format("*** %s ***", L["箱子中的战利品"]), chn)
+			else
+				SendChatMessage(format("*** %s%s ***", UnitName("target"), L["的战利品"]), chn)
+			end
+			for i = 1, GetNumLootItems() do
+				local link
+				if(LootSlotIsItem(i)) then     --判断，只发送物品
+					link = GetLootSlotLink(i)
+				else
+					_, link = GetLootSlotInfo(i)
+				end
+				if link then
+					local messlink = "- %s"
+					SendChatMessage(format(messlink, link), chn)
+				end
+			end
+		end
+
+		loot.announce = {}
+		for i = 1, #chn do
+			loot.announce[i] = CreateFrame("Button", "ItemLootAnnounceButton"..i, loot)
+			loot.announce[i]:SetSize(17, 17)
+			loot.announce[i]:SetPoint("RIGHT", i==1 and loot.button or loot.announce[i-1], "LEFT", -3, 0)
+			loot.announce[i]:SetScript("OnClick", function() Announce(chn[i]) end)
+			loot.announce[i]:SetScript("OnEnter", function(self)
+				GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 5)
+				GameTooltip:ClearLines()
+				GameTooltip:AddLine(L["将战利品通报至"].._G[chn[i]:upper()])
+				GameTooltip:Show()
+			end)
+			loot.announce[i]:SetScript("OnLeave", GameTooltip_Hide)
+			loot.announce[i]:SetBackdrop({
+				bgFile = R["media"].blank,
+				edgeFile = R["media"].blank, 
+				edgeSize = R.mult
+			})
+			loot.announce[i]:SetBackdropBorderColor(unpack(R["media"].bordercolor))
+			loot.announce[i]:SetBackdropColor(ChatTypeInfo[chn[i]:upper()].r, ChatTypeInfo[chn[i]:upper()].g, ChatTypeInfo[chn[i]:upper()].b)
+			loot.announce[i]:StyleButton()
+			loot.announce[i]:GetHighlightTexture():Point("TOPLEFT", 1, -1)
+			loot.announce[i]:GetHighlightTexture():Point("BOTTOMRIGHT", -1, 1)
+			loot.announce[i]:GetPushedTexture():Point("TOPLEFT", 1, -1)
+			loot.announce[i]:GetPushedTexture():Point("BOTTOMRIGHT", -1, 1)
+		end
 	end
 end
 

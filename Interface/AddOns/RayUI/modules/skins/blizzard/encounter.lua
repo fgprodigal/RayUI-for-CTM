@@ -86,8 +86,8 @@ local function LoadSkin()
 			bu:SetHighlightTexture("")
 
 			local bg = CreateFrame("Frame", nil, bu)
-			bg:Point("TOPLEFT", 4, -4)
-			bg:Point("BOTTOMRIGHT", -5, 3)
+			bg:SetPoint("TOPLEFT", 4, -4)
+			bg:SetPoint("BOTTOMRIGHT", -4, 3)
 			S:CreateBD(bg, 0)
 		end
 	end
@@ -202,8 +202,8 @@ local function LoadSkin()
 		S:CreateBG(item.icon)
 
 		local bg = CreateFrame("Frame", nil, item)
-		bg:SetPoint("TOPLEFT")
-		bg:Point("BOTTOMRIGHT", 0, 1)
+		bg:Point("TOPLEFT", 2, -2)
+		bg:SetPoint("BOTTOMRIGHT", 0, -1)
 		bg:SetFrameStrata("BACKGROUND")
 		S:CreateBD(bg, 0)
 
@@ -237,6 +237,25 @@ local function LoadSkin()
 	S:ReskinScroll(EncounterJournalEncounterFrameInfoDetailsScrollFrameScrollBar)
 	S:ReskinScroll(EncounterJournalEncounterFrameInfoLootScrollFrameScrollBar)
 	S:ReskinScroll(EncounterJournalSearchResultsScrollFrameScrollBar)
+	
+	function EncounterJournal_Loot_OnUpdate(self)
+        if GameTooltip:IsOwned(self) then
+            if IsModifiedClick("COMPAREITEMS") or
+                    (GetCVarBool("alwaysCompareItems") and not GameTooltip:IsEquippedItem()) then
+                GameTooltip_ShowCompareItem()
+            else
+                ShoppingTooltip1:Hide()
+                ShoppingTooltip2:Hide()
+                ShoppingTooltip3:Hide()
+            end
+
+            if IsModifiedClick("DRESSUP") then
+                ShowInspectCursor()
+            else
+                ResetCursor()
+            end
+        end
+    end
 end
 
 S:RegisterSkin("Blizzard_EncounterJournal", LoadSkin)

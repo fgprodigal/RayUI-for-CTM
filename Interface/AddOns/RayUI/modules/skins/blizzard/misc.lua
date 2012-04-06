@@ -429,6 +429,7 @@ local function LoadSkin()
 		"InterfaceOptionsUnitFramePanelFullSizeFocusFrame",
 		"CompactUnitFrameProfilesRaidStylePartyFrames",
 		"CompactUnitFrameProfilesGeneralOptionsFrameKeepGroupsTogether",
+		"CompactUnitFrameProfilesGeneralOptionsFrameHorizontalGroups",
 		"CompactUnitFrameProfilesGeneralOptionsFrameDisplayIncomingHeals",
 		"CompactUnitFrameProfilesGeneralOptionsFrameDisplayPowerBar",
 		"CompactUnitFrameProfilesGeneralOptionsFrameDisplayAggroHighlight",

@@ -613,6 +613,8 @@ function TT:Initialize()
 	self:RegisterEvent("MODIFIER_STATE_CHANGED")
 	self:RegisterEvent("INSPECT_ACHIEVEMENT_READY")
 	self:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
+
+	SetCVar("alwaysCompareItems", 1)
 end
 
 function TT:Info()

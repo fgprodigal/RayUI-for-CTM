@@ -153,13 +153,13 @@ function RM:UpdateReminderIcon(event, unit)
 	end
 	
 	if db.reverseCheck and not (db.role or db.tree) then db.reverseCheck = nil end
-	if not self.icon:GetTexture() or UnitInVehicle("player") then return end
+	if not self.icon:GetTexture() or UnitInVehicle("player") then self:Hide() end
 	
 	if db.spellGroup then
 		if roleCheck and treeCheck and combatCheck and (instanceCheck or PVPCheck) and not RM:PlayerHasFilteredBuff(db.spellGroup, db.personal) then
 			self.hint = L["缺少"]..L[self.groupName]
 			self:Show()
-		elseif combatCheck and (instanceCheck or PVPCheck) and db.reverseCheck and (not roleCheck or not treeCheck) and RM:PlayerHasFilteredBuff(db.spellGroup, db.personal) and not (db.talentTreeException == GetPrimaryTalentTree()) then
+		elseif combatCheck and (instanceCheck or PVPCheck) and db.reverseCheck and (not roleCheck or not treeCheck) and RM:PlayerHasFilteredBuff(db.spellGroup, db.personal) and GetPrimaryTalentTree() and not (db.talentTreeException == GetPrimaryTalentTree()) then
 			self.hint = L["请取消"]..L[self.groupName]
 			self:Show()
 		end
@@ -169,7 +169,7 @@ function RM:UpdateReminderIcon(event, unit)
 				self.hint = L["缺少"]..L[self.groupName]
 				self:Show()
 				self.icon:SetTexture(GetInventoryItemTexture("player", 16))
-			elseif not hasMainHandEnchant or not hasOffHandEnchant then				
+			elseif hasOffhandWeapon and (not hasMainHandEnchant or not hasOffHandEnchant) then
 				if not hasMainHandEnchant then
 					self.icon:SetTexture(GetInventoryItemTexture("player", 16))
 				else

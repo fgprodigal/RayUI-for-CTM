@@ -13,7 +13,7 @@ local function LoadFunc()
 		local found = false
 		for _, itemid in pairs(poisons) do
 			local poison = GetItemInfo(itemid)
-			if poison and text:find(poison) then
+			if poison and text and text:find(poison) then
 				found = true
 			end
 		end

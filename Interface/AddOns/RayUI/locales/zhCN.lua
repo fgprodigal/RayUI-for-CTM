@@ -114,6 +114,10 @@ L["战斗怒吼"] = true
 L["寒冬号角"] = true
 L["鲜血灵气"] = true
 
+L["箱子中的战利品"] = true
+L["的战利品"] = true
+L["将战利品通报至"] = true
+
 L["URL Ctrl+C复制"] = true
 
 L["PVP信息"] = true

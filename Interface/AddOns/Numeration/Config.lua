@@ -4,7 +4,7 @@ local LSM = LibStub("LibSharedMedia-3.0")
 -- window settings
 n.windowsettings = {
 	-- pos = { "TOPLEFT", 4, -4 },
-	pos = { "BOTTOMRIGHT", nil, "BOTTOMRIGHT", -15, 30 },
+	pos = { "BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -15, 30 },
 	width = 220,
 	maxlines = 7,
 	backgroundalpha = 0,
