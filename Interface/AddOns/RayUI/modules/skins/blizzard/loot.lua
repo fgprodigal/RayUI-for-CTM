@@ -211,6 +211,12 @@ local function LoadSkin()
 		end)
 		
 		local chn = { "say", "guild", "party", "raid"}
+		local chncolor = {
+			say = { 1, 1, 1},
+			guild = { .25, 1, .25},
+			party = { 2/3, 2/3, 1},
+			raid = { 1, .5, 0},
+		}
 		local function Announce(chn)
 			local nums = GetNumLootItems()
 			if(nums == 0) then return end
@@ -242,7 +248,7 @@ local function LoadSkin()
 			loot.announce[i]:SetScript("OnEnter", function(self)
 				GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 5)
 				GameTooltip:ClearLines()
-				GameTooltip:AddLine(L["将战利品通报至"].._G[chn[i]:upper()])
+				GameTooltip:AddLine(L["将战利品通报至"]..L[chn[i]:upper()])
 				GameTooltip:Show()
 			end)
 			loot.announce[i]:SetScript("OnLeave", GameTooltip_Hide)
@@ -252,7 +258,7 @@ local function LoadSkin()
 				edgeSize = R.mult
 			})
 			loot.announce[i]:SetBackdropBorderColor(unpack(R["media"].bordercolor))
-			loot.announce[i]:SetBackdropColor(ChatTypeInfo[chn[i]:upper()].r, ChatTypeInfo[chn[i]:upper()].g, ChatTypeInfo[chn[i]:upper()].b)
+			loot.announce[i]:SetBackdropColor(unpack(chncolor[chn[i]]))
 			loot.announce[i]:StyleButton()
 			loot.announce[i]:GetHighlightTexture():Point("TOPLEFT", 1, -1)
 			loot.announce[i]:GetHighlightTexture():Point("BOTTOMRIGHT", -1, 1)
