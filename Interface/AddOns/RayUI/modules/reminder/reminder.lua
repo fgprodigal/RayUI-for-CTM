@@ -153,7 +153,7 @@ function RM:UpdateReminderIcon(event, unit)
 	end
 	
 	if db.reverseCheck and not (db.role or db.tree) then db.reverseCheck = nil end
-	if not self.icon:GetTexture() or UnitInVehicle("player") then self:Hide() end
+	if not self.icon:GetTexture() or UnitInVehicle("player") then self:Hide() return end
 	
 	if db.spellGroup then
 		if roleCheck and treeCheck and combatCheck and (instanceCheck or PVPCheck) and not RM:PlayerHasFilteredBuff(db.spellGroup, db.personal) then

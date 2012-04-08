@@ -656,6 +656,7 @@ function RW:NewWatcher(data)
 	if module.BUFF or module.DEBUFF then
 		module:RegisterEvent("UNIT_AURA", "OnEvent")
 		module:RegisterEvent("PLAYER_TARGET_CHANGED", "OnEvent")
+		module:RegisterEvent("PLAYER_FOCUS_CHANGED", "OnEvent")
 	end
 	if module.CD or module.itemCD then
 		module:RegisterEvent("SPELL_UPDATE_COOLDOWN", "OnEvent")

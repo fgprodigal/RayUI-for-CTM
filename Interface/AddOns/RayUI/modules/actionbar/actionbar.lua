@@ -283,6 +283,12 @@ function AB:Initialize()
 			button = _G[format("MultiBarBottomLeftButton%d", i)]
 			button:SetAttribute("showgrid", 1)
 			ActionButton_ShowGrid(button)
+			
+			button = _G[format("PetActionButton%d", i)]
+			if button then
+				button:SetAttribute("showgrid", 1)
+				ActionButton_ShowGrid(button)
+			end
 		end
 	end
 	for i = 1, 5 do

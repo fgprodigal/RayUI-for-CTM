@@ -760,41 +760,40 @@ P["Watcher"]["filters"] ={
 			direction = "RIGHT",
 			mode = "ICON",
 			size = 38,
-	
-			{spellID = 8050, unitId = "target", caster = "target", filter = "DEBUFF"},
-			--Fear / Furcht
-			{ spellID = 5782, unitId = "target", caster = "target", filter = "DEBUFF" },
-			--Banish / Verbannen
+
+			--恐懼術
+			{ spellID = 5782, unitId = "target", caster = "player", filter = "DEBUFF" },
+			--放逐術
 			{ spellID = 710, unitId = "target", caster = "player", filter = "DEBUFF" },
-			--Curse of the Elements / Fluch der Elemente
+			--元素詛咒
 			{ spellID = 1490, unitId = "target", caster = "player", filter = "DEBUFF" },
-			--Curse of Tongues / Fluch der Sprachen
+			--語言詛咒
 			{ spellID = 1714, unitId = "target", caster = "player", filter = "DEBUFF" },
-			--Curse of Exhaustion / Fluch der Erschöpfung
+			--疲勞詛咒
 			{ spellID = 18223, unitId = "target", caster = "player", filter = "DEBUFF" },
-			--Curse of Weakness / Fluch der Schwäche
+			--虛弱詛咒
 			{ spellID = 702, unitId = "target", caster = "player", filter = "DEBUFF" },
-			--Corruption / Verderbnis
+			--腐蝕術
 			{ spellID = 172, unitId = "target", caster = "player", filter = "DEBUFF" },
-			--Immolate / Feuerbrand
+			--獻祭
 			{ spellID = 348, unitId = "target", caster = "player", filter = "DEBUFF" },
-			--Curse of Agony / Omen der Pein
+			--痛苦災厄
 			{ spellID = 980, unitId = "target", caster = "player", filter = "DEBUFF" },
-			--Bane of Doom / Omen der Verdammnis
+			--末日災厄
 			{ spellID = 603, unitId = "target", caster = "player", filter = "DEBUFF" },
-			--Unstable Affliction / Instabiles Gebrechen
+			--痛苦動盪
 			{ spellID = 30108, unitId = "target", caster = "player", filter = "DEBUFF" },
-			--Haunt / Heimsuchung
+			--蝕魂術
 			{ spellID = 48181, unitId = "target", caster = "player", filter = "DEBUFF" },
-			--Seed of Corruption / Saat der Verderbnis
+			--腐蝕種子
 			{ spellID = 27243, unitId = "target", caster = "player", filter = "DEBUFF" },
-			--Howl of Terror / Schreckensgeheul
+			--恐懼嚎叫
 			{ spellID = 5484, unitId = "target", caster = "player", filter = "DEBUFF" },
-			--Death Coil / Todesmantel
+			--死亡纏繞
 			{ spellID = 6789, unitId = "target", caster = "player", filter = "DEBUFF" },
-			--Enslave Demon / Dämonensklave
-			{ spellID = 1098, unitId = "target", caster = "player", filter = "DEBUFF" },
-			--Demon Charge / Dämonischer Ansturm
+			--奴役惡魔
+			{ spellID = 1098, unitId = "pet", caster = "player", filter = "DEBUFF" },
+			--惡魔跳躍
 			{ spellID = 54785, unitId = "target", caster = "player", filter = "DEBUFF" },
 		},
 		{
@@ -802,21 +801,21 @@ P["Watcher"]["filters"] ={
 			setpoint = { "BOTTOMRIGHT", "RayUF_player", "TOPRIGHT", 0, 33 },
 			direction = "LEFT",
 			size = 38,
-			--Improved Soul Fire / Verbessertes Seelenfeuer
+			--強化靈魂之火
 			{ spellID = 85383, unitId = "player", caster = "player", filter = "BUFF" },
-			--Molten Core / Geschmolzener Kern
-			{ spellID = 47383, unitId = "player", caster = "player", filter = "BUFF" },
-			--Decimation / Dezimierung
+			--熔火之心
+			{ spellID = 71165, unitId = "player", caster = "player", filter = "BUFF" },
+			--屠虐
 			{ spellID = 63165, unitId = "player", caster = "player", filter = "BUFF" },
-			--Backdraft / Pyrolyse
+			--爆燃
 			{ spellID = 54274, unitId = "player", caster = "player", filter = "BUFF" },
-			--Backlash / Heimzahlen
+			--反衝
 			{ spellID = 34936, unitId = "player", caster = "player", filter = "BUFF" },
-			--Nether Protection / Netherschutz
+			--虛空保護
 			{ spellID = 30299, unitId = "player", caster = "player", filter = "BUFF" },
-			--Nightfall / Einbruch der Nacht
-			{ spellID = 18094, unitId = "player", caster = "player", filter = "BUFF" },
-			--Soulburn / Seelenbrand
+			--夜暮
+			{ spellID = 17941, unitId = "player", caster = "player", filter = "BUFF" },
+			--靈魂炙燃
 			{ spellID = 74434, unitId = "player", caster = "player", filter = "BUFF" },
 		},
 	},
