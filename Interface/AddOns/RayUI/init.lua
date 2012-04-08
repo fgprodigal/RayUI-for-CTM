@@ -86,7 +86,7 @@ function AddOn:OnInitialize()
 	self:UpdateMedia()
 	
 	for k, v in self:IterateModules() do
-		if AddOn.db[k] then
+		if self.db[k] and (( self.db[k].enable~=nil and self.db[k].enable == true) or self.db[k].enable == nil) and v.GetOptions then
 			AddOn.Options.args[k:gsub(" ", "_")] = {
 				type = "group",
 				name = (v.modName or k),
@@ -99,16 +99,12 @@ function AddOn:OnInitialize()
 					StaticPopup_Show("CFG_RELOAD")
 				end,
 			}
-			local t
-			if self.db[k] and (( self.db[k].enable~=nil and self.db[k].enable == true) or self.db[k].enable == nil) and v.GetOptions then
-				t = v:GetOptions()
-				t.settingsHeader = {
-					type = "header",
-					name = Locale["设置"],
-					order = 4
-				}
-			end
-			t = t or {}
+			local t = v:GetOptions()
+			t.settingsHeader = {
+				type = "header",
+				name = Locale["设置"],
+				order = 4
+			}
 			if self.db[k] and self.db[k].enable ~= nil then
 				t.toggle = {
 					type = "toggle", 

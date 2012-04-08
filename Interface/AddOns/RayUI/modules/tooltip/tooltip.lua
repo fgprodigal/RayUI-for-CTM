@@ -267,6 +267,7 @@ end
 
 function TT:INSPECT_ACHIEVEMENT_READY()
     self:UnregisterEvent('INSPECT_ACHIEVEMENT_READY')
+    if not self.line then return end
 	self.line:SetFont(GameTooltipTextLeft3:GetFont())
     self.line:SetText()
 

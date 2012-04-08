@@ -157,7 +157,25 @@ function AB:StyleTotemSpellButton(button, index)
 	if not InCombatLockdown() then button:Size(AB.db.buttonsize) end
 	_G[button:GetName().."Highlight"]:SetTexture(nil)
 	_G[button:GetName().."NormalTexture"]:SetTexture(nil)
-	button:StyleButton()
+	if index == 0 or index == 5 then
+		button:StyleButton(true)
+		local HotKey = _G[button:GetName().."HotKey"]
+		if HotKey then
+			HotKey:ClearAllPoints()
+			HotKey:SetPoint("TOPRIGHT", 0, 0)
+			HotKey:SetFont(R["media"].pxfont, R.mult*10, "OUTLINE,MONOCHROME")
+			HotKey:SetShadowColor(0, 0, 0, 0.3)
+			HotKey.ClearAllPoints = R.dummy
+			HotKey.SetPoint = R.dummy
+			if not AB.db.hotkeys == true then
+				HotKey:SetText("")
+				HotKey:Hide()
+				HotKey.Show = R.dummy
+			end
+		end
+	else
+		button:StyleButton()
+	end
 end
 
 function AB:CreateBarTotem()
@@ -169,7 +187,7 @@ function AB:CreateBarTotem()
 		MultiCastActionBarFrame:SetScript("OnHide", nil)
 		MultiCastActionBarFrame:SetParent(RayUIStanceBar)
 		MultiCastActionBarFrame:ClearAllPoints()
-		MultiCastActionBarFrame:SetPoint("BOTTOMLEFT", RayUIStanceBar, "BOTTOMLEFT", -2, -2)
+		MultiCastActionBarFrame:Point("BOTTOMLEFT", RayUIStanceBar, "BOTTOMLEFT", -2, -2)
 
 		hooksecurefunc("MultiCastActionButton_Update",function(actionbutton) if not InCombatLockdown() then actionbutton:SetAllPoints(actionbutton.slotButton) end end)
 		
