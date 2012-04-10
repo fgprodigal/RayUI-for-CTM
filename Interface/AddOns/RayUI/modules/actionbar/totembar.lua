@@ -148,6 +148,20 @@ end
 function AB:StyleTotemSpellButton(button, index)
 	if not button then return end
 	local icon = select(1,button:GetRegions())
+	local HotKey = _G[button:GetName().."HotKey"]
+	if HotKey then
+		HotKey:ClearAllPoints()
+		HotKey:SetPoint("TOPRIGHT", 0, 0)
+		HotKey:SetFont(R["media"].pxfont, R.mult*10, "OUTLINE,MONOCHROME")
+		HotKey:SetShadowColor(0, 0, 0, 0.3)
+		HotKey.ClearAllPoints = R.dummy
+		HotKey.SetPoint = R.dummy
+		if not AB.db.hotkeys == true then
+			HotKey:SetText("")
+			HotKey:Hide()
+			HotKey.Show = R.dummy
+		end
+	end
 	icon:SetTexCoord(.09,.91,.09,.91)
 	icon:SetDrawLayer("ARTWORK")
 	icon:SetAllPoints()
@@ -159,20 +173,6 @@ function AB:StyleTotemSpellButton(button, index)
 	_G[button:GetName().."NormalTexture"]:SetTexture(nil)
 	if index == 0 or index == 5 then
 		button:StyleButton(true)
-		local HotKey = _G[button:GetName().."HotKey"]
-		if HotKey then
-			HotKey:ClearAllPoints()
-			HotKey:SetPoint("TOPRIGHT", 0, 0)
-			HotKey:SetFont(R["media"].pxfont, R.mult*10, "OUTLINE,MONOCHROME")
-			HotKey:SetShadowColor(0, 0, 0, 0.3)
-			HotKey.ClearAllPoints = R.dummy
-			HotKey.SetPoint = R.dummy
-			if not AB.db.hotkeys == true then
-				HotKey:SetText("")
-				HotKey:Hide()
-				HotKey.Show = R.dummy
-			end
-		end
 	else
 		button:StyleButton()
 	end
