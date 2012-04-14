@@ -982,7 +982,11 @@ P["Watcher"]["filters"] ={
 			size = 38,
 			
 			--血魄護盾
-			{ spellID = 77513, unitId = "player", caster = "player", filter = "BUFF" },
+			{ spellID = 77535, unitId = "player", caster = "player", filter = "BUFF" },
+			--血魄轉化
+			{ spellID = 45529, unitId = "player", caster = "player", filter = "BUFF" },
+			--血族之裔
+			{ spellID = 55233, unitId = "player", caster = "player", filter = "BUFF" },
 			--穢邪力量
 			{ spellID = 67383, unitId = "player", caster = "player", filter = "BUFF" },
 			--穢邪力量
@@ -1072,12 +1076,16 @@ P["Watcher"]["filters"] ={
 			{ spellID = 96911, unitId = "player", caster = "player", filter = "BUFF" },
 			--淨縛之意志(隨機團隊)
 			{ spellID = 109793, unitId = "player", caster = "player", filter = "BUFF" },
-			--加速之瓶
+			--加速之瓶(普通模式)
 			{ spellID = 96980, unitId = "player", caster = "player", filter = "BUFF" },
 			--謊言面紗
 			{ spellID = 102667, unitId = "player", caster = "player", filter = "BUFF" },
+			--永恆之火精華
+			{ spellID = 97010, unitId = "player", caster = "player", filter = "BUFF" },
 			--擒星羅盤(隨機團隊)
 			{ spellID = 109709, unitId = "player", caster = "player", filter = "BUFF" },
+			--壞滅之眼(普通模式)
+			{ spellID = 107966, unitId = "player", caster = "player", filter = "BUFF" },
 
 		--工程
 			--神經突觸彈簧(敏捷)
@@ -1144,6 +1152,10 @@ P["Watcher"]["filters"] ={
 		--種族天賦
 			--血之烈怒
 			{ spellID = 20572, unitId = "player", caster = "all", filter = "BUFF" },
+			
+		--套裝效果
+			-- DK 4T13 (DPS)		
+			{ spellID = 105647, unitId = "player", caster = "player", filter = "BUFF" },
 		},
 		{
 			name = "PVE/PVP玩家debuff",

@@ -5,7 +5,7 @@ local isMoving = false
 local hasNew = false
 local timeout = 0
 local whentoshow={
-		"say", "emote", "text_emote", "yell", "loot",
+		"say", "emote", "text_emote", "yell",
 		"monster_emote", "monster_party", "monster_say", "monster_whisper", "monster_yell",
 		"party", "party_leader", "party_guide",
 		"whisper", "system", "channel",
@@ -105,7 +105,8 @@ function CH:ToggleChat()
 end
 
 function CH:OnEvent(event, ...)
-	if(event == "CHAT_MSG_CHANNEL" and channelNumbers and not channelNumbers[select(8,...)]) then return end
+	if event == "CHAT_MSG_CHANNEL" and channelNumbers and not channelNumbers[select(8,...)] and not select(9,...):find("TCForwarder") and not select(9,...):find("LFGForwarder") then return end
+	if event == "CHAT_MSG_CHANNEL" and select(1,...):find("%^LFW_") then return end
 	timeout = 0
 	if CH.ChatIn == false then
 		if isMoving then

@@ -272,7 +272,6 @@ function UF:DPSLayout(frame, unit)
             end
 
             if R.myclass == "DEATHKNIGHT" then
-                bars[3], bars[4], bars[5], bars[6] = bars[5], bars[6], bars[3], bars[4]
                 frame.Runes = bars
             elseif R.myclass == "WARLOCK" then
                 frame.SoulShards = bars

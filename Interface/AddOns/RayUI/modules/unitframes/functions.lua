@@ -324,84 +324,8 @@ function UF:ConstructThreatBar()
 	RayUIThreatBar:SetAlpha(0)
 end
 
-local channelTicks = {
-	--Warlock
-	[GetSpellInfo(1120)] = 5, --"Drain Soul"
-	[GetSpellInfo(689)] = 3, -- "Drain Life"
-	[GetSpellInfo(5740)] = 4, -- "Rain of Fire"
-	[GetSpellInfo(755)] = 3, -- Health Funnel
-	--Druid
-	[GetSpellInfo(44203)] = 4, -- "Tranquility"
-	[GetSpellInfo(16914)] = 10, -- "Hurricane"
-	--Priest
-	[GetSpellInfo(15407)] = 3, -- "Mind Flay"
-	[GetSpellInfo(48045)] = 5, -- "Mind Sear"
-	[GetSpellInfo(47540)] = 2, -- "Penance"
-	[GetSpellInfo(64901)] = 4, -- Hymn of Hope
-	[GetSpellInfo(64843)] = 4, -- Divine Hymn
-	--Mage
-	[GetSpellInfo(5143)] = 5, -- "Arcane Missiles"
-	[GetSpellInfo(10)] = 5, -- "Blizzard"
-	[GetSpellInfo(12051)] = 4, -- "Evocation"
-}
-
-local ticks = {}
-local function SetCastTicks(frame, num)
-	if num and num > 0 then
-		local d = frame:GetWidth() / num
-		for i = 1, num - 1 do
-			if not ticks[i] then
-				ticks[i] = frame:CreateTexture(nil, 'OVERLAY')
-				ticks[i]:SetTexture[[Interface\CastingBar\UI-CastingBar-Spark]]
-				ticks[i]:SetBlendMode("ADD")
-				ticks[i]:SetWidth(12)
-				ticks[i]:SetHeight(frame:GetHeight()+15)
-			end
-			ticks[i]:ClearAllPoints()
-			ticks[i]:SetPoint("CENTER", frame, "LEFT", d * i, 0)
-			ticks[i]:Show()
-		end
-	else
-		for _, tick in pairs(ticks) do
-			tick:Hide()
-		end
-	end
-end
-
 function UF:PostCastStart(unit, name, rank, castid)
 	if unit == "vehicle" then unit = "player" end
-	if unit == "player" then
-		local baseTicks = channelTicks[name]
-		if baseTicks and channelTicks[name] then
-			local tickIncRate = 1 / baseTicks
-			local curHaste = UnitSpellHaste("player") * 0.01
-			local firstTickInc = tickIncRate / 2
-			local bonusTicks = 0
-			if curHaste >= firstTickInc then
-				bonusTicks = bonusTicks + 1
-			end
-			
-			local x = tonumber(R:Round(firstTickInc + tickIncRate, 2))
-			while curHaste >= x do
-				x = tonumber(R:Round(firstTickInc + (tickIncRate * bonusTicks), 2))
-				if curHaste >= x then
-					bonusTicks = bonusTicks + 1
-				end
-			end
-
-			SetCastTicks(self, baseTicks + bonusTicks)
-		elseif baseTicks then
-			SetCastTicks(self, baseTicks)
-		else
-			for _, tick in pairs(ticks) do
-				tick:Hide()
-			end
-		end
-	else
-		for _, tick in pairs(ticks) do
-			tick:Hide()
-		end
-	end
 	local r, g, b
 	if UnitIsPlayer(unit) and UnitIsFriend(unit, "player") and R.myname == "夏可" then
 		r, g, b = 95/255, 182/255, 255/255

@@ -86,7 +86,9 @@ local function LoadSkin()
 			lootSlot.id = id
 			lootSlot.texture:SetTexture(texture)
 			lootSlot.text:SetText(item)
-			lootSlot.text:SetTextColor(color.r, color.g, color.b)
+			if color then
+				lootSlot.text:SetTextColor(color.r, color.g, color.b)
+			end
 			if quantity > 1 then
 				lootSlot.count:SetText(quantity)
 				lootSlot.count:Show()
