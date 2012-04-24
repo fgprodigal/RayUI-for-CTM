@@ -447,10 +447,14 @@ function AB:Style(button, totem, flyout)
 		normal:SetPoint("BOTTOMRIGHT")
 	end
 
-	Icon.SetVertexColor = function(self,r,g,b)
-		self:SetGradient("VERTICAL",r*.345,g*.345,b*.345,r,g,b)
+	if not flyout then
+		Icon.SetVertexColor = function(self,r,g,b)
+			self:SetGradient("VERTICAL",r*.345,g*.345,b*.345,r,g,b)
+		end
+		Icon:SetVertexColor(1, 1, 1)
+	else
+		Icon:SetGradient("VERTICAL",.345,.345,.345,1,1,1)
 	end
-	Icon:SetVertexColor(1, 1, 1)
 
 	button:StyleButton(true)
 
@@ -522,7 +526,8 @@ local buttons = 0
 local function SetupFlyoutButton()
 	for i=1, buttons do
 		if _G["SpellFlyoutButton"..i] then
-			AB:Style(_G["SpellFlyoutButton"..i])
+			_G["SpellFlyoutButton"..i.."Icon"]:SetGradient("VERTICAL",.345,.345,.345,1,1,1)
+			AB:Style(_G["SpellFlyoutButton"..i], nil, true)
 			_G["SpellFlyoutButton"..i]:StyleButton(true)
 		end
 	end

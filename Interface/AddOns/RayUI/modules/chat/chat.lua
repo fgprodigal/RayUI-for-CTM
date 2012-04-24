@@ -634,7 +634,7 @@ function CH:AddMessage(text, ...)
 	if text:find("BN_CONVERSATION") then
 
 	else
-		text = text:gsub("%[(%d0?)%. .-%]", "[%1]") --custom channels
+		-- text = text:gsub("%[(%d0?)%. .-%]", "[%1]") --custom channels
 		text = text:gsub("CHANNEL:", "")
 	end
 	if text and type(text) == "string" then
@@ -719,7 +719,7 @@ function CH:ApplyStyle()
 			_G["ChatFrame"..i.."EditBoxLanguage"]:Kill()
 		end
 		ChatCopyButtons(i)
-		if cf ~= COMBATLOG then
+		if i ~= 2 then
 			cf.OldAddMessage = cf.AddMessage
 			cf.AddMessage = CH.AddMessage
 		end

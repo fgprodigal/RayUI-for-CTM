@@ -180,7 +180,7 @@ function B:SlotUpdate(b)
 			b.frame:GetPushedTexture():Point("TOPLEFT", 1, -1)
 			b.frame:GetPushedTexture():Point("BOTTOMRIGHT", -1, 1)
 		elseif isQuest then
-			b.frame.border:SetBackdropBorderColor(1, 0, 0)
+			b.frame.border:SetBackdropBorderColor(1, 1, 0)
 			_G[b.frame:GetName().."IconTexture"]:Point("TOPLEFT", 1, -1)
 			_G[b.frame:GetName().."IconTexture"]:Point("BOTTOMRIGHT", -1, 1)
 			b.frame:GetHighlightTexture():Point("TOPLEFT", 1, -1)
@@ -785,6 +785,19 @@ function B:BAG_UPDATE(event, id)
 	self:BagSlotUpdate(id)
 end
 
+function B:QUEST_ACCEPTED(event)
+	for _, x in ipairs(BAGS_BACKPACK) do
+		self:BagSlotUpdate(x)
+	end
+end
+
+function B:UNIT_QUEST_LOG_CHANGED(event, unit)
+	if unit ~= "player" then return end
+	for _, x in ipairs(BAGS_BACKPACK) do
+		self:BagSlotUpdate(x)
+	end
+end
+
 function B:ITEM_LOCK_CHANGED(event, bag, slot)
 	if slot == nil then
 		return
@@ -1271,6 +1284,8 @@ function B:Initialize()
 	self:InitBags()
 
 	--Register Events
+	self:RegisterEvent("QUEST_ACCEPTED")
+	self:RegisterEvent("UNIT_QUEST_LOG_CHANGED")
 	self:RegisterEvent("BAG_UPDATE")
 	self:RegisterEvent("ITEM_LOCK_CHANGED")
 	self:RegisterEvent("BANKFRAME_OPENED")

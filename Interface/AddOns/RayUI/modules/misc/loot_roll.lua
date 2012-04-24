@@ -126,11 +126,11 @@ local function LoadFunc()
 		button:Point("LEFT", -24, 0)
 		button:Width(22)
 		button:Height(22)
+		
 		button:SetScript("OnEnter", SetItemTip)
 		button:SetScript("OnLeave", HideTip2)
 		button:SetScript("OnUpdate", ItemOnUpdate)
 		button:SetScript("OnClick", LootClick)
-
 		frame.button = button
 
 		local buttonborder = CreateFrame("Frame", nil, button)
@@ -266,6 +266,7 @@ local function LoadFunc()
 		local texture, name, count, quality, bop, canNeed, canGreed, canDisenchant = GetLootRollItemInfo(rollid)
 		f.button:SetNormalTexture(texture)
 		f.button:GetNormalTexture():SetTexCoord(.1, .9, .1, .9)
+		f.button:GetNormalTexture():SetGradient("VERTICAL",.345,.345,.345,1,1,1)
 		f.button.link = GetLootRollItemLink(rollid)
 
 		if canNeed then f.needbutt:Enable() else f.needbutt:Disable() end
@@ -364,6 +365,7 @@ local function LoadFunc()
 		local texture = select(10, GetItemInfo(32837))
 		f.button:SetNormalTexture(texture)
 		f.button:GetNormalTexture():SetTexCoord(.1, .9, .1, .9)
+		f.button:GetNormalTexture():SetGradient("VERTICAL",.345,.345,.345,1,1,1)
 		f.fsloot:SetVertexColor(ITEM_QUALITY_COLORS[5].r, ITEM_QUALITY_COLORS[5].g, ITEM_QUALITY_COLORS[5].b)
 		f.fsloot:SetText(GetItemInfo(32837))
 		f.status:SetMinMaxValues(0, 100)

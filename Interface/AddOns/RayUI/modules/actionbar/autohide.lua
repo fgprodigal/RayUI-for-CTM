@@ -34,7 +34,7 @@ local function FadeInActionButton()
 	end
 end
 
-function AB:OnAutoHideEvent(event)
+function AB:OnAutoHideEvent(event, addon)
 	if event == "PLAYER_ENTERING_WORLD" then
 		self:UnregisterEvent("PLAYER_ENTERING_WORLD")
 	elseif event == "ADDON_LOADED" then
