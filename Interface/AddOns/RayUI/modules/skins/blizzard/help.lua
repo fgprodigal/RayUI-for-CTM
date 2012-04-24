@@ -3,6 +3,10 @@ local S = R:GetModule("Skins")
 
 local function LoadSkin()
 	S:SetBD(HelpFrame)
+	ReportPlayerNameDialog:StripTextures()
+	ReportCheatingDialog:StripTextures()
+	S:SetBD(ReportPlayerNameDialog)
+	S:SetBD(ReportCheatingDialog)
 	HelpFrameHeader:Hide()
 	HelpFrameLeftInsetBg:Hide()
 	select(4, HelpFrameTicket:GetChildren()):Hide()
@@ -10,12 +14,21 @@ local function LoadSkin()
 	HelpFrameKnowledgebaseNavBarOverlay:Hide()
 	select(5, HelpFrameGM_Response:GetChildren()):Hide()
 	select(6, HelpFrameGM_Response:GetChildren()):Hide()
+	HelpFrameButton16Selected:SetAlpha(0)
+	select(3, HelpFrameReportBug:GetChildren()):Hide()
+	select(3, HelpFrameSubmitSuggestion:GetChildren()):Hide()
 	HelpFrameKnowledgebaseNavBarHomeButtonLeft:Hide()
 	HelpFrameKnowledgebaseTopTileStreaks:Hide()
 	HelpFrameKnowledgebaseNavBar:GetRegions():Hide()
 	HelpFrameTicketScrollFrameScrollBar:SetPoint("TOPLEFT", HelpFrameTicketScrollFrame, "TOPRIGHT", 1, -16)
 	HelpFrameGM_ResponseScrollFrame1ScrollBar:SetPoint("TOPLEFT", HelpFrameGM_ResponseScrollFrame1, "TOPRIGHT", 1, -16)
 	HelpFrameGM_ResponseScrollFrame2ScrollBar:SetPoint("TOPLEFT", HelpFrameGM_ResponseScrollFrame2, "TOPRIGHT", 1, -16)
+	select(2, HelpFrameCharacterStuckHearthstone:GetRegions()):SetAlpha(0)
+	select(3, HelpFrameCharacterStuckHearthstone:GetRegions()):SetAlpha(0)
+	local hover = HelpFrameCharacterStuckHearthstone:CreateTexture(nil, "HIGHLIGHT")
+	hover:SetTexture(1, 1, 1, 0.3)
+	hover:SetAllPoints()
+	HelpFrameCharacterStuckHearthstoneIconTexture:SetTexCoord(.08, .92, .08, .92)
 
 	local buttons = {
 		"HelpFrameButton1",
@@ -24,15 +37,15 @@ local function LoadSkin()
 		"HelpFrameButton4",
 		"HelpFrameButton5",
 		"HelpFrameButton6",
+		"HelpFrameButton16",
+		"HelpFrameSubmitSuggestionSubmit",
+		"HelpFrameReportBugSubmit",
+		"ReportPlayerNameDialogReportButton",
+		"ReportPlayerNameDialogCancelButton",
+		"ReportCheatingDialogReportButton",
+		"ReportCheatingDialogCancelButton",
 		"HelpFrameAccountSecurityOpenTicket",
 		"HelpFrameCharacterStuckStuck",
-		"HelpFrameReportLagLoot",
-		"HelpFrameReportLagAuctionHouse",
-		"HelpFrameReportLagMail",
-		"HelpFrameReportLagChat",
-		"HelpFrameReportLagMovement",
-		"HelpFrameReportLagSpell",
-		"HelpFrameReportAbuseOpenTicket",
 		"HelpFrameOpenTicketHelpTopIssues",
 		"HelpFrameOpenTicketHelpOpenTicket",
 		"HelpFrameKnowledgebaseSearchButton",
@@ -62,6 +75,7 @@ local function LoadSkin()
 
 	local lightbds = {
 		"HelpFrameTicketScrollFrame",
+		"HelpFrameReportBugScrollFrame",
 		"HelpFrameGM_ResponseScrollFrame1",
 		"HelpFrameGM_ResponseScrollFrame2"
 	}
@@ -72,6 +86,7 @@ local function LoadSkin()
 	local scrollbars = {
 		"HelpFrameKnowledgebaseScrollFrameScrollBar",
 		"HelpFrameTicketScrollFrameScrollBar",
+		"HelpFrameReportBugScrollFrameScrollBar",
 		"HelpFrameGM_ResponseScrollFrame1ScrollBar",
 		"HelpFrameGM_ResponseScrollFrame2ScrollBar",
 		"HelpFrameKnowledgebaseScrollFrame2ScrollBar"
@@ -114,7 +129,6 @@ local function LoadSkin()
 
 	hooksecurefunc("NavBar_AddButton", function(self, buttonData)
 		local navButton = self.navList[#self.navList]
-
 
 		if not navButton.skinned then
 			S:Reskin(navButton)

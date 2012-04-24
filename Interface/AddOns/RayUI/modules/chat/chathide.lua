@@ -11,7 +11,7 @@ local whentoshow={
 		"whisper", "system", "channel",
 		"guild", "officer",
 		"battleground", "battleground_leader",
-		"raid", "raid_leader", "raid_warning",	
+		"raid", "raid_leader", "raid_warning",
 		"bn_whisper",
 		"bn_inline_toast_alert",
 		"bn_inline_toast_broadcast",
@@ -22,7 +22,6 @@ local channelNumbers = {
 	[3]  = true,
 	[4]  = true,
 }
-CH.Updater = CreateFrame("Frame")
 CH.ChatIn = true
 
 function CH:SetUpAnimGroup(self)
@@ -52,46 +51,36 @@ function CH:StopFlash(self)
 	end
 end
 
+local on_update = R.simple_move
+
 function CH:MoveOut()
-	local nowwidth = 15
-	local all = .7
-	local allwidth = CH.db.width
+	isMoving = true
 	CH.ChatIn = false
-	CH.Updater:SetScript("OnUpdate",function(self,elapsed)	
-		if nowwidth > -CH.db.width then
-			isMoving = true
-			nowwidth = nowwidth-allwidth/(all/0.2)/8
-			ChatBG:ClearAllPoints()			
-			ChatBG:SetPoint("BOTTOMLEFT",UIParent,"BOTTOMLEFT",nowwidth,30)
-		else
-			isMoving = false
-			ChatBG:ClearAllPoints()
-			ChatBG:SetPoint("BOTTOMLEFT",UIParent,"BOTTOMLEFT",-CH.db.width - 2,30)
-			self:SetScript("OnUpdate", nil)
-		end
-	end)
+	ChatBG.mod = -1
+	ChatBG.limit = -CH.db.width
+	ChatBG.speed = -195
+	ChatBG.point_1 = "BOTTOMLEFT"
+	ChatBG.point_2 = "BOTTOMLEFT"
+	ChatBG.pos = 15
+	ChatBG.hor = true
+	ChatBG.alt = 30
+	ChatBG:SetScript("OnUpdate",on_update)
 	UIFrameFadeOut(ChatBG, .7, 1, 0)
 	ChatFrame1EditBox:Hide()
 end
 
 function CH:MoveIn()
-	local nowwidth = -CH.db.width
-	local all = .7  ---all time
-	local allwidth = CH.db.width
+	isMoving = true
 	CH.ChatIn = true
-	CH.Updater:SetScript("OnUpdate",function(self,elapsed)	
-		if nowwidth <15 then
-			isMoving = true
-			nowwidth = nowwidth+allwidth/(all/0.2)/8
-			ChatBG:ClearAllPoints()			
-			ChatBG:SetPoint("BOTTOMLEFT",UIParent,"BOTTOMLEFT",nowwidth,30)
-		else
-			isMoving = false
-			ChatBG:ClearAllPoints()
-			ChatBG:SetPoint("BOTTOMLEFT",UIParent,"BOTTOMLEFT",15,30)
-			self:SetScript("OnUpdate", nil)
-		end
-	end)
+	ChatBG.mod = 1
+	ChatBG.limit = 15
+	ChatBG.speed = 195
+	ChatBG.point_1 = "BOTTOMLEFT"
+	ChatBG.point_2 = "BOTTOMLEFT"
+	ChatBG.pos = -CH.db.width
+	ChatBG.hor = true
+	ChatBG.alt = 30
+	ChatBG:SetScript("OnUpdate",on_update)
 	UIFrameFadeIn(ChatBG, .7, 0, 1)
 end
 
@@ -111,7 +100,7 @@ function CH:OnEvent(event, ...)
 	if CH.ChatIn == false then
 		if isMoving then
 			isMoving = false
-			CH.Updater:SetScript("OnUpdate", nil)
+			ChatBG:SetScript("OnUpdate", nil)
 		end
 		ChatBG:ClearAllPoints()
 		ChatBG:SetPoint("BOTTOMLEFT",UIParent,"BOTTOMLEFT",15,30)
@@ -149,14 +138,14 @@ function CH:AutoHide()
 					else
 						CH:StopFlash(self.shadow)
 						self:SetScript('OnUpdate', nil)
-						self.shadow:SetBackdropBorderColor(R["media"].backdropcolor) 
+						self.shadow:SetBackdropBorderColor(R["media"].backdropcolor)
 						self:SetAlpha(0)
 						hasNew = false
 					end
 				end)
 			end
 		end
-		ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER", CheckWhisperWindows)	
+		ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER", CheckWhisperWindows)
 		ChatFrame_AddMessageEventFilter("CHAT_MSG_BN_WHISPER", CheckWhisperWindows)
 	else
 		for _, event in pairs(whentoshow) do
@@ -182,7 +171,7 @@ function CH:AutoHide()
 			UIFrameFadeIn(self, 0.5, self:GetAlpha(), 1)
 		else
 			GameTooltip:AddLine(L["有新的悄悄话"])
-		end		
+		end
 		GameTooltip:Show()
 	end)
 	ChatToggle:SetScript("OnLeave",function(self)
@@ -201,7 +190,7 @@ function CH:AutoHide()
 		if CH.ChatIn == false then
 			if isMoving then
 				isMoving = false
-				CH.Updater:SetScript("OnUpdate", nil)
+				ChatBG:SetScript("OnUpdate", nil)
 			end
 			ChatBG:ClearAllPoints()
 			ChatBG:SetPoint("BOTTOMLEFT",UIParent,"BOTTOMLEFT",15,30)
@@ -215,5 +204,8 @@ function CH:AutoHide()
 	end)
 	if self.db.autohide then
 		self:ScheduleRepeatingTimer("OnUpdate", 1)
+	end
+	ChatBG.finish_function = function()
+		isMoving = false
 	end
 end

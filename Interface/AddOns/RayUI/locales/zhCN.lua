@@ -21,7 +21,6 @@ L["复仇条锚点"] = true
 L["Buff锚点"] = true
 L["Debuff锚点"] = true
 L["武器附魔锚点"] = true
-L["鼠标提示锚点"] = true
 
 L["您不能在战斗中设定快捷键"] = true
 L["未绑定."] = true
@@ -83,8 +82,8 @@ L["取消焦点"] = true
 L["整理背包"] = true
 L["按住shift:"] = true
 L["整理特殊背包"] = true
-L["堆叠物品"] = true
-L["堆叠特殊背包物品"] = true
+L["高亮套装"] = true
+L["反向显示"] = true
 L["显示背包"] = true
 L["不能购买更多的银行栏位了!"] = true
 L["你必须先购买一个银行栏位!"] = true
@@ -114,10 +113,6 @@ L["战斗怒吼"] = true
 L["寒冬号角"] = true
 L["鲜血灵气"] = true
 
-L["箱子中的战利品"] = true
-L["的战利品"] = true
-L["将战利品通报至"] = true
-
 L["URL Ctrl+C复制"] = true
 
 L["PVP信息"] = true
@@ -129,6 +124,10 @@ L["托尔巴拉德不可用"] = true
 L["发布者"] = true
 
 L["点击进入RayUI控制台。\n请仔细研究每一项设置的作用。"] = true
+
+L["将战利品通报至"] = true
+L["箱子中的战利品"] = true
+L["的战利品"] = true
 end
 do
 L["|cff7aa6d6Ray|r|cffff0000U|r|cff7aa6d6I|r设置"] = true
@@ -169,6 +168,7 @@ L["模块"] = true
 	L["|cff7aa6d6Ray|r|cffff0000U|r|cff7aa6d6I|r姓名板模块."] = true
 		L["显示debuff"] = true
 		L["自动显示/隐藏"] = true
+		L["战场中标识治疗"] = true
 	L["背包"] = true
 	L["聊天栏"] = true
 	L["|cff7aa6d6Ray|r|cffff0000U|r|cff7aa6d6I|r聊天模块."] = true

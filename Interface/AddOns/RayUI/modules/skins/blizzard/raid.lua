@@ -7,7 +7,6 @@ local function LoadSkin()
 	S:Reskin(RaidFrameReadyCheckButton)
 	S:Reskin(ReadyCheckFrameYesButton)
 	S:Reskin(ReadyCheckFrameNoButton)
-	S:Reskin(RaidFrameReadyCheckButton)
 	ReadyCheckPortrait:SetAlpha(0)
 	select(2, ReadyCheckListenerFrame:GetRegions()):Hide()
 	

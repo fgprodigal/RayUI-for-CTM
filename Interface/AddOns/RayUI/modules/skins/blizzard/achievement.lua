@@ -23,6 +23,14 @@ local function LoadSkin()
 	AchievementFrameSummaryAchievementsHeaderHeader:Hide()
 	AchievementFrameSummaryCategoriesHeaderTexture:Hide()
 	select(3, AchievementFrameStats:GetChildren()):Hide()
+	select(5, AchievementFrameComparison:GetChildren()):Hide()
+	AchievementFrameComparisonHeaderBG:Hide()
+	AchievementFrameComparisonHeaderPortrait:Hide()
+	AchievementFrameComparisonHeaderPortraitBg:Hide()
+	AchievementFrameComparisonBackground:Hide()
+	AchievementFrameComparisonDark:SetAlpha(0)
+	AchievementFrameComparisonSummaryPlayerBackground:Hide()
+	AchievementFrameComparisonSummaryFriendBackground:Hide()
 
 	local first = 1
 	hooksecurefunc("AchievementFrameCategories_Update", function()
@@ -47,7 +55,7 @@ local function LoadSkin()
 	end
 
 	AchievementFrameSummaryCategoriesStatusBar:SetStatusBarTexture(S["media"].backdrop)
-	AchievementFrameSummaryCategoriesStatusBar:GetStatusBarTexture():SetGradient("VERTICAL", 0, .4, 0, 0, .6, 0)
+--	AchievementFrameSummaryCategoriesStatusBar:GetStatusBarTexture():SetGradient("VERTICAL", 0, .4, 0, 0, .6, 0)
 	AchievementFrameSummaryCategoriesStatusBarLeft:Hide()
 	AchievementFrameSummaryCategoriesStatusBarMiddle:Hide()
 	AchievementFrameSummaryCategoriesStatusBarRight:Hide()
@@ -185,7 +193,7 @@ local function LoadSkin()
 		local label = _G["AchievementFrameSummaryCategoriesCategory"..i.."Label"]
 
 		bu:SetStatusBarTexture(S["media"].backdrop)
-		bar:SetGradient("VERTICAL", 0, .4, 0, 0, .6, 0)
+	--	bar:SetGradient("VERTICAL", 0, .4, 0, 0, .6, 0)
 		label:SetTextColor(1, 1, 1)
 		label:Point("LEFT", bu, "LEFT", 6, 0)
 
@@ -210,11 +218,93 @@ local function LoadSkin()
 		_G["AchievementFrameStatsContainerButton"..i.."HeaderMiddle"]:SetAlpha(0)
 		_G["AchievementFrameStatsContainerButton"..i.."HeaderRight"]:SetAlpha(0)
 	end
+	
+	AchievementFrameComparisonHeader:SetPoint("BOTTOMRIGHT", AchievementFrameComparison, "TOPRIGHT", 39, 25)
+
+	local headerbg = CreateFrame("Frame", nil, AchievementFrameComparisonHeader)
+	headerbg:SetPoint("TOPLEFT", 20, -20)
+	headerbg:SetPoint("BOTTOMRIGHT", -28, -5)
+	headerbg:SetFrameLevel(AchievementFrameComparisonHeader:GetFrameLevel()-1)
+	S:CreateBD(headerbg, .25)
+
+	local summaries = {AchievementFrameComparisonSummaryPlayer, AchievementFrameComparisonSummaryFriend}
+
+	for _, frame in pairs(summaries) do
+		frame:SetBackdrop(nil)
+		local bg = CreateFrame("Frame", nil, frame)
+		bg:Point("TOPLEFT", 2, -2)
+		bg:Point("BOTTOMRIGHT", -2, 0)
+		bg:SetFrameLevel(frame:GetFrameLevel()-1)
+		S:CreateBD(bg, .25)
+	end
+
+	local bars = {AchievementFrameComparisonSummaryPlayerStatusBar, AchievementFrameComparisonSummaryFriendStatusBar}
+
+	for _, bar in pairs(bars) do
+		local name = bar:GetName()
+		bar:SetStatusBarTexture(S["media"].backdrop)
+	--	bar:GetStatusBarTexture():SetGradient("VERTICAL", 0, .4, 0, 0, .6, 0)
+		_G[name.."Left"]:Hide()
+		_G[name.."Middle"]:Hide()
+		_G[name.."Right"]:Hide()
+		_G[name.."FillBar"]:Hide()
+		_G[name.."Title"]:SetTextColor(1, 1, 1)
+		_G[name.."Title"]:SetPoint("LEFT", bar, "LEFT", 6, 0)
+		_G[name.."Text"]:SetPoint("RIGHT", bar, "RIGHT", -5, 0)
+
+		local bg = CreateFrame("Frame", nil, bar)
+		bg:Point("TOPLEFT", -1, 1)
+		bg:Point("BOTTOMRIGHT", 1, -1)
+		bg:SetFrameLevel(bar:GetFrameLevel()-1)
+		S:CreateBD(bg, .25)
+	end
+
+	for i = 1, 9 do
+		local buttons = {_G["AchievementFrameComparisonContainerButton"..i.."Player"], _G["AchievementFrameComparisonContainerButton"..i.."Friend"]}
+
+		for _, button in pairs(buttons) do
+			button:DisableDrawLayer("BORDER")
+			local bg = CreateFrame("Frame", nil, button)
+			bg:Point("TOPLEFT", 2, -2)
+			bg:Point("BOTTOMRIGHT", -2, 2)
+			S:CreateBD(bg, 0)
+		end
+
+		local bd = _G["AchievementFrameComparisonContainerButton"..i.."PlayerBackground"]
+		bd:SetTexture(S["media"].backdrop)
+		bd:SetVertexColor(0, 0, 0, .25)
+
+		local bd = _G["AchievementFrameComparisonContainerButton"..i.."FriendBackground"]
+		bd:SetTexture(S["media"].backdrop)
+		bd:SetVertexColor(0, 0, 0, .25)
+
+		local text = _G["AchievementFrameComparisonContainerButton"..i.."PlayerDescription"]
+		text:SetTextColor(.9, .9, .9)
+		text.SetTextColor = R.dummy
+		text:SetShadowOffset(1, -1)
+		text.SetShadowOffset = R.dummy
+
+		_G["AchievementFrameComparisonContainerButton"..i.."PlayerTitleBackground"]:Hide()
+		_G["AchievementFrameComparisonContainerButton"..i.."PlayerGlow"]:Hide()
+		_G["AchievementFrameComparisonContainerButton"..i.."PlayerIconOverlay"]:Hide()
+		_G["AchievementFrameComparisonContainerButton"..i.."FriendTitleBackground"]:Hide()
+		_G["AchievementFrameComparisonContainerButton"..i.."FriendGlow"]:Hide()
+		_G["AchievementFrameComparisonContainerButton"..i.."FriendIconOverlay"]:Hide()
+
+		local ic = _G["AchievementFrameComparisonContainerButton"..i.."PlayerIconTexture"]
+		ic:SetTexCoord(.08, .92, .08, .92)
+		S:CreateBG(ic)
+
+		local ic = _G["AchievementFrameComparisonContainerButton"..i.."FriendIconTexture"]
+		ic:SetTexCoord(.08, .92, .08, .92)
+		S:CreateBG(ic)
+	end
 
 	S:ReskinClose(AchievementFrameCloseButton)
 	S:ReskinScroll(AchievementFrameAchievementsContainerScrollBar)
 	S:ReskinScroll(AchievementFrameStatsContainerScrollBar)
 	S:ReskinScroll(AchievementFrameCategoriesContainerScrollBar)
+	S:ReskinScroll(AchievementFrameComparisonContainerScrollBar)
 	S:ReskinDropDown(AchievementFrameFilterDropDown)
 end
 

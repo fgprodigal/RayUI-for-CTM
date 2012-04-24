@@ -52,6 +52,23 @@ local function LoadMemory()
 		end)
 		return totalMemory
 	end
+	
+	local function UpdateCPU()
+		UpdateAddOnCPUUsage()
+		local addOnMem = 0
+		local totalMemory = 0
+		for i = 1, #memoryTable do
+			addOnMem = GetAddOnCPUUsage(memoryTable[i][1])
+			memoryTable[i][3] = addOnMem
+			totalMemory = totalMemory + addOnMem
+		end
+		table.sort(memoryTable, function(a, b)
+			if a and b then
+				return a[3] > b[3]
+			end
+		end)
+		return totalMemory
+	end
 
 	local function UpdateMem(self, t)
 		int = int - t
@@ -66,7 +83,7 @@ local function LoadMemory()
 				Status:SetMinMaxValues(0,10000)
 			end
 			Status:SetValue(total)
-			local r, g, b = R:ColorGradient(total/select(2, Status:GetMinMaxValues()), IF.InfoBarStatusColor[3][1], IF.InfoBarStatusColor[3][2], IF.InfoBarStatusColor[3][3], 
+			local r, g, b = R:ColorGradient(total/10000, IF.InfoBarStatusColor[3][1], IF.InfoBarStatusColor[3][2], IF.InfoBarStatusColor[3][3], 
 																	IF.InfoBarStatusColor[2][1], IF.InfoBarStatusColor[2][2], IF.InfoBarStatusColor[2][3],
 																	IF.InfoBarStatusColor[1][1], IF.InfoBarStatusColor[1][2], IF.InfoBarStatusColor[1][3])
 			Status:SetStatusBarColor(r, g, b)
@@ -95,15 +112,26 @@ local function LoadMemory()
 			GameTooltip:AddDoubleLine(L["下载"]..": " , string.format(percentageString, GetDownloadedPercentage() *100),0.69, 0.31, 0.31, 0.84, 0.75, 0.65)
 			GameTooltip:AddLine(" ")
 		end
-		local totalMemory = UpdateMemory()
-		GameTooltip:AddDoubleLine(L["总共内存使用"]..": ", formatMem(totalMemory), 0.69, 0.31, 0.31,0.84, 0.75, 0.65)
-		GameTooltip:AddLine(" ")
-		for i = 1, #memoryTable do
-			if (memoryTable[i][4]) then
-				local red = memoryTable[i][3] / totalMemory
-				local green = 1 - red
-				GameTooltip:AddDoubleLine(memoryTable[i][2], formatMem(memoryTable[i][3]), 1, 1, 1, red, green + .5, 0)
-			end						
+		if IsAltKeyDown() then
+			local totalMemory = UpdateCPU()
+			for i = 1, #memoryTable do
+				if (memoryTable[i][4]) then
+					local red = memoryTable[i][3] / totalMemory
+					local green = 1 - red
+					GameTooltip:AddDoubleLine(memoryTable[i][2], format("%.2fms", memoryTable[i][3]), 1, 1, 1, red, green + .5, 0)
+				end						
+			end
+		else
+			local totalMemory = UpdateMemory()
+			GameTooltip:AddDoubleLine(L["总共内存使用"]..": ", formatMem(totalMemory), 0.69, 0.31, 0.31,0.84, 0.75, 0.65)
+			GameTooltip:AddLine(" ")
+			for i = 1, #memoryTable do
+				if (memoryTable[i][4]) then
+					local red = memoryTable[i][3] / totalMemory
+					local green = 1 - red
+					GameTooltip:AddDoubleLine(memoryTable[i][2], formatMem(memoryTable[i][3]), 1, 1, 1, red, green + .5, 0)
+				end						
+			end
 		end
 		GameTooltip:Show()
 	end)

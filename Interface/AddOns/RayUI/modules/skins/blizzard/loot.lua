@@ -81,14 +81,13 @@ local function LoadSkin()
 		local function UpdateLootSlot(self, id)
 			local lootSlot = GetLootSlot(self, id)
 			local texture, item, quantity, quality, locked, isQuestItem, questId, isActive = GetLootSlotInfo(id)
-			local color = ITEM_QUALITY_COLORS[quality]
-			lootSlot.quality = quality
+			if not item then return end
+            local color = ITEM_QUALITY_COLORS[quality]
+            lootSlot.quality = quality
 			lootSlot.id = id
 			lootSlot.texture:SetTexture(texture)
 			lootSlot.text:SetText(item)
-			if color then
-				lootSlot.text:SetTextColor(color.r, color.g, color.b)
-			end
+			lootSlot.text:SetTextColor(color.r, color.g, color.b)
 			if quantity > 1 then
 				lootSlot.count:SetText(quantity)
 				lootSlot.count:Show()

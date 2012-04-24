@@ -11,10 +11,7 @@ RW.testing = false
 
 local defaults = {}
 local watcherPrototype = {}
-local _G = _G
-local UnitBuff = UnitBuff
-local UnitDebuff = UnitDebuff
-local CooldownFrame_SetTimer = CooldownFrame_SetTimer
+local _G, UnitBuff, UnitDebuff, CooldownFrame_SetTimer = _G, UnitBuff, UnitDebuff, CooldownFrame_SetTimer
 
 local function CreatePopup()
 	local S = R:GetModule("Skins")
@@ -92,6 +89,7 @@ function watcherPrototype:CreateButton(mode)
 	button:SetSize(self.size, self.size)
 	self.parent:SetSize(self.size, self.size)
 	button.icon = button:CreateTexture(nil, "ARTWORK")
+	button.icon:SetGradient("VERTICAL",.345,.345,.345,1,1,1)
 	button.icon:SetAllPoints()
 	button:SetScript("OnEnter", function(self)
 			GameTooltip:SetOwner(self, "ANCHOR_TOP")
@@ -223,51 +221,47 @@ end
 function watcherPrototype:CheckAura()
 	if self.BUFF then
 		for unitID in pairs(self.BUFF.unitIDs) do
-			if self.BUFF.unitIDs[unitID] then
-				local index = 1
-				while UnitBuff(unitID, index) and not ( index > 1024 ) do
-					local spellName, _, icon, count, _, duration, expires, caster, _, _, spellID = UnitBuff(unitID,index)
-					if (self.BUFF[spellID] and self.BUFF[spellID].unitID == unitID and ( caster == self.BUFF[spellID].caster or self.BUFF[spellID].caster:lower() == "all" )) or
-						(self.BUFF[spellName] and self.BUFF[spellName].unitID == unitID and ( caster == self.BUFF[spellName].caster or self.BUFF[spellName].caster:lower() == "all" )) then
-						if not self.button[self.current] then
-							self.button[self.current] = self:CreateButton(self.mode)					
-							self:SetPosition(self.current)
-						end
-						self:UpdateButton(self.button[self.current], index, icon, count, duration, expires, spellID, unitID, "BUFF")
-						if self.mode == "BAR" then
-							self.button[self.current]:SetScript("OnUpdate", OnUpdate)
-						else
-							self.button[self.current]:SetScript("OnUpdate", nil)
-						end
-						self.current = self.current + 1
+			local index = 1
+			while UnitBuff(unitID, index) and not ( index > 1024 ) do
+				local spellName, _, icon, count, _, duration, expires, caster, _, _, spellID = UnitBuff(unitID,index)
+				if (self.BUFF[spellID] and self.BUFF[spellID].unitID == unitID and ( caster == self.BUFF[spellID].caster or self.BUFF[spellID].caster:lower() == "all" )) or
+					(self.BUFF[spellName] and self.BUFF[spellName].unitID == unitID and ( caster == self.BUFF[spellName].caster or self.BUFF[spellName].caster:lower() == "all" )) then
+					if not self.button[self.current] then
+						self.button[self.current] = self:CreateButton(self.mode)					
+						self:SetPosition(self.current)
 					end
-					index = index + 1
+					self:UpdateButton(self.button[self.current], index, icon, count, duration, expires, spellID, unitID, "BUFF")
+					if self.mode == "BAR" then
+						self.button[self.current]:SetScript("OnUpdate", OnUpdate)
+					else
+						self.button[self.current]:SetScript("OnUpdate", nil)
+					end
+					self.current = self.current + 1
 				end
+				index = index + 1
 			end
-		end
+	end
 	end
 	if self.DEBUFF then
 		for unitID in pairs(self.DEBUFF.unitIDs) do
-			if self.DEBUFF.unitIDs[unitID] then
-				local index = 1
-				while UnitDebuff(unitID, index) and not ( index > 1024 ) do
-					local spellName, _, icon, count, _, duration, expires, caster, _, _, spellID = UnitDebuff(unitID,index)
-					if (self.DEBUFF[spellID] and self.DEBUFF[spellID].unitID == unitID and ( caster == self.DEBUFF[spellID].caster or self.DEBUFF[spellID].caster:lower() == "all" )) or
-						(self.DEBUFF[spellName] and self.DEBUFF[spellName].unitID == unitID and ( caster == self.DEBUFF[spellName].caster or self.DEBUFF[spellName].caster:lower() == "all" )) then
-						if not self.button[self.current] then
-							self.button[self.current] = self:CreateButton(self.mode)					
-							self:SetPosition(self.current)
-						end	
-						self:UpdateButton(self.button[self.current], index, icon, count, duration, expires, spellID, unitID, "DEBUFF")
-						if self.mode == "BAR" then
-							self.button[self.current]:SetScript("OnUpdate", OnUpdate)
-						else
-							self.button[self.current]:SetScript("OnUpdate", nil)
-						end
-						self.current = self.current + 1
+			local index = 1
+			while UnitDebuff(unitID, index) and not ( index > 1024 ) do
+				local spellName, _, icon, count, _, duration, expires, caster, _, _, spellID = UnitDebuff(unitID,index)
+				if (self.DEBUFF[spellID] and self.DEBUFF[spellID].unitID == unitID and ( caster == self.DEBUFF[spellID].caster or self.DEBUFF[spellID].caster:lower() == "all" )) or
+					(self.DEBUFF[spellName] and self.DEBUFF[spellName].unitID == unitID and ( caster == self.DEBUFF[spellName].caster or self.DEBUFF[spellName].caster:lower() == "all" )) then
+					if not self.button[self.current] then
+						self.button[self.current] = self:CreateButton(self.mode)					
+						self:SetPosition(self.current)
+					end	
+					self:UpdateButton(self.button[self.current], index, icon, count, duration, expires, spellID, unitID, "DEBUFF")
+					if self.mode == "BAR" then
+						self.button[self.current]:SetScript("OnUpdate", OnUpdate)
+					else
+						self.button[self.current]:SetScript("OnUpdate", nil)
 					end
-					index = index + 1
+					self.current = self.current + 1
 				end
+				index = index + 1
 			end
 		end
 	end
@@ -460,7 +454,8 @@ function watcherPrototype:TestMode(arg)
 	end
 end
 
-function watcherPrototype:OnEvent(event)
+function watcherPrototype:OnEvent(event, unit)
+	local needUpdate
 	if event == "PLAYER_ENTERING_WORLD" then
 		self.holder:SetPoint(unpack(self.setpoint))
 		self.parent:SetAllPoints(self.holder)
@@ -470,7 +465,15 @@ function watcherPrototype:OnEvent(event)
 		if self.disabled then self:Disable() end
 		self:UnregisterEvent("PLAYER_ENTERING_WORLD")
 	end
-	self:Update()
+	if self.BUFF and unit and self.BUFF.unitIDs[unit] then
+		needUpdate = true
+	end
+	if self.DEBUFF and unit and self.DEBUFF.unitIDs[unit] then
+		needUpdate = true
+	end
+	if needUpdate or not unit then
+		self:Update()
+	end
 end
 
 function RW:Initialize()

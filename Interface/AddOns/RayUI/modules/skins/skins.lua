@@ -1,5 +1,6 @@
 local R, L, P = unpack(select(2, ...)) --Inport: Engine, Locales, ProfileDB
 local S = R:NewModule("Skins", "AceEvent-3.0")
+local LSM = LibStub("LibSharedMedia-3.0")
 S.modName = L["插件美化"]
 
 S.SkinFuncs = {}
@@ -8,7 +9,6 @@ S.SkinFuncs["RayUI"] = {}
 local alpha = .65 -- controls the backdrop opacity (0 = invisible, 1 = solid)
 
 S["media"] = {
-	["backdrop"] = "Interface\\ChatFrame\\ChatFrameBackground",
 	["checked"] = "Interface\\AddOns\\RayUI\\media\\CheckButtonHilight",
 	["classcolours"] = {
 		["HUNTER"] = { r = 0.58, g = 0.86, b = 0.49 },
@@ -528,6 +528,7 @@ function S:PLAYER_ENTERING_WORLD(event, addon)
 end
 
 function S:Initialize()
+	S["media"].backdrop = R["media"].normal
 	for addon, loadFunc in pairs(self.SkinFuncs) do
 		if addon ~= "RayUI" then
 			if IsAddOnLoaded(addon) then

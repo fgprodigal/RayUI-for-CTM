@@ -27,6 +27,7 @@ local function LoadSkin()
 	S:CreateBD(bg, .25)
 
 	ClassTrainerFrameSkillStepButton:SetHighlightTexture(nil)
+	select(6, ClassTrainerFrameSkillStepButton:GetRegions()):Kill()
 	select(7, ClassTrainerFrameSkillStepButton:GetRegions()):SetAlpha(0)
 
 	local check = select(4, ClassTrainerFrameSkillStepButton:GetRegions())
@@ -61,7 +62,7 @@ local function LoadSkin()
 		_G["ClassTrainerScrollFrameButton"..i.."Name"]:SetParent(bg)
 		_G["ClassTrainerScrollFrameButton"..i.."SubText"]:SetParent(bg)
 		_G["ClassTrainerScrollFrameButton"..i.."MoneyFrame"]:SetParent(bg)
-		select(4, bu:GetRegions()):SetAlpha(0)
+		select(4, bu:GetRegions()):Kill()
 		select(5, bu:GetRegions()):SetAlpha(0)
 
 		local check = select(2, bu:GetRegions())

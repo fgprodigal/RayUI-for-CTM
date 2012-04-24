@@ -271,7 +271,7 @@ local function LoadSkin()
 	tex:SetPoint("TOPLEFT")
 	tex:SetPoint("BOTTOMRIGHT")
 	tex:SetTexture(S["media"].backdrop)
-	tex:SetGradientAlpha("VERTICAL", 0, 0, 0, .3, .35, .35, .35, .35)
+	tex:SetGradientAlpha(unpack(S["media"].DefGradient))
 
 	local inputs = {
 		"BrowseMinLevel",

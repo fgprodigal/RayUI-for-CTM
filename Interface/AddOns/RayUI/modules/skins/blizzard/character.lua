@@ -151,6 +151,8 @@ local function LoadSkin()
 		ic:SetTexCoord(.08, .92, .08, .92)
 		ic:Point("TOPLEFT", 2, -2)
 		ic:Point("BOTTOMRIGHT", -2, 2)
+		ic.SetVertexColor = R.dummy
+		ic:SetGradient("VERTICAL",.345,.345,.345,1,1,1)
 		slot.glow = CreateFrame("Frame", nil, slot)
 		slot.glow:SetAllPoints()
 		slot.glow:CreateBorder()
@@ -169,6 +171,8 @@ local function LoadSkin()
 				_G["EquipmentFlyoutFrameButton"..i.."IconTexture"]:SetTexCoord(.08, .92, .08, .92)
 				icon:Point("TOPLEFT", 2, -2)
 				icon:Point("BOTTOMRIGHT", -2, 2)
+				icon.SetVertexColor = R.dummy
+				icon:SetGradient("VERTICAL",.345,.345,.345,1,1,1)
 				bu.reskinned = true
 			end
 		end
@@ -347,7 +351,12 @@ local function LoadSkin()
 				statusbar:SetStatusBarTexture(S["media"].backdrop)
 
 				if not statusbar.reskinned then
-					S:CreateBD(statusbar, .25)
+				--	S:CreateBD(statusbar, .25)
+					local frame = CreateFrame("Frame",nil, statusbar)
+					S:CreateBD(frame, .25)
+					frame:SetFrameLevel(statusbar:GetFrameLevel() -1)
+					frame:Point("TOPLEFT", -1, 1)
+					frame:Point("BOTTOMRIGHT", 1, -1)
 					statusbar.reskinned = true
 				end
 

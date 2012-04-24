@@ -744,26 +744,8 @@ function CH:ApplyStyle()
 			local chatebbg = CreateFrame("Frame", "ChatFrame"..i.."EditBoxBG" , _G["ChatFrame"..i.."EditBox"])
 			chatebbg:SetPoint("TOPLEFT", -2, -5)
 			chatebbg:SetPoint("BOTTOMRIGHT", 2, 4)
-			chatebbg:CreateShadow("Background")
-			chatebbg.bd = CreateFrame("Frame",nil , chatebbg)
-			chatebbg.bd:SetAllPoints()
-			chatebbg.bd:CreateBorder()
 			_G["ChatFrame"..i.."EditBoxLanguage"]:Kill()
 		end
-		
-		hooksecurefunc("ChatEdit_UpdateHeader", function()
-				local type = _G["ChatFrame"..i.."EditBox"]:GetAttribute("chatType")
-				if ( type == "CHANNEL" ) then
-				local id = GetChannelName(_G["ChatFrame"..i.."EditBox"]:GetAttribute("channelTarget"))
-					if id == 0 then
-						_G["ChatFrame"..i.."EditBoxBG"].bd:SetBackdropBorderColor(unpack(R["media"].bordercolor))
-					else
-						_G["ChatFrame"..i.."EditBoxBG"].bd:SetBackdropBorderColor(ChatTypeInfo[type..id].r,ChatTypeInfo[type..id].g,ChatTypeInfo[type..id].b)
-					end
-				else
-					_G["ChatFrame"..i.."EditBoxBG"].bd:SetBackdropBorderColor(ChatTypeInfo[type].r,ChatTypeInfo[type].g,ChatTypeInfo[type].b)
-				end
-			end)
 		ChatCopyButtons(i)
 		if cf ~= COMBATLOG then
 			cf.OldAddMessage = cf.AddMessage
@@ -779,10 +761,56 @@ function CH:ApplyStyle()
 		cf:SetClampedToScreen(false)
 		cf:SetClampRectInsets(0,0,0,0)
 		_G["ChatFrame"..i.."TabText"]:SetFont(R["media"].font, 13)
+		local editbox = CreateFrame("Frame", nil, UIParent)
+		editbox:Height(22)
+		editbox:SetWidth(ChatBG:GetWidth())
+		editbox:SetPoint("BOTTOMLEFT", cf, "TOPLEFT",  -2, 6)
+		editbox:CreateShadow("Background")
+		editbox:Hide()
 		eb:SetAltArrowKeyMode(false)
 		eb:ClearAllPoints()
-		eb:SetPoint("BOTTOMLEFT", cf, "TOPLEFT",  0, 3)
-		eb:SetPoint("TOPRIGHT", cf, "TOPRIGHT", 0, 31)
+		eb:Point("TOPLEFT", editbox, 2, 6)
+		eb:Point("BOTTOMRIGHT", editbox, -2, -3)
+		eb:SetParent(UIParent)
+		eb:Hide()
+		editbox.finish_function = function()
+			if eb:IsShown() then return end
+			editbox:SetWidth(ChatBG:GetWidth())
+			if eb._Show then
+				eb.Show = eb._Show
+			end
+		end
+		eb._Show = eb.Show
+		eb:HookScript("OnShow", function(self)
+			editbox.wpos = 100
+			editbox.wspeed = 600
+			editbox.wlimit = ChatBG:GetWidth()
+			editbox.wmod = 1
+			editbox:SetScript("OnUpdate", R.simple_width)
+			UIFrameFadeIn(editbox, .3, 0, 1)
+		end)
+		eb:HookScript("OnHide", function(self)
+			editbox.wpos = ChatBG:GetWidth()
+			editbox.wspeed = -750
+			editbox.wlimit = 1
+			editbox.wmod = -1
+			eb.Show = R.dummy
+			editbox:SetScript("OnUpdate", R.simple_width)
+			UIFrameFadeOut(editbox, .3, 1, 0)
+		end)
+		hooksecurefunc("ChatEdit_UpdateHeader", function()
+				local type = _G["ChatFrame"..i.."EditBox"]:GetAttribute("chatType")
+				if ( type == "CHANNEL" ) then
+				local id = GetChannelName(_G["ChatFrame"..i.."EditBox"]:GetAttribute("channelTarget"))
+					if id == 0 then
+						editbox.border:SetBackdropBorderColor(unpack(R["media"].bordercolor))
+					else
+						editbox.border:SetBackdropBorderColor(ChatTypeInfo[type..id].r,ChatTypeInfo[type..id].g,ChatTypeInfo[type..id].b)
+					end
+				else
+					editbox.border:SetBackdropBorderColor(ChatTypeInfo[type].r,ChatTypeInfo[type].g,ChatTypeInfo[type].b)
+				end
+			end)
 		local function BottomButtonClick(self)
 			self:GetParent():ScrollToBottom();
 		end

@@ -65,7 +65,7 @@ local function GatherTalents(isInspect)
 		sec.format = NONE..TALENTS
 	elseif (talentFormat == 1) then
 		sec.format = sec.tree.." ("..sec[1].."/"..sec[2].."/"..sec[3]..")"
-	end	
+	end
 	if (not isInspect) then
 		if (group == 1) then
 			GameTooltip:AddLine(TALENTS_PREFIX.."|c000EEE00 "..current.format.."|r")
@@ -95,7 +95,7 @@ local function GatherTalents(isInspect)
 				if (not GameTooltip.fadeOut) then
 					GameTooltip:Show()
 				end
-			end			
+			end
 		end
 	end
 	local cacheSize = CACHE_SIZE
@@ -111,7 +111,7 @@ local function GatherTalents(isInspect)
 	if (cacheSize > 0) then
 		cache[#cache + 1] = CopyTable(current)
 	end
-	
+
 	for i = #seccache, 1, -1 do
 		if (sec.name == seccache[i].name) then
 			tremove(seccache,i)
@@ -123,7 +123,7 @@ local function GatherTalents(isInspect)
 	end
 	if (cacheSize > 0) then
 		seccache[#seccache + 1] = CopyTable(sec)
-	end	
+	end
 end
 
 function TT:TalentSetUnit()
@@ -215,9 +215,24 @@ function TT:GameTooltip_SetDefaultAnchor(tooltip, parent)
 	if self.db.cursor then
 		tooltip:SetOwner(parent, "ANCHOR_CURSOR")
 	else
-		tooltip:SetOwner(parent, "ANCHOR_NONE")
-		tooltip:SetPoint("BOTTOMRIGHT", TooltipMover, "BOTTOMRIGHT", 0, 0)
-	end	
+		tooltip:ClearAllPoints()
+		local mousefocus = GetMouseFocus():GetName()
+		if mousefocus:match("RayUFRaid") then
+			local mousefocus = GetMouseFocus():GetName()
+			local parent = _G[mousefocus:match("RayUFRaid%d%d_%d")]
+			tooltip:Point("BOTTOMRIGHT", parent, "TOPRIGHT", 0, 23)
+		elseif BagsFrame and BagsFrame:IsShown() and (GetScreenWidth() - BagsFrame:GetRight()) < 250 then
+			tooltip:Point("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -50, BagsFrame:GetBottom() + BagsFrame:GetHeight() + 30)
+		elseif RayUFRaid10_1UnitButton1 and RayUFRaid10_1UnitButton1:IsShown() and (GetScreenWidth() - RayUFRaid10_3:GetRight()) < 250 then
+			tooltip:Point("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -50, RayUFRaid10_3:GetBottom() + RayUFRaid10_3:GetHeight() + 30)
+		elseif RayUFRaid25_1UnitButton1 and RayUFRaid25_1UnitButton1:IsShown() and (GetScreenWidth() - RayUFRaid25_5:GetRight()) < 250 then
+			tooltip:Point("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -50, RayUFRaid25_5:GetBottom() + RayUFRaid25_5:GetHeight() + 30)
+		elseif NumerationFrame and NumerationFrame:IsShown() and (GetScreenWidth() - NumerationFrame:GetRight()) < 250 then
+			tooltip:Point("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -50, NumerationFrame:GetBottom() + NumerationFrame:GetHeight() + 30)
+		else
+			tooltip:Point("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -50, 160)
+		end
+	end
 	tooltip.default = 1
 end
 
@@ -258,6 +273,14 @@ function TT:GameTooltip_UnitColor(unit)
 	return r, g, b
 end
 
+function TT:GameTooltip_OnUpdate(tooltip)
+	if (tooltip.needRefresh and tooltip:GetAnchorType() == "ANCHOR_CURSOR" and not self.db.cursor) then
+		tooltip:SetBackdropColor(0, 0, 0, 0.65)
+		tooltip:SetBackdropBorderColor(0, 0, 0)
+		tooltip.needRefresh = nil
+	end
+end
+
 function TT:INSPECT_READY(event, guid)
 	self:UnregisterEvent(event)
 	if (guid == current.guid or guid == sec.guid) then
@@ -266,18 +289,18 @@ function TT:INSPECT_READY(event, guid)
 end
 
 function TT:INSPECT_ACHIEVEMENT_READY()
-    self:UnregisterEvent('INSPECT_ACHIEVEMENT_READY')
+    self:UnregisterEvent("INSPECT_ACHIEVEMENT_READY")
     if not self.line then return end
 	self.line:SetFont(GameTooltipTextLeft3:GetFont())
     self.line:SetText()
 
     if GameTooltip:GetUnit() == self.unit then
-        local stats, text = {}, ''
+        local stats, text = {}, ""
 
         stats.TotalAchievemen = tonumber(GetComparisonAchievementPoints()) or 0
-            text = text .. ACHIEVEMENT_POINTS..': |cFFFFFFFF' .. stats.TotalAchievemen
+            text = text .. ACHIEVEMENT_POINTS..": |cFFFFFFFF" .. stats.TotalAchievemen
 
-        if text ~= '' then
+        if text ~= "" then
 			self.line:SetFont(GameTooltipTextLeft3:GetFont())
             self.line:SetText(text)
         end
@@ -285,33 +308,63 @@ function TT:INSPECT_ACHIEVEMENT_READY()
 
     GameTooltip:Show()
 
-    if not UnitName('mouseover') then
+    if not UnitName("mouseover") then
         GameTooltip:FadeOut()
     end
 
     ClearAchievementComparisonUnit()
 
     if _G.GearScore then
-        _G.GearScore:RegisterEvent('INSPECT_ACHIEVEMENT_READY')
+        _G.GearScore:RegisterEvent("INSPECT_ACHIEVEMENT_READY")
     end
 
     if Elite then
-        Elite:RegisterEvent('INSPECT_ACHIEVEMENT_READY')
+        Elite:RegisterEvent("INSPECT_ACHIEVEMENT_READY")
     end
 
     if AchievementFrameComparison then
-        AchievementFrameComparison:RegisterEvent('INSPECT_ACHIEVEMENT_READY')
+        AchievementFrameComparison:RegisterEvent("INSPECT_ACHIEVEMENT_READY")
     end
 
-    self:RegisterEvent('UPDATE_MOUSEOVER_UNIT')
+    self:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
 end
 
 function TT:MODIFIER_STATE_CHANGED()
-    if arg1 == 'LCTRL' or arg1 == 'RCTRL' then
-        if self.line and UnitName('mouseover') == self.unit then
+    if arg1 == "LCTRL" or arg1 == "RCTRL" then
+        if self.line and UnitName("mouseover") == self.unit then
             self:UPDATE_MOUSEOVER_UNIT(true)
         end
     end
+end
+
+function TT:PLAYER_ENTERING_WORLD(event)
+	local tooltips = {
+		GameTooltip,
+		ItemRefTooltip,
+		ItemRefShoppingTooltip1,
+		ItemRefShoppingTooltip2,
+		ItemRefShoppingTooltip3,
+		ShoppingTooltip1,
+		ShoppingTooltip2,
+		ShoppingTooltip3,
+		WorldMapTooltip,
+		WorldMapCompareTooltip1,
+		WorldMapCompareTooltip2,
+		WorldMapCompareTooltip3,
+		DropDownList1MenuBackdrop,
+		DropDownList2MenuBackdrop,
+	}
+
+	for _, tt in pairs(tooltips) do
+		tt:SetBackdrop({
+			bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
+			edgeFile = [=[Interface\ChatFrame\ChatFrameBackground]=], edgeSize = R.mult,
+			insets = {top = 0, left = 0, bottom = 0, right = 0},
+		})
+		self:HookScript(tt, "OnShow", "SetStyle")
+	end
+	
+	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
 end
 
 function TT:UPDATE_MOUSEOVER_UNIT(event, refresh)
@@ -319,12 +372,12 @@ function TT:UPDATE_MOUSEOVER_UNIT(event, refresh)
         self.unit, self.line = nil, nil
     end
 
-    if (UnitAffectingCombat('player')) or UnitIsDead('player') or not UnitExists('mouseover')
-    or not UnitIsPlayer('mouseover') or not UnitIsConnected('mouseover') or UnitIsDead('mouseover') then
+    if (UnitAffectingCombat("player")) or UnitIsDead("player") or not UnitExists("mouseover")
+    or not UnitIsPlayer("mouseover") or not UnitIsConnected("mouseover") or UnitIsDead("mouseover") then
         return
     end
 
-    self.unit = UnitName('mouseover')
+    self.unit = UnitName("mouseover")
 
     local text = ACHIEVEMENT_POINTS..": |cFFFFFFFFLoading..."
 
@@ -333,44 +386,44 @@ function TT:UPDATE_MOUSEOVER_UNIT(event, refresh)
         self.line:SetText(text)
     else
         GameTooltip:AddLine(text)
-        self.line = _G['GameTooltipTextLeft' .. GameTooltip:NumLines()]
+        self.line = _G["GameTooltipTextLeft" .. GameTooltip:NumLines()]
     end
 
     GameTooltip:Show()
 
     if _G.GearScore then
-        _G.GearScore:UnregisterEvent('INSPECT_ACHIEVEMENT_READY')
+        _G.GearScore:UnregisterEvent("INSPECT_ACHIEVEMENT_READY")
     end
 
     if Elite then
-        Elite:UnregisterEvent('INSPECT_ACHIEVEMENT_READY')
+        Elite:UnregisterEvent("INSPECT_ACHIEVEMENT_READY")
     end
 
     if AchievementFrameComparison then
-        AchievementFrameComparison:UnregisterEvent('INSPECT_ACHIEVEMENT_READY')
+        AchievementFrameComparison:UnregisterEvent("INSPECT_ACHIEVEMENT_READY")
     end
 
     self:UnregisterEvent("UPDATE_MOUSEOVER_UNIT")
     self:RegisterEvent("INSPECT_ACHIEVEMENT_READY")
 
-    SetAchievementComparisonUnit('mouseover')
+    SetAchievementComparisonUnit("mouseover")
 end
 
-function TT:GetItemScore(iLink) 
+function TT:GetItemScore(iLink)
    local _, _, itemRarity, itemLevel, _, _, _, _, itemEquip = GetItemInfo(iLink)
-   if (IsEquippableItem(iLink)) then 
-      if not   (itemLevel > 1) and (itemRarity > 1) then 
+   if (IsEquippableItem(iLink)) then
+      if not   (itemLevel > 1) and (itemRarity > 1) then
       return 0
       end
    end
    return itemLevel
 end
 
-function TT:GetPlayerScore(unit) 
+function TT:GetPlayerScore(unit)
 	local ilvl, ilvlAdd, equipped = 0, 0, 0
 	if (UnitIsPlayer(unit)) then
 		local _, targetClass = UnitClass(unit)
-		for i = 1, 18 do 
+		for i = 1, 18 do
 			if (i ~= 4) then
 				local iLink = GetInventoryItemLink(unit, i)
 				if (iLink) then
@@ -389,47 +442,57 @@ function TT:GetQuality(ItemScore)
 	return R:ColorGradient(ItemScore/450, 0.5, 0.5, 0.5, 1, 0.1, 0.1)
 end
 
-function TT:AchieveSetUnit() 
+function TT:AchieveSetUnit()
 	local _, unit = GameTooltip:GetUnit()
 	local unitilvl = 0
 	if not (unit) or not (UnitIsPlayer(unit)) or not (CanInspect(unit)) then
 		return
-	elseif (UnitIsUnit(unit,"player")) then 
+	elseif (UnitIsUnit(unit,"player")) then
 		unitilvl = TT:GetPlayerScore("player")
-	elseif not (InspectFrame and InspectFrame:IsShown()) then 
+	elseif not (InspectFrame and InspectFrame:IsShown()) then
 		NotifyInspect(unit)
 		unitilvl = TT:GetPlayerScore(unit)
 	end
 
-	if (unitilvl > 1) then 
+	if (unitilvl > 1) then
 		local Red, Blue, Green = TT:GetQuality(unitilvl)
 		GameTooltip:AddLine(STAT_AVERAGE_ITEM_LEVEL..": "..unitilvl,Red, Green, Blue)
 	end
 end
 
+function TT:SetStyle(tooltip)
+	tooltip:SetBackdropColor(0, 0, 0, 0.65)
+	local item
+	if tooltip.GetItem then
+		item = select(2, tooltip:GetItem())
+	end
+	if item then
+		local quality = select(3, GetItemInfo(item))
+		if quality and quality > 1 then
+			local r, g, b = GetItemQualityColor(quality)
+			tooltip:SetBackdropBorderColor(r, g, b)
+		else
+			tooltip:SetBackdropBorderColor(0, 0, 0)
+		end
+	else
+		tooltip:SetBackdropBorderColor(0, 0, 0)
+	end
+	if tooltip.NumLines then
+		for index=1, tooltip:NumLines() do
+			_G[tooltip:GetName().."TextLeft"..index]:SetShadowOffset(R.mult, -R.mult)
+		end
+	end
+	tooltip.needRefresh = true
+end
+
 function TT:Initialize()
 	local gcol = {.35, 1, .6}										-- Guild Color
 	local pgcol = {1, .12, .8} 									-- Player's Guild Color
-	local scale = 1												-- Tooltip scale
 
 	local backdrop = {
 		bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
 		edgeFile = [=[Interface\ChatFrame\ChatFrameBackground]=], edgeSize = R.mult,
 		insets = {top = 0, left = 0, bottom = 0, right = 0},
-	}
-
-	local tooltips = {
-		GameTooltip, 
-		ItemRefTooltip,
-		ItemRefShoppingTooltip1,
-		ItemRefShoppingTooltip2,
-		ItemRefShoppingTooltip3,
-		ShoppingTooltip1, 
-		ShoppingTooltip2, 
-		ShoppingTooltip3, 
-		WorldMapTooltip, 
-		DropDownList1MenuBackdrop, 
-		DropDownList2MenuBackdrop, 
 	}
 
 	local types = {
@@ -439,53 +502,20 @@ function TT:Initialize()
 		rareelite = " R+ ",
 	}
 
-	for _, v in pairs(tooltips) do
-		v:SetBackdrop(backdrop)
-		v:SetBackdropColor(0, 0, 0, 0.65)
-		v:SetBackdropBorderColor(0, 0, 0, 1)
-		v:SetScale(scale)
-		v:SetScript("OnShow", function(self)
-			self:SetBackdropColor(0, 0, 0, 0.65)
-			local item
-			if self.GetItem then
-				item = select(2, self:GetItem())
-			end
-			if item then
-				local quality = select(3, GetItemInfo(item))
-				if quality and quality > 1 then
-					local r, g, b = GetItemQualityColor(quality)
-					self:SetBackdropBorderColor(r, g, b)
-				else
-					self:SetBackdropBorderColor(0, 0, 0)
-				end
-			else
-				self:SetBackdropBorderColor(0, 0, 0)
-			end
-			if v.NumLines then
-				for index=1, v:NumLines() do
-					_G[v:GetName()..'TextLeft'..index]:SetShadowOffset(R.mult, -R.mult)
-				end
-			end
-		end)
-		v:HookScript("OnHide", function(self)
-			self:SetBackdropBorderColor(0, 0, 0, 1)
-		end)
-	end
-
 	local hex = function(r, g, b)
-		return ('|cff%02x%02x%02x'):format(r * 255, g * 255, b * 255)
+		return ("|cff%02x%02x%02x"):format(r * 255, g * 255, b * 255)
 	end
 
 	local truncate = function(value)
 		if value >= 1e6 then
-			return string.format('%.2fm', value / 1e6)
+			return string.format("%.2fm", value / 1e6)
 		elseif value >= 1e4 then
-			return string.format('%.1fk', value / 1e3)
+			return string.format("%.1fk", value / 1e3)
 		else
-			return string.format('%.0f', value)
+			return string.format("%.0f", value)
 		end
 	end
-	
+
 	self:RawHook("GameTooltip_UnitColor", true)
 
 	GameTooltip:HookScript("OnTooltipSetUnit", function(self)
@@ -496,7 +526,7 @@ function TT:Initialize()
 			local unitName = UnitName(unit)
 			local unitLevel = UnitLevel(unit)
 			local diffColor = unitLevel > 0 and GetQuestDifficultyColor(UnitLevel(unit)) or QuestDifficultyColors["impossible"]
-			if unitLevel < 0 then unitLevel = '??' end
+			if unitLevel < 0 then unitLevel = "??" end
 			if UnitIsPlayer(unit) then
 				local unitRace = UnitRace(unit)
 				local unitClass = UnitClass(unit)
@@ -543,7 +573,7 @@ function TT:Initialize()
 				self:AddLine(TARGET..": "..text)
 			end
 		end
-		
+
 		TT:AchieveSetUnit()
 		TT:TalentSetUnit()
 	end)
@@ -591,15 +621,8 @@ function TT:Initialize()
 		end
 	end)
 
-	if not self.db.cursor then
-		local tooltipholder = CreateFrame("Frame", nil, UIParent)
-		tooltipholder:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -50, 160)
-		tooltipholder:SetFrameStrata("TOOLTIP")
-		tooltipholder:SetSize(120, 20)
-		R:CreateMover(tooltipholder, "TooltipMover", L["鼠标提示锚点"], true)
-	end
-			
 	self:SecureHook("GameTooltip_SetDefaultAnchor")
+	self:HookScript(GameTooltip, "OnUpdate", "GameTooltip_OnUpdate")
 
 	GameTooltip:HookScript("OnUpdate", function(self, elapsed)
 		if self:GetAnchorType() == "ANCHOR_CURSOR" then
@@ -610,10 +633,11 @@ function TT:Initialize()
 			self:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", x / effScale - width / 2, y / effScale + 15)
 		end
 	end)
-	
+
 	self:RegisterEvent("MODIFIER_STATE_CHANGED")
 	self:RegisterEvent("INSPECT_ACHIEVEMENT_READY")
 	self:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
+	self:RegisterEvent("PLAYER_ENTERING_WORLD")
 
 	SetCVar("alwaysCompareItems", 1)
 end

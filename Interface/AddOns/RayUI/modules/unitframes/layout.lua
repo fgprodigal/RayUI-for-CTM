@@ -272,6 +272,7 @@ function UF:DPSLayout(frame, unit)
             end
 
             if R.myclass == "DEATHKNIGHT" then
+            	bars[3], bars[4], bars[5], bars[6] = bars[5], bars[6], bars[3], bars[4]
                 frame.Runes = bars
             elseif R.myclass == "WARLOCK" then
                 frame.SoulShards = bars
@@ -713,8 +714,8 @@ function UF:DPSLayout(frame, unit)
 	
 	if unit == "pet" then
 		--Dummy Cast Bar, so we don't see an extra castbar while in vehicle
-	--	local castbar = CreateFrame("StatusBar", nil, frame)
-	--	frame.Castbar = castbar
+		local castbar = CreateFrame("StatusBar", nil, frame)
+		frame.Castbar = castbar
 
 		-- Fader
 		Fader(frame)

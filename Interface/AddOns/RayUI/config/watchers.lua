@@ -1489,6 +1489,10 @@ P["Watcher"]["filters"] ={
 			--纏繞觸鬚
 			{ spellID = 105563, unitId = "player", caster = "all", filter = "DEBUFF", fuzzy = true },
 
+		--其他
+			--漏油
+			{ spellID = 94794, unitId = "player", caster = "all", filter = "DEBUFF" },
+
 		},
 		{
 			name = "PVP目标buff",

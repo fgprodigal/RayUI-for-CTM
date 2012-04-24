@@ -21,6 +21,7 @@ function CF:Initialize()
 	flash:CreateShadow()
 	flash.icon:SetAllPoints()
 	flash.icon:SetTexCoord(.08, .92, .08, .92)
+	flash.icon:SetGradient("VERTICAL",.345,.345,.345,1,1,1)
 	flash:Hide()
 	flash:SetScript("OnUpdate", function(self, e)
 		flash.e = flash.e + e

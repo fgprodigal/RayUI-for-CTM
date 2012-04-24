@@ -1,4 +1,4 @@
-local R, L, P = unpack(select(2, ...)) --Inport: Engine, Locales, ProfileDB
+local R, L, P = unpack(RayUI) --Inport: Engine, Locales, ProfileDB
 local B = R:NewModule("Bag", "AceEvent-3.0", "AceHook-3.0")
 local S = R:GetModule("Skins")
 
@@ -14,6 +14,7 @@ local BAGS_BACKPACK = {0, 1, 2, 3, 4}
 local BAGS_BANK = {-1, 5, 6, 7, 8, 9, 10, 11}
 local trashParent = CreateFrame("Frame", nil, UIParent)
 local trashButton, trashBag = {}, {}
+local _highlight = false
 
 B.buttons = {}
 B.bags = {}
@@ -274,6 +275,9 @@ function B:SlotNew(bag, slot)
 		t:SetTexCoord(.08, .92, .08, .92)
 		t:SetAllPoints()
 		
+		t.SetVertexColor = R.dummy
+		t:SetGradient("VERTICAL",.345,.345,.345,1,1,1)
+		
 		local count = _G[ret.frame:GetName().."Count"]
 		count:ClearAllPoints()
 		count:Point("BOTTOMRIGHT", ret.frame, "BOTTOMRIGHT", 1, 0)
@@ -470,7 +474,7 @@ end
 
 function B:SearchUpdate(str, frameMatch)
 	str = string.lower(str)
-
+	_highlight = false
 	for _, b in ipairs(self.buttons) do
 		if b.name then
 			local _, setName = GetContainerItemEquipmentSetInfo(b.bag, b.slot)
@@ -661,24 +665,32 @@ function B:InitBags()
 	f.sortButton.ttText2desc = L["整理特殊背包"]
 	f.sortButton:SetScript("OnEnter", Tooltip_Show)
 	f.sortButton:SetScript("OnLeave", Tooltip_Hide)	
-	f.sortButton:SetScript("OnClick", function() if IsShiftKeyDown() then B:Sort(f, "c/p"); else B:Sort(f, "d"); end end)
+	f.sortButton:SetScript("OnClick", function()
+		if IsShiftKeyDown() then
+			B:Sort(f, "c/p")
+		else
+			B:Sort(f, "d")
+		end
+	end)
 	S:Reskin(f.sortButton)
 	
-	--Stack Button
-	f.stackButton = CreateFrame("Button", nil, f)
-	f.stackButton:Point("LEFT", f.sortButton, "RIGHT", 3, 0)
-	f.stackButton:Size(55, 10)
-	f.stackButton.ttText = L["堆叠物品"]
-	f.stackButton.ttText2 = L["按住shift:"]
-	f.stackButton.ttText2desc = L["堆叠特殊背包物品"]
-	f.stackButton:SetScript("OnEnter", Tooltip_Show)
-	f.stackButton:SetScript("OnLeave", Tooltip_Hide)	
-	f.stackButton:SetScript("OnClick", function() if IsShiftKeyDown() then B:SetBagsForSorting("c/p"); B:Restack(f); else B:SetBagsForSorting("d"); B:Restack(f); end end)
-	S:Reskin(f.stackButton)
+	--ItemSets Button
+	f.itemSetsButton = CreateFrame("Button", nil, f)
+	f.itemSetsButton:Point("LEFT", f.sortButton, "RIGHT", 3, 0)
+	f.itemSetsButton:Size(55, 10)
+	f.itemSetsButton.ttText = L["高亮套装"]
+	f.itemSetsButton.ttText2 = L["按住shift:"]
+	f.itemSetsButton.ttText2desc = L["反向显示"]
+	f.itemSetsButton:SetScript("OnEnter", Tooltip_Show)
+	f.itemSetsButton:SetScript("OnLeave", Tooltip_Hide)	
+	f.itemSetsButton:SetScript("OnClick", function()
+		B:HighlightItemSets(IsShiftKeyDown())
+	end)
+	S:Reskin(f.itemSetsButton)
 	
 	--Bags Button
 	f.bagsButton = CreateFrame("Button", nil, f)
-	f.bagsButton:Point("LEFT", f.stackButton, "RIGHT", 3, 0)
+	f.bagsButton:Point("LEFT", f.itemSetsButton, "RIGHT", 3, 0)
 	f.bagsButton:Size(55, 10)
 	f.bagsButton.ttText = L["显示背包"]
 	f.bagsButton:SetScript("OnEnter", Tooltip_Show)
@@ -724,45 +736,45 @@ function B:InitBank()
 	
 	--Sort Button
 	f.sortButton = CreateFrame("Button", nil, f)
-	f.sortButton:Point("TOPLEFT", f, "TOPLEFT", 14, -4)
-	f.sortButton:Size(85, 10)
-	f.sortButton:SetTemplate("Default", true)
+	f.sortButton:Point("TOPLEFT", f, "TOPLEFT", 7, -4)
+	f.sortButton:Size(55, 10)
 	f.sortButton.ttText = L["整理背包"]
 	f.sortButton.ttText2 = L["按住shift:"]
-	f.sortButton.ttText2desc = L["整理特殊背包"]	
+	f.sortButton.ttText2desc = L["整理特殊背包"]
 	f.sortButton:SetScript("OnEnter", Tooltip_Show)
 	f.sortButton:SetScript("OnLeave", Tooltip_Hide)	
-	f.sortButton:SetScript("OnClick", function() if IsShiftKeyDown() then B:Sort(f, "c/p", true); else B:Sort(f, "d", true); end end)
+	f.sortButton:SetScript("OnClick", function()
+		if IsShiftKeyDown() then
+			B:Sort(f, "c/p")
+		else
+			B:Sort(f, "d", true)
+		end
+	end)
 	S:Reskin(f.sortButton)
 	
-	--Stack Button
-	f.stackButton = CreateFrame("Button", nil, f)
-	f.stackButton:Point("LEFT", f.sortButton, "RIGHT", 3, 0)
-	f.stackButton:Size(85, 10)
-	f.stackButton:SetTemplate("Default", true)
-	f.stackButton.ttText = L["堆叠物品"]
-	f.stackButton.ttText2 = L["按住shift:"]
-	f.stackButton.ttText2desc = L["堆叠特殊背包物品"]
-	f.stackButton:SetScript("OnEnter", Tooltip_Show)
-	f.stackButton:SetScript("OnLeave", Tooltip_Hide)	
-	f.stackButton:SetScript("OnClick", function() if IsShiftKeyDown() then B:SetBagsForSorting("c/p", true); B:Restack(f); else B:SetBagsForSorting("d", true); B:Restack(f); end end)
-	S:Reskin(f.stackButton)
+	--ItemSets Button
+	f.itemSetsButton = CreateFrame("Button", nil, f)
+	f.itemSetsButton:Point("LEFT", f.sortButton, "RIGHT", 3, 0)
+	f.itemSetsButton:Size(55, 10)
+	f.itemSetsButton.ttText = L["高亮套装"]
+	f.itemSetsButton.ttText2 = L["按住shift:"]
+	f.itemSetsButton.ttText2desc = L["反向显示"]
+	f.itemSetsButton:SetScript("OnEnter", Tooltip_Show)
+	f.itemSetsButton:SetScript("OnLeave", Tooltip_Hide)	
+	f.itemSetsButton:SetScript("OnClick", function() 
+		B:HighlightItemSets(IsShiftKeyDown())
+	end)
+	S:Reskin(f.itemSetsButton)
 	
 	--Bags Button
 	f.bagsButton = CreateFrame("Button", nil, f)
-	f.bagsButton:Point("LEFT", f.stackButton, "RIGHT", 3, 0)
-	f.bagsButton:Size(85, 10)
-	f.bagsButton:SetTemplate("Default", true)
+	f.bagsButton:Point("LEFT", f.itemSetsButton, "RIGHT", 3, 0)
+	f.bagsButton:Size(55, 10)
 	f.bagsButton.ttText = L["显示背包"]
 	f.bagsButton:SetScript("OnEnter", Tooltip_Show)
 	f.bagsButton:SetScript("OnLeave", Tooltip_Hide)	
 	f.bagsButton:SetScript("OnClick", function() 
-		local numSlots, full = GetNumBankSlots()
-		if numSlots >= 1 then
-			ToggleFrame(f.ContainerHolder) 
-		else
-			StaticPopup_Show("NO_BANK_BAGS")
-		end	
+		ToggleFrame(f.ContainerHolder) 
 	end)
 	S:Reskin(f.bagsButton)
 	
@@ -887,7 +899,7 @@ function B:RestackOnUpdate(e)
 	end
 
 	self.elapsed = 0
-	B:Restack(self)
+	B:RestackAndSort(self)
 end
 
 local function InBags(x)
@@ -909,7 +921,7 @@ function B:BAG_UPDATE_COOLDOWN()
 	end
 end
 
-function B:Restack(frame)
+function B:RestackAndSort(frame)
 	local st = {}
 
 	B:OpenBags()
@@ -962,7 +974,7 @@ function B:Restack(frame)
 	if did_restack then
 		frame:SetScript("OnUpdate", B.RestackOnUpdate)
 	else
-		frame:SetScript("OnUpdate", nil)
+		frame:SetScript("OnUpdate", B.SortOnUpdate)
 	end
 end
 
@@ -1068,7 +1080,7 @@ function B:SortOnUpdate(e)
 end
 
 function B:SortBags(frame)
-	if InCombatLockdown() then return end;
+	if InCombatLockdown() then return end
 	local bs = self.sortBags
 	if #bs < 1 then
 		return
@@ -1202,10 +1214,57 @@ function B:Sort(frame, args, bank)
 	if not args then
 		args = ""
 	end
+	
+	if _highlight then
+		for _, b in ipairs(self.buttons) do
+			if b.name then
+				SetItemButtonDesaturated(b.frame, 0, 1, 1, 1)
+				b.frame:SetAlpha(1)
+			end
+		end
+		_highlight = false
+	end
 
 	self.itmax = 0
 	self:SetBagsForSorting(args, bank)
-	self:SortBags(frame)
+	-- self:SortBags(frame)
+	self:RestackAndSort(frame)
+end
+
+function B:HighlightItemSets(reverse)
+	if not _highlight then
+		for _, b in ipairs(self.buttons) do
+			if b.name then
+				local _, setName = GetContainerItemEquipmentSetInfo(b.bag, b.slot)
+				if setName then
+					if reverse then
+						SetItemButtonDesaturated(b.frame, 1, 1, 1, 1)
+						b.frame:SetAlpha(0.4)
+					else
+						SetItemButtonDesaturated(b.frame, 0, 1, 1, 1)
+						b.frame:SetAlpha(1)
+					end
+				else
+					if reverse then
+						SetItemButtonDesaturated(b.frame, 0, 1, 1, 1)
+						b.frame:SetAlpha(1)
+					else
+						SetItemButtonDesaturated(b.frame, 1, 1, 1, 1)
+						b.frame:SetAlpha(0.4)
+					end
+				end
+			end
+		end
+		_highlight = true
+	else
+		for _, b in ipairs(self.buttons) do
+			if b.name then
+				SetItemButtonDesaturated(b.frame, 0, 1, 1, 1)
+				b.frame:SetAlpha(1)
+			end
+		end
+		_highlight = false
+	end
 end
 
 function B:Initialize()
