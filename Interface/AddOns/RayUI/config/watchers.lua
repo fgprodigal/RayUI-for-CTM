@@ -1076,6 +1076,8 @@ P["Watcher"]["filters"] ={
 			{ spellID = 96911, unitId = "player", caster = "player", filter = "BUFF" },
 			--淨縛之意志(隨機團隊)
 			{ spellID = 109793, unitId = "player", caster = "player", filter = "BUFF" },
+			--淨縛之意志(普通模式)
+			{ spellID = 107970, unitId = "player", caster = "player", filter = "BUFF" },
 			--加速之瓶(普通模式)
 			{ spellID = 96980, unitId = "player", caster = "player", filter = "BUFF" },
 			--謊言面紗

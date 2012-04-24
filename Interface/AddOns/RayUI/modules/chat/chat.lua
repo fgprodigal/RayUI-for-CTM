@@ -14,31 +14,6 @@ local sizes = {
 	":12:20",
 	":14",
 }
-local rplc = {
-	"[BG]", --Battleground
-	"[BGL]", --Battleground Leader
-	"[G]", --Guild
-	"[P]", --Party
-	"[PL]", --Party Leader
-	"[PL]", --Party Leader (Guide)
-	"[O]", --Officer
-	"[R]", --Raid
-	"[RL]", --Raid Leader
-	"[RW]", --Raid Warning
-}
-local chn = {
-	gsub(CHAT_BATTLEGROUND_GET, ".*%[(.*)%].*", "%%[%1%%]"),
-	gsub(CHAT_BATTLEGROUND_LEADER_GET, ".*%[(.*)%].*", "%%[%1%%]"),
-	gsub(CHAT_GUILD_GET, ".*%[(.*)%].*", "%%[%1%%]"),
-	gsub(CHAT_PARTY_GET, ".*%[(.*)%].*", "%%[%1%%]"),
-	gsub(CHAT_PARTY_LEADER_GET, ".*%[(.*)%].*", "%%[%1%%]"),
-	gsub(CHAT_PARTY_GUIDE_GET, ".*%[(.*)%].*", "%%[%1%%]"),
-	gsub(CHAT_OFFICER_GET, ".*%[(.*)%].*", "%%[%1%%]"),
-	gsub(CHAT_RAID_GET, ".*%[(.*)%].*", "%%[%1%%]"),
-	gsub(CHAT_RAID_LEADER_GET, ".*%[(.*)%].*", "%%[%1%%]"),
-	gsub(CHAT_RAID_WARNING_GET, ".*%[(.*)%].*", "%%[%1%%]"),
-	gsub(CHAT_BN_CONVERSATION_GET_LINK, ".*%[(.*)%..*%].*", "%%[%1%%]"),
-}
 
 CH.LinkHoverShow = {
 	["achievement"] = true,
@@ -658,10 +633,7 @@ function CH:AddMessage(text, ...)
 	if text:find(INTERFACE_ACTION_BLOCKED) then return end
 	if text:find("BN_CONVERSATION") then
 
-	else			
-		for i = 1, 10 do
-			text = gsub(text, chn[i], rplc[i])
-		end
+	else
 		text = text:gsub("%[(%d0?)%. .-%]", "[%1]") --custom channels
 		text = text:gsub("CHANNEL:", "")
 	end
@@ -967,6 +939,23 @@ function CH:SetItemRef(link, text, button, chatFrame)
 end
 
 function CH:Initialize()
+	CHAT_BATTLEGROUND_GET = "|Hchannel:Battleground|h".."[BG]".."|h %s:\32"
+	CHAT_BATTLEGROUND_LEADER_GET = "|Hchannel:Battleground|h".."[BG]".."|h %s:\32"
+	CHAT_BN_WHISPER_GET = "%s:\32"
+	CHAT_GUILD_GET = "|Hchannel:Guild|h".."[G]".."|h %s:\32"
+	CHAT_OFFICER_GET = "|Hchannel:o|h".."[O]".."|h %s:\32"
+	CHAT_PARTY_GET = "|Hchannel:Party|h".."[P]".."|h %s:\32"
+	CHAT_PARTY_GUIDE_GET = "|Hchannel:party|h".."[PL]".."|h %s:\32"
+	CHAT_PARTY_LEADER_GET = "|Hchannel:party|h".."[PL]".."|h %s:\32"
+	CHAT_RAID_GET = "|Hchannel:raid|h".."[R]".."|h %s:\32"
+	CHAT_RAID_LEADER_GET = "|Hchannel:raid|h".."[R]".."|h %s:\32"
+	CHAT_RAID_WARNING_GET = "[RW]".." %s:\32"
+	CHAT_SAY_GET = "%s:\32"
+	CHAT_WHISPER_GET = "%s:\32"
+	CHAT_YELL_GET = "%s:\32"
+	ERR_FRIEND_ONLINE_SS = ERR_FRIEND_ONLINE_SS:gsub("%]%|h", "]|h|cff00ffff")
+	ERR_FRIEND_OFFLINE_S = ERR_FRIEND_OFFLINE_S:gsub("%%s", "%%s|cffff0000")
+
 	TIMESTAMP_FORMAT_HHMM = "|cff64C2F5[%I:%M]|r "
 	TIMESTAMP_FORMAT_HHMMSS = "|cff64C2F5[%I:%M:%S]|r "
 	TIMESTAMP_FORMAT_HHMMSS_24HR = "|cff64C2F5[%H:%M:%S]|r "
@@ -994,13 +983,7 @@ function CH:Initialize()
 	self:SecureHook("ChatEdit_SendText", "EditBox_MouseOff")
 	self:SecureHook("ChatEdit_OnHide", "EditBox_MouseOff")
 	self:SecureHook("FloatingChatFrame_OnMouseScroll", "OnMouseScroll")
-	
-	local defaults = {
-		profile = {
-			mangleMumble = true,
-			mangleTeamspeak = true
-		}
-	}
+
 	local events = {
 		"CHAT_MSG_BATTLEGROUND", "CHAT_MSG_BATTLEGROUND_LEADER",
 		"CHAT_MSG_CHANNEL", "CHAT_MSG_EMOTE",

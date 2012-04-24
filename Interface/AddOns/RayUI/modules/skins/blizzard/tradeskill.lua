@@ -77,6 +77,10 @@ local function LoadSkin()
 
 		ic:SetTexCoord(.08, .92, .08, .92)
 		ic:SetDrawLayer("ARTWORK")
+		ic.SetVertexColor = function(self,r,g,b)
+			self:SetGradient("VERTICAL",r*.345,g*.345,b*.345,r,g,b)
+		end
+		ic:SetVertexColor(1, 1, 1)
 		S:CreateBG(ic)
 
 		local bd = CreateFrame("Frame", nil, bu)
@@ -95,6 +99,7 @@ local function LoadSkin()
 			ic:SetTexCoord(.08, .92, .08, .92)
 			ic:Point("TOPLEFT", 1, -1)
 			ic:Point("BOTTOMRIGHT", -1, 1)
+			ic:SetGradient("VERTICAL",.345,.345,.345,1,1,1)
 		end
 		if not reskinned == true then
 			TradeSkillSkillIcon:StyleButton()

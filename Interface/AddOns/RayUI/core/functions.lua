@@ -9,6 +9,17 @@ local BlackList = {"bigfoot", "duowan", "163ui", "neavo", "sora"}
 
 R["RegisteredModules"] = {}
 
+function DoSkill(name)
+	for i=1,GetNumTradeSkills()do
+		local skillName,skillType,numAvailable=GetTradeSkillInfo(i)
+		if skillName and skillName:find(name)and numAvailable>0 then
+			DoTradeSkill(i,numAvailable)
+			UIErrorsFrame:AddMessage("["..skillName.."]x"..numAvailable, TradeSkillTypeColor[skillType].r, TradeSkillTypeColor[skillType].g, TradeSkillTypeColor[skillType].b)
+			break
+		end
+	end
+end
+
 function R:RegisterModule(name)
 	if self.initialized then
 		self:GetModule(name):Initialize()

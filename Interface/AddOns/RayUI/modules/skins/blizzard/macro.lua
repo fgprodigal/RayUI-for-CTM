@@ -45,6 +45,7 @@ local function LoadSkin()
 		ic:Point("TOPLEFT", 1, -1)
 		ic:Point("BOTTOMRIGHT", -1, 1)
 		ic:SetTexCoord(.08, .92, .08, .92)
+		ic:SetGradient("VERTICAL",.345,.345,.345,1,1,1)
 
 		S:CreateBD(bu, .25)
 	end
@@ -64,6 +65,7 @@ local function LoadSkin()
 		ic:SetPoint("TOPLEFT", 1, -1)
 		ic:SetPoint("BOTTOMRIGHT", -1, 1)
 		ic:SetTexCoord(.08, .92, .08, .92)
+		ic:SetGradient("VERTICAL",.345,.345,.345,1,1,1)
 
 		S:CreateBD(bu, .25)
 	end
@@ -72,6 +74,7 @@ local function LoadSkin()
 	MacroFrameSelectedMacroButtonIcon:SetPoint("TOPLEFT", 1, -1)
 	MacroFrameSelectedMacroButtonIcon:SetPoint("BOTTOMRIGHT", -1, 1)
 	MacroFrameSelectedMacroButtonIcon:SetTexCoord(.08, .92, .08, .92)
+	MacroFrameSelectedMacroButtonIcon:SetGradient("VERTICAL",.345,.345,.345,1,1,1)
 
 	S:CreateBD(MacroFrameSelectedMacroButton, .25)
 

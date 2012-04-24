@@ -3,10 +3,6 @@ local AB = R:NewModule("ActionBar", "AceEvent-3.0", "AceHook-3.0")
 
 AB.modName = L["动作条"]
 
-local the_vertex_freepas = function(self,r,g,b)
-	self:SetGradient("VERTICAL",r*.345,g*.345,b*.345,r,g,b)
-end
-
 function AB:GetOptions()
 	local options = {
 		barscale = {
@@ -388,16 +384,21 @@ function AB:Style(button, totem, flyout)
 	if not button.equipped then
 		local equipped = button:CreateTexture(nil, "OVERLAY")
 		equipped:SetTexture(R["media"].blank)
-		equipped:SetVertexColor(0, 1, 0, 0.3)
+		equipped:SetVertexColor(0, 1, 0, 0.2)
+		equipped:SetGradientAlpha("VERTICAL", 0, 1, 0, 0, 0, 1, 0, .3)
 		equipped:SetAllPoints()
 		equipped:Hide()
 		button.equipped = equipped
 	end
 
-	if action and IsEquippedAction(action) and not button.equipped:IsShown() then
-		button.equipped:Show()
-	elseif button.equipped:IsShown() then
-		button.equipped:Hide()
+	if action and IsEquippedAction(action) then
+		if not button.equipped:IsShown() then
+			button.equipped:Show()
+		end
+	else
+		if button.equipped:IsShown() then
+			button.equipped:Hide()
+		end
 	end
 
 	if button.styled then return end
@@ -446,7 +447,9 @@ function AB:Style(button, totem, flyout)
 		normal:SetPoint("BOTTOMRIGHT")
 	end
 
-	Icon.SetVertexColor = the_vertex_freepas
+	Icon.SetVertexColor = function(self,r,g,b)
+		self:SetGradient("VERTICAL",r*.345,g*.345,b*.345,r,g,b)
+	end
 	Icon:SetVertexColor(1, 1, 1)
 
 	button:StyleButton(true)
@@ -461,7 +464,9 @@ function AB:StyleSmallButton(normal, button, icon, name, pet)
 	button.SetNormalTexture = R.dummy
 	button:StyleButton(true)
 
-	icon.SetVertexColor = the_vertex_freepas
+	icon.SetVertexColor = function(self,r,g,b)
+		self:SetGradient("VERTICAL",r*.345,g*.345,b*.345,r,g,b)
+	end
 	icon:SetVertexColor(1, 1, 1)
 
 	Flash:SetTexture(1, 1, 1, 0.3)
