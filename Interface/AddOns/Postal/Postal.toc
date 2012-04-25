@@ -10,7 +10,7 @@
 ## Notes-esES: Postal: soporte mejorado para el buzon
 ## Notes-zhTW: Postal: 強化信箱功能。
 ## Notes-zhCN: Postal: 增强信箱功能
-## OptionalDeps: Ace3, !BlizzBugsSuck, !ClassColors
+## OptionalDeps: Ace3, !BlizzBugsSuck, !ClassColors, RayUI
 ## SavedVariables: Postal3DB
 ## X-Curse-Packaged-Version: v3.4.9
 ## X-Curse-Project-Name: Postal

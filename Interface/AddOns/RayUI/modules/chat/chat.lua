@@ -634,8 +634,9 @@ function CH:AddMessage(text, ...)
 	if text:find("BN_CONVERSATION") then
 
 	else
+		text = text:gsub("|h%[(%d+)%. .-%]|h", "|h[%1]|h")
 		-- text = text:gsub("%[(%d0?)%. .-%]", "[%1]") --custom channels
-		text = text:gsub("CHANNEL:", "")
+		-- text = text:gsub("CHANNEL:", "")
 	end
 	if text and type(text) == "string" then
 		text = text:gsub("(|Hplayer:([^:]+)([:%d+]*)([:%w+]*)|h%[(.-)%]|h)(.-)$", changeName)
@@ -652,19 +653,63 @@ function CH:SetChatPosition()
 	for i = 1, NUM_CHAT_WINDOWS do
 		if _G["ChatFrame"..i] == COMBATLOG then
 			_G["ChatFrame"..i]:ClearAllPoints()
-			_G["ChatFrame"..i]:SetPoint("TOPLEFT", _G["ChatBG"], "TOPLEFT", 2, -2 - CombatLogQuickButtonFrame_Custom:GetHeight())
+			_G["ChatFrame"..i]:SetPoint("TOPLEFT", _G["ChatBG"], "TOPLEFT", 2,  -CombatLogQuickButtonFrame_Custom:GetHeight())
 			_G["ChatFrame"..i]:SetPoint("BOTTOMRIGHT", _G["ChatBG"], "BOTTOMRIGHT", -2, 4)
 		else				
 			_G["ChatFrame"..i]:ClearAllPoints()
 			_G["ChatFrame"..i]:SetPoint("TOPLEFT", _G["ChatBG"], "TOPLEFT", 2, -2)
 			_G["ChatFrame"..i]:SetPoint("BOTTOMRIGHT", _G["ChatBG"], "BOTTOMRIGHT", -2, 4)
-			FCF_SavePositionAndDimensions(_G["ChatFrame"..i])
-			local _, _, _, _, _, _, shown, _, docked, _ = GetChatWindowInfo(i)
-			if shown and not docked then
-				FCF_DockFrame(_G["ChatFrame"..i])
-			end
+		end
+		FCF_SavePositionAndDimensions(_G["ChatFrame"..i])
+		local _, _, _, _, _, _, shown, _, docked, _ = GetChatWindowInfo(i)
+		if shown and not docked then
+			FCF_DockFrame(_G["ChatFrame"..i])
 		end
 	end
+end
+
+local function updateFS(self, inc, flags, ...)
+	local fstring = self:GetFontString()
+		if (inc or self.ffl) then
+			fstring:SetFont(R["media"].font, R["media"].fontsize+2, R["media"].fontflag)	
+		else
+			fstring:SetFont(R["media"].font, R["media"].fontsize, R["media"].fontflag)	
+		end
+		
+		fstring:SetShadowOffset(1,-1)
+
+	if(...) then
+		fstring:SetTextColor(...)
+	end
+	
+	if (inc or self.ffl) then
+		fstring:SetTextColor(1,0,0)
+	end
+	
+	local x = fstring:GetText()
+	if x then
+		fstring:SetText(x:upper())
+	end
+end
+
+function CH:FaneifyTab(frame, sel)
+	local i = frame:GetID()
+	if(i == SELECTED_CHAT_FRAME:GetID()) then
+		updateFS(frame,nil, nil, .5, 1, 1)
+	else
+		updateFS(frame,nil, nil, 1, 1, 1)
+	end
+end
+
+function CH:FCF_StartAlertFlash(frame)
+	local ID = frame:GetID()
+	local tab = _G["ChatFrame" .. ID .. "Tab"]
+	tab.ffl = true
+	updateFS(tab, true, nil, 1,0,0)
+end
+
+function CH:FCF_StopAlertFlash(frame)
+	_G["ChatFrame" .. frame:GetID() .. "Tab"].ffl = nil
 end
 
 function CH:ApplyStyle()
@@ -977,12 +1022,15 @@ function CH:Initialize()
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL_NOTICE", function(msg) return true end)
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_AFK", function(msg) return true end)
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_DND", function(msg) return true end)
-	
+
 	self:SecureHook("ChatFrame_OpenChat", "EditBox_MouseOn")
 	self:SecureHook("ChatEdit_OnShow", "EditBox_MouseOn")
 	self:SecureHook("ChatEdit_SendText", "EditBox_MouseOff")
 	self:SecureHook("ChatEdit_OnHide", "EditBox_MouseOff")
 	self:SecureHook("FloatingChatFrame_OnMouseScroll", "OnMouseScroll")
+	self:SecureHook("FCFTab_UpdateColors", "FaneifyTab")
+	self:SecureHook("FCF_StartAlertFlash")
+	self:SecureHook("FCF_StopAlertFlash")
 
 	local events = {
 		"CHAT_MSG_BATTLEGROUND", "CHAT_MSG_BATTLEGROUND_LEADER",

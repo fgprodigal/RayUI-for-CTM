@@ -3,7 +3,7 @@ local AB = R:NewModule("ActionBar", "AceEvent-3.0", "AceHook-3.0")
 
 AB.modName = L["动作条"]
 
-function AB:GetOptions()
+ function AB:GetOptions()
 	local options = {
 		barscale = {
 			order = 5,
@@ -63,9 +63,9 @@ function AB:GetOptions()
 					order = 1,
 				},
 				spacer = {
-					type = 'description',
-					name = '',
-					desc = '',
+					type = "description",
+					name = "",
+					desc = "",
 					order = 2,
 				},
 				cdalpha = {
@@ -102,9 +102,9 @@ function AB:GetOptions()
 					order = 1,
 				},
 				spacer = {
-					type = 'description',
-					name = '',
-					desc = '',
+					type = "description",
+					name = "",
+					desc = "",
 					order = 2,
 				},
 			},
@@ -318,28 +318,28 @@ function AB:Info()
 end
 
 function AB:UpdateHotkey(button, actionButtonType)
-	local hotkey = _G[button:GetName() .. 'HotKey']
+	local hotkey = _G[button:GetName() .. "HotKey"]
 	local text = hotkey:GetText()
 
-	text = string.gsub(text, '(s%-)', 'S')
-	text = string.gsub(text, '(a%-)', 'A')
-	text = string.gsub(text, '(c%-)', 'C')
-	text = string.gsub(text, '(Mouse Button )', 'M')
-	text = string.gsub(text, '(滑鼠按鍵)', 'M')
-	text = string.gsub(text, '(鼠标按键)', 'M')
-	text = string.gsub(text, KEY_BUTTON3, 'M3')
-	text = string.gsub(text, '(Num Pad )', 'N')
-	text = string.gsub(text, KEY_PAGEUP, 'PU')
-	text = string.gsub(text, KEY_PAGEDOWN, 'PD')
-	text = string.gsub(text, KEY_SPACE, 'SpB')
-	text = string.gsub(text, KEY_INSERT, 'Ins')
-	text = string.gsub(text, KEY_HOME, 'Hm')
-	text = string.gsub(text, KEY_DELETE, 'Del')
-	text = string.gsub(text, KEY_MOUSEWHEELUP, 'MwU')
-	text = string.gsub(text, KEY_MOUSEWHEELDOWN, 'MwD')
+	text = string.gsub(text, "(s%-)", "S")
+	text = string.gsub(text, "(a%-)", "A")
+	text = string.gsub(text, "(c%-)", "C")
+	text = string.gsub(text, "(Mouse Button )", "M")
+	text = string.gsub(text, "(滑鼠按鍵)", "M")
+	text = string.gsub(text, "(鼠标按键)", "M")
+	text = string.gsub(text, KEY_BUTTON3, "M3")
+	text = string.gsub(text, "(Num Pad )", "N")
+	text = string.gsub(text, KEY_PAGEUP, "PU")
+	text = string.gsub(text, KEY_PAGEDOWN, "PD")
+	text = string.gsub(text, KEY_SPACE, "SpB")
+	text = string.gsub(text, KEY_INSERT, "Ins")
+	text = string.gsub(text, KEY_HOME, "Hm")
+	text = string.gsub(text, KEY_DELETE, "Del")
+	text = string.gsub(text, KEY_MOUSEWHEELUP, "MwU")
+	text = string.gsub(text, KEY_MOUSEWHEELDOWN, "MwD")
 
-	if hotkey:GetText() == _G['RANGE_INDICATOR'] then
-		hotkey:SetText('')
+	if hotkey:GetText() == _G["RANGE_INDICATOR"] then
+		hotkey:SetText("")
 	else
 		hotkey:SetText(text)
 	end
@@ -347,40 +347,10 @@ end
 
 function AB:Style(button, totem, flyout)
 	local name = button:GetName()
+	local action = button.action
 
 	if name:match("MultiCast") then return end
-
-	local action = button.action
-	local Icon = _G[name.."Icon"]
-	local Count = _G[name.."Count"]
-	local Flash	 = _G[name.."Flash"]
-	local HotKey = _G[name.."HotKey"]
-	local Border  = _G[name.."Border"]
-	local Btname = _G[name.."Name"]
-	local normal  = _G[name.."NormalTexture"]
-	local normal2 = button:GetNormalTexture()
-	local cooldown = _G[name .. "Cooldown"]
-
-	if cooldown then
-		cooldown:ClearAllPoints()
-		cooldown:SetAllPoints(button)
-	end
-
-	if Flash then Flash:SetTexture(nil) end
-	if normal then normal:SetTexture(nil) end
-	if normal2 then normal2:SetTexture(nil) end
-	if Border then Border:Kill() end
-
-	if Count then
-		Count:ClearAllPoints()
-		Count:SetPoint("BOTTOMRIGHT", 0, R:Scale(2))
-		Count:SetFont(R["media"].pxfont, R.mult*10, "OUTLINE,MONOCHROME")
-	end
-
-	if _G[name..'FloatingBG'] then
-		_G[name..'FloatingBG']:Kill()
-	end
-
+	
 	if not button.equipped then
 		local equipped = button:CreateTexture(nil, "OVERLAY")
 		equipped:SetTexture(R["media"].blank)
@@ -403,11 +373,41 @@ function AB:Style(button, totem, flyout)
 
 	if button.styled then return end
 
+	local Icon = _G[name.."Icon"]
+	local Count = _G[name.."Count"]
+	local Flash	 = _G[name.."Flash"]
+	local HotKey = _G[name.."HotKey"]
+	local Border  = _G[name.."Border"]
+	local Btname = _G[name.."Name"]
+	local Normal  = _G[name.."NormalTexture"]
+	local Normal2 = button:GetNormalTexture()
+	local Cooldown = _G[name .. "Cooldown"]
+	local FloatingBG = _G[name.."FloatingBG"]
+
+	if Cooldown then
+		Cooldown:ClearAllPoints()
+		Cooldown:SetAllPoints(button)
+	end
+
+	if Flash then Flash:SetTexture(nil) end
+	if Normal then Normal:SetTexture(nil) end
+	if Normal2 then Normal2:SetTexture(nil) end
+	if Border then Border:Kill() end
+
+	if Count then
+		Count:ClearAllPoints()
+		Count:SetPoint("BOTTOMRIGHT", 0, R:Scale(2))
+		Count:SetFont(R["media"].pxfont, R.mult*10, "OUTLINE,MONOCHROME")
+	end
+
+	if FloatingBG then
+		FloatingBG:Kill()
+	end
+
 	if Btname then
 		if AB.db.macroname ~= true then
-			Btname:SetText("")
-			Btname:Hide()
-			Btname.Show = R.dummy
+			Btname:SetDrawLayer("HIGHLIGHT")
+			Btname:Width(50)
 		end
 	end
 
@@ -441,12 +441,6 @@ function AB:Style(button, totem, flyout)
 		end
 	end
 
-	if normal then
-		normal:ClearAllPoints()
-		normal:SetPoint("TOPLEFT")
-		normal:SetPoint("BOTTOMRIGHT")
-	end
-
 	if not flyout then
 		Icon.SetVertexColor = function(self,r,g,b)
 			self:SetGradient("VERTICAL",r*.345,g*.345,b*.345,r,g,b)
@@ -462,6 +456,8 @@ function AB:Style(button, totem, flyout)
 end
 
 function AB:StyleSmallButton(normal, button, icon, name, pet)
+	if button.styled then return end
+	print(button:GetName(), name)
 	local Flash	 = _G[name.."Flash"]
 
 	button:SetNormalTexture("")
@@ -500,6 +496,8 @@ function AB:StyleSmallButton(normal, button, icon, name, pet)
 		normal:SetPoint("TOPLEFT")
 		normal:SetPoint("BOTTOMRIGHT")
 	end
+	
+	button.styled = true
 end
 
 function AB:StyleShift()
