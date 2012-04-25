@@ -457,7 +457,6 @@ end
 
 function AB:StyleSmallButton(normal, button, icon, name, pet)
 	if button.styled then return end
-	print(button:GetName(), name)
 	local Flash	 = _G[name.."Flash"]
 
 	button:SetNormalTexture("")
