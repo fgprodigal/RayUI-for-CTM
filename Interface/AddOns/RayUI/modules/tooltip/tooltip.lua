@@ -217,8 +217,7 @@ function TT:GameTooltip_SetDefaultAnchor(tooltip, parent)
 	else
 		tooltip:ClearAllPoints()
 		local mousefocus = GetMouseFocus():GetName()
-		if mousefocus:match("RayUFRaid") then
-			local mousefocus = GetMouseFocus():GetName()
+		if mousefocus and mousefocus:match("RayUFRaid") then
 			local parent = _G[mousefocus:match("RayUFRaid%d%d_%d")]
 			tooltip:Point("BOTTOMRIGHT", parent, "TOPRIGHT", 0, 23)
 		elseif BagsFrame and BagsFrame:IsShown() and (GetScreenWidth() - BagsFrame:GetRight()) < 250 then
